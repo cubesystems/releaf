@@ -1,0 +1,176 @@
+button,
+input[type="button"],
+input[type="submit"],
+.button,
+button[disabled]
+{
+	padding: 2px 8px 3px 8px;
+	color: black;
+	cursor: pointer;
+	border: 1px solid #adadad;
+	border-right-color: #888686;
+	border-bottom-color: #888686;
+	border-radius: 3px;
+	box-shadow: 0px 1px 0px rgba(255,255,255,.6);
+	background: #dcdcdc url("button/button_bgr.gif") repeat-x top left;
+	vertical-align: middle;
+	margin: 0;
+	text-shadow: rgba(255, 255, 255, 0.4) 0 1px;
+	/* normalize user agent differences */
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+	display: inline-block;
+	font-family: inherit;
+	height: 18px;
+	font-size: 100%;
+}
+button::-moz-focus-inner
+{
+    padding: 0;
+    border: 0
+}
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+.button:hover
+{
+	text-decoration: none;
+	background-image: url("button/button_hover_bgr.png");
+	background-color: #cfcece;
+}
+button > *,
+input[type="button"] > *,
+input[type="submit"] > *,
+.button > *
+{
+	vertical-align: middle;
+}
+/* fix element alignment, TODO: find a better way */
+button > *:only-child,
+input[type="button"] > *:only-child,
+input[type="submit"] > *:only-child,
+.button > *:only-child
+{
+	display: inline-block;
+	padding-top: 2px;
+}
+button[disabled],
+input[type="button"][disabled],
+input[type="submit"][disabled],
+.button[disabled],
+.button.disabled
+{
+	opacity: .4;
+	cursor: default;
+}
+button[disabled]:hover,
+button[disabled]:focus,
+input[type="button"][disabled]:hover,
+input[type="button"][disabled]:focus,
+input[type="submit"][disabled]:hover,
+input[type="submit"][disabled]:focus,
+.button[disabled]:hover,
+.button[disabled]:focus,
+.button.disabled:hover,
+.button.disabled:focus
+{
+	background: #dcdcdc url(button/button_bgr.gif) repeat-x top left;
+	border: 1px solid #adadad;
+	border-right-color: #888686;
+	border-bottom-color: #888686;
+}
+button > img + span,
+input[type="button"] > img + span,
+input[type="submit"] > img + span,
+.button > img + span
+{
+	margin-left: 5px;
+}
+button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+.button:focus
+{
+	outline: none;
+	box-shadow: 0 0 4px 1px #2878D4;
+	position: relative;
+	z-index: 2;
+}
+button:active,
+button.active,
+input[type="button"]:active,
+input[type="button"].active,
+input[type="submit"]:active,
+input[type="submit"].active,
+.button:active,
+.button.active
+{
+	border: 1px solid rgba(0, 0, 0, 0.6);
+	outline: none;
+	box-shadow: inset rgba(0, 0, 0, 0.4) 0 -5px 12px, inset rgba(0, 0, 0, 1) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px;
+}
+button.active:focus,
+input[type="button"].active:focus,
+input[type="submit"].active:focus,
+.button.active:focus
+{
+	box-shadow: inset rgba(0, 0, 0, 0.4) 0 -5px 12px, inset rgba(0, 0, 0, 1) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px, 0 0 4px 1px #2878D4;
+}
+button.no_styling,
+button.no_styling:focus,
+button.no_styling:hover,
+input[type="button"].no_styling,
+input[type="button"].no_styling:focus,
+input[type="button"].no_styling:hover,
+input[type="submit"].no_styling,
+input[type="submit"].no_styling:focus,
+input[type="submit"].no_styling:hover,
+.button.no_styling,
+.button.no_styling:focus,
+.button.no_styling:hover
+{
+	background-color: transparent;
+	background-image: none;
+	border: 0 none;
+	border-radius: 0;
+	padding: 0;
+	box-shadow: none;
+}
+
+.button_group
+{
+	display: inline-block;
+	margin-right: 25px;
+}
+.button_group.compensate
+{
+	padding-top: 4px;
+}
+.button_group.compact button,
+.button_group.compact input[type="button"],
+.button_group.compact input[type="submit"],
+.button_group.compact .button
+{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.button_group button:not(:first-child),
+.button_group input[type="button"]:not(:first-child),
+.button_group input[type="submit"]:not(:first-child),
+.button_group .button:not(:first-child)
+{
+	border-left: none;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.button_group button:not(:last-child),
+.button_group input[type="button"]:not(:last-child),
+.button_group input[type="submit"]:not(:last-child),
+.button_group .button:not(:last-child)
+{
+	border-right-color: #b1b1b1;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+

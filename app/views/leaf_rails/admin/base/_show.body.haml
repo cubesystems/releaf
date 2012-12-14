@@ -1,0 +1,7 @@
+.body.outset_box
+  .section
+    - @controller.columns( 'show' ).each do |name|
+      - if @controller.has_template( "_show.field.#{name}" )
+        = render "show.field.#{name}", :name => name
+      - elsif !@item[name].blank? || @item.class.columns_hash[ name ].type == :boolean
+        = render 'show.field', :name => name

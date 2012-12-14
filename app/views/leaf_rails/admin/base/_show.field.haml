@@ -1,0 +1,5 @@
+.field.no_label_wrap_padding
+  .label_wrap
+    .label= name.humanize + ':'
+  .value= @item.class.columns_hash[ name ].type == :text && name.end_with?('_html') ? @item[name].html_safe : @item[name]
+  .clear

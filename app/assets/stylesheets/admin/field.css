@@ -1,0 +1,167 @@
+/* field */
+.field
+{
+	padding-bottom: 15px;
+}
+.field.disabled
+{
+	background-color: inherit;
+}
+.field.disabled label,
+.field.disabled .label
+{
+	color: gray;
+}
+/* label wrap */
+.field .label_wrap
+{
+	width: 35%;
+	float: left;
+	text-align: right;
+	padding: 3px 5px 0 0;
+}
+.field.no_label_wrap_padding .label_wrap
+{
+	padding-top: 0;
+}
+.field .label_wrap .description
+{
+	font-size: 80%;
+	padding-right: 4px;
+	color: #494C48;
+}
+/* label */
+.field label, 
+.field .label
+{
+	font-weight: bold;
+	color: #494C48;
+}
+.field .label_wrap.label
+{
+	padding-top: 0;
+}
+/* value */
+.field .value
+{
+	margin-left: 35%; 
+	padding-left: 5px;
+}
+/* input */
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="password"]
+{
+	width: 250px;
+}
+.field input.short
+{
+	width: 50px;
+}
+.field input[type="checkbox"] + label,
+.field input[type="radio"] + label
+{
+	font-weight: normal;
+	margin-right: 30px;
+}
+.field input[type="checkbox"][disabled] + label,
+.field input[type="radio"][disabled] + label
+{
+	color: gray;
+}
+/* trigger */
+.field .trigger
+{
+	vertical-align: -15%;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+/* type: textarea */
+.field.type_textarea,
+.field.type_richtext
+{
+	width: 710px;
+	margin: 0 auto;
+}
+.field.type_textarea .label_wrap,
+.field.type_richtext .label_wrap
+{
+	float: none;
+	text-align: left;
+	width: auto;
+}
+.field.type_textarea .value,
+.field.type_richtext .value
+{
+	margin-left: 0;
+	padding-left: 0;
+}
+.field.type_textarea textarea,
+.field.type_richtext textarea
+{
+	width: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 250px;
+}
+
+
+/* TODO: refactor below this line */
+
+.checkboxGroup .field:not(:last-child)
+{
+	padding-bottom: 5px;
+}
+
+/* richtext styling */
+.richtextField .mceEditor .mceLayout
+{
+	border-color: #ABABAB;
+}
+.richtextField .mceEditor .mceLayout .mceToolbar
+{
+	border-top-color: #707070;
+}
+.richtextField .mceEditor .mceLayout .mceStatusbar
+{
+	border-bottom-color: #CECECE;
+}
+.richtextField .mceEditor .mceLayout .mceButtonActive
+{
+	border-color: #cccccc;
+	background-color: #f0f0ee;
+}
+.richtextField .mceEditor .mceLayout .mceButtonActive:hover
+{
+	background-color: #b2bbd0;
+}
+/* focus */
+.richtextField .mceEditor .mceLayout.focus .mceToolbar
+{
+	border-top-color: #7c8288;
+	background-color: #e6e7ea;
+}
+.richtextField .mceEditor .mceLayout.focus .mceStatusbar
+{
+	border-bottom-color: #a8aeb4;
+	background-color: #e6e7ea;
+}
+.richtextField .mceEditor .mceLayout.focus .mceButton
+{
+	border-color: #e6e7ea;
+}
+.richtextField .mceEditor .mceLayout.focus .mceButtonActive
+{
+	border-color: #969696;
+	background-color: #b2bbd0;
+}
+.richtextField .mceEditor .mceLayout .mceButton:hover
+{
+	border-color: #969696;
+}
+.richtextField .mceEditor .mceLayout.focus .mceButtonActive:hover
+{
+	border-color: #585858;
+}
+/* --richtext styling */

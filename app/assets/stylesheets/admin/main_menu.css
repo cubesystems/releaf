@@ -1,0 +1,67 @@
+.main_menu
+{
+	background: #7B8A98 url("main_menu/bgr.png") repeat-x left bottom;
+	border-bottom: 1px solid white;
+}
+.main_menu ul
+{
+	padding: 0 0 0 18px;
+	list-style: none;
+	margin: 0;
+}
+.main_menu li
+{
+	display: inline-block;
+	vertical-align: top;
+}
+.main_menu a
+{
+	display: block;
+	padding: 7px 12px 6px 12px;
+	font-size: 140%;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	min-height: 51px;
+}
+.main_menu .active
+{
+	background: #a5b2bf url("main_menu/active_bgr.png") repeat-x top left;
+}
+.main_menu a:hover
+{
+	background: #a5b2bf url("main_menu/hover_bgr.png") repeat-x top left;
+	text-decoration: none;
+}
+.main_menu .image_container
+{
+	display: block;
+	min-height: 36px;
+}
+.main_menu .name_wrap
+{
+	font-size: 0.63em;
+	color: #f2f2f2;
+	text-shadow: 0px 1px 0px black;
+	display: block;
+}
+.main_menu .active .name_wrap, 
+.main_menu a:hover .name_wrap
+{
+	text-shadow: 0px 1px 0px rgba(255,255,255,.8);
+	color: black;
+}
+.main_menu a:hover .name_wrap
+{
+	text-shadow: 0px 1px 0px rgba(255,255,255,1);
+}
+.main_menu .user
+{
+	position:absolute;
+	top:0;
+	right: 10px;
+	text-transform:uppercase;
+	text-align: center;
+}
+
+

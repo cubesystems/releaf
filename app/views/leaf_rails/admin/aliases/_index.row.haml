@@ -1,0 +1,5 @@
+%a.row{ 'data-id' => item.id, :href => "#{url_for( :action => @controller.list_action, :id => item.group_id )}#translation_#{item.id}" }
+  %span= item.translation_group.scope
+  %span= item.key
+  - Settings.i18n_locales.each do |locale|
+    %span= item.locales[locale]

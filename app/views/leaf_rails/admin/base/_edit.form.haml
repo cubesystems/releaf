@@ -1,0 +1,5 @@
+= form_for @item, :url => url_for( :action => @item.new_record? ? 'create' : 'update', :id => @item.id ), :validate => true, :class => "edit" do |f|
+  - @f = f # this is required not to pass local variable "f" to all partials
+  = render "edit.header"
+  = render "edit.body"
+  = render "edit.footer"

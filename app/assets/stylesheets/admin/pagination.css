@@ -1,0 +1,30 @@
+.primary_panel .pagination
+{
+	display: inline-block;
+	
+}
+.primary_panel .pagination .current
+{
+	font-style: normal;
+	cursor: default;
+}
+.primary_panel .pagination .previous_page,
+.primary_panel .pagination .next_page
+{
+	padding-left: 16px;
+	padding-right: 16px;
+}
+.primary_panel .pagination .previous_page
+{
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.primary_panel .pagination .next_page
+{
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.primary_panel .pagination .gap
+{
+	opacity: 1;
+}

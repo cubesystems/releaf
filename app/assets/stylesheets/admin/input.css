@@ -1,0 +1,40 @@
+/* base input styling */
+input,
+select
+{
+	font-size: 100%;
+}
+input,
+select,
+textarea
+{
+	border: 1px solid #ABABAB;
+	border-top-color: #707070;
+	border-bottom-color: #CECECE;
+	padding: 2px 3px;
+	background: white url("input/input_bgr.gif") repeat-x 0 -1px;
+	margin: 0;
+}
+select
+{
+	padding: 1px;
+	cursor: pointer;
+}
+input:focus,
+select:focus,
+textarea:focus,
+.mceLayout.focus
+{
+	border-color: #989ea4;
+	border-top-color: #7c8288;
+	border-bottom-color: #a8aeb4;
+	outline: none;
+	box-shadow: 0 0 4px 1px #2878D4;
+}
+input[disabled],
+select[disabled],
+textarea[disabled]
+{
+	background: transparent none;
+	border-color: #CECECE;
+}
