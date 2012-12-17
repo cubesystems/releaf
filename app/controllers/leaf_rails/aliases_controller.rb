@@ -22,15 +22,18 @@ module LeafRails
     end
 
     def index
+      authorize! :manage, Translation
       @object_class = Translation.includes(:translation_data)
       super
     end
 
     def show
+      authorize! :manage, Translation
       redirect_to url_for( :action => "edit", :id => params[:id] )
     end
 
     def create
+      authorize! :manage, Translation
       @item = current_object_class.new(params[current_object_class.to_s.underscore])
 
       respond_to do |format|
@@ -43,6 +46,7 @@ module LeafRails
     end
 
     def update
+      authorize! :manage, Translation
       @item = current_object_class.find(params[:id])
 
       if params[:translations]

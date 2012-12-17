@@ -15,8 +15,7 @@
     - if admin_signed_in?
       .main_menu
         .user
-          // FIXME
-          -# %a{:href => destroy_session_path, "data-method" => "delete"}
+          %a{:href => destroy_admin_session_path, "data-method" => "delete"}
             %span.image_container
               = image_tag("leaf_rails/logout.png")
             %span.name_wrap= t("logout")

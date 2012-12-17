@@ -97,6 +97,7 @@ module LeafRails
     # actions
 
     def index
+      authorize! :list, current_object_class
       if current_object_class.respond_to?( :filter )
         @list = current_object_class.filter(:search => params[:search])
       else
@@ -121,18 +122,22 @@ module LeafRails
     end
 
     def new
+      authorize! :create, current_object_class
       @item = current_object_class.new
     end
 
     def show
       @item = current_object_class.find(params[:id])
+      authorize! :show, @item
     end
 
     def edit
       @item = current_object_class.find(params[:id])
+      authorize! :edit, @item
     end
 
     def create
+      authorize! :create, current_object_class
       @item = current_object_class.new
 
       if @item.respond_to? :allowed_params
@@ -154,6 +159,7 @@ module LeafRails
 
     def update
       @item = current_object_class.find(params[:id])
+      authorize! :edit, @item
 
       if @item.respond_to? :allowed_params
         variables = params.require( current_object_class.to_s.underscore ).permit( *@item.allowed_params(:update) )
@@ -172,10 +178,12 @@ module LeafRails
 
     def confirm_destroy
       @item = current_object_class.find(params[:id])
+      authorize! :destroy, @item
     end
 
     def destroy
       @item = current_object_class.find(params[:id])
+      authorize! :destroy, @item
       @item.destroy
 
       respond_to do |format|

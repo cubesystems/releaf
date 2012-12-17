@@ -10,7 +10,6 @@ module ActionDispatch::Routing
       scope mount_location do
         namespace :leaf_rails, :path => nil do
           root :to => "application#index"
-          resources :admins
 
           resources :nodes, :controller => "content", :path => "content" do
             get :confirm_destroy, :on => :member
