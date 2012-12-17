@@ -6,6 +6,7 @@ PATH
       devise (~> 2.1.2)
       dragonfly (~> 0.9.12)
       haml-rails (~> 0.3.4)
+      jquery-rails
       rails (~> 3.2.8)
       railties (~> 3.1)
 
