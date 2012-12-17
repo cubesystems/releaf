@@ -1,6 +1,5 @@
 module LeafRails
-  class BaseController < ActionController::Base
-    before_filter :authenticate_admin!
+  class BaseController < ApplicationController
     layout 'leaf_rails/admin'
     protect_from_forgery
 

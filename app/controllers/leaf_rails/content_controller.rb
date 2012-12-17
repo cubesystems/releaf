@@ -1,7 +1,5 @@
 module LeafRails
   class ContentController < BaseController
-    before_filter :authenticate_admin!
-
 
     def build_secondary_panel_variables
       @nodes = Node.roots
