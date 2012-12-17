@@ -21,12 +21,6 @@ module ActionDispatch::Routing
             match :urls, :on => :collection
           end
 
-
-          scope '/settings' do
-            get '',     :to => 'settings#index', :as => 'settings'
-            put '',     :to => 'settings#update'
-          end
-
           root :to => 'home#index'
         end
       end
