@@ -1,0 +1,27 @@
+%h1 Settings
+
+= form_tag settings_path, :method => :put do |f|
+  .field
+    = label_tag :languages
+    = text_field_tag :languages, Settings.i18n_locales.join(',')
+  .field
+    = label_tag :vat
+    = text_field_tag :vat, Settings.vat
+  .field
+    = label_tag :premium
+    = text_field_tag :premium, Settings.premium
+  .field
+    = label_tag :email_from
+    = email_field_tag :email_from, Settings.email_from
+  .field
+    = label_tag :accounts_admin_email
+    = email_field_tag :accounts_admin_email, Settings.accounts_admin_email
+  .field
+    = label_tag :orders_admin_email
+    = email_field_tag :orders_admin_email, Settings.orders_admin_email
+  .field
+    = label_tag :valid_currencies
+    = text_field_tag :valid_currencies, Settings.valid_currencies.join(',')
+
+  .actions
+    = submit_tag

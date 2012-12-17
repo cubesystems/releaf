@@ -3,9 +3,9 @@
   %head
     %title Leaf on Rails
     = csrf_meta_tags
-    %link{ :rel =>"icon", :href => "/assets/admin/favicon.ico", :type => "image/x-icon" }
+    %link{ :rel =>"icon", :href => "/assets/leaf_rails/favicon.ico", :type => "image/x-icon" }
 
-    = stylesheet_link_tag "leaf_rails/admin/application"
+    = stylesheet_link_tag "leaf_rails/application"
 
     - controller_asset = params[:controller]
     - ['.css.scss', '.scss', '.css.sass', '.sass', '.css'].each do |ext|
@@ -15,16 +15,17 @@
     - if admin_signed_in?
       .main_menu
         .user
-          %a{:href => destroy_admin_session_path, "data-method" => "delete"}
+          // FIXME
+          -# %a{:href => destroy_session_path, "data-method" => "delete"}
             %span.image_container
-              = image_tag("leaf_rails/admin/logout.png")
+              = image_tag("leaf_rails/logout.png")
             %span.name_wrap= t("logout")
         %ul
           - menu[:items].each do |item|
             %li><
               %a{:href => url_for(:controller => item, :action => "index"), :class => ("active" if menu[:active] == item)}
                 %span.image_container
-                  = image_tag("leaf_rails/admin/module.png")
+                  = image_tag("leaf_rails/module.png")
                 %span.name_wrap= t(item, :scope => "admin.main_menu")
 
     %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].gsub( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
@@ -40,6 +41,6 @@
       - else
         = yield
 
-    = javascript_include_tag "admin/application"
-    - if File.exists?("app/assets/javascripts/controllers/#{controller_asset}.js")
-      = javascript_include_tag "controllers/#{controller_asset}"
+    = javascript_include_tag "leaf_rails/application"
+    - if File.exists?("app/assets/javascripts/leaf_rails/controllers/#{controller_asset}.js")
+      = javascript_include_tag "leaf_rails/controllers/#{controller_asset}"
