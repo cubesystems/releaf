@@ -2,4 +2,4 @@
   .special_field_wrap
     %input.search{:name => "search", :type => "text", :value => params[:search], :autofocus => true, :disabled => !@controller.current_object_class.respond_to?( :filter ) }
     %button.no_styling{:type => "submit", :disabled => !@controller.current_object_class.respond_to?( :filter )}>
-      = image_tag("admin/icons/magnifier.png", :alt => "submit")
+      = image_tag("leaf_rails/admin/icons/magnifier.png", :alt => "submit")

@@ -12,5 +12,5 @@
     -if @controller.features[:destroy]
       .block.right_block
         %a.button{ :href => url_for( :action => 'confirm_destroy', :id => @item.id ) }
-          %img{ :src => '/assets/admin/icons/bin_empty.png', :alt => '' }
+          = image_tag('leaf_rails/admin/icons/bin_empty.png', :alt => '')
           %span= t('destroy')

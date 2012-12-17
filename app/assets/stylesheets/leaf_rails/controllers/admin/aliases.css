@@ -3,8 +3,8 @@
 .controller-leaf_rails_admin_aliases.view-edit .primary_panel .body
 {
 	border-radius: 0;
-    border-top: none;
-    padding: 0 0 20px;
+  border-top: none;
+  padding: 0 0 20px;
 	top: 65px;
 }
 
@@ -46,7 +46,7 @@
 	margin-right: -5px;
 	border: 1px solid #ABABAB;
 	border-bottom: 0;
-	background: url("/assets/admin/leaf_table/th_bgr.gif") repeat-x scroll 0 bottom #F9F9F9;
+  background: url("/assets/leaf_rails/admin/leaf_table/th_bgr.gif") repeat-x scroll 0 bottom #F9F9F9;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	white-space: nowrap;
@@ -87,7 +87,7 @@
 	padding: 0;
 	border-style: solid;
 	border-width: 0 1px 1px 0;
-    text-align: center;
+  text-align: center;
 	background-color: white;
 	-webkit-transition: background-color .1s linear;
 	-moz-transition: background-color .2s linear;
@@ -128,7 +128,7 @@
 .controller-leaf_rails_admin_aliases .leaf_table.label_first_column tbody tr.highlighted td:first-child,
 .controller-leaf_rails_admin_aliases .leaf_table.label_first_column tbody tr.highlighted:hover td:first-child
 {
-    background-color: #7AD528;
+  background-color: #7AD528;
 	border-color: #C1AD2F;
 }
 
@@ -199,7 +199,7 @@
 	background-color: yellow;
 }
 
-.controller-leaf_rails_admin_aliases.view-edit .primary_panel button.add.new {
+.controller-leaf_rails_admin_aliases.action-edit .primary_panel button.add.new {
   margin-left: 10px;
 }
 

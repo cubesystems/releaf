@@ -3,7 +3,7 @@
   .value><
     = @f.text_field name
     %button.no_styling{:type => 'button', :title => t('.suggest_slug', :rescue_format => false)}><
-      = image_tag('admin/icons/keyboard.png', :alt => t('.suggest_slug', :rescue_format => false))
+      = image_tag('leaf_rails/admin/icons/keyboard.png', :alt => t('.suggest_slug', :rescue_format => false))
     %div
       %a{:href => "/#{@item.url}"}
         = "#{request.protocol}#{request.host_with_port}/#{@item.parent.try(:url)}/"

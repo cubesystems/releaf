@@ -12,8 +12,8 @@ button[disabled]
 	border-bottom-color: #888686;
 	border-radius: 3px;
 	box-shadow: 0px 1px 0px rgba(255,255,255,.6);
-	background: #dcdcdc url("button/button_bgr.gif") repeat-x top left;
-	vertical-align: middle;
+  background: #dcdcdc url("/assets/leaf_rails/admin/button/button_bgr.gif") repeat-x top left;
+  vertical-align: middle;
 	margin: 0;
 	text-shadow: rgba(255, 255, 255, 0.4) 0 1px;
 	/* normalize user agent differences */
@@ -27,8 +27,8 @@ button[disabled]
 }
 button::-moz-focus-inner
 {
-    padding: 0;
-    border: 0
+  padding: 0;
+  border: 0
 }
 button:hover,
 input[type="button"]:hover,
@@ -36,7 +36,7 @@ input[type="submit"]:hover,
 .button:hover
 {
 	text-decoration: none;
-	background-image: url("button/button_hover_bgr.png");
+	background-image: url("/assets/leaf_rails/admin/button/button_hover_bgr.png");
 	background-color: #cfcece;
 }
 button > *,
@@ -75,7 +75,7 @@ input[type="submit"][disabled]:focus,
 .button.disabled:hover,
 .button.disabled:focus
 {
-	background: #dcdcdc url(button/button_bgr.gif) repeat-x top left;
+	background: #dcdcdc url(/assets/leaf_rails/admin/button/button_bgr.gif) repeat-x top left;
 	border: 1px solid #adadad;
 	border-right-color: #888686;
 	border-bottom-color: #888686;

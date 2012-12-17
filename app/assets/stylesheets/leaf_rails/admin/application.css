@@ -3,8 +3,8 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
- *= require_tree . 
- *= require ../controllers/admin/base.css 
+ *= require_tree .
+ *= require ../controllers/admin/base.css
 */
 
 body
@@ -58,7 +58,7 @@ a:hover
 
 form
 {
-	padding:0; 
+	padding:0;
 	margin:0;
 }
 
@@ -92,10 +92,10 @@ ol.block,
 ul.block li,
 ol.block li
 {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 
 /* TODO: move this elsewhere */
@@ -117,7 +117,3 @@ ol.block li
 	vertical-align: 12%;
 	margin-left: -22px;
 }
-
-
-
-

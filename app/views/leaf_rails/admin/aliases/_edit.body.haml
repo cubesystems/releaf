@@ -30,7 +30,7 @@
                 .wrap
                   %input{:type=>"text", :name=>"translations[#{translation.id}][localization][#{locale}]", :value=>translation.locales[locale]}/
             %td.delete_column
-              %span.remove= image_tag("admin/icons/delete.png", :alt => "delete", :title => :delete)
+              %span.remove= image_tag("leaf_rails/admin/icons/delete.png", :alt => "delete", :title => :delete)
 
     %table{:style => "display:none;"}
       %tbody
@@ -43,8 +43,8 @@
               .wrap
                 %input{:type=>"text", :name=>"translations[_template_][localization][#{locale}]", :value=>""}/
           %td.delete_column
-            %span.remove= image_tag("admin/icons/delete.png", :alt => "delete", :title => :delete)
+            %span.remove= image_tag("leaf_rails/admin/icons/delete.png", :alt => "delete", :title => :delete)
 
     %button.add.new(type='button')
-      = image_tag 'admin/icons/add.png', :atl => ''
+      = image_tag 'leaf_rails/admin/icons/add.png', :atl => ''
       %span New

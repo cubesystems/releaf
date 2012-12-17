@@ -1,0 +1,108 @@
+body
+{
+  background-color: #f4f9f2;
+}
+.controller-leaf_rails_admin_sessions.action-new
+{
+  color: #96ae8f;
+  font-family: Arial, sans-serif;
+}
+.controller-leaf_rails_admin_sessions.action-new .login_form_container
+{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  width: 355px;
+  height: 259px;
+  margin: -192px auto 0;
+  padding: 63px 43px 0 43px;
+  background: transparent url(/assets/leaf_rails/admin/sessions/background.jpg) no-repeat 0 0;
+}
+@media screen and (min-height: 550px)
+{
+  .controller-leaf_rails_admin_sessions.action-new .login_form_container
+  {
+    top: 40%;
+  }
+}
+.controller-leaf_rails_admin_sessions.action-new .login_form
+{
+  background-color: white;
+  padding: 23px 32px 0px 29px;
+  height: 226px;
+  position: relative;
+}
+.controller-leaf_rails_admin_sessions.action-new .copy
+{
+  font-size: 90%;
+  color: #c7d4c3;
+  font-family: arial narrow, arial, sans-serif;
+  position: absolute;
+  left: 10px;
+  bottom: 6px;
+}
+.controller-leaf_rails_admin_sessions.action-new .copy a
+{
+  color: inherit;
+}
+.controller-leaf_rails_admin_sessions.action-new .logo_container
+{
+  height: 68px;
+}
+.controller-leaf_rails_admin_sessions.action-new .inputs
+{
+  text-align: right;
+}
+.controller-leaf_rails_admin_sessions.action-new label
+{
+  display: block;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.controller-leaf_rails_admin_sessions.action-new .inputs span
+{
+  vertical-align: 5%;
+}
+.controller-leaf_rails_admin_sessions.action-new .inputs input
+{
+  width: 197px;
+  margin-left: 2px;
+  padding: 3px 7px 4px;
+  font-family: verdana, arial, sans-serif;
+  font-size: 130%;
+}
+.controller-leaf_rails_admin_sessions.action-new button[type="submit"]
+{
+  margin-left: 81px;
+}
+
+body.login .browser-notice
+{
+  margin-top: 21px;
+  padding-right: 44px;
+  text-align: right;
+}
+body.login .browser-notice .browsers,
+body.login .browser-notice .browsers li
+{
+  list-style: none ;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+body.login .browser-notice a
+{
+  text-decoration: none;
+}
+body.login .browser-notice img
+{
+  vertical-align: middle;
+  margin-left: 8px;
+  opacity: 0.7;
+}
+body.login .browser-notice a:hover img
+{
+  opacity:  1;
+}
