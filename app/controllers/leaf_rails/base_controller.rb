@@ -36,35 +36,7 @@ module LeafRails
     end
 
     def build_secondary_panel_variables
-      {:menu => {
-          :shop => [
-            {:controller => "catalog"},
-            {:controller => "product_attributes"},
-            {:controller => "subtype_attributes"},
-            {:controller => "shipping_addresses"},
-            {:controller => "product_requests"},
-            {:controller => "discount_levels"},
-            {:controller => "import"},
-            {:controller => "filters"},
-            {:controller => "manufacturers"},
-          ],
-          :clients => [
-            {:controller => "users"},
-            {:controller => "orders"},
-          ],
-          :other => [
-            {:controller => "admins"},
-            {:controller => "news_articles"},
-            {:controller => "colors"},
-            {:controller => "countries"},
-            {:controller => "currencies"},
-            {:controller => "email_messages"},
-            {:controller => "messages"},
-            {:controller => "roles"},
-            {:controller => "settings"},
-          ]
-        }
-      }
+      raise RuntimeError, "Not implemented"
     end
 
     def current_object_class
