@@ -143,7 +143,7 @@ module LeafRails
       #end
 
       #@item.save
-      #redirect_to content_path
+      #redirect_to leaf_rails_content_path
     #end
 
     def current_object_class

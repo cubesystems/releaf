@@ -13,7 +13,7 @@ module LeafRails
     # end
 
     def index
-      # redirect_to auth_path
+      # redirect_to leaf_rails_auth_path
       # redirect_to "/status/"
     end
 

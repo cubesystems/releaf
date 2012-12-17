@@ -28,7 +28,7 @@ module LeafRails
       end
 
       respond_to do |format|
-        format.html { redirect_to settings_url, notice: 'Setting was successfully updated.' }
+        format.html { redirect_to leaf_rails_settings_url, notice: 'Setting was successfully updated.' }
       end
     end
 

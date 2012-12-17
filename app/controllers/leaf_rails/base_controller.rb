@@ -36,7 +36,7 @@ module LeafRails
     end
 
     def build_secondary_panel_variables
-      raise RuntimeError, "Not implemented"
+      {}
     end
 
     def current_object_class

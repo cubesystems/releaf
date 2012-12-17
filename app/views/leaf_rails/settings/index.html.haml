@@ -1,6 +1,6 @@
 %h1 Settings
 
-= form_tag settings_path, :method => :put do |f|
+= form_tag leaf_rails_settings_path, :method => :put do |f|
   .field
     = label_tag :languages
     = text_field_tag :languages, Settings.i18n_locales.join(',')
