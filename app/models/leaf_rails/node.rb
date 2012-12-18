@@ -2,6 +2,7 @@ module LeafRails
   class Node < ActiveRecord::Base
     acts_as_nested_set
     acts_as_list :scope => :parent_id
+    self.table_name = 'leaf_rails_nodes'
 
     serialize :data, Hash
     default_scope :order => 'position'
