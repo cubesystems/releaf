@@ -29,10 +29,10 @@
 
     %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].gsub( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       - if admin_signed_in?
-        - if controller.respond_to?(:panel_layout) && controller.panel_layout
+        - if @panel_layout == true
           .panel_layout
             .secondary_panel
-              = @secondary_panel.html_safe
+              = controller.secondary_panel.html_safe
             .primary_panel
               = yield
         - else

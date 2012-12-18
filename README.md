@@ -22,4 +22,9 @@ rake db:migrate
 
 The generator will install an initializer which describes LeafRails routes and configuration options (not yet implemented)
 
+Now you need to add something like
+```ruby
+mount_leaf_rails_at '/admin'
+```
+
 Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors.

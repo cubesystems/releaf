@@ -1,0 +1,11 @@
+- AdminAbility::PERMISSIONS.each do |permissions|
+  - if permissions.is_a? String
+    .field.no_label_wrap_padding
+      .label_wrap
+        .label Manage #{permissions}:
+      .value_wrap= @item.send(:"#{permissions}_permission")
+  - elsif permissions.is_a? Array
+    .field.no_label_wrap_padding
+      .label_wrap
+        .label #{permissions[0]} permissions:
+      .value_wrap= @item.send(:"#{permissions[0]}_permissions")

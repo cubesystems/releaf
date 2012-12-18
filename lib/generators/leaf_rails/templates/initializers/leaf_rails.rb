@@ -19,9 +19,9 @@ module ActionDispatch::Routing
         end
       end
 
-      devise_scope mount_location do
-        devise_for :admins, :path => "devise", :controllers => { :sessions => "leaf_rails/sessions" }
-      end
+      # devise_scope mount_location do
+      #   devise_for :admins, :path => "devise", :controllers => { :sessions => "leaf_rails/sessions" }
+      # end
 
     end
   end

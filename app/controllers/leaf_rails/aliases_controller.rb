@@ -34,7 +34,7 @@ module LeafRails
 
     def create
       authorize! :manage, Translation
-      @item = current_object_class.new(params[current_object_class.to_s.underscore])
+      @item = current_object_class.new(params[current_object_class_name])
 
       respond_to do |format|
         if @item.save
@@ -99,7 +99,7 @@ module LeafRails
     private
 
     def item_params
-      params.require(current_object_class.to_s.underscore).permit(:scope)
+      params.require(current_object_class_name).permit(:scope)
     end
 
   end

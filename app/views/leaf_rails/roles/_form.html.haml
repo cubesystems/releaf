@@ -1,0 +1,28 @@
+= form_for [:leaf_rails, @role], :html => { :class => 'std_form ajax_unsafe' }, :validate => true do |f|
+
+  .field
+    = f.label :name
+    = f.text_field :name, :class => :std_input
+
+  .field.one_line
+    = f.check_box :default, :disabled => @role.default ? 'disabled' : nil
+    = f.label :default
+
+  - AdminAbility::PERMISSIONS.each do |permissions|
+    - if permissions.is_a? String
+      .field.one_line
+        = f.check_box :"#{permissions}_permission"
+        = f.label :"#{permissions}_permission"
+    - elsif permissions.is_a? Array
+      .fieldset
+        .fieldset_legend= I18n.t(['permissions', permissions[0]].join('.'))
+        - permissions[1].each do |permission|
+          .field.one_line
+            = f.radio_button :"#{permissions[0]}_permissions", permission
+            = f.label :"#{permissions[0]}_permissions_#{permission}"
+  .actions
+    = f.submit I18n.t("Save"), :class => 'btn btn-primary'
+
+
+- content_for :scripts do
+  = javascript_include_tag 'controllers/admin/roles'

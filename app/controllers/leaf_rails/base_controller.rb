@@ -15,23 +15,11 @@ module LeafRails
       @panel_layout      = true
       @continuous_scroll = false
       @items_per_page    = 40
-      @secondary_panel   = render_to_string( :partial => "secondary_panel", :layout => false, :locals => build_secondary_panel_variables)
     end
 
-    def continuous_scroll
-      @continuous_scroll
-    end
-
-    def items_per_page
-      @items_per_page
-    end
-
-    def features
-      @features
-    end
-
-    def panel_layout
-      @panel_layout
+    def secondary_panel
+      return '' unless @panel_layout
+      @_secondary_panel ||= render_to_string( :partial => "secondary_panel", :layout => false, :locals => build_secondary_panel_variables)
     end
 
     def build_secondary_panel_variables
@@ -39,7 +27,11 @@ module LeafRails
     end
 
     def current_object_class
-      self.class.name.sub(/^.*::/, '').sub(/\s?Controller$/, '').classify.constantize
+      @_current_object_class ||= self.class.name.sub(/^.*::/, '').sub(/\s?Controller$/, '').classify.constantize
+    end
+
+    def current_object_class_name
+      current_object_class.name.underscore
     end
 
     def columns( view = nil )
@@ -103,7 +95,7 @@ module LeafRails
       else
         @list = current_object_class
       end
-      @list = @list.page( params[:page] ).per_page( items_per_page )
+      @list = @list.page( params[:page] ).per_page( @items_per_page )
       if !params[:ajax].blank?
         render :layout => false
       end
@@ -141,9 +133,9 @@ module LeafRails
       @item = current_object_class.new
 
       if @item.respond_to? :allowed_params
-        variables = params.require( current_object_class.to_s.underscore ).permit( *@item.allowed_params(:create) )
+        variables = params.require( current_object_class_name ).permit( *@item.allowed_params(:create) )
       else
-        variables = params.require( current_object_class.to_s.underscore ).permit( *current_object_class.column_names )
+        variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
       end
 
       @item.assign_attributes( variables )
@@ -161,10 +153,12 @@ module LeafRails
       @item = current_object_class.find(params[:id])
       authorize! :edit, @item
 
-      if @item.respond_to? :allowed_params
-        variables = params.require( current_object_class.to_s.underscore ).permit( *@item.allowed_params(:update) )
+      if self.respond_to?(:"#{current_object_class_name}_params")
+        variables = params.require( current_object_class_name ).permit( *self.send(:"#{current_object_class_name}_params", :update) )
+      elsif @item.respond_to? :allowed_params
+        variables = params.require( current_object_class_name ).permit( *@item.allowed_params(:update) )
       else
-        variables = params.require( current_object_class.to_s.underscore ).permit( *current_object_class.column_names )
+        variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
       end
 
       respond_to do |format|
