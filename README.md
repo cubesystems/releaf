@@ -35,6 +35,12 @@ You can generate admin and role model and controllers wit
 ```console
 rails generate leaf_rails:admin
 ```
+
+now you can customize new migrations and models to fit you needs. When you're done customizing device run
+```console
+rake db:migrate
+```
+
 and then add
 ```ruby
 resources :admins
