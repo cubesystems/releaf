@@ -39,6 +39,18 @@ module LeafRails
         end
       end
 
+      def install_admins_views
+        %w[
+          _edit.field.password.haml
+          _edit.field.password_confirmation.haml
+          _edit.field.role_id.haml
+          _index.cell.role_id.haml
+          _show.field.role_id.haml
+        ].each do |view|
+          template "views/admins/#{view}", "app/views/admin/admins/#{view}"
+        end
+      end
+
     end
   end
 end

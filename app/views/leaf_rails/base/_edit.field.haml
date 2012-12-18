@@ -1,4 +1,4 @@
-- column_type = @item.class.columns_hash[ name ].type
+- column_type = @item.class.columns_hash[ name ].try(:type)
 - input_type = @controller.input_type_for( column_type, name )
 - if !@controller.has_template( "_edit.field.type_#{input_type}" )
   - input_type = @controller.input_type_for( 'string', name )
