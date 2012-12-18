@@ -25,7 +25,7 @@
               %a{:href => url_for(:controller => item, :action => "index"), :class => ("active" if menu[:active] == item)}
                 %span.image_container
                   = image_tag("leaf_rails/module.png")
-                %span.name_wrap= t(item, :scope => "admin.main_menu")
+                %span.name_wrap= t(item.split('/').last, :scope => "admin.main_menu")
 
     %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].gsub( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       - if admin_signed_in?

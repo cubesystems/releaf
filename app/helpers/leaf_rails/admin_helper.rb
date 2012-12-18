@@ -3,7 +3,7 @@ module LeafRails
 
     def menu
       menu = {
-        :items => ["content", "admins", "aliases"],
+        :items => ["leaf_rails/content", "admins", "leaf_rails/aliases"],
         :active => "admins",
       }
 
