@@ -28,3 +28,17 @@ mount_leaf_rails_at '/admin'
 ```
 
 Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors.
+
+## Admin generator
+
+You can generate admin and role model and controllers wit
+```console
+rails generate leaf_rails:admin
+```
+and then add
+```ruby
+resources :admins
+resources :roles
+```
+
+or you can write custom ones
