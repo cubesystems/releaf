@@ -35,7 +35,7 @@ module LeafRails
     end
 
     def columns( view = nil )
-      return current_object_class.column_names - ['id', 'created_at', 'updated_at']
+      return current_object_class.column_names - ['id', 'created_at', 'updated_at', 'encrypted_password']
     end
 
     def list_action
