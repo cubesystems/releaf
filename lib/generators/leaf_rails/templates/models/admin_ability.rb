@@ -9,7 +9,9 @@ class AdminAbility
   # ]
 
   PERMISSIONS = [
-    'admin'
+    'admin',
+    'manage_content',
+    'manage_transations',
   ]
 
   def initialize admin=nil
@@ -19,6 +21,14 @@ class AdminAbility
     if role.admin_permission
       can :manage, :all
       return
+    end
+
+    if role.manage_content_permission
+      can :manage, LeafRails::Node
+    end
+
+    if role.manage_translations_permission
+      can :manage, Translation
     end
 
     ## Example:

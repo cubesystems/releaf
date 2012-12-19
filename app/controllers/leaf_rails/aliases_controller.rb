@@ -23,8 +23,12 @@ module LeafRails
 
     def index
       authorize! :manage, Translation
-      @object_class = Translation.includes(:translation_data)
-      super
+      @list = @object_class = Translation.includes(:translation_data)
+    end
+
+    def edit
+      authorize! :manage, Translation
+      @item = current_object_class.find(params[:id])
     end
 
     def show
