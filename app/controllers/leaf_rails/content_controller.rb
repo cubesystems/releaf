@@ -12,11 +12,16 @@ module LeafRails
     #end
 
     def index
+      authorize! :index, Node
+      respond_to do |format|
+        format.html
+      end
     end
 
     def create
       @item = current_object_class.new(node_params)
       content_class = node_params[:content_class].constantize
+      authorize! :create, content_class
       content_object = content_class.create!(:text => "--")
       @item.content_id = content_object.id
 
@@ -31,6 +36,7 @@ module LeafRails
 
     def update
       @item = current_object_class.find(params[:id])
+      authorize! :edit, @item
 
       if @item.content_object
         obj_params = params.require(:node).permit(object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"])
