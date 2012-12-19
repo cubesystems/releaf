@@ -28,6 +28,7 @@ class AdminAbility
     end
 
     if role.manage_translations_permission
+      # Only manage is available for translation
       can :manage, Translation
     end
 
