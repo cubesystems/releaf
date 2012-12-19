@@ -8,7 +8,7 @@
     = stylesheet_link_tag "leaf_rails/application"
 
     - controller_asset = params[:controller]
-    - ['.css.scss', '.scss', '.css.sass', '.sass', '.css'].each do |ext|
+    - ['.css.scss.erb', '.scss.erb', '.css.scss', '.scss', '.css.erb', '.css'].each do |ext|
       - if File.exists?("app/assets/stylesheets/leaf_rails/controllers/#{controller_asset}" + ext)
         = stylesheet_link_tag "leaf_rails/controllers/#{controller_asset}"
   %body

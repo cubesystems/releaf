@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = LeafRails::VERSION
 
 
-  s.date        = '2012-12-07'
+  s.date        = '2012-12-19'
   s.summary     = "Admin interface for RubyOnRails projects"
   s.description = "Admin interface for RubyOnRails projects inspired by Leaf CMS"
   s.authors     = ["CubeSystems"]
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"
+  s.add_dependency "sass-rails", "~> 3.2.5"
   s.add_dependency "jquery-rails"
 
   # s.add_development_dependency "sqlite3"

@@ -17,7 +17,7 @@
 }
 .primary_panel .header .search_form.loading button[type="submit"]
 {
-	background: transparent url("/assets/leaf_rails/loader.gif") no-repeat 0px 1px;
+  background: transparent url("<%= asset_path 'leaf_rails/loader.gif' %>") no-repeat 0px 1px;
 }
 .primary_panel .header .search_form.loading button[type="submit"] img
 {
@@ -131,21 +131,21 @@
 /* left panel section collapsing style */
 .panel_layout .secondary_panel .section_title
 {
-	background: transparent url("/assets/leaf_rails/expand_tool/close_shim.png") no-repeat 3px 6px;
+  background: transparent url("<%= asset_path 'leaf_rails/expand_tool/close_shim.png' %>") no-repeat 3px 6px;
 	padding-left: 15px;
 	cursor: pointer;
 }
 .panel_layout .secondary_panel .section_title:hover
 {
-	background-image: url("/assets/leaf_rails/expand_tool/close_hover_shim.png");
+	background-image: url("<%= asset_path 'leaf_rails/expand_tool/close_hover_shim.png' %>");
 }
 .panel_layout .secondary_panel .collapsed .section_title
 {
-	background: transparent url("/assets/leaf_rails/expand_tool/open_shim.png") no-repeat 5px 4px;
+	background: transparent url("<%= asset_path 'leaf_rails/expand_tool/open_shim.png' %>") no-repeat 5px 4px;
 }
 .panel_layout .secondary_panel .collapsed .section_title:hover
 {
-	background-image: url("/assets/leaf_rails/expand_tool/open_hover_shim.png");
+	background-image: url("<%= asset_path 'leaf_rails/expand_tool/open_hover_shim.png' %>");
 }
 .panel_layout .secondary_panel .collapsed > ul
 {

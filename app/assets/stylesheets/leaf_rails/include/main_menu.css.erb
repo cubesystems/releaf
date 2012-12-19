@@ -1,6 +1,6 @@
 .main_menu
 {
-	background: #7B8A98 url("/assets/leaf_rails/main_menu/bgr.png") repeat-x left bottom;
+	background: #7B8A98 url("<%= asset_path 'leaf_rails/main_menu/bgr.png"' %>") repeat-x left bottom;
 	border-bottom: 1px solid white;
 }
 .main_menu ul
@@ -26,11 +26,11 @@
 }
 .main_menu .active
 {
-	background: #a5b2bf url("/assets/leaf_rails/main_menu/active_bgr.png") repeat-x top left;
+	background: #a5b2bf url("<%= asset_path 'leaf_rails/main_menu/active_bgr.png"' %>") repeat-x top left;
 }
 .main_menu a:hover
 {
-	background: #a5b2bf url("/assets/leaf_rails/main_menu/hover_bgr.png") repeat-x top left;
+	background: #a5b2bf url("<%= asset_path 'leaf_rails/main_menu/hover_bgr.png"' %>") repeat-x top left;
 	text-decoration: none;
 }
 .main_menu .image_container

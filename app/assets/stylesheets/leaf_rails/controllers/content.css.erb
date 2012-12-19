@@ -31,7 +31,7 @@
 	transition: bottom ease-out 0.2s;
 	z-index: 2;
 
-	background: url("/assets/leaf_rails/panel_layout/secondary_panel_vertical_bgr.png") repeat-y scroll left top #D6D7DA;
+	background: url("<%= asset_path 'leaf_rails/panel_layout/secondary_panel_vertical_bgr.png' %>") repeat-y scroll left top #D6D7DA;
 }
 .controller-leaf_rails_content .secondary_panel .tree_container .inner > ul
 {
@@ -74,28 +74,28 @@
 }
 .controller-leaf_rails_content .tree_container .node button.toggle
 {
-	background: transparent url("/assets/leaf_rails/controllers/content/open_2.gif") no-repeat center center;
+	background: transparent url("<%= asset_path 'leaf_rails/controllers/content/open_2.gif' %>") no-repeat center center;
 	vertical-align: -20%;
 }
 .controller-leaf_rails_content .tree_container .node button.toggle:hover
 {
-	background-image: url("/assets/leaf_rails/controllers/content/open_hover.gif");
+	background-image: url("<%= asset_path 'leaf_rails/controllers/content/open_hover.gif' %>");
 }
 .controller-leaf_rails_content .tree_container .node button.toggle:active
 {
-	background-image: url("/assets/leaf_rails/controllers/content/open_active.gif");
+	background-image: url("<%= asset_path 'leaf_rails/controllers/content/open_active.gif' %>");
 }
 .controller-leaf_rails_content .tree_container .node button.toggle.open
 {
-	background-image: url("/assets/leaf_rails/controllers/content/close.gif");
+	background-image: url("<%= asset_path 'leaf_rails/controllers/content/close.gif' %>");
 }
 .controller-leaf_rails_content .tree_container .node button.toggle.open:hover
 {
-	background-image: url("/assets/leaf_rails/controllers/content/close_hover.gif");
+	background-image: url("<%= asset_path 'leaf_rails/controllers/content/close_hover.gif' %>");
 }
 .controller-leaf_rails_content .tree_container .node button.toggle.open:active
 {
-	background-image: url("/assets/leaf_rails/controllers/content/close_active.gif");
+	background-image: url("<%= asset_path 'leaf_rails/controllers/content/close_active.gif' %>");
 }
 .controller-leaf_rails_content .tree_container .node .edit
 {
@@ -128,7 +128,7 @@
 {
 	border-bottom: 1px solid white;
     padding: 10px 5px 0;
-    background: transparent url("/assets/leaf_rails/controllers/content/global_fields_bgr.png") repeat-x bottom left;
+    background: transparent url("<%= asset_path 'leaf_rails/controllers/content/global_fields_bgr.png' %>") repeat-x bottom left;
 	position: relative;
 }
 .controller-leaf_rails_content .global_fields .field
@@ -262,7 +262,7 @@ margin: 0;
 }
 
 .objectsTree .groupBoxOpen {
-  background-image: url(/assets/leaf_rails/content/open.gif);
+  background-image: url("<%= asset_path 'leaf_rails/content/open.gif' %>") ;
 }
 
 
