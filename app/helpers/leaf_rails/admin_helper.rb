@@ -3,8 +3,12 @@ module LeafRails
 
     def menu
       menu = {
-        :items => ["leaf_rails/content", "admin/admins", "leaf_rails/aliases"],
-        :active => "admins",
+        :items => {
+          "leaf_rails/content"  => 'Content',
+          "admin/home"          => 'Modules',
+          "leaf_rails/aliases"  => 'Aliases'
+         },
+        :active => "admin/home",
       }
 
       if menu[:items].include?( params[:controller] )
