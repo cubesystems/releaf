@@ -7,9 +7,11 @@
 
     = stylesheet_link_tag "leaf_rails/application"
 
+    - _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
+
     - controller_asset = params[:controller]
     - ['.css.scss.erb', '.scss.erb', '.css.scss', '.scss', '.css.erb', '.css'].each do |ext|
-      - if File.exists?("app/assets/stylesheets/leaf_rails/controllers/#{controller_asset}" + ext)
+      - if File.exists?(_assets_path + "/stylesheets/leaf_rails/controllers/#{controller_asset}" + ext)
         = stylesheet_link_tag "leaf_rails/controllers/#{controller_asset}"
   %body
     - if admin_signed_in?
@@ -41,5 +43,5 @@
         = yield
 
     = javascript_include_tag "leaf_rails/application"
-    - if File.exists?("app/assets/javascripts/leaf_rails/controllers/#{controller_asset}.js")
+    - if File.exists?(_assets_path + "/javascripts/leaf_rails/controllers/#{controller_asset}.js")
       = javascript_include_tag "leaf_rails/controllers/#{controller_asset}"

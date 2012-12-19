@@ -1,10 +1,10 @@
-//= require 3rd_party/jquery-cookie/jquery.cookie.js
-//= require lib/request_url.js
+//= require ../3rd_party/jquery-cookie/jquery.cookie.js
+//= require ../lib/request_url.js
 
 jQuery(function()
 {
 	// list action switcher
-	
+
 	jQuery( '.action-index' ).on( 'click', '.list_action_switch button', function( event )
 	{
 		var button = jQuery( this );
@@ -48,24 +48,24 @@ jQuery(function()
 		// clear cache on continuous scroll tables
 		table.trigger( 'flushcache' );
 	});
-	
+
 	// ajax search
-	
+
 	jQuery( '.view-index' ).on( 'searchinit', function( event )
 	{
 		var form = jQuery( event.target );
-		
+
 		var input = form.find( '.search' );
 		var timeout;
 		var request;
 		var last_search_query = input.val();
-		
+
 		var panel  = form.parents( '.primary_panel:first' )
 		var body   = panel.children( '.body' );
 		var footer = panel.children( '.footer' );
-		
+
 		// custom "lookup" event allows to issue extra reloads from the outside
-		
+
 		form.bind( 'lookup', function()
 		{
 			// cancel previous timeout
@@ -101,7 +101,7 @@ jQuery(function()
 				});
 			}, 200 );
 		});
-		
+
 		// attach keypress event
 		input.keyup( function()
 		{
@@ -111,15 +111,15 @@ jQuery(function()
 			}
 			last_search_query = input.val();
 			form.trigger( 'lookup' );
-		});	
+		});
 	});
-	
+
 	// init default form
-	
+
 	jQuery( '.view-index .search_form' ).trigger( 'searchinit' );
-	
-	
-	
-	
-	
+
+
+
+
+
 });
