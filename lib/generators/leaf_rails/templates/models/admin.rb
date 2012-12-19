@@ -9,8 +9,6 @@ class Admin < ActiveRecord::Base
   validates_uniqueness_of :email, :case_sensitive => false
   belongs_to :role
 
-  include UriPart
-
   scope :filter, lambda {|params|
       fields = []
       values = {}
