@@ -16,6 +16,7 @@ module LeafRails
 
       def install_initializer
         template 'initializers/leaf_rails.rb', 'config/initializers/leaf_rails.rb'
+        template 'initializers/store_current_template.rb', 'config/initializers/store_current_template.rb'
       end
 
 
