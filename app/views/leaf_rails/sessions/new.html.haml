@@ -1,15 +1,16 @@
 .login_form_container
   = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login_form" } ) do |f|
-    .logo_containe
+    .logo_container
       = image_tag("leaf_rails/controllers/#{controller.controller_name}/logo.jpg")
     .inputs
-      %label
+      %label.login
         %span Lietotājs:
         = f.email_field :email, :autofocus => "autofocus"
       %label
         %span Parole:
         = f.password_field :password
-    %button{:type => "submit"} Pieslēgties
+    .actions
+      %button{:type => "submit"} Pieslēgties
     %div.copy
       %span © 2012-#{Time.now.year} CubeSystems
       |
