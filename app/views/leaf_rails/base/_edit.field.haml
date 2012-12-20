@@ -1,5 +1,23 @@
-- column_type = @item.class.columns_hash[ name ].try(:type)
-- input_type = @controller.input_type_for( column_type, name )
-- if !@controller.has_template( "_edit.field.type_#{input_type}" )
+:ruby
+  column_type = @item.class.columns_hash[ name ].try(:type)
+  input_type = @controller.input_type_for( column_type, name )
+  collection = nil
+
+  if @item.class.respond_to?(:reflect_on_association)
+    if name =~ /_id$/ && @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
+      collection = @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
+    end
+
+    collection = @item.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
+    input_type = 'select' unless collection.nil?
+  end
+
+
+- if @controller.has_template( "_edit.field.type_#{input_type}" ) && input_type == 'select'
+  = options_from_collection_for_select(collection, :id, :name) #, @item.send(name))
+  = render "edit.field.type_select", :name => name, :select_options => options_from_collection_for_select(collection, :id, :name, @item.send(name) ), :options => { :include_blank => true }
+- elsif @controller.has_template( "_edit.field.type_#{input_type}" )
+  = render "edit.field.type_#{input_type}", :name => name
+- else
   - input_type = @controller.input_type_for( 'string', name )
-= render "edit.field.type_#{input_type}", :name => name
+  = render "edit.field.type_#{input_type}", :name => name
