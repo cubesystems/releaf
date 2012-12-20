@@ -1,1 +1,13 @@
-%a.main{ :href => url_for( :action => @controller.list_action, :id => item.id ) }= item[name]
+:ruby
+  text = item.send(name)
+  if item.class.respond_to?(:reflect_on_association)
+    [name, name.sub(/_id$/, '')].each do |m|
+      if item.class.reflect_on_association(m.to_sym)
+        text = item.send(m).try(:to_text) || item.send(m).to_s
+        break
+      end
+    end
+  end
+
+
+%a.main{ :href => url_for( :action => @controller.list_action, :id => item.id ) }= text

@@ -15,7 +15,7 @@
 
 - if @controller.has_template( "_edit.field.type_#{input_type}" ) && input_type == 'select'
   :ruby
-    text_field = :name unless text_field
+    text_field = :to_text unless text_field
     include_blank = nil unless include_blank
 
     if include_blank.nil?

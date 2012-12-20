@@ -9,6 +9,8 @@ module LeafRails
 
     attr_accessible :name, :parent_id, :slug, :position, :data, :content_class, :content_string
 
+    alias_attribute :to_text, :name
+
     def content_object
       if id && content_id
         @content_object = content_class.classify.constantize.find(content_id)

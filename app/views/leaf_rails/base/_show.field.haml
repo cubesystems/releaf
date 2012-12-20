@@ -1,5 +1,19 @@
 .field.no_label_wrap_padding
   .label_wrap
     .label= name.humanize + ':'
-  .value= @item.class.columns_hash[ name ].type == :text && name.end_with?('_html') ? @item[name].html_safe : @item[name]
+  .value
+    - if @item.class.columns_hash[ name ].type == :text && name.end_with?('_html')
+      = @item[name].html_safe
+    - else
+      :ruby
+        text = @item.send(name)
+        if @item.class.respond_to?(:reflect_on_association)
+          [name, name.sub(/_id$/, '')].each do |m|
+            if @item.class.reflect_on_association(m.to_sym)
+              text = @item.send(m).try(:to_text) || @item.send(m).to_s
+              break
+            end
+          end
+        end
+      = text
   .clear
