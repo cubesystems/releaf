@@ -1,6 +1,7 @@
 module ActionDispatch::Routing
   class Mapper
     def mount_leaf_rails_at(mount_location)
+      devise_for :admins, :path => mount_location, :controllers => { :sessions => "leaf_rails/sessions" }
 
       scope mount_location do
         namespace :leaf_rails, :path => nil do
@@ -14,14 +15,8 @@ module ActionDispatch::Routing
             get :confirm_destroy, :on => :member
             match :urls, :on => :collection
           end
-
-          root :to => 'home#index'
         end
       end
-
-      # devise_scope mount_location do
-      #   devise_for :admins, :path => "devise", :controllers => { :sessions => "leaf_rails/sessions" }
-      # end
 
     end
   end
