@@ -14,8 +14,25 @@
 
 
 - if @controller.has_template( "_edit.field.type_#{input_type}" ) && input_type == 'select'
-  = options_from_collection_for_select(collection, :id, :name) #, @item.send(name))
-  = render "edit.field.type_select", :name => name, :select_options => options_from_collection_for_select(collection, :id, :name, @item.send(name) ), :options => { :include_blank => true }
+  :ruby
+    text_field = :name unless text_field
+    include_blank = nil unless include_blank
+
+    if include_blank.nil?
+      if @item.send(name).nil?
+        include_blank = true
+      else
+        include_blank = true
+        @item.class.validators_on(name).each do |validator|
+          if validator.is_a? ActiveModel::Validations::PresenceValidator
+            include_blank = false
+            break
+          end
+        end
+      end
+    end
+
+  = render "edit.field.type_select", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, @item.send(name) ), :options => { :include_blank => include_blank }
 - elsif @controller.has_template( "_edit.field.type_#{input_type}" )
   = render "edit.field.type_#{input_type}", :name => name
 - else
