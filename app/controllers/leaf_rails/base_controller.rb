@@ -1,8 +1,5 @@
 module LeafRails
-  class BaseController < ApplicationController
-    layout 'leaf_rails/admin'
-    protect_from_forgery
-
+  class BaseController < BaseApplicationController
     before_filter do
       filter_templates
       set_locale

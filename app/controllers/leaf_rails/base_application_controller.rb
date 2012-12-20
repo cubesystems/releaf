@@ -1,7 +1,7 @@
 module LeafRails
-  class ApplicationController < ActionController::Base
+  class BaseApplicationController < ActionController::Base
     before_filter :authenticate_admin!
-    check_authorization :unless => :devise_controller?
+    # check_authorization :unless => :devise_controller?
     layout 'leaf_rails/admin'
     protect_from_forgery
 
