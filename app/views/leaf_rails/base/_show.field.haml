@@ -1,9 +1,21 @@
 .field.no_label_wrap_padding
   .label_wrap
-    .label= name.humanize + ':'
+    .label= name.sub(/_uid$/, '').humanize + ':'
   .value
     - if @item.class.columns_hash[ name ].type == :text && name.end_with?('_html')
       = @item[name].html_safe
+
+    - elsif @item.class.columns_hash[ name ].type == :string && name =~ /(image|photo|picture|avatar|logo)_uid$/
+      - field_name = name.sub(/_uid$/, '')
+      - case field_name
+      - when /avatar$/
+        = image_tag @item.send(field_name).thumb('64x64').url
+      - else
+        = link_to image_tag(@item.send(field_name).thumb('x128').url, image_tag), @item.send(field_name).url
+
+    - elsif @item.class.columns_hash[ name ].type == :string && name =~ /email$/
+      = mail_to @item.send(name)
+
     - else
       :ruby
         text = @item.send(name)

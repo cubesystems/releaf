@@ -32,7 +32,11 @@ module LeafRails
     end
 
     def columns( view = nil )
-      return current_object_class.column_names - ['id', 'created_at', 'updated_at', 'encrypted_password']
+      cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password]
+      unless %w[new edit update create].include? view
+        cols -= %w[password password_confirmation]
+      end
+      return col
     end
 
     def list_action

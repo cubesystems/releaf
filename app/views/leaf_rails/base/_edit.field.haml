@@ -3,14 +3,23 @@
   input_type = @controller.input_type_for( column_type, name )
   collection = nil
 
-  if @item.class.respond_to?(:reflect_on_association)
-    if name =~ /_id$/ && @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
-      collection = @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
-    end
+  case name
+  when /_id$/
+    if @item.class.respond_to?(:reflect_on_association)
+      if name =~ /_id$/ && @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
+        collection = @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
+      end
 
-    collection = @item.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
-    input_type = 'select' unless collection.nil?
+      collection = @item.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
+      input_type = 'select' unless collection.nil?
+    end
+  when /(image|photo|picture|avatar|logo)_uid$/
+    # FIXME should check if it's a dragonfly field
+    input_type = 'image'
+  when /password/
+    input_type = 'password'
   end
+
 
 
 - if @controller.has_template( "_edit.field.type_#{input_type}" ) && input_type == 'select'
