@@ -7,11 +7,12 @@
 
     - elsif @item.class.columns_hash[ name ].type == :string && name =~ /(image|photo|picture|avatar|logo)_uid$/
       - field_name = name.sub(/_uid$/, '')
-      - case field_name
-      - when /avatar$/
-        = image_tag @item.send(field_name).thumb('64x64').url
-      - else
-        = link_to image_tag(@item.send(field_name).thumb('x128').url, image_tag), @item.send(field_name).url
+      - unless @item.send(name).blank?
+        - case field_name
+        - when /avatar$/
+          = image_tag @item.send(field_name).thumb('64x64').url
+        - else
+          = link_to image_tag(@item.send(field_name).thumb('x128').url), @item.send(field_name).url
 
     - elsif @item.class.columns_hash[ name ].type == :string && name =~ /email$/
       = mail_to @item.send(name)
