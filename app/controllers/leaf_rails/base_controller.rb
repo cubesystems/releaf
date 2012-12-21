@@ -36,7 +36,7 @@ module LeafRails
       unless %w[new edit update create].include? view
         cols -= %w[password password_confirmation]
       end
-      return col
+      return cols
     end
 
     def list_action
