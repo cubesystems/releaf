@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    leaf_rails (0.0.1)
+    leaf_rails (0.1.0)
       cancan (~> 1.6.8)
       devise (~> 2.1.2)
       dragonfly (~> 0.9.12)

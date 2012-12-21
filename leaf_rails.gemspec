@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = LeafRails::VERSION
 
 
-  s.date        = '2012-12-19'
+  s.date        = '2012-12-21'
   s.summary     = "Admin interface for RubyOnRails projects"
   s.description = "Admin interface for RubyOnRails projects inspired by Leaf CMS"
   s.authors     = ["CubeSystems"]
