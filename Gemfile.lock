@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    leaf_rails (0.1.0)
+    leaf_rails (0.1.1)
       cancan (~> 1.6.8)
       devise (~> 2.1.2)
       dragonfly (~> 0.9.12)
@@ -10,6 +10,7 @@ PATH
       rails (~> 3.2.8)
       railties (~> 3.1)
       sass-rails (~> 3.2.5)
+      yui-rails (~> 0.1.0)
 
 GEM
   remote: http://rubygems.org/
@@ -99,7 +100,7 @@ GEM
     rake (10.0.3)
     rdoc (3.12)
       json (~> 1.4)
-    sass (3.2.3)
+    sass (3.2.4)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -117,6 +118,7 @@ GEM
     tzinfo (0.3.35)
     warden (1.2.1)
       rack (>= 1.0)
+    yui-rails (0.1.0)
 
 PLATFORMS
   ruby

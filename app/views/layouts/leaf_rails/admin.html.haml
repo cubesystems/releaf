@@ -13,7 +13,7 @@
     - ['.css.scss.erb', '.scss.erb', '.css.scss', '.scss', '.css.erb', '.css'].each do |ext|
       - if File.exists?(_assets_path + "/stylesheets/leaf_rails/controllers/#{controller_asset}" + ext)
         = stylesheet_link_tag "leaf_rails/controllers/#{controller_asset}"
-  %body
+  %body.yui3-skin-sam
     - if admin_signed_in?
       .main_menu
         .user
