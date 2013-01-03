@@ -1,9 +1,14 @@
 - query_field = 'name' unless query_field
+- can_create = false unless can_create
+- autocomplete_url = url_for(:action => "autocomplete", :field => name, :query_field => query_field, :format => :json)
 
 .field.type_autocomplete{ 'data-name' => name }
   .label_wrap><= @f.label name, name.humanize + ':'
   .value><
-    %input{:type => :text, :name => "_tmp_field_#{@f.object.object_id}_#{rand(999999999)}", :'data-autocomplete-url' => url_for(:action => "autocomplete", :field => name, :query_field => query_field, :format => :json), :value => @f.object.send(name.sub(/_id$/, '')).to_text }/
+    - if can_create == true
+      = @f.text_field :"#{name}_text", :'data-autocomplete-url' => autocomplete_url
+    - else
+      %input{:type => :text, :name => "_tmp_field_#{@f.object.object_id}_#{rand(999999999)}", :'data-autocomplete-url' => autocomplete_url, :value => @f.object.send(name.sub(/_id$/, '')).to_text }/
     = image_tag 'leaf_rails/input/autocompleteExpandIcon.png', :alt => '', :class => :autocomplete_expand_icon
     = @f.hidden_field name
 

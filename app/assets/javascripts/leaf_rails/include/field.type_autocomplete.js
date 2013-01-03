@@ -14,12 +14,13 @@ YUI().use('node', 'event', 'autocomplete', 'autocomplete-highlighters', function
                     resultHighlighter: 'subWordMatch',
                     resultListLocator: 'results',
                     resultTextLocator: 'text',
+                    minQueryLength: 1,
                     source: new RequestUrl(field.getData('autocomplete-url')).add({'q': '{query}'}).getUrl(),
                     on: {
                         select: function (itemNode, object) {
                             hidden.set('value', itemNode.result.raw.id);
                         }
-                    },
+                    }
                     /*
                     * after: {
                     *     resultsChange: function (e) {
