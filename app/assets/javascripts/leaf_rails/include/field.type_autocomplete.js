@@ -44,7 +44,6 @@ YUI().use('node', 'event', 'autocomplete', 'autocomplete-highlighters', function
                 }
 
                 expand_icon.on('click', autocomplete_click);
-                field.on('click', autocomplete_click);
                 field.on('focus', autocomplete_click);
             });
         });
