@@ -19,9 +19,9 @@ module LeafRails
     end
 
     def create
-      content_class = node_params[:content_class].constantize
+      content_class = _node_params[:content_class].constantize
       authorize! :create, content_class
-      @item = current_object_class.new(node_params)
+      @item = current_object_class.new(_node_params)
       content_object = content_class.create!(:text => "--")
       @item.content_id = content_object.id
 
@@ -38,15 +38,8 @@ module LeafRails
       @item = current_object_class.find(params[:id])
       authorize! :edit, @item
 
-      if @item.content_object
-        obj_params = params.require(:node).permit(object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"])
-        @item.content_object.update_attributes(obj_params[:object_data])
-      else
-
-      end
-
       respond_to do |format|
-        if @item.update_attributes(node_params)
+        if @item.update_attributes(_node_params)
           format.html { redirect_to url_for(:action => "edit") }
         else
           format.html { render action: "edit" }
@@ -154,8 +147,23 @@ module LeafRails
       Node
     end
 
-    def node_params
-      params.require(:node).permit(:parent_id, :name, :content_class, :slug, :position, :data)
+    protected
+
+    def _node_params
+      allowed_params = [:parent_id, :name, :content_class, :slug, :position, :data]
+
+      if @item && @item.content_object
+        allowed_params.push({object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"]})
+      end
+
+      params.require(current_object_class_name).permit(*allowed_params)
+    end
+
+    private
+
+    def node_params(action)
+      # make sure none of actions, that are defined by BaseController can update item
+      []
     end
 
   end

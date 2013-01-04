@@ -28,7 +28,7 @@ module LeafRails
     end
 
     def current_object_class_name
-      current_object_class.name.underscore
+      current_object_class.name.underscore.tr('/', '_')
     end
 
     def columns( view = nil )
