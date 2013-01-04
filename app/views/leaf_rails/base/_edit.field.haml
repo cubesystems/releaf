@@ -4,18 +4,21 @@
   collection = nil
 
   case name
-  when /_id\z/
+  when /_id$/
     if @item.class.respond_to?(:reflect_on_association)
-      if name =~ /_id\z/ && @item.class.reflect_on_association(name.sub(/_id\z/, '').to_sym)
-        collection = @item.class.reflect_on_association(name.sub(/_id\z/, '').to_sym).try(:klass).try(:all)
+      if name =~ /_id\z/ && @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
+        collection = @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
       end
 
       collection = @item.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
       input_type = 'select' unless collection.nil?
     end
-  when /(image|photo|picture|avatar|logo)_uid\z/
+  when /(image|photo|picture|avatar|logo|icon)_uid$/
     # FIXME should check if it's a dragonfly field
     input_type = 'image'
+  when /_uid$/
+    # FIXME should check if it's a dragonfly field
+    input_type = 'file'
   when /password/
     input_type = 'password'
   end
