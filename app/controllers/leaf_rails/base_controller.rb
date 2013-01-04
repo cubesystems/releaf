@@ -88,7 +88,7 @@ module LeafRails
     end
 
     # actions
-    
+
     def autocomplete
       authorize! :edit, current_object_class
 
@@ -130,7 +130,7 @@ module LeafRails
         list.each do |item|
           @items.push({ :id => item.id, :text => item.to_text })
         end
-        
+
         respond_to do |format|
           format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @items } }
         end
@@ -141,7 +141,7 @@ module LeafRails
         end
       end
     end
-    
+
     def index
       authorize! :list, current_object_class
       if current_object_class.respond_to?( :filter )
@@ -214,6 +214,7 @@ module LeafRails
       else
         variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
       end
+
 
       respond_to do |format|
         if @item.update_attributes( variables )
