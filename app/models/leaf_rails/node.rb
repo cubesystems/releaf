@@ -126,7 +126,7 @@ module LeafRails
       end
 
       path.each do |part|
-        node = Node.where(:parent_id => (parent_node ? parent_node.id : nil), :slug => part).limit(1).first
+        node = Node.where(:parent_id => (parent_node ? parent_node.id : nil), :slug => part).first
         if node
           parent_node = node
         else
