@@ -19,9 +19,9 @@ module LeafRails
     end
 
     def create
-      @item = current_object_class.new(node_params)
       content_class = node_params[:content_class].constantize
       authorize! :create, content_class
+      @item = current_object_class.new(node_params)
       content_object = content_class.create!(:text => "--")
       @item.content_id = content_object.id
 
