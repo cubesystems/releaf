@@ -48,7 +48,7 @@ module LeafRails
     end
 
     def self.maintain_base_controllers
-      locales = Settings.i18n_locales
+      locales = Settings.i18n_locales || ['en']
       tree = {}
 
       # 1) build up controller tree
