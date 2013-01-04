@@ -33,7 +33,7 @@ module LeafRails
       if  (content_class =~ /Controller$/i) != nil
         controller_class = content_class.constantize
       elsif content_object
-          controller_class = content_class.constantize::PUBLIC_CONTROLLER.constantize
+        controller_class = content_class.constantize::PUBLIC_CONTROLLER.constantize
       end
 
       controller_class
@@ -76,41 +76,41 @@ module LeafRails
         end
       end
 
-        # 2) maintain tree against node content
-        tree = Hash[tree.sort]
-        tree.each do | url, item |
-          parent_path = url.split("/")[0...-1].join("/")
-          create = false
-          n = nil
+      # 2) maintain tree against node content
+      tree = Hash[tree.sort]
+      tree.each do | url, item |
+        parent_path = url.split("/")[0...-1].join("/")
+        create = false
+        n = nil
 
-          slug = url.split("/").last
-          content_string = slug + ":" + item[:action].to_s
+        slug = url.split("/").last
+        content_string = slug + ":" + item[:action].to_s
 
-          if parent_path.empty?
-            parent_id = nil
-            n = self::get_object_from_path url, :strict => true
+        if parent_path.empty?
+          parent_id = nil
+          n = self::get_object_from_path url, :strict => true
+          if !n
+            create = true
+          end
+        else
+          parent_item = tree[parent_path]
+          if parent_item && parent_item[:node]
+            parent_id = parent_item[:node].id
+            n = Node.where(:parent_id => parent_id, :content_class => item[:controller].to_s, :content_string => content_string ).first
             if !n
               create = true
             end
-          else
-            parent_item = tree[parent_path]
-            if parent_item && parent_item[:node]
-              parent_id = parent_item[:node].id
-              n = Node.where(:parent_id => parent_id, :content_class => item[:controller].to_s, :content_string => content_string ).first
-              if !n
-                create = true
-              end
-            end
           end
-
-          if create
-            n = Node.create!(:name => slug, :content_class => item[:controller].to_s, :content_string => content_string, :parent_id => parent_id, :slug => slug)
-          end
-
-          item[:node] = n
-          tree[url] = item
-
         end
+
+        if create
+          n = Node.create!(:name => slug, :content_class => item[:controller].to_s, :content_string => content_string, :parent_id => parent_id, :slug => slug)
+        end
+
+        item[:node] = n
+        tree[url] = item
+
+      end
     end
 
     def self.get_object_from_path path, params = {}
