@@ -1,11 +1,17 @@
 :ruby
   text = item.send(name)
-  if item.class.respond_to?(:reflect_on_association)
-    [name, name.sub(/_id$/, '')].each do |m|
-      if item.class.reflect_on_association(m.to_sym)
-        text = item.send(m).try(:to_text) || item.send(m).to_s
-        break
+  if name =~ /_id$/
+    if item.class.respond_to?(:reflect_on_association)
+      rel_name = name.sub(/_id$/, '').to_sym
+      if item.class.reflect_on_association(rel_name)
+        text = item.send(rel_name).try(:to_text) || item.send(rel_name).to_s
       end
+    end
+  elsif name =~ /_uid$/
+    unless item.send(name).blank?
+      text = image_tag item.send(name.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
+    else
+      text = ""
     end
   end
 
