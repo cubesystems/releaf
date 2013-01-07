@@ -1,0 +1,5 @@
+%form.search_form{:action => url_for( :controller => @controller.controller_name, :action => :index ), :title => "#{ @controller.current_object_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + @controller.current_object_class.to_s + ' to enable searching' }"}
+  .special_field_wrap
+    %input.search{:name => "search", :type => "text", :value => params[:search], :autofocus => true, :disabled => !@controller.current_object_class.respond_to?( :filter ) }
+    %button.no_styling{:type => "submit", :disabled => !@controller.current_object_class.respond_to?( :filter )}>
+      = image_tag("leaf/icons/magnifier.png", :alt => "submit")

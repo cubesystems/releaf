@@ -1,0 +1,61 @@
+.body.inset_box.no_shadow
+  - if @item.new_record?
+    = @f.hidden_field :parent_id, :value => params[:parent_id]
+
+
+  .globalFieldContainer.collapsableSection.global_fields
+    = render 'edit.field', :name => 'name'
+
+    .field{ 'data-name' => 'template' }
+      .label_wrap
+        = @f.label :template, 'Veids:', :title => @item.content_type
+      .value
+        = @f.select :content_type, options_for_select(@item.is_controller_node ? [@item.content_type] : @base_models.map { |m| m.name }), {}, :title => @item.content_type, :disabled => @item.is_controller_node
+    .clear
+
+
+    = render 'edit.slug', :name => 'slug'
+
+    .field{ 'data-name' => 'position' }
+      .label_wrap= @f.label :position, t('.position', :rescue_format => false) + ':'
+      .value
+        :ruby
+          opt_for_select = [[t('first', :rescue_format => false), 1]]
+          @order_nodes.each do |node|
+            # FIXME fix i18n usage
+            opt_for_select.push [ t('.after', :rescue_format => false) + ' ' + node.name, node.lower_item ? node.lower_item.position : node.position ]
+          end
+
+        = @f.select :position, options_for_select(opt_for_select, @position)
+    .clear
+
+    = render 'edit.field', :name => 'visible'
+    = render 'edit.field', :name => 'protected'
+
+
+    %button.no_styling.toggleSection.collapse{:title => "Saīsināt sadaļu", :type => "button"}
+      = image_tag("leaf/icons/130.png", :alt => "Saīsināt sadaļu")
+    %button.no_styling.toggleSection.expand{:title => "Parādīt pilnu sadaļu", :type => "button"}
+      = image_tag("leaf/icons/129.png", :alt => "Parādīt pilnu sadaļu")
+    .clear.persistent
+
+  - tiny_mce = false
+  - if @item.content_object
+    = render 'edit.content_fields'
+
+  -# -# TODO cleanup this shit
+  -# - if @controller_properties && !@controller_properties.empty?
+  -#   - @controller_properties.each do |name, conf|
+  -#     - value = (@item.data && @item.data[name] ? @item.data[name].to_s : '')
+  -#     %div
+  -#       =label_tag name
+  -#     %div
+  -#       - if conf[:type] == :textarea
+  -#         =text_area_tag "node[data][#{name}]", value
+  -#       - elsif conf[:type] == :richtext
+  -#         =text_area_tag "node[data][#{name}]", value, :class => "tinymce", :rows => 20, :cols => 60
+  -#         - tiny_mce = true
+  -#       - else
+  -#         =text_field_tag "node[data][#{name}]", value
+  -# - if tiny_mce
+  -#   = tinymce

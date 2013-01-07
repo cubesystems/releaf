@@ -1,0 +1,374 @@
+.controller-leaf_content .secondary_panel
+{
+	width: 23%;
+}
+.controller-leaf_content .secondary_panel .actions_toolbar
+{
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color:
+    #DBDCDF
+    #CECFD2
+    #C6C9D0;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    padding: 5px 5px 2px;
+    margin-bottom: 5px;
+}
+.controller-leaf_content .secondary_panel .tree_container
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0px;
+	overflow: auto;
+
+	border: 1px solid #ABABAB;
+	border-width: 0 1px 0px 0;
+	outline: none;
+	-moz-transition: bottom ease-out 0.2s;
+	-webkit-transition: bottom ease-out 0.2s;
+	transition: bottom ease-out 0.2s;
+	z-index: 2;
+
+	background: url("<%= asset_path 'leaf/panel_layout/secondary_panel_vertical_bgr.png' %>") repeat-y scroll left top #D6D7DA;
+}
+.controller-leaf_content .secondary_panel .tree_container .inner > ul
+{
+	background-color: white;
+}
+.controller-leaf_content .tree_container .node
+{
+    min-height: 25px;
+    border-bottom: 1px solid #fff;
+    background-color: #bce0b2;
+	position: relative;
+	padding-right: 20px;
+}
+.controller-leaf_content .tree_container .node a
+{
+	text-decoration: none;
+}
+.controller-leaf_content .tree_container .node .create
+{
+    position: absolute;
+	top: 4px;
+	right: 4px;
+    opacity: 0.5;
+}
+.controller-leaf_content .tree_container .node .create:hover
+{
+	opacity: 1;
+}
+.controller-leaf_content .tree_container .node input
+{
+	margin-left: 7px;
+	margin-right: 3px;
+	vertical-align: -12%;
+}
+.controller-leaf_content .tree_container .node .toggle
+{
+	display: inline-block;
+	width: 20px;
+	text-indent: -9999px;
+}
+.controller-leaf_content .tree_container .node button.toggle
+{
+	background: transparent url("<%= asset_path 'leaf/controllers/content/open_2.gif' %>") no-repeat center center;
+	vertical-align: -20%;
+}
+.controller-leaf_content .tree_container .node button.toggle:hover
+{
+	background-image: url("<%= asset_path 'leaf/controllers/content/open_hover.gif' %>");
+}
+.controller-leaf_content .tree_container .node button.toggle:active
+{
+	background-image: url("<%= asset_path 'leaf/controllers/content/open_active.gif' %>");
+}
+.controller-leaf_content .tree_container .node button.toggle.open
+{
+	background-image: url("<%= asset_path 'leaf/controllers/content/close.gif' %>");
+}
+.controller-leaf_content .tree_container .node button.toggle.open:hover
+{
+	background-image: url("<%= asset_path 'leaf/controllers/content/close_hover.gif' %>");
+}
+.controller-leaf_content .tree_container .node button.toggle.open:active
+{
+	background-image: url("<%= asset_path 'leaf/controllers/content/close_active.gif' %>");
+}
+.controller-leaf_content .tree_container .node .edit
+{
+	position: absolute;
+	top: 0;
+	right: 25px;
+	bottom: 0;
+	left: 43px;
+	padding-top: 2px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.controller-leaf_content .tree_container .node .edit img
+{
+	vertical-align: -20%;
+	margin-right: 4px;
+}
+.controller-leaf_content .tree_container .node .edit:hover span
+{
+	border-bottom: 1px solid gray;
+}
+.controller-leaf_content .tree_container .node.active .edit
+{
+	font-weight: bold;
+}
+
+
+.controller-leaf_content .primary_panel .global_fields
+{
+	border-bottom: 1px solid white;
+    padding: 10px 5px 0;
+    background: transparent url("<%= asset_path 'leaf/controllers/content/global_fields_bgr.png' %>") repeat-x bottom left;
+	position: relative;
+}
+.controller-leaf_content .global_fields .field
+{
+	display: inline-block;
+	vertical-align: top;
+}
+.controller-leaf_content .global_fields .field[data-name="name"],
+.controller-leaf_content .global_fields .field[data-name="slug"]
+{
+	width: 400px;
+}
+.controller-leaf_content .global_fields .field[data-name="visible"]
+{
+	margin-left: 80px;
+}
+.controller-leaf_content .global_fields .label_wrap
+{
+	float: none;
+	display: inline-block;
+	width: auto;
+	vertical-align: top;
+	min-width: 80px;
+	padding-right: 0;
+}
+.controller-leaf_content .global_fields .value
+{
+	margin-left: 0;
+	display: inline-block;
+}
+.controller-leaf_content .global_fields select
+{
+	width: 158px;
+}
+.controller-leaf_content .global_fields input[type="checkbox"] + label
+{
+	font-weight: bold;
+}
+.controller-leaf_content .global_fields .field[data-name="slug"] button
+{
+	margin-left: -21px;
+	vertical-align: 15%;
+}
+.controller-leaf_content .global_fields .field[data-name="slug"] a
+{
+	color: #888888;
+	margin-top: 3px;
+	display: inline-block;
+}
+.controller-leaf_content .global_fields .field[data-name="slug"] a span
+{
+	color: black;
+}
+
+
+#objectsSidebar {
+  height: 100%;
+}
+
+
+#objectTools {
+  height: 30px;
+}
+
+
+#objectTools li {
+display: inline;
+}
+
+#objectTools button {
+  width: 32.6%;
+  margin-right: 1%;
+}
+
+#objectTools li.last button {
+  margin-right: 0;
+}
+
+
+#objectsTree ul {
+list-style: none;
+padding: 0;
+margin: 0;
+}
+
+#objectsTree li {
+  padding: 0;
+  margin: 0;
+  clear: both;
+  display: block;
+}
+
+#objectsTree li .objectLiDiv {
+  min-height: 25px;
+  border-bottom: 1px solid
+  #fff;
+  background-color:
+  #bce0b2;
+}
+
+#objectForm .objectLiDiv:hover .objectPanelHref {
+  opacity: 1;
+}
+
+#objectForm .objectPanelHref {
+  margin: 4px 4px 0 0;
+  float: right;
+  opacity: .5;
+}
+
+ #objectForm .objectCheck {
+  float: left;
+  display: block;
+  width: 23px;
+  height: 20px;
+  text-align: right;
+  padding-top: 3px;
+}
+
+#objectsTree .groupBox {
+  float: left;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 25px;
+  border: none;
+  background-color:
+  transparent;
+  border-radius: 0;
+  display: inline;
+}
+
+.objectsTree .groupBoxOpen {
+  background-image: url("<%= asset_path 'leaf/content/open.gif' %>") ;
+}
+
+
+#objectsTree .objectHref {
+  display: block;
+  padding: 2px 3px 0 3px;
+}
+
+#objectsTree .objectHref a {
+  text-decoration: none;
+  margin: 0 1px;
+  color: #000;
+}
+
+#objectsTree .objectHref a img {
+  vertical-align: -20%;
+  margin-right: 4px;
+}
+
+
+
+
+.collapsableSection .toggleSection {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+}
+
+.globalFieldContainer .label_wrap {
+  margin: 0;
+  padding: 3px 0;
+  display: inline-block;
+  min-width: 80px;
+  text-align: right;
+}
+
+.objectNameContainer div {
+  margin: 4px 0 3px;
+  padding: 3px;
+}
+
+
+.globalFieldContainer .nameWrap, .globalFieldContainer .templateWrap, .globalFieldContainer .rewriteNameWrap, .globalFieldContainer .orderNoWrap, .globalFieldContainer .snapshotsWrap {
+  width: 400px;
+  float: left;
+}
+
+.globalFieldContainer .templateField {
+  border-bottom: none;
+}
+
+.objectNameContainer {
+  position: relative;
+}
+
+.body {
+  padding: 5px 5px 50px 5px;
+}
+
+.templateField, #objectEditForm li {
+  padding: 0 0 10px 0;
+  border-bottom: 1px dotted
+  #999;
+}
+
+#objectEditForm .globalFieldContainer label {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+#objectEditForm label {
+  display: block;
+  font-weight: bold;
+  margin: 4px 0 3px 0;
+  padding: 3px;
+  font-size: 100%;
+}
+
+.globalFieldContainer .rewriteNameWrap button {
+  margin-left: -28px;
+  vertical-align: -25%;
+  padding-right: 1px;
+}
+
+.globalFieldContainer .rewriteNameWrap input {
+  padding-right: 23px;
+  width: 230px;
+}
+
+.globalFieldContainer .visibleWrap {
+  margin-left: 84px;
+}
+
+#objectEditForm .visibleWrap {
+  margin-right: 60px;
+}
+
+#objectEditForm .sideLabel {
+  float: left;
+}
+
+.duplicateRewriteNameWarning {
+  display: none;
+  margin: 0 0 0 6px;
+  position: relative;
+  top: 3px;
+}
+

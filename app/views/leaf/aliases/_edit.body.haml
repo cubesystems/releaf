@@ -1,0 +1,50 @@
+.body.inset_box.no_shadow
+
+  -#TODO: improve style/html
+  -if @item.errors.any?
+    #error_explanation
+      %strong= "#{pluralize(@item.errors.count, "error")} prohibited this news from being saved:"
+      %ul
+        - @item.errors.full_messages.each do |msg|
+          %li= msg
+
+  .nested_wrap
+    %table.leaf_table.no_border.label_first_column.aliases.aliasesTable.list{:cellpadding => "0", :cellspacing => "0"}
+      %thead
+        %tr
+          %th.codeHeader Nosaukums
+          - Settings.i18n_locales.each do |locale|
+            %th.languageHeader{"data-locale" => locale}
+              %span.name= locale
+          %th.deleteHeader  
+      %tbody#variables.list
+        - @item.translations.each do |translation|
+          %tr.item{ :id => "translation_#{translation.id}" }
+            %td.translation_name.codeColumn
+              .wrap
+                %input{:type=>"hidden", :name=>"translations[#{translation.id}][id]",  :value=>"#{translation.id}"}/
+                %input{:type=>"text",   :name=>"translations[#{translation.id}][key]", :value=>"#{translation.plain_key}"}/
+            - Settings.i18n_locales.each do |locale|
+
+              %td.translationCell{"data-locale" => locale}
+                .wrap
+                  %input{:type=>"text", :name=>"translations[#{translation.id}][localization][#{locale}]", :value=>translation.locales[locale]}/
+            %td.delete_column
+              %span.remove= image_tag("leaf/icons/delete.png", :alt => "delete", :title => :delete)
+
+    %table{:style => "display:none;"}
+      %tbody
+        %tr.template.item{:id => "translation__template_" }
+          %td.translation_name.codeColumn
+            .wrap
+              %input{:type=>"text",   :name=>"translations[_template_][key]", :value=>""}/
+          - Settings.i18n_locales.each do |locale|
+            %td.translationCell{"data-locale" => locale}
+              .wrap
+                %input{:type=>"text", :name=>"translations[_template_][localization][#{locale}]", :value=>""}/
+          %td.delete_column
+            %span.remove= image_tag("leaf/icons/delete.png", :alt => "delete", :title => :delete)
+
+    %button.add.new(type='button')
+      = image_tag 'leaf/icons/add.png', :atl => ''
+      %span New

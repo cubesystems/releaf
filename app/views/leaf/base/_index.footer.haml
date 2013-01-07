@@ -1,0 +1,22 @@
+.footer.center
+  .padding
+    .stats
+      %span.total= @list.count \
+      =t("itemsFound")
+    %span.actions
+      -if @features[:create]
+        %a.button.create_new_item{:href => url_for(:controller => controller.controller_name, :action => "new")}
+          = image_tag("leaf/icons/add.png", :alt => "add") \
+          %span= t('create_new_item')
+      %span.button_group.list_action_switch
+        -if @features[:show]
+          %button{:type => "button", :title => "switchToShow", "data-action" => "show", :class => @controller.list_action == "show" ? "active" : ""}>
+            = image_tag("leaf/icons/eye.png", :alt => "switchToShow")
+        -if @features[:edit]
+          %button{:type => "button", :title => "switchToEdit", "data-action" => "edit", :class => @controller.list_action == "edit" ? "active" : ""}>
+            = image_tag("leaf/icons/pencil.png", :alt => "switchToEdit")
+        -if @features[:destroy]
+          %button{:type => "button", :title => "switchToDelete", "data-action" => "confirm_destroy", :class => @controller.list_action == "confirm_destroy" ? "active" : ""}
+            = image_tag("leaf/icons/bin_empty.png", :alt => "switchToDelete")
+    - if !@continuous_scroll
+      = will_paginate( @list, :class=> "button_group pagination", :link_separator => "", :renderer => "PaginationRenderer::LinkRenderer", :previous_label => "<", :next_label => ">", :outer_window => 0, :inner_window => 2 )

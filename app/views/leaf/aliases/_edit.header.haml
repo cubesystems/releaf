@@ -1,0 +1,19 @@
+.visibleLanguagesSwitch
+  %button{:type => "button"}
+    Redzamās valodas
+    =image_tag("leaf/expand_tool/close_hover_shim.png", :alt => "")
+  %ul.block
+    - Settings.i18n_locales.each do |locale|
+      %li
+        %label
+.header
+  .padding
+    .groupInfo
+      .field
+        %label{:for => "context"} Konteksts:
+        %input#context{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @item.scope}/
+    .aliasesTable.aliasesTableHead
+      .th.codeHeader{:style => "width: 208px; "}>< Nosaukums
+      - Settings.i18n_locales.each do |locale|
+        .th.languageHeader.languageId-1.languageCode-lv{"data-languagecode" => locale, "data-languageid" => "1", :style => "width: 300px; "}><
+          %span.name= locale
