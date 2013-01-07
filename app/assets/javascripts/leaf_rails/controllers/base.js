@@ -120,6 +120,24 @@ jQuery(function()
 
 
 
+    // initialize date/datetime/time pickers
+    jQuery(document.body).delegate('form', 'initcalendars', function() {
+        var forms = jQuery(this);
+        var options = {
+            timeFormat: 'HH:mm:ss',
+            controlType: 'select',
+            showHour: true,
+            showMinute: true,
+            showSecond: true,
+            showTimezone: true,
+            pickerTimeFormat: 'HH:mm:ss',
+            dateFormat:       'yy-mm-dd',
+        }
+        forms.find('.date_picker').datepicker(options);
+        forms.find('.datetime_picker').datetimepicker(options);
+        forms.find('.time_picker').timepicker(options);
+    });
 
+    jQuery('form').trigger('initcalendars');
 
 });

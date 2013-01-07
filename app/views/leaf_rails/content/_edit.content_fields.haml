@@ -5,7 +5,7 @@
   - @f = ff
   - @item = ff.object
 
-  - (ff.object.class.column_names - %w[id created_at updated_at]).each do |name|
+  - (ff.object.class.column_names - %w[id created_at]).each do |name|
     - if @controller.has_template( "_edit.field.#{name}" )
       = render "edit.field.#{name}", :name => name
     - else

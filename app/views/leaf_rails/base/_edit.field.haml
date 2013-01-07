@@ -20,6 +20,8 @@
     input_type = 'file'
   when /password/
     input_type = 'password'
+  when /_link$/
+    input_type = 'link'
   else
     column_type = @item.class.columns_hash[ name ].try(:type) || :string
     case column_type
@@ -31,6 +33,12 @@
       else
         input_type = 'textarea'
       end
+    when :datetime
+      input_type = 'datetime'
+    when :date
+      input_type = 'date'
+    when :time
+      input_type = 'time'
     end
   end
 

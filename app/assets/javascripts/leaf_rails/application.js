@@ -6,6 +6,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require tinymce-jquery
 //= require_tree ./include
-//= require ./controllers/base.js
+//= require ./3rd_party/jquery-ui-timepicker-addon
+//= require ./controllers/base

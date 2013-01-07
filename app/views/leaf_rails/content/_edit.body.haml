@@ -43,19 +43,19 @@
   - if @item.content_object
     = render 'edit.content_fields'
 
-  -# TODO cleanup this shit
-  - if @controller_properties && !@controller_properties.empty?
-    - @controller_properties.each do |name, conf|
-      - value = (@item.data && @item.data[name] ? @item.data[name].to_s : '')
-      %div
-        =label_tag name
-      %div
-        - if conf[:type] == :textarea
-          =text_area_tag "node[data][#{name}]", value
-        - elsif conf[:type] == :richtext
-          =text_area_tag "node[data][#{name}]", value, :class => "tinymce", :rows => 20, :cols => 60
-          - tiny_mce = true
-        - else
-          =text_field_tag "node[data][#{name}]", value
-  - if tiny_mce
-    = tinymce
+  -# -# TODO cleanup this shit
+  -# - if @controller_properties && !@controller_properties.empty?
+  -#   - @controller_properties.each do |name, conf|
+  -#     - value = (@item.data && @item.data[name] ? @item.data[name].to_s : '')
+  -#     %div
+  -#       =label_tag name
+  -#     %div
+  -#       - if conf[:type] == :textarea
+  -#         =text_area_tag "node[data][#{name}]", value
+  -#       - elsif conf[:type] == :richtext
+  -#         =text_area_tag "node[data][#{name}]", value, :class => "tinymce", :rows => 20, :cols => 60
+  -#         - tiny_mce = true
+  -#       - else
+  -#         =text_field_tag "node[data][#{name}]", value
+  -# - if tiny_mce
+  -#   = tinymce
