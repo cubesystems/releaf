@@ -19,10 +19,10 @@ module LeafRails
     end
 
     def create
-      content_class = _node_params[:content_class].constantize
-      authorize! :create, content_class
+      content_type = _node_params[:content_type].constantize
+      authorize! :create, content_type
       @item = current_object_class.new(_node_params)
-      content_object = content_class.create!(:text => "--")
+      content_object = content_type.create!(:text => "--")
       @item.content_id = content_object.id
 
       respond_to do |format|
@@ -150,12 +150,13 @@ module LeafRails
     protected
 
     def _node_params
-      allowed_params = [:parent_id, :name, :content_class, :slug, :position, :data]
+      allowed_params = [:parent_id, :name, :content_type, :slug, :position, :data, :visible, :protected, :content_attributes]
 
-      if @item && @item.content_object
-        allowed_params.push({object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"]})
-      end
+      # if @item && @item.content_object
+      #   allowed_params.push({object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"]})
+      # end
 
+      # params.require(current_object_class_name).permit(*allowed_params)
       params.require(current_object_class_name).permit(*allowed_params)
     end
 

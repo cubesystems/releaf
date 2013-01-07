@@ -6,7 +6,7 @@ class CreateLeafRailsNodes < ActiveRecord::Migration
       t.integer  "parent_id"
       t.integer  "lft"
       t.integer  "rgt"
-      t.string   "content_class"
+      t.string   "content_type"
       t.integer  "content_id"
       t.text     "data"
       t.datetime "created_at",      :null => false
@@ -17,7 +17,7 @@ class CreateLeafRailsNodes < ActiveRecord::Migration
       t.boolean  'protected',       :null => false, :default => false
     end
     add_index :leaf_rails_nodes, :parent_id
-    add_index :leaf_rails_nodes, [:content_class, :content_id]
+    add_index :leaf_rails_nodes, [:content_type, :content_id]
     add_index :leaf_rails_nodes, :lft
     add_index :leaf_rails_nodes, :rgt
     add_index :leaf_rails_nodes, :slug

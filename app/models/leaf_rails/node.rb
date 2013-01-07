@@ -7,13 +7,17 @@ module LeafRails
     serialize :data, Hash
     default_scope :order => 'position'
 
-    attr_accessible :name, :parent_id, :slug, :position, :data, :content_class, :content_string
-
     alias_attribute :to_text, :name
+
+    belongs_to :content, :polymorphic => true
+    accepts_nested_attributes_for :content
+
+    # FIXME get rid of attr_accessible
+    attr_accessible :name, :parent_id, :slug, :position, :data, :content_type, :content_attributes, :content_string, :visible, :protected
 
     def content_object
       if id && content_id
-        @content_object = content_class.classify.constantize.find(content_id)
+        @content_object = content_type.classify.constantize.find(content_id)
       end
     end
 
@@ -30,17 +34,17 @@ module LeafRails
     def controller
       controller_class = nil
 
-      if  (content_class =~ /Controller$/i) != nil
-        controller_class = content_class.constantize
+      if  (content_type =~ /Controller$/i) != nil
+        controller_class = content_type.constantize
       elsif content_object
-        controller_class = content_class.constantize::PUBLIC_CONTROLLER.constantize
+        controller_class = content_type.constantize::PUBLIC_CONTROLLER.constantize
       end
 
       controller_class
     end
 
     def is_controller_node
-      if  (content_class =~ /Controller$/i) != nil && content_class.constantize < LeafController
+      if  (content_type =~ /Controller$/i) != nil && content_type.constantize < LeafController
         return true
       else
         return false
@@ -96,7 +100,7 @@ module LeafRails
           parent_item = tree[parent_path]
           if parent_item && parent_item[:node]
             parent_id = parent_item[:node].id
-            n = Node.where(:parent_id => parent_id, :content_class => item[:controller].to_s, :content_string => content_string ).first
+            n = Node.where(:parent_id => parent_id, :content_type => item[:controller].to_s, :content_string => content_string ).first
             if !n
               create = true
             end
@@ -104,7 +108,7 @@ module LeafRails
         end
 
         if create
-          n = Node.create!(:name => slug, :content_class => item[:controller].to_s, :content_string => content_string, :parent_id => parent_id, :slug => slug)
+          n = Node.create!(:name => slug, :content_type => item[:controller].to_s, :content_string => content_string, :parent_id => parent_id, :slug => slug)
         end
 
         item[:node] = n
