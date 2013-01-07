@@ -41,9 +41,9 @@
 
   - tiny_mce = false
   - if @item.content_object
-    -# %textarea#text{:name => "leaf_rails_node[object_data][text]", :type => "text"}= @item.content_object.text
-    = @f.fields_for :content, @item.content do |ff|
-      = ff.text_area :text
+    = render 'edit.content_fields'
+
+  -# TODO cleanup this shit
   - if @controller_properties && !@controller_properties.empty?
     - @controller_properties.each do |name, conf|
       - value = (@item.data && @item.data[name] ? @item.data[name].to_s : '')

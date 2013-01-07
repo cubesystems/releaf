@@ -1,7 +1,6 @@
 :ruby
-  column_type = @item.class.columns_hash[ name ].try(:type)
-  input_type = @controller.input_type_for( column_type, name )
   collection = nil
+  input_type = 'text'
 
   case name
   when /_id$/
@@ -21,6 +20,18 @@
     input_type = 'file'
   when /password/
     input_type = 'password'
+  else
+    column_type = @item.class.columns_hash[ name ].try(:type) || :string
+    case column_type
+    when :boolean
+      input_type = 'checkbox'
+    when :text
+      if name.end_with?( '_html' )
+        input_type = 'richtext'
+      else
+        input_type = 'textarea'
+      end
+    end
   end
 
 
