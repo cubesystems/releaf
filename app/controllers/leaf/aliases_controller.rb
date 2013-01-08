@@ -18,7 +18,7 @@ module Leaf
     end
 
     def columns( view = nil )
-      return super + Settings.i18n_locales
+      return super + (Settings.i18n_locales || [])
     end
 
     def index
@@ -43,6 +43,7 @@ module Leaf
       respond_to do |format|
         if @item.save
           update_translations
+          Settings.i18n_updated_at = Time.now
           format.html { redirect_to url_for(:action => "edit", :id => @item.id) }
         else
           format.html { render :action => "new" }
@@ -60,6 +61,7 @@ module Leaf
       else
         @item.translations.destroy_all
       end
+      Settings.i18n_updated_at = Time.now
 
 
       respond_to do |format|
@@ -95,7 +97,7 @@ module Leaf
         ids_to_keep.push  id
 
 
-        Settings.i18n_locales.each do |locale|
+        (Settings.i18n_locales || []).each do |locale|
           translation_data = TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
           unless t['localization'][locale].blank?
             translation_data.localization = t['localization'][locale]
