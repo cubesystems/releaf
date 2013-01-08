@@ -53,7 +53,7 @@ module Leaf
       # authorize! :manage, Translation
       @item = current_object_class.find(params[:id])
 
-      if params[:translations]
+      unless params[:translations].blank?
         ids_to_keep = [];
         params[:translations].each_pair do |id,t|
           next if t['key'].blank?
