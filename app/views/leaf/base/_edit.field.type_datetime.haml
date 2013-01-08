@@ -1,4 +1,6 @@
 .field.type_datetime{ 'data-name' => name }
-  .label_wrap><= @f.label name, name.humanize + ':'
-  .value><= @f.text_field name, :class => 'datetime_picker'
+  .label_wrap><
+    = @f.label name, name.humanize + ':'
+    .description= I18n.t("field.Format %{_format}",  :default => "Format: %{_format}", :_format => I18n.t("format.input.datetime", :default => 'yyyy-mm-dd hh:mm:ss'))
+  .value><= @f.text_field name, :class => 'datetime_picker', :data => {:date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'), :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss') }
   .clear

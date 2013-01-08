@@ -1,4 +1,6 @@
 .field.type_time{ 'data-name' => name }
-  .label_wrap><= @f.label name, name.humanize + ':'
-  .value><= @f.text_field name, :class => 'time_picker'
+  .label_wrap><
+    = @f.label name, name.humanize + ':'
+    .description= I18n.t("field.Format %{_format}", :default => 'Format %{_format}', :_format => I18n.t("format.input.time", :default => 'hh:mm') )
+  .value><= @f.text_field name, :class => 'time_picker', :format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm')
   .clear
