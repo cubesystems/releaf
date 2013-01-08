@@ -38,13 +38,14 @@ module Leaf
 
     def create
       # authorize! :manage, Translation
-      @item = current_object_class.new(params[current_object_class_name])
+      @item = current_object_class.new(item_params)
 
       respond_to do |format|
         if @item.save
+          update_translations
           format.html { redirect_to url_for(:action => "edit", :id => @item.id) }
         else
-          format.html { render action => "new" }
+          format.html { render :action => "new" }
         end
       end
     end
@@ -54,40 +55,7 @@ module Leaf
       @item = current_object_class.find(params[:id])
 
       unless params[:translations].blank?
-        ids_to_keep = [];
-        params[:translations].each_pair do |id,t|
-          next if t['key'].blank?
-
-          translation = nil
-          if id =~ /\A\d+\z/
-            translation = Translation.find(id)
-          else
-            translation = @item.translations.new
-          end
-
-          translation.key = params[:translation_group][:scope] + '.' + t['key']
-          translation.save
-
-
-          unless id =~ /\A\d+\z/
-            id = translation.id
-          end
-
-          ids_to_keep.push  id
-
-
-          Settings.i18n_locales.each do |locale|
-            translation_data = TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
-            unless t['localization'][locale].blank?
-              translation_data.localization = t['localization'][locale]
-              translation_data.save
-            else
-              translation_data.destroy
-            end
-          end
-        end
-
-
+        ids_to_keep = update_translations
         @item.translations.where('id NOT IN (?)', ids_to_keep).destroy_all
       else
         @item.translations.destroy_all
@@ -101,6 +69,44 @@ module Leaf
 
 
     private
+
+    def update_translations
+      return [] if params[:translations].blank?
+
+      ids_to_keep = [];
+      params[:translations].each_pair do |id,t|
+        next if t['key'].blank?
+
+        translation = nil
+        if id =~ /\A\d+\z/
+          translation = Translation.find(id)
+        else
+          translation = @item.translations.new
+        end
+
+        translation.key = params[:translation_group][:scope] + '.' + t['key']
+        translation.save
+
+
+        unless id =~ /\A\d+\z/
+          id = translation.id
+        end
+
+        ids_to_keep.push  id
+
+
+        Settings.i18n_locales.each do |locale|
+          translation_data = TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
+          unless t['localization'][locale].blank?
+            translation_data.localization = t['localization'][locale]
+            translation_data.save
+          else
+            translation_data.destroy
+          end
+        end
+      end
+      return ids_to_keep
+    end
 
     def item_params
       params.require(current_object_class_name).permit(:scope)
