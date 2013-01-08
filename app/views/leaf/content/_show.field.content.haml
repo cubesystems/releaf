@@ -1,0 +1,11 @@
+- old_item = @item
+
+- @item = @item.content
+
+- (@item.class.column_names - %w[id created_at]).each do |name|
+  - if @controller.has_template( "_show.field.#{name}" )
+    = render "show.field.#{name}", :name => name
+  - else
+    = render 'show.field', :name => name
+
+- @item = old_item

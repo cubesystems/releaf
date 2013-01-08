@@ -1,6 +1,14 @@
 module Leaf
   class ContentController < BaseController
 
+    def columns( view = nil )
+      if view == 'show'
+        return %w[name parent_id visible protected content]
+      else
+        return super
+      end
+    end
+
     def build_secondary_panel_variables
       @nodes = Node.roots
       super

@@ -1,32 +1,78 @@
-.field.no_label_wrap_padding
-  .label_wrap
-    .label= name.sub(/_uid$/, '').humanize + ':'
-  .value
-    - if @item.class.columns_hash[ name ].type == :text && name.end_with?('_html')
-      = @item[name].html_safe
+- value = @item.send(name)
+- unless value.blank?
 
-    - elsif @item.class.columns_hash[ name ].type == :string && name =~ /(image|photo|picture|avatar|logo)_uid$/
-      - field_name = name.sub(/_uid$/, '')
-      - unless @item.send(name).blank?
-        - case field_name
-        - when /avatar$/
-          = image_tag @item.send(field_name).thumb('64x64').url
+  .field.no_label_wrap_padding
+    .label_wrap
+      .label= name.sub(/_uid$/, '').humanize + ':'
+    .value
+
+      - case name
+      - when /_id$/
+        - m = name.sub(/_id$/, '').to_sym
+        - if @item.class.respond_to?(:reflect_on_association) && @item.class.reflect_on_association(m)
+          = @item.send(m).to_text
         - else
-          = link_to image_tag(@item.send(field_name).thumb('x128').url), @item.send(field_name).url
+          = @item.send(name)
 
-    - elsif @item.class.columns_hash[ name ].type == :string && name =~ /email$/
-      = mail_to @item.send(name)
+      - when /(image|photo|picture|avatar|logo)_uid$/
+        -# FIXME should check if it's a dragonfly field
+        - m = name.sub(/_uid$/, '')
+        - case m
+        - when /avatar$/
+          = image_tag @item.send(m).thumb('64x64').url
+        - else
+          = link_to image_tag(@item.send(m).thumb('x128').url), @item.send(m).url
 
-    - else
-      :ruby
-        text = @item.send(name)
-        if @item.class.respond_to?(:reflect_on_association)
-          [name, name.sub(/_id$/, '')].each do |m|
-            if @item.class.reflect_on_association(m.to_sym)
-              text = @item.send(m).try(:to_text) || @item.send(m).to_s
-              break
-            end
-          end
-        end
-      = text
-  .clear
+      - when /_uid$/
+        -# FIXME should check if it's a dragonfly field
+        = link_to I18n.t("global.Download"), @item.send(name.sub(/_uid$/, '')).url
+
+      - when /password/
+        = I18n.t("common.Filtered")
+
+      - when /_link$/
+        - if value =~ /\a\d+\Z/
+          - target = Node.find_by_id(value)
+          - if target
+            = link_to target.to_text, url_for(:action => :show, :id => value)
+          - else
+            = I18n.t("common.Not found")
+        - else
+          = link_to value, value
+
+      - when /_email$/, 'email'
+        = mail_to value, value
+
+      - when /_homepage$/, 'homepage'
+        = link_to value, value
+
+
+
+      - else
+        - column_type = @item.class.columns_hash[ name ].try(:type) || :string
+        - case column_type
+        - when :boolean
+          = @item.send("#{name}?") ? I18n.t("common.true") : I18n.t("common.false")
+        - when :text
+          - if name.end_with?( '_html' )
+            - field_type = 'richtext'
+            .raw_html= raw value
+          - else
+            = value
+        - when :datetime
+          -# FIXME
+          -# = I18n.l(value, :format => 'datetime_picker')
+          = value
+        - when :date
+          -# FIXME
+          -# = I18n.l(value, :format => 'date_picker')
+          = value
+        - when :time
+          -# FIXME
+          -# = I18n.l(value, :format => 'time_picker')
+          = value
+
+        - else
+          = value
+
+    .clear
