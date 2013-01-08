@@ -30,9 +30,9 @@
       - when /password/
         = I18n.t("common.Filtered")
 
-      - when /_link$/
-        - if value =~ /\a\d+\Z/
-          - target = Node.find_by_id(value)
+      - when /_link$/, 'link'
+        - if value =~ /\A\d+\z/
+          - target = Leaf::Node.find_by_id(value)
           - if target
             = link_to target.to_text, url_for(:action => :show, :id => value)
           - else
