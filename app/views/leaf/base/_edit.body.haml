@@ -1,14 +1,14 @@
 .body.inset_box
   .section
     -#TODO: improve style/html
-    -if @item.errors.any?
+    -if f.object.errors.any?
       #error_explanation
-        %strong= "#{pluralize(@item.errors.count, "error")} prohibited this news from being saved:"
+        %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"
         %ul
-          - @item.errors.full_messages.each do |msg|
+          - f.objects.errors.full_messages.each do |msg|
             %li= msg
     - @controller.columns( 'edit' ).each do |name|
       - if @controller.has_template( "_edit.field.#{name}" )
-        = render "edit.field.#{name}", :name => name
+        = render "edit.field.#{name}", :name => name, :f => f
       - else
-        = render 'edit.field', :name => name
+        = render 'edit.field', :name => name, :f => f

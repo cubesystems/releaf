@@ -1,9 +1,11 @@
 :ruby
   select_params = [name, select_options]
-  select_params.push options if defined? options
+  if defined? options
+    select_params.push options
+  end
   select_params.push html_options if defined? html_options
 
 .field.type_select{ 'data-name' => name }
-  .label_wrap><= @f.label name, name.humanize + ':'
-  .value><= @f.select *select_params
+  .label_wrap><= f.label name, name.humanize + ':'
+  .value><= f.select *select_params
   .clear

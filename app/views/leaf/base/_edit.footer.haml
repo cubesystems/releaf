@@ -8,7 +8,7 @@
       = image_tag("leaf/icons/disk.png", :alt => "") \
       = t('save')
   .block.right_block
-    - if !@item.new_record?
-      %a.button{ :href => url_for( :action => 'confirm_destroy', :id => @item.id ) }
+    - if !f.object.new_record?
+      %a.button{ :href => url_for( :action => 'confirm_destroy', :id => f.object.id ) }
         = image_tag('leaf/icons/bin_empty.png', :alt => '')
         %span= t('destroy')

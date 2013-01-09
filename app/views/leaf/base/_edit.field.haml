@@ -4,12 +4,12 @@
 
   case name
   when /_id$/
-    if @item.class.respond_to?(:reflect_on_association)
-      if name =~ /_id\z/ && @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
-        collection = @item.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
+    if f.object.class.respond_to?(:reflect_on_association)
+      if name =~ /_id\z/ && f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
+        collection = f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
       end
 
-      collection = @item.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
+      collection = f.object.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
       input_type = 'select' unless collection.nil?
     end
   when /(image|photo|picture|avatar|logo)_uid$/
@@ -23,7 +23,7 @@
   when /_link$/
     input_type = 'link'
   else
-    column_type = @item.class.columns_hash[ name ].try(:type) || :string
+    column_type = f.object.class.columns_hash[ name ].try(:type) || :string
     case column_type
     when :boolean
       input_type = 'checkbox'
@@ -50,11 +50,11 @@
     include_blank = nil unless include_blank
 
     if include_blank.nil?
-      if @item.send(name).nil?
+      if f.object.send(name).nil?
         include_blank = true
       else
         include_blank = true
-        @item.class.validators_on(name).each do |validator|
+        f.object.class.validators_on(name).each do |validator|
           if validator.is_a? ActiveModel::Validations::PresenceValidator
             include_blank = false
             break
@@ -63,9 +63,9 @@
       end
     end
 
-  = render "edit.field.type_select", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, @item.send(name) ), :options => { :include_blank => include_blank }
+  = render "edit.field.type_select", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, f.object.send(name) ), :options => { :include_blank => include_blank }, :f => f
 - elsif @controller.has_template( "_edit.field.type_#{input_type}" )
-  = render "edit.field.type_#{input_type}", :name => name
+  = render "edit.field.type_#{input_type}", :name => name, :f => f
 - else
   - input_type = @controller.input_type_for( 'string', name )
-  = render "edit.field.type_#{input_type}", :name => name
+  = render "edit.field.type_#{input_type}", :name => name, :f => f

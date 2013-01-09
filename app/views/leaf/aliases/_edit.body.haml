@@ -1,11 +1,11 @@
 .body.inset_box.no_shadow
 
   -#TODO: improve style/html
-  -if @item.errors.any?
+  -if f.object.errors.any?
     #error_explanation
-      %strong= "#{pluralize(@item.errors.count, "error")} prohibited this news from being saved:"
+      %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"
       %ul
-        - @item.errors.full_messages.each do |msg|
+        - f.object.errors.full_messages.each do |msg|
           %li= msg
 
   .nested_wrap
@@ -18,7 +18,7 @@
               %span.name= locale
           %th.deleteHeader  
       %tbody#variables.list
-        - @item.translations.each do |translation|
+        - f.object.translations.each do |translation|
           %tr.item{ :id => "translation_#{translation.id}" }
             %td.translation_name.codeColumn
               .wrap
