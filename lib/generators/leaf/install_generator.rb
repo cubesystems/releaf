@@ -19,9 +19,15 @@ module Leaf
         template 'initializers/store_current_template.rb', 'config/initializers/store_current_template.rb'
       end
 
-
       def install_migrations
         migration_template 'migrations/create_leaf_nodes.rb', 'db/migrate/create_leaf_nodes.rb'
+        migration_template 'migrations/create_settings.rb', 'db/migrate/create_settings.rb'
+      end
+
+      def install_models
+        %w[settings].each do |model|
+          template "models/#{model}.rb", "app/models/#{model}.rb"
+        end
       end
     end
   end
