@@ -9,6 +9,7 @@ module ActionDispatch::Routing
 
           resources :nodes, :controller => "content", :path => "content" do
             get :confirm_destroy, :on => :member
+            get :get_content_form, :on => :member
           end
 
           resources :translation_groups, :controller => "aliases", :path => "aliases" do

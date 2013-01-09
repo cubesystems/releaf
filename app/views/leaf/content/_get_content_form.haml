@@ -1,0 +1,8 @@
+= fields_for "#{@controller.current_object_class_name}[content_attributes]", @item do |ff|
+  - @f = ff
+
+  - (@item.class.column_names - %w[id created_at updated_at]).each do |name|
+    - if @controller.has_template( "_edit.field.#{name}" )
+      = render "edit.field.#{name}", :name => name
+    - else
+      = render 'edit.field', :name => name

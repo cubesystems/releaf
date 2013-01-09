@@ -30,13 +30,13 @@ module Leaf
       content_type = _node_params[:content_type].constantize
       authorize! :create, content_type
       @item = current_object_class.new(_node_params)
-      content_object = content_type.create!(:text => "--")
-      @item.content_id = content_object.id
 
       respond_to do |format|
         if @item.save
           format.html { redirect_to url_for(:action => "index")}
         else
+          form_extras
+          @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
           format.html { render action: "new" }
         end
       end
@@ -46,6 +46,8 @@ module Leaf
       @item = current_object_class.find(params[:id])
       authorize! :edit, @item
 
+      form_extras
+      @order_nodes = Node.where(:parent_id => (@item.parent_id ? @item.parent_id : nil)).where('id != :id', :id => params[:id])
       respond_to do |format|
         if @item.update_attributes(_node_params)
           format.html { redirect_to url_for(:action => "edit") }
@@ -65,8 +67,7 @@ module Leaf
 
     def edit
       super
-      @order_nodes = Node.where(:parent_id => (@item.parent_id ? @item.parent_id : nil)).
-        where('id != :id', :id => params[:id])
+      @order_nodes = Node.where(:parent_id => (@item.parent_id ? @item.parent_id : nil)).where('id != :id', :id => params[:id])
 
       if @item.higher_item
         @position = @item.higher_item.position
@@ -77,18 +78,20 @@ module Leaf
       form_extras
     end
 
-    def form_extras
+    def get_content_form
       Rails.application.eager_load!
-      @base_models = NodeBase.subclasses
+      raise ArgumentError unless NodeBase.node_classes.map { |nc| nc.name }.include? params[:content_type]
+      @node = current_object_class.find(params[:id])
+      authorize! :edit, @item
 
-      if @item.is_controller_node
-        @controller_properties = @item.controller::DEF
+      @item = params[:content_type].constantize.new
+
+      respond_to do |format|
+        format.html { render :partial => 'get_content_form', :layout => false }
       end
 
-      #if @item.id && @item.content_id
-        #@content_object = @item.content_object
-      #end
     end
+
 
     #def base_controllers
       #controllers = []
@@ -158,7 +161,7 @@ module Leaf
     protected
 
     def _node_params
-      allowed_params = [:parent_id, :name, :content_type, :slug, :position, :data, :visible, :protected, :content_attributes]
+      allowed_params = [:parent_id, :name, :content_type, :slug, :position, :data, :visible, :protected, :content_object_attributes]
 
       # if @item && @item.content_object
       #   allowed_params.push({object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"]})
@@ -170,9 +173,24 @@ module Leaf
 
     private
 
+    def form_extras
+      Rails.application.eager_load!
+      @base_models = NodeBase.node_classes
+
+      if @item.is_controller_node
+        @controller_properties = @item.controller::DEF
+      end
+
+      new_content_if_needed
+    end
+
     def node_params(action)
       # make sure none of actions, that are defined by BaseController can update item
       []
+    end
+
+    def new_content_if_needed
+      @item.content = @item.content_type.constantize.new if @base_models.map { |bm| bm.name }.include? @item.content_type
     end
 
   end

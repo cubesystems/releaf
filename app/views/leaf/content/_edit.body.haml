@@ -10,7 +10,7 @@
       .label_wrap
         = @f.label :template, 'Veids:', :title => @item.content_type
       .value
-        = @f.select :content_type, options_for_select(@item.is_controller_node ? [@item.content_type] : @base_models.map { |m| m.name }), {}, :title => @item.content_type, :disabled => @item.is_controller_node
+        = @f.select :content_type, options_for_select(@item.is_controller_node ? [@item.content_type] : @base_models.map { |m| m.name }, @f.object.content_type || params[:content_type]), {:include_blank => @f.object.new_record?}, {:title => @item.content_type, :disabled => @item.is_controller_node }
     .clear
 
 
@@ -39,23 +39,9 @@
       = image_tag("leaf/icons/129.png", :alt => "Parādīt pilnu sadaļu")
     .clear.persistent
 
-  - tiny_mce = false
-  - if @item.content_object
-    = render 'edit.content_fields'
-
-  -# -# TODO cleanup this shit
-  -# - if @controller_properties && !@controller_properties.empty?
-  -#   - @controller_properties.each do |name, conf|
-  -#     - value = (@item.data && @item.data[name] ? @item.data[name].to_s : '')
-  -#     %div
-  -#       =label_tag name
-  -#     %div
-  -#       - if conf[:type] == :textarea
-  -#         =text_area_tag "node[data][#{name}]", value
-  -#       - elsif conf[:type] == :richtext
-  -#         =text_area_tag "node[data][#{name}]", value, :class => "tinymce", :rows => 20, :cols => 60
-  -#         - tiny_mce = true
-  -#       - else
-  -#         =text_field_tag "node[data][#{name}]", value
-  -# - if tiny_mce
-  -#   = tinymce
+  - if @item.content
+    - custom_template_name = "edit.#{@item.content_type.downcase.tr('/', '_')}.content_fields"
+    - if @controller.has_template( '_' + custom_template_name )
+      = render custom_template_name
+    - else
+      = render 'edit.content_fields'

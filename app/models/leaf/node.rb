@@ -13,11 +13,21 @@ module Leaf
     accepts_nested_attributes_for :content
 
     # FIXME get rid of attr_accessible
-    attr_accessible :name, :parent_id, :slug, :position, :data, :content_type, :content_attributes, :content_string, :visible, :protected
+    attr_accessible :name, :parent_id, :slug, :position, :data, :content_type, :content_attributes, :content_string, :visible, :protected, :content_object_attributes
 
     def content_object
-      if id && content_id
-        @content_object = content_type.classify.constantize.find(content_id)
+      self.content
+    end
+
+    def content_object_attributes=(new_attr)
+      if self.content
+        self.content.update_attributes(new_attr)
+      else
+        nc = new_content(new_attr)
+        nc.save
+
+        self.content = nc
+        self.update_attribute(:content_id => nc.id)
       end
     end
 
@@ -154,6 +164,13 @@ module Leaf
 
     def to_s
       name
+    end
+
+    private
+
+    def new_content(attr)
+      raise RuntimeError, 'content_type must be set' unless content_type
+      self.content_type.constantize.new(attr)
     end
 
   end
