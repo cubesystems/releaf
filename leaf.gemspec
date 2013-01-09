@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Admin interface for RubyOnRails projects inspired by Leaf CMS"
   s.authors     = ["CubeSystems"]
   s.email       = 'info@cubesystems.lv'
-  s.homepage    = 'https://git.cubesystems.lv/leaf'
+  s.homepage    = 'https://github.com/cubesystems/leaf'
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
