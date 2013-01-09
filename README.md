@@ -8,15 +8,15 @@ Leaf will work with Rails 3.2.
 You can add it to your Gemfile with:
 ```ruby
 gem 'i18n-leaf', :git => 'git@github.com:cubesystems/i18n-leaf.git'
-gem 'leaf', :git => 'git@git.cubesystems.lv:leaf_rails.git'
+gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
 ```
 
 Run the bundle command to install it.
 
 After you install Leaf, you need to run the generator:
 ```console
-rails generate i18n:leaf:install
 rails generate leaf:install
+rails generate i18n:leaf:install
 rake db:migrate
 ```
 
