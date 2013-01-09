@@ -1,0 +1,49 @@
+.aody.inset_box
+  .section
+    -#TODO: improve style/html
+    -if @item.errors.any?
+      #error_explanation
+        %strong= "#{pluralize(@item.errors.count, "error")} prohibited this news from being saved:"
+        %ul
+          - @item.errors.full_messages.each do |msg|
+            %li= msg
+    - @controller.columns( 'edit' ).each do |name|
+      - if @controller.has_template( "_edit.field.#{name}" )
+        = render "edit.field.#{name}", :name => name
+      - else
+        = render 'edit.field', :name => name
+
+    .nested_wrap
+      .list
+        - @item.banner_assets.each_with_index do |banner_asset,i|
+          - old_f, old_item = @f, @item
+          = @f.fields_for :banner_assets, banner_asset, :child_index => i do |ff|
+            - @f, @item = ff, banner_asset
+            .item
+              = ff.hidden_field :id
+              = render "edit.field.type_file", :name => 'asset_uid'
+
+              .field
+                = ff.hidden_field :_destroy, :class => :destroy
+                %span.remove= image_tag("leaf/icons/delete.png", :alt => "delete", :title => :delete)
+
+          - @f, @item = old_f, old_item
+
+
+
+      - old_f, old_item = @f, @item
+      .template.item{:style => 'display:none;'}
+        = @f.fields_for :banner_assets, old_item.banner_assets.new, :child_index => '_template_' do |ff|
+          - @f, @item = ff, ff.object
+          = render "edit.field.type_file", :name => 'asset_uid'
+
+          .field
+            %span.remove= image_tag("leaf/icons/delete.png", :alt => "delete", :title => :delete)
+          - @f, @item = old_f, old_item
+
+
+
+
+      %button.add.new(type='button')
+        = image_tag 'leaf/icons/add.png', :atl => ''
+        %span New

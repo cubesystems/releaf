@@ -190,6 +190,7 @@ module Leaf
     end
 
     def new_content_if_needed
+      return if @item.content
       @item.content = @item.content_type.constantize.new if @base_models.map { |bm| bm.name }.include? @item.content_type
     end
 

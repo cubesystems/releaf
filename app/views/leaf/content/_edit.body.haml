@@ -40,8 +40,5 @@
     .clear.persistent
 
   - if @item.content
-    - custom_template_name = "edit.#{@item.content_type.downcase.tr('/', '_')}.content_fields"
-    - if @controller.has_template( '_' + custom_template_name )
-      = render custom_template_name
-    - else
-      = render 'edit.content_fields'
+    = render 'edit.content_fields'
+

@@ -1,15 +1,61 @@
 - old_f = @f
 - old_item = @item
 
+%br
 = @f.fields_for :content_object, @item.content_object do |ff|
   - @f = ff
   - @item = ff.object
 
-  - (ff.object.class.column_names - %w[id created_at updated_at]).each do |name|
+  - (@f.object.class.column_names - %w[id created_at updated_at]).each do |name|
     - if @controller.has_template( "_edit.field.#{name}" )
       = render "edit.field.#{name}", :name => name
     - else
       = render 'edit.field', :name => name
+
+
+  - @f.object.class.reflect_on_all_associations.each do |asoc|
+    - case asoc.macro
+    - when :has_many
+      - xold_f, xold_item = @f, @item
+
+      -# TODO remove code duplication
+      .nested_wrap
+        .list
+          - @item.send(asoc.name).each_with_index do |asoc_obj,i|
+            .item
+              = @f.fields_for asoc.name, asoc_obj, :child_index => i do |ff|
+                - @f, @item = ff, asoc_obj
+                - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
+                  = render 'edit.field', :name => field_name
+                .field
+                  = @f.hidden_field :_destroy, :class => :destroy
+                  %span.remove= image_tag("leaf/icons/delete.png", :alt => "delete", :title => :delete)
+
+              - @f, @item = xold_f, xold_item
+
+        .template.item{:style => 'display:none;'}
+          - asoc_obj = asoc.klass.new
+          = @f.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |ff|
+            - @f, @item = ff, asoc_obj
+            - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
+              = render 'edit.field', :name => field_name
+            .field
+              %span.remove= image_tag("leaf/icons/delete.png", :alt => "delete", :title => :delete)
+
+        %button.add.new(type='button')
+          = image_tag 'leaf/icons/add.png', :atl => ''
+          %span New
+
+
+      - @f, @item = xold_f, xold_item
+
+
+
+
+
+      -# - when :belongs_to
+      -#   = @f.fields_for asoc.name, @item.send(asoc.name) do |ff|
+      -#     -# = render 'edit.association.belongs_to'
 
 - @f = old_f
 - @item = old_item
