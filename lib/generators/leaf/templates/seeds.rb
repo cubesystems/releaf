@@ -30,19 +30,19 @@ end
 puts "Creating admins"
 admins = {
   admin: {
-    name: 'admin',
-    surname: 'admin',
+    name: 'Admin',
+    surname: 'User',
     password: 'password',
     password_confirmation: 'password',
-    email: 'example@example.com',
+    email: 'admin@example.com',
     role_id: roles[:admins][:id],
   },
   janis: {
-    name: 'Jānis',
-    surname: 'Ozoliņš',
+    name: 'Simple',
+    surname: 'User',
     password: 'LetMeIn',
     password_confirmation: 'LetMeIn',
-    email: 'janis@example.com',
+    email: 'user@example.com',
     role_id: roles[:default][:id]
   }
 }
@@ -55,8 +55,8 @@ end
 # Settings {{{
 
 puts "Creating settings"
-Settings.i18n_locales  = %w[lv en ru]
-Settings.email_from = "do_not_reply@siltumtehnika.cubesystems.lv"
+Settings.i18n_locales  = %w[en]
+Settings.email_from = "do_not_reply@example.com"
 
 # }}}
 
