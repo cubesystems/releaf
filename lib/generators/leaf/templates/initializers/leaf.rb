@@ -1,3 +1,16 @@
+Leaf.setup do |conf|
+
+  # setup main menu
+  conf.main_menu = [
+    'leaf/content',
+    'admin/home',
+    'leaf/aliases'
+  ]
+
+end
+
+
+
 module ActionDispatch::Routing
   class Mapper
     def mount_leaf_at(mount_location)

@@ -23,6 +23,15 @@ module Leaf
       {}
     end
 
+    def build_secondary_panel_variables_first_item_url
+      return {:action => :index, :controller => :content} if build_secondary_panel_variables[:menu].blank?
+      build_secondary_panel_variables[:menu].each_pair do |k,v|
+        if v.is_a? Array
+          return v.first
+        end
+      end
+    end
+
     def current_object_class
       @_current_object_class ||= self.class.name.sub(/^.*::/, '').sub(/\s?Controller$/, '').classify.constantize
     end

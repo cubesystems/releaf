@@ -22,14 +22,21 @@
               = image_tag("leaf/logout.png")
             %span.name_wrap= t("logout")
         %ul
-          - menu[:items].each_pair do |item, label|
+          - Leaf.main_menu.each do |item|
             %li><
-              %a{:href => url_for(:controller => item, :action => "index"), :class => ("active" if menu[:active] == item)}
+              :ruby
+                if item == '*'
+                  url = url_for(controller.build_secondary_panel_variables_first_item_url)
+                else
+                  url = url_for(:controller => item, :action => 'index')
+                end
+
+              %a{:href => url, :class => (:active if item == params[:controller] || (!Leaf.main_menu.include?(params[:controller]) && item == '*'))}
                 %span.image_container
                   = image_tag("leaf/module.png")
-                %span.name_wrap= t(label, :scope => "admin.main_menu")
+                %span.name_wrap= t("main_menu.#{item}", :scope => "admin.main_menu")
 
-    %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].gsub( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
+    %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       - if admin_signed_in?
         - if @panel_layout == true
           .panel_layout
