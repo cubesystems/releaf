@@ -13,6 +13,8 @@ gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-setting
 gem 'i18n-leaf', :git => 'git@github.com:cubesystems/i18n-leaf.git'
 gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
 gem 'strong_parameters'
+gem 'tinymce-rails', '~> 3.5.8'
+gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
 ```
 
 Run the bundle command to install it.
