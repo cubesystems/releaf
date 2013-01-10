@@ -7,6 +7,8 @@ module Leaf
     serialize :data, Hash
     default_scope :order => 'position'
 
+    validates_presence_of :name, :slug, :content_type
+
     alias_attribute :to_text, :name
 
     belongs_to :content, :polymorphic => true
