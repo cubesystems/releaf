@@ -9,6 +9,8 @@ You can add it to your Gemfile with:
 ```ruby
 gem 'devise', '~> 2.1.2'
 gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
+gem 'haml'
+gem 'haml-rails'
 
 gem 'i18n-leaf', :git => 'git@github.com:cubesystems/i18n-leaf.git'
 gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
