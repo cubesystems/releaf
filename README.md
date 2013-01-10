@@ -16,12 +16,18 @@ gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
 
 Run the bundle command to install it.
 
+```console
+rails generate settings settings
+rake db:migrate
+```
+
+
 After you install Leaf, you need to run the generator:
 ```console
-rails generate devise:install
 rails generate leaf:install
 rails generate i18n:leaf:install
 rake db:migrate
+rails generate devise:install
 ```
 
 The generator will install an initializer which describes Leaf routes and configuration options (not yet implemented)
@@ -30,6 +36,7 @@ Now you need to add something like
 ```ruby
 mount_leaf_at '/admin'
 ```
+to routes
 
 for admin users add
 ```ruby

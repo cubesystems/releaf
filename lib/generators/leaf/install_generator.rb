@@ -26,13 +26,13 @@ module Leaf
       end
 
       def install_migrations
-        %w[create_settings create_leaf_nodes create_roles create_admins].each do |migration|
+        %w[create_leaf_nodes create_roles create_admins].each do |migration|
           migration_template "migrations/#{migration}.rb", "db/migrate/#{migration}.rb"
         end
       end
 
       def install_models
-        %w[settings admin admin_ability role].each do |model|
+        %w[admin admin_ability role].each do |model|
           template "models/#{model}.rb", "app/models/#{model}.rb"
         end
       end
@@ -54,7 +54,7 @@ module Leaf
           template "views/admins/#{view}", "app/views/admin/admins/#{view}"
         end
       end
-      
+
     end
   end
 end
