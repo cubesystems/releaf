@@ -27,7 +27,7 @@
           = ff.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |fff|
             - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
               = render 'edit.field', :name => field_name, :f => fff
-              = render 'edit.field.type_delete_nested', :f => fff
+            = render 'edit.field.type_delete_nested', :f => fff
 
         %button.add.new(type='button')
           = image_tag 'leaf/icons/add.png', :atl => ''
