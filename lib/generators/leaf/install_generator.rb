@@ -31,6 +31,10 @@ module Leaf
         end
       end
 
+      def install_seeds
+        template "seeds.rb", "db/seeds.rb"
+      end
+
       def install_models
         %w[admin admin_ability role].each do |model|
           template "models/#{model}.rb", "app/models/#{model}.rb"
