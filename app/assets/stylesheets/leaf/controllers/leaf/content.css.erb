@@ -4,15 +4,15 @@
 }
 .controller-leaf_content .secondary_panel .actions_toolbar
 {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color:
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color:
     #DBDCDF
     #CECFD2
     #C6C9D0;
-    border-style: solid;
-    border-width: 0 1px 1px 0;
-    padding: 5px 5px 2px;
-    margin-bottom: 5px;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  padding: 5px 5px 2px;
+  margin-bottom: 5px;
 }
 .controller-leaf_content .secondary_panel .tree_container
 {
@@ -39,9 +39,9 @@
 }
 .controller-leaf_content .tree_container .node
 {
-    min-height: 25px;
-    border-bottom: 1px solid #fff;
-    background-color: #bce0b2;
+  min-height: 25px;
+  border-bottom: 1px solid #fff;
+  background-color: #bce0b2;
 	position: relative;
 	padding-right: 20px;
 }
@@ -51,10 +51,10 @@
 }
 .controller-leaf_content .tree_container .node .create
 {
-    position: absolute;
-	top: 4px;
-	right: 4px;
-    opacity: 0.5;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0.5;
 }
 .controller-leaf_content .tree_container .node .create:hover
 {
@@ -127,8 +127,8 @@
 .controller-leaf_content .primary_panel .global_fields
 {
 	border-bottom: 1px solid white;
-    padding: 10px 5px 0;
-    background: transparent url("<%= asset_path 'leaf/controllers/content/global_fields_bgr.png' %>") repeat-x bottom left;
+  padding: 10px 5px 0;
+  background: transparent url("<%= asset_path 'leaf/controllers/content/global_fields_bgr.png' %>") repeat-x bottom left;
 	position: relative;
 }
 .controller-leaf_content .global_fields .field
@@ -174,9 +174,9 @@
 }
 .controller-leaf_content .global_fields .field[data-name="slug"] a
 {
-	color: #888888;
-	margin-top: 3px;
-	display: inline-block;
+  color: #888888;
+  margin-top: 3px;
+  display: inline-block;
 }
 .controller-leaf_content .global_fields .field[data-name="slug"] a span
 {
@@ -372,3 +372,29 @@ margin: 0;
   top: 3px;
 }
 
+
+.controller-leaf_content .nested_object .nested_wrap .item {
+  position: relative;
+  background-color: #F3F3F3;
+  margin: 3px 5px;
+  padding: 5px;
+}
+.controller-leaf_content .nested_object .nested_wrap .item .field.type_delete_nested {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0;
+  border: none;
+}
+
+.controller-leaf_content .nested_object .field .label_wrap {
+  width: auto;
+  float: none;
+  text-align: left;
+}
+.controller-leaf_content .nested_object .field .value {
+  margin-left: 0;
+}
+.controller-leaf_content .nested_object .field {
+  border-bottom: 1px dotted #DDD;
+}

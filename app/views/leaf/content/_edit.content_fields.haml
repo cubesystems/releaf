@@ -1,34 +1,35 @@
-= f.fields_for :content_object, f.object.content_object do |ff|
+.nested_object
+  = f.fields_for :content_object, f.object.content_object do |ff|
 
-  - (ff.object.class.column_names - %w[id created_at updated_at]).each do |name|
-    - if @controller.has_template( "_edit.field.#{name}" )
-      = render "edit.field.#{name}", :name => name, :f => ff
-    - else
-      = render 'edit.field', :name => name, :f => ff
-
-
-  - ff.object.class.reflect_on_all_associations.each do |asoc|
-    - case asoc.macro
-    - when :has_many
-
-      -# TODO remove code duplication
-      .nested_wrap
-        .list
-          - ff.object.send(asoc.name).each_with_index do |asoc_obj,i|
-            .item
-              = ff.fields_for asoc.name, asoc_obj, :child_index => i do |fff|
-                - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
-                  = render 'edit.field', :name => field_name, :f => fff
-                = render 'edit.field.type_delete_nested', :f => fff
+    - (ff.object.class.column_names - %w[id created_at updated_at]).each do |name|
+      - if @controller.has_template( "_edit.field.#{name}" )
+        = render "edit.field.#{name}", :name => name, :f => ff
+      - else
+        = render 'edit.field', :name => name, :f => ff
 
 
-        .template.item{:style => 'display:none;'}
-          - asoc_obj = asoc.klass.new
-          = ff.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |fff|
-            - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
-              = render 'edit.field', :name => field_name, :f => fff
-            = render 'edit.field.type_delete_nested', :f => fff
+    - ff.object.class.reflect_on_all_associations.each do |asoc|
+      - case asoc.macro
+      - when :has_many
 
-        %button.add.new(type='button')
-          = image_tag 'leaf/icons/add.png', :atl => ''
-          %span New
+        -# TODO remove code duplication
+        .nested_wrap
+          .list
+            - ff.object.send(asoc.name).each_with_index do |asoc_obj,i|
+              .item
+                = ff.fields_for asoc.name, asoc_obj, :child_index => i do |fff|
+                  - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
+                    = render 'edit.field', :name => field_name, :f => fff
+                  = render 'edit.field.type_delete_nested', :f => fff
+
+
+          .template.item{:style => 'display:none;'}
+            - asoc_obj = asoc.klass.new
+            = ff.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |fff|
+              - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
+                = render 'edit.field', :name => field_name, :f => fff
+              = render 'edit.field.type_delete_nested', :f => fff
+
+          %button.add.new(type='button')
+            = image_tag 'leaf/icons/add.png', :atl => ''
+            %span New
