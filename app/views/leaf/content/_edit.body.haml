@@ -1,6 +1,6 @@
 .body.inset_box.no_shadow
   - if f.object.new_record?
-    = f.hidden_field :parent_id, :value => params[:parent_id]
+    = f.hidden_field :parent_id, :value => params[:parent_id] || f.object.parent_id
 
 
   .globalFieldContainer.collapsableSection.global_fields
@@ -10,7 +10,7 @@
       .label_wrap
         = f.label :content_type, 'Veids:', :title => f.object.content_type
       .value
-        = f.select :content_type, options_for_select(f.object.is_controller_node ? [@item.content_type] : @base_models.map { |m| m.name }, f.object.content_type || params[:content_type]), {:include_blank => f.object.new_record?}, {:title => @item.content_type, :disabled => @item.is_controller_node }
+        = f.select :content_type, options_for_select(f.object.is_controller_node ? [f.object.content_type] : @base_models.map { |m| m.name }, f.object.content_type || params[:content_type]), {:include_blank => f.object.new_record?}, {:title => @item.content_type, :disabled => f.object.new_record? == false }
     .clear
 
 

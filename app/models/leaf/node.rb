@@ -29,7 +29,7 @@ module Leaf
         nc.save
 
         self.content = nc
-        self.update_attribute(:content_id => nc.id)
+        self.update_attribute(:content_id, nc.id)
       end
     end
 
