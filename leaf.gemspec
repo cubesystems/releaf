@@ -33,4 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency('yui-rails', '~> 0.1.0')
   s.add_dependency 'rails-settings-cached', "~> 0.2.2"
   s.add_dependency('tinymce-rails', '~>3.5.8')
+  s.add_dependency('acts_as_list')
+  s.add_dependency('awesome_nested_set')
+
 end

@@ -15,6 +15,9 @@ gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
 gem 'strong_parameters'
 gem 'tinymce-rails', '~> 3.5.8'
 gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
+gem 'cancan', '~> 1.6.8'
+gem 'awesome_nested_set'
+gem 'acts_as_list', :git => 'https://github.com/miks/acts_as_list.git'
 ```
 
 Run the bundle command to install it.
