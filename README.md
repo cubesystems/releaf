@@ -51,7 +51,7 @@ mount_leaf_at '/admin'
 ```
 to routes
 
-for admin users add
+for admin and users you can
 ```ruby
 resources :admins
 resources :roles
