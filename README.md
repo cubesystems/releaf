@@ -12,9 +12,17 @@ gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-setting
 
 gem 'i18n-leaf', :git => 'git@github.com:cubesystems/i18n-leaf.git'
 gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
+gem 'strong_parameters'
 ```
 
 Run the bundle command to install it.
+
+Now in config/application.rb set
+```ruby
+  config.active_record.whitelist_attributes = false
+```
+because leaf is expacting strog_params gem to be used
+
 
 ```console
 rails generate settings settings
