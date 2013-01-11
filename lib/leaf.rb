@@ -4,12 +4,12 @@ module Leaf
   mattr_accessor :main_menu
   @@main_menu = [
     'leaf/content',
-    'admin/home',
+    '*modules',
     'leaf/aliases'
   ]
 
-  mattr_accessor :mod_menu
-  @@mod_menu = []
+  mattr_accessor :alt_menu
+  @@alt_menu = []
 
   class << self
     def setup

@@ -24,14 +24,7 @@
         %ul
           - Leaf.main_menu.each do |item|
             %li><
-              :ruby
-                if item == '*'
-                  url = url_for(controller.build_secondary_panel_variables_first_item_url)
-                else
-                  url = url_for(:controller => item, :action => 'index')
-                end
-
-              %a{:href => url, :class => (:active if item == params[:controller] || (!Leaf.main_menu.include?(params[:controller]) && item == '*'))}
+              %a{:href => main_menu_item_url(item), :class => is_this_menu_active?(item) ? :active : nil}
                 %span.image_container
                   = image_tag("leaf/module.png")
                 %span.name_wrap= t("main_menu.#{item}", :scope => "admin.main_menu")
