@@ -20,16 +20,36 @@ module Leaf
     end
 
     def build_secondary_panel_variables
-      {}
-    end
+      menu_item_name = self.class.name.underscore.sub(/_controller$/, '')
 
-    def build_secondary_panel_variables_first_item_url
-      return {:action => :index, :controller => :content} if build_secondary_panel_variables[:menu].blank?
-      build_secondary_panel_variables[:menu].each_pair do |k,v|
-        if v.is_a? Array
-          return v.first
+      # if this item is defined in main menu, then there will be no altmenu
+      # defined for it in alt menu, instead this method should be overriden in
+      # particular controller to return structure needed to render alt menu
+      return {} if Leaf.main_menu.include? menu_item_name
+
+      # if this item was not found in main menu, then we need to find it in one
+      # of alt menus. This way we'll know which alt menu to render.
+      alt_menus = Leaf.main_menu.reject { |item| item[0] != '*' }
+      alt_menus.each do |alt_menu_name|
+        if view_context.alt_menu_items(alt_menu_name).include?(menu_item_name)
+          build_menu = { :menu => {} }
+
+          alt_menu = Leaf.alt_menu[alt_menu_name]
+
+          alt_menu.each do |section|
+            section_name = section[0].to_sym
+            build_menu[:menu][section_name] = []
+            section[1].each do |item|
+              build_menu[:menu][section_name].push({:controller => item.split(/#/, 2).first})
+            end
+          end
+
+          return build_menu
         end
       end
+
+      # coundn't find current controller in alt_menu
+      return {}
     end
 
     def current_object_class

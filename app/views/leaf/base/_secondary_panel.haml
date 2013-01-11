@@ -5,5 +5,5 @@
         .section_title= t(section_key, :scope => "admin.base_menu")
         %ul
           - section.each do |item|
-            %li{:class => ("active" unless item[:controller] != controller.controller_name) }
+            %li{:class => ("active" if item[:controller] == controller.class.name.underscore.sub(/_controller$/, '')) }
               %a{:href => url_for(:controller => item[:controller], :action => "index") }=t(item[:controller], :scope => "admin.base_menu")
