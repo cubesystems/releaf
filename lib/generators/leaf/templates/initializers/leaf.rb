@@ -3,18 +3,10 @@ Leaf.setup do |conf|
   # setup main menu
   conf.main_menu = [
     'leaf/content',
-    '*modules',
     'leaf/aliases'
   ]
 
-  conf.alt_menu = {
-    '*modules' => [
-      ['shop',          %w[admin/catalog admin/shipping_addresses admin/product_requests admin/discount_levels admin/manufacturers]],
-      ['clients',       %w[admin/users admin/orders]],
-      ['other',         %w[admin/news_articles admin/colors admin/colors admin/countries admin/currencies admin/email_messages admin/messages admin/settings]],
-      ['permissions',   %w[admin/admins admin/roles]],
-    ]
-  }
+  conf.alt_menu = {}
 
 end
 

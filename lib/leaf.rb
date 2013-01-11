@@ -9,7 +9,7 @@ module Leaf
   ]
 
   mattr_accessor :alt_menu
-  @@alt_menu = []
+  @@alt_menu = {}
 
   class << self
     def setup
