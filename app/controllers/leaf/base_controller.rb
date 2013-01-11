@@ -29,14 +29,14 @@ module Leaf
 
       # if this item was not found in main menu, then we need to find it in one
       # of alt menus. This way we'll know which alt menu to render.
-      alt_menus = Leaf.main_menu.reject { |item| item[0] != '*' }
-      alt_menus.each do |alt_menu_name|
-        if view_context.alt_menu_items(alt_menu_name).include?(menu_item_name)
+      base_menus = Leaf.main_menu.reject { |item| item[0] != '*' }
+      base_menus.each do |base_menu_name|
+        if view_context.base_menu_items(base_menu_name).include?(menu_item_name)
           build_menu = { :menu => {} }
 
-          alt_menu = Leaf.alt_menu[alt_menu_name]
+          base_menu = Leaf.base_menu[base_menu_name]
 
-          alt_menu.each do |section|
+          base_menu.each do |section|
             section_name = section[0].to_sym
             build_menu[:menu][section_name] = []
             section[1].each do |item|
@@ -48,7 +48,7 @@ module Leaf
         end
       end
 
-      # coundn't find current controller in alt_menu
+      # coundn't find current controller in base_menu
       return {}
     end
 

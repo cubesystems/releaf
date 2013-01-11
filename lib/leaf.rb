@@ -8,8 +8,8 @@ module Leaf
     'leaf/aliases'
   ]
 
-  mattr_accessor :alt_menu
-  @@alt_menu = {}
+  mattr_accessor :base_menu
+  @@base_menu = {}
 
   class << self
     def setup

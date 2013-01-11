@@ -6,7 +6,7 @@ Leaf.setup do |conf|
     'leaf/aliases'
   ]
 
-  conf.alt_menu = {}
+  conf.base_menu = {}
 
 end
 
