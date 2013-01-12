@@ -49,17 +49,16 @@ rails generate devise:install
 
 The generator will install an initializer which describes Leaf routes and configuration options (not yet implemented)
 
-Now you need to add something like
+Now you need to add something like this for leaf itself and standart admin,
+permissions controllers
 ```ruby
-mount_leaf_at '/admin'
+  mount_leaf_at '/admin'
+  namespace :admin do
+    resources :admins, :roles do
+        get :confirm_destroy, :on => :member
+        match :urls, :on => :collection
+      end
+  end
 ```
-to routes
-
-for admin and users you can
-```ruby
-resources :admins
-resources :roles
-```
-or you can write custom ones
 
 Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors.
