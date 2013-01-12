@@ -1,4 +1,4 @@
-class Admin::AdminsController < Admin::BaseController
+class Admin::AdminsController < Leaf::BaseController
   def columns( view = nil )
     fields = super - %w[
       authentication_token
