@@ -7,6 +7,8 @@ Leaf is Admin interface for Rails projects
 Leaf will work with Rails 3.2.
 You can add it to your Gemfile with:
 ```ruby
+gem 'mysql2'
+gem 'will_paginate', '3.0.3'
 gem 'devise', '~> 2.1.2'
 gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
 gem 'haml'
