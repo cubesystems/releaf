@@ -3,10 +3,15 @@ Leaf.setup do |conf|
   # setup main menu
   conf.main_menu = [
     'leaf/content',
-    'leaf/aliases'
+    'leaf/aliases',
+    '*permissions',
   ]
 
-  conf.base_menu = {}
+  conf.base_menu = {
+    '*permissions' => [
+      ['permissions',   %w[admin/admins admin/roles]],
+    ]
+  }
 
 end
 
