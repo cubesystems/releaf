@@ -7,8 +7,8 @@
     -#   - permissions[1].each do |permission|
     -#     .field
     -#       .value
-    -#         = @f.radio_button :"#{permissions[0]}_permissions", permission
-    -#         = @f.label :"#{permissions[0]}_permissions_#{permission}"
+    -#         = f.radio_button :"#{permissions[0]}_permissions", permission
+    -#         = f.label :"#{permissions[0]}_permissions_#{permission}"
     -#     .clear
 
-    = render 'edit.field.type_select.haml', :name => "#{permissions[0]}_permissions", :select_options => permissions[1]
+    = render 'edit.field.type_select.haml', :name => "#{permissions[0]}_permissions", :select_options => permissions[1], :f => f

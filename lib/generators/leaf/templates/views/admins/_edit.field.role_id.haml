@@ -1,1 +1,1 @@
-= render 'edit.field.type_select.haml', :name => name, :select_options => options_from_collection_for_select(Role.all, :id, :name, @item.role_id || Role.default.id)
+= render 'edit.field.type_select.haml', :name => name, :select_options => options_from_collection_for_select(Role.all, :id, :name, @item.role_id || Role.default.id), :f => f
