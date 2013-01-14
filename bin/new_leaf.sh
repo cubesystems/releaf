@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-app_name="echo '$1' | sed 's/ /_/g'"
+app_name="`echo "$1" | sed -E 's/[^a-zA-Z0-9]/_/g'`"
 
 
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
@@ -23,7 +23,6 @@ fi
 
 AppName() {
   echo -n $app_name | sed -E '
-    s/[^a-zA-Z0-9]/_/g;
     s/^a/A/; s/_a/A/g;
     s/^b/B/; s/_b/B/g;
     s/^c/C/; s/_c/C/g;
@@ -180,6 +179,7 @@ rvm gemset create "$app_name"
 rvm gemset use "$app_name"
 
 cd "$app_name"
+gem install bundler
 
 bundle install
 
