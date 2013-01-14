@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 app_name="$1"
 
 

@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+puts __FILE__
+puts ARGV
+
+# system (__FILE__.split('/')[0..-2] + ['new_leaf.sh']).join('/'), ARGV[0]

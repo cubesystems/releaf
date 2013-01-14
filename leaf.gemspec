@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   ## currenty doesn't work from gems path
-  # s.executables << 'new_leaf'
+  s.executables << 'leaf'
 
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "sass-rails", "~> 3.2.5"
