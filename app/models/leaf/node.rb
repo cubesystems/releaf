@@ -46,10 +46,8 @@ module Leaf
     def controller
       controller_class = nil
 
-      if  (content_type =~ /Controller$/i) != nil
-        controller_class = content_type.constantize
-      elsif content_object
-        controller_class = content_type.constantize::PUBLIC_CONTROLLER.constantize
+      if content_object
+        controller_class = "#{content_type}_controller".classify.constantize
       end
 
       controller_class
