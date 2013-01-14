@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+app_name=${1:test_app}
+
+rails new "$app_name" -m "$(basename $(readlink -nf $0))/../templates/new_leaf.rb" --skip-bundle
