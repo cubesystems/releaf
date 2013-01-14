@@ -81,8 +81,7 @@
 .field.type_textarea,
 .field.type_richtext
 {
-	width: 710px;
-	/* margin: 0 auto; */
+	<%# width: 710px; %>
 }
 .field.type_textarea .label_wrap,
 .field.type_richtext .label_wrap
@@ -100,10 +99,10 @@
 .field.type_textarea textarea,
 .field.type_richtext textarea
 {
-	width: 100%;
+    min-width: 650px;
+	<%# width: 100%; %>
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	height: 250px;
 }
 
 
