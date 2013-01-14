@@ -162,7 +162,7 @@ cp "$app_name/config/database.yml.example" "$app_name/config/database.yml"
 
 rm -f "$app_name/db/seeds.rb" "$app_name/public/index.html" "$app_name/public/images/rails.png" "$app_name/app/views/layouts/application.html.erb"
 
-cat << EOF > "$app_name/app/views/layouts/application.html.erb"
+cat << EOF > "$app_name/app/views/layouts/application.html.haml"
 !!!
 %html
   %head
