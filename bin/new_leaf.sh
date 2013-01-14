@@ -183,16 +183,16 @@ cd "$app_name"
 
 bundle install
 
-rake db:drop db:create
+bundle exec rake db:drop db:create
 
-rails g settings settings
-rake db:migrate
+bundle exec rails g settings settings
+bundle exec rake db:migrate
 
-rails g leaf:install
-rails g i18n:leaf:install
-rake db:migrate
+bundle exec rails g leaf:install
+bundle exec rails g i18n:leaf:install
+bundle exec rake db:migrate
 
-rails g devise:install
+bundle exec rails g devise:install
 
 cat << EOF > config/routes.rb
 
@@ -212,7 +212,7 @@ EOF
 sed -E -i .orig 's/#?[ ]?config.active_record.whitelist_attributes[ ]?=[ ]?true/config.active_record.whitelist_attributes = false/' config/application.rb
 rm -f config/application.rb.orig
 
-rake db:seed
+bundle exec rake db:seed
 git init .
 git add .
 git commit -a -m 'initialize project'
