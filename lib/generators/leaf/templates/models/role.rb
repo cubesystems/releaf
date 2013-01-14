@@ -7,6 +7,7 @@ class Role < ActiveRecord::Base
   before_save :update_permissions
   after_save :update_default_role
 
+  alias_attribute :to_text, :name
 
   AdminAbility::PERMISSIONS.each do |perms|
     if perms.is_a? Array

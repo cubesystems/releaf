@@ -30,6 +30,7 @@ class Admin < ActiveRecord::Base
   def display_name
     [self.name, self.surname].join(' ')
   end
+  alias :to_text :display_name
 
   def role
     super || Role.default
