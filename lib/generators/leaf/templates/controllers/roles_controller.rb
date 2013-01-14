@@ -1,4 +1,4 @@
-class Admin::RolesController < Admin::BaseController
+class Admin::RolesController < Leaf::BaseController
 
   def columns( view = nil )
     if view == 'index'

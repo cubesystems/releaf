@@ -7,10 +7,13 @@ Leaf is Admin interface for Rails projects
 Leaf will work with Rails 3.2.
 You can add it to your Gemfile with:
 ```ruby
+gem 'mysql2'
+gem 'will_paginate', '3.0.3'
 gem 'devise', '~> 2.1.2'
 gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
 gem 'haml'
 gem 'haml-rails'
+gem 'dragonfly', '~>0.9.12'
 
 gem 'i18n-leaf', :git => 'git@github.com:cubesystems/i18n-leaf.git'
 gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
@@ -47,17 +50,16 @@ rails generate devise:install
 
 The generator will install an initializer which describes Leaf routes and configuration options (not yet implemented)
 
-Now you need to add something like
+Now you need to add something like this for leaf itself and standart admin,
+permissions controllers
 ```ruby
-mount_leaf_at '/admin'
+  mount_leaf_at '/admin'
+  namespace :admin do
+    resources :admins, :roles do
+        get :confirm_destroy, :on => :member
+        match :urls, :on => :collection
+      end
+  end
 ```
-to routes
-
-for admin and users you can
-```ruby
-resources :admins
-resources :roles
-```
-or you can write custom ones
 
 Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors.
