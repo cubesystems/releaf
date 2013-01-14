@@ -62,4 +62,9 @@ permissions controllers
   end
 ```
 
+Add dragonfly initializer (/config/initializers/dragonfly.rb)
+```ruby
+require 'dragonfly/rails/images'
+```
+
 Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors.

@@ -209,6 +209,8 @@ cat << EOF > config/routes.rb
 end
 EOF
 
+echo "require 'dragonfly/rails/images'" > "config/initializers/dragonfly.rb"
+
 sed -E -i .orig 's/#?[ ]?config.active_record.whitelist_attributes[ ]?=[ ]?true/config.active_record.whitelist_attributes = false/' config/application.rb
 rm -f config/application.rb.orig
 
