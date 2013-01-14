@@ -39,6 +39,4 @@ Gem::Specification.new do |s|
   s.add_dependency('acts_as_list')
   s.add_dependency('awesome_nested_set')
 
-  s.add_dependency('Ascii85')
-
 end
