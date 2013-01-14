@@ -211,4 +211,6 @@ sed -E -i .orig 's/#?[ ]?config.active_record.whitelist_attributes[ ]?=[ ]?true/
 rm -f config/application.rb.orig
 
 rake db:seed
-
+git init .
+git add .
+git commit -a -m 'initialize project'
