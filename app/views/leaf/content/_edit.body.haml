@@ -17,13 +17,13 @@
     = render 'edit.slug', :name => 'slug', :f => f
 
     .field{ 'data-name' => 'position' }
-      .label_wrap= f.label :position, t('.position', :rescue_format => false) + ':'
+      .label_wrap= f.label :position, t('position') + ':'
       .value
         :ruby
-          opt_for_select = [[t('first', :rescue_format => false), 1]]
+          opt_for_select = [[t('first'), 1]]
           @order_nodes.each do |node|
             # FIXME fix i18n usage
-            opt_for_select.push [ t('.after', :rescue_format => false) + ' ' + node.name, node.lower_item ? node.lower_item.position : node.position ]
+            opt_for_select.push [ t('after') + ' ' + node.name, node.lower_item ? node.lower_item.position : node.position ]
           end
 
         = f.select :position, options_for_select(opt_for_select, @position)
