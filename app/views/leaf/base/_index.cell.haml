@@ -7,7 +7,7 @@
         text = item.send(rel_name).try(:to_text) || item.send(rel_name).to_s
       end
     end
-  elsif name =~ /_uid$/
+  elsif name =~ /(image|photo|picture|avatar|logo|icon)_uid$/
     unless item.send(name).blank?
       text = image_tag item.send(name.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
     else
