@@ -1,12 +1,26 @@
 #!/usr/bin/env bash
 app_name="$1"
 
-if [ "$app_name" == '' ]; then
-  echo "App name not given" > /dev/stderr
+
+if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+  # First try to load from a user install
+  source "$HOME/.rvm/scripts/rvm"
+elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+  # Then try to load from a root install
+  source "/usr/local/rvm/scripts/rvm"
+else
+  echo "ERROR: An RVM installation was not found" > /dev/stderr
   exit 1
 fi
 
-AppName_camel() {
+
+
+if [ "$app_name" == '' ]; then
+  echo "ERROR: App name not given" > /dev/stderr
+  exit 1
+fi
+
+AppName() {
   echo -n $app_name | sed -E '
     s/[^a-zA-Z0-9]/_/g;
     s/^a/A/; s/_a/A/g;
@@ -37,10 +51,6 @@ AppName_camel() {
     s/^z/Z/; s/_z/Z/g;
   '
 }
-
-app_name_camel
-
-# rails new "$app_name" -m "$(basename $(readlink -nf $0))/../templates/new_leaf.rb" --skip-bundle
 
 rails new $app_name --skip-gemfile --skip-bundle --database=mysql --skip-test-unit
 
@@ -182,7 +192,7 @@ rake db:migrate
 
 rails g devise:install
 
-cat << EOF config/routes.rb
+cat << EOF > config/routes.rb
 
 `AppName`::Application.routes.draw do
   mount_leaf_at '/admin'
@@ -199,4 +209,6 @@ EOF
 
 sed -E -i .orig 's/#?[ ]?config.active_record.whitelist_attributes[ ]?=[ ]?true/config.active_record.whitelist_attributes = false/' config/application.rb
 rm -f config/application.rb.orig
+
+rake db:seed
 
