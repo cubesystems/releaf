@@ -175,10 +175,11 @@ cat << EOF > "$app_name/app/views/layouts/application.html.erb"
     = javascript_include_tag "application"
 EOF
 
-cd $app_name
-echo "rvm 1.9.3@$app_name" > ".rvmrc"
+echo "rvm 1.9.3@$app_name" > "$app_name/.rvmrc"
 rvm gemset create $app_name
 rvm gemset use $app_name
+
+cd $app_name
 
 bundle install
 
