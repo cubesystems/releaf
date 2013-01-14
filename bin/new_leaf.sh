@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-app_name="$1"
+app_name="echo '$1' | sed 's/ /_/g'"
 
 
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
@@ -176,10 +176,10 @@ cat << EOF > "$app_name/app/views/layouts/application.html.haml"
 EOF
 
 echo "rvm 1.9.3@$app_name" > "$app_name/.rvmrc"
-rvm gemset create $app_name
-rvm gemset use $app_name
+rvm gemset create "$app_name"
+rvm gemset use "$app_name"
 
-cd $app_name
+cd "$app_name"
 
 bundle install
 
