@@ -1,13 +1,3 @@
-%ul#objectTools.block.actions_toolbar
-  %li>
-    %button{:onclick => "delete_confirm()", :type => "button"}>
-      %span Dzēst
-  %li>
-    %button{:onclick => "move_confirm()", :type => "button"}>
-      %span Pārvietot
-  %li.last>
-    %button{:onclick => "copy_confirm()", :type => "button"}>
-      %span Kopēt
 .tree_container
   .inner
     = render 'tree_level', :nodes => @nodes, :level => 0
