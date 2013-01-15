@@ -1,5 +1,7 @@
 module Leaf
   class BaseController < BaseApplicationController
+    DEF = {}
+
     before_filter do
       filter_templates
       set_locale
