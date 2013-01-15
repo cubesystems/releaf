@@ -77,6 +77,7 @@ gem "tinymce-rails", "~> 3.5.8"
 gem "unicorn"
 gem "will_paginate", "~> 3.0.3"
 gem "yui-rails", :git => "https://github.com/ConnectCubed-Open/yui-rails"
+gem "globalize3"
 
 group :assets do
  gem "sass-rails", "~> 3.2.5"

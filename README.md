@@ -23,6 +23,7 @@ gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
 gem 'cancan', '~> 1.6.8'
 gem 'awesome_nested_set'
 gem 'acts_as_list', :git => 'https://github.com/miks/acts_as_list.git'
+gem 'globalize3'
 ```
 
 Run the bundle command to install it.
