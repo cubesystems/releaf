@@ -58,11 +58,16 @@ module Leaf
     end
 
     def new
-      super
-      @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
-      @position = 1
-      @item.parent_id = params[:parent_id]
-      form_extras
+      unless params[:ajax] == '1'
+        super
+        @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
+        @position = 1
+        @item.parent_id = params[:parent_id]
+        form_extras
+      else
+        get_base_models
+        render 'ajax.new', :layout => nil
+      end
     end
 
     def edit
@@ -175,7 +180,7 @@ module Leaf
 
     def form_extras
       Rails.application.eager_load!
-      @base_models = NodeBase.node_classes
+      get_base_models
 
       if @item.is_controller_node
         @controller_properties = @item.controller::DEF
@@ -191,7 +196,11 @@ module Leaf
 
     def new_content_if_needed
       return if @item.content
-      @item.content = @item.content_type.constantize.new if @base_models.map { |bm| bm.name }.include? @item.content_type
+      @item.content = @item.content_type.constantize.new if get_base_models.map { |bm| bm.name }.include? @item.content_type
+    end
+
+    def get_base_models
+      @base_models ||= NodeBase.node_classes
     end
 
   end

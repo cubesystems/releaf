@@ -9,7 +9,6 @@ jQuery(function()
 		{
 			var nested = jQuery( this );
 			var list = nested.find( '.list:first' );
-            console.debug(list);
 			var template = jQuery( '<div></div>' ).append( nested.find( '.template:first' ).clone().removeClass( 'template' ) ).html();
 
 			nested.on( 'click', '.add', function()

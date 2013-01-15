@@ -187,3 +187,18 @@
 	font-size: 12px;
 }
 
+#preload_wrap
+{
+    overflow: hidden;
+}
+#preload {
+    position: fixed;
+    top: -99999px;
+    left: -99999px;
+}
+.loading
+{
+    width: 16px;
+    height: 16px;
+    background: url(<%= asset_path("leaf/loader.gif") %>) center center no-repeat;
+}

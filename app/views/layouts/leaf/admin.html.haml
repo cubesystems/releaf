@@ -42,6 +42,10 @@
       - else
         = yield
 
+    #preload_wrap
+      #preload
+        .loading_icon
+
     = javascript_include_tag "leaf/application"
     - if File.exists?(_assets_path + "/javascripts/leaf/controllers/#{controller_asset}.js")
       = javascript_include_tag "leaf/controllers/#{controller_asset}"
