@@ -14,11 +14,6 @@ module Leaf
       super
     end
 
-    #def build_secondary_panel
-
-      #@secondary_panel = render_to_string( :partial => "objects", :layout => false, :locals => build_secondary_panel_variables)
-    #end
-
     def index
       authorize! :index, Node
       respond_to do |format|
@@ -97,67 +92,6 @@ module Leaf
 
     end
 
-
-    #def base_controllers
-      #controllers = []
-      #Rails.application.routes.named_routes.routes.map{|key, r|
-        #if !r.defaults[:controller].to_s.empty?
-          #class_name = "#{r.defaults[:controller]}_controller".classify.constantize
-          #if class_name < LeafController
-            #item = {
-              #:controller => class_name,
-              #:path => key,
-              #:def => class_name::DEF,
-              #:values => {}
-              ##:path => r.path
-            #}
-            #saved = CData.find_by_controller(class_name)
-            #if saved
-              #item[:values] = saved.data
-            #end
-            #controllers << item
-          #end
-        #end
-      #}
-      #@asd = controllers
-    #end
-
-    #def index
-      #controllers = []
-      #Rails.application.routes.named_routes.routes.map{|key, r|
-        #if !r.defaults[:controller].to_s.empty?
-          #class_name = "#{r.defaults[:controller]}_controller".classify.constantize
-          #if class_name < LeafController
-            #item = {
-              #:controller => class_name,
-              #:path => key,
-              #:def => class_name::DEF,
-              #:values => {}
-              ##:path => r.path
-            #}
-            #saved = CData.find_by_controller(class_name)
-            #if saved
-              #item[:values] = saved.data
-            #end
-            #controllers << item
-          #end
-        #end
-      #}
-      #@asd = controllers
-    #end
-
-    #def save
-      #params[:controller] = params[:controller_name]
-      #@item = CData.find_by_controller(params[:controller])
-      #if @item
-        #@item.update_attributes(params)
-      #else
-        #@item = CData.new(params)
-      #end
-
-      #@item.save
-      #redirect_to leaf_content_path
-    #end
 
     def current_object_class
       Node
