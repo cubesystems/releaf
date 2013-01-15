@@ -14,6 +14,7 @@
 
         -# TODO remove code duplication
         .nested_wrap
+          .nested_title= I18n.t(asoc.name)
           .list
             - ff.object.send(asoc.name).each_with_index do |asoc_obj,i|
               .item
