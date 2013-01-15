@@ -3,7 +3,7 @@
 
   .field.no_label_wrap_padding
     .label_wrap
-      .label= name.sub(/_uid$/, '').humanize + ':'
+      .label= name.sub(/_(uid|html|id)$/, '').humanize + ':'
     .value
 
       - case name
