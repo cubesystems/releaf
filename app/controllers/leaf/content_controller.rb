@@ -116,10 +116,6 @@ module Leaf
       Rails.application.eager_load!
       get_base_models
 
-      if @item.is_controller_node
-        @controller_properties = @item.controller::DEF
-      end
-
       new_content_if_needed
     end
 
