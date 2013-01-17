@@ -229,9 +229,9 @@ module Leaf
     def common_fields_schema_for_instance
 
       full_schema =if defined?(COMMON_FIELDS_SCHEMA)
-                     COMMON_FIELDS_SCHEMA
+                     COMMON_FIELDS_SCHEMA.dup
                    else
-                     self.class.load_common_fields_schema
+                     self.class.load_common_fields_schema.dup
                    end
 
       full_schema.delete_if do |field|
@@ -249,8 +249,6 @@ module Leaf
           if field['deny_for'].is_a?(String) && (field['deny_for'] == '*' || field['deny_for'] == self.content_type)
             keep = false
           elsif field['deny_for'].is_a?(Array) && field['deny_for'].include?(self.content_type)
-            keep = false
-          else
             keep = false
           end
         end
