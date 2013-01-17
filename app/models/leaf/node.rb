@@ -195,9 +195,11 @@ module Leaf
     def common_fields_schema
 
       return @_common_fields_schema if @_common_fields_schema
-      @_common_fields_schema = load_common_fields_schema
-
-
+      if defined?(COMMON_FIELDS_SCHEMA)
+        @_common_fields_schema = COMMON_FIELDS_SCHEMA
+      else
+        @_common_fields_schema = self.class.load_common_fields_schema
+      end
 
     end
 
@@ -213,9 +215,8 @@ module Leaf
       common_field_options(field_name.sub(/^#{COMMON_FIELD_NAME_PREFIX}/, ''))['field_type']
     end
 
-    private
+    def self.load_common_fields_schema
 
-    def load_common_fields_schema
       common_fields_schema_file = Rails.root.to_s+ '/config/common_fields.yml'
       cfschema = if File.exists?(common_fields_schema_file)
         YAML::load_file(common_fields_schema_file)
@@ -231,7 +232,11 @@ module Leaf
         raise "field_type not defined for #{field['field_type']} field"           unless field.has_key?('field_type')
         raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
       end
+      return cfschema
     end
+
+    private
+
 
 
     def common_field_setter(key, value)
