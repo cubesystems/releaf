@@ -1,5 +1,7 @@
 module Leaf
   class Node < ActiveRecord::Base
+    COMMON_FIELD_NAME_PREFIX = 'data_'
+
     acts_as_nested_set
     acts_as_list :scope => :parent_id
     self.table_name = 'leaf_nodes'
@@ -14,8 +16,8 @@ module Leaf
     belongs_to :content, :polymorphic => true
     accepts_nested_attributes_for :content
 
-    # FIXME get rid of attr_accessible
-    attr_accessible :name, :parent_id, :slug, :position, :data, :content_type, :content_attributes, :content_string, :visible, :protected, :content_object_attributes
+    # FIXME get rid of attr_protected
+    attr_protected :none
 
     def content_object
       self.content
@@ -166,7 +168,84 @@ module Leaf
       name
     end
 
+    def method_missing(method, *args, &block)
+      if self.class.column_names.include?('data')
+        case method.to_s
+        when /^(#{COMMON_FIELD_NAME_PREFIX}(.+))=$/ then
+          if common_field_names.include? $1
+            return common_field_setter($2, args[0])
+          end
+        when /^(#{COMMON_FIELD_NAME_PREFIX}(.+))$/ then
+          if common_field_names.include? $1
+            return common_field_getter($2)
+          end
+        end
+      end
+
+      return super(method, *args, &block)
+    end
+
+    def respond_to? method_id, include_private = false
+      # this is needed for mass asignment (update_attributes) to work with common_fields
+      rt = super(method_id, include_private)
+      return true if rt
+      return common_field_names.include?(method_id.to_s.sub(/=$/, ''))
+    end
+
+    def schema
+
+      return @_schema if @_schema
+
+      schema_file = Rails.root.to_s+ '/config/common_fields.yml'
+      if File.exists?(schema_file)
+        @_schema = YAML::load_file(schema_file)
+      else
+        @_schema = []
+      end
+
+      raise "common_fields schema is not an array" unless @_schema.is_a? Array
+      @_schema.each_with_index do |field,i|
+        raise "common_fields schema contains non-hash element in root node"       unless field.is_a? Hash
+        raise "field_name not defined for field ##{i}"                            unless field.has_key?('field_name')
+        raise "field_name must be string"                                         unless field['field_name'].is_a? String
+        raise "field_type not defined for #{field['field_type']} field"           unless field.has_key?('field_type')
+        raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
+      end
+
+    end
+
+    def level
+      return 3
+    end
+
+    def common_field_names
+      @_common_field_names ||= schema.map { |f| "#{COMMON_FIELD_NAME_PREFIX}#{f['field_name']}" }
+    end
+
+    def common_field_field_type(field_name)
+      common_field_options(field_name.sub(/^#{COMMON_FIELD_NAME_PREFIX}/, ''))['field_type']
+    end
+
     private
+
+
+    def common_field_setter(key, value)
+      self.data[key] = value
+    end
+
+    def common_field_getter(key)
+      self.data.has_key?(key) ? self.data[key] : common_field_default_value(key)
+    end
+
+    def common_field_options(key)
+      schema.each do |field|
+        return field if field['field_name'] == key
+      end
+    end
+
+    def common_field_default_value(key)
+      common_field_options(key)['default']
+    end
 
     def new_content(attr)
       raise RuntimeError, 'content_type must be set' unless content_type
