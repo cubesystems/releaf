@@ -193,18 +193,7 @@ module Leaf
     end
 
     def common_fields_schema
-
-      return @_common_fields_schema if @_common_fields_schema
-      if defined?(COMMON_FIELDS_SCHEMA)
-        @_common_fields_schema = COMMON_FIELDS_SCHEMA
-      else
-        @_common_fields_schema = self.class.load_common_fields_schema
-      end
-
-    end
-
-    def level
-      return 3
+      @_common_fields_schema ||= common_fields_schema_for_instance
     end
 
     def common_field_names
@@ -236,6 +225,45 @@ module Leaf
     end
 
     private
+
+    def common_fields_schema_for_instance
+
+      full_schema =if defined?(COMMON_FIELDS_SCHEMA)
+                     COMMON_FIELDS_SCHEMA
+                   else
+                     self.class.load_common_fields_schema
+                   end
+
+      full_schema.delete_if do |field|
+        keep = false
+
+        if field['apply_to'].is_a?(String) && (field['apply_to'] == '*' || field['apply_to'] == self.content_type)
+          keep = true
+        elsif field['apply_to'].is_a?(Array) && field['apply_to'].include?(self.content_type)
+          keep = true
+        else
+          keep = false
+        end
+
+        if keep == true && field.has_key?('deny_for')
+          if field['deny_for'].is_a?(String) && (field['deny_for'] == '*' || field['deny_for'] == self.content_type)
+            keep = false
+          elsif field['deny_for'].is_a?(Array) && field['deny_for'].include?(self.content_type)
+            keep = false
+          else
+            keep = false
+          end
+        end
+
+        if keep == true && field.has_key?('levels')
+          keep = false unless field['levels'].include? level
+        end
+
+        !keep
+      end
+
+      return full_schema
+    end
 
 
 
