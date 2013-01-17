@@ -3,7 +3,7 @@ module Leaf
 
     def setup
       super
-      @object_class = TranslationGroup
+      @object_class = I18n::Backend::Leaf::TranslationGroup
       @features[:show] = false
       @continuous_scroll = true
     end
@@ -13,7 +13,7 @@ module Leaf
     end
 
     def build_secondary_panel_variables
-      @groups = TranslationGroup.order(:scope).all
+      @groups = I18n::Backend::Leaf::TranslationGroup.order(:scope).all
       super
     end
 
@@ -23,7 +23,7 @@ module Leaf
 
     def index
       # authorize! :manage, Translation
-      @list = @object_class = Translation.includes(:translation_data)
+      @list = @object_class = I18n::Backend::Leaf::Translation.includes(:translation_data)
     end
 
     def edit
@@ -81,7 +81,7 @@ module Leaf
 
         translation = nil
         if id =~ /\A\d+\z/
-          translation = Translation.find(id)
+          translation = I18n::Backend::Leaf::Translation.find(id)
         else
           translation = @item.translations.new
         end
@@ -98,7 +98,7 @@ module Leaf
 
 
         (Settings.i18n_locales || []).each do |locale|
-          translation_data = TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
+          translation_data = I18n::Backend::Leaf::TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
           unless t['localization'][locale].blank?
             translation_data.localization = t['localization'][locale]
             translation_data.save

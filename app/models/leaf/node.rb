@@ -265,8 +265,6 @@ module Leaf
       return full_schema
     end
 
-
-
     def common_field_setter(key, value)
       self.data[key] = value
     end
