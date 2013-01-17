@@ -18,6 +18,9 @@ module I18n
         scope :lookup, lambda { |locale, keys, scope|
           joined.where('translation_groups.scope = :scope AND translation_data.lang = :locale AND translations.key in (:keys)', :keys => keys, :locale => locale, :scope => scope)
         }
+        scope :filter, lambda{ |params|
+          where( 'translations.key LIKE ?', "%#{params[:search]}%" ) unless params[:search].blank?
+        }
 
         after_commit :reload_cache
 
