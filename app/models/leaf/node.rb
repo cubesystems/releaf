@@ -192,25 +192,12 @@ module Leaf
       return common_field_names.include?(method_id.to_s.sub(/=$/, ''))
     end
 
-    def schema
+    def common_fields_schema
 
-      return @_schema if @_schema
+      return @_common_fields_schema if @_common_fields_schema
+      @_common_fields_schema = load_common_fields_schema
 
-      schema_file = Rails.root.to_s+ '/config/common_fields.yml'
-      if File.exists?(schema_file)
-        @_schema = YAML::load_file(schema_file)
-      else
-        @_schema = []
-      end
 
-      raise "common_fields schema is not an array" unless @_schema.is_a? Array
-      @_schema.each_with_index do |field,i|
-        raise "common_fields schema contains non-hash element in root node"       unless field.is_a? Hash
-        raise "field_name not defined for field ##{i}"                            unless field.has_key?('field_name')
-        raise "field_name must be string"                                         unless field['field_name'].is_a? String
-        raise "field_type not defined for #{field['field_type']} field"           unless field.has_key?('field_type')
-        raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
-      end
 
     end
 
@@ -219,7 +206,7 @@ module Leaf
     end
 
     def common_field_names
-      @_common_field_names ||= schema.map { |f| "#{COMMON_FIELD_NAME_PREFIX}#{f['field_name']}" }
+      @_common_field_names ||= common_fields_schema.map { |f| "#{COMMON_FIELD_NAME_PREFIX}#{f['field_name']}" }
     end
 
     def common_field_field_type(field_name)
@@ -227,6 +214,24 @@ module Leaf
     end
 
     private
+
+    def load_common_fields_schema
+      common_fields_schema_file = Rails.root.to_s+ '/config/common_fields.yml'
+      cfschema = if File.exists?(common_fields_schema_file)
+        YAML::load_file(common_fields_schema_file)
+      else
+        []
+      end
+
+      raise "common_fields common_fields_schema is not an array" unless cfschema.is_a? Array
+      cfschema.each_with_index do |field,i|
+        raise "common_fields common_fields_schema contains non-hash element in root node"       unless field.is_a? Hash
+        raise "field_name not defined for field ##{i}"                            unless field.has_key?('field_name')
+        raise "field_name must be string"                                         unless field['field_name'].is_a? String
+        raise "field_type not defined for #{field['field_type']} field"           unless field.has_key?('field_type')
+        raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
+      end
+    end
 
 
     def common_field_setter(key, value)
@@ -238,7 +243,7 @@ module Leaf
     end
 
     def common_field_options(key)
-      schema.each do |field|
+      common_fields_schema.each do |field|
         return field if field['field_name'] == key
       end
     end

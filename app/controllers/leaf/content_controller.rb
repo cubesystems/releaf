@@ -100,7 +100,7 @@ module Leaf
     protected
 
     def _node_params
-      allowed_params = [:parent_id, :name, :content_type, :slug, :position, :data, :visible, :protected, :content_object_attributes] + @item.common_field_names
+      allowed_params = (%w[parent_id name content_type slug position data visible protected content_object_attributes] + @item.common_field_names).map { |f| f.sub(/_uid$/, '') }
 
       # if @item && @item.content_object
       #   allowed_params.push({object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"]})
