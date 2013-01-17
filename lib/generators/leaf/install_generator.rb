@@ -41,6 +41,10 @@ module Leaf
         end
       end
 
+      def install_configs
+        template "config/common_fields.yml.example", "config/common_fields.yml.example"
+      end
+
       def install_roles_views
         %w[_edit.field.permissions.haml _show.field.permissions.haml].each do |view|
           template "views/roles/#{view}", "app/views/admin/roles/#{view}"
