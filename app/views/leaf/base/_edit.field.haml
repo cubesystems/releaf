@@ -23,8 +23,13 @@
   when /_link$/
     input_type = 'link'
   else
-    column_type = f.object.class.columns_hash[ name ].try(:type) || :string
-    case column_type
+    if name =~ /^#{Leaf::Node::COMMON_FIELD_NAME_PREFIX}/
+      column_type = f.object.common_field_field_type(name)
+    else
+      column_type = f.object.class.columns_hash[ name ].try(:type) || :string
+    end
+
+    case column_type.to_sym
     when :boolean
       input_type = 'checkbox'
     when :text
