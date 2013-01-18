@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.name        = "leaf"
   s.version     = Leaf::VERSION
 
-
   s.date        = '2012-12-21'
   s.summary     = "Admin interface for RubyOnRails projects"
   s.description = "Admin interface for RubyOnRails projects inspired by Leaf CMS"
@@ -20,7 +19,8 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   ## currenty doesn't work from gems path
-  s.executables << 'leaf'
+  s.bindir            = 'bin'
+  s.executables       = %w(leaf)
 
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "sass-rails", "~> 3.2.5"
@@ -38,6 +38,6 @@ Gem::Specification.new do |s|
   s.add_dependency('tinymce-rails', '~>3.5.8')
   s.add_dependency('acts_as_list')
   s.add_dependency('awesome_nested_set')
-  s.add_dependency 'i18n', '>= 0.6.0'
+  s.add_dependency('i18n', '>= 0.6.0')
 
 end
