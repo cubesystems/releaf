@@ -21,7 +21,9 @@ module Leaf
       end
 
       def install_initializer
-        template 'initializers/leaf.rb', 'config/initializers/leaf.rb'
+        %w[leaf store_current_template i18n_leaf].each do |initializer|
+          template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
+        end
         template 'initializers/store_current_template.rb', 'config/initializers/store_current_template.rb'
       end
 
