@@ -28,7 +28,7 @@ module Leaf
       end
 
       def install_migrations
-        %w[create_leaf_nodes create_roles create_admins].each do |migration|
+        %w[create_leaf_nodes create_roles create_translations create_admins].each do |migration|
           migration_template "migrations/#{migration}.rb", "db/migrate/#{migration}.rb"
         end
       end
