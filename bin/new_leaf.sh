@@ -181,6 +181,7 @@ rvm gemset use "$app_name"
 cd "$app_name"
 gem install bundler
 
+
 bundle install
 
 bundle exec rake db:drop db:create
@@ -188,11 +189,10 @@ bundle exec rake db:drop db:create
 bundle exec rails g settings settings
 bundle exec rake db:migrate
 
-bundle exec rails g leaf:install
-bundle exec rails g i18n:leaf:install
-bundle exec rake db:migrate
-
 bundle exec rails g devise:install
+
+bundle exec rails g leaf:install
+bundle exec rake db:migrate
 
 cat << EOF > config/routes.rb
 
