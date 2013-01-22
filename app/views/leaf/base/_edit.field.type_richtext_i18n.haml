@@ -1,18 +1,18 @@
 - active_locale = Settings.i18n_locales.index(I18n.locale.to_s) || 0
 
-.field.type_text.i18n{ :'data-name' => name }
+.field.type_richtext.i18n{ :'data-name' => name }
   - Settings.i18n_locales.each_with_index do |locale, i|
     - translation = f.object.translations.find_or_initialize_by_locale(locale)
     -# .localization{:"data-locale" => locale, :style => i > 0 ? 'display:none' : nil}
     .localization{:"data-locale" => locale, :style => i == active_locale ? nil : 'display:none'}
       = f.fields_for :"translations", translation, :child_index => i do |ff|
         .label_wrap
-          = ff.label name, name.humanize + ':'
+          = ff.label name, name.sub(/_html$/, '').humanize + ':'
         .value
           - unless translation.new_record?
             = ff.hidden_field :id
           = ff.hidden_field :locale
-          = ff.text_field name
+          = ff.text_area name, :rows => 5, :cols => 75, :class => "richtext"
         .clear
   .localization_buttons
     - Settings.i18n_locales.each_with_index do |locale, i|

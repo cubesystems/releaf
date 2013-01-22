@@ -1,9 +1,9 @@
 :ruby
   collection = nil
   input_type = 'text'
-  input_postfix = ''
+  use_i18n = false
   if f.object.class.respond_to?(:translates)
-    input_postfix = '_i18n' if f.object.class.translates.include?(name.to_sym)
+    use_i18n = true if f.object.class.translates.include?(name.to_sym)
   end
 
 
@@ -23,10 +23,13 @@
   when /_uid$/
     # FIXME should check if it's a dragonfly field
     input_type = 'file'
+    use_i18n = false
   when /password/
     input_type = 'password'
+    use_i18n = false
   when /_link$/
     input_type = 'link'
+    use_i18n = false
   else
     if name =~ /^#{Leaf::Node::COMMON_FIELD_NAME_PREFIX}/
       column_type = f.object.common_field_field_type(name)
@@ -37,6 +40,7 @@
     case column_type.to_sym
     when :boolean
       input_type = 'checkbox'
+      use_i18n = false
     when :text
       if name.end_with?( '_html' )
         input_type = 'richtext'
@@ -45,10 +49,13 @@
       end
     when :datetime
       input_type = 'datetime'
+      use_i18n = false
     when :date
       input_type = 'date'
+      use_i18n = false
     when :time
       input_type = 'time'
+      use_i18n = false
     end
   end
 
@@ -73,9 +80,10 @@
       end
     end
 
-  = render "edit.field.type_select#{input_postfix}", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, f.object.send(name) ), :options => { :include_blank => include_blank }, :f => f
-- elsif @controller.has_template( "_edit.field.type_#{input_type}" )
-  = render "edit.field.type_#{input_type}#{input_postfix}", :name => name, :f => f
+  = render "edit.field.type_select#{use_i18n ? '_i18n' : ''}", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, f.object.send(name) ), :options => { :include_blank => include_blank }, :f => f
+- elsif @controller.has_template( "_edit.field.type_#{input_type}#{use_i18n ? '_i18n' : ''}" )
+  = render "edit.field.type_#{input_type}#{use_i18n ? '_i18n' : ''}", :name => name, :f => f
 - else
   - input_type = @controller.input_type_for( 'string', name )
-  = render "edit.field.type_#{input_type}#{input_postfix}", :name => name, :f => f
+  - use_i18n = fasle unless input_type == 'text'
+  = render "edit.field.type_#{input_type}#{use_i18n ? '_i18n' : ''}", :name => name, :f => f
