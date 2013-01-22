@@ -180,3 +180,35 @@
     font-weight: bold;
     padding-bottom: 5px;
 }
+
+.localization_buttons {
+  margin-left: 35%;
+  padding-left: 5px;
+}
+.localization_buttons button {
+  border-color: transparent #B0AFAF #999;
+  border-radius: 0 0 3px 3px;
+  min-width: 35px;
+  text-align: center;
+  color: #585757;
+  margin-right: 4px;
+  background-color: transparent;
+  background-image: none;
+  border: 0 none;
+  padding: 0;
+  box-shadow: none;
+  text-transform: lowercase;
+  background: gainsboro url(<% asset_path("/button/buttonBgr.gif") %>) repeat-x top left;
+  vertical-align: middle;
+  border: 1px solid #B0AFAF;
+  border-top: 0;
+}
+.localization_buttons button:focus {
+  outline: 1px dotted gray;
+  box-shadow: none;
+}
+
+.localization_buttons button.active {
+  background-color: white;
+  color: black;
+}
