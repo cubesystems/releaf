@@ -25,6 +25,7 @@ module Leaf
       content_type = _node_params[:content_type].constantize
       authorize! :create, content_type
       @item = current_object_class.new(_node_params)
+      @item.assign_attributes(_node_common_fields_params)
 
       respond_to do |format|
         if @item.save
@@ -43,8 +44,13 @@ module Leaf
 
       form_extras
       @order_nodes = Node.where(:parent_id => (@item.parent_id ? @item.parent_id : nil)).where('id != :id', :id => params[:id])
+
+      @item.assign_attributes(_node_params)
+      @item.assign_attributes(_node_common_fields_params)
+
+
       respond_to do |format|
-        if @item.update_attributes(_node_params)
+        if @item.save
           format.html { redirect_to url_for(:action => "edit") }
         else
           format.html { render action: "edit" }
@@ -99,14 +105,13 @@ module Leaf
 
     protected
 
+    def _node_common_fields_params
+      allowed_params = (@item.common_field_names).map { |f| f.sub(/_uid$/, '') }
+      params.require(current_object_class_name).permit(*allowed_params)
+    end
+
     def _node_params
-      allowed_params = (%w[parent_id name content_type slug position data visible protected content_object_attributes] + @item.common_field_names).map { |f| f.sub(/_uid$/, '') }
-
-      # if @item && @item.content_object
-      #   allowed_params.push({object_data: @item.content_object.class.column_names - ["id", "created_at", "updated_at"]})
-      # end
-
-      # params.require(current_object_class_name).permit(*allowed_params)
+      allowed_params = (%w[parent_id name content_type slug position data visible protected content_object_attributes]).map { |f| f.sub(/_uid$/, '') }
       params.require(current_object_class_name).permit(*allowed_params)
     end
 
