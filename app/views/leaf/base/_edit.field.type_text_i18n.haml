@@ -1,0 +1,12 @@
+- Settings.i18n_locales.each_with_index do |locale, i|
+  - translation = f.object.translations.find_or_initialize_by_locale(locale)
+  .field.type_text
+    = f.fields_for :"translations", translation, :child_index => i do |ff|
+      .label_wrap
+        = ff.label name, "#{name} (#{locale})"
+      .value
+        - unless translation.new_record?
+          = ff.hidden_field :id
+        = ff.hidden_field :locale
+        = ff.text_field name
+      .clear

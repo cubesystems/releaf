@@ -1,6 +1,11 @@
 :ruby
   collection = nil
   input_type = 'text'
+  input_postfix = ''
+  if f.object.class.respond_to?(:translates)
+    input_postfix = '_i18n' if f.object.class.translates.include?(name.to_sym)
+  end
+
 
   case name
   when /_id$/
@@ -68,9 +73,9 @@
       end
     end
 
-  = render "edit.field.type_select", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, f.object.send(name) ), :options => { :include_blank => include_blank }, :f => f
+  = render "edit.field.type_select#{input_postfix}", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, f.object.send(name) ), :options => { :include_blank => include_blank }, :f => f
 - elsif @controller.has_template( "_edit.field.type_#{input_type}" )
-  = render "edit.field.type_#{input_type}", :name => name, :f => f
+  = render "edit.field.type_#{input_type}#{input_postfix}", :name => name, :f => f
 - else
   - input_type = @controller.input_type_for( 'string', name )
-  = render "edit.field.type_#{input_type}", :name => name, :f => f
+  = render "edit.field.type_#{input_type}#{input_postfix}", :name => name, :f => f

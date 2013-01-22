@@ -244,6 +244,7 @@ module Leaf
         variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
       end
 
+      debugger
 
       respond_to do |format|
         if @item.update_attributes( variables )
