@@ -5,7 +5,7 @@
       #error_explanation
         %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"
         %ul
-          - f.objects.errors.full_messages.each do |msg|
+          - f.object.errors.full_messages.each do |msg|
             %li= msg
 
     - @controller.columns( 'edit' ).each do |name|
