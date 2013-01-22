@@ -2,7 +2,7 @@
   collection = nil
   input_type = 'text'
   use_i18n = false
-  if f.object.class.respond_to?(:translates)
+  if f.object.class.respond_to?(:translations_table_name)
     use_i18n = true if f.object.class.translates.include?(name.to_sym)
   end
 
