@@ -25,7 +25,7 @@
 
       - when /_uid$/
         -# FIXME should check if it's a dragonfly field
-        = link_to I18n.t("global.Download"), @item.send(name.sub(/_uid$/, '')).url
+        = link_to I18n.t("common.Download"), @item.send(name.sub(/_uid$/, '')).url
 
       - when /password/
         = I18n.t("common.Filtered")
