@@ -23,7 +23,10 @@ module Leaf
 
     def index
       # authorize! :manage, Translation
-      @list = @object_class = I18n::Backend::Leaf::Translation.includes(:translation_data)
+      @list = @object_class = I18n::Backend::Leaf::Translation.includes(:translation_data).filter(:search => params[:search])
+      if !params[:ajax].blank?
+        render :layout => false
+      end
     end
 
     def edit
