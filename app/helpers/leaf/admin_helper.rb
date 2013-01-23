@@ -2,7 +2,7 @@ module Leaf
   module AdminHelper
 
     def has_many_association_names obj
-      reflect_all_asoc = obj.reflect_on_all_associations
+      reflect_all_asoc = obj.reflect_on_all_associations(:has_many)
       has_many_asoc_names = reflect_all_asoc.map { |asoc| asoc.name }
 
       reflect_all_asoc.each do |asoc|
