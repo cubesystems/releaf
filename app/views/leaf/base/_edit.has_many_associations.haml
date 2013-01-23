@@ -2,14 +2,20 @@
 - f.object.class.reflect_on_all_associations(:has_many).each do |asoc|
   - next unless has_many_asoc_names.include?(asoc.name)
 
+  - sortable_objects = asoc.klass.column_names.include?('position')
+
   -# TODO remove code duplication
   .nested_wrap
     .nested_title= I18n.t(asoc.name)
-    .list
+    .list{:"data-sortable" => sortable_objects ? '' : nil}
       - f.object.send(asoc.name).each_with_index do |asoc_obj,i|
-        .item{:"data-id" => asoc_obj.id}
+        .item
+
           = f.fields_for asoc.name, asoc_obj, :child_index => i do |ff|
-            - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
+            - if sortable_objects
+              = ff.hidden_field :position, :class => :position
+              .handle &nbsp;
+            - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
               = render 'edit.field', :name => field_name, :f => ff
             = render 'edit.field.type_delete_nested', :f => ff
 
@@ -17,7 +23,10 @@
     .template.item{:style => 'display:none;'}
       - asoc_obj = asoc.klass.new
       = f.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |ff|
-        - (asoc_obj.class.column_names - %w[id updated_at created_at]).reject {|f| f =~ /_id$/ }.each do |field_name|
+        - if sortable_objects
+          = ff.hidden_field :position, :class => :position
+          .handle &nbsp;
+        - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
           = render 'edit.field', :name => field_name, :f => ff
         = render 'edit.field.type_delete_nested', :f => ff
 
