@@ -10,7 +10,7 @@
   case name
   when /_id$/
     if f.object.class.respond_to?(:reflect_on_association)
-      if name =~ /_id\z/ && f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
+      if name =~ /_id$/ && f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
         collection = f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
       end
 
