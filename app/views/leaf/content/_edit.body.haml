@@ -10,7 +10,7 @@
       .label_wrap
         = f.label :content_type, 'Veids:', :title => f.object.content_type
       .value
-        = f.select :content_type, options_for_select(f.object.is_controller_node ? [f.object.content_type] : @base_models.map { |m| m.name }, f.object.content_type || params[:content_type]), {:include_blank => f.object.new_record?}, {:title => @item.content_type, :disabled => f.object.new_record? == false }
+        = f.select :content_type, options_for_select(@base_models.map { |m| m.name }, f.object.content_type || params[:content_type]), {:include_blank => f.object.new_record?}, {:title => @item.content_type, :disabled => f.object.new_record? == false }
     .clear
 
 
