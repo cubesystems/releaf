@@ -52,7 +52,7 @@ module Leaf
     # Return node content object public controller
 
     def controller
-      raise "Missing content object" if content_object.nil?
+      raise "Missing content object" if content_object.blank?
       return "#{content_type}_controller".classify.constantize
     end
 
