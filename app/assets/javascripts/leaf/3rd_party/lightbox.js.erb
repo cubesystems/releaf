@@ -1,3 +1,5 @@
+// Place any jQuery/helper plugins in here.
+// Lightbox
 
 /*
 Lightbox v2.51
@@ -48,8 +50,8 @@ lightbox = new Lightbox options
   LightboxOptions = (function() {
 
     function LightboxOptions() {
-      this.fileLoadingImage = '/assets/3rd_party/lightbox/loading.gif';
-      this.fileCloseImage = '/assets/3rd_party/lightbox/close.png';
+      this.fileLoadingImage = '<%= asset_path('leaf/3rd_party/lightbox/loading.gif') %>';
+      this.fileCloseImage = '<%= asset_path('leaf/3rd_party/lightbox/close.png') %>';
       this.resizeDuration = 700;
       this.fadeDuration = 500;
       this.labelImage = "Image";
@@ -201,9 +203,35 @@ lightbox = new Lightbox options
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[imageNumber].link);
-        $image.width = preloader.width;
-        $image.height = preloader.height;
-        return _this.sizeContainer(preloader.width, preloader.height);
+
+        var containerWidth, containerHeight;
+        var doc = {
+            w: $(window).width() - 100,
+            h: $(window).height() - 160
+        };
+        var cont = {
+            w: preloader.width,
+            h: preloader.height
+        };
+
+        var aspect = preloader.width / preloader.height;
+        if(preloader.width > doc.w) {
+            if(doc.w / aspect > doc.h) {
+                cont.w = doc.h * aspect;
+                cont.h = doc.h;
+            } else {
+                cont.w = doc.w;
+                cont.h = doc.w / aspect;
+            }
+        } else if(preloader.height > doc.h) {
+            cont.w = doc.h * aspect;
+            cont.h = doc.h;
+        }
+        $image.css({
+            height: cont.h,
+            width: cont.w
+        });
+        return _this.sizeContainer(cont.w, cont.h);
       };
       preloader.src = this.album[imageNumber].link;
       this.currentImageIndex = imageNumber;

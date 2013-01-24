@@ -7,5 +7,8 @@
   - unless f.object.send(name).blank?
     .value_preview
       = f.hidden_field "retained_#{field_name}"
-      = image_tag f.object.send(field_name).url
+      -# = image_tag f.object.send(field_name).thumb('x128').url
+
+      - img_object = f.object.send(field_name)
+      = link_to image_tag(img_object.thumb('x128').url), img_object.url, :target => :_blank, :data => {:lightbox => true }
   .clear
