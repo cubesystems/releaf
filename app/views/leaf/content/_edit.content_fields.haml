@@ -1,5 +1,4 @@
 .nested_object
-  asd
   - f.object.common_field_names.each do |common_field_name|
     - if @controller.has_template( "_edit.field.#{common_field_name}" )
       = render "edit.field.#{common_field_name}", :name => common_field_name, :f => f
