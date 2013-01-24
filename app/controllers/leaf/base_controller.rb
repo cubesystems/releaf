@@ -61,7 +61,7 @@ module Leaf
     end
 
     def columns( view = nil )
-      cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password]
+      cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password position]
       unless %w[new edit update create].include? view
         cols -= %w[password password_confirmation]
       end
