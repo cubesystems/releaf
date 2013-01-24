@@ -27,14 +27,12 @@ module Leaf
       @item = current_object_class.new(_node_params)
       @item.assign_attributes(_node_common_fields_params)
 
-      respond_to do |format|
-        if @item.save
-          format.html { redirect_to url_for(:action => "index")}
-        else
-          form_extras
-          @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
-          format.html { render action: "new" }
-        end
+      if @item.save
+        format.html { redirect_to url_for(:action => "index")}
+      else
+        form_extras
+        @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
+        format.html { render action: "new" }
       end
     end
 
