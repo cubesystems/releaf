@@ -24,6 +24,7 @@ gem 'awesome_nested_set'
 gem 'acts_as_list'
 gem 'globalize3'
 gem 'stringex'
+gem 'tinymce-rails-imageupload'
 ```
 
 Run the bundle command to install it.
