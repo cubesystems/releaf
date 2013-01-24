@@ -34,14 +34,6 @@
     .clear
 
 
-    - f.object.common_field_names.each do |common_field_name|
-      - if @controller.has_template( "_edit.field.#{common_field_name}" )
-        = render "edit.field.#{common_field_name}", :name => common_field_name, :f => f
-      - else
-        = render 'edit.field', :name => common_field_name, :f => f
-
-
-
     %button.no_styling.toggleSection.collapse{:title => "Saīsināt sadaļu", :type => "button"}
       = image_tag("leaf/icons/130.png", :alt => "Saīsināt sadaļu")
     %button.no_styling.toggleSection.expand{:title => "Parādīt pilnu sadaļu", :type => "button"}
