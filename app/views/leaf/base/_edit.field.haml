@@ -27,7 +27,7 @@
   when /password/
     input_type = 'password'
     use_i18n = false
-  when /_link$/
+  when /_link$/, 'link', /_url$/, 'url'
     input_type = 'link'
     use_i18n = false
   else
