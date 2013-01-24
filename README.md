@@ -23,6 +23,7 @@ gem 'cancan', '~> 1.6.8'
 gem 'awesome_nested_set'
 gem 'acts_as_list'
 gem 'globalize3'
+gem 'stringex'
 ```
 
 Run the bundle command to install it.

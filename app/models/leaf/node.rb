@@ -10,6 +10,7 @@ module Leaf
     default_scope :order => 'position'
 
     validates_presence_of :name, :slug, :content_type
+    validates_uniqueness_of :slug, :scope => :parent_id
 
     alias_attribute :to_text, :name
 
@@ -18,6 +19,8 @@ module Leaf
 
     # FIXME get rid of attr_protected
     attr_protected :none
+
+    acts_as_url :name, :url_attribute => :slug, :only_when_blank => true, :limit => 255
 
     def content_object
       self.content
