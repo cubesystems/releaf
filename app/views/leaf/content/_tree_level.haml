@@ -9,7 +9,7 @@
           .toggle{:style => "margin-left:#{15*level}px;"}><
         - else
           %button.no_styling.toggle.open{"data-id" => node.id, :type => "button", :style => "margin-left:#{15*level}px;"}>< Toggle
-        %a.edit{:href => url_for(:action => :edit, :id => node.id), :title => node.name, :style=> "left: #{43+15*level}px;"}><
+        %a.edit{:href => url_for(:action => :edit, :id => node.id), :title => node.url, :style=> "left: #{43+15*level}px;"}><
           = image_tag "leaf/language_root.png", :alt => ''
           %span= node.name
       - if !node.children.empty?

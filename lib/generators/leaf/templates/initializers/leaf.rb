@@ -16,28 +16,34 @@ Leaf.setup do |conf|
 end
 
 
-
 module ActionDispatch::Routing
   class Mapper
     def mount_leaf_at(mount_location)
+
       devise_for :admins, :path => mount_location, :controllers => { :sessions => "leaf/sessions" }
+
 
       scope mount_location do
         namespace :leaf, :path => nil do
-          root :to => "application#index"
 
           resources :nodes, :controller => "content", :path => "content" do
-            get :confirm_destroy, :on => :member
-            get :get_content_form, :on => :member
+            member do
+              get :confirm_destroy
+              get :get_content_form
+            end
+
+            get :generate_url, :on => :collection
           end
 
           resources :translation_groups, :controller => "translations", :path => "translations" do
             get :confirm_destroy, :on => :member
             match :urls, :on => :collection
           end
+          root :to => "content#index"
         end
       end
 
     end
   end
 end
+

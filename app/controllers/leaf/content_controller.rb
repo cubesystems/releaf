@@ -38,6 +38,28 @@ module Leaf
       end
     end
 
+    def generate_url
+      tmp_item = nil
+
+      if params[:id]
+        tmp_item = Node.find(params[:id])
+      elsif params[:parent_id].blank? == false
+        parent = Node.find(params[:parent_id])
+        tmp_item = parent.children.new
+      else
+        tmp_item = Node.new
+      end
+
+      tmp_item.name = params[:name]
+      tmp_item.slug = nil
+      # FIXME calling private method
+      tmp_item.send(:ensure_unique_url)
+
+      respond_to do |format|
+        format.js { render :text => tmp_item.slug }
+      end
+    end
+
     def update
       @item = current_object_class.find(params[:id])
       authorize! :edit, @item
