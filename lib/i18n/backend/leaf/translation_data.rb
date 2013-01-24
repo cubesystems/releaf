@@ -4,6 +4,9 @@ module I18n
   module Backend
     class Leaf
       class TranslationData < ::ActiveRecord::Base
+
+        self.table_name = "leaf_translation_data"
+
         validates_presence_of :translation_id, :lang
         validates_uniqueness_of :translation_id, :scope => :lang
         belongs_to :translation

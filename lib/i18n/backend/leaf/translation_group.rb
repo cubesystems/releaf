@@ -4,9 +4,12 @@ module I18n
   module Backend
     class Leaf
       class TranslationGroup < ::ActiveRecord::Base
+
+        self.table_name = "leaf_translation_groups"
+
         validates_presence_of :scope
 
-        has_many :translations, :dependent => :destroy, :foreign_key => :group_id, :order => 'translations.key'
+        has_many :translations, :dependent => :destroy, :foreign_key => :group_id, :order => 'leaf_translations.key'
         after_commit :reload_cache
 
         def to_s
