@@ -13,7 +13,7 @@ module Leaf
 
     alias_attribute :to_text, :name
 
-    belongs_to :content, :polymorphic => true
+    belongs_to :content, :polymorphic => true, :dependent => :destroy
     accepts_nested_attributes_for :content
 
     # FIXME get rid of attr_protected
