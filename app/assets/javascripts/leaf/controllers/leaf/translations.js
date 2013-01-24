@@ -1,14 +1,14 @@
 jQuery(function()
 {
-	var controller = jQuery( '.controller-leaf_aliases' );
+	var controller = jQuery( '.controller-leaf_translations' );
 
-	// adjust alias table head cell width
+	// adjust translations table head cell width
 
-	var headCells = controller.find( '.aliasesTableHead .th' );
+	var headCells = controller.find( '.translations_table_head .th' );
 	//console.log( headCells );
 	var adjustHeadCellWidth = function()
 	{
-        var row = jQuery( '.module-aliases .aliasesTable thead tr:first th' );
+        var row = jQuery( '.module-translations .translations_table thead tr:first th' );
 
 		for( var i = 0; i < headCells.length; i++ )
 		{
@@ -26,6 +26,6 @@ jQuery(function()
 	}
 
     controller.on('itemadd', function() {
-        controller.find('table.aliases tbody tr:last td.translation_name input[type="text"]').focus();
+        controller.find('table.translations tbody tr:last td.translation_name input[type="text"]').focus();
     });
 });

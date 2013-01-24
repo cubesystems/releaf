@@ -3,7 +3,7 @@ Leaf.setup do |conf|
   # setup main menu
   conf.main_menu = [
     'leaf/content',
-    'leaf/aliases',
+    'leaf/translations',
     '*permissions',
   ]
 
@@ -31,7 +31,7 @@ module ActionDispatch::Routing
             get :get_content_form, :on => :member
           end
 
-          resources :translation_groups, :controller => "aliases", :path => "aliases" do
+          resources :translation_groups, :controller => "translations", :path => "translations" do
             get :confirm_destroy, :on => :member
             match :urls, :on => :collection
           end

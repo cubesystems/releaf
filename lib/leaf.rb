@@ -5,7 +5,7 @@ module Leaf
   @@main_menu = [
     'leaf/content',
     '*modules',
-    'leaf/aliases'
+    'leaf/translations'
   ]
 
   mattr_accessor :base_menu
