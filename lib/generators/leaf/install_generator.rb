@@ -15,14 +15,14 @@ module Leaf
       source_root File.expand_path('../templates', __FILE__)
 
       def install_initializer
-        %w[leaf store_current_template i18n_leaf].each do |initializer|
+        %w[leaf leaf_leaf_store_current_template leaf_i18n].each do |initializer|
           template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
         end
         template 'initializers/store_current_template.rb', 'config/initializers/store_current_template.rb'
       end
 
       def install_migrations
-        %w[create_leaf_nodes create_leaf_roles create_translations create_leaf_admins].each do |migration|
+        %w[create_leaf_nodes create_leaf_roles create_leaf_translations create_leaf_admins].each do |migration|
           migration_template "migrations/#{migration}.rb", "db/migrate/#{migration}.rb"
         end
       end
