@@ -1,12 +1,15 @@
 module Leaf
   class BaseApplicationController < ActionController::Base
-    before_filter :authenticate_leaf_admin!
+    # include LeafDeviseHelper
+
+    before_filter "authenticate_#{LeafDeviseHelper.devise_admin_model_name}!"
     # check_authorization :unless => :devise_controller?
-    layout 'leaf/admin'
+    layout Leaf.layout
     protect_from_forgery
 
     def current_ability
-      @current_ability ||= AdminAbility.new(current_leaf_admin)
+      @current_ability ||= AdminAbility.new(self.send("current_#{LeafDeviseHelper.devise_admin_model_name}"))
     end
+
   end
 end

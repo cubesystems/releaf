@@ -13,7 +13,8 @@ Leaf.setup do |conf|
     ]
   }
 
-  conf.tinymce_assets_path = 'private/tinymce_assets'
+  conf.layout = 'leaf/admin'
+  conf.devise_for 'leaf/admin'
 
 end
 
@@ -24,7 +25,7 @@ module ActionDispatch::Routing
 
       post '/tinymce_assets' => 'leaf/tinymce_assets#create'
 
-      devise_for :admins, :path => mount_location, :controllers => { :sessions => "leaf/sessions" }
+      devise_for Leaf.devise_for, :path => mount_location, :controllers => { :sessions => "leaf/sessions" }
 
       scope mount_location do
         namespace :leaf, :path => nil do

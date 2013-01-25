@@ -11,6 +11,12 @@ module Leaf
   mattr_accessor :base_menu
   @@base_menu = {}
 
+  mattr_accessor :devise_for
+  @@devise_for = 'leaf/admin'
+
+  mattr_accessor :layout
+  @@layout = "leaf/admin"
+
   class << self
     def setup
       yield self

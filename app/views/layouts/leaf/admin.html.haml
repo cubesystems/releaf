@@ -14,10 +14,10 @@
       - if File.exists?(_assets_path + "/stylesheets/leaf/controllers/#{controller_asset}" + ext)
         = stylesheet_link_tag "leaf/controllers/#{controller_asset}"
   %body.yui3-skin-sam
-    - if leaf_admin_signed_in?
+    - if self.send(:"#{Leaf::LeafDeviseHelper.devise_admin_model_name}_signed_in?")
       .main_menu
         .user
-          %a{:href => destroy_leaf_admin_session_path, "data-method" => "delete"}
+          %a{:href => self.send(:"destroy_#{Leaf::LeafDeviseHelper.devise_admin_model_name}_session_path"), "data-method" => "delete"}
             %span.image_container
               = image_tag("leaf/logout.png")
             %span.name_wrap= t("logout")
@@ -30,7 +30,7 @@
                 %span.name_wrap= t(item, :scope => "admin.main_menu")
 
     %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
-      - if leaf_admin_signed_in?
+      - if self.send(:"#{Leaf::LeafDeviseHelper.devise_admin_model_name}_signed_in?")
         - if @panel_layout == true
           .panel_layout
             .secondary_panel
