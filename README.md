@@ -7,11 +7,12 @@ Leaf is Admin interface for Rails projects
 Leaf will work with Rails 3.2.
 You can add it to your Gemfile with:
 ```ruby
+gem 'will_paginate', '~> 3.0.4'
 gem 'acts_as_list'
 gem 'awesome_nested_set'
 gem 'cancan', '~> 1.6.8'
 gem 'devise', '~> 2.1.2'
-gem 'dragonfly', '~>0.9.12'
+gem 'dragonfly', '~> 0.9.12'
 gem 'globalize3'
 gem 'haml'
 gem 'haml-rails'
@@ -24,7 +25,7 @@ gem 'stringex'
 gem 'strong_parameters'
 gem 'tinymce-rails', '~> 3.5.8'
 gem 'tinymce-rails-imageupload'
-gem 'will_paginate', '3.0.3'
+gem 'will_paginate', '~> 3.0.4'
 gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
 ```
 

@@ -1,0 +1,5 @@
+- AdminAbility::PERMISSIONS.each do |permissions|
+  - if permissions.is_a? String
+    = render 'edit.field.type_checkbox', :name => "#{permissions}_permission", :f => f
+  - elsif permissions.is_a? Array
+    = render 'edit.field.type_select', :name => "#{permissions[0]}_permissions", :select_options => permissions[1], :f => f

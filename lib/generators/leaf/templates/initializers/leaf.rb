@@ -9,7 +9,7 @@ Leaf.setup do |conf|
 
   conf.base_menu = {
     '*permissions' => [
-      ['permissions',   %w[admin/admins admin/roles]],
+      ['permissions',   %w[leaf/admins leaf/roles]],
     ]
   }
 
@@ -28,6 +28,11 @@ module ActionDispatch::Routing
 
       scope mount_location do
         namespace :leaf, :path => nil do
+
+          resources :admins, :roles do
+            get :confirm_destroy, :on => :member
+            match :urls, :on => :collection
+          end
 
           resources :nodes, :controller => "content", :path => "content" do
             member do

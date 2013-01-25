@@ -41,5 +41,6 @@ Gem::Specification.new do |s|
   s.add_dependency('i18n', '>= 0.6.0')
   s.add_dependency('stringex', '~> 1.5.1')
   s.add_dependency('tinymce-rails-imageupload', '~> 3.5.6.3')
+  s.add_dependency("will_paginate", "~> 3.0.4")
 
 end

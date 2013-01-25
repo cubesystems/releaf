@@ -14,12 +14,6 @@ module Leaf
 
       source_root File.expand_path('../templates', __FILE__)
 
-      def install_controllers
-        %w[admins roles].each do |controller|
-          template "controllers/#{controller}_controller.rb", "app/controllers/admin/#{controller}_controller.rb"
-        end
-      end
-
       def install_initializer
         %w[leaf store_current_template i18n_leaf].each do |initializer|
           template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
@@ -28,7 +22,7 @@ module Leaf
       end
 
       def install_migrations
-        %w[create_leaf_nodes create_roles create_translations create_admins].each do |migration|
+        %w[create_leaf_nodes create_leaf_roles create_translations create_leaf_admins].each do |migration|
           migration_template "migrations/#{migration}.rb", "db/migrate/#{migration}.rb"
         end
       end
@@ -47,24 +41,6 @@ module Leaf
         template "config/common_fields.yml.example", "config/common_fields.yml.example"
       end
 
-      def install_roles_views
-        %w[_edit.field.permissions.haml _show.field.permissions.haml].each do |view|
-          template "views/roles/#{view}", "app/views/admin/roles/#{view}"
-        end
-      end
-
-      def install_admins_views
-        %w[
-          _edit.field.password.haml
-          _edit.field.password_confirmation.haml
-          _edit.field.role_id.haml
-          _index.cell.role_id.haml
-          _show.field.role_id.haml
-        ].each do |view|
-          template "views/admins/#{view}", "app/views/admin/admins/#{view}"
-        end
-      end
-
-    end
+    nd
   end
 end

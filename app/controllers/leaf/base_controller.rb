@@ -53,7 +53,7 @@ module Leaf
     end
 
     def current_object_class
-      @_current_object_class ||= self.class.name.sub(/^.*::/, '').sub(/\s?Controller$/, '').classify.constantize
+      @_current_object_class ||= self.class.name.split('::').last.sub(/\s?Controller$/, '').classify.constantize
     end
 
     def current_object_class_name
