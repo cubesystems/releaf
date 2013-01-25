@@ -12,8 +12,6 @@ module Leaf
     validates_uniqueness_of :email, :case_sensitive => false
     belongs_to :role
 
-    include UriPart
-
     image_accessor :avatar
 
     scope :filter, lambda {|params|

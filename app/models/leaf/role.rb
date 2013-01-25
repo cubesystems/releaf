@@ -12,8 +12,6 @@ module Leaf
 
     alias_attribute :to_text, :name
 
-    include UriPart
-
     AdminAbility::PERMISSIONS.each do |perms|
       if perms.is_a? Array
         # attr_accessible :"#{perms[0]}_permissions"
