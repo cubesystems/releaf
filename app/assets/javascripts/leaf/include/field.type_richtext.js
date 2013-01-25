@@ -37,7 +37,7 @@ jQuery(function()
 		plugin_insertdate_dateFormat : '%Y-%m-%d',
 		plugin_insertdate_timeFormat : '%H:%M:%S',
 		extended_valid_elements : 'a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]',
-		relative_urls : true,
+		relative_urls : false,
 		theme_advanced_resizing : true,
 		object_resizing : false,
 		//content_css: '/styles/textFormat.css',
