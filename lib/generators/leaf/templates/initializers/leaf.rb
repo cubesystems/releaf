@@ -1,20 +1,21 @@
 Leaf.setup do |conf|
+  # Default settings are commented out
 
-  # setup main menu
-  conf.main_menu = [
-    'leaf/content',
-    'leaf/translations',
-    '*permissions',
-  ]
+  ### setup main menu
+  # conf.main_menu = [
+  #   'leaf/content',
+  #   'leaf/translations',
+  #   '*permissions',
+  # ]
 
-  conf.base_menu = {
-    '*permissions' => [
-      ['permissions',   %w[leaf/admins leaf/roles]],
-    ]
-  }
+  # conf.base_menu = {
+  #   '*permissions' => [
+  #     ['permissions',   %w[leaf/admins leaf/roles]],
+  #   ]
+  # }
 
-  conf.layout = 'leaf/admin'
-  conf.devise_for 'leaf/admin'
+  # conf.layout = 'leaf/admin'
+  # conf.devise_for 'leaf/admin'
 
 end
 
