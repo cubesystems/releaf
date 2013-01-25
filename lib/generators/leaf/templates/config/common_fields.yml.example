@@ -13,5 +13,5 @@
 -
   field_name: seo_description
   field_type: text
-  default: asdasdas
+  default: example_default_value
   apply_to:

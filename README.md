@@ -7,15 +7,14 @@ Leaf is Admin interface for Rails projects
 Leaf will work with Rails 3.2.
 You can add it to your Gemfile with:
 ```ruby
+gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
+gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
 gem 'mysql2'
 gem 'will_paginate', '3.0.3'
 gem 'devise', '~> 2.1.2'
-gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
 gem 'haml'
 gem 'haml-rails'
 gem 'dragonfly', '~>0.9.12'
-
-gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
 gem 'strong_parameters'
 gem 'tinymce-rails', '~> 3.5.8'
 gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
@@ -24,6 +23,8 @@ gem 'awesome_nested_set'
 gem 'acts_as_list'
 gem 'globalize3'
 gem 'stringex'
+gem 'jquery-rails'
+gem 'rack-cache', :require => 'rack/cache'
 ```
 
 Run the bundle command to install it.

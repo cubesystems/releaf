@@ -59,24 +59,28 @@ source "https://rubygems.org"
 
 gem "rails", "3.2.11"
 
-gem "acts_as_list"
-gem "awesome_nested_set"
-gem "cancan", "~> 1.6.8"
-gem "devise", "~> 2.1.2"
-gem "dragonfly", "~> 0.9.12"
-gem "haml"
-gem "haml-rails"
+# gems used by leaf
+gem 'leaf', :git => 'git@github.com:cubesystems/leaf.git'
+gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
+gem 'mysql2'
+gem 'will_paginate', '3.0.3'
+gem 'devise', '~> 2.1.2'
+gem 'haml'
+gem 'haml-rails'
+gem 'dragonfly', '~>0.9.12'
+gem 'strong_parameters'
+gem 'tinymce-rails', '~> 3.5.8'
+gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
+gem 'cancan', '~> 1.6.8'
+gem 'awesome_nested_set'
+gem 'acts_as_list'
+gem 'globalize3'
+gem 'stringex'
 gem "jquery-rails"
-gem "leaf", :git => "git@github.com:cubesystems/leaf.git"
-gem "mysql2"
 gem "rack-cache", :require => "rack/cache"
-gem "rails-settings-cached", :git => "https://github.com/graudeejs/rails-settings-cached"
-gem "strong_parameters"
-gem "tinymce-rails", "~> 3.5.8"
+
+
 gem "unicorn"
-gem "will_paginate", "~> 3.0.3"
-gem "yui-rails", :git => "https://github.com/ConnectCubed-Open/yui-rails"
-gem "globalize3"
 
 group :assets do
  gem "sass-rails", "~> 3.2.5"
