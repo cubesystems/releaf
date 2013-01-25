@@ -10,15 +10,16 @@ module Leaf
 
       render json: {
         image: {
-          url: serve_tinymce_asset_path(asset)
+          # url: serve_tinymce_asset_path(asset)
+          url: asset.file.url
         }
       }, content_type: "text/html"
     end
 
-    def serve
-      asset = TinymceAsset.find(params[:id])
-      send_file asset.file.path, :type => asset.file_type
-    end
+    # def serve
+    #   asset = TinymceAsset.find(params[:id])
+    #   send_file asset.file.path, :type => asset.file_type
+    # end
 
   end
 end
