@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
-Role.delete_all
-Admin.delete_all
+Leaf::Role.delete_all
+Leaf::Admin.delete_all
 
 Settings.delete_all
 
@@ -21,7 +21,7 @@ roles = {
 }
 
 roles.each_value do |value|
-  value[:id] = Role.create!(value).id
+  value[:id] = Leaf::Role.create!(value).id
 end
 
 # }}}
@@ -48,7 +48,7 @@ admins = {
 }
 
 admins.each_value do |value|
-  value[:id] = Admin.create!(value).id
+  value[:id] = Leaf::Admin.create!(value).id
 end
 
 # }}}
