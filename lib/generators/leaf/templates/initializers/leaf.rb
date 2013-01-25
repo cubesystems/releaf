@@ -23,7 +23,7 @@ module ActionDispatch::Routing
     def mount_leaf_at(mount_location)
 
       post '/tinymce_assets' => 'leaf/tinymce_assets#create'
-      get '/tinymce_assets/:filename' => 'leaf/tinymce_assets#serve', :as => 'serve_tinymce_asset'
+      get '/tinymce_assets/:id' => 'leaf/tinymce_assets#serve', :as => 'serve_tinymce_asset'
 
       devise_for :admins, :path => mount_location, :controllers => { :sessions => "leaf/sessions" }
 
