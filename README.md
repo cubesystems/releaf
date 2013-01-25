@@ -25,6 +25,7 @@ gem 'globalize3'
 gem 'stringex'
 gem 'jquery-rails'
 gem 'rack-cache', :require => 'rack/cache'
+gem 'tinymce-rails-imageupload'
 ```
 
 Run the bundle command to install it.

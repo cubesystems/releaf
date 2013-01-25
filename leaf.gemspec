@@ -40,5 +40,6 @@ Gem::Specification.new do |s|
   s.add_dependency('awesome_nested_set')
   s.add_dependency('i18n', '>= 0.6.0')
   s.add_dependency('stringex', '~> 1.5.1')
+  s.add_dependency('tinymce-rails-imageupload', '~> 3.5.6.3')
 
 end

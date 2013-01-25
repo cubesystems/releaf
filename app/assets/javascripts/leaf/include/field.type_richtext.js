@@ -2,7 +2,7 @@
 jQuery(function()
 {
 	// richtext config
-	var plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari' ];
+	var plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari', 'uploadimage' ];
 
 	// remove inlinepopups plugin for Opera 10
 	if( typeof BrowserDetect != 'undefined' )
@@ -27,7 +27,7 @@ jQuery(function()
 		entities : '160,nbsp,38,amp,60,lt,62,gt',
 		body_class : 'content',
 		plugins : plugins.join(','),
-		theme_advanced_buttons1 : 'bold,italic,formatselect,justifyleft,justifycenter,justifyright,justifyfull,|,sub,sup,|,bullist,numlist,|,link,unlink,image,embed,|,code,cleanup,removeformat',
+		theme_advanced_buttons1 : 'bold,italic,formatselect,justifyleft,justifycenter,justifyright,justifyfull,|,sub,sup,|,bullist,numlist,|,link,unlink,uploadimage,image,embed,|,code,cleanup,removeformat',
 		theme_advanced_blockformats : 'p,address,pre,h2,h3,h4,h5,h6',
 		theme_advanced_buttons2 : '',
 		theme_advanced_buttons3 : '',

@@ -11,6 +11,9 @@ module Leaf
   mattr_accessor :base_menu
   @@base_menu = {}
 
+  mattr_accessor :tinymce_assets_path
+  @@tinymce_assets_path = 'private/tinymce_assets'
+
   class << self
     def setup
       yield self
