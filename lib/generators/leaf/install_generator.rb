@@ -18,7 +18,6 @@ module Leaf
         %w[leaf leaf_store_current_template leaf_i18n].each do |initializer|
           template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
         end
-        template 'initializers/store_current_template.rb', 'config/initializers/store_current_template.rb'
       end
 
       def install_migrations
