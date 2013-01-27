@@ -63,7 +63,7 @@ module I18n
             return result unless result.blank? #if result.blank? == false # found translation in cache
           end while chain.empty? == false
 
-          return nil if Translation.where('translations.key IN (?)', keys_to_check_for_other_locales).exists?
+          return nil if Translation.where('leaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
 
           save_missing_translation(locale, key)
           return nil
