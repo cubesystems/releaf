@@ -1,4 +1,4 @@
-class CreateRoles < ActiveRecord::Migration
+class CreateLeafRoles < ActiveRecord::Migration
   def change
     create_table :leaf_roles do |t|
       t.string  :name,        :null => false

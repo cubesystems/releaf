@@ -31,7 +31,7 @@ module Leaf
       end
 
       def install_models
-        %w[admin admin_ability role].each do |model|
+        %w[admin_ability].each do |model|
           template "models/#{model}.rb", "app/models/#{model}.rb"
         end
       end

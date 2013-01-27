@@ -1,4 +1,4 @@
-class CreateAdmins < ActiveRecord::Migration
+class CreateLeafAdmins < ActiveRecord::Migration
   def change
     create_table :leaf_admins do |t|
       t.string  :name,                :null => false
