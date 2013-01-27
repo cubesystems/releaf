@@ -4,12 +4,16 @@ module Leaf
   mattr_accessor :main_menu
   @@main_menu = [
     'leaf/content',
-    '*modules',
+    '*permissions',
     'leaf/translations'
   ]
 
   mattr_accessor :base_menu
-  @@base_menu = {}
+  @@base_menu = {
+    '*permissions' => [
+      ['permissions',   %w[leaf/admins leaf/roles]],
+    ]
+  }
 
   mattr_accessor :devise_for
   @@devise_for = 'leaf/admin'
