@@ -15,7 +15,7 @@ module Leaf
       source_root File.expand_path('../templates', __FILE__)
 
       def install_initializer
-        %w[leaf leaf_leaf_store_current_template leaf_i18n].each do |initializer|
+        %w[leaf leaf_store_current_template leaf_i18n].each do |initializer|
           template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
         end
         template 'initializers/store_current_template.rb', 'config/initializers/store_current_template.rb'
