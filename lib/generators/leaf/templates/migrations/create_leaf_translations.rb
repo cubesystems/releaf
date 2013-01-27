@@ -1,4 +1,4 @@
-class CreateTranslations < ActiveRecord::Migration
+class CreateLeafTranslations < ActiveRecord::Migration
   def change
     create_table :leaf_translation_groups do |t|
       t.string :scope, :null => false
