@@ -41,6 +41,6 @@ module Leaf
         template "config/common_fields.yml.example", "config/common_fields.yml.example"
       end
 
-    nd
+    end
   end
 end
