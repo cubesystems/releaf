@@ -81,7 +81,7 @@ module Leaf
     end
 
     def new
-      authorise! :create, current_object_class
+      authorize! :create, current_object_class
       unless params[:ajax] == '1'
         super
         @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
