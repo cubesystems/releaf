@@ -22,7 +22,7 @@ module Leaf
     end
 
     def index
-      # authorize! :manage, Translation
+      authorize! :manage, I18n::Backend::Leaf::Translation
       @list = @object_class = I18n::Backend::Leaf::Translation.includes(:translation_data).filter(:search => params[:search])
       if !params[:ajax].blank?
         render :layout => false
@@ -30,17 +30,17 @@ module Leaf
     end
 
     def edit
-      # authorize! :manage, Translation
+      authorize! :manage, I18n::Backend::Leaf::Translation
       @item = current_object_class.find(params[:id])
     end
 
     def show
-      # authorize! :manage, Translation
+      authorize! :manage, I18n::Backend::Leaf::Translation
       redirect_to url_for( :action => "edit", :id => params[:id] )
     end
 
     def create
-      # authorize! :manage, Translation
+      authorize! :manage, I18n::Backend::Leaf::Translation
       @item = current_object_class.new(item_params)
 
       respond_to do |format|
@@ -55,7 +55,7 @@ module Leaf
     end
 
     def update
-      # authorize! :manage, Translation
+      authorize! :manage, I18n::Backend::Leaf::Translation
       @item = current_object_class.find(params[:id])
 
       unless params[:translations].blank?
