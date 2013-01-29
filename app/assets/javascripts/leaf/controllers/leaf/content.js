@@ -52,36 +52,38 @@ jQuery(document).ready(function() {
 
         $(document).click(function (e) {
             var container = jQuery('#new_object_menu');
-            if ( container.has(e.target).length === 0) {
+            if ( container.has(e.target) ) {
                 container.hide();
             }
         });
 
         var name_input = jQuery('#leaf_node_name');
-        var slug_input = jQuery('#leaf_node_slug');
-        var generate_slug_button = jQuery('button.generate_slug');
+        if (name_input.length) {
+            var slug_input = jQuery('#leaf_node_slug');
+            var generate_slug_button = jQuery('button.generate_slug');
 
-        var generate_slug = function () {
-            var url = new RequestUrl( generate_slug_button.attr('data-new_slug_url') ).add({name: name_input.attr('value')}).getUrl();
+            var generate_slug = function () {
+                var url = new RequestUrl( generate_slug_button.attr('data-new_slug_url') ).add({name: name_input.attr('value')}).getUrl();
 
-            jQuery.ajax({
-                type:       'GET',
-                dataType:   'text',
-                url:        url,
-                timeout:    3000,
-                success:    function (data, textStatus) {
-                                slug_input.attr('value', data);
-                            },
-                error:      function (xhr, textStatus, errorThrown) {
-                                // FIXME
-                                alert("Failed to generate slug");
-                            }
-            });
-        }
-        generate_slug_button.on('click', generate_slug)
+                jQuery.ajax({
+                    type:       'GET',
+                    dataType:   'text',
+                    url:        url,
+                    timeout:    3000,
+                    success:    function (data, textStatus) {
+                                    slug_input.attr('value', data);
+                                },
+                    error:      function (xhr, textStatus, errorThrown) {
+                                    // FIXME
+                                    alert("Failed to generate slug");
+                                }
+                });
+            }
+            generate_slug_button.on('click', generate_slug)
 
-        if (name_input.attr('value').length === 0) {
-            name_input.one('change', generate_slug);
+            if (name_input.attr('value').length === 0) {
+                name_input.one('change', generate_slug);
+            }
         }
 
     }
