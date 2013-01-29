@@ -89,6 +89,7 @@ module Leaf
         @item.parent_id = params[:parent_id]
         form_extras
       else
+        Rails.application.eager_load!
         get_base_models
         render 'ajax.new', :layout => nil
       end
