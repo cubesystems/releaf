@@ -1,3 +1,28 @@
 #!/usr/bin/env ruby
+gem 'railties'
+require 'rails/generators'
+require 'rails/generators/rails/app/app_generator'
+template_path = File.expand_path('../../templates/leaf/installer.rb', __FILE__)
 
-system (__FILE__.split('/')[0..-2] + ['new_leaf.sh']).join('/'), ARGV[0]
+if ARGV.size == 0 || ARGV[0] == "--help"
+  puts "Usage:"
+  puts "  leaf APP_NAME [options]"
+  puts ""
+  puts "Options:"
+  # Support when running locally
+  relative_path = File.expand_path('../../lib/generators/leaf/install_generator.rb', __FILE__)
+  require relative_path
+  Leaf::Generators::InstallGenerator.class_options.each do |raw, option|
+    dasherized = "--#{option.name.to_s.gsub('_', '-')}"
+    dasherized = [option.aliases, "[#{dasherized}]"].flatten.join(', ') if option.aliases.any?
+    puts "  #{dasherized}".ljust(28) << "# #{option.description}"
+  end
+  exit 0
+end
+
+application_name = ARGV.shift
+
+result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-gemfile', '--skip-bundle', '--database=mysql',  '--skip-test-unit'] | ARGV
+
+
+#system (__FILE__.split('/')[0..-2] + ['new_leaf.sh']).join('/'), ARGV[0]

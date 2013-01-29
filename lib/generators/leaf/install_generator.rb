@@ -3,6 +3,9 @@ module Leaf
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
 
+      class_option :rvm,  :type => :boolean, :aliases => nil, :group => :runtime, :default => true,
+                           :desc => "Install with rvm gemset support"
+
       def self.next_migration_number(path)
         unless @prev_migration_nr
           @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
@@ -38,6 +41,10 @@ module Leaf
 
       def install_configs
         template "config/common_fields.yml.example", "config/common_fields.yml.example"
+      end
+
+      def install_views
+        template "views/layouts/application.html.haml", "app/views/layouts/application.html.haml"
       end
 
     end
