@@ -10,7 +10,8 @@ module Leaf
         has_many_asoc_names.delete(asoc.name)
       end
 
-      has_many_asoc_names
+      # don't show translations associaton which is created by globalize3
+      has_many_asoc_names - [:translations]
     end
 
 
