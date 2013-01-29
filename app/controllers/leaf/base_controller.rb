@@ -215,7 +215,9 @@ module Leaf
       authorize! :create, current_object_class
       @item = current_object_class.new
 
-      if @item.respond_to? :allowed_params
+      if self.respond_to?(:"#{current_object_class_name}_params")
+        variables = params.require( current_object_class_name ).permit( *self.send(:"#{current_object_class_name}_params", :update) )
+      elsif @item.respond_to? :allowed_params
         variables = params.require( current_object_class_name ).permit( *@item.allowed_params(:create) )
       else
         variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
