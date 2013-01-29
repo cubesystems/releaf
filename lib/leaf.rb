@@ -1,3 +1,4 @@
+require "leaf/slug"
 require "leaf/engine"
 
 module Leaf
