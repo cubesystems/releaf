@@ -1,26 +1,4 @@
 require 'rbconfig'
-#VERSION_BAND = '2.0.0'
-
-#gsub_file 'Gemfile', "gem 'jquery-rails'", "gem 'jquery-rails', '~> 2.0.0'"
-## We want to ensure that you have an ExecJS runtime available!
-#begin
-  #run 'bundle install'
-  #require 'execjs'
-  #raise if ::ExecJS::Runtimes.autodetect.name =~ /therubyracer/
-#rescue
-  #require 'pathname'
-  #if Pathname.new(destination_root.to_s).join('Gemfile').read =~ /therubyracer/
-    #gsub_file 'Gemfile', "# gem 'therubyracer'", "gem 'therubyracer'"
-  #else
-    #append_file 'Gemfile', <<-GEMFILE
-
-#group :assets do
-  ## Added by Leaf. We want to ensure that you have an ExecJS runtime available!
-  #gem 'therubyracer'
-#end
-#GEMFILE
-  #end
-#end
 
 file 'Gemfile', <<-GEMFILE
 
@@ -90,9 +68,43 @@ GEMFILE
 run 'cp config/database.yml config/database.yml.example'
 run 'rm -f "db/seeds.rb" "public/index.html" "public/images/rails.png" "app/views/layouts/application.html.erb" "config/routes.rb"'
 
-run "echo 'rvm 1.9.3@#{app_name}' > .rvmrc"
-run "rvm gemset create #{app_name}"
-run "rvm gemset use #{app_name}"
+
+# load in RVM environment
+if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
+  begin
+    rvm_path     = File.dirname(File.dirname(ENV['MY_RUBY_HOME']))
+    rvm_lib_path = File.join(rvm_path, 'lib')
+    $LOAD_PATH.unshift rvm_lib_path
+
+    require 'rvm'
+  rescue LoadError
+    # RVM is unavailable at this point.
+    raise "RVM ruby lib is currently unavailable."
+  end
+else
+  raise "RVM ruby lib is currently unavailable."
+end
+
+rvm_env = "1.9.3@#{app_name}"
+
+# create rvmrc file
+file ".rvmrc", <<-END
+rvm #{rvm_env}
+END
+
+say "Creating RVM gemset #{app_name}"
+RVM.gemset_create app_name
+
+say "Trusting project's .rvmrc"
+run "rvm rvmrc trust"
+
+say "Switching to use RVM gemset #{app_name}"
+RVM.gemset_use! app_name
+
+
+if run("gem list --installed bundler", :capture => true) =~ /false/
+  run "gem install bundler --no-rdoc --no-ri"
+end
 
 run 'bundle install'
 rake 'db:create'
