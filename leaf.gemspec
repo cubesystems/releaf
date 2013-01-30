@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.email       = 'info@cubesystems.lv'
   s.homepage    = 'https://github.com/cubesystems/leaf'
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   ## currenty doesn't work from gems path
