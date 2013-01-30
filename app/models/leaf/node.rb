@@ -4,6 +4,7 @@ module Leaf
 
     acts_as_nested_set
     acts_as_list :scope => :parent_id
+    include Slug
     self.table_name = 'leaf_nodes'
 
     serialize :data, Hash
