@@ -23,6 +23,3 @@ end
 application_name = ARGV.shift
 
 result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-gemfile', '--skip-bundle', '--database=mysql',  '--skip-test-unit'] | ARGV
-
-
-#system (__FILE__.split('/')[0..-2] + ['new_leaf.sh']).join('/'), ARGV[0]

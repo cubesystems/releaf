@@ -90,8 +90,9 @@ GEMFILE
 run 'cp config/database.yml config/database.yml.example'
 run 'rm -f "db/seeds.rb" "public/index.html" "public/images/rails.png" "app/views/layouts/application.html.erb" "config/routes.rb"'
 
-#file 'app/views/layouts/application.html.haml', <<-LAYOUT
-#LAYOUT
+run "echo 'rvm 1.9.3@#{app_name}' > .rvmrc"
+run "rvm gemset create #{app_name}"
+run "rvm gemset use #{app_name}"
 
 run 'bundle install'
 rake 'db:create'
