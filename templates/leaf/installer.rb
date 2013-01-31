@@ -1,5 +1,15 @@
 require 'rbconfig'
 
+def ask_wizard(question, default_value)
+  value = ask (@current_recipe || "prompt").rjust(10) + "  #{question}"
+
+  if value.blank?
+    value = default_value
+  end
+
+  return value
+end
+
 file 'Gemfile', <<-GEMFILE
 if RUBY_VERSION =~ /1.9/
   Encoding.default_external = Encoding::UTF_8
@@ -69,7 +79,16 @@ end
 
 GEMFILE
 
+@current_recipe = "database"
+mysql_username = ask_wizard("Username for MySQL? (leave blank to use the 'root')", 'root')
+gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
+
+mysql_password = ask_wizard("Password for MySQL user #{mysql_username}?", '')
+gsub_file "config/database.yml", /password:/, "password: #{mysql_password}"
+
 run 'cp config/database.yml config/database.yml.example'
+append_file '.gitignore', 'config/database.yml'
+
 run 'rm -f "db/seeds.rb" "public/index.html" "public/images/rails.png" "app/views/layouts/application.html.erb" "config/routes.rb"'
 
 
@@ -149,6 +168,6 @@ run 'git commit -a -m "initialize project"'
 
 say <<-SAY
   ===================================================================================
-    Your new Leaf application is now installed and admin interface mounts at '/admin'
+   Your new Leaf application is now installed and admin interface mounts at '/admin'
   ===================================================================================
 SAY
