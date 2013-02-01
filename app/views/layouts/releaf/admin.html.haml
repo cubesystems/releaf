@@ -1,0 +1,51 @@
+!!! 5
+%html
+  %head
+    %title Releaf on Rails
+    = csrf_meta_tags
+    %link{ :rel =>"icon", :href => asset_path("releaf/favicon.ico"), :type => "image/x-icon" }
+
+    = stylesheet_link_tag "releaf/application"
+
+    - _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
+
+    - controller_asset = params[:controller]
+    - ['.css.scss.erb', '.scss.erb', '.css.scss', '.scss', '.css.erb', '.css'].each do |ext|
+      - if File.exists?(_assets_path + "/stylesheets/releaf/controllers/#{controller_asset}" + ext)
+        = stylesheet_link_tag "releaf/controllers/#{controller_asset}"
+  %body.yui3-skin-sam
+    - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
+      .main_menu
+        .user
+          %a{:href => self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), "data-method" => "delete"}
+            %span.image_container
+              = image_tag("releaf/logout.png")
+            %span.name_wrap= t("logout")
+        %ul
+          - Releaf.main_menu.each do |item|
+            %li><
+              %a{:href => main_menu_item_url(item), :class => is_this_main_menu_item_active?(item) ? :active : nil}
+                %span.image_container
+                  = image_tag("releaf/module.png")
+                %span.name_wrap= t(item, :scope => "admin.main_menu")
+
+    %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
+      - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
+        - if @panel_layout == true
+          .panel_layout
+            .secondary_panel
+              = controller.secondary_panel.html_safe
+            .primary_panel
+              = yield
+        - else
+          = yield
+      - else
+        = yield
+
+    #preload_wrap
+      #preload
+        .loading_icon
+
+    = javascript_include_tag "releaf/application"
+    - if File.exists?(_assets_path + "/javascripts/releaf/controllers/#{controller_asset}.js")
+      = javascript_include_tag "releaf/controllers/#{controller_asset}"

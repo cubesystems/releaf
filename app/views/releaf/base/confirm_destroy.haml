@@ -1,0 +1,10 @@
+.body.outset_box
+  .question= t('confirm_destroy')
+  .description= @item
+  .buttons
+    = form_for @item, :url => url_for( :action => 'destroy', :id => @item.id ), :method => 'delete' do |f|
+      %button{ :type => 'submit' }
+        = image_tag 'releaf/icons/bin_empty.png', :alt => ''
+        %span= t('yes')
+    %a.button{ :href => url_for( :action => 'show', :id => @item.id ) }
+      %span= t('no')

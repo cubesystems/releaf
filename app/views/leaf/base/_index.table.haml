@@ -1,8 +1,0 @@
-.leaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @items_per_page, "data-loading" => t("loading"), "data-total" => @list.count}
-  .thead
-    %div
-      - @controller.columns( 'index' ).each do |name|
-        %div= name.sub(/_(id|uid|html)$/, '').humanize
-  .tbody
-    - @list.each do |item|
-      = render 'index.row', :item => item

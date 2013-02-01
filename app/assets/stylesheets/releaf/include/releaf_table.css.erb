@@ -1,0 +1,112 @@
+/* basic layout for non-html tables */
+div.releaf_table
+{
+	display: table;
+}
+.releaf_table .thead
+{
+	display: table-header-group;
+}
+.releaf_table .tbody
+{
+	display: table-row-group;
+}
+.releaf_table .thead > *,
+.releaf_table .tbody > *
+{
+	display: table-row;
+}
+.releaf_table .thead > * > *,
+.releaf_table .tbody > * > *
+{
+	display: table-cell;
+}
+.releaf_table .thead > a,
+.releaf_table .tbody > a,
+.releaf_table .tbody > * > a
+{
+	text-decoration: none;
+}
+/* releaf_table */
+.releaf_table
+{
+	width: 100%;
+	line-height: normal;
+	background-color: white;
+	border: 1px solid #d0d0d0;
+}
+.releaf_table.no_border
+{
+	border-width: 0px;
+}
+.releaf_table td,
+.releaf_table th,
+.releaf_table .thead > * > *,
+.releaf_table .tbody > * > *
+{
+	padding: 4px;
+}
+.releaf_table th,
+.releaf_table .thead > * > *
+{
+	background: #F9F9F9 url("<%= asset_path 'releaf/releaf_table/th_bgr.gif' %>") repeat-x 0px bottom;
+	border-left: 1px solid #EEEEEE;
+	border-right: 1px solid #D0D0D0;
+	padding: 6px 4px 6px 4px;
+	font-weight: bold;
+	text-align: left;
+	text-shadow: 0px 1px white;
+}
+.releaf_table td,
+.releaf_table .tbody > * > *
+{
+	border-right: 1px solid #f0f0f0;
+}
+.releaf_table tbody tr:nth-child(odd),
+.releaf_table .tbody > *:nth-child(odd)
+{
+	background-color: #F7F9FA;
+}
+.releaf_table tr > td:last-child,
+.releaf_table tr > th:last-child,
+.releaf_table .thead > * > *:last-child,
+.releaf_table .tbody > * > *:last-child
+{
+	border-right: none;
+}
+.releaf_table.selectable tr:not(.unselectable):hover,
+.releaf_table.selectable .tbody > *:not(.unselectable):hover
+{
+	cursor: pointer;
+	background-color: #e4e1f5;
+}
+.releaf_table.selectable tr:not(.unselectable):hover td,
+.releaf_table.selectable .tbody > *:not(.unselectable):hover > *
+{
+	border-color: transparent;
+}
+.releaf_table.selectable tr.selected,
+.releaf_table.selectable tr.selected:hover,
+.releaf_table.selectable .tbody > .selected,
+.releaf_table.selectable .tbody > .selected:hover
+{
+	background: #cac2fa url("<%= asset_path 'releaf/releaf_table/selected_bgr.png' %>") repeat-x left top;
+}
+.releaf_table.selectable .selected td,
+.releaf_table.selectable .tbody > .selected > *
+{
+	border-color: transparent;
+}
+.releaf_table.label_first_column tbody tr td:first-child,
+.releaf_table.label_first_column tbody tr th:first-child,
+.releaf_table.label_first_column tbody tr:hover td:first-child,
+.releaf_table.label_first_column tbody tr:hover th:first-child,
+.releaf_table.label_first_column .tbody > * > *:first-child,
+.releaf_table.label_first_column .tbody > *:hover > *:first-child
+{
+	background: #f5f7f8 none;
+	border-right: 1px solid #d0d0d0;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+

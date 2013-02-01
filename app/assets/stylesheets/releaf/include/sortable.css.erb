@@ -1,0 +1,12 @@
+.list[data-sortable] > .item {
+  position: relative;
+}
+
+.list[data-sortable] > .item > .handle {
+  top: 5px;
+  right: 50px;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  background: url(<%= asset_path('releaf/icons/drag-handle.png') %>) center center no-repeat;
+}
