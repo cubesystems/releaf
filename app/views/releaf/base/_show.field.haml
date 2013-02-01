@@ -14,7 +14,7 @@
         - else
           = @item.send(name)
 
-      - when /(image|photo|picture|avatar|logo|icon)_uid$/
+      - when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
         -# FIXME should check if it's a dragonfly field
         - m = name.sub(/_uid$/, '')
         - case m

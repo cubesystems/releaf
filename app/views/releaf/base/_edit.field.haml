@@ -17,7 +17,7 @@
       collection = f.object.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
       input_type = 'select' unless collection.nil?
     end
-  when /(image|photo|picture|avatar|logo|icon)_uid$/
+  when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
     # FIXME should check if it's a dragonfly field
     input_type = 'image'
   when /_uid$/
