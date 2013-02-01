@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/cubesystems/releaf'
 
   s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
-  s.test_files = Dir["test/**/*"]
+  s.test_files = Dir["spec/**/*"]
 
   ## currenty doesn't work from gems path
   s.bindir            = 'bin'
@@ -26,7 +26,11 @@ Gem::Specification.new do |s|
   s.add_dependency "sass-rails", "~> 3.2.5"
   s.add_dependency "jquery-rails"
 
-  # s.add_development_dependency "sqlite3"
+  s.add_development_dependency "sqlite3"
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'factory_girl_rails'
+  s.add_development_dependency 'simplecov'
 
   s.add_dependency("railties", "~> 3.1")
   s.add_dependency("haml-rails", "~> 0.3.4")
