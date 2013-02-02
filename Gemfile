@@ -8,7 +8,7 @@ gemspec
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
 
-gem "jquery-rails"
+# gems re-listed for correct dummy app working
 gem "rack-cache", :require => "rack/cache"
 gem 'acts_as_list'
 gem 'awesome_nested_set'

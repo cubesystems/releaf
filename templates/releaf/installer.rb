@@ -1,6 +1,6 @@
 require 'rbconfig'
 
-dummy = true;
+dummy = ( app_name == 'dummy' )
 
 def ask_wizard(question, default_value)
   value = ask (@current_recipe || "prompt").rjust(10) + "  #{question}"
