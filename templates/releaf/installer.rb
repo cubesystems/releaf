@@ -1,5 +1,7 @@
 require 'rbconfig'
 
+dummy = true;
+
 def ask_wizard(question, default_value)
   value = ask (@current_recipe || "prompt").rjust(10) + "  #{question}"
 
@@ -79,64 +81,70 @@ end
 
 GEMFILE
 
-@current_recipe = "database"
-mysql_username = ask_wizard("Username for MySQL? (leave blank to use the 'root')", 'root')
-gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
+unless dummy
+  @current_recipe = "database"
+  mysql_username = ask_wizard("Username for MySQL? (leave blank to use the 'root')", 'root')
+  gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
 
-mysql_password = ask_wizard("Password for MySQL user #{mysql_username}?", '')
-gsub_file "config/database.yml", /password:/, "password: #{mysql_password}"
+  mysql_password = ask_wizard("Password for MySQL user #{mysql_username}?", '')
+  gsub_file "config/database.yml", /password:/, "password: #{mysql_password}"
 
-run 'cp config/database.yml config/database.yml.example'
-append_file '.gitignore', 'config/database.yml'
+  run 'cp config/database.yml config/database.yml.example'
+  append_file '.gitignore', 'config/database.yml'
+end
 
 run 'rm -f "db/seeds.rb" "public/index.html" "public/images/rails.png" "app/views/layouts/application.html.erb" "config/routes.rb"'
 
 
-# load in RVM environment
-if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
-  begin
-    rvm_path     = File.dirname(File.dirname(ENV['MY_RUBY_HOME']))
-    rvm_lib_path = File.join(rvm_path, 'lib')
+if dummy
+  run 'rm -f "Gemfile" "public/robots.txt" ".gitignore"'
+else
+  # load in RVM environment
+  if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
+    begin
+      rvm_path     = File.dirname(File.dirname(ENV['MY_RUBY_HOME']))
+      rvm_lib_path = File.join(rvm_path, 'lib')
 
-    rvm_version = Gem::Version.new(`rvm --version`[/rvm (\d\.\d+\.\d+)/, 1].to_s)
+      rvm_version = Gem::Version.new(`rvm --version`[/rvm (\d\.\d+\.\d+)/, 1].to_s)
 
-    if rvm_version < Gem::Version.new('1.12.0')
-      # RVM's ruby drivers were factored out into a gem
-      # in 1.12.0, so you don't use this trick anymore.
-      $LOAD_PATH.unshift rvm_lib_path
+      if rvm_version < Gem::Version.new('1.12.0')
+        # RVM's ruby drivers were factored out into a gem
+        # in 1.12.0, so you don't use this trick anymore.
+        $LOAD_PATH.unshift rvm_lib_path
+      end
+
+      require 'rvm'
+    rescue LoadError
+      # RVM is unavailable at this point.
+      raise "RVM ruby lib is currently unavailable."
     end
-
-    require 'rvm'
-  rescue LoadError
-    # RVM is unavailable at this point.
+  else
     raise "RVM ruby lib is currently unavailable."
   end
-else
-  raise "RVM ruby lib is currently unavailable."
+
+  rvm_env = "1.9.3@#{app_name}"
+
+  # create rvmrc file
+  file ".rvmrc", <<-END
+  rvm #{rvm_env}
+  END
+
+  say "Creating RVM gemset #{app_name}"
+  RVM.gemset_create app_name
+
+  say "Trusting project's .rvmrc"
+  run "rvm rvmrc trust"
+
+  say "Switching to use RVM gemset #{app_name}"
+  RVM.gemset_use! app_name
+
+
+  if run("gem list --installed bundler", :capture => true) =~ /false/
+    run "gem install bundler --no-rdoc --no-ri"
+  end
+
+  run 'bundle install'
 end
-
-rvm_env = "1.9.3@#{app_name}"
-
-# create rvmrc file
-file ".rvmrc", <<-END
-rvm #{rvm_env}
-END
-
-say "Creating RVM gemset #{app_name}"
-RVM.gemset_create app_name
-
-say "Trusting project's .rvmrc"
-run "rvm rvmrc trust"
-
-say "Switching to use RVM gemset #{app_name}"
-RVM.gemset_use! app_name
-
-
-if run("gem list --installed bundler", :capture => true) =~ /false/
-  run "gem install bundler --no-rdoc --no-ri"
-end
-
-run 'bundle install'
 rake 'db:create'
 
 generate "settings settings"
@@ -161,13 +169,15 @@ file 'config/routes.rb', <<-ROUTES
 end
 ROUTES
 
-rake 'db:seed'
-run 'git init .'
-run 'git add .'
-run 'git commit -a -m "initialize project"'
+unless dummy
+  rake 'db:seed'
+  run 'git init .'
+  run 'git add .'
+  run 'git commit -a -m "initialize project"'
 
-say <<-SAY
-  ===================================================================================
-   Your new Releaf application is now installed and admin interface mounts at '/admin'
-  ===================================================================================
-SAY
+  say <<-SAY
+    ===================================================================================
+     Your new Releaf application is now installed and admin interface mounts at '/admin'
+    ===================================================================================
+  SAY
+end
