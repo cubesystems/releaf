@@ -11,7 +11,7 @@ class AdminAbility
   PERMISSIONS = [
     'admin',
     'manage_content',
-    'manage_tranlsations',
+    'manage_translations',
   ]
 
   def initialize admin=nil
