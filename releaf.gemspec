@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency 'simplecov'
+  # s.add_development_dependency 'factory_girl_rails'
 
   s.add_dependency("railties", "~> 3.1")
   s.add_dependency("haml-rails", "~> 0.3.4")

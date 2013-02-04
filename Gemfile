@@ -29,6 +29,7 @@ gem 'tinymce-rails-imageupload'
 gem 'will_paginate', '~> 3.0.4'
 gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
 gem 'capybara'
+# gem 'factory_girl_rails'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
