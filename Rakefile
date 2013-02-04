@@ -26,6 +26,7 @@ namespace :dummy do
   desc 'Remove current dummy app'
   task :remove do
     dummy = File.expand_path('../spec/dummy', __FILE__)
+    sh "rake db:drop"
     sh "rm -rf #{dummy}"
   end
 
