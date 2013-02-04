@@ -17,14 +17,17 @@ describe "home page" do
   #   })
   # end
 
-  it "displays the user's username after successful login" do
-
+  it "login as admin" do
     visit "/admin"
     within("form.login_form") do
-      fill_in 'releaf_admin_email',    :with => 'admin@example.com'
-      fill_in 'releaf_admin_password', :with => 'password'
+      fill_in 'Email',    :with => 'admin@example.com'
+      fill_in 'Password', :with => 'password'
     end
     click_button 'Sign in'
+
     page.should have_content 'Logout'
+    page.should have_content 'Releaf/Content'
+    page.should have_content '*Permissions'
+    page.should have_content 'Releaf/Translations'
   end
 end
