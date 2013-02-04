@@ -1,8 +1,8 @@
 FactoryGirl.define do
-  # sequence(:email) {|n| "person-#{n}@example.com" }
+  sequence(:email) {|n| "person-#{n}@example.com" }
 
   factory :admin, :class => :'Releaf::Admin' do
-    sequence(:email) {|n| "person-#{n}@example.com" }
+    email
     name                  'admin'
     surname               'admin'
     password              'password'
@@ -10,8 +10,7 @@ FactoryGirl.define do
   end
 
   factory :role, :class => :'Releaf::Role' do
-    # sequenece(:name) {|n| "role #{n}"}
-    name 'role'
+    sequence(:name) {|n| "role #{n}"}
 
     trait :admin do
       admin_permission true
