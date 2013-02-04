@@ -1,6 +1,12 @@
 module Releaf
   module AdminHelper
 
+    def polymorphic_association_names obj
+      poly_asoc = obj.class.reflect_on_all_associations.map { |r| r.options[:polymorphic] ? r.name : nil }
+      poly_asoc.delete(nil)
+      poly_asoc.map { |pa| pa.to_s }
+    end
+
     def has_many_association_names obj
       reflect_all_asoc = obj.reflect_on_all_associations(:has_many)
       has_many_asoc_names = reflect_all_asoc.map { |asoc| asoc.name }

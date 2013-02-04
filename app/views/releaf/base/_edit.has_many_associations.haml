@@ -33,7 +33,7 @@
           - if sortable_objects
             = ff.hidden_field :position, :class => :position
             .handle &nbsp;
-          - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
+          - (asoc_obj.class.column_names - %w[id updated_at created_at position]).each do |field_name|
             - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
               = render "edit.field.#{asoc.name}.#{field_name}", :f => f
             - else
