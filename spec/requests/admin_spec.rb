@@ -2,12 +2,12 @@ require 'spec_helper'
 describe "home page" do
   it "displays the user's username after successful login" do
     Releaf::Role.create!({
-    name:     'admins',
-    default:  false,
-    admin_permission: true
+      name:     'admins',
+      default:  false,
+      admin_permission: true
     })
 
-      Releaf::Admin.create!({
+    Releaf::Admin.create!({
       name: 'Admin',
       surname: 'User',
       password: 'password',
