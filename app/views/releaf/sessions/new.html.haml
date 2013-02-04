@@ -4,13 +4,13 @@
       = image_tag("releaf/controllers/#{controller.controller_name}/logo.jpg")
     .inputs
       %label.login
-        %span Lietotājs:
+        %span Email:
         = f.email_field :email, :autofocus => "autofocus"
       %label
-        %span Parole:
+        %span Password:
         = f.password_field :password
     .actions
-      %button{:type => "submit"} Pieslēgties
+      %button{:type => "submit"} Sign in
     %div.copy
       %span © 2012-#{Time.now.year} CubeSystems
       |
