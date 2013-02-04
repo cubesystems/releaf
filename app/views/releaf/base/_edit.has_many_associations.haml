@@ -20,7 +20,10 @@
                 = ff.hidden_field :position, :class => :position
                 .handle &nbsp;
               - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
-                = render 'edit.field', :name => field_name, :f => ff
+                - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
+                  = render "edit.field.#{asoc.name}.#{field_name}", :f => f
+                - else
+                  = render 'edit.field', :name => field_name, :f => ff
               = render 'edit.field.type_delete_nested', :f => ff
 
 
@@ -31,7 +34,10 @@
             = ff.hidden_field :position, :class => :position
             .handle &nbsp;
           - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
-            = render 'edit.field', :name => field_name, :f => ff
+            - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
+              = render "edit.field.#{asoc.name}.#{field_name}", :f => f
+            - else
+              = render 'edit.field', :name => field_name, :f => ff
           = render 'edit.field.type_delete_nested', :f => ff
 
       %button.add.new(type='button')
