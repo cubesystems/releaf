@@ -19,7 +19,7 @@ module Releaf
 
       def install_initializer
         %w[releaf releaf_store_current_template releaf_i18n].each do |initializer|
-          template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
+          copy_file "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
         end
       end
 
@@ -30,27 +30,60 @@ module Releaf
       end
 
       def install_seeds
-        template "seeds.rb", "db/seeds.rb"
+        copy_file "seeds.rb", "db/seeds.rb"
       end
 
       def install_models
         %w[admin_ability].each do |model|
-          template "models/#{model}.rb", "app/models/#{model}.rb"
+          copy_file "models/#{model}.rb", "app/models/#{model}.rb"
         end
       end
 
       def install_configs
-        template "config/common_fields.yml.example", "config/common_fields.yml.example"
+        copy_file "config/common_fields.yml.example", "config/common_fields.yml.example"
       end
 
       def install_views
         %w[layouts/application home/index].each do |view|
-          template "views/#{view}.html.haml", "app/views/#{view}.html.haml"
+          copy_file "views/#{view}.html.haml", "app/views/#{view}.html.haml"
         end
       end
 
       def install_controllers
-        template 'controllers/home_controller.rb', 'app/controllers/home_controller.rb'
+        copy_file 'controllers/home_controller.rb', 'app/controllers/home_controller.rb'
+      end
+
+      def install_stylesheets
+        %w[application.scss 3rd_party/reset.css 3rd_party/jquery_ui/smoothness.css.erb].each do |css|
+          copy_file "stylesheets/#{css}", "app/assets/stylesheets/#{css}"
+        end
+      end
+
+      def install_javascripts
+        %w[application 3rd_party/jquery_ui].each do |js|
+          copy_file "javascripts/#{js}.js", "app/assets/javascripts/#{js}.js"
+        end
+      end
+
+      def install_images
+        %w[
+          3rd_party/jquery_ui/smoothness/ui-bg_glass_75_dadada_1x400.png
+          3rd_party/jquery_ui/smoothness/ui-icons_222222_256x240.png
+          3rd_party/jquery_ui/smoothness/ui-icons_cd0a0a_256x240.png
+          3rd_party/jquery_ui/smoothness/ui-bg_glass_95_fef1ec_1x400.png
+          3rd_party/jquery_ui/smoothness/ui-icons_888888_256x240.png
+          3rd_party/jquery_ui/smoothness/ui-bg_highlight-soft_75_cccccc_1x100.png
+          3rd_party/jquery_ui/smoothness/ui-bg_flat_0_aaaaaa_40x100.png
+          3rd_party/jquery_ui/smoothness/ui-icons_2e83ff_256x240.png
+          3rd_party/jquery_ui/smoothness/ui-bg_glass_65_ffffff_1x400.png
+          3rd_party/jquery_ui/smoothness/ui-icons_454545_256x240.png
+          3rd_party/jquery_ui/smoothness/ui-bg_glass_55_fbf9ee_1x400.png
+          3rd_party/jquery_ui/smoothness/ui-bg_flat_75_ffffff_40x100.png
+          3rd_party/jquery_ui/smoothness/ui-bg_glass_75_e6e6e6_1x400.png
+        ].each do |image|
+          copy_file "images/#{image}", "app/assets/images/#{image}"
+        end
+
       end
 
     end

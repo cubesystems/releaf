@@ -34,7 +34,6 @@ describe "home page" do
 
       visit "/admin"
       page.should have_content 'Sign in'
-
     end
 
 
