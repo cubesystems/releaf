@@ -18,14 +18,12 @@ module Releaf
       source_root File.expand_path('../templates', __FILE__)
 
       def install_initializer
-        %w[releaf releaf_store_current_template releaf_i18n].each do |initializer|
-          copy_file "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
-        end
+        copy_files 'initializers', 'config/initializers'
       end
 
       def install_migrations
-        %w[create_releaf_nodes create_releaf_roles create_releaf_translations create_releaf_admins].each do |migration|
-          migration_template "migrations/#{migration}.rb", "db/migrate/#{migration}.rb"
+        get_file_list('migrations').each do |migration|
+          migration_template "migrations/#{migration}", "db/migrate/#{migration}"
         end
       end
 
@@ -34,19 +32,15 @@ module Releaf
       end
 
       def install_models
-        %w[admin_ability].each do |model|
-          copy_file "models/#{model}.rb", "app/models/#{model}.rb"
-        end
+        copy_files 'models', 'app/models'
       end
 
       def install_configs
-        copy_file "config/common_fields.yml.example", "config/common_fields.yml.example"
+        copy_files 'config', 'config'
       end
 
       def install_views
-        %w[layouts/application home/index].each do |view|
-          copy_file "views/#{view}.html.haml", "app/views/#{view}.html.haml"
-        end
+        copy_files 'views', 'app/views'
       end
 
       def install_controllers
@@ -54,36 +48,38 @@ module Releaf
       end
 
       def install_stylesheets
-        %w[application.scss 3rd_party/reset.css 3rd_party/jquery_ui/smoothness.css.erb].each do |css|
-          copy_file "stylesheets/#{css}", "app/assets/stylesheets/#{css}"
-        end
+        copy_files 'stylesheets', 'app/assets/stylesheets'
       end
 
       def install_javascripts
-        %w[application 3rd_party/jquery_ui].each do |js|
-          copy_file "javascripts/#{js}.js", "app/assets/javascripts/#{js}.js"
-        end
+        copy_files 'javascripts', 'app/assets/javascripts'
       end
 
       def install_images
-        %w[
-          3rd_party/jquery_ui/smoothness/ui-bg_glass_75_dadada_1x400.png
-          3rd_party/jquery_ui/smoothness/ui-icons_222222_256x240.png
-          3rd_party/jquery_ui/smoothness/ui-icons_cd0a0a_256x240.png
-          3rd_party/jquery_ui/smoothness/ui-bg_glass_95_fef1ec_1x400.png
-          3rd_party/jquery_ui/smoothness/ui-icons_888888_256x240.png
-          3rd_party/jquery_ui/smoothness/ui-bg_highlight-soft_75_cccccc_1x100.png
-          3rd_party/jquery_ui/smoothness/ui-bg_flat_0_aaaaaa_40x100.png
-          3rd_party/jquery_ui/smoothness/ui-icons_2e83ff_256x240.png
-          3rd_party/jquery_ui/smoothness/ui-bg_glass_65_ffffff_1x400.png
-          3rd_party/jquery_ui/smoothness/ui-icons_454545_256x240.png
-          3rd_party/jquery_ui/smoothness/ui-bg_glass_55_fbf9ee_1x400.png
-          3rd_party/jquery_ui/smoothness/ui-bg_flat_75_ffffff_40x100.png
-          3rd_party/jquery_ui/smoothness/ui-bg_glass_75_e6e6e6_1x400.png
-        ].each do |image|
-          copy_file "images/#{image}", "app/assets/images/#{image}"
-        end
+        copy_files 'images', 'app/assets/images'
+      end
 
+      private
+
+      def copy_files subdir, dest_dir
+        raise ArgumEnterror unless subdir.is_a? String
+        raise ArgumEnterror unless dest_dir.is_a? String
+        raise ArgumetnError if subdir.blank?
+        raise ArgumetnError if dest_dir.blank?
+
+        get_file_list(subdir).each do |image|
+          copy_file [subdir, image].join('/'), [dest_dir, image].join('/')
+        end
+      end
+
+      def get_file_list subdir
+        raise ArgumentError unless subdir.is_a? String
+        raise ArgumetnError if subdir.blank?
+        dir = File.dirname(__FILE__)
+        search_path = [dir, 'templates', subdir].join('/') + '/'
+        file_list = Dir.glob(search_path + '**/*').map { |filename| File.directory?(filename) ? nil : filename.sub(search_path, '') }
+        file_list.delete nil
+        return file_list
       end
 
     end
