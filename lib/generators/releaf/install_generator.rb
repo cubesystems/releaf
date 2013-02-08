@@ -44,7 +44,7 @@ module Releaf
       end
 
       def install_controllers
-        copy_file 'controllers/home_controller.rb', 'app/controllers/home_controller.rb'
+        copy_files 'controllers', 'app/controllers'
       end
 
       def install_stylesheets
