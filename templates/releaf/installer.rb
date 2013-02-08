@@ -166,6 +166,8 @@ file 'config/routes.rb', <<-ROUTES
     end
   end
 
+  root :to => 'home#index'
+
 end
 ROUTES
 

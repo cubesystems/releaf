@@ -44,7 +44,13 @@ module Releaf
       end
 
       def install_views
-        template "views/layouts/application.html.haml", "app/views/layouts/application.html.haml"
+        %w[layouts/application home/index].each do |view|
+          template "views/#{view}.html.haml", "app/views/#{view}.html.haml"
+        end
+      end
+
+      def install_controllers
+        template 'controllers/home_controller.rb', 'app/controllers/home_controller.rb'
       end
 
     end
