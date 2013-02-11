@@ -1,4 +1,4 @@
-- default_locale = I18n.default_locale.to_s
+- default_locale = Settings.i18n_locales.first
 
 .field.type_richtext.i18n{ :'data-name' => name }
   - Settings.i18n_locales.each_with_index do |locale, i|
