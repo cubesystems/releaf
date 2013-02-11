@@ -160,12 +160,12 @@ jQuery(function()
     jQuery('form').trigger('initcalendars');
 
 
-    jQuery('form').on('keyup', '.sync_field', function(e) {
+    jQuery('form').on('keyup, change', '.sync_field', function(e) {
         var input = jQuery(e.target);
         var value_div = input.parents('.value:first');
         var hidden_field = value_div.find('input[type="hidden"].sync_field');
         if (input.is('input')) {
-            hidden_field.attr('value', input.attr('value'));
+            hidden_field.attr('value', input.val());
         }
         else if (input.is('textarea')) {
             hidden_field.attr('value', input.text());
