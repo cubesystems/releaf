@@ -1,0 +1,3 @@
+.header
+  .padding
+    %h2= (@item.respond_to? :to_text) ? @item.to_text : @item.to_s

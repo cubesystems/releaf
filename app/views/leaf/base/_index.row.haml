@@ -1,6 +1,0 @@
-.row{ 'data-id' => item.id }
-  - @controller.columns( 'index' ).each do |name|
-    - if @controller.has_template( "_index.cell.#{name}" )
-      = render "index.cell.#{name}", :item => item, :name => name
-    - else
-      = render 'index.cell', :item => item, :name => name

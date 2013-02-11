@@ -1,0 +1,96 @@
+- name_without_id_or_type = name.sub(/_(id|type)$/, '')
+
+- if polymorphic_association_names(f.object).include?(name_without_id_or_type)
+  -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
+  -# first time for _id field, second time for _type field
+  - if name =~ /_id$/ && @controller.has_template( "_edit.field.#{name_without_id_or_type}" )
+    = render "_edit.field.#{name_without_id_or_type}"
+
+- else
+  :ruby
+    collection = nil
+    input_type = 'text'
+    use_i18n = false
+    if f.object.class.respond_to?(:translations_table_name)
+      use_i18n = true if f.object.class.translates.include?(name.to_sym)
+    end
+
+
+    case name
+    when /_id$/
+      if name =~ /_id$/ && f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym)
+        collection = f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
+      end
+
+      collection = f.object.class.reflect_on_association(name.to_sym).try(:klass).try(:all) if collection.nil?
+      input_type = 'select' unless collection.nil?
+    when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
+      # FIXME should check if it's a dragonfly field
+      input_type = 'image'
+    when /_uid$/
+      # FIXME should check if it's a dragonfly field
+      input_type = 'file'
+      use_i18n = false
+    when /password/
+      input_type = 'password'
+      use_i18n = false
+    when /_link$/, 'link', /_url$/, 'url'
+      input_type = 'link'
+      use_i18n = false
+    else
+      if name =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
+        column_type = f.object.common_field_field_type(name)
+      else
+        column_type = f.object.class.columns_hash[ name ].try(:type) || :string
+      end
+
+      case column_type.to_sym
+      when :boolean
+        input_type = 'checkbox'
+        use_i18n = false
+      when :text
+        if name.end_with?( '_html' )
+          input_type = 'richtext'
+        else
+          input_type = 'textarea'
+        end
+      when :datetime
+        input_type = 'datetime'
+        use_i18n = false
+      when :date
+        input_type = 'date'
+        use_i18n = false
+      when :time
+        input_type = 'time'
+        use_i18n = false
+      end
+    end
+
+
+
+  - if @controller.has_template( "_edit.field.type_#{input_type}" ) && input_type == 'select'
+    :ruby
+      text_field = :to_text unless text_field
+      include_blank = nil unless include_blank
+
+      if include_blank.nil?
+        if f.object.send(name).nil?
+          include_blank = true
+        else
+          include_blank = true
+          f.object.class.validators_on(name).each do |validator|
+            if validator.is_a? ActiveModel::Validations::PresenceValidator
+              include_blank = false
+              break
+            end
+          end
+        end
+      end
+
+    = render "edit.field.type_select#{use_i18n ? '_i18n' : ''}", :name => name, :select_options => options_from_collection_for_select(collection, :id, text_field.to_sym, f.object.send(name) ), :options => { :include_blank => include_blank }, :f => f
+  - elsif @controller.has_template( "_edit.field.type_#{input_type}#{use_i18n ? '_i18n' : ''}" )
+    = render "edit.field.type_#{input_type}#{use_i18n ? '_i18n' : ''}", :name => name, :f => f
+  - else
+    - input_type = @controller.input_type_for( 'string', name )
+    - use_i18n = fasle unless input_type == 'text'
+    = render "edit.field.type_#{input_type}#{use_i18n ? '_i18n' : ''}", :name => name, :f => f

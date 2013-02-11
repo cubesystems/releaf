@@ -1,0 +1,45 @@
+.body.inset_box.no_shadow
+  - if f.object.new_record?
+    = f.hidden_field :parent_id, :value => params[:parent_id] || f.object.parent_id
+
+
+  .globalFieldContainer.collapsableSection.global_fields
+    = render 'edit.field', :name => 'name', :f => f
+
+    .field{ 'data-name' => 'template' }
+      .label_wrap
+        = f.label :content_type, 'Veids:', :title => f.object.content_type
+      .value
+        = f.select :content_type, options_for_select(@base_models.map { |m| m.name }, f.object.content_type || params[:content_type]), {:include_blank => f.object.new_record?}, {:title => @item.content_type, :disabled => f.object.new_record? == false }
+    .clear
+
+
+    = render 'edit.slug', :name => 'slug', :f => f
+
+    .field{ 'data-name' => 'position' }
+      .label_wrap= f.label :position, t('position') + ':'
+      .value
+        :ruby
+          opt_for_select = [[t('first'), 1]]
+          @order_nodes.each do |node|
+            # FIXME fix i18n usage
+            opt_for_select.push [ t('after') + ' ' + node.name, node.lower_item ? node.lower_item.position : node.position ]
+          end
+
+        = f.select :position, options_for_select(opt_for_select, @position)
+    .clear
+
+    = render 'edit.field', :name => 'visible', :f => f
+    = render 'edit.field', :name => 'protected', :f => f
+    .clear
+
+
+    %button.no_styling.toggleSection.collapse{:title => "Saīsināt sadaļu", :type => "button"}
+      = image_tag("releaf/icons/130.png", :alt => "Saīsināt sadaļu")
+    %button.no_styling.toggleSection.expand{:title => "Parādīt pilnu sadaļu", :type => "button"}
+      = image_tag("releaf/icons/129.png", :alt => "Parādīt pilnu sadaļu")
+    .clear.persistent
+
+  - if f.object.content
+    = render 'edit.content_fields', :f => f
+

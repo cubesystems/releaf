@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+gem 'railties'
+require 'rails/generators'
+require 'rails/generators/rails/app/app_generator'
+template_path = File.expand_path('../../templates/releaf/installer.rb', __FILE__)
+
+if ARGV.size == 0 || ARGV[0] == "--help"
+  puts "Usage:"
+  puts "  releaf APP_NAME [options]"
+  puts ""
+  puts "Options:"
+  # Support when running locally
+  relative_path = File.expand_path('../../lib/generators/releaf/install_generator.rb', __FILE__)
+  require relative_path
+  Releaf::Generators::InstallGenerator.class_options.each do |raw, option|
+    dasherized = "--#{option.name.to_s.gsub('_', '-')}"
+    dasherized = [option.aliases, "[#{dasherized}]"].flatten.join(', ') if option.aliases.any?
+    puts "  #{dasherized}".ljust(28) << "# #{option.description}"
+  end
+  exit 0
+end
+
+application_name = ARGV.shift
+
+result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-gemfile', '--skip-bundle', '--database=mysql',  '--skip-test-unit'] | ARGV

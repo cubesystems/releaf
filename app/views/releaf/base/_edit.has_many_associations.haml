@@ -1,0 +1,45 @@
+- has_many_asoc_names = has_many_association_names(f.object.class)
+- f.object.class.reflect_on_all_associations(:has_many).each do |asoc|
+  - next unless has_many_asoc_names.include?(asoc.name)
+
+  - if @controller.has_template( "_edit.field.#{asoc.name}" )
+    = render "edit.field.#{asoc.name}", :f => f
+  - else
+
+    - sortable_objects = asoc.klass.column_names.include?('position')
+
+    -# TODO remove code duplication
+    .nested_wrap
+      .nested_title= I18n.t(asoc.name)
+      .list{:"data-sortable" => sortable_objects ? '' : nil}
+        - f.object.send(asoc.name).each_with_index do |asoc_obj,i|
+          .item
+
+            = f.fields_for asoc.name, asoc_obj, :child_index => i do |ff|
+              - if sortable_objects
+                = ff.hidden_field :position, :class => :position
+                .handle &nbsp;
+              - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
+                - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
+                  = render "edit.field.#{asoc.name}.#{field_name}", :f => f
+                - else
+                  = render 'edit.field', :name => field_name, :f => ff
+              = render 'edit.field.type_delete_nested', :f => ff
+
+
+      .template.item{:style => 'display:none;'}
+        - asoc_obj = asoc.klass.new
+        = f.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |ff|
+          - if sortable_objects
+            = ff.hidden_field :position, :class => :position
+            .handle &nbsp;
+          - (asoc_obj.class.column_names - %w[id updated_at created_at position]).each do |field_name|
+            - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
+              = render "edit.field.#{asoc.name}.#{field_name}", :f => f
+            - else
+              = render 'edit.field', :name => field_name, :f => ff
+          = render 'edit.field.type_delete_nested', :f => ff
+
+      %button.add.new(type='button')
+        = image_tag 'releaf/icons/add.png', :atl => ''
+        %span New

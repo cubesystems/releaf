@@ -1,0 +1,13 @@
+.inner.standard_submenu
+  %ul.block
+    %li
+      .section_title= t('translations')
+      %ul
+        %li{:class=> params[:id].blank? ? "active" : ""}
+          %a{:href => releaf_translation_groups_path}= t('all_translations')
+    %li
+      .section_title= t('groups')
+      %ul
+        - @groups.each do |group|
+          %li{:class=> !params[:id].blank? && params[:id].to_i == group.id ? "active" : ""}
+            %a{:href => edit_releaf_translation_group_path(group.id)}= group.scope
