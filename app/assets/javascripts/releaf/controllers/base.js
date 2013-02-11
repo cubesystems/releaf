@@ -164,16 +164,7 @@ jQuery(function()
         var input = jQuery(e.target);
         var value_div = input.parents('.value:first');
         var hidden_field = value_div.find('input[type="hidden"].sync_field');
-        if (input.is('input')) {
-            hidden_field.attr('value', input.val());
-        }
-        else if (input.is('textarea')) {
-            hidden_field.attr('value', input.text());
-        }
-        else {
-            console.error("Not implemented");
-        }
-
+        hidden_field.attr('value', input.val());
     });
 
 });
