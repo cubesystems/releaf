@@ -59,14 +59,14 @@ module I18n
             keys_to_check_for_other_locales.push check_key
 
             next if result.nil? # nothing in cache was found
-            return nil if result == false # found nil translaiton in cache
-            return result unless result.blank? #if result.blank? == false # found translation in cache
+            return search_key if result == false # found nil translaiton in cache
+            return result unless result.blank? # found translation in cache
           end while chain.empty? == false
 
-          return nil if Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
+          return search_key if Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
 
           save_missing_translation(locale, key)
-          return nil
+          return search_key
         rescue ::ActiveRecord::StatementInvalid
           # is the translations table missing?
           nil
