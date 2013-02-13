@@ -93,7 +93,17 @@ unless dummy
   append_file '.gitignore', 'config/database.yml'
 end
 
-run 'rm -f "db/seeds.rb" "public/index.html" "public/images/rails.png" "app/views/layouts/application.html.erb" "config/routes.rb"'
+
+files_to_remove = %w[
+  db/seeds.rb
+  public/index.html
+  public/images/rails.png
+  app/views/layouts/application.html.erb
+  config/routes.rb
+  app/assets/stylesheets/application.css
+  app/assets/javascripts/application.js
+]
+run "rm -f #{files_to_remove.join(' ')}"
 
 
 if dummy
@@ -165,6 +175,8 @@ file 'config/routes.rb', <<-ROUTES
       match :urls, :on => :collection
     end
   end
+
+  root :to => 'home#index'
 
 end
 ROUTES

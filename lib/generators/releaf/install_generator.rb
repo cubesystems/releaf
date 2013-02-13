@@ -18,33 +18,68 @@ module Releaf
       source_root File.expand_path('../templates', __FILE__)
 
       def install_initializer
-        %w[releaf releaf_store_current_template releaf_i18n].each do |initializer|
-          template "initializers/#{initializer}.rb", "config/initializers/#{initializer}.rb"
-        end
+        copy_files 'initializers', 'config/initializers'
       end
 
       def install_migrations
-        %w[create_releaf_nodes create_releaf_roles create_releaf_translations create_releaf_admins].each do |migration|
-          migration_template "migrations/#{migration}.rb", "db/migrate/#{migration}.rb"
+        get_file_list('migrations').each do |migration|
+          migration_template "migrations/#{migration}", "db/migrate/#{migration}"
         end
       end
 
       def install_seeds
-        template "seeds.rb", "db/seeds.rb"
+        copy_file "seeds.rb", "db/seeds.rb"
       end
 
       def install_models
-        %w[admin_ability].each do |model|
-          template "models/#{model}.rb", "app/models/#{model}.rb"
-        end
+        copy_files 'models', 'app/models'
       end
 
       def install_configs
-        template "config/common_fields.yml.example", "config/common_fields.yml.example"
+        copy_files 'config', 'config'
       end
 
       def install_views
-        template "views/layouts/application.html.haml", "app/views/layouts/application.html.haml"
+        copy_files 'views', 'app/views'
+      end
+
+      def install_controllers
+        copy_files 'controllers', 'app/controllers'
+      end
+
+      def install_stylesheets
+        copy_files 'stylesheets', 'app/assets/stylesheets'
+      end
+
+      def install_javascripts
+        copy_files 'javascripts', 'app/assets/javascripts'
+      end
+
+      def install_images
+        copy_files 'images', 'app/assets/images'
+      end
+
+      private
+
+      def copy_files subdir, dest_dir
+        raise ArgumEnterror unless subdir.is_a? String
+        raise ArgumEnterror unless dest_dir.is_a? String
+        raise ArgumetnError if subdir.blank?
+        raise ArgumetnError if dest_dir.blank?
+
+        get_file_list(subdir).each do |image|
+          copy_file [subdir, image].join('/'), [dest_dir, image].join('/')
+        end
+      end
+
+      def get_file_list subdir
+        raise ArgumentError unless subdir.is_a? String
+        raise ArgumetnError if subdir.blank?
+        dir = File.dirname(__FILE__)
+        search_path = [dir, 'templates', subdir].join('/') + '/'
+        file_list = Dir.glob(search_path + '**/*').map { |filename| File.directory?(filename) ? nil : filename.sub(search_path, '') }
+        file_list.delete nil
+        return file_list
       end
 
     end

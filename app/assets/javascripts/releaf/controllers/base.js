@@ -159,4 +159,12 @@ jQuery(function()
 
     jQuery('form').trigger('initcalendars');
 
+
+    jQuery('form').on('keyup, change', '.sync_field', function(e) {
+        var input = jQuery(e.target);
+        var value_div = input.parents('.value:first');
+        var hidden_field = value_div.find('input[type="hidden"].sync_field');
+        hidden_field.attr('value', input.val());
+    });
+
 });
