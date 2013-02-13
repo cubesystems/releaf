@@ -6,8 +6,7 @@ module Releaf
     # :token_authenticatable, :confirmable,
     # :lockable, :timeoutable and :omniauthable
     # :registerable
-    devise :database_authenticatable :recoverable, :rememberable, :trackable,
-      :validatable
+    devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
 
     validates_presence_of :name, :surname, :role_id, :email
     validates_uniqueness_of :email, :case_sensitive => false
