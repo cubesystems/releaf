@@ -164,6 +164,7 @@ rake 'db:migrate'
 
 file 'config/initializers/dragonfly.rb', "require 'dragonfly/rails/images'"
 gsub_file 'config/application.rb', 'config.active_record.whitelist_attributes = true', 'config.active_record.whitelist_attributes = false'
+application "config.i18n.fallbacks = true"
 
 file 'config/routes.rb', <<-ROUTES
 #{app_name.capitalize}::Application.routes.draw do
