@@ -2,7 +2,7 @@
 %html
   %head
     %meta{:'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
-    %title `AppName`
+    %title AppName
     -# = favicon_link_tag('/assets/favicon.ico')
     = stylesheet_link_tag 'application'
   - %w[.scss .css.scss .css].each do |ext|
@@ -13,7 +13,12 @@
 
   %body(class = "#{params[:controller].tr('/', '-')}-controller #{params[:action]}-view #{I18n.locale}-locale")
     = javascript_include_tag 'lib/js_check'
-    = yield
+    #content_wrap
+      #header
+        Header
+      #content= yield
+    #footer
+      Footer
 
     = javascript_include_tag 'application'
     - if File.exists? Rails.root.to_s + "/app/assets/javascripts/controllers/#{params[:controller]}.js"
