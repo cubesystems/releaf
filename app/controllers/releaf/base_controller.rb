@@ -60,7 +60,7 @@ module Releaf
       current_object_class.name.underscore.tr('/', '_')
     end
 
-    def columns( view = nil )
+    def columns view=params[:action]
       cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password position]
       unless %w[new edit update create].include? view
         cols -= %w[password password_confirmation]

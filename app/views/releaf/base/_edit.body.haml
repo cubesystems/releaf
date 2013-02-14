@@ -8,7 +8,8 @@
           - f.object.errors.full_messages.each do |msg|
             %li= msg
 
-    - @controller.columns( 'edit' ).each do |name|
+    -# - @controller.columns( params[:action] ).each do |name|
+    - @controller.columns( params[:action] ).each do |name|
       - if @controller.has_template( "_edit.field.#{name}" )
         = render "edit.field.#{name}", :name => name, :f => f
       - else
