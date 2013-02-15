@@ -22,9 +22,9 @@ describe "home page" do
 
     it "admin page content" do
       page.should have_content 'Logout'
-      page.should have_content 'Releaf/Content'
-      page.should have_content '*Permissions'
-      page.should have_content 'Releaf/Translations'
+      page.should have_content 'Releaf/content'
+      page.should have_content '*permissions'
+      page.should have_content 'Releaf/translations'
     end
 
     it "logout sequence" do

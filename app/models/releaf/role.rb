@@ -12,7 +12,7 @@ module Releaf
 
     alias_attribute :to_text, :name
 
-    AdminAbility::PERMISSIONS.each do |perms|
+    ::AdminAbility::PERMISSIONS.each do |perms|
       if perms.is_a? Array
         # attr_accessible :"#{perms[0]}_permissions"
         define_method :"#{perms[0]}_permissions=" do |p|
