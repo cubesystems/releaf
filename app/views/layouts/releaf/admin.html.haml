@@ -29,7 +29,7 @@
                   = image_tag("releaf/module.png")
                 %span.name_wrap= t(item, :scope => "admin.main_menu")
 
-    %div{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '_' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
+    #body_wrap{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
         - if @panel_layout == true
           .panel_layout

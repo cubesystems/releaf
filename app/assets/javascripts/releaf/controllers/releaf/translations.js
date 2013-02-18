@@ -1,6 +1,6 @@
 jQuery(function()
 {
-	var controller = jQuery( '.controller-releaf_translations' );
+	var controller = jQuery( '.controller-releaf-translations' );
 
 	// adjust translations table head cell width
 

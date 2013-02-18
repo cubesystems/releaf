@@ -2,7 +2,7 @@
 
 jQuery(document).ready(function() {
     // var controller_body = jQuery(document.body);
-    var controller_body = jQuery('.controller-releaf_content');
+    var controller_body = jQuery('.controller-releaf-content');
     if (controller_body.length) {
 
         jQuery('.secondary_panel .tree_container').delegate('a.create', 'click', function(e) {
