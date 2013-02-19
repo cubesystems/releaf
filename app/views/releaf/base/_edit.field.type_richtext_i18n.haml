@@ -8,7 +8,7 @@
     .localization{:"data-locale" => locale, :style => is_default_locale ? nil : 'display:none'}
       = f.fields_for :"translations", translation, :child_index => i do |ff|
         .label_wrap
-          = ff.label name, name.sub(/_html$/, '').humanize + ':'
+          = ff.label name, name.sub(/_html$/, '').to_s.humanize + ':'
         .value
           - unless translation.new_record?
             = ff.hidden_field :id

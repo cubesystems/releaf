@@ -6,6 +6,6 @@
   select_params.push html_options if defined? html_options
 
 .field.type_select{ 'data-name' => name }
-  .label_wrap><= f.label name, name.humanize + ':'
+  .label_wrap><= f.label name, name.to_s.humanize + ':'
   .value><= f.select *select_params
   .clear

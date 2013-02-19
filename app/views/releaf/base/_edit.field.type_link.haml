@@ -1,4 +1,4 @@
 .field.type_link{ 'data-name' => name }
-  .label_wrap><= f.label name, name.humanize + ':'
+  .label_wrap><= f.label name, name.to_s.humanize + ':'
   .value><= f.text_field name
   .clear

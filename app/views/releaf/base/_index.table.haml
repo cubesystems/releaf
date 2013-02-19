@@ -2,7 +2,7 @@
   .thead
     %div
       - @controller.columns( params[:action] ).each do |name|
-        %div= name.sub(/_(id|uid|html)$/, '').humanize
+        %div= name.sub(/_(id|uid|html)$/, '').to_s.humanize
   .tbody
     - @list.each do |item|
       = render 'index.row', :item => item

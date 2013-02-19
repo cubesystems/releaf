@@ -1,4 +1,4 @@
 .field.type_richtext{ 'data-name' => name }
-  .label_wrap><= f.label name, name.sub(/_html$/, '').humanize + ':'
+  .label_wrap><= f.label name, name.sub(/_html$/, '').to_s.humanize + ':'
   .value><= f.text_area name, :rows => 5, :cols => 50, :class => "richtext"
   .clear
