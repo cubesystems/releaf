@@ -13,13 +13,14 @@
 
   %body(class = "#{params[:controller].tr('/', '-')}-controller #{params[:action]}-view #{I18n.locale}-locale")
     = javascript_include_tag 'lib/js_check'
-    #content_wrap
-      #header
-        Header
-      #content= yield
-    #footer
-      Footer
+    #body_wrap
+      #content_wrap
+        #header
+          Header
+        #content= yield
+      #footer
+        Footer
 
     = javascript_include_tag 'application'
     - if File.exists? Rails.root.to_s + "/app/assets/javascripts/controllers/#{params[:controller]}.js"
-      = stylesheet_link_tag "controllers/#{params[:controller]}"
+      = javascript_include_tag "controllers/#{params[:controller]}"
