@@ -3,56 +3,43 @@ module Releaf
     def self.included(base)
       base.class_eval {
 
-        def self.find_object id_or_slug, scope=nil
+        def self.scoped_for_find_by_slug obj, scope_name=nil, scope_args=nil
+          unless scope_name.blank?
+            if scope_args.nil?
+              obj.send(scope_name.to_sym)
+            else
+              obj.send(scope_name.to_sym, *scope_args)
+            end
+          else
+            obj
+          end
+        end
+
+
+        def self.find_object id_or_slug, scope_name=nil, scope_args=nil
           raise ArgumentError unless id_or_slug.is_a?(String) or id_or_slug.is_a?(Fixnum)
 
           unless self.column_names.include?('slug')
-            if scope.blank?
-              return self.find(id_or_slug)
-            else
-              return self.send(scope).find(id_or_slug)
-            end
+            return scoped_for_find_by_slug(self, scope_name, scope_args).find(id_or_slug)
           end
 
-          obj = nil
-
-          # if it looks like id, search by id
+          # if it looks like id, search by id first
           if id_or_slug.to_s =~ /\A\d+\z/
-            if scope.blank?
-              obj = self.find_by_id(id_or_slug)
-            else
-              obj = self.send(scope).find_by_id(id_or_slug)
-            end
+            obj = scoped_for_find_by_slug(self, scope_name, scope_args).find_by_id(id_or_slug)
+            return obj if obj
           end
 
-          unless obj
-            unless self.column_names.include?('ancestry')
-              if scope.blank?
-                obj = self.find_by_slug(id_or_slug)
-              else
-                obj = self.send(scope).find_by_slug(id_or_slug)
-              end
-            else
-              slugs = id_or_slug.split('/')
-              if scope.blank?
-                obj = self.find_by_slug( slugs.shift )
-              else
-                obj = self.send(scope).find_by_slug( slugs.shift )
-              end
-              raise ActiveRecord::RecordNotFound unless obj
-              slugs.each do |slug_part|
-                if scope.blank?
-                  obj = obj.children.find_by_slug(slug_part)
-                else
-                  obj = obj.children.send(scope).find_by_slug(slug_part)
-                end
-                raise ActiveRecord::RecordNotFound unless obj
-              end
-            end
-          end
+          unless self.column_names.include?('ancestry') || self.new.respond_to?(:children)
+            return scoped_for_find_by_slug(self, scope_name, scope_args).find_by_slug!(id_or_slug)
+          else
+            slugs = id_or_slug.split('/')
 
-          raise ActiveRecord::RecordNotFound unless obj
-          return obj
+            obj = scoped_for_find_by_slug(self, scope_name, scope_args).find_by_slug!( slugs.shift )
+            slugs.each do |slug_part|
+              obj = scoped_for_find_by_slug(obj.children, scope_name, scope_args).find_by_slug!( slug_part )
+            end
+            return obj
+          end
         end
 
         def to_param
@@ -62,12 +49,8 @@ module Releaf
 
           if col_names.include?('ancestry')
             return path.pluck(:slug).join('/')
-          elsif col_names.include?('lft') && col_names.include?('rgt') && col_names.include?('parent_id') && self.class.respond_to?(:in_list?)
-            unless parent_id.blank?
-              return parent.to_param + '/' + slug
-            else
-              return slug
-            end
+          elsif self.respond_to?(:parent) && parent
+            return parent.to_param + '/' + slug
           else
             return slug
           end
