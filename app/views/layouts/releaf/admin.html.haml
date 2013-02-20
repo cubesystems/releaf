@@ -10,9 +10,12 @@
     - _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
 
     - controller_asset = params[:controller]
-    - ['.css.scss.erb', '.scss.erb', '.css.scss', '.scss', '.css.erb', '.css'].each do |ext|
-      - if File.exists?(_assets_path + "/stylesheets/releaf/controllers/#{controller_asset}" + ext)
+    - %w[css.scss.erb scss.erb css.scss scss css.erb css].each do |ext|
+      - if File.exists?(_assets_path + "/stylesheets/releaf/controllers/#{controller_asset}.#{ext}")
         = stylesheet_link_tag "releaf/controllers/#{controller_asset}"
+      - if File.exists?(_assets_path + "/stylesheets/controllers/#{controller_asset}.#{ext}")
+        = stylesheet_link_tag "controllers/#{controller_asset}"
+
   %body.yui3-skin-sam
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
       .main_menu
@@ -47,5 +50,8 @@
         .loading_icon
 
     = javascript_include_tag "releaf/application"
-    - if File.exists?(_assets_path + "/javascripts/releaf/controllers/#{controller_asset}.js")
-      = javascript_include_tag "releaf/controllers/#{controller_asset}"
+    - %w[js js.erb].each do |ext|
+      - if File.exists?(_assets_path + "/javascripts/releaf/controllers/#{controller_asset}.#{ext}")
+        = javascript_include_tag "releaf/controllers/#{controller_asset}"
+      - if File.exists?(Rails.root.to_s + "/app/assets/javascripts/controllers/#{controller_asset}.#{ext}")
+        = javascript_include_tag "controllers/#{controller_asset}"
