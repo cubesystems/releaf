@@ -2,6 +2,7 @@
   text = item.send(name)
   if name =~ /_id$/
     if item.class.respond_to?(:reflect_on_association)
+      # FIXME what if association was set with :foreign_key option
       rel_name = name.sub(/_id$/, '').to_sym
       if item.class.reflect_on_association(rel_name)
         text = item.send(rel_name).try(:to_text) || item.send(rel_name).to_s
