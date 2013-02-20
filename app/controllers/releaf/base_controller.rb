@@ -215,15 +215,7 @@ module Releaf
       authorize! :create, current_object_class
       @item = current_object_class.new
 
-      if self.respond_to?(:"#{current_object_class_name}_params")
-        variables = params.require( current_object_class_name ).permit( *self.send(:"#{current_object_class_name}_params", :update) )
-      elsif @item.respond_to? :allowed_params
-        variables = params.require( current_object_class_name ).permit( *@item.allowed_params(:create) )
-      else
-        variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
-      end
-
-      @item.assign_attributes( variables )
+      @item.assign_attributes( allowed_params )
 
       respond_to do |format|
         if @item.save
@@ -238,16 +230,9 @@ module Releaf
       @item = current_object_class.find(params[:id])
       authorize! :edit, @item
 
-      if self.respond_to?(:"#{current_object_class_name}_params")
-        variables = params.require( current_object_class_name ).permit( *self.send(:"#{current_object_class_name}_params", :update) )
-      elsif @item.respond_to? :allowed_params
-        variables = params.require( current_object_class_name ).permit( *@item.allowed_params(:update) )
-      else
-        variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
-      end
 
       respond_to do |format|
-        if @item.update_attributes( variables )
+        if @item.update_attributes( allowed_params )
           format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
         else
           format.html { render :action => "edit" }
@@ -270,8 +255,20 @@ module Releaf
       end
     end
 
+    protected
+
+    def allowed_params override_action=nil
+      if self.respond_to?(:"#{current_object_class_name}_params")
+        variables = params.require( current_object_class_name ).permit( *self.send(:"#{current_object_class_name}_params", override_action || params[:action]) )
+      elsif @item.respond_to? :allowed_params
+        variables = params.require( current_object_class_name ).permit( *@item.allowed_params( override_action || params[:action]) )
+      else
+        variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
+      end
+    end
 
     private
+
 
     def set_locale
       I18n.locale = if params[:locale] && Settings.i18n_locales.include?(params[:locale])
