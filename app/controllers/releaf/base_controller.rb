@@ -227,7 +227,7 @@ module Releaf
 
       respond_to do |format|
         if @item.save
-          format.html { redirect_to url_for( :action => 'show', :id => @item.id ) }
+          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
         else
           format.html { render :action => "new" }
         end
@@ -248,7 +248,7 @@ module Releaf
 
       respond_to do |format|
         if @item.update_attributes( variables )
-          format.html { redirect_to url_for( :action => 'show', :id => @item.id ) }
+          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
         else
           format.html { render :action => "edit" }
         end
