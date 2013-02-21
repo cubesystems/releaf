@@ -1,3 +1,6 @@
+:ruby
+  skip_fields = %w[id updated_at created_at position]
+
 - has_many_asoc_names = has_many_association_names(f.object.class)
 - f.object.class.reflect_on_all_associations(:has_many).each do |asoc|
   - next unless has_many_asoc_names.include?(asoc.name)
@@ -19,23 +22,23 @@
               - if sortable_objects
                 = ff.hidden_field :position, :class => :position
                 .handle &nbsp;
-              - (asoc_obj.class.column_names - %w[id updated_at created_at position]).reject {|f| f =~ /_id$/ }.each do |field_name|
+              - (asoc_obj.class.column_names - skip_fields).each do |field_name|
                 - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
-                  = render "edit.field.#{asoc.name}.#{field_name}", :f => f
+                  = render "edit.field.#{asoc.name}.#{field_name}", :f => ff, :name => field_name
                 - else
                   = render 'edit.field', :name => field_name, :f => ff
               = render 'edit.field.type_delete_nested', :f => ff
 
 
       .template.item{:style => 'display:none;'}
-        - asoc_obj = asoc.klass.new
+        - asoc_obj = f.object.send(asoc.name).new
         = f.fields_for asoc.name, asoc_obj, :child_index => :_template_ do |ff|
           - if sortable_objects
             = ff.hidden_field :position, :class => :position
             .handle &nbsp;
-          - (asoc_obj.class.column_names - %w[id updated_at created_at position]).each do |field_name|
+          - (asoc_obj.class.column_names - skip_fields).each do |field_name|
             - if @controller.has_template( "_edit.field.#{asoc.name}.#{field_name}" )
-              = render "edit.field.#{asoc.name}.#{field_name}", :f => f
+              = render "edit.field.#{asoc.name}.#{field_name}", :f => ff, :name => field_name
             - else
               = render 'edit.field', :name => field_name, :f => ff
           = render 'edit.field.type_delete_nested', :f => ff

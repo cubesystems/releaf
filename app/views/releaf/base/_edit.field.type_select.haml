@@ -4,6 +4,7 @@
     select_params.push options
   end
   select_params.push html_options if defined? html_options
+  select_params.push Hash[:include_blank, f.object.new_record?]
 
 .field.type_select{ 'data-name' => name }
   .label_wrap><= f.label name, name.to_s.humanize + ':'
