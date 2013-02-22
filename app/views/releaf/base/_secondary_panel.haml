@@ -1,7 +1,7 @@
 .inner.standard_submenu
-  - if local_assigns.fetch(:menu, nil)
+  - if local_assigns.key?(:menu)
     %ul.block
-      - menu.each do |section_key, section|
+      - menu.each_pair do |section_key, section|
         %li
           .section_title= t(section_key, :scope => "admin.base_menu")
           %ul
