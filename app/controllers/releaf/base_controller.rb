@@ -278,6 +278,8 @@ module Releaf
       else
         I18n.default_locale
       end
+
+      Releaf::Globalize3::Fallbacks.set
     end
 
     def filter_templates

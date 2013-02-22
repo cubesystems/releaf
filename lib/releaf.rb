@@ -1,4 +1,5 @@
 require "releaf/slug"
+require 'releaf/globalize3/fallbacks'
 require "releaf/engine"
 
 module Releaf
