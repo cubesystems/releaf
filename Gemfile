@@ -25,7 +25,18 @@ gem 'tinymce-rails', '~> 3.5.8'
 gem 'tinymce-rails-imageupload'
 gem 'will_paginate', '~> 3.0.4'
 gem 'yui-rails'
-gem 'capybara'
+
+group :development, :test, :demo do
+  gem 'capybara'
+  gem 'brakeman', '>= 1.8.3'
+  gem 'rspec-rails'
+  gem 'syntax'
+  gem 'factory_girl_rails'
+  gem 'simplecov', :require => false, :platforms => :mri_19
+  gem 'simplecov-rcov'
+  gem 'database_cleaner'
+end
+
 # gem 'factory_girl_rails'
 
 # Declare any dependencies that are still in development here instead of in
