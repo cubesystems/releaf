@@ -5,9 +5,6 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-# jquery-rails is used by the dummy application
-gem "jquery-rails"
-
 # gems re-listed for correct dummy app working
 gem "rack-cache", :require => "rack/cache"
 gem 'acts_as_list'
@@ -18,7 +15,7 @@ gem 'dragonfly', '~>0.9.12'
 gem 'globalize3'
 gem 'haml'
 gem 'haml-rails'
-gem 'jquery-rails', '=< 2.1.4'
+gem 'jquery-rails', '<= 2.1.4'
 gem 'mysql2'
 gem 'rack-cache', :require => 'rack/cache'
 gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
