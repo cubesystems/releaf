@@ -114,7 +114,7 @@ module Releaf
     end
 
     def item_params
-      params.require(current_object_class_name).permit(:scope)
+      params.require(:item).permit(:scope)
     end
 
   end

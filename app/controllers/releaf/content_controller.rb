@@ -131,12 +131,12 @@ module Releaf
 
     def _node_common_fields_params
       allowed_params = (@item.common_field_names).map { |f| f.sub(/_uid$/, '') }
-      params.require(current_object_class_name).permit(*allowed_params)
+      params.require(:item).permit(*allowed_params)
     end
 
     def _node_params
       allowed_params = (%w[parent_id name content_type slug position data visible protected content_object_attributes]).map { |f| f.sub(/_uid$/, '') }
-      params.require(current_object_class_name).permit(*allowed_params)
+      params.require(:item).permit(*allowed_params)
     end
 
     private
@@ -148,7 +148,7 @@ module Releaf
       new_content_if_needed
     end
 
-    def node_params(action)
+    def item_params action=params[:action]
       # make sure none of actions, that are defined by BaseController can update item
       []
     end

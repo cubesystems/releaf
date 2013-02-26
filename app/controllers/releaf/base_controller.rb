@@ -56,10 +56,6 @@ module Releaf
       @_current_object_class ||= self.class.name.split('::').last.sub(/\s?Controller$/, '').classify.constantize
     end
 
-    def current_object_class_name
-      current_object_class.name.underscore.tr('/', '_')
-    end
-
     def columns view=params[:action]
       cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password position]
       unless %w[new edit update create].include? view
@@ -257,18 +253,17 @@ module Releaf
 
     protected
 
-    def allowed_params override_action=nil
-      if self.respond_to?(:"#{current_object_class_name}_params")
-        variables = params.require( current_object_class_name ).permit( *self.send(:"#{current_object_class_name}_params", override_action || params[:action]) )
+    def allowed_params view=params[:action]
+      if self.respond_to?(:item_params)
+        variables = params.require( :item ).permit( *self.send(:item_params, view) )
       elsif @item.respond_to? :allowed_params
-        variables = params.require( current_object_class_name ).permit( *@item.allowed_params( override_action || params[:action]) )
+        variables = params.require( :item ).permit( *@item.allowed_params( view ) )
       else
-        variables = params.require( current_object_class_name ).permit( *current_object_class.column_names )
+        variables = params.require( :item ).permit( *current_object_class.column_names )
       end
     end
 
     private
-
 
     def set_locale
       I18n.locale = if params[:locale] && Settings.i18n_locales.include?(params[:locale])

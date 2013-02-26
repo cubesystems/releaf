@@ -5,7 +5,7 @@
   - rescue
     .description= @item.to_s
   .buttons
-    = form_for @item, :url => url_for( :action => 'destroy', :id => @item.id ), :method => 'delete' do |f|
+    = form_for @item, :url => url_for( :action => 'destroy', :id => @item.id ), :as => :item, :method => :delete do |f|
       %button{ :type => 'submit' }
         = image_tag 'releaf/icons/bin_empty.png', :alt => ''
         %span= t('yes')

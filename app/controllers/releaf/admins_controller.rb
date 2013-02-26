@@ -39,7 +39,7 @@ module Releaf
 
     protected
 
-    def admin_params( action )
+    def item_params action=params[:action]
       return [] unless [:create, :update].include? action
       %w[name surname role_id email password password_confirmation phone avatar retained_avatar]
     end

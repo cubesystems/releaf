@@ -16,7 +16,7 @@ module Releaf
 
     protected
 
-    def role_params( action )
+    def item_params  action=params[:action]
       return [] unless [:update, :create].include? action
 
       fields = ['name', 'default']
