@@ -1,0 +1,53 @@
+- fields.each do |field|
+  - if field.is_a?(String) or field.is_a?(Symbol)
+    - if @controller.has_template( view_prefix + '.' + field )
+      = render view_prefix + '.' + field, :f => f, :name => field
+    - else
+      = render 'edit.field', :f => f, :name => field
+
+  - elsif field.is_a? Hash
+    - field.each_pair do |field, subfields|
+      - if @controller.has_template( '_' + view_prefix + '.' + field )
+        = render view_prefix + '.' + field, :f => f, :name => field
+
+      - else
+        - new_view_prefix = view_prefix + '.' + field
+
+        - reflection = f.object.class.reflections[field.to_sym]
+
+        - case reflection.macro
+        - when :has_many
+          - sortable_objects = reflection.active_record.columns.include?('position')
+          .nested_wrap
+            .nested_title= I18n.t(field)
+            .list{:'data-sortable' => sortable_objects ? '' : nil}
+              - f.object.send(field).each_with_index do |obj, i|
+                .item
+                  = f.fields_for field, obj, :child_index => i do |ff|
+                    = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :new_view_prefix => new_view_prefix, :field => field
+
+              .item.template{:style => 'display:none;'}
+                = f.fields_for :field, f.object.send(field).new, :child_index => '_template_' do |ff|
+                  = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :new_view_prefix => new_view_prefix, :field => field
+
+            %button.add.new(type='button')
+              = image_tag 'releaf/icons/add.png', :atl => ''
+              %span= I18n.t("New")
+
+
+        - when :belongs_to
+          = f.fields_for field, f.object.send(field) do |ff|
+
+            - if subfields.is_a? Array
+              - subfields.each do |subfield|
+                - if @controller.has_template( '_' + new_view_prefix + '.' + subfield )
+                  = render new_view_prefix + '.' + subfield, :f => ff, :name => subfield
+                - else
+                  = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
+
+            - elsif subfields.is_a? String or subfields.is_a? Symbol
+              - if @controller.has_template( '_' + new_view_prefix + '.' + field )
+                = render new_view_prefix + '.' + field, :f => ff, :name => field
+              - else
+                = render 'edit.field', :f => ff, :name => field
+

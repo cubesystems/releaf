@@ -8,12 +8,4 @@
           - f.object.errors.full_messages.each do |msg|
             %li= msg
 
-    -# - @controller.columns( params[:action] ).each do |name|
-    - @controller.columns( params[:action] ).each do |name|
-      - if @controller.has_template( "_edit.field.#{name}" )
-        = render "edit.field.#{name}", :name => name, :f => f
-      - else
-        = render 'edit.field', :name => name, :f => f
-
-
-    = render 'edit.has_many_associations', :f => f
+    = render 'edit.fields', :f => f, :fields => @controller.columns( params[:action] ), :view_prefix => 'edit.field'

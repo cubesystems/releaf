@@ -3,8 +3,8 @@
 - if polymorphic_association_names(f.object).include?(name_without_id_or_type)
   -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
   -# first time for _id field, second time for _type field
-  - if name =~ /_id$/ && @controller.has_template( "_edit.field.#{name_without_id_or_type}" )
-    = render "_edit.field.#{name_without_id_or_type}"
+  -# - if name =~ /_id$/ && @controller.has_template( "_edit.field.#{name_without_id_or_type}" )
+  -#   = render "_edit.field.#{name_without_id_or_type}"
 
 - else
   :ruby
