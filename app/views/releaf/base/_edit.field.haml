@@ -36,7 +36,6 @@
       use_i18n = false
     when /_link$/, 'link', /_url$/, 'url'
       input_type = 'link'
-      use_i18n = false
     else
       if name =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
         column_type = f.object.common_field_field_type(name)
