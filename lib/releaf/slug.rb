@@ -16,8 +16,12 @@ module Releaf
         end
 
 
+        def self.find_object! id_or_slug, scope_name=nil, scope_args=nil
+          self.find_object(id_or_slug, scope_name, scope_args) || raise(ActiveRecord::RecordNotFound)
+        end
+
         def self.find_object id_or_slug, scope_name=nil, scope_args=nil
-          raise ArgumentError unless id_or_slug.is_a?(String) or id_or_slug.is_a?(Fixnum)
+          raise ArgumentError, "id_or_slub must be String or Fixnum" unless id_or_slug.is_a?(String) or id_or_slug.is_a?(Fixnum)
 
           unless self.column_names.include?('slug')
             return scoped_for_find_by_slug(self, scope_name, scope_args).find(id_or_slug)
@@ -30,13 +34,15 @@ module Releaf
           end
 
           unless self.column_names.include?('ancestry') || self.new.respond_to?(:children)
-            return scoped_for_find_by_slug(self, scope_name, scope_args).find_by_slug!(id_or_slug)
+            return scoped_for_find_by_slug(self, scope_name, scope_args).find_by_slug(id_or_slug)
           else
             slugs = id_or_slug.split('/')
 
-            obj = scoped_for_find_by_slug(self, scope_name, scope_args).find_by_slug!( slugs.shift )
+            obj = scoped_for_find_by_slug(self, scope_name, scope_args).find_by_slug( slugs.shift )
+            return nil unless obj
             slugs.each do |slug_part|
-              obj = scoped_for_find_by_slug(obj.children, scope_name, scope_args).find_by_slug!( slug_part )
+              obj = scoped_for_find_by_slug(obj.children, scope_name, scope_args).find_by_slug( slug_part )
+              return nil unless obj
             end
             return obj
           end
