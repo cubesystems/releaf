@@ -27,7 +27,7 @@
                     = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :new_view_prefix => new_view_prefix, :field => field
 
               .item.template{:style => 'display:none;'}
-                = f.fields_for :field, f.object.send(field).new, :child_index => '_template_' do |ff|
+                = f.fields_for field, f.object.send(field).new, :child_index => '_template_' do |ff|
                   = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :new_view_prefix => new_view_prefix, :field => field
 
             %button.add.new(type='button')
