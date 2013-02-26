@@ -7,11 +7,12 @@
     - if @controller.has_template( '_' + new_view_prefix + '.' + field )
       = render new_view_prefix + '.' + field, :f => ff, :name => field
     - else
-      = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
+      = render 'edit.field', :f => ff, :name => subfield
 
 - elsif subfields.is_a? String or subfields.is_a? Symbol
   - if @controller.has_template( '_' + new_view_prefix + '.' + field )
     = render new_view_prefix + '.' + field, :f => ff, :name => field
   - else
     = render 'edit.field', :f => ff, :name => field
+
 = render 'edit.field.type_delete_nested', :f => ff
