@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_dependency('dragonfly', '~>0.9.12')
   s.add_dependency('devise', '> 2.1.0')
   s.add_dependency('cancan', '~> 1.6.8')
-  s.add_dependency('yui-rails', '~> 0.1.0')
+  s.add_dependency('yui-rails', '~> 0.2.0')
   s.add_dependency 'rails-settings-cached', '~> 0.2.2'
   s.add_dependency('tinymce-rails', '~>3.5.8')
   s.add_dependency('acts_as_list')
