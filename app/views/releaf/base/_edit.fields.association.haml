@@ -8,7 +8,7 @@
   - case reflection.macro
   - when :has_many
     - sortable_objects = reflection.klass.columns.include?('position')
-    .nested_wrap
+    .nested_wrap{:'data-name' => field}
       .nested_title= I18n.t(field)
       .list{:'data-sortable' => sortable_objects ? '' : nil}
         - f.object.send(field).each_with_index do |obj, i|
@@ -26,18 +26,21 @@
 
 
   - when :belongs_to
-    = f.fields_for field, f.object.send(field) do |ff|
+    .nested_wrap{:'data-name' => field}
+      .nested_title= I18n.t(field)
+      .item
+        = f.fields_for field, f.object.send(field) do |ff|
 
-      - if subfields.is_a? Array
-        - subfields.each do |subfield|
-          - if @controller.has_template( '_' + new_view_prefix + '.' + subfield )
-            = render new_view_prefix + '.' + subfield, :f => ff, :name => subfield
-          - else
-            = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
+          - if subfields.is_a? Array
+            - subfields.each do |subfield|
+              - if @controller.has_template( '_' + new_view_prefix + '.' + subfield )
+                = render new_view_prefix + '.' + subfield, :f => ff, :name => subfield
+              - else
+                = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
 
-      - elsif subfields.is_a? String or subfields.is_a? Symbol
-        - if @controller.has_template( '_' + new_view_prefix + '.' + field )
-          = render new_view_prefix + '.' + field, :f => ff, :name => field
-        - else
-          = render 'edit.field', :f => ff, :name => field
+          - elsif subfields.is_a? String or subfields.is_a? Symbol
+            - if @controller.has_template( '_' + new_view_prefix + '.' + field )
+              = render new_view_prefix + '.' + field, :f => ff, :name => field
+            - else
+              = render 'edit.field', :f => ff, :name => field
 
