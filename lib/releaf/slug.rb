@@ -21,7 +21,7 @@ module Releaf
         end
 
         def self.find_object id_or_slug, scope_name=nil, scope_args=nil
-          raise ArgumentError, "id_or_slub must be String or Fixnum" unless id_or_slug.is_a?(String) or id_or_slug.is_a?(Fixnum)
+          raise ArgumentError, "id_or_slug must be String or Fixnum" unless id_or_slug.is_a?(String) or id_or_slug.is_a?(Fixnum)
 
           unless self.column_names.include?('slug')
             return scoped_for_find_by_slug(self, scope_name, scope_args).find(id_or_slug)
