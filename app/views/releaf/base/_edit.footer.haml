@@ -8,7 +8,7 @@
       = image_tag("releaf/icons/disk.png", :alt => "") \
       = t('save')
   .block.right_block
-    - if @features[:destroy] && !f.object.new_record?
+    - if @features[:destroy] && !item.new_record?
       %a.button{ :href => url_for( :action => 'confirm_destroy', :id => item ) }
         = image_tag('releaf/icons/bin_empty.png', :alt => '')
         %span= t('destroy')
