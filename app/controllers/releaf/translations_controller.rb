@@ -23,7 +23,7 @@ module Releaf
 
     def index
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @list = @object_class = I18n::Backend::Releaf::Translation.includes(:translation_data).filter(:search => params[:search])
+      @items = @object_class = I18n::Backend::Releaf::Translation.includes(:translation_data).filter(:search => params[:search])
       if !params[:ajax].blank?
         render :layout => false
       end

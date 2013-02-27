@@ -1,6 +1,6 @@
 .body.outset_box
-  - if @list.empty?
+  - if items.empty?
     .releaf_table.no_border
       .nothing_found= t("nothing_found")
   - else
-    = render "index.table"
+    = render "index.table", :items => items

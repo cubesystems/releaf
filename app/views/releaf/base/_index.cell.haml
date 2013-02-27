@@ -5,7 +5,7 @@
       # FIXME what if association was set with :foreign_key option
       rel_name = name.sub(/_id$/, '').to_sym
       if item.class.reflect_on_association(rel_name)
-        text = item.send(rel_name).try(:to_text) || item.send(rel_name).to_s
+        text = item_to_text(item.send(rel_name))
       end
     end
   elsif name =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/

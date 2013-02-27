@@ -1,4 +1,4 @@
-- value = @item.send(name)
+- value = item.send(name)
 - unless value.blank?
 
   .field.no_label_wrap_padding
@@ -9,23 +9,23 @@
       - case name
       - when /_id$/
         - m = name.sub(/_id$/, '').to_sym
-        - if @item.class.respond_to?(:reflect_on_association) && @item.class.reflect_on_association(m)
-          = @item.send(m).to_text
+        - if item.class.respond_to?(:reflect_on_association) && item.class.reflect_on_association(m)
+          = item_to_text(item.send(m))
         - else
-          = @item.send(name)
+          = item.send(name)
 
       - when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
         -# FIXME should check if it's a dragonfly field
         - m = name.sub(/_uid$/, '')
         - case m
         - when /avatar$/
-          = image_tag @item.send(m).thumb('64x64').url
+          = image_tag item.send(m).thumb('64x64').url
         - else
-          = link_to image_tag(@item.send(m).thumb('x128').url), @item.send(m).url
+          = link_to image_tag(item.send(m).thumb('x128').url), item.send(m).url
 
       - when /_uid$/
         -# FIXME should check if it's a dragonfly field
-        = link_to I18n.t("common.Download"), @item.send(name.sub(/_uid$/, '')).url
+        = link_to I18n.t("common.Download"), item.send(name.sub(/_uid$/, '')).url
 
       - when /password/
         = I18n.t("common.Filtered")
@@ -34,7 +34,7 @@
         - if value =~ /\A\d+\z/
           - target = Releaf::Node.find_by_id(value)
           - if target
-            = link_to target.to_text, url_for(:action => :show, :id => value)
+            = link_to item_to_text(target), url_for(:action => :show, :id => value)
           - else
             = I18n.t("common.Not found")
         - else
@@ -49,10 +49,10 @@
 
 
       - else
-        - column_type = @item.class.columns_hash[ name ].try(:type) || :string
+        - column_type = item.class.columns_hash[ name ].try(:type) || :string
         - case column_type
         - when :boolean
-          = @item.send("#{name}?") ? I18n.t("common.true") : I18n.t("common.false")
+          = item.send("#{name}?") ? I18n.t("common.true") : I18n.t("common.false")
         - when :text
           - if name.end_with?( '_html' )
             - field_type = 'richtext'

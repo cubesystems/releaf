@@ -1,9 +1,6 @@
 .body.outset_box
   .question= t('confirm_destroy')
-  - begin
-    .description= @item.to_text
-  - rescue
-    .description= @item.to_s
+  .description= item_to_text(@item)
   .buttons
     = form_for @item, :url => url_for( :action => 'destroy', :id => @item.id ), :as => :item, :method => :delete do |f|
       %button{ :type => 'submit' }

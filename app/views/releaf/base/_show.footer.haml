@@ -4,13 +4,15 @@
       %a.button{ :href => url_for( :action => 'index' ) }
         = image_tag 'releaf/icons/arrow_left.png', :alt => ''
         %span= t('back')
-    -if @features[:edit]
+
+    - if @features[:edit]
       .block.center_block
-        %a.button{ :href => url_for( :action => 'edit', :id => @item.id ) }
+        %a.button{ :href => url_for( :action => 'edit', :id => item.id ) }
           = image_tag 'releaf/icons/page_white_edit.png', :alt => ''
           %span= t('edit')
-    -if @features[:destroy]
+
+    - if @features[:destroy]
       .block.right_block
-        %a.button{ :href => url_for( :action => 'confirm_destroy', :id => @item.id ) }
+        %a.button{ :href => url_for( :action => 'confirm_destroy', :id => item.id ) }
           = image_tag('releaf/icons/bin_empty.png', :alt => '')
           %span= t('destroy')

@@ -170,11 +170,11 @@ module Releaf
     def index
       authorize! :list, current_object_class
       if current_object_class.respond_to?( :filter )
-        @list = current_object_class.filter(:search => params[:search])
+        @items = current_object_class.filter(:search => params[:search])
       else
-        @list = current_object_class
+        @items = current_object_class
       end
-      @list = @list.page( params[:page] ).per_page( @items_per_page )
+      @items = @items.page( params[:page] ).per_page( @items_per_page )
       if !params[:ajax].blank?
         render :layout => false
       end

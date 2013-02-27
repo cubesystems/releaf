@@ -1,7 +1,7 @@
 .footer.center
   .padding
     .stats
-      %span.total= @list.count \
+      %span.total= items.count \
       =t("itemsFound")
     %span.actions
       -if @features[:create]
@@ -19,5 +19,5 @@
           %button{:type => "button", :title => "switchToDelete", "data-action" => "confirm_destroy", :class => @controller.list_action == "confirm_destroy" ? "active" : ""}
             = image_tag("releaf/icons/bin_empty.png", :alt => "switchToDelete")
     - if !@continuous_scroll
-      - if @list.respond_to?(:page)
-        = will_paginate( @list, :class=> "button_group pagination", :link_separator => "", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :previous_label => "<", :next_label => ">", :outer_window => 0, :inner_window => 2 )
+      - if items.respond_to?(:page)
+        = will_paginate( items, :class=> "button_group pagination", :link_separator => "", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :previous_label => "<", :next_label => ">", :outer_window => 0, :inner_window => 2 )
