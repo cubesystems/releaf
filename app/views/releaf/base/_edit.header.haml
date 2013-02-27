@@ -1,3 +1,3 @@
 .header
   .padding
-    %h2= f.object.new_record? ? t('create_new_item') : item_to_text(item)
+    %h2= item.new_record? ? t('create_new_item') : item_to_text(item)
