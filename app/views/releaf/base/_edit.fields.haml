@@ -3,7 +3,7 @@
     - reflection = f.object.class.reflections[field.to_sym]
 
   - if (field.is_a?(String) or field.is_a?(Symbol)) && !reflection
-    - if @controller.has_template( view_prefix + '.' + field )
+    - if @controller.has_template( '_' + view_prefix + '.' + field )
       = render view_prefix + '.' + field, :f => f, :name => field
     - else
       = render 'edit.field', :f => f, :name => field
