@@ -1,6 +1,6 @@
 - name_without_id_or_type = name.sub(/_(id|type)$/, '')
 
-- if polymorphic_association_names(f.object).include?(name_without_id_or_type)
+- if polymorphic_association_names(item).include?(name_without_id_or_type)
   -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
   -# first time for _id field, second time for _type field
   - if name =~ /_id$/ && @controller.has_template( "_#{view_prefix}.#{name_without_id_or_type}" )
@@ -11,7 +11,7 @@
     = render "#{view_prefix}.#{name}", :item => item, :name => name, :view_prefix => view_prefix
   - else
 
-    - render_field_type, use_i18n = @controller.render_field_type(f.object, name)
+    - render_field_type, use_i18n = @controller.render_field_type(item, name)
 
     - if use_i18n and @controller.has_template( "_show.field_type.#{render_field_type}_i18n" )
       = render "show.field_type.#{render_field_type}_i18n", :item => item, :name => name
