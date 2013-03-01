@@ -5,19 +5,21 @@ module Releaf
       Releaf::Role
     end
 
-    def columns( view = nil )
-      fields = (super(view) - ['default']).insert(1, 'default')
-      if view == 'index'
-        fields - ['permissions'] + ['admin_permission']
+    def fields_to_display
+      case params[:action].to_sym
+      when :index
+        %w[name admin_permission default]
+      when :create, :edit, :new, :update, :show
+        %w[name default permissions]
       else
-        fields
+        []
       end
     end
 
     protected
 
     def item_params  action=params[:action]
-      return [] unless [:update, :create].include? action
+      return [] unless %w[update create].include? action.to_s
 
       fields = ['name', 'default']
       AdminAbility::PERMISSIONS.each do |permission|

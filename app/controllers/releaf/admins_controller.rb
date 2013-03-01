@@ -5,7 +5,7 @@ module Releaf
       Releaf::Admin
     end
 
-    def columns( view = nil )
+    def fields_to_display
       fields = super - %w[
         authentication_token
         confirmation_sent_at
@@ -26,11 +26,11 @@ module Releaf
         unlock_token
       ]
 
-      if view == 'index'
+      if params[:action] == 'index'
         fields -= ['avatar_uid']
       end
 
-      if %w[new create edit update].include? view
+      if %w[new create edit update].include? params[:action]
         fields += ['password', 'password_confirmation']
       end
 
@@ -40,7 +40,7 @@ module Releaf
     protected
 
     def item_params action=params[:action]
-      return [] unless [:create, :update].include? action
+      return [] unless %w[create update].include? action.to_s
       %w[name surname role_id email password password_confirmation phone avatar retained_avatar]
     end
 

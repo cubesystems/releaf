@@ -316,7 +316,7 @@ module Releaf
         end
 
       when :integer
-        if attribute_name.to_s =~ /_id/ and obj_class.reflect_on_association( attribute_name[0..-4].to_sym )
+        if attribute_name.to_s =~ /_id$/ and obj_class.reflect_on_association( attribute_name[0..-4].to_sym )
           field_type = 'item'
         else
           field_type = 'text'

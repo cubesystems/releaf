@@ -6,18 +6,15 @@
   - if name =~ /_id$/ && has_template?( "_#{view_prefix}.#{name_without_id_or_type}" )
     = render "#{view_prefix}.#{name_without_id_or_type}", :item => item, :name => name, :view_prefix => view_prefix
 
-- else
-  - if has_template? "_#{view_prefix}.#{name}"
-    = render "#{view_prefix}.#{name}", :item => item, :name => name, :view_prefix => view_prefix
+- elsif has_template? "_#{view_prefix}.#{name}"
+  = render "#{view_prefix}.#{name}", :item => item, :name => name, :view_prefix => view_prefix
+- elsif item.send(name).blank? == false
+  - render_field_type, use_i18n = render_field_type(item, name)
+  - if use_i18n and has_template?( "_show.field_type_#{render_field_type}_i18n" )
+    = render "show.field_type_#{render_field_type}_i18n", :item => item, :name => name
+
+  - elsif has_template?( "_show.field_type_#{render_field_type}" )
+    = render "show.field_type_#{render_field_type}", :item => item, :name => name
+
   - else
-
-    - render_field_type, use_i18n = render_field_type(item, name)
-    - unless item.send(name).blank?
-      - if use_i18n and has_template?( "_show.field_type_#{render_field_type}_i18n" )
-        = render "show.field_type_#{render_field_type}_i18n", :item => item, :name => name
-
-      - elsif has_template?( "_show_field_type.#{render_field_type}" )
-        = render "show.field_type_#{render_field_type}", :item => item, :name => name
-
-      - else
-        = render "show.field_type_text", :item => item, :name => name
+    = render "show.field_type_text", :item => item, :name => name
