@@ -1,0 +1,36 @@
+- if @controller.has_template( '_' + view_prefix + '.' + field )
+  = render view_prefix + '.' + field, :item => item, :name => field
+
+- else
+  - new_view_prefix = view_prefix + '.' + field
+
+
+  - case reflection.macro
+  - when :has_many
+    .nested_wrap{:'data-name' => field}
+      .nested_title= I18n.t(field)
+      .list
+        - item.send(field).each do |subitem|
+          .item
+            = render 'show.fields.has_many_template', :item => subitem, :subfields => subfields, :new_view_prefix => new_view_prefix, :field => field
+
+  - when :belongs_to
+    .nested_wrap{:'data-name' => field}
+      .nested_title= I18n.t(field)
+      .item
+
+        - subitem = item.send(field)
+
+        - if subfields.is_a? Array
+          - subfields.each do |subfield|
+            - if @controller.has_template( '_' + new_view_prefix + '.' + subfield )
+              = render new_view_prefix + '.' + subfield, :item => item, :name => subfield
+            - else
+              = render 'show.fields', :item => subitem, :fields => subfields, :view_prefix => new_view_prefix
+
+        - elsif subfields.is_a? String or subfields.is_a? Symbol
+          - if @controller.has_template( '_' + new_view_prefix + '.' + field )
+            = render new_view_prefix + '.' + field, :item => item, :name => field
+          - else
+            = render 'show.field', :item => subitem, :name => field
+

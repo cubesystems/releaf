@@ -1,0 +1,12 @@
+- if subfields.is_a? Array
+  - subfields.each do |subfield|
+    - if @controller.has_template( '_' + new_view_prefix + '.' + field )
+      = render new_view_prefix + '.' + field, :item => item, :name => field
+    - else
+      = render 'show.field', :item => item, :name => subfield
+
+- elsif subfields.is_a? String or subfields.is_a? Symbol
+  - if @controller.has_template( '_' + new_view_prefix + '.' + field )
+    = render new_view_prefix + '.' + field, :item => item, :name => field
+  - else
+    = render 'show.field', :item => item, :name => field
