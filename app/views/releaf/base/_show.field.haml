@@ -4,20 +4,20 @@
   -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
   -# first time for _id field, second time for _type field
   - if name =~ /_id$/ && @controller.has_template( "_#{view_prefix}.#{name_without_id_or_type}" )
-    = render "#{view_prefix}.#{name_without_id_or_type}", :f => f, :name => name, :view_prefix => view_prefix
+    = render "#{view_prefix}.#{name_without_id_or_type}", :item => item, :name => name, :view_prefix => view_prefix
 
 - else
   - if @controller.has_template( "_#{view_prefix}.#{name}" )
-    = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix
+    = render "#{view_prefix}.#{name}", :item => item, :name => name, :view_prefix => view_prefix
   - else
 
     - render_field_type, use_i18n = @controller.render_field_type(f.object, name)
 
     - if use_i18n and @controller.has_template( "_show.field_type.#{render_field_type}_i18n" )
-      = render "show.field_type.#{render_field_type}_i18n", :f => f, :name => name
+      = render "show.field_type.#{render_field_type}_i18n", :item => item, :name => name
 
     - elsif @controller.has_template( "_show.field_type.#{render_field_type}" )
-      = render "show.field_type.#{render_field_type}", :f => f, :name => name
+      = render "show.field_type.#{render_field_type}", :item => item, :name => name
 
     - else
-      = render "show.field_type.text", :f => f, :name => name
+      = render "show.field_type.text", :item => item, :name => name
