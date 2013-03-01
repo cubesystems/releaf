@@ -1,3 +1,4 @@
+-# - begin
 - name_without_id_or_type = name.sub(/_(id|type)$/, '')
 
 - if polymorphic_association_names(item).include?(name_without_id_or_type)
@@ -21,3 +22,6 @@
 
     - else
       = render "show.field_type.text", :item => item, :name => name
+-# - rescue ActionView::MissingTemplate
+-#   = raise name.inspect
+-#   = raise render_field_type.inspect

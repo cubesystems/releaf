@@ -1,5 +1,6 @@
 .field.no_label_wrap_padding.type_text{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(name.humanize, :scope => "models.#{item.class_name.underscore}") + ':'
+    .label= I18n.t(name.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
   .value
     = item.send(name)
+  .clear

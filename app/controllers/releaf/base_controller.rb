@@ -173,11 +173,9 @@ module Releaf
       when :time
         field_type = 'time'
 
-      else
-        field_type = 'text'
       end
 
-      return [field_type, use_i18n]
+      return [field_type || 'text', use_i18n]
     end
 
     # actions

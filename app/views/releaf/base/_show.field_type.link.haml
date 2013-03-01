@@ -1,6 +1,6 @@
 .field.no_label_wrap_padding.type_link{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(name.humanize, :scope => "models.#{item.class_name.underscore}") + ':'
+    .label= I18n.t(name.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
   .value
     - value = item.send(name)
     - if value =~ /\A\d+\z/
@@ -11,3 +11,4 @@
         = I18n.t("Link not found")
     - else
       = link_to value, value
+  .clear

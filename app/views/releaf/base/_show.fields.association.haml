@@ -12,7 +12,7 @@
       .list
         - item.send(field).each do |subitem|
           .item
-            = render 'show.fields.has_many_template', :item => subitem, :subfields => subfields, :new_view_prefix => new_view_prefix, :field => field
+            = render 'show.fields.has_many_template', :item => subitem, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
 
   - when :belongs_to
     .nested_wrap{:'data-name' => field}
@@ -32,5 +32,5 @@
           - if @controller.has_template( '_' + new_view_prefix + '.' + field )
             = render new_view_prefix + '.' + field, :item => item, :name => field
           - else
-            = render 'show.field', :item => subitem, :name => field
+            = render 'show.field', :item => subitem, :name => field, :view_prefix => new_view_prefix
 

@@ -1,8 +1,9 @@
 .field.no_label_wrap_padding.time_time{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(name.humanize, :scope => "models.#{item.class_name.underscore}") + ':'
+    .label= I18n.t(name.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
   .value
     - value = item.send(name)
     -# FIXME
     = value
     -# = I18n.l(value, :format => 'time_picker')
+  .clear

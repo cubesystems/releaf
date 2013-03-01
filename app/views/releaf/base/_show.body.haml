@@ -1,8 +1,3 @@
 .body.outset_box
   .section
-    -# - @controller.columns( params[:action] ).each do |name|
-    -#   - if @controller.has_template( "_show.field.#{name}" )
-    -#     = render "show.field.#{name}", :name => name
-    -#   - elsif !@item[name].blank? || @item.class.columns_hash[ name ].try(:type) == :boolean
-    -#     = render 'show.field', :name => name
     = render 'show.fields', :item => @item, :view_prefix => 'show.field', :fields => @controller.columns( params[:action]  )
