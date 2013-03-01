@@ -4,6 +4,7 @@
   .label_wrap
     .label= I18n.t(m.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
   .value
-    = link_to image_tag(item.send(m).thumb('x128').url), item.send(m).url, :target => :_blank, :data => { :lightbox => true }
     = link_to I18n.t("common.Download"), item.send(m).url
+    .preview
+      = link_to image_tag(item.send(m).thumb('x128').url), item.send(m).url, :target => :_blank, :data => { :lightbox => true }
   .clear
