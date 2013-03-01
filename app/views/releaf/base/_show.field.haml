@@ -1,4 +1,3 @@
--# - begin
 - name_without_id_or_type = name.sub(/_(id|type)$/, '')
 
 - if polymorphic_association_names(item).include?(name_without_id_or_type)
@@ -13,15 +12,12 @@
   - else
 
     - render_field_type, use_i18n = @controller.render_field_type(item, name)
+    - unless item.send(name).blank?
+      - if use_i18n and @controller.has_template( "_show.field_type.#{render_field_type}_i18n" )
+        = render "show.field_type.#{render_field_type}_i18n", :item => item, :name => name
 
-    - if use_i18n and @controller.has_template( "_show.field_type.#{render_field_type}_i18n" )
-      = render "show.field_type.#{render_field_type}_i18n", :item => item, :name => name
+      - elsif @controller.has_template( "_show.field_type.#{render_field_type}" )
+        = render "show.field_type.#{render_field_type}", :item => item, :name => name
 
-    - elsif @controller.has_template( "_show.field_type.#{render_field_type}" )
-      = render "show.field_type.#{render_field_type}", :item => item, :name => name
-
-    - else
-      = render "show.field_type.text", :item => item, :name => name
--# - rescue ActionView::MissingTemplate
--#   = raise name.inspect
--#   = raise render_field_type.inspect
+      - else
+        = render "show.field_type.text", :item => item, :name => name
