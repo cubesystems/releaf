@@ -98,18 +98,86 @@ module Releaf
       return render_to_string( arguments ).html_safe
     end
 
-    def input_type_for( column_type, name )
-      input_type = 'text'
-      case column_type
-      when :boolean
-        input_type = 'checkbox'
-      when :text
-        input_type = 'textarea'
-        if name.end_with?( '_html' )
-          input_type = 'richtext'
-        end
+    # Returns array with 2 items: string and boolean
+    # first element of array is field_type (for rendering)
+    # if seconnd argument is true template with localization should be used
+    def render_field_type( obj, attribute_name )
+      field_type = nil
+      use_i18n = false
+      obj_class = obj.class
+
+      if obj_class.respond_to?(:translations_table_name)
+        use_i18n = obj_class.translates.include?(attribute_name.to_sym)
       end
-      return input_type
+
+      column_type = :string
+      if attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
+        column_type = f.object.common_field_field_type(name)
+      else
+        column_type = obj_class.columns_hash[attribute_name.to_s].try(:type) || :string
+      end
+
+      case column_type.to_sym
+      when :boolean
+        field_type = 'boolean'
+
+      when :string
+        case attribute_name.to_s
+        when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
+          field_type = 'image'
+
+        when /_uid$/
+          field_type = 'file'
+
+        when /password/, 'pin'
+          field_type = 'password'
+
+        when /_email$/, 'email'
+          field_type = 'email'
+
+        when /_link$/, 'link'
+          field_type = 'link'
+
+        else
+          field_type = 'text'
+        end
+
+      when :integer
+        if attribute_name.to_s =~ /_id/ and obj_class.reflect_on_association( attribute_name[0..-4].to_sym )
+          field_type = 'item'
+        else
+          field_type = 'text'
+        end
+
+      when :text
+        case attribute_name.to_s
+        when /_(url|homepage)$/, 'homepage', 'url'
+          field_type = 'url'
+
+        when /_link$/, 'url'
+          field_type = 'link_or_url'
+
+        when /_html$/, 'html'
+          field_type = 'richtext'
+
+        else
+          field_type = 'textarea'
+        end
+
+      when :datetime
+        field_type = 'datetime'
+
+      when :date
+        field_type = 'date'
+
+      when :time
+        field_type = 'time'
+
+      else
+        field_type = 'text'
+      end
+
+      return [field_type, use_i18n]
     end
 
     # actions

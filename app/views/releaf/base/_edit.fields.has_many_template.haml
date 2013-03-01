@@ -4,15 +4,15 @@
 
 - if subfields.is_a? Array
   - subfields.each do |subfield|
-    - if @controller.has_template( '_' + new_view_prefix + '.' + field )
-      = render new_view_prefix + '.' + field, :f => ff, :name => field
+    - if @controller.has_template( "_#{view_prefix}.#{field}" )
+      = render "#{view_prefix}.#{field}", :f => ff, :name => field
     - else
-      = render 'edit.field', :f => ff, :name => subfield
+      = render 'edit.field', :f => ff, :name => subfield, :view_prefix => view_prefix
 
 - elsif subfields.is_a? String or subfields.is_a? Symbol
-  - if @controller.has_template( '_' + new_view_prefix + '.' + field )
-    = render new_view_prefix + '.' + field, :f => ff, :name => field
+  - if @controller.has_template( "_#{view_prefix}.#{field}" )
+    = render "#{view_prefix}.#{field}", :f => ff, :name => field
   - else
-    = render 'edit.field', :f => ff, :name => field
+    = render 'edit.field', :f => ff, :name => field, :view_prefix => view_prefix
 
-= render 'edit.field.type_delete_nested', :f => ff
+= render 'edit.field_type.delete_nested', :f => ff
