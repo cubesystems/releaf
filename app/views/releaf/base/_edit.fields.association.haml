@@ -1,4 +1,4 @@
-- if @controller.has_template( "_#{view_prefix}.#{field}" )
+- if has_template? "_#{view_prefix}.#{field}"
   = render "#{view_prefix}.#{field}", :f => f, :name => field
 
 - else
@@ -7,7 +7,7 @@
 
   - case reflection.macro
   - when :has_many
-    - sortable_objects = reflection.klass.columns.include?('position')
+    - sortable_objects = reflection.klass.column_names.include?('position')
     .nested_wrap{:'data-name' => field}
       .nested_title= I18n.t(field)
       .list{:'data-sortable' => sortable_objects ? '' : nil}
@@ -33,13 +33,13 @@
 
           - if subfields.is_a? Array
             - subfields.each do |subfield|
-              - if @controller.has_template( "_#{new_view_prefix}.#{subfield}" )
+              - if has_template? "_#{new_view_prefix}.#{subfield}"
                 = render "#{new_view_prefix}.#{subfield}", :f => ff, :name => subfield
               - else
                 = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
 
           - elsif subfields.is_a? String or subfields.is_a? Symbol
-            - if @controller.has_template( "_#{new_view_prefix}.#{field}" )
+            - if has_template? "_#{new_view_prefix}.#{field}"
               = render "_#{new_view_prefix}.#{field}", :f => ff, :name => field
             - else
               = render 'edit.field', :f => ff, :name => field

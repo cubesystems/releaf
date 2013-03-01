@@ -1,6 +1,6 @@
 .row{ 'data-id' => item.id }
-  - @controller.columns( params[:action] ).each do |name|
-    - if @controller.has_template( "_index.cell.#{name}" )
+  - fields_to_display.each do |name|
+    - if has_template? "_index.cell.#{name}"
       = render "index.cell.#{name}", :item => item, :name => name
     - else
       = render 'index.cell', :item => item, :name => name

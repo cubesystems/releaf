@@ -1,12 +1,9 @@
 module Releaf
   class ContentController < BaseController
 
-    def columns( view = nil )
-      if view == 'show'
-        return %w[name parent_id visible protected content]
-      else
-        return super
-      end
+    def fields_to_display
+      return super unless view.to_sym == :show
+      return %w[name parent_id visible protected content]
     end
 
     def build_secondary_panel_variables
@@ -121,7 +118,6 @@ module Releaf
       end
 
     end
-
 
     def current_object_class
       Node

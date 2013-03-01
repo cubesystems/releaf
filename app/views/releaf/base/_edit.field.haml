@@ -3,20 +3,20 @@
 - if polymorphic_association_names(f.object).include?(name_without_id_or_type)
   -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
   -# first time for _id field, second time for _type field
-  - if name =~ /_id$/ && @controller.has_template( "_#{view_prefix}.#{name_without_id_or_type}" )
+  - if name =~ /_id$/ && has_template?( "_#{view_prefix}.#{name_without_id_or_type}" )
     = render "#{view_prefix}.#{name_without_id_or_type}", :f => f, :name => name, :view_prefix => view_prefix
 
 - else
-  - if @controller.has_template( "_#{view_prefix}.#{name}" )
+  - if has_template? "_#{view_prefix}.#{name}"
     = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix
   - else
 
-    - render_field_type, use_i18n = @controller.render_field_type(f.object, name)
+    - render_field_type, use_i18n = render_field_type(f.object, name)
 
-    - if use_i18n and @controller.has_template( "_edit.field_type.#{render_field_type}_i18n" )
+    - if use_i18n and has_template?( "_edit.field_type.#{render_field_type}_i18n" )
       = render "edit.field_type.#{render_field_type}_i18n", :f => f, :name => name
 
-    - elsif @controller.has_template( "_edit.field_type.#{render_field_type}" )
+    - elsif has_template? "_edit.field_type.#{render_field_type}"
       = render "edit.field_type.#{render_field_type}", :f => f, :name => name
 
     - else

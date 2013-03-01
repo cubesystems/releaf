@@ -1,7 +1,7 @@
 .releaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @items_per_page, "data-loading" => t("loading"), "data-total" => items.count}
   .thead
     %div
-      - @controller.columns( params[:action] ).each do |name|
+      - fields_to_display.each do |name|
         %div= name.sub(/_(id|uid|html)$/, '').to_s.humanize
   .tbody
     - items.each do |item|

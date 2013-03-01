@@ -1,5 +1,5 @@
-- if @controller.has_template( '_' + view_prefix + '.' + field )
-  = render view_prefix + '.' + field, :item => item, :name => field
+- if has_template? "_#{view_prefix}.#{field}"
+  = render "#{view_prefix}.#{field}", :item => item, :name => field
 
 - else
   - new_view_prefix = view_prefix + '.' + field
@@ -23,14 +23,14 @@
 
         - if subfields.is_a? Array
           - subfields.each do |subfield|
-            - if @controller.has_template( '_' + new_view_prefix + '.' + subfield )
-              = render new_view_prefix + '.' + subfield, :item => item, :name => subfield
+            - if has_template? "_#{new_view_prefix}.#{subfield}"
+              = render "#{new_view_prefix}.#{subfield}", :item => item, :name => subfield
             - else
               = render 'show.fields', :item => subitem, :fields => subfields, :view_prefix => new_view_prefix
 
         - elsif subfields.is_a? String or subfields.is_a? Symbol
-          - if @controller.has_template( '_' + new_view_prefix + '.' + field )
-            = render new_view_prefix + '.' + field, :item => item, :name => field
+          - if has_template? "_#{new_view_prefix}.#{field}"
+            = render "#{new_view_prefix}.#{field}", :item => item, :name => field
           - else
             = render 'show.field', :item => subitem, :name => field, :view_prefix => new_view_prefix
 

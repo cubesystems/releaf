@@ -1,5 +1,17 @@
 module Releaf
+  class FeatureDisabled < StandardError; end
+
   class BaseController < BaseApplicationController
+    helper_method :build_secondary_panel_variables,
+      :fields_to_display,
+      :current_object_class,
+      :find_parent_template,
+      :has_template?,
+      :list_action,
+      :render_field_type,
+      :render_parent_template,
+      :secondary_panel
+
     before_filter do
       filter_templates
       set_locale
@@ -7,12 +19,197 @@ module Releaf
     end
 
     def setup
-      @controller        = self # this is used later in views
-      @features          = { :create => true, :show => true, :edit => true, :destroy => true}
-      @panel_layout      = true
+      @features = {
+        :edit     => true,
+        :create   => true,
+        :show     => true,
+        :destroy  => true
+      }
       @continuous_scroll = false
+      @panel_layout      = true
       @items_per_page    = 40
     end
+
+
+    # actions ##########################################################################
+
+    def autocomplete# {{{
+      authorize! :edit, current_object_class
+
+      c_obj = current_object_class
+
+      if params[:query_field] and params[:q] and params[:field] #and params[:field] =~ /_id\z/ and c_obj.column_names.include?(params[:field]) and c_obj.respond_to?(:reflect_on_association) and c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym)
+
+        obj = c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym).klass
+        obj_fields = obj.column_names
+
+        sql = []
+        sql_params = {}
+
+        params[:q].split(' ').each_with_index do |part, i|
+          sql.push "#{params[:query_field]} LIKE :part#{i}"
+          sql_params[:"part#{i}"] = "%#{part}%"
+        end
+
+        order_by = nil
+
+        if params[:order]
+          order_by = []
+
+          params[:order].split(',').each do |order_part|
+            if obj_fields.include? order_part.sub(/ (asc|desc)\z/i, '')
+              order_by.push order_part
+            end
+          end
+        end
+
+        order_by = [params[:query_field],'id'] if order_by.blank?
+
+        query = obj.where(sql.join(' AND '), sql_params).order(order_by.join(', '))
+
+        matching_items_count = query.count
+        list = query.limit(20)
+
+        @items = []
+        list.each do |item|
+          @items.push({ :id => item.id, :text => item.to_text })
+        end
+
+        respond_to do |format|
+          format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @items } }
+        end
+
+      else
+        respond_to do |format|
+          format.json { raise }
+        end
+      end
+    end
+
+    def index
+      authorize! :list, current_object_class
+      if current_object_class.respond_to?( :filter )
+        @items = current_object_class.filter(:search => params[:search])
+      else
+        @items = current_object_class
+      end
+      @items = @items.page( params[:page] ).per_page( @items_per_page )
+      unless params[:ajax].blank?
+        render :layout => false
+      end
+    end
+
+    def urls
+      respond_to do |format|
+        format.json do
+          json = {}
+          params[:ids].each do |id|
+            json[id] = url_for( :action => params[:to_action], :id => id, :only_path => true )
+          end
+          render :json => json, :layout => false
+        end
+      end
+    end
+
+    def new
+      authorize! :create, current_object_class
+      raise FeatureDisabled unless @features[:create]
+      @item = current_object_class.new
+    end
+
+    def show
+      @item = current_object_class.find(params[:id])
+      authorize! :show, @item
+      raise FeatureDisabled unless @features[:show]
+    end
+
+    def edit
+      @item = current_object_class.find(params[:id])
+      authorize! :edit, @item
+      raise FeatureDisabled unless @features[:edit]
+    end
+
+    def create
+      authorize! :create, current_object_class
+      raise FeatureDisabled unless @features[:create]
+
+      @item = current_object_class.new
+
+      @item.assign_attributes( allowed_params )
+
+      respond_to do |format|
+        if @item.save
+          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
+        else
+          format.html { render :action => "new" }
+        end
+      end
+    end
+
+    def update
+      @item = current_object_class.find(params[:id])
+      authorize! :edit, @item
+      raise FeatureDisabled unless @features[:edit]
+
+
+      respond_to do |format|
+        if @item.update_attributes( allowed_params )
+          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
+        else
+          format.html { render :action => "edit" }
+        end
+      end
+    end
+
+    def confirm_destroy
+      @item = current_object_class.find(params[:id])
+      authorize! :destroy, @item
+      raise FeatureDisabled unless @features[:destroy]
+    end
+
+    def destroy
+      @item = current_object_class.find(params[:id])
+      authorize! :destroy, @item
+      raise FeatureDisabled unless @features[:destroy]
+      @item.destroy
+
+      respond_to do |format|
+        format.html { redirect_to url_for( :action => 'index' ) }
+      end
+    end# }}}
+
+
+
+
+
+
+    # Helper methods ##############################################################################
+
+
+    def list_action
+      if !cookies['base_module:list_action'].blank?
+        feature = cookies['base_module:list_action']
+        if feature == 'confirm_destroy'
+          feature = 'destroy'
+        end
+        feature = feature.to_sym
+        if @features[feature]
+          return cookies['base_module:list_action']
+        end
+      end
+
+      return 'show' if @features[:show]
+      return 'edit'
+    end
+
+    def fields_to_display
+      cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password position]
+      unless %w[new edit update create].include? params[:action].to_s
+        cols -= %w[password password_confirmation]
+      end
+      return cols
+    end
+
 
     def secondary_panel
       return '' unless @panel_layout
@@ -56,32 +253,8 @@ module Releaf
       @_current_object_class ||= self.class.name.split('::').last.sub(/\s?Controller$/, '').classify.constantize
     end
 
-    def columns view=params[:action]
-      cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password position]
-      unless %w[new edit update create].include? view
-        cols -= %w[password password_confirmation]
-      end
-      return cols
-    end
 
-    def list_action
-      if !cookies['base_module:list_action'].blank?
-        feature = cookies['base_module:list_action']
-        if feature == 'confirm_destroy'
-          feature = 'destroy'
-        end
-        feature = feature.to_sym
-        if !@features[ feature ].blank?
-          return cookies['base_module:list_action']
-        end
-      end
-      if !@features[ :show ].blank?
-        return 'show'
-      end
-      return 'edit';
-    end
-
-    def has_template( name )
+    def has_template? name
       lookup_context.template_exists?( name, lookup_context.prefixes, false )
     end
 
@@ -176,145 +349,6 @@ module Releaf
       end
 
       return [field_type || 'text', use_i18n]
-    end
-
-    # actions
-
-    def autocomplete
-      authorize! :edit, current_object_class
-
-      c_obj = current_object_class
-
-      if params[:query_field] and params[:q] and params[:field] #and params[:field] =~ /_id\z/ and c_obj.column_names.include?(params[:field]) and c_obj.respond_to?(:reflect_on_association) and c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym)
-
-        obj = c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym).klass
-        obj_fields = obj.column_names
-
-        sql = []
-        sql_params = {}
-
-        params[:q].split(' ').each_with_index do |part, i|
-          sql.push "#{params[:query_field]} LIKE :part#{i}"
-          sql_params[:"part#{i}"] = "%#{part}%"
-        end
-
-        order_by = nil
-
-        if params[:order]
-          order_by = []
-
-          params[:order].split(',').each do |order_part|
-            if obj_fields.include? order_part.sub(/ (asc|desc)\z/i, '')
-              order_by.push order_part
-            end
-          end
-        end
-
-        order_by = [params[:query_field],'id'] if order_by.blank?
-
-        query = obj.where(sql.join(' AND '), sql_params).order(order_by.join(', '))
-
-        matching_items_count = query.count
-        list = query.limit(20)
-
-        @items = []
-        list.each do |item|
-          @items.push({ :id => item.id, :text => item.to_text })
-        end
-
-        respond_to do |format|
-          format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @items } }
-        end
-
-      else
-        respond_to do |format|
-          format.json { raise }
-        end
-      end
-    end
-
-    def index
-      authorize! :list, current_object_class
-      if current_object_class.respond_to?( :filter )
-        @items = current_object_class.filter(:search => params[:search])
-      else
-        @items = current_object_class
-      end
-      @items = @items.page( params[:page] ).per_page( @items_per_page )
-      if !params[:ajax].blank?
-        render :layout => false
-      end
-    end
-
-    def urls
-      respond_to do |format|
-        format.json do
-          json = {}
-          params[:ids].each do |id|
-            json[id] = url_for( :action => params[:to_action], :id => id, :only_path => true )
-          end
-          render :json => json, :layout => false
-        end
-      end
-    end
-
-    def new
-      authorize! :create, current_object_class
-      @item = current_object_class.new
-    end
-
-    def show
-      @item = current_object_class.find(params[:id])
-      authorize! :show, @item
-    end
-
-    def edit
-      @item = current_object_class.find(params[:id])
-      authorize! :edit, @item
-    end
-
-    def create
-      authorize! :create, current_object_class
-      @item = current_object_class.new
-
-      @item.assign_attributes( allowed_params )
-
-      respond_to do |format|
-        if @item.save
-          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
-        else
-          format.html { render :action => "new" }
-        end
-      end
-    end
-
-    def update
-      @item = current_object_class.find(params[:id])
-      authorize! :edit, @item
-
-
-      respond_to do |format|
-        if @item.update_attributes( allowed_params )
-          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
-        else
-          format.html { render :action => "edit" }
-        end
-      end
-    end
-
-    def confirm_destroy
-      @item = current_object_class.find(params[:id])
-      authorize! :destroy, @item
-    end
-
-    def destroy
-      @item = current_object_class.find(params[:id])
-      authorize! :destroy, @item
-      @item.destroy
-
-      respond_to do |format|
-        format.html { redirect_to url_for( :action => 'index' ) }
-      end
     end
 
     protected

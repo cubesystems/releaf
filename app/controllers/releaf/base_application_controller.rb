@@ -1,6 +1,5 @@
 module Releaf
   class BaseApplicationController < ActionController::Base
-    # include ReleafDeviseHelper
 
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     # check_authorization :unless => :devise_controller?

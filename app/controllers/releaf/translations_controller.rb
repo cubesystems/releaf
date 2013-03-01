@@ -34,10 +34,10 @@ module Releaf
       @item = current_object_class.find(params[:id])
     end
 
-    def show
-      authorize! :manage, I18n::Backend::Releaf::Translation
-      redirect_to url_for( :action => "edit", :id => params[:id] )
-    end
+    # def show
+    #   authorize! :manage, I18n::Backend::Releaf::Translation
+    #   redirect_to url_for( :action => "edit", :id => params[:id] )
+    # end
 
     def create
       authorize! :manage, I18n::Backend::Releaf::Translation
