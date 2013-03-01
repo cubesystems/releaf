@@ -13,11 +13,11 @@
 
     - render_field_type, use_i18n = render_field_type(f.object, name)
 
-    - if use_i18n and has_template?( "_edit.field_type.#{render_field_type}_i18n" )
-      = render "edit.field_type.#{render_field_type}_i18n", :f => f, :name => name
+    - if use_i18n and has_template?( "_edit.field_type_#{render_field_type}_i18n" )
+      = render "edit.field_type_#{render_field_type}_i18n", :f => f, :name => name
 
-    - elsif has_template? "_edit.field_type.#{render_field_type}"
-      = render "edit.field_type.#{render_field_type}", :f => f, :name => name
+    - elsif has_template? "_edit.field_type_#{render_field_type}"
+      = render "edit.field_type_#{render_field_type}", :f => f, :name => name
 
     - else
-      = render "edit.field_type.text", :f => f, :name => name
+      = render "edit.field_type_text", :f => f, :name => name

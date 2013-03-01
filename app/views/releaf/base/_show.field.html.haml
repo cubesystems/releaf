@@ -13,11 +13,11 @@
 
     - render_field_type, use_i18n = render_field_type(item, name)
     - unless item.send(name).blank?
-      - if use_i18n and has_template?( "_show.field_type.#{render_field_type}_i18n" )
-        = render "show.field_type.#{render_field_type}_i18n", :item => item, :name => name
+      - if use_i18n and has_template?( "_show.field_type_#{render_field_type}_i18n" )
+        = render "show.field_type_#{render_field_type}_i18n", :item => item, :name => name
 
-      - elsif has_template?( "_show.field_type.#{render_field_type}" )
-        = render "show.field_type.#{render_field_type}", :item => item, :name => name
+      - elsif has_template?( "_show_field_type.#{render_field_type}" )
+        = render "show.field_type_#{render_field_type}", :item => item, :name => name
 
       - else
-        = render "show.field_type.text", :item => item, :name => name
+        = render "show.field_type_text", :item => item, :name => name
