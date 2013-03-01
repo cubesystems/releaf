@@ -1,78 +1,23 @@
-- value = item.send(name)
-- unless value.blank?
+- name_without_id_or_type = name.sub(/_(id|type)$/, '')
 
-  .field.no_label_wrap_padding
-    .label_wrap
-      .label= name.sub(/_(uid|html|id)$/, '').to_s.humanize + ':'
-    .value
+- if polymorphic_association_names(f.object).include?(name_without_id_or_type)
+  -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
+  -# first time for _id field, second time for _type field
+  - if name =~ /_id$/ && @controller.has_template( "_#{view_prefix}.#{name_without_id_or_type}" )
+    = render "#{view_prefix}.#{name_without_id_or_type}", :f => f, :name => name, :view_prefix => view_prefix
 
-      - case name
-      - when /_id$/
-        - m = name.sub(/_id$/, '').to_sym
-        - if item.class.respond_to?(:reflect_on_association) && item.class.reflect_on_association(m)
-          = item_to_text(item.send(m))
-        - else
-          = item.send(name)
+- else
+  - if @controller.has_template( "_#{view_prefix}.#{name}" )
+    = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix
+  - else
 
-      - when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
-        -# FIXME should check if it's a dragonfly field
-        - m = name.sub(/_uid$/, '')
-        - case m
-        - when /avatar$/
-          = image_tag item.send(m).thumb('64x64').url
-        - else
-          = link_to image_tag(item.send(m).thumb('x128').url), item.send(m).url
+    - render_field_type, use_i18n = @controller.render_field_type(f.object, name)
 
-      - when /_uid$/
-        -# FIXME should check if it's a dragonfly field
-        = link_to I18n.t("common.Download"), item.send(name.sub(/_uid$/, '')).url
+    - if use_i18n and @controller.has_template( "_show.field_type.#{render_field_type}_i18n" )
+      = render "show.field_type.#{render_field_type}_i18n", :f => f, :name => name
 
-      - when /password/
-        = I18n.t("common.Filtered")
+    - elsif @controller.has_template( "_show.field_type.#{render_field_type}" )
+      = render "show.field_type.#{render_field_type}", :f => f, :name => name
 
-      - when /_link$/, 'link'
-        - if value =~ /\A\d+\z/
-          - target = Releaf::Node.find_by_id(value)
-          - if target
-            = link_to item_to_text(target), url_for(:action => :show, :id => value)
-          - else
-            = I18n.t("common.Not found")
-        - else
-          = link_to value, value
-
-      - when /_email$/, 'email'
-        = mail_to value, value
-
-      - when /_homepage$/, 'homepage'
-        = link_to value, value
-
-
-
-      - else
-        - column_type = item.class.columns_hash[ name ].try(:type) || :string
-        - case column_type
-        - when :boolean
-          = item.send("#{name}?") ? I18n.t("common.true") : I18n.t("common.false")
-        - when :text
-          - if name.end_with?( '_html' )
-            - field_type = 'richtext'
-            .raw_html= raw value
-          - else
-            = value
-        - when :datetime
-          -# FIXME
-          -# = I18n.l(value, :format => 'datetime_picker')
-          = value
-        - when :date
-          -# FIXME
-          -# = I18n.l(value, :format => 'date_picker')
-          = value
-        - when :time
-          -# FIXME
-          -# = I18n.l(value, :format => 'time_picker')
-          = value
-
-        - else
-          = value
-
-    .clear
+    - else
+      = render "show.field_type.text", :f => f, :name => name

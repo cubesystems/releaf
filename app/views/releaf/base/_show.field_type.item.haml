@@ -1,0 +1,10 @@
+- m = name.sub(/_id$/, '').to_s
+
+.field.no_label_wrap_padding.type_item{:'data-name' => name}
+  .label_wrap
+    .label= I18n.t(m.humanize, :scope => "models.#{item.class_name.underscore}") + ':'
+  .value
+    - if item.class.reflect_on_association(m)
+      = item_to_text(item.send(m))
+    - else
+      = item.send(name)
