@@ -266,7 +266,7 @@ module Releaf
     # controllers name has no relation to resource class name, then simply
     # override this method to return class that you want.
     #
-    # @returns class
+    # @return class
     def resource_class
       @resource_class ||= self.class.name.split('::').last.sub(/Controller$/, '').classify.constantize
     end
@@ -274,7 +274,7 @@ module Releaf
 
     # Cheheck if there is a template in lookup_context with given name.
     #
-    # @returns `true` or `false`
+    # @return `true` or `false`
     def has_template? name
       lookup_context.template_exists?( name, lookup_context.prefixes, false )
     end
