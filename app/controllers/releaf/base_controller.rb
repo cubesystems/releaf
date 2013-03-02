@@ -10,7 +10,8 @@ module Releaf
       :list_action,
       :render_field_type,
       :render_parent_template,
-      :secondary_panel
+      :secondary_panel,
+      :current_feature
 
     before_filter do
       filter_templates
@@ -18,20 +19,23 @@ module Releaf
       setup
     end
 
-    def setup
-      @features = {
-        :edit     => true,
-        :create   => true,
-        :show     => true,
-        :destroy  => true
-      }
-      @continuous_scroll = false
-      @panel_layout      = true
-      @items_per_page    = 40
+
+    # Helper that returns current feature
+    def current_feature
+      case params[:action].to_sym
+      when :index
+        return :intex
+      when :new, :create
+        return :create
+      when :edit, :update
+        return :edit
+      when :destroy, :confirm_destroy
+        return :destroy
+      else
+        return params[:action].to_sym
+      end
     end
 
-
-    # actions ##########################################################################
 
     def autocomplete
       authorize! :edit, current_object_class
@@ -359,6 +363,42 @@ module Releaf
 
 
     protected
+
+    # Called before each request by before_filter.
+    # It sets various instance variables, that are later used in views and # controllers
+    #
+    # == Defines
+    # @fetures::
+    #   Hash with symbol keys and boolean values. Each key represents action
+    #   (currently only `:edit`, `:create`, `:show`, `:destroy` are supported). If one
+    #   of features is disabled, then routing to it will raise <tt>Releaf::FeatureDisabled</tt>
+    #   error
+    #
+    # @continuous_scroll::
+    #   Boolean. If set to `true` will enable continuous scrool in `#index` view
+    #
+    # @items_per_page::
+    #   Integer - sets the number of items to display on `#index` view
+    #
+    # To change controller settings `setup` method should be overriden like this
+    #
+    #   def setup
+    #     super
+    #     @fetures[:show] = false
+    #     @items_per_page = 20
+    #   end
+    #
+    def setup
+      @features = {
+        :edit     => true,
+        :create   => true,
+        :show     => true,
+        :destroy  => true
+      }
+      @continuous_scroll = false
+      @panel_layout      = true
+      @items_per_page    = 40
+    end
 
     def allowed_params view=params[:action]
       if self.respond_to?(:item_params)

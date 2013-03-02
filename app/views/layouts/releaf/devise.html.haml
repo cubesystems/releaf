@@ -17,7 +17,7 @@
         = stylesheet_link_tag "controllers/#{controller_asset}"
 
   %body.yui3-skin-sam
-    #body_wrap{:class => "#{current_feature}-feature module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
+    #body_wrap{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       = yield
 
     #preload_wrap

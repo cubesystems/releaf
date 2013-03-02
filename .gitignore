@@ -4,3 +4,5 @@ pkg/
 brake.html
 Gemfile.lock
 spec/dummy
+doc/
+.yardoc/
