@@ -1,7 +1,7 @@
 module Releaf
   class RolesController < BaseController
 
-    def current_object_class
+    def resource_class
       Releaf::Role
     end
 

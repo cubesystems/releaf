@@ -8,7 +8,7 @@ module Releaf
       @continuous_scroll = true
     end
 
-    def current_object_class
+    def resource_class
       @object_class
     end
 
@@ -31,7 +31,7 @@ module Releaf
 
     def edit
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @resource = current_object_class.find(params[:id])
+      @resource = resource_class.find(params[:id])
     end
 
     # def show
@@ -41,7 +41,7 @@ module Releaf
 
     def create
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @resource = current_object_class.new(resource_params)
+      @resource = resource_class.new(resource_params)
 
       respond_to do |format|
         if @resource.save
@@ -56,7 +56,7 @@ module Releaf
 
     def update
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @resource = current_object_class.find(params[:id])
+      @resource = resource_class.find(params[:id])
 
       unless params[:translations].blank?
         ids_to_keep = update_translations

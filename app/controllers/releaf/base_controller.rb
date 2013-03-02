@@ -4,7 +4,7 @@ module Releaf
   class BaseController < BaseApplicationController
     helper_method :build_secondary_panel_variables,
       :fields_to_display,
-      :current_object_class,
+      :resource_class,
       :find_parent_template,
       :has_template?,
       :list_action,
@@ -40,9 +40,9 @@ module Releaf
 
 
     def autocomplete
-      authorize! :edit, current_object_class
+      authorize! :edit, resource_class
 
-      c_obj = current_object_class
+      c_obj = resource_class
 
       if params[:query_field] and params[:q] and params[:field] #and params[:field] =~ /_id\z/ and c_obj.column_names.include?(params[:field]) and c_obj.respond_to?(:reflect_on_association) and c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym)
 
@@ -93,14 +93,14 @@ module Releaf
     end
 
     def index
-      authorize! :list, current_object_class
-      if current_object_class.respond_to? :filter
-        @resources = current_object_class.filter(:search => params[:search])
+      authorize! :list, resource_class
+      if resource_class.respond_to? :filter
+        @resources = resource_class.filter(:search => params[:search])
       else
-        @resources = current_object_class
+        @resources = resource_class
       end
 
-      if current_object_class.respond_to? :order_by
+      if resource_class.respond_to? :order_by
         @resources = @resources.order_by(valid_order_by)
       end
 
@@ -124,28 +124,28 @@ module Releaf
     end
 
     def new
-      authorize! :create, current_object_class
+      authorize! :create, resource_class
       raise FeatureDisabled unless @features[:create]
-      @resource = current_object_class.new
+      @resource = resource_class.new
     end
 
     def show
-      @resource = current_object_class.includes(relations_for_includes).find(params[:id])
+      @resource = resource_class.includes(relations_for_includes).find(params[:id])
       authorize! :show, @resource
       raise FeatureDisabled unless @features[:show]
     end
 
     def edit
-      @resource = current_object_class.includes(relations_for_includes).find(params[:id])
+      @resource = resource_class.includes(relations_for_includes).find(params[:id])
       authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
     end
 
     def create
-      authorize! :create, current_object_class
+      authorize! :create, resource_class
       raise FeatureDisabled unless @features[:create]
 
-      @resource = current_object_class.new
+      @resource = resource_class.new
 
       @resource.assign_attributes( allowed_params )
 
@@ -159,7 +159,7 @@ module Releaf
     end
 
     def update
-      @resource = current_object_class.find(params[:id])
+      @resource = resource_class.find(params[:id])
       authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
 
@@ -174,13 +174,13 @@ module Releaf
     end
 
     def confirm_destroy
-      @resource = current_object_class.find(params[:id])
+      @resource = resource_class.find(params[:id])
       authorize! :destroy, @resource
       raise FeatureDisabled unless @features[:destroy]
     end
 
     def destroy
-      @resource = current_object_class.find(params[:id])
+      @resource = resource_class.find(params[:id])
       authorize! :destroy, @resource
       raise FeatureDisabled unless @features[:destroy]
       @resource.destroy
@@ -215,7 +215,7 @@ module Releaf
     end
 
     def fields_to_display
-      cols = current_object_class.column_names - %w[id created_at updated_at encrypted_password position]
+      cols = resource_class.column_names - %w[id created_at updated_at encrypted_password position]
       unless %w[new edit update create].include? params[:action].to_s
         cols -= %w[password password_confirmation]
       end
@@ -261,8 +261,8 @@ module Releaf
       return {}
     end
 
-    def current_object_class
-      @_current_object_class ||= self.class.name.split('::').last.sub(/\s?Controller$/, '').classify.constantize
+    def resource_class
+      @_resource_class ||= self.class.name.split('::').last.sub(/\s?Controller$/, '').classify.constantize
     end
 
 
@@ -424,7 +424,7 @@ module Releaf
       elsif @resource.respond_to? :allowed_params
         variables = params.require( :resource ).permit( *@resource.allowed_params( view ) )
       else
-        variables = params.require( :resource ).permit( *current_object_class.column_names )
+        variables = params.require( :resource ).permit( *resource_class.column_names )
       end
     end
 
@@ -434,13 +434,13 @@ module Releaf
       rels = []
       fields_to_display.each do |field|
         if (field.is_a? String or field.is_a? Symbol) and field =~ /_id$/
-          rels.push field[0..-4] if current_object_class.reflect_on_association(field[0..-4].to_sym)
+          rels.push field[0..-4] if resource_class.reflect_on_association(field[0..-4].to_sym)
         elsif field.is_a? Hash
           field.keys.each do |key|
             if key =~ /_id$/
-              rels.push key[0..-4] if current_object_class.reflect_on_association(key[0..-4].to_sym)
+              rels.push key[0..-4] if resource_class.reflect_on_association(key[0..-4].to_sym)
             else
-              rels.push key if current_object_class.reflect_on_association(key.to_sym)
+              rels.push key if resource_class.reflect_on_association(key.to_sym)
             end
           end
         end
@@ -450,8 +450,8 @@ module Releaf
 
     def valid_order_by
       return nil if params[:order_by].blank?
-      return nil unless current_object_class.column_names.include?(params[:order_by].sub(/-reverse$/, ''))
-      return current_object_class.table_name + '.' + params[:order_by].sub(/-reverse$/, ' DESC')
+      return nil unless resource_class.column_names.include?(params[:order_by].sub(/-reverse$/, ''))
+      return resource_class.table_name + '.' + params[:order_by].sub(/-reverse$/, ' DESC')
     end
 
     def set_locale

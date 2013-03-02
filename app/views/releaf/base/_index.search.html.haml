@@ -1,5 +1,5 @@
-%form.search_form{:action => url_for( :controller => controller_name, :action => :index ), :title => "#{ current_object_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + current_object_class.to_s + ' to enable searching' }"}
+%form.search_form{:action => url_for( :controller => controller_name, :action => :index ), :title => "#{ resource_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + resource_class.to_s + ' to enable searching' }"}
   .special_field_wrap
-    %input.search{:name => "search", :type => "text", :value => params[:search], :autofocus => true, :disabled => !current_object_class.respond_to?( :filter ) }
-    %button.no_styling{:type => "submit", :disabled => !current_object_class.respond_to?( :filter )}>
+    %input.search{:name => "search", :type => "text", :value => params[:search], :autofocus => true, :disabled => !resource_class.respond_to?( :filter ) }
+    %button.no_styling{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
       = image_tag("releaf/icons/magnifier.png", :alt => "submit")

@@ -21,7 +21,7 @@ module Releaf
     def create
       content_type = _node_params[:content_type].constantize
       authorize! :create, content_type
-      @resource = current_object_class.new(_node_params)
+      @resource = resource_class.new(_node_params)
       @resource.assign_attributes(_node_common_fields_params)
 
       respond_to do |format|
@@ -58,7 +58,7 @@ module Releaf
     end
 
     def update
-      @resource = current_object_class.find(params[:id])
+      @resource = resource_class.find(params[:id])
       authorize! :edit, @resource
 
       form_extras
@@ -78,7 +78,7 @@ module Releaf
     end
 
     def new
-      authorize! :create, current_object_class
+      authorize! :create, resource_class
       unless params[:ajax] == '1'
         super
         @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
@@ -108,7 +108,7 @@ module Releaf
     def get_content_form
       Rails.application.eager_load!
       raise ArgumentError unless NodeBase.node_classes.map { |nc| nc.name }.include? params[:content_type]
-      @node = current_object_class.find(params[:id])
+      @node = resource_class.find(params[:id])
       authorize! :edit, @resource
 
       @resource = params[:content_type].constantize.new
@@ -119,7 +119,7 @@ module Releaf
 
     end
 
-    def current_object_class
+    def resource_class
       Node
     end
 
