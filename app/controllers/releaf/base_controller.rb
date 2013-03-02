@@ -33,7 +33,7 @@ module Releaf
 
     # actions ##########################################################################
 
-    def autocomplete# {{{
+    def autocomplete
       authorize! :edit, current_object_class
 
       c_obj = current_object_class
@@ -98,7 +98,7 @@ module Releaf
         @items = @items.order_by(valid_order_by)
       end
 
-      @items = @items.page( params[:page] ).per_page( @items_per_page )
+      @items = @items.includes(relations_for_includes).page( params[:page] ).per_page( @items_per_page )
 
       unless params[:ajax].blank?
         render :layout => false
@@ -124,13 +124,13 @@ module Releaf
     end
 
     def show
-      @item = current_object_class.find(params[:id])
+      @item = current_object_class.includes(relations_for_includes).find(params[:id])
       authorize! :show, @item
       raise FeatureDisabled unless @features[:show]
     end
 
     def edit
-      @item = current_object_class.find(params[:id])
+      @item = current_object_class.includes(relations_for_includes).find(params[:id])
       authorize! :edit, @item
       raise FeatureDisabled unless @features[:edit]
     end
@@ -182,7 +182,7 @@ module Releaf
       respond_to do |format|
         format.html { redirect_to url_for( :action => 'index' ) }
       end
-    end# }}}
+    end
 
 
 
@@ -371,6 +371,24 @@ module Releaf
     end
 
     private
+
+    def relations_for_includes
+      rels = []
+      fields_to_display.each do |field|
+        if (field.is_a? String or field.is_a? Symbol) and field =~ /_id$/
+          rels.push field[0..-4] if current_object_class.reflect_on_association(field[0..-4].to_sym)
+        elsif field.is_a? Hash
+          field.keys.each do |key|
+            if key =~ /_id$/
+              rels.push key[0..-4] if current_object_class.reflect_on_association(key[0..-4].to_sym)
+            else
+              rels.push key if current_object_class.reflect_on_association(key.to_sym)
+            end
+          end
+        end
+      end
+      return rels
+    end
 
     def valid_order_by
       return nil if params[:order_by].blank?
