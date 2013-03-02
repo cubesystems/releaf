@@ -147,7 +147,7 @@ module Releaf
 
       @resource = resource_class.new
 
-      @resource.assign_attributes( allowed_params )
+      @resource.assign_attributes params.require(:resource).permit(*resource_params)
 
       respond_to do |format|
         if @resource.save
@@ -163,9 +163,8 @@ module Releaf
       authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
 
-
       respond_to do |format|
-        if @resource.update_attributes( allowed_params )
+        if @resource.update_attributes( params.require(:resource).permit(*resource_params) )
           format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
         else
           format.html { render :action => "edit" }
@@ -261,11 +260,21 @@ module Releaf
       return {}
     end
 
+    # Tries to return resource class.
+    #
+    # If it fails to return proper resource class for your controller, or your
+    # controllers name has no relation to resource class name, then simply
+    # override this method to return class that you want.
+    #
+    # @returns class
     def resource_class
-      @_resource_class ||= self.class.name.split('::').last.sub(/\s?Controller$/, '').classify.constantize
+      @resource_class ||= self.class.name.split('::').last.sub(/Controller$/, '').classify.constantize
     end
 
 
+    # Cheheck if there is a template in lookup_context with given name.
+    #
+    # @returns `true` or `false`
     def has_template? name
       lookup_context.template_exists?( name, lookup_context.prefixes, false )
     end
@@ -283,9 +292,14 @@ module Releaf
       return render_to_string( arguments ).html_safe
     end
 
-    # Returns array with 2 items: string and boolean
-    # first element of array is field_type (for rendering)
-    # if seconnd argument is true template with localization should be used
+    # Helps to determinate which template to render in :show and :edit feature
+    # for given objects attribute.
+    #
+    # @return [field_type, use_i18n]
+    #
+    # where field_type is a string representing field type
+    # and use_i18n is a `true` or `false`. If use_i18n is true, then template
+    # with localization features should be used (if exists)
     def render_field_type( obj, attribute_name )
       field_type = nil
       use_i18n = false
@@ -369,8 +383,7 @@ module Releaf
       resource.send resource_to_text_method(resource, fallback)
     end
 
-    # returns `:to_text` if resource supports `#to_text`, otherwise returns
-    # fallback.
+    # @return `:to_text` if resource supports `#to_text`, otherwise fallback.
     def resource_to_text_method resource, fallback=:to_s
       if resource.respond_to?(:to_text)
         return :to_text
@@ -418,14 +431,9 @@ module Releaf
       @resources_per_page    = 40
     end
 
-    def allowed_params view=params[:action]
-      if self.respond_to?(:resource_params)
-        variables = params.require( :resource ).permit( *self.send(:resource_params, view) )
-      elsif @resource.respond_to? :allowed_params
-        variables = params.require( :resource ).permit( *@resource.allowed_params( view ) )
-      else
-        variables = params.require( :resource ).permit( *resource_class.column_names )
-      end
+    def resource_params
+      return unless %w[create update].include? params[:action]
+      resource_class.column_names
     end
 
     private

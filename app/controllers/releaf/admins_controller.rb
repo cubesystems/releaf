@@ -39,8 +39,8 @@ module Releaf
 
     protected
 
-    def resource_params action=params[:action]
-      return [] unless %w[create update].include? action.to_s
+    def resource_params
+      return [] unless %w[create update].include? params[:action]
       %w[name surname role_id email password password_confirmation phone avatar retained_avatar]
     end
 

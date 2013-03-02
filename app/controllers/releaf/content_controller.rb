@@ -144,8 +144,7 @@ module Releaf
       new_content_if_needed
     end
 
-    def resource_params action=params[:action]
-      # make sure none of actions, that are defined by BaseController can update resource
+    def resource_params
       []
     end
 

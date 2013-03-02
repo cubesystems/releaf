@@ -18,8 +18,8 @@ module Releaf
 
     protected
 
-    def resource_params  action=params[:action]
-      return [] unless %w[update create].include? action.to_s
+    def resource_params
+      return [] unless %w[update create].include? params[:action]
 
       fields = ['name', 'default']
       AdminAbility::PERMISSIONS.each do |permission|
