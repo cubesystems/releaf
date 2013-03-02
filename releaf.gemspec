@@ -1,9 +1,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 
-# Maintain your gem's version:
 require "releaf/version"
 
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "releaf"
   s.version     = Releaf::VERSION
@@ -31,21 +29,24 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency 'simplecov'
-  # s.add_development_dependency 'factory_girl_rails'
 
-  s.add_dependency('railties', '~> 3.1')
-  s.add_dependency('haml-rails', '~> 0.3.4')
-  s.add_dependency('dragonfly', '~>0.9.12')
-  s.add_dependency('devise', '> 2.1.0')
-  s.add_dependency('cancan', '~> 1.6.8')
-  s.add_dependency('yui-rails', '~> 0.2.0')
+  s.add_dependency 'railties', '~> 3.1'
+  s.add_dependency 'haml-rails', '~> 0.3.4'
+  s.add_dependency 'dragonfly', '~>0.9.12'
+  s.add_dependency 'devise', '> 2.1.0'
+  s.add_dependency 'cancan', '~> 1.6.8'
+  s.add_dependency 'yui-rails', '~> 0.2.0'
   s.add_dependency 'rails-settings-cached', '~> 0.2.2'
-  s.add_dependency('tinymce-rails', '~>3.5.8')
-  s.add_dependency('acts_as_list')
-  s.add_dependency('awesome_nested_set')
-  s.add_dependency('i18n', '>= 0.6.0')
-  s.add_dependency('stringex', '~> 1.5.1')
-  s.add_dependency('tinymce-rails-imageupload', '~> 3.5.6.3')
-  s.add_dependency('will_paginate', '~> 3.0.4')
+  s.add_dependency 'tinymce-rails', '~>3.5.8'
+  s.add_dependency 'acts_as_list'
+  s.add_dependency 'awesome_nested_set'
+  s.add_dependency 'i18n', '>= 0.6.0'
+  s.add_dependency 'stringex', '~> 1.5.1'
+  s.add_dependency 'tinymce-rails-imageupload', '~> 3.5.6.3'
+  s.add_dependency 'will_paginate', '~> 3.0.4'
+
+  s.add_development_dependency 'yard'
+  s.add_development_dependency 'github-markdown', '~> 0.5.3'
+  s.add_development_dependency 'redcarpet', '~> 2.2.2'
 
 end

@@ -1,0 +1,8 @@
+--protected
+app/**/*.rb
+lib/i18n/**/*.rb
+lib/releaf.rb
+lib/releaf/**/*.rb
+--markup=markdown
+-
+LICENSE

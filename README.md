@@ -6,6 +6,7 @@ Releaf is Admin interface for Rails projects
 
 Releaf will work with Rails 3.2.
 You can add it to your Gemfile with:
+
 ```ruby
 gem 'will_paginate', '~> 3.0.4'
 gem 'acts_as_list'
@@ -32,19 +33,20 @@ gem 'yui-rails',  '~> 0.2.0'
 Run the bundle command to install it.
 
 Now in config/application.rb set
-```ruby
-  config.active_record.whitelist_attributes = false
-```
-because releaf is expacting strog_params gem to be used
 
+```ruby
+config.active_record.whitelist_attributes = false
+```
+
+because releaf is expacting strog_params gem to be used
 
 ```console
 rails generate settings settings
 rake db:migrate
 ```
 
-
 After you install Releaf, you need to run the generator:
+
 ```console
 rails generate releaf:install
 rails generate i18n:releaf:install
@@ -56,17 +58,19 @@ The generator will install an initializer which describes Releaf routes and conf
 
 Now you need to add something like this for releaf itself and standart admin,
 permissions controllers
+
 ```ruby
-  mount_releaf_at '/admin'
-  namespace :admin do
-    resources :admins, :roles do
-        get :confirm_destroy, :on => :member
-        match :urls, :on => :collection
-      end
+mount_releaf_at '/admin'
+namespace :admin do
+  resources :admins, :roles do
+     get :confirm_destroy, :on => :member
+     match :urls, :on => :collection
   end
+end
 ```
 
 Add dragonfly initializer (/config/initializers/dragonfly.rb)
+
 ```ruby
 require 'dragonfly/rails/images'
 ```

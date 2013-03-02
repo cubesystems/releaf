@@ -213,9 +213,56 @@ module Releaf
       return 'edit'
     end
 
+    # Defines which fields/associations should be rendered.
+    #
+    # By default renders resource columns except few (check source).
+    #
+    # You can override this method to make it possible to render pretty complex
+    # views which inludes nested fields.
+    #
+    # To render field you simply need to add it's name to array.
+    #
+    # belongs_to relations will be automatically rendered (by default) as
+    # select field.  For belongs_to to be recognized you need to use Integer
+    # field that ends with <tt>_id</tt>
+    #
+    # You can also render has_many associations. For these associations you
+    # need to add either association name, or a Hash. Hash keys must match
+    # association name, hash value must be array with nested fields to be
+    # rendered.
+    #
+    # NOTE: currently if you add has_many associations name to array, then it
+    # will render all fields (except created_at etc.) including <tt>belongs_to
+    # :parent</tt>. This is know bug https://github.com/cubesystems/releaf/issues/64
+    #
+    # Example:
+    #
+    #   def fields_to_display
+    #     case params[:action]
+    #     when 'edit', 'update', 'create', 'new'
+    #       return [
+    #         'name',
+    #         'category_id',
+    #         'description',
+    #         {'offer_card_types' => ['card_type_id', 'name', 'description']},
+    #         'show_banner',
+    #         'published',
+    #         'item_count',
+    #         {'images' => ['image_uid']},
+    #         'partner_id',
+    #         'offer_checkout_places' => ['checkout_place_id']
+    #       ]
+    #     else
+    #       return super
+    #     end
+    #   end
+    #
+    # Fields will be rendered in same order as specified in array
+    #
+    # @return array that represent which fields to render
     def fields_to_display
       cols = resource_class.column_names - %w[id created_at updated_at encrypted_password position]
-      unless %w[new edit update create].include? params[:action].to_s
+      unless %w[new edit update create].include? params[:action]
         cols -= %w[password password_confirmation]
       end
       return cols
@@ -300,6 +347,10 @@ module Releaf
     # where field_type is a string representing field type
     # and use_i18n is a `true` or `false`. If use_i18n is true, then template
     # with localization features should be used (if exists)
+    #
+    # This helper is used by views.
+    #
+    # TODO: document rendering conventions
     def render_field_type( obj, attribute_name )
       field_type = nil
       use_i18n = false
@@ -431,6 +482,9 @@ module Releaf
       @resources_per_page    = 40
     end
 
+    # Returns which resource attributes can be updated with mass assignment.
+    #
+    # The resulting array will be passed to strong_parameters ``permit``
     def resource_params
       return unless %w[create update].include? params[:action]
       resource_class.column_names

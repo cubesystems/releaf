@@ -35,6 +35,12 @@ group :development, :test, :demo do
   gem 'simplecov', :require => false, :platforms => :mri_19
   gem 'simplecov-rcov'
   gem 'database_cleaner'
+
+end
+
+group :development do
+  gem 'yard'
+  gem 'redcarpet'
 end
 
 # gem 'factory_girl_rails'
