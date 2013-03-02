@@ -1,6 +1,6 @@
 - name_without_id_or_type = name.sub(/_(id|type)$/, '')
 
-- if polymorphic_association_names(f.object).include?(name_without_id_or_type)
+- if f.object.class.reflect_on_association(name_without_id_or_type).try(:options).try('[]', :polymorphic) == true
   -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
   -# first time for _id field, second time for _type field
   - if name =~ /_id$/ && has_template?( "_#{view_prefix}.#{name_without_id_or_type}" )
