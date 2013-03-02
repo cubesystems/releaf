@@ -18,7 +18,7 @@ module Releaf
 
     protected
 
-    def item_params  action=params[:action]
+    def resource_params  action=params[:action]
       return [] unless %w[update create].include? action.to_s
 
       fields = ['name', 'default']

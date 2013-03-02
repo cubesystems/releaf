@@ -2,9 +2,9 @@
 
 .field.no_label_wrap_padding.type_image{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(m.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
+    .label= I18n.t(m.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
   .value
-    = link_to I18n.t("common.Download"), item.send(m).url
+    = link_to I18n.t("common.Download"), resource.send(m).url
     .preview
-      = link_to image_tag(item.send(m).thumb('x128').url), item.send(m).url, :target => :_blank, :data => { :lightbox => true }
+      = link_to image_tag(resource.send(m).thumb('x128').url), resource.send(m).url, :target => :_blank, :data => { :lightbox => true }
   .clear

@@ -23,7 +23,7 @@ module Releaf
 
     def index
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @items = @object_class = I18n::Backend::Releaf::Translation.includes(:translation_data).filter(:search => params[:search])
+      @resources = @object_class = I18n::Backend::Releaf::Translation.includes(:translation_data).filter(:search => params[:search])
       if !params[:ajax].blank?
         render :layout => false
       end
@@ -31,7 +31,7 @@ module Releaf
 
     def edit
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @item = current_object_class.find(params[:id])
+      @resource = current_object_class.find(params[:id])
     end
 
     # def show
@@ -41,13 +41,13 @@ module Releaf
 
     def create
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @item = current_object_class.new(item_params)
+      @resource = current_object_class.new(resource_params)
 
       respond_to do |format|
-        if @item.save
+        if @resource.save
           update_translations
           Settings.i18n_updated_at = Time.now
-          format.html { redirect_to url_for(:action => "edit", :id => @item.id) }
+          format.html { redirect_to url_for(:action => "edit", :id => @resource.id) }
         else
           format.html { render :action => "new" }
         end
@@ -56,19 +56,19 @@ module Releaf
 
     def update
       authorize! :manage, I18n::Backend::Releaf::Translation
-      @item = current_object_class.find(params[:id])
+      @resource = current_object_class.find(params[:id])
 
       unless params[:translations].blank?
         ids_to_keep = update_translations
-        @item.translations.where('id NOT IN (?)', ids_to_keep).destroy_all
+        @resource.translations.where('id NOT IN (?)', ids_to_keep).destroy_all
       else
-        @item.translations.destroy_all
+        @resource.translations.destroy_all
       end
       Settings.i18n_updated_at = Time.now
 
 
       respond_to do |format|
-        format.html { redirect_to url_for(:action => "edit", :id => @item.id) }
+        format.html { redirect_to url_for(:action => "edit", :id => @resource.id) }
       end
     end
 
@@ -86,7 +86,7 @@ module Releaf
         if id =~ /\A\d+\z/
           translation = I18n::Backend::Releaf::Translation.find(id)
         else
-          translation = @item.translations.new
+          translation = @resource.translations.new
         end
 
         translation.key = params[:translation_group][:scope] + '.' + t['key']
@@ -113,8 +113,8 @@ module Releaf
       return ids_to_keep
     end
 
-    def item_params
-      params.require(:item).permit(:scope)
+    def resource_params
+      params.require(:resource).permit(:scope)
     end
 
   end

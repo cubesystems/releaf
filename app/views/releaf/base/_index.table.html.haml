@@ -1,4 +1,4 @@
-.releaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @items_per_page, "data-loading" => t("loading"), "data-total" => items.count}
+.releaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @resources_per_page, "data-loading" => t("loading"), "data-total" => resources.count}
   .thead
     %div
       - valid_order_by_fields = current_object_class.column_names
@@ -20,5 +20,5 @@
           - else
             = label
   .tbody
-    - items.each do |item|
-      = render 'index.row', :item => item
+    - resources.each do |resource|
+      = render 'index.row', :resource => resource

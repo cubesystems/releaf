@@ -11,7 +11,9 @@ module Releaf
       :render_field_type,
       :render_parent_template,
       :secondary_panel,
-      :current_feature
+      :current_feature,
+      :resource_to_text,
+      :resource_to_text_method
 
     before_filter do
       filter_templates
@@ -74,13 +76,13 @@ module Releaf
         matching_items_count = query.count
         list = query.limit(20)
 
-        @items = []
-        list.each do |item|
-          @items.push({ :id => item.id, :text => item.to_text })
+        @resources = []
+        list.each do |resource|
+          @resources.push({ :id => resource.id, :text => resource.to_text })
         end
 
         respond_to do |format|
-          format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @items } }
+          format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @resources } }
         end
 
       else
@@ -93,16 +95,16 @@ module Releaf
     def index
       authorize! :list, current_object_class
       if current_object_class.respond_to? :filter
-        @items = current_object_class.filter(:search => params[:search])
+        @resources = current_object_class.filter(:search => params[:search])
       else
-        @items = current_object_class
+        @resources = current_object_class
       end
 
       if current_object_class.respond_to? :order_by
-        @items = @items.order_by(valid_order_by)
+        @resources = @resources.order_by(valid_order_by)
       end
 
-      @items = @items.includes(relations_for_includes).page( params[:page] ).per_page( @items_per_page )
+      @resources = @resources.includes(relations_for_includes).page( params[:page] ).per_page( @resources_per_page )
 
       unless params[:ajax].blank?
         render :layout => false
@@ -124,18 +126,18 @@ module Releaf
     def new
       authorize! :create, current_object_class
       raise FeatureDisabled unless @features[:create]
-      @item = current_object_class.new
+      @resource = current_object_class.new
     end
 
     def show
-      @item = current_object_class.includes(relations_for_includes).find(params[:id])
-      authorize! :show, @item
+      @resource = current_object_class.includes(relations_for_includes).find(params[:id])
+      authorize! :show, @resource
       raise FeatureDisabled unless @features[:show]
     end
 
     def edit
-      @item = current_object_class.includes(relations_for_includes).find(params[:id])
-      authorize! :edit, @item
+      @resource = current_object_class.includes(relations_for_includes).find(params[:id])
+      authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
     end
 
@@ -143,13 +145,13 @@ module Releaf
       authorize! :create, current_object_class
       raise FeatureDisabled unless @features[:create]
 
-      @item = current_object_class.new
+      @resource = current_object_class.new
 
-      @item.assign_attributes( allowed_params )
+      @resource.assign_attributes( allowed_params )
 
       respond_to do |format|
-        if @item.save
-          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
+        if @resource.save
+          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
         else
           format.html { render :action => "new" }
         end
@@ -157,14 +159,14 @@ module Releaf
     end
 
     def update
-      @item = current_object_class.find(params[:id])
-      authorize! :edit, @item
+      @resource = current_object_class.find(params[:id])
+      authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
 
 
       respond_to do |format|
-        if @item.update_attributes( allowed_params )
-          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @item.id ) }
+        if @resource.update_attributes( allowed_params )
+          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
         else
           format.html { render :action => "edit" }
         end
@@ -172,16 +174,16 @@ module Releaf
     end
 
     def confirm_destroy
-      @item = current_object_class.find(params[:id])
-      authorize! :destroy, @item
+      @resource = current_object_class.find(params[:id])
+      authorize! :destroy, @resource
       raise FeatureDisabled unless @features[:destroy]
     end
 
     def destroy
-      @item = current_object_class.find(params[:id])
-      authorize! :destroy, @item
+      @resource = current_object_class.find(params[:id])
+      authorize! :destroy, @resource
       raise FeatureDisabled unless @features[:destroy]
-      @item.destroy
+      @resource.destroy
 
       respond_to do |format|
         format.html { redirect_to url_for( :action => 'index' ) }
@@ -361,6 +363,22 @@ module Releaf
       return [field_type || 'text', use_i18n]
     end
 
+    # calls `#to_text` on resource if resource supports it. Otherwise calls
+    # fallback method
+    def resource_to_text resource, fallback=:to_s
+      resource.send resource_to_text_method(resource, fallback)
+    end
+
+    # returns `:to_text` if resource supports `#to_text`, otherwise returns
+    # fallback.
+    def resource_to_text_method resource, fallback=:to_s
+      if resource.respond_to?(:to_text)
+        return :to_text
+      else
+        Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
+        return fallback
+      end
+    end
 
     protected
 
@@ -377,15 +395,15 @@ module Releaf
     # @continuous_scroll::
     #   Boolean. If set to `true` will enable continuous scrool in `#index` view
     #
-    # @items_per_page::
-    #   Integer - sets the number of items to display on `#index` view
+    # @resources_per_page::
+    #   Integer - sets the number of resources to display on `#index` view
     #
     # To change controller settings `setup` method should be overriden like this
     #
     #   def setup
     #     super
     #     @fetures[:show] = false
-    #     @items_per_page = 20
+    #     @resources_per_page = 20
     #   end
     #
     def setup
@@ -397,16 +415,16 @@ module Releaf
       }
       @continuous_scroll = false
       @panel_layout      = true
-      @items_per_page    = 40
+      @resources_per_page    = 40
     end
 
     def allowed_params view=params[:action]
-      if self.respond_to?(:item_params)
-        variables = params.require( :item ).permit( *self.send(:item_params, view) )
-      elsif @item.respond_to? :allowed_params
-        variables = params.require( :item ).permit( *@item.allowed_params( view ) )
+      if self.respond_to?(:resource_params)
+        variables = params.require( :resource ).permit( *self.send(:resource_params, view) )
+      elsif @resource.respond_to? :allowed_params
+        variables = params.require( :resource ).permit( *@resource.allowed_params( view ) )
       else
-        variables = params.require( :item ).permit( *current_object_class.column_names )
+        variables = params.require( :resource ).permit( *current_object_class.column_names )
       end
     end
 

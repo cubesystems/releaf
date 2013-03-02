@@ -8,7 +8,7 @@
     - if can_create == true
       = f.text_field :"#{name}_text", :'data-autocomplete-url' => autocomplete_url
     - else
-      %input{:type => :text, :name => "_tmp_field_#{f.object.object_id}_#{rand(999999999)}", :'data-autocomplete-url' => autocomplete_url, :value => item_to_text(f.object.send(name.sub(/_id$/, ''))) }/
+      %input{:type => :text, :name => "_tmp_field_#{f.object.object_id}_#{rand(999999999)}", :'data-autocomplete-url' => autocomplete_url, :value => resource_to_text(f.object.send(name.sub(/_id$/, ''))) }/
     = image_tag 'releaf/input/autocompleteExpandIcon.png', :alt => '', :class => :autocomplete_expand_icon
     = f.hidden_field name
 

@@ -21,11 +21,11 @@ module Releaf
     def create
       content_type = _node_params[:content_type].constantize
       authorize! :create, content_type
-      @item = current_object_class.new(_node_params)
-      @item.assign_attributes(_node_common_fields_params)
+      @resource = current_object_class.new(_node_params)
+      @resource.assign_attributes(_node_common_fields_params)
 
       respond_to do |format|
-        if @item.save
+        if @resource.save
           format.html { redirect_to url_for(:action => "index", :controller => 'content')}
         else
           form_extras
@@ -36,40 +36,40 @@ module Releaf
     end
 
     def generate_url
-      tmp_item = nil
+      tmp_resource = nil
 
       if params[:id]
-        tmp_item = Node.find(params[:id])
+        tmp_resource = Node.find(params[:id])
       elsif params[:parent_id].blank? == false
         parent = Node.find(params[:parent_id])
-        tmp_item = parent.children.new
+        tmp_resource = parent.children.new
       else
-        tmp_item = Node.new
+        tmp_resource = Node.new
       end
 
-      tmp_item.name = params[:name]
-      tmp_item.slug = nil
+      tmp_resource.name = params[:name]
+      tmp_resource.slug = nil
       # FIXME calling private method
-      tmp_item.send(:ensure_unique_url)
+      tmp_resource.send(:ensure_unique_url)
 
       respond_to do |format|
-        format.js { render :text => tmp_item.slug }
+        format.js { render :text => tmp_resource.slug }
       end
     end
 
     def update
-      @item = current_object_class.find(params[:id])
-      authorize! :edit, @item
+      @resource = current_object_class.find(params[:id])
+      authorize! :edit, @resource
 
       form_extras
-      @order_nodes = Node.where(:parent_id => (@item.parent_id ? @item.parent_id : nil)).where('id != :id', :id => params[:id])
+      @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
 
-      @item.assign_attributes(_node_params)
-      @item.assign_attributes(_node_common_fields_params)
+      @resource.assign_attributes(_node_params)
+      @resource.assign_attributes(_node_common_fields_params)
 
 
       respond_to do |format|
-        if @item.save
+        if @resource.save
           format.html { redirect_to url_for(:action => "edit") }
         else
           format.html { render action: "edit" }
@@ -83,7 +83,7 @@ module Releaf
         super
         @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
         @position = 1
-        @item.parent_id = params[:parent_id]
+        @resource.parent_id = params[:parent_id]
         form_extras
       else
         Rails.application.eager_load!
@@ -94,10 +94,10 @@ module Releaf
 
     def edit
       super
-      @order_nodes = Node.where(:parent_id => (@item.parent_id ? @item.parent_id : nil)).where('id != :id', :id => params[:id])
+      @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
 
-      if @item.higher_item
-        @position = @item.higher_item.position
+      if @resource.higher_item
+        @position = @resource.higher_item.position
       else
         @position = 1
       end
@@ -109,9 +109,9 @@ module Releaf
       Rails.application.eager_load!
       raise ArgumentError unless NodeBase.node_classes.map { |nc| nc.name }.include? params[:content_type]
       @node = current_object_class.find(params[:id])
-      authorize! :edit, @item
+      authorize! :edit, @resource
 
-      @item = params[:content_type].constantize.new
+      @resource = params[:content_type].constantize.new
 
       respond_to do |format|
         format.html { render :partial => 'get_content_form', :layout => false }
@@ -126,13 +126,13 @@ module Releaf
     protected
 
     def _node_common_fields_params
-      allowed_params = (@item.common_field_names).map { |f| f.sub(/_uid$/, '') }
-      params.require(:item).permit(*allowed_params)
+      allowed_params = (@resource.common_field_names).map { |f| f.sub(/_uid$/, '') }
+      params.require(:resource).permit(*allowed_params)
     end
 
     def _node_params
       allowed_params = (%w[parent_id name content_type slug position data visible protected content_object_attributes]).map { |f| f.sub(/_uid$/, '') }
-      params.require(:item).permit(*allowed_params)
+      params.require(:resource).permit(*allowed_params)
     end
 
     private
@@ -144,14 +144,14 @@ module Releaf
       new_content_if_needed
     end
 
-    def item_params action=params[:action]
-      # make sure none of actions, that are defined by BaseController can update item
+    def resource_params action=params[:action]
+      # make sure none of actions, that are defined by BaseController can update resource
       []
     end
 
     def new_content_if_needed
-      return if @item.content
-      @item.content = @item.content_type.constantize.new if get_base_models.map { |bm| bm.name }.include? @item.content_type
+      return if @resource.content
+      @resource.content = @resource.content_type.constantize.new if get_base_models.map { |bm| bm.name }.include? @resource.content_type
     end
 
     def get_base_models

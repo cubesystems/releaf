@@ -11,7 +11,7 @@
     .groupInfo
       .field
         %label{:for => "context"} Konteksts:
-        %input#context{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @item.scope}/
+        %input#context{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @resource.scope}/
     .translations_table.translations_table_head
       .th.code_header{:style => "width: 208px; "}>< Nosaukums
       - Settings.i18n_locales.each do |locale|

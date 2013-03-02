@@ -2,6 +2,6 @@
 
 .field.no_label_wrap_padding.type_file{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(m.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
-  .value= link_to I18n.t("common.Download"), item.send(m).url
+    .label= I18n.t(m.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
+  .value= link_to I18n.t("common.Download"), resource.send(m).url
   .clear

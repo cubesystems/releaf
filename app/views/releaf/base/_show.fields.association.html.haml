@@ -1,5 +1,5 @@
 - if has_template? "_#{view_prefix}.#{field}"
-  = render "#{view_prefix}.#{field}", :item => item, :name => field
+  = render "#{view_prefix}.#{field}", :resource => resource, :name => field
 
 - else
   - new_view_prefix = view_prefix + '.' + field
@@ -10,27 +10,27 @@
     .nested_wrap{:'data-name' => field}
       .nested_title= I18n.t(field)
       .list
-        - item.send(field).each do |subitem|
-          .item
-            = render 'show.fields.has_many_template', :item => subitem, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
+        - resource.send(field).each do |subresource|
+          .resource
+            = render 'show.fields.has_many_template', :resource => subresource, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
 
   - when :belongs_to
     .nested_wrap{:'data-name' => field}
       .nested_title= I18n.t(field)
       .item
 
-        - subitem = item.send(field)
+        - subitem = resource.send(field)
 
         - if subfields.is_a? Array
           - subfields.each do |subfield|
             - if has_template? "_#{new_view_prefix}.#{subfield}"
-              = render "#{new_view_prefix}.#{subfield}", :item => item, :name => subfield
+              = render "#{new_view_prefix}.#{subfield}", :resource => resource, :name => subfield
             - else
-              = render 'show.fields', :item => subitem, :fields => subfields, :view_prefix => new_view_prefix
+              = render 'show.fields', :resource => subresource, :fields => subfields, :view_prefix => new_view_prefix
 
         - elsif subfields.is_a? String or subfields.is_a? Symbol
           - if has_template? "_#{new_view_prefix}.#{field}"
-            = render "#{new_view_prefix}.#{field}", :item => item, :name => field
+            = render "#{new_view_prefix}.#{field}", :resource => resource, :name => field
           - else
-            = render 'show.field', :item => subitem, :name => field, :view_prefix => new_view_prefix
+            = render 'show.field', :resource => subresource, :name => field, :view_prefix => new_view_prefix
 

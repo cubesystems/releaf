@@ -1,20 +1,20 @@
 :ruby
-  text = item.send(name)
+  text = resource.send(name)
   if name =~ /_id$/
-    if item.class.respond_to?(:reflect_on_association)
+    if resource.class.respond_to?(:reflect_on_association)
       # FIXME what if association was set with :foreign_key option
       rel_name = name.sub(/_id$/, '').to_sym
-      if item.class.reflect_on_association(rel_name)
-        text = item_to_text(item.send(rel_name))
+      if resource.class.reflect_on_association(rel_name)
+        text = resource_to_text(resource.send(rel_name))
       end
     end
   elsif name =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
-    unless item.send(name).blank?
-      text = image_tag item.send(name.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
+    unless resource.send(name).blank?
+      text = image_tag resource.send(name.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
     else
       text = ""
     end
   end
 
 
-%a.main{ :href => url_for( :action => list_action, :id => item.id ) }= text
+%a.main{ :href => url_for( :action => list_action, :id => resource.id ) }= text

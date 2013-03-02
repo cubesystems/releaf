@@ -3,9 +3,9 @@
     .field.no_label_wrap_padding
       .label_wrap
         .label Manage #{permissions}:
-      .value_wrap= @item.send(:"#{permissions}_permission")
+      .value_wrap= @resource.send(:"#{permissions}_permission")
   - elsif permissions.is_a? Array
     .field.no_label_wrap_padding
       .label_wrap
         .label #{permissions[0]} permissions:
-      .value_wrap= @item.send(:"#{permissions[0]}_permissions")
+      .value_wrap= @resource.send(:"#{permissions[0]}_permissions")

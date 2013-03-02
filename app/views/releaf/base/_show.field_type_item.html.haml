@@ -2,10 +2,10 @@
 
 .field.no_label_wrap_padding.type_item{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(m.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
+    .label= I18n.t(m.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
   .value
-    - if item.class.reflect_on_association(m.to_sym)
-      = item_to_text(item.send(m))
+    - if resource.class.reflect_on_association(m.to_sym)
+      = resource_to_text(resource.send(m))
     - else
-      = item.send(name)
+      = resource.send(name)
   .clear

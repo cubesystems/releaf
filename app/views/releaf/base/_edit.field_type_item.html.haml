@@ -5,7 +5,7 @@
     select_params.push select_options
   else
     collection = f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
-    select_params.push options_from_collection_for_select(collection, :id, :to_text, f.object.send(name))
+    select_params.push options_from_collection_for_select(collection, :id, resource_to_text_method(f.object), f.object.send(name))
   end
 
   if local_assigns.key? :options

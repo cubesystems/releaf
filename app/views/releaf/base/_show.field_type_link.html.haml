@@ -1,12 +1,12 @@
 .field.no_label_wrap_padding.type_link{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(name.humanize, :scope => "models.#{item.class.name.underscore}") + ':'
+    .label= I18n.t(name.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
   .value
-    - value = item.send(name)
+    - value = resource.send(name)
     - if value =~ /\A\d+\z/
       - target = Releaf::Node.find_by_id(value)
       - if target
-        = link_to item_to_text(target), url_for(:action => :show, :id => value)
+        = link_to resource_to_text(target), url_for(:action => :show, :id => value)
       - else
         = I18n.t("Link not found")
     - else

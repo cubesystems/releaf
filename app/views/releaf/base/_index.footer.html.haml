@@ -1,8 +1,8 @@
 .footer.center
   .padding
     .stats
-      %span.total= items.count \
-      = t("itemsFound")
+      %span.total= resources.count \
+      = t("resourcesFound")
 
     %span.actions
       - if @features[:create]
@@ -24,5 +24,5 @@
             = image_tag("releaf/icons/bin_empty.png", :alt => "switchToDelete")
 
     - unless @continuous_scroll
-      - if items.respond_to?(:page)
-        = will_paginate( items, :class=> "button_group pagination", :link_separator => "", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :previous_label => "<", :next_label => ">", :outer_window => 0, :inner_window => 2 )
+      - if resources.respond_to?(:page)
+        = will_paginate( resources, :class=> "button_group pagination", :link_separator => "", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :previous_label => "<", :next_label => ">", :outer_window => 0, :inner_window => 2 )

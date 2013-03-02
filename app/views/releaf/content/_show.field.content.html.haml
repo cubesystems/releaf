@@ -1,11 +1,11 @@
-- old_item = @item
+- old_resource = @resource
 
-- @item = @item.content
+- @resource = @resource.content
 
-- (@item.class.column_names - %w[id created_at]).each do |name|
+- (@resource.class.column_names - %w[id created_at]).each do |name|
   - if has_template? "_show.field.#{name}"
     = render "show.field.#{name}", :name => name
   - else
     = render 'show.field', :name => name
 
-- @item = old_item
+- @resource = old_resource
