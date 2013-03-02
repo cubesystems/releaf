@@ -88,12 +88,18 @@ module Releaf
 
     def index
       authorize! :list, current_object_class
-      if current_object_class.respond_to?( :filter )
+      if current_object_class.respond_to? :filter
         @items = current_object_class.filter(:search => params[:search])
       else
         @items = current_object_class
       end
+
+      if current_object_class.respond_to? :order_by
+        @items = @items.order_by(valid_order_by)
+      end
+
       @items = @items.page( params[:page] ).per_page( @items_per_page )
+
       unless params[:ajax].blank?
         render :layout => false
       end
@@ -351,6 +357,7 @@ module Releaf
       return [field_type || 'text', use_i18n]
     end
 
+
     protected
 
     def allowed_params view=params[:action]
@@ -364,6 +371,12 @@ module Releaf
     end
 
     private
+
+    def valid_order_by
+      return nil if params[:order_by].blank?
+      return nil unless current_object_class.column_names.include?(params[:order_by].sub(/-reverse$/, ''))
+      return current_object_class.table_name + '.' + params[:order_by].sub(/-reverse$/, ' DESC')
+    end
 
     def set_locale
       I18n.locale = if params[:locale] && Settings.i18n_locales.include?(params[:locale])
