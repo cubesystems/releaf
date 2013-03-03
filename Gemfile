@@ -9,9 +9,9 @@ gemspec
 gem "rack-cache", :require => "rack/cache"
 gem 'acts_as_list'
 gem 'awesome_nested_set'
-gem 'cancan', '~> 1.6.8'
-gem 'devise', '> 2.1.0'
-gem 'dragonfly', '~>0.9.12'
+gem 'cancan', '>= 1.6.8'
+gem 'devise', '>= 2.1.0'
+gem 'dragonfly', '>= 0.9.12'
 gem 'globalize3'
 gem 'haml'
 gem 'haml-rails'
@@ -21,9 +21,9 @@ gem 'rack-cache', :require => 'rack/cache'
 gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
 gem 'stringex'
 gem 'strong_parameters'
-gem 'tinymce-rails', '~> 3.5.8'
+gem 'tinymce-rails', '>= 3.5.8'
 gem 'tinymce-rails-imageupload'
-gem 'will_paginate', '~> 3.0.4'
+gem 'will_paginate', '>= 3.0.4'
 gem 'yui-rails'
 
 group :development, :test, :demo do
@@ -36,14 +36,13 @@ group :development, :test, :demo do
   gem 'simplecov-rcov'
   gem 'database_cleaner'
 
-end
-
-group :development do
   gem 'yard'
   gem 'redcarpet'
+  # gem 'guard-spin'
+  # gem 'guard-cucumber'
+  # gem 'guard-yard'
 end
 
-# gem 'factory_girl_rails'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
