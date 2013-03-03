@@ -1,6 +1,8 @@
 require "releaf/slug"
 require 'releaf/globalize3/fallbacks'
 require "releaf/engine"
+require "releaf/resources"
+
 
 module Releaf
   mattr_accessor :main_menu
