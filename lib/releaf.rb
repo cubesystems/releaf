@@ -2,6 +2,7 @@ require "releaf/slug"
 require 'releaf/globalize3/fallbacks'
 require "releaf/engine"
 require "releaf/resources"
+require "releaf/boolean_at"
 
 
 module Releaf
