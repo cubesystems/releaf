@@ -25,7 +25,7 @@ module Releaf
       # it will create +published+, +published?+, +published=+ methods and
       # +published+ and +unpublished+ scopes.
       #
-      # @params args list of DateTime, Date and Time attributes that end with
+      # @param args list of DateTime, Date and Time attributes that ends with
       #   _at or _on for which you'd like to create boolean setter and getter
       #   and scopes
       def boolean_at *args
