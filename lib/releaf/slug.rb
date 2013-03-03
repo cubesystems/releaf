@@ -1,4 +1,17 @@
 module Releaf
+  # Provides common methods for finding object by slug. Also overrides to_html
+  # method.
+  #
+  # Simply add this line to your models
+  #
+  #   include Releaf::Slyg
+  #
+  # or
+  #
+  #    ActiveRecord::Base.send(:include, Releaf::Slug)
+  #
+  # to some initializer (<tt>config/initializers/releaf.rb</tt> for example).
+  # Then use find_object or find_object! instead of find
   module Slug
     module ClassMethods
 
@@ -18,9 +31,12 @@ module Releaf
       # If instance responds to children method, then it's possible to search
       # for hierarchic resources
       #
-      # @param id_or_slug either id of object to find (can be String or Fixnum) or slug (string) slug, may contain slash ('/')
+      # @param id_or_slug either id of object to find (can be String or Fixnum)
+      #   or slug (string) slug, may contain slash ('/')
       #
-      # @param scope_name optional scope_name to be used for searching. This is especially useful when you are searching hierarchic resources. For example you want to find 2nd level active resource.
+      # @param scope_name optional scope_name to be used for searching. This is
+      #   especially useful when you are searching hierarchic resources. For
+      #   example you want to find 2nd level active resource.
       #
       # @param scope_args any arguments that are required for scope
       #
@@ -75,7 +91,7 @@ module Releaf
       # possible).  It will also generate hearachical uri part if instance
       # supports parrent method, or has ancestry column (ancestry gem)
       #
-      # @return Fixnum or String
+      # @return String or Fixnum
       def to_param
         return id unless self.class.column_names.include?('slug')
         return id if self.slug.blank?
