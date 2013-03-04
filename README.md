@@ -1,6 +1,8 @@
 ## Releaf
 
-Releaf is Admin interface for Rails projects
+Releaf is Admin interface for Rails projects.
+
+Documentation: http://cubesystems.github.com/releaf/
 
 ## Getting started
 

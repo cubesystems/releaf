@@ -235,8 +235,7 @@ module Releaf
     # will render all fields (except created_at etc.) including <tt>belongs_to
     # :parent</tt>. This is know bug https://github.com/cubesystems/releaf/issues/64
     #
-    # Example:
-    #
+    # @example
     #   def fields_to_display
     #     case params[:action]
     #     when 'edit', 'update', 'create', 'new'
@@ -350,7 +349,7 @@ module Releaf
     #
     # This helper is used by views.
     #
-    # TODO: document rendering conventions
+    # @todo document rendering conventions
     def render_field_type( obj, attribute_name )
       field_type = nil
       use_i18n = false
@@ -464,12 +463,12 @@ module Releaf
     #
     # To change controller settings `setup` method should be overriden like this
     #
+    # @example
     #   def setup
     #     super
     #     @fetures[:show] = false
     #     @resources_per_page = 20
     #   end
-    #
     def setup
       @features = {
         :edit     => true,
@@ -493,15 +492,21 @@ module Releaf
     private
 
     def relations_for_includes
+      # XXX there's a problem with relations that have conditions with proc.
+      # If you refer to models attribute in proc, this function will break.
+      # As temp workaround we'll simply skip including relations that have conditions for now.
       rels = []
       fields_to_display.each do |field|
         if (field.is_a? String or field.is_a? Symbol) and field =~ /_id$/
+          next if resource_class.reflect_on_association(field[0..-4].to_sym).conditions.count > 0 # XXX
           rels.push field[0..-4] if resource_class.reflect_on_association(field[0..-4].to_sym)
         elsif field.is_a? Hash
           field.keys.each do |key|
             if key =~ /_id$/
+              next if resource_class.reflect_on_association(field[0..-4].to_sym).conditions.count > 0 # XXX
               rels.push key[0..-4] if resource_class.reflect_on_association(key[0..-4].to_sym)
             else
+              next if resource_class.reflect_on_association(field.to_sym).conditions.count > 0 # XXX
               rels.push key if resource_class.reflect_on_association(key.to_sym)
             end
           end

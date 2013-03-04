@@ -4,7 +4,7 @@ module Releaf
   #
   # Simply add this line to your models
   #
-  #   include Releaf::Slyg
+  #   include Releaf::Slug
   #
   # or
   #
@@ -89,7 +89,8 @@ module Releaf
     module InstanceMethods
       # Ovverrides to_param method to prefer slug field over id (when
       # possible).  It will also generate hearachical uri part if instance
-      # supports parrent method, or has ancestry column (ancestry gem)
+      # supports parrent method, or has ancestry column (ancestry gem
+      # {http://rubygems.org/gems/ancestry})
       #
       # @return String or Fixnum
       def to_param
