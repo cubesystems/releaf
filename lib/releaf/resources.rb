@@ -26,7 +26,7 @@ module ActionDispatch::Routing::Mapper::Resources
     end
   end
 
-  def sluged_resources(*args, &block)
+  def slugged_resources(*args, &block)
     add_routes = {
       :new      => true,
       :create   => true,
