@@ -20,6 +20,7 @@ module Releaf
       #
       # For example, if you use
       #
+      # @example
       #   boolean_at :published_at
       #
       # it will create +published+, +published?+, +published=+ methods and

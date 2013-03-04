@@ -235,8 +235,7 @@ module Releaf
     # will render all fields (except created_at etc.) including <tt>belongs_to
     # :parent</tt>. This is know bug https://github.com/cubesystems/releaf/issues/64
     #
-    # Example:
-    #
+    # @example
     #   def fields_to_display
     #     case params[:action]
     #     when 'edit', 'update', 'create', 'new'
@@ -350,7 +349,7 @@ module Releaf
     #
     # This helper is used by views.
     #
-    # TODO: document rendering conventions
+    # @todo document rendering conventions
     def render_field_type( obj, attribute_name )
       field_type = nil
       use_i18n = false
@@ -464,12 +463,12 @@ module Releaf
     #
     # To change controller settings `setup` method should be overriden like this
     #
+    # @example
     #   def setup
     #     super
     #     @fetures[:show] = false
     #     @resources_per_page = 20
     #   end
-    #
     def setup
       @features = {
         :edit     => true,
