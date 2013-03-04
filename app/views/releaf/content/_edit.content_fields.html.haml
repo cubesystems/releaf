@@ -3,7 +3,7 @@
     - if has_template? "_edit.field.#{common_field_name}"
       = render "edit.field.#{common_field_name}", :name => common_field_name, :f => f
     - else
-      = render 'edit.field', :name => common_field_name, :f => f
+      = render 'edit.field', :name => common_field_name, :f => f, :view_prefix => 'edit.field.content'
 
 
 
@@ -13,7 +13,7 @@
       - if has_template? "_edit.field.#{name}"
         = render "edit.field.#{name}", :name => name, :f => ff
       - else
-        = render 'edit.field', :name => name, :f => ff
+        = render 'edit.field', :name => name, :f => ff, :view_prefix => 'edit.field.content'
 
 
     = render 'edit.has_many_associations', :f => ff

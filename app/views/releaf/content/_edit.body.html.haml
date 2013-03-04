@@ -4,7 +4,7 @@
 
 
   .globalFieldContainer.collapsableSection.global_fields
-    = render 'edit.field', :name => 'name', :f => f
+    = render 'edit.field', :name => 'name', :f => f, :view_prefix => 'edit.field'
 
     .field{ 'data-name' => 'template' }
       .label_wrap
@@ -29,8 +29,8 @@
         = f.select :position, options_for_select(opt_for_select, @position)
     .clear
 
-    = render 'edit.field', :name => 'visible', :f => f
-    = render 'edit.field', :name => 'protected', :f => f
+    = render 'edit.field', :name => 'visible', :f => f, :view_prefix => 'edit.field'
+    = render 'edit.field', :name => 'protected', :f => f, :view_prefix => 'edit.field'
     .clear
 
 
