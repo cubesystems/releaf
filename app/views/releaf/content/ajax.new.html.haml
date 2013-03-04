@@ -1,3 +1,0 @@
-%ul.block
-  - @base_models.each do |base_model|
-    %li= link_to base_model, new_releaf_node_path(:parent_id => params[:parent_id], :content_type => base_model.name)

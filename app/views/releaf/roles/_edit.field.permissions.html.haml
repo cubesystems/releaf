@@ -1,5 +1,0 @@
-- AdminAbility::PERMISSIONS.each do |permissions|
-  - if permissions.is_a? String
-    = render 'edit.field_type_boolean', :name => "#{permissions}_permission", :f => f
-  - elsif permissions.is_a? Array
-    = render 'edit.field_type_item', :name => "#{permissions[0]}_permissions", :select_options => permissions[1], :f => f

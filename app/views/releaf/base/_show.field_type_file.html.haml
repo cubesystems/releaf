@@ -1,7 +1,0 @@
-- m = name.sub(/_uid$/, '').to_s
-
-.field.no_label_wrap_padding.type_file{:'data-name' => name}
-  .label_wrap
-    .label= I18n.t(m.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
-  .value= link_to I18n.t("common.Download"), resource.send(m).url
-  .clear

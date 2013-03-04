@@ -1,7 +1,0 @@
-= fields_for "resource[content_attributes]", @resource do |ff|
-
-  - (ff.object.class.column_names - %w[id created_at updated_at]).each do |name|
-    - if has_template? "_edit.field.#{name}"
-      = render "edit.field.#{name}", :name => name, :f => ff
-    - else
-      = render 'edit.field', :name => name, :f => ff

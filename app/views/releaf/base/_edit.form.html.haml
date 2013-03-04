@@ -1,4 +1,0 @@
-= form_for resource, :as => :resource, :url => url_for( :action => resource.new_record? ? 'create' : 'update', :id => resource.id ), :validate => true, :class => "edit", :html => {:multipart => true} do |f|
-  = render "edit.header", :resource => resource
-  = render "edit.body", :f => f
-  = render "edit.footer", :resource => resource

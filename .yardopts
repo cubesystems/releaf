@@ -1,7 +1,0 @@
---protected
-app/**/*.rb
-lib/i18n/**/*.rb
-lib/releaf.rb
-lib/releaf/**/*.rb
--
-LICENSE
