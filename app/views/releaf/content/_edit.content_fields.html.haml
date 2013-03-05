@@ -6,7 +6,6 @@
       = render 'edit.field', :name => common_field_name, :f => f, :view_prefix => 'edit.field.content'
 
 
-
   = f.fields_for :content_object, f.object.content_object do |ff|
 
     - (ff.object.class.column_names - %w[id created_at updated_at]).each do |name|
@@ -16,4 +15,4 @@
         = render 'edit.field', :name => name, :f => ff, :view_prefix => 'edit.field.content'
 
 
-    = render 'edit.has_many_associations', :f => ff
+    -# = render 'edit.fields.association', :f => ff, 'view_prefix' => 'edit.field', :subfields => ff.object.class.column_names, :field => 'content_object'
