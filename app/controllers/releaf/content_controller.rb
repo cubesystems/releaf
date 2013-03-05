@@ -2,7 +2,7 @@ module Releaf
   class ContentController < BaseController
 
     def fields_to_display
-      return super unless view.to_sym == :show
+      return super unless params[:action] == 'show'
       return %w[name parent_id visible protected content]
     end
 
