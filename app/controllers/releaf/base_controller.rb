@@ -492,6 +492,7 @@ module Releaf
     private
 
     def relations_for_includes
+      return nil
       # XXX there's a problem with relations that have conditions with proc.
       # If you refer to models attribute in proc, this function will break.
       # As temp workaround we'll simply skip including relations that have conditions for now.
