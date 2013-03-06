@@ -36,7 +36,7 @@ module Releaf
         my_table_name = self.table_name
 
         args.each do |name|
-          raise ArgumentError, "column must be of type DateTime, Date or Time" unless [:datetime, :date, :time].include?(self.columns_hash[name.to_s].try(:type).try(:to_sym))
+          # raise ArgumentError, "column must be of type DateTime, Date or Time" unless [:datetime, :date, :time].include?(self.columns_hash[name.to_s].try(:type).try(:to_sym))
           raise ArgumentError, "column name must end with _at or _on" unless name =~ /_(at|on)$/
 
           fun_name = name.to_s.sub(/_(at|on)$/, '')
