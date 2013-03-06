@@ -147,8 +147,7 @@ module Releaf
 
       @resource = resource_class.new
 
-      # @resource.assign_attributes params.require(:resource).permit(*resource_params)
-      @resource.assign_attributes params.require(:resource).permit!
+      @resource.assign_attributes params.require(:resource).permit(*resource_params)
 
       respond_to do |format|
         if @resource.save
@@ -165,10 +164,7 @@ module Releaf
       raise FeatureDisabled unless @features[:edit]
 
       respond_to do |format|
-        # raise resource_params.inspect
-        # raise params.require(:resource).permit(*resource_params).inspect
-        # if @resource.update_attributes( params.require(:resource).permit(*resource_params) )
-        if @resource.update_attributes( params.require(:resource).permit! )
+        if @resource.update_attributes( params.require(:resource).permit(*resource_params) )
           format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
         else
           format.html { render :action => "edit" }

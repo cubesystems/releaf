@@ -38,6 +38,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'tinymce-rails-imageupload', '>= 3.5.6.3'
   s.add_dependency 'will_paginate', '>= 3.0.4'
 
+  # v0.2.0 is broken currently
+  s.add_dependency 'strong_parameters', '= 0.1.6'
+
   s.add_development_dependency 'mysql2'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'capybara'
