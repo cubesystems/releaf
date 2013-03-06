@@ -30,6 +30,7 @@ module Releaf
           end
           return perms[1].first
         end
+        alias_method "#{perms[0]}_permissions?", "#{perms[0]}_permissions"
 
       elsif perms.is_a? String
         # attr_accessible :"#{perms}_permission"
@@ -45,6 +46,7 @@ module Releaf
           return (iv == '1' || iv == true) unless iv.nil?
           permissions.include? perms
         end
+        alias_method "#{perms}_permission?", "#{perms}_permission"
       end
     end
 
