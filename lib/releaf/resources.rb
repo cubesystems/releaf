@@ -85,7 +85,7 @@ module ActionDispatch::Routing
 
           releaf_resources :admins, :roles
 
-          releaf_resources :nodes, :controller => "content", :path => "content" do
+          releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show], :path_names => { :edit => '' } do
             get :generate_url, :on => :collection
           end
 
