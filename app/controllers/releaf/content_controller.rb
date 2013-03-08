@@ -1,5 +1,14 @@
 module Releaf
   class ContentController < BaseController
+    helper_method :content_fields_to_display
+
+    def content_fields_to_display obj_class
+      if obj_class.respond_to? :releaf_fields_to_display
+        obj_class.releaf_fields_to_display params[:action]
+      else
+        obj_class.column_names - %w[id created_at updated_at position]
+      end
+    end
 
     def fields_to_display
       return super unless params[:action] == 'show'
@@ -22,7 +31,6 @@ module Releaf
       content_type = _node_params[:content_type].constantize
       authorize! :create, content_type
       @resource = resource_class.new(_node_params)
-      @resource.assign_attributes(_node_common_fields_params)
 
       respond_to do |format|
         if @resource.save
@@ -65,7 +73,6 @@ module Releaf
       @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
 
       @resource.assign_attributes(_node_params)
-      @resource.assign_attributes(_node_common_fields_params)
 
 
       respond_to do |format|
@@ -105,6 +112,11 @@ module Releaf
       form_extras
     end
 
+    def setup
+      super
+      @features[:show] = false
+    end
+
     def get_content_form
       Rails.application.eager_load!
       raise ArgumentError unless NodeBase.node_classes.map { |nc| nc.name }.include? params[:content_type]
@@ -125,14 +137,8 @@ module Releaf
 
     protected
 
-    def _node_common_fields_params
-      allowed_params = (@resource.common_field_names).map { |f| f.sub(/_uid$/, '') }
-      params.require(:resource).permit(*allowed_params)
-    end
-
     def _node_params
-      allowed_params = (%w[parent_id name content_type slug position data visible protected content_object_attributes]).map { |f| f.sub(/_uid$/, '') }
-      params.require(:resource).permit(*allowed_params)
+      params.require(:resource).all!
     end
 
     private

@@ -1,13 +1,6 @@
 module Releaf
   class TranslationsController < BaseController
 
-    def setup
-      super
-      @object_class = I18n::Backend::Releaf::TranslationGroup
-      @features[:show] = false
-      @continuous_scroll = true
-    end
-
     def resource_class
       @object_class
     end
@@ -33,11 +26,6 @@ module Releaf
       authorize! :manage, I18n::Backend::Releaf::Translation
       @resource = resource_class.find(params[:id])
     end
-
-    # def show
-    #   authorize! :manage, I18n::Backend::Releaf::Translation
-    #   redirect_to url_for( :action => "edit", :id => params[:id] )
-    # end
 
     def create
       authorize! :manage, I18n::Backend::Releaf::Translation
@@ -72,6 +60,14 @@ module Releaf
       end
     end
 
+    protected
+
+    def setup
+      super
+      @object_class = I18n::Backend::Releaf::TranslationGroup
+      @features[:show] = false
+      @continuous_scroll = true
+    end
 
     private
 

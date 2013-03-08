@@ -7,6 +7,10 @@ module Releaf
       return _node_classes(self).reject { |n| n.name =~ /^Releaf::/ }
     end
 
+    def self.releaf_fields_to_display action
+      column_names - %w[id created_at updated_at position]
+    end
+
     private
 
     def self._node_classes(klass)
