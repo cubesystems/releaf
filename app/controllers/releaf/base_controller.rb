@@ -361,7 +361,7 @@ module Releaf
 
       column_type = :string
       if attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
-        column_type = f.object.common_field_field_type(name)
+        column_type = obj.common_field_field_type(attribute_name)
       else
         column_type = obj_class.columns_hash[attribute_name.to_s].try(:type) || :string
       end
