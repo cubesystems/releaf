@@ -138,7 +138,7 @@ module Releaf
     protected
 
     def _node_params
-      params.require(:resource).all!
+      params.require(:resource).permit!
     end
 
     private
