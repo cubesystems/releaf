@@ -10,5 +10,9 @@ module Releaf
       @current_ability ||= AdminAbility.new(self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}"))
     end
 
+    def full_controller_name
+      self.class.name.sub(/Controller$/, '').downcase
+    end
+
   end
 end
