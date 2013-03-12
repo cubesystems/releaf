@@ -6,5 +6,5 @@
   .value
     = link_to I18n.t("common.Download"), resource.send(m).url
     .preview
-      = link_to image_tag(resource.send(m).thumb('x128').url), resource.send(m).url, :target => :_blank, :data => { :lightbox => true }
+      = link_to image_tag(resource.send(m).thumb('x128').url, :alt => ''), resource.send(m).url, :target => :_blank, :data => { :lightbox => true }
   .clear
