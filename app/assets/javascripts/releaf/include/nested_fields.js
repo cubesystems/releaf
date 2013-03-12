@@ -22,7 +22,7 @@ jQuery(document).ready(function()
             item.css({ opacity: 0 });
             item.slideDown( 'fast', function()
             {
-                item.css({ opacity: '' });
+                item.css({ opacity: 1 });
                 item.find( 'input:first' ).focus();
                 item.hide();
                 item.fadeIn( 'fast' );
