@@ -46,7 +46,7 @@ module Releaf
       if parent_id
         url = parent.url + "/" + slug.to_s
       else
-        url = slug.to_s
+        url = "/" + slug.to_s
       end
 
       url
