@@ -1,5 +1,8 @@
 - fields.each do |field|
   - if field.is_a?(String) or field.is_a?(Symbol)
+    -# = Rails.logger.debug "\n\n\n"
+    -# = Rails.logger.debug f.object.class
+    -# = Rails.logger.debug "\n\n\n"
     - reflection = f.object.class.reflections[field.to_sym]
 
   - if (field.is_a?(String) or field.is_a?(Symbol)) && !reflection

@@ -9,6 +9,6 @@
       = t('save')
   .block.right_block
     - if @features[:destroy] && !resource.new_record?
-      %a.button{ :href => url_for( :action => 'confirm_destroy', :id => resource ) }
+      %a.button{ :href => url_for( :action => 'confirm_destroy', :id => resource.id ) }
         = image_tag('releaf/icons/bin_empty.png', :alt => '')
         %span= t('destroy')

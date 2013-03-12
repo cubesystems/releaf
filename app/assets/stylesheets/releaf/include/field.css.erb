@@ -226,6 +226,9 @@
 
 
 
+.nested_wrap .add {
+  margin: 10px;
+}
 .nested_wrap .item {
   position: relative;
   background-color: #F3F3F3;
@@ -239,6 +242,13 @@
   right: 10px;
   padding: 0;
   border: none;
+}
+.nested_wrap .item .nested_wrap {
+  background-color: #ededed;
+}
+.nested_wrap .item .nested_wrap,
+.nested_wrap .item .nested_wrap .item {
+  border: 1px dotted gray;
 }
 
 .nested_wrap .field .label_wrap {
