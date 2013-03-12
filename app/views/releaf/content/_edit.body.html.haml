@@ -10,7 +10,9 @@
       .label_wrap
         = f.label :content_type, 'Veids:', :title => f.object.content_type
       .value
-        = f.select :content_type, options_for_select(@base_models.map { |m| m.name }, f.object.content_type || params[:content_type]), {:include_blank => f.object.new_record?}, {:title => @resource.content_type, :disabled => f.object.new_record? == false }
+        %span= (f.object.content_type || params[:content_type])
+      - if f.object.new_record?
+        = hidden_field(:resource, :content_type, {:value => params[:content_type]})
     .clear
 
 

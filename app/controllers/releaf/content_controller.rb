@@ -104,7 +104,7 @@ module Releaf
       @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
 
       if @resource.higher_item
-        @position = @resource.higher_item.position
+        @position = @resource.position
       else
         @position = 1
       end
