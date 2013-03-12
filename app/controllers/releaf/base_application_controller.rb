@@ -11,7 +11,7 @@ module Releaf
     end
 
     def full_controller_name
-      self.class.name.sub(/Controller$/, '').downcase
+      self.class.name.sub(/Controller$/, '').underscore
     end
 
   end
