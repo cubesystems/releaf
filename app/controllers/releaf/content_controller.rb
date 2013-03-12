@@ -34,7 +34,7 @@ module Releaf
 
       respond_to do |format|
         if @resource.save
-          format.html { redirect_to url_for(:action => "index", :controller => 'content')}
+          format.html { redirect_to url_for(:action => "edit", :controller => 'content', :id => @resource.id)}
         else
           form_extras
           @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
