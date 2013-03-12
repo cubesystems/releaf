@@ -6,5 +6,12 @@
       %button{ :type => 'submit' }
         = image_tag 'releaf/icons/bin_empty.png', :alt => ''
         %span= t('yes')
-    %a.button{ :href => url_for( :action => 'show', :id => @resource.id ) }
-      %span= t('no')
+    - if @features[:show]
+      %a.button{ :href => url_for( :action => 'show', :id => @resource.id ) }
+        %span= t('no')
+    - elsif @features[:edit]
+      %a.button{ :href => url_for( :action => 'edit', :id => @resource.id ) }
+        %span= t('no')
+    - else
+      %a.button{ :href => url_for( :action => 'index' ) }
+        %span= t('no')
