@@ -57,7 +57,7 @@ module Releaf
 
     def controller
       raise "Missing content object" if content_object.blank?
-      return "#{content_type}_controller".classify.constantize
+      return "#{content_type.classify.pluralize}Controller".constantize
     end
 
     def self.get_object_from_path path, params = {}
