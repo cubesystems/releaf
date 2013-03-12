@@ -156,7 +156,12 @@ module Releaf
 
     def new_content_if_needed
       return if @resource.content
-      @resource.content = @resource.content_type.constantize.new if get_base_models.map { |bm| bm.name }.include? @resource.content_type
+      if params[:content_type]
+        if get_base_models.map { |bm| bm.name }.include? params[:content_type]
+          @resource.content_type = params[:content_type]
+          @resource.content = @resource.content_type.constantize.new
+        end
+      end
     end
 
     def get_base_models
