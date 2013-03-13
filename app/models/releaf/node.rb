@@ -56,7 +56,7 @@ module Releaf
     # Return node content object public controller
 
     def controller
-      raise "Missing content object" if content_object.blank?
+      raise "Missing content object" if content_type.blank?
       return "#{content_type.classify.pluralize}Controller".constantize
     end
 
