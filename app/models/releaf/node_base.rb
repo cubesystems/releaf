@@ -18,9 +18,7 @@ module Releaf
     private
 
     def self._node_classes(klass)
-      return [klass] if klass.subclasses.blank?
-
-      classes = []
+      classes = [klass]
 
       klass.subclasses.each do |sublcass|
         classes += _node_classes(sublcass)
