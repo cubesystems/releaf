@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
 
     jQuery(document.body).on('initsortable', function(e) {
-        console.debug("test");
         jQuery(e.target).find('.list[data-sortable]').sortable({
             axis: "y",
             ontainment: "parent",
