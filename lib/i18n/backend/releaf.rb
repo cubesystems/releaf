@@ -40,7 +40,7 @@ module I18n
 
         # Lookup translation from database
         def lookup(locale, key, scope = [], options = {})
-          if scope.blank?
+          if scope.blank? && key !~ /\./
             scope = DEFAULT_SCOPE
           end
 
