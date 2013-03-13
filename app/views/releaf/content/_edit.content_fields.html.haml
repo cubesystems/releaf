@@ -6,5 +6,6 @@
       = render 'edit.field', :name => common_field_name, :f => f, :view_prefix => 'edit.field.content'
 
 
-  = f.fields_for :content_object, f.object.content_object do |ff|
-    = render 'edit.fields', :f => ff, :fields => content_fields_to_display(ff.object.class), :view_prefix => 'edit.field.content'
+  - if f.object.content
+    = f.fields_for :content_object, f.object.content_object do |ff|
+      = render 'edit.fields', :f => ff, :fields => content_fields_to_display(ff.object.class), :view_prefix => 'edit.field.content'

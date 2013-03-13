@@ -42,6 +42,5 @@
       = image_tag("releaf/icons/129.png", :alt => "Parādīt pilnu sadaļu")
     .clear.persistent
 
-  - if f.object.content
-    = render 'edit.content_fields', :f => f
+  = render 'edit.content_fields', :f => f
 
