@@ -1,18 +1,16 @@
 module Releaf
-  class NodeBase < ActiveRecord::Base
-    self.abstract_class = true
-
+  class BlankNodeBase
     # returns only bottom level, not /^Releaf::/ subclasses
     def self.node_classes
       return _node_classes(self).reject { |n| n.name =~ /^Releaf::/ }
     end
 
     def self.releaf_fields_to_display action
-      column_names - %w[id created_at updated_at position]
+      []
     end
 
     def self.node_type
-      "Releaf::NodeBase"
+      "Releaf::BlankNodeBase"
     end
 
     private

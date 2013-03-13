@@ -119,7 +119,7 @@ module Releaf
 
     def get_content_form
       Rails.application.eager_load!
-      raise ArgumentError unless NodeBase.node_classes.map { |nc| nc.name }.include? params[:content_type]
+      raise ArgumentError unless content_type_class_names.include? params[:content_type]
       @node = resource_class.find(params[:id])
       authorize! :edit, @resource
 
@@ -143,6 +143,14 @@ module Releaf
 
     private
 
+    def content_type_class_names
+      content_type_classes.map { |nc| nc.name }.sort
+    end
+
+    def content_type_classes
+      NodeBase.node_classes + BlankNodeBase.node_classes
+    end
+
     def form_extras
       Rails.application.eager_load!
       get_base_models
@@ -159,13 +167,16 @@ module Releaf
       if params[:content_type]
         if get_base_models.map { |bm| bm.name }.include? params[:content_type]
           @resource.content_type = params[:content_type]
-          @resource.content = @resource.content_type.constantize.new
+          content_class = @resource.content_type.constantize
+          if content_class.node_type == 'Releaf::NodeBase'
+            @resource.content = @resource.content_type.constantize.new
+          end
         end
       end
     end
 
     def get_base_models
-      @base_models ||= NodeBase.node_classes
+      @base_models ||= content_type_classes
     end
 
   end
