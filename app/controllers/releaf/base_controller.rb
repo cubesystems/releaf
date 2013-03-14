@@ -147,7 +147,7 @@ module Releaf
 
       @resource = resource_class.new
 
-      @resource.assign_attributes params.require(:resource).permit(*resource_params)
+      @resource.assign_attributes required_params.permit(*resource_params)
 
       respond_to do |format|
         if @resource.save
@@ -164,7 +164,7 @@ module Releaf
       raise FeatureDisabled unless @features[:edit]
 
       respond_to do |format|
-        if @resource.update_attributes( params.require(:resource).permit(*resource_params) )
+        if @resource.update_attributes( required_params.permit(*resource_params) )
           format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
         else
           format.html { render :action => "edit" }
@@ -444,6 +444,10 @@ module Releaf
     end
 
     protected
+
+    def required_params
+      params.require(:resource)
+    end
 
     # Called before each request by before_filter.
     # It sets various instance variables, that are later used in views and # controllers
