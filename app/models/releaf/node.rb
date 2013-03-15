@@ -61,11 +61,12 @@ module Releaf
     end
 
     def self.get_object_from_path path, params = {}
+      raise ArgumentError, 'path must be String or Array' unless path.is_a?(String) || path.is_a?(Array)
       node = nil
       parent_node = nil
 
-      if path.class == String
-        path = path.split("/").reject(&:empty?)
+      if path.is_a? String
+        path = path.split('?').first.split("/").reject(&:empty?)
       end
 
       unless params[:locale].nil?
