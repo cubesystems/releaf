@@ -28,7 +28,7 @@ gem 'yui-rails'
 
 group :development, :test, :demo do
   gem 'capybara'
-  gem 'brakeman', '>= 1.8.3'
+  gem 'brakeman', '>= 1.9.2'
   gem 'rspec-rails'
   gem 'syntax'
   gem 'factory_girl_rails'

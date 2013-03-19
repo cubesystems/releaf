@@ -62,7 +62,7 @@ group :development do
   gem "capistrano-ext"
   gem "rvm-capistrano"
   gem "guard-spin"
-  gem "brakeman", "~>1.8.3"
+  gem "brakeman", ">= 1.9.2"
 
   # gem 'debugger'
   # gem 'ruby-debug19', :require => 'ruby-debug'
@@ -132,7 +132,7 @@ else
     raise "RVM ruby lib is currently unavailable."
   end
 
-  rvm_env = "1.9.3@#{app_name}"
+  rvm_env = "2.0.0@#{app_name}"
 
   # create rvmrc file
   file ".rvmrc", <<-END
