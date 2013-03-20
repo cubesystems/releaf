@@ -29,7 +29,7 @@ class AdminAbility
 
     if role.manage_translations_permission
       # Only manage is available for translation
-      can :manage, Translation
+      can :manage, I18n::Backend::Releaf::Translation
     end
 
     ## Example:
