@@ -372,7 +372,7 @@ module Releaf
 
       when :string
         case attribute_name.to_s
-        when /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
+        when /(thumbnail|image|photo|picture|avatar|logo|banner|icon)_uid$/
           field_type = 'image'
 
         when /_uid$/
