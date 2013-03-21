@@ -1,4 +1,3 @@
-//= require yui
 //= require ../lib/request_url
 
 YUI().use('node', 'event', 'autocomplete', 'autocomplete-highlighters', function (Y) {

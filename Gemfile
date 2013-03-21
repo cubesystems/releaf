@@ -23,7 +23,6 @@ gem 'strong_parameters', '= 0.1.6' # 0.2.0 is broken currently
 gem 'tinymce-rails', '>= 3.5.8'
 gem 'tinymce-rails-imageupload'
 gem 'will_paginate', '>= 3.0.4'
-gem 'yui-rails'
 
 group :development, :test, :demo do
   gem 'capybara'
