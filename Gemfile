@@ -18,7 +18,6 @@ gem 'haml-rails'
 gem 'jquery-rails', '<= 2.1.4'
 gem 'mysql2'
 gem 'rack-cache', :require => 'rack/cache'
-gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
 gem 'stringex'
 gem 'strong_parameters', '= 0.1.6' # 0.2.0 is broken currently
 gem 'tinymce-rails', '>= 3.5.8'
@@ -28,7 +27,7 @@ gem 'yui-rails'
 
 group :development, :test, :demo do
   gem 'capybara'
-  gem 'brakeman', '>= 1.8.3'
+  gem 'brakeman', '>= 1.9.2'
   gem 'rspec-rails'
   gem 'syntax'
   gem 'factory_girl_rails'
