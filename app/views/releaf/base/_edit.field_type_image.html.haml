@@ -4,9 +4,9 @@
   .label_wrap><= f.label field_name, field_name.to_s.humanize + ':'
   .value><
     = f.file_field field_name, :accept => 'image/png,image/jpeg,image/bmp,image/gif'
-  - unless f.object.send(name).blank?
-    .value_preview
-      = f.hidden_field "retained_#{field_name}"
-      - img_object = f.object.send(field_name)
-      = link_to image_tag(img_object.thumb('x128>').url, :alt => ''), img_object.url, :target => :_blank, :data => {:lightbox => true }
+    - unless f.object.send(name).blank?
+      .value_preview
+        = f.hidden_field "retained_#{field_name}"
+        - img_object = f.object.send(field_name)
+        = link_to image_tag(img_object.thumb('x128>').url, :alt => ''), img_object.url, :target => :_blank, :data => {:lightbox => true }
   .clear
