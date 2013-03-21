@@ -26,6 +26,16 @@ module Releaf
   mattr_accessor :layout
   @@layout = "releaf/admin"
 
+  mattr_accessor :yui_js_url
+  # @@yui_js_url = 'http://yui.yahooapis.com/3.9.0/build/yui/yui-min.js'
+  @@yui_js_url = 'http://yui.yahooapis.com/3.9.0/build/yui-base/yui-base-min.js'
+  # @@yui_js_url = 'http://yui.yahooapis.com/3.9.0/build/yui-core/yui-core-min.js'
+
+  # http://yuilibrary.com/yui/docs/api/classes/config.html
+  mattr_accessor :yui_config
+  @@yui_config = {}
+
+
   class << self
     def setup
       yield self
