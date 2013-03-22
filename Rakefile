@@ -21,6 +21,14 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('app/**/*.rb')
 end
 
+desc "Run specs and generate coverage report."
+task :ci do
+  rm_rf "coverage" if File.exists? 'coverage'
+  ENV['RAILS_ENV'] = 'test'
+  ENV['COVERAGE'] ||= 'y'
+  Rake::Task[:spec].invoke
+end
+
 desc 'Dummy test app tasks'
 namespace :dummy do
   desc 'Remove current dummy app'
