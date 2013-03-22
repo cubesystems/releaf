@@ -24,6 +24,7 @@ gem 'tinymce-rails', '>= 3.5.8'
 gem 'tinymce-rails-imageupload'
 gem 'will_paginate', '>= 3.0.4'
 gem 'yui-rails'
+gem 'rails-settings-cached'
 
 group :development, :test, :demo do
   gem 'capybara'
