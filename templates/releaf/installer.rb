@@ -81,7 +81,11 @@ end
 
 GEMFILE
 
-unless dummy
+if dummy
+  if ENV['DUMMY_DATABASE_FILE']
+    run 'cp ' + ENV['DUMMY_DATABASE_FILE'] + ' config/database.yml'
+  end
+else
   @current_recipe = "database"
   mysql_username = ask_wizard("Username for MySQL? (leave blank to use the 'root')", 'root')
   gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
