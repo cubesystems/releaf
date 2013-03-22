@@ -108,6 +108,10 @@ run "rm -f #{files_to_remove.join(' ')}"
 
 if dummy
   run 'rm -f "Gemfile" "public/robots.txt" ".gitignore"'
+
+  # in "test" env "true" cause to fail on install generators
+  gsub_file 'config/environments/test.rb', 'config.cache_classes = true', 'config.cache_classes = false'
+
 else
   # load in RVM environment
   if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
@@ -182,7 +186,10 @@ file 'config/routes.rb', <<-ROUTES
 end
 ROUTES
 
-unless dummy
+if dummy
+  # in "test" env "true" cause to fail on install generators, revert to normall
+  gsub_file 'config/environments/test.rb', 'config.cache_classes = false', 'config.cache_classes = true'
+else
   rake 'db:seed'
   run 'git init .'
   run 'git add .'
