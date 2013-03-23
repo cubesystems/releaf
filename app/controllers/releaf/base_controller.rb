@@ -26,7 +26,7 @@ module Releaf
     def current_feature
       case params[:action].to_sym
       when :index
-        return :intex
+        return :index
       when :new, :create
         return :create
       when :edit, :update
