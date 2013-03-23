@@ -78,6 +78,8 @@
 }
 
 /* type: textarea */
+.create-feature .field.type_textarea,
+.create-feature .field.type_richtext,
 .edit-feature .field.type_textarea,
 .edit-feature .field.type_richtext
 {
@@ -85,6 +87,8 @@
   margin: 0 auto;
 }
 
+.create-feature .field.type_textarea .label_wrap,
+.create-feature .field.type_richtext .label_wrap,
 .edit-feature .field.type_textarea .label_wrap,
 .edit-feature .field.type_richtext .label_wrap
 {
@@ -92,17 +96,20 @@
 	text-align: left;
 	width: auto;
 }
+.create-feature .field.type_textarea .value,
+.create-feature .field.type_richtext .value,
 .edit-feature .field.type_textarea .value,
 .edit-feature .field.type_richtext .value
 {
 	margin-left: 0;
 	padding-left: 0;
 }
+.create-feature .field.type_textarea textarea,
+.create-feature .field.type_richtext textarea,
 .edit-feature .field.type_textarea textarea,
 .edit-feature .field.type_richtext textarea
 {
-    min-width: 650px;
-	<%# width: 100%; %>
+  min-width: 650px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
