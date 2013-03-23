@@ -450,7 +450,7 @@
       <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.</span><span class='regexp_end'>/</span></span>
     <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'>DEFAULT_SCOPE</span>
   <span class='kw'>end</span>
 
@@ -598,7 +598,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Mar  8 14:58:38 2013 by
+  Generated on Sat Mar 23 11:50:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>

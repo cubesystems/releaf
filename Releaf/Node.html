@@ -446,7 +446,6 @@
       <pre class="lines">
 
 
-102
 103
 104
 105
@@ -461,10 +460,11 @@
 114
 115
 116
-117</pre>
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_column_names'>column_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>data</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -503,7 +503,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -542,17 +564,19 @@
 93
 94
 95
-96</pre>
+96
+97</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_get_object_from_path'>get_object_from_path</span> <span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>path must be String or Array</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_parent_node'>parent_node</span> <span class='op'>=</span> <span class='kw'>nil</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>String</span>
-    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:empty?</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>?</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:empty?</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -601,7 +625,6 @@
       <pre class="lines">
 
 
-138
 139
 140
 141
@@ -619,10 +642,11 @@
 153
 154
 155
-156</pre>
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_load_common_fields_schema'>load_common_fields_schema</span>
 
@@ -669,12 +693,12 @@
       <pre class="lines">
 
 
-134
 135
-136</pre>
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_common_field_field_type'>common_field_field_type</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_common_field_options'>common_field_options</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='const'>COMMON_FIELD_NAME_PREFIX</span><span class='embexpr_end'>}</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>field_type</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -699,12 +723,12 @@
       <pre class="lines">
 
 
-130
 131
-132</pre>
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_common_field_names'>common_field_names</span>
   <span class='ivar'>@_common_field_names</span> <span class='op'>||=</span> <span class='id identifier rubyid_common_fields_schema'>common_fields_schema</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>COMMON_FIELD_NAME_PREFIX</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>field_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
@@ -729,12 +753,12 @@
       <pre class="lines">
 
 
-126
 127
-128</pre>
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_common_fields_schema'>common_fields_schema</span>
   <span class='ivar'>@_common_fields_schema</span> <span class='op'>||=</span> <span class='id identifier rubyid_common_fields_schema_for_instance'>common_fields_schema_for_instance</span>
@@ -855,8 +879,8 @@
       <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_controller'>controller</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing content object</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_content_object'>content_object</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
-  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_content_type'>content_type</span><span class='embexpr_end'>}</span><span class='tstring_content'>_controller</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_classify'>classify</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing content object</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_content_type'>content_type</span><span class='period'>.</span><span class='id identifier rubyid_classify'>classify</span><span class='period'>.</span><span class='id identifier rubyid_pluralize'>pluralize</span><span class='embexpr_end'>}</span><span class='tstring_content'>Controller</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -900,15 +924,15 @@
       <pre class="lines">
 
 
-119
 120
 121
 122
 123
-124</pre>
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='id identifier rubyid_method_id'>method_id</span><span class='comma'>,</span> <span class='id identifier rubyid_include_private'>include_private</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='comment'># this is needed for mass asignment (update_attributes) to work with common_fields
@@ -936,12 +960,12 @@
       <pre class="lines">
 
 
-98
 99
-100</pre>
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/node.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_name'>name</span>
@@ -994,7 +1018,7 @@
   <span class='kw'>if</span> <span class='id identifier rubyid_parent_id'>parent_id</span>
     <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_slug'>slug</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_url'>url</span>
@@ -1009,7 +1033,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Mar  8 14:58:38 2013 by
+  Generated on Sat Mar 23 11:50:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>
