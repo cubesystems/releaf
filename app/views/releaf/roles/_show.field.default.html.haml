@@ -1,6 +1,0 @@
-.field.no_label_wrap_padding
-  .label_wrap
-    .label= name.sub(/_(uid|html|id)$/, '').humanize + ':'
-  .value
-    = @resource.send("#{name}?") ? I18n.t("common.true") : I18n.t("common.false")
-  .clear
