@@ -179,10 +179,7 @@ file 'config/routes.rb', <<-ROUTES
   mount_releaf_at '/admin'
 
   namespace :admin do
-    resources :admins, :roles do
-      get   :confirm_destroy, :on => :member
-      match :urls, :on => :collection
-    end
+    releaf_resources :admins, :roles
   end
 
   root :to => 'home#index'
