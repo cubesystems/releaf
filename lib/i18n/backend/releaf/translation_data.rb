@@ -9,9 +9,16 @@ module I18n
 
         validates_presence_of :translation_id, :lang
         validates_uniqueness_of :translation_id, :scope => :lang
+
         belongs_to :translation
 
+        attr_accessible \
+          :lang,
+          :localization,
+          :translation_id
+
         scope :available_locales, where('lang IS NOT NULL').group(:lang).pluck(:lang)
+
         after_commit :reload_cache
 
         def text

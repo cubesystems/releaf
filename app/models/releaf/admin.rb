@@ -14,6 +14,15 @@ module Releaf
 
     image_accessor :avatar
 
+    attr_accessible \
+      :avater,
+      :name,
+      :surname,
+      :role_id,
+      :email,
+      :password,
+      :password_confirmation
+
     scope :filter, lambda {|params|
         fields = []
         values = {}

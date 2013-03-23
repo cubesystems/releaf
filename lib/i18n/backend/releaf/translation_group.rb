@@ -10,6 +10,10 @@ module I18n
         validates_presence_of :scope
 
         has_many :translations, :dependent => :destroy, :foreign_key => :group_id, :order => 'releaf_translations.key'
+
+        attr_accessible \
+          :scope
+
         after_commit :reload_cache
 
         def to_s

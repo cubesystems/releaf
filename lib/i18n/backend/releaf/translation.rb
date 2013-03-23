@@ -9,8 +9,13 @@ module I18n
 
         validates_presence_of :group_id, :key
         validates_uniqueness_of :key, :scope => :group_id
+
         belongs_to :translation_group, :foreign_key => :group_id
         has_many :translation_data, :dependent => :destroy, :class_name => 'Releaf::TranslationData'
+
+        attr_accessible \
+          :group_id,
+          :key
 
         scope :joined, select('releaf_translations.*, releaf_translation_data.lang as "lang", releaf_translation_data.localization as "localization", releaf_translation_groups.scope as "scope"').
           joins(:translation_data, :translation_group)

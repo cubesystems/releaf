@@ -10,11 +10,16 @@ module Releaf
     before_save :update_permissions
     after_save :update_default_role
 
+    attr_accessible \
+      :name,
+      :default,
+      :default_controller
+
     alias_attribute :to_text, :name
 
     ::AdminAbility::PERMISSIONS.each do |perms|
       if perms.is_a? Array
-        # attr_accessible :"#{perms[0]}_permissions"
+        attr_accessible :"#{perms[0]}_permissions"
         define_method :"#{perms[0]}_permissions=" do |p|
           return if p.nil?
           raise ArgumentError, "permission must be one of: #{perms[1].join(', ')}" unless perms[1].include? p.to_s
@@ -33,7 +38,7 @@ module Releaf
         alias_method "#{perms[0]}_permissions?", "#{perms[0]}_permissions"
 
       elsif perms.is_a? String
-        # attr_accessible :"#{perms}_permission"
+        attr_accessible :"#{perms}_permission"
         define_method "#{perms}_permission=" do |p|
           return if p.nil?
 
