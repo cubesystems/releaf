@@ -1,6 +1,5 @@
 module Releaf
   class TinymceAssetsController < BaseController
-    skip_authorization_check :only => [:create]
 
     def create
       asset = TinymceAsset.new
