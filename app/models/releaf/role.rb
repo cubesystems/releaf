@@ -17,42 +17,22 @@ module Releaf
 
     alias_attribute :to_text, :name
 
-    ::AdminAbility::PERMISSIONS.each do |perms|
-      if perms.is_a? Array
-        attr_accessible :"#{perms[0]}_permissions"
-        define_method :"#{perms[0]}_permissions=" do |p|
-          return if p.nil?
-          raise ArgumentError, "permission must be one of: #{perms[1].join(', ')}" unless perms[1].include? p.to_s
-          self.instance_variable_set "@#{perms[0]}_permissions", p.to_s
-        end
+    Releaf.available_admin_controllers.each do |controller_name|
+      perms = controller_name.gsub("/", "_")
+      attr_accessible :"#{perms}_permission"
+      define_method "#{perms}_permission=" do |p|
+        return if p.nil?
 
-        define_method "#{perms[0]}_permissions" do
-          iv = self.instance_variable_get "@#{perms[0]}_permissions"
-          return iv unless iv.nil?
-          perms[1].each do |perm|
-            xperm = [perms[0], perm].join('__')
-            return perm if permissions.include? xperm
-          end
-          return perms[1].first
-        end
-        alias_method "#{perms[0]}_permissions?", "#{perms[0]}_permissions"
-
-      elsif perms.is_a? String
-        attr_accessible :"#{perms}_permission"
-        define_method "#{perms}_permission=" do |p|
-          return if p.nil?
-
-          raise ArgumentError, "permission must be one of: true, false, '0', '1'" unless [true, false, '0', '1'].include? p
-          self.instance_variable_set "@#{perms}_permission", (p == true || p == '1')
-        end
-
-        define_method "#{perms}_permission" do
-          iv = self.instance_variable_get "@#{perms}_permission"
-          return (iv == '1' || iv == true) unless iv.nil?
-          permissions.include? perms
-        end
-        alias_method "#{perms}_permission?", "#{perms}_permission"
+        raise ArgumentError, "permission must be one of: true, false, '0', '1'" unless [true, false, '0', '1'].include? p
+        self.instance_variable_set "@#{perms}_permission", (p == true || p == '1')
       end
+
+      define_method "#{perms}_permission" do
+        iv = self.instance_variable_get "@#{perms}_permission"
+        return (iv == '1' || iv == true) unless iv.nil?
+        permissions.include? perms
+      end
+      alias_method "#{perms}_permission?", "#{perms}_permission"
     end
 
     scope :order_by, lambda { |field=:name| order(field) }
@@ -79,6 +59,20 @@ module Releaf
 
     def self.admin_roles_count
       Role.where('permissions LIKE "%\n- admin\n%"').count
+    end
+
+    def authorize!(controller, action = nil, raise_error = true)
+      if controller.is_a? String
+        controller_name = controller
+      else
+        controller_name = controller.class.to_s.gsub("::", "_").gsub("Controller", "").downcase
+      end
+
+      if send(controller_name + "_permission")
+        return true
+      elsif raise_error
+        raise Releaf::AccessDenied.new(controller_name, action)
+      end
     end
 
     protected
@@ -109,16 +103,13 @@ module Releaf
 
     def update_permissions
       my_permissions = []
-      AdminAbility::PERMISSIONS.each do |perms|
-        p = nil
-        if perms.is_a? Array
-          p = [perms[0], self.send(:"#{perms[0]}_permissions")].join('__')
-          p = nil if p == [perms[0], perms[1].first].join('__')
-        elsif perms.is_a? String
-          p = perms if self.send(:"#{perms}_permission")
-        end
+
+      Releaf.available_admin_controllers.each do |controller_name|
+        perms = controller_name.gsub("/", "_")
+        p = perms if self.send(:"#{perms}_permission")
         my_permissions.push p if p.blank? == false
       end
+
       self.permissions = my_permissions
     end
 

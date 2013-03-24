@@ -15,7 +15,6 @@ module Releaf
     end
 
     def index
-      authorize! :manage, I18n::Backend::Releaf::Translation
       @resources = @object_class = I18n::Backend::Releaf::Translation.includes(:translation_data).filter(:search => params[:search])
       if !params[:ajax].blank?
         render :layout => false
@@ -23,12 +22,10 @@ module Releaf
     end
 
     def edit
-      authorize! :manage, I18n::Backend::Releaf::Translation
       @resource = resource_class.find(params[:id])
     end
 
     def create
-      authorize! :manage, I18n::Backend::Releaf::Translation
       @resource = resource_class.new(resource_params)
 
       respond_to do |format|
@@ -43,7 +40,6 @@ module Releaf
     end
 
     def update
-      authorize! :manage, I18n::Backend::Releaf::Translation
       @resource = resource_class.find(params[:id])
 
       unless params[:translations].blank?

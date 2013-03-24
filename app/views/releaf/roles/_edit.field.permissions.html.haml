@@ -1,5 +1,3 @@
-- AdminAbility::PERMISSIONS.each do |permissions|
-  - if permissions.is_a? String
-    = render 'edit.field_type_boolean', :name => "#{permissions}_permission", :f => f
-  - elsif permissions.is_a? Array
-    = render 'edit.field_type_item', :name => "#{permissions[0]}_permissions", :select_options => permissions[1], :f => f
+- Releaf.available_admin_controllers.each do |controller_name|
+  - permission = controller_name.gsub('/', '_')
+  = render 'edit.field_type_boolean', :name => "#{permission}_permission", :f => f

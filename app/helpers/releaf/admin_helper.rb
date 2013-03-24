@@ -11,6 +11,32 @@ module Releaf
       end
     end
 
+    def main_menu
+      items = []
+
+      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+
+      Releaf.main_menu.each do |menu_item|
+        if menu_item.start_with?('*')
+          is_any_controller_available = false
+          Releaf.base_menu[menu_item].each do |menu_group|
+            menu_group[1].each do |submenu_item|
+              if !is_any_controller_available
+                if user.role.authorize!(submenu_item.gsub('/', '_'), nil, false)
+                  is_any_controller_available = true
+                  items << menu_item
+                end
+              end
+            end
+          end
+        elsif user.role.authorize!(menu_item.gsub('/', '_'), nil, false)
+          items << menu_item
+        end
+      end
+
+      return items
+    end
+
     def main_menu_item_url releaf_main_menu_item, options={}
       # TODO implement options
       _check_if_this_is_valid_releaf_main_menu_item releaf_main_menu_item
@@ -18,12 +44,14 @@ module Releaf
       unless releaf_main_menu_item.start_with?('*')
         return url_for(:controller => _menu_item_controller_name(releaf_main_menu_item), :action => _menu_item_action_name(releaf_main_menu_item))
       else
-        submenu_items = Releaf.base_menu[releaf_main_menu_item]
-
-        # TODO find first item in submenu_items list, that current admin can access
-        first_accessible_item = submenu_items[0][1][0] # currently will find first
-
-        return url_for(:controller => _menu_item_controller_name(first_accessible_item), :action => _menu_item_action_name(first_accessible_item))
+        user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+        Releaf.base_menu[releaf_main_menu_item].each do |menu_group|
+          menu_group[1].each do |submenu_item|
+            if user.role.authorize!(submenu_item.gsub('/', '_'), nil, false)
+              return url_for(:controller => _menu_item_controller_name(submenu_item), :action => _menu_item_action_name(submenu_item))
+            end
+          end
+        end
       end
     end
 

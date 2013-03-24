@@ -9,7 +9,6 @@ gemspec
 gem "rack-cache", :require => "rack/cache"
 gem 'acts_as_list'
 gem 'awesome_nested_set'
-gem 'cancan', '>= 1.6.8'
 gem 'devise', '>= 2.1.0'
 gem 'dragonfly', '>= 0.9.12'
 gem 'globalize3'
