@@ -16,6 +16,7 @@ module Releaf
       :resource_to_text_method
 
     before_filter do
+      authorize!
       filter_templates
       set_locale
       setup
@@ -38,10 +39,13 @@ module Releaf
       end
     end
 
+    def authorize!(action = nil)
+      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+      user.role.authorize!(self, action)
+    end
+
 
     def autocomplete
-      authorize! :edit, resource_class
-
       c_obj = resource_class
 
       if params[:query_field] and params[:q] and params[:field] #and params[:field] =~ /_id\z/ and c_obj.column_names.include?(params[:field]) and c_obj.respond_to?(:reflect_on_association) and c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym)
@@ -93,7 +97,6 @@ module Releaf
     end
 
     def index
-      authorize! :list, resource_class
       if resource_class.respond_to? :filter
         @resources = resource_class.filter(:search => params[:search])
       else
@@ -124,25 +127,21 @@ module Releaf
     end
 
     def new
-      authorize! :create, resource_class
       raise FeatureDisabled unless @features[:create]
       @resource = resource_class.new
     end
 
     def show
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
-      authorize! :show, @resource
       raise FeatureDisabled unless @features[:show]
     end
 
     def edit
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
-      authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
     end
 
     def create
-      authorize! :create, resource_class
       raise FeatureDisabled unless @features[:create]
 
       @resource = resource_class.new
@@ -160,7 +159,6 @@ module Releaf
 
     def update
       @resource = resource_class.find(params[:id])
-      authorize! :edit, @resource
       raise FeatureDisabled unless @features[:edit]
 
       respond_to do |format|
@@ -174,13 +172,11 @@ module Releaf
 
     def confirm_destroy
       @resource = resource_class.find(params[:id])
-      authorize! :destroy, @resource
       raise FeatureDisabled unless @features[:destroy]
     end
 
     def destroy
       @resource = resource_class.find(params[:id])
-      authorize! :destroy, @resource
       raise FeatureDisabled unless @features[:destroy]
       @resource.destroy
 
@@ -281,6 +277,9 @@ module Releaf
       # particular controller to return structure needed to render alt menu
       return {} if Releaf.main_menu.include? menu_item_name
 
+      # preload current user
+      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+
       # if this item was not found in main menu, then we need to find it in one
       # of alt menus. This way we'll know which alt menu to render.
       base_menus = Releaf.main_menu.reject { |item| item[0] != '*' }
@@ -292,10 +291,17 @@ module Releaf
 
           base_menu.each do |section|
             section_name = section[0].to_sym
-            build_menu[:menu][section_name] = []
+            section_items = []
             section[1].each do |item|
-              build_menu[:menu][section_name].push({:controller => item.split(/#/, 2).first})
+              if user.role.authorize!(item.gsub('/', '_'), nil, false)
+                section_items.push({:controller => item.split(/#/, 2).first})
+              end
             end
+
+            unless section_items.empty?
+              build_menu[:menu][section_name] = section_items
+            end
+
           end
 
           return build_menu

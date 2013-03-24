@@ -1,11 +1,6 @@
-- AdminAbility::PERMISSIONS.each do |permissions|
-  - if permissions.is_a? String
-    .field.no_label_wrap_padding
-      .label_wrap
-        .label Manage #{permissions}:
-      .value_wrap= @resource.send(:"#{permissions}_permission")
-  - elsif permissions.is_a? Array
-    .field.no_label_wrap_padding
-      .label_wrap
-        .label #{permissions[0]} permissions:
-      .value_wrap= @resource.send(:"#{permissions[0]}_permissions")
+- Releaf.available_admin_controllers.each do |controller_name|
+  - permission = controller_name.gsub('/', '_')
+  .field.no_label_wrap_padding
+    .label_wrap
+      .label Manage #{permission}:
+    .value_wrap= @resource.send(:"#{permission}_permission")

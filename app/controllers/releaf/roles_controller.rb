@@ -22,15 +22,12 @@ module Releaf
       return [] unless %w[update create].include? params[:action]
 
       fields = ['name', 'default', 'default_controller']
-      AdminAbility::PERMISSIONS.each do |permission|
-        if permission.is_a? String
-          fields.push "#{permission}_permission"
-        elsif permission.is_a? Array
-          fields.push "#{permission[0]}_permissions"
-        else
-          raise RuntimeError, 'invalid permissions'
-        end
+
+      Releaf.available_admin_controllers.each do |controller_name|
+        permission = controller_name.gsub("/", "_")
+        fields.push "#{permission}_permission"
       end
+
       return fields
     end
 

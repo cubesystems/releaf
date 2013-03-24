@@ -21,7 +21,6 @@ module Releaf
     end
 
     def index
-      authorize! :index, Node
       respond_to do |format|
         format.html
       end
@@ -29,7 +28,6 @@ module Releaf
 
     def create
       content_type = _node_params[:content_type].constantize
-      authorize! :create, content_type
       @resource = resource_class.new(_node_params)
 
       respond_to do |format|
@@ -67,7 +65,6 @@ module Releaf
 
     def update
       @resource = resource_class.find(params[:id])
-      authorize! :edit, @resource
 
       form_extras
       @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
@@ -85,7 +82,6 @@ module Releaf
     end
 
     def new
-      authorize! :create, resource_class
       unless params[:ajax] == '1'
         super
         @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
@@ -121,7 +117,6 @@ module Releaf
       Rails.application.eager_load!
       raise ArgumentError unless content_type_class_names.include? params[:content_type]
       @node = resource_class.find(params[:id])
-      authorize! :edit, @resource
 
       @resource = params[:content_type].constantize.new
 
