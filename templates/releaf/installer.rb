@@ -43,7 +43,6 @@ gem 'strong_parameters'
 gem 'tinymce-rails', '~> 3.5.8'
 gem 'tinymce-rails-imageupload'
 gem 'will_paginate', '~> 3.0.4'
-gem 'yui-rails', :git => 'https://github.com/ConnectCubed-Open/yui-rails'
 
 gem "unicorn"
 
