@@ -29,7 +29,7 @@
               = image_tag("releaf/logout.png")
             %span.name_wrap= t("logout")
         %ul
-          - main_menu.each do |item|
+          - admin_main_menu.each do |item|
             %li><
               %a{:href => main_menu_item_url(item), :class => is_this_main_menu_item_active?(item) ? :active : nil}
                 %span.image_container

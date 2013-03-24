@@ -11,7 +11,7 @@ module Releaf
       end
     end
 
-    def main_menu
+    def admin_main_menu
       items = []
 
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
