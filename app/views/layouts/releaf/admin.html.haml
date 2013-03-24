@@ -16,6 +16,10 @@
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{controller_asset}.#{ext}")
         = stylesheet_link_tag "controllers/#{controller_asset}"
 
+    - unless Releaf.yui_config.blank?
+      :javascript
+        YUI_config = #{Releaf.yui_config.to_json}
+
   %body.yui3-skin-sam
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
       .main_menu
@@ -49,6 +53,7 @@
       #preload
         .loading_icon
 
+    %script{:type => 'text/javascript', :src => Releaf.yui_js_url}
     = javascript_include_tag "releaf/application"
     - %w[js js.erb].each do |ext|
       - if File.exists?(_assets_path + "/javascripts/releaf/controllers/#{controller_asset}.#{ext}")
