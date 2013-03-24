@@ -172,6 +172,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#authorize%21-instance_method" title="#authorize! (instance method)">- (Object) <strong>authorize!</strong>(controller, action = nil, raise_error = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#default-instance_method" title="#default (instance method)">- (Object) <strong>default</strong> </a>
     
 
@@ -304,12 +326,12 @@
       <pre class="lines">
 
 
-75
-76
-77</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_admin_roles_count'>admin_roles_count</span>
   <span class='const'>Role</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>permissions LIKE &quot;%\n- admin\n%&quot;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span>
@@ -334,12 +356,12 @@
       <pre class="lines">
 
 
-55
-56
-57</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default'>default</span>
   <span class='const'>Role</span><span class='period'>.</span><span class='id identifier rubyid_find_by_default'>find_by_default</span><span class='lparen'>(</span><span class='kw'>true</span><span class='rparen'>)</span>
@@ -356,7 +378,57 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="default-instance_method">
+  <h3 class="signature first" id="authorize!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>authorize!</strong>(controller, action = nil, raise_error = true) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
+    <span class='id identifier rubyid_controller_name'>controller_name</span> <span class='op'>=</span> <span class='id identifier rubyid_controller'>controller</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_controller_name'>controller_name</span> <span class='op'>=</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>::</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Controller</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_controller_name'>controller_name</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_permission</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Releaf</span><span class='op'>::</span><span class='const'>AccessDenied</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_controller_name'>controller_name</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="default-instance_method">
   
     - (<tt>Object</tt>) <strong>default</strong> 
   
@@ -370,13 +442,13 @@
       <pre class="lines">
 
 
-59
-60
-61
-62</pre>
+44
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
   <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@set_default</span>
@@ -402,13 +474,13 @@
       <pre class="lines">
 
 
-64
-65
-66
-67</pre>
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default='>default=</span><span class='lparen'>(</span><span class='id identifier rubyid_is_default'>is_default</span><span class='op'>=</span><span class='kw'>true</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_is_default'>is_default</span> <span class='op'>==</span> <span class='kw'>true</span> <span class='kw'>or</span> <span class='id identifier rubyid_is_default'>is_default</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
@@ -434,14 +506,14 @@
       <pre class="lines">
 
 
-69
-70
-71
-72
-73</pre>
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_destroy'>destroy</span>
   <span class='kw'>if</span> <span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default?'>default?</span> <span class='op'>==</span> <span class='kw'>false</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='op'>!</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_permissions'>permissions</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_permissions'>permissions</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>admin</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>Role</span><span class='period'>.</span><span class='id identifier rubyid_admin_roles_count'>admin_roles_count</span> <span class='op'>&gt;</span> <span class='int'>1</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -468,14 +540,14 @@
       <pre class="lines">
 
 
+80
 81
 82
 83
-84
-85</pre>
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_permissions'>permissions</span>
   <span class='id identifier rubyid_perm'>perm</span> <span class='op'>=</span> <span class='id identifier rubyid_read_attribute'>read_attribute</span> <span class='symbol'>:permissions</span>
@@ -524,15 +596,15 @@
       <pre class="lines">
 
 
+86
 87
 88
 89
 90
-91
-92</pre>
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_permissions='>permissions=</span><span class='lparen'>(</span><span class='id identifier rubyid_perm'>perm</span><span class='op'>=</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_perm'>perm</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -550,7 +622,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Mar 23 11:50:50 2013 by
+  Generated on Sun Mar 24 15:56:59 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>
