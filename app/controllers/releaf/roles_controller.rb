@@ -5,6 +5,14 @@ module Releaf
       Releaf::Role
     end
 
+    def edit
+      super
+      @available_admin_controllers = {}
+      Releaf.available_admin_controllers.each do |controller|
+        @available_admin_controllers[controller] = controller.gsub('/', '_')
+      end
+    end
+
     def fields_to_display
       case params[:action].to_sym
       when :index
@@ -30,6 +38,7 @@ module Releaf
 
       return fields
     end
+
 
   end
 end

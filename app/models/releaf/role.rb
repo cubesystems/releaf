@@ -65,7 +65,7 @@ module Releaf
       if controller.is_a? String
         controller_name = controller
       else
-        controller_name = controller.class.to_s.gsub("::", "_").gsub("Controller", "").downcase
+        controller_name = controller.class.to_s.gsub("::", "").gsub("Controller", "").gsub!(/(.)([A-Z])/,'\1_\2').downcase
       end
 
       if send(controller_name + "_permission")

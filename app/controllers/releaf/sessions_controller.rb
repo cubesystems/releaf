@@ -6,12 +6,12 @@ module Releaf
       controller_name = resource.role.default_controller
 
       if controller_name
-        if controller_name == 'content'
+        if controller_name == 'releaf_content'
           default_path = releaf_nodes_path
-        elsif controller_name == 'translations'
+        elsif controller_name == 'releaf_translations'
           default_path = releaf_translation_groups_path
         else
-          default_path = send("admin_#{controller_name}_path")
+          default_path = send("#{controller_name}_path")
         end
       else
         default_path = releaf_nodes_path
