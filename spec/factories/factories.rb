@@ -13,7 +13,10 @@ FactoryGirl.define do
     sequence(:name) {|n| "role #{n}"}
 
     trait :admin do
-      admin_permission true
+      releaf_content_permission true
+      releaf_translations_permission true
+      releaf_admins_permission true
+      releaf_roles_permission true
     end
 
     trait :default do
