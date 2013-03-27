@@ -52,12 +52,10 @@ module Releaf
       url
     end
 
-    ##
-    # Return node content object public controller
-
+    # returns node content object public controller
     def controller
       raise "Missing content object" if content_type.blank?
-      return "#{content_type.classify.pluralize}Controller".constantize
+      return content_type.constantize.controller
     end
 
     def self.get_object_from_path path, params = {}

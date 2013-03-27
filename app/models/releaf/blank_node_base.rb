@@ -13,6 +13,11 @@ module Releaf
       "Releaf::BlankNodeBase"
     end
 
+    # returns public controller
+    def self.controller
+      "#{self.name.pluralize}Controller".constantize
+    end
+
     private
 
     def self._node_classes(klass)
