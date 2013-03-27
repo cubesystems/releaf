@@ -5,8 +5,8 @@
     %button.no_styling.generate_slug{:type => 'button', :'data-new_slug_url' => generate_url_releaf_nodes_path(:parent_id => f.object.parent_id, :id => f.object.id), :title => t('.suggest_slug', :rescue_format => false)}><
       = image_tag('releaf/icons/keyboard.png', :alt => t('.suggest_slug', :rescue_format => false))
   .object_url><
-    %a{:href => "/#{f.object.url}"}
-      = "#{request.protocol}#{request.host_with_port}/#{f.object.parent.try(:url)}/"
+    %a{:href => "#{f.object.url}"}
+      = "#{request.protocol}#{request.host_with_port}#{f.object.parent.try(:url)}/"
       %span><= f.object.slug
       = "/"
   .clear
