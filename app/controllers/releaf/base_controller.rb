@@ -428,6 +428,52 @@ module Releaf
       when :time
         field_type = 'time'
 
+      else # virtual attributes
+        case attribute_name.to_s
+        when /(thumbnail|image|photo|picture|avatar|logo|banner|icon)_uid$/
+          field_type = 'image'
+
+        when /_id$/
+          if obj_class.reflect_on_association( attribute_name[0..-4].to_sym )
+            field_type = 'item'
+          else
+            field_type = 'text'
+          end
+
+        when /_uid$/
+          field_type = 'file'
+
+        when /password/, 'pin'
+          field_type = 'password'
+
+        when /_email$/, 'email'
+          field_type = 'email'
+
+        when /_link$/, 'link'
+          field_type = 'link'
+
+        when /_(url|homepage)$/, 'homepage', 'url'
+          field_type = 'url'
+
+        when /_link$/, 'url'
+          field_type = 'link_or_url'
+
+        when /_html$/, 'html'
+          field_type = 'richtext'
+
+        when /_date$/, 'date', /_on$/
+          field_type = 'date'
+
+        when /_time$/, 'time'
+          field_type = 'time'
+
+        when /_at$/
+          field_type = 'datetime'
+
+        else
+          field_type = 'text'
+        end
+
       end
 
       return [field_type || 'text', use_i18n]
