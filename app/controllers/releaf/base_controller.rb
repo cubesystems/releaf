@@ -365,11 +365,11 @@ module Releaf
         use_i18n = obj_class.translates.include?(attribute_name.to_sym)
       end
 
-      column_type = :string
+      column_type = :VIRTUAL
       if attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
         column_type = obj.common_field_field_type(attribute_name)
       else
-        column_type = obj_class.columns_hash[attribute_name.to_s].try(:type) || :string
+        column_type = obj_class.columns_hash[attribute_name.to_s].try(:type) || :VIRTUAL
       end
 
       case column_type.to_sym
@@ -457,6 +457,9 @@ module Releaf
 
         when /_link$/, 'url'
           field_type = 'link_or_url'
+
+        when /_text$/, /_description$/, 'text', 'description'
+          field_type = 'textarea'
 
         when /_html$/, 'html'
           field_type = 'richtext'
