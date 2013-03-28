@@ -34,6 +34,7 @@ admins = {
     surname: 'User',
     password: 'password',
     password_confirmation: 'password',
+    locale: "en",
     email: 'admin@example.com',
     role_id: roles[:admins][:id],
   },
@@ -42,6 +43,7 @@ admins = {
     surname: 'User',
     password: 'LetMeIn',
     password_confirmation: 'LetMeIn',
+    locale: "en",
     email: 'user@example.com',
     role_id: roles[:default][:id]
   }
@@ -56,6 +58,7 @@ end
 
 puts "Creating settings"
 Settings.i18n_locales  = %w[en]
+Settings.i18n_admin_locales  = %w[en]
 Settings.email_from = "do_not_reply@example.com"
 
 # }}}

@@ -5,6 +5,7 @@ FactoryGirl.define do
     email
     name                  'admin'
     surname               'admin'
+    locale                'en'
     password              'password'
     password_confirmation 'password'
   end
