@@ -1,5 +1,12 @@
 module Releaf
   class TranslationsController < BaseController
+    helper_method :locales
+
+    def locales
+      valid_locales = Settings.i18n_locales || []
+      valid_locales += Settings.i18n_admin_locales || []
+      valid_locales.uniq
+    end
 
     def resource_class
       @object_class
@@ -11,7 +18,7 @@ module Releaf
     end
 
     def columns( view = nil )
-      return super + (Settings.i18n_locales || [])
+      return super + (locales || [])
     end
 
     def index
@@ -92,7 +99,7 @@ module Releaf
         ids_to_keep.push  id
 
 
-        (Settings.i18n_locales || []).each do |locale|
+        (locales || []).each do |locale|
           translation_data = I18n::Backend::Releaf::TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
           unless t['localization'][locale].blank?
             translation_data.localization = t['localization'][locale]

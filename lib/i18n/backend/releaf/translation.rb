@@ -33,7 +33,11 @@ module I18n
 
         def locales
           values = {}
-          Settings.i18n_locales.each do |locale|
+
+          valid_locales = Settings.i18n_locales || []
+          valid_locales += Settings.i18n_admin_locales || []
+
+          valid_locales.uniq.each do |locale|
             values[locale] = nil
           end
 

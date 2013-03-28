@@ -13,7 +13,7 @@
       %thead
         %tr
           %th.code_header Nosaukums
-          - Settings.i18n_locales.each do |locale|
+          - locales.each do |locale|
             %th.language_header{"data-locale" => locale}
               %span.name= locale
           %th.delete_header  
@@ -24,7 +24,7 @@
               .wrap
                 %input{:type=>"hidden", :name=>"translations[#{translation.id}][id]",  :value=>"#{translation.id}"}/
                 %input{:type=>"text",   :name=>"translations[#{translation.id}][key]", :value=>"#{translation.plain_key}"}/
-            - Settings.i18n_locales.each do |locale|
+            - locales.each do |locale|
 
               %td.translationCell{"data-locale" => locale}
                 .wrap
@@ -38,7 +38,7 @@
           %td.translation_name.codeColumn
             .wrap
               %input{:type=>"text",   :name=>"translations[_template_][key]", :value=>""}/
-          - Settings.i18n_locales.each do |locale|
+          - locales.each do |locale|
             %td.translationCell{"data-locale" => locale}
               .wrap
                 %input{:type=>"text", :name=>"translations[_template_][localization][#{locale}]", :value=>""}/

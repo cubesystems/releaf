@@ -8,18 +8,16 @@ module Releaf
     # :registerable
     devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
 
-    validates_presence_of :name, :surname, :role_id, :email
+    validates_presence_of :name, :surname, :role_id, :email, :locale
     validates_uniqueness_of :email, :case_sensitive => false
     belongs_to :role
 
-    image_accessor :avatar
-
     attr_accessible \
-      :avater,
       :name,
       :surname,
       :role_id,
       :email,
+      :locale,
       :password,
       :password_confirmation
 

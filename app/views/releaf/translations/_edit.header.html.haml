@@ -3,7 +3,7 @@
     Redzamās valodas
     =image_tag("releaf/expand_tool/close_hover_shim.png", :alt => "")
   %ul.block
-    - Settings.i18n_locales.each do |locale|
+    - locales.each do |locale|
       %li
         %label
 .header
@@ -14,6 +14,6 @@
         %input#context{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @resource.scope}/
     .translations_table.translations_table_head
       .th.code_header{:style => "width: 208px; "}>< Nosaukums
-      - Settings.i18n_locales.each do |locale|
+      - locales.each do |locale|
         .th.language_header.languageId-1.languageCode-lv{"data-languagecode" => locale, "data-languageid" => "1", :style => "width: 300px; "}><
           %span.name= locale

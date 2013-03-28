@@ -3,8 +3,7 @@ class CreateReleafAdmins < ActiveRecord::Migration
     create_table :releaf_admins do |t|
       t.string  :name,                :null => false
       t.string  :surname,             :null => false
-      t.string  :phone
-      t.string  :avatar_uid
+      t.string  :locale
       t.integer :role_id
 
 

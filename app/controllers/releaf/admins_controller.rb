@@ -26,10 +26,6 @@ module Releaf
         unlock_token
       ]
 
-      if params[:action] == 'index'
-        fields -= ['avatar_uid']
-      end
-
       if %w[new create edit update].include? params[:action]
         fields += ['password', 'password_confirmation']
       end
@@ -48,7 +44,7 @@ module Releaf
 
     def resource_params
       return [] unless %w[create update].include? params[:action]
-      %w[name surname role_id email password password_confirmation phone avatar retained_avatar]
+      %w[name surname role_id email password password_confirmation locale]
     end
 
   end

@@ -18,7 +18,6 @@ module Releaf
     before_filter do
       authorize!
       filter_templates
-      set_locale
       setup
     end
 
@@ -585,18 +584,6 @@ module Releaf
       return nil if params[:order_by].blank?
       return nil unless resource_class.column_names.include?(params[:order_by].sub(/-reverse$/, ''))
       return resource_class.table_name + '.' + params[:order_by].sub(/-reverse$/, ' DESC')
-    end
-
-    def set_locale
-      I18n.locale = if params[:locale] && Settings.i18n_locales.include?(params[:locale])
-        params[:locale]
-      elsif cookies[:locale] && Settings.i18n_locales.include?(cookies[:locale])
-        cookies[:locale]
-      else
-        I18n.default_locale
-      end
-
-      Releaf::Globalize3::Fallbacks.set
     end
 
     def filter_templates
