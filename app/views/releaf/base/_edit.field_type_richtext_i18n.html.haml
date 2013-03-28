@@ -13,12 +13,7 @@
           - unless translation.new_record?
             = ff.hidden_field :id
           = ff.hidden_field :locale
-
-          - if is_default_locale
-            = f.hidden_field name, :class => :sync_field
-            = ff.text_area name, :rows => 5, :cols => 75, :class => "richtext sync_field"
-          - else
-            = ff.text_area name, :rows => 5, :cols => 75, :class => "richtext"
+          = ff.text_area name, :rows => 5, :cols => 75, :class => "richtext"
         .clear
 
   .localization_buttons
