@@ -9,8 +9,9 @@ module Releaf
 
         valid_locales = Settings.i18n_locales || []
 
-        (valid_locales + [I18n.default_locale, I18n.locale]).uniq.each do |locale|
-          i18n_fallbacks[locale] = valid_locales - [locale]
+        (valid_locales + [I18n.default_locale.to_s, I18n.locale.to_s]).uniq.each do |locale|
+          #  "locale" must be first in list
+          i18n_fallbacks[locale] = [locale] + (valid_locales - [locale])
         end
         Globalize.fallbacks = i18n_fallbacks
       end
