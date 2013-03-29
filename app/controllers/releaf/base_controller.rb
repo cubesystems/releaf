@@ -40,7 +40,7 @@ module Releaf
 
     def authorize!(action = nil)
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
-      user.role.authorize!(self, action)
+      raise Releaf::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
     end
 
 

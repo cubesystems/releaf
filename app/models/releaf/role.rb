@@ -61,18 +61,14 @@ module Releaf
       Role.where('permissions LIKE "%\n- admin\n%"').count
     end
 
-    def authorize!(controller, action = nil, raise_error = true)
+    def authorize!(controller, action = nil)
       if controller.is_a? String
         controller_name = controller
       else
         controller_name = controller.class.to_s.gsub("::", "").gsub("Controller", "").gsub!(/(.)([A-Z])/,'\1_\2').downcase
       end
 
-      if send(controller_name + "_permission")
-        return true
-      elsif raise_error
-        raise Releaf::AccessDenied.new(controller_name, action)
-      end
+      return send(controller_name + "_permission")
     end
 
     protected

@@ -22,14 +22,14 @@ module Releaf
           Releaf.base_menu[menu_item].each do |menu_group|
             menu_group[1].each do |submenu_item|
               if !is_any_controller_available
-                if user.role.authorize!(submenu_item.gsub('/', '_'), nil, false)
+                if user.role.authorize!(submenu_item.gsub('/', '_'))
                   is_any_controller_available = true
                   items << menu_item
                 end
               end
             end
           end
-        elsif user.role.authorize!(menu_item.gsub('/', '_'), nil, false)
+        elsif user.role.authorize!(menu_item.gsub('/', '_'))
           items << menu_item
         end
       end
@@ -47,7 +47,7 @@ module Releaf
         user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
         Releaf.base_menu[releaf_main_menu_item].each do |menu_group|
           menu_group[1].each do |submenu_item|
-            if user.role.authorize!(submenu_item.gsub('/', '_'), nil, false)
+            if user.role.authorize!(submenu_item.gsub('/', '_'))
               return url_for(:controller => _menu_item_controller_name(submenu_item), :action => _menu_item_action_name(submenu_item))
             end
           end
