@@ -292,7 +292,7 @@ module Releaf
             section_name = section[0].to_sym
             section_items = []
             section[1].each do |item|
-              if user.role.authorize!(item.gsub('/', '_'), nil, false)
+              if user.role.authorize!(item.gsub('/', '_'))
                 section_items.push({:controller => item.split(/#/, 2).first})
               end
             end
