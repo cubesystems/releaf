@@ -20,8 +20,9 @@ FactoryGirl.define do
       releaf_roles_permission true
     end
 
-    trait :default do
+    trait :content_only do
       default true
+      releaf_content_permission true
     end
   end
 
