@@ -14,6 +14,7 @@ FactoryGirl.define do
     sequence(:name) {|n| "role #{n}"}
 
     trait :admin do
+      default_controller "releaf_admins"
       releaf_content_permission true
       releaf_translations_permission true
       releaf_admins_permission true
@@ -22,6 +23,7 @@ FactoryGirl.define do
 
     trait :content_only do
       default true
+      default_controller "releaf_content"
       releaf_content_permission true
     end
   end

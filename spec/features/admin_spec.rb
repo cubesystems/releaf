@@ -6,12 +6,63 @@ describe "home page" do
     @admin_role = create(:role, :admin)
     @admin = build(:admin)
     @admin.role_id = @admin_role.id
+    @admin.email = "admin@example.com"
     @admin.save
 
     @simple_user_role = create(:role, :content_only)
     @simple_user = build(:admin)
     @simple_user.role_id = @simple_user_role.id
+    @simple_user.email = "simple@example.com"
     @simple_user.save
+  end
+
+  describe "admin users CRUD" do
+    before do
+      visit "/admin"
+      within("form.login_form") do
+        fill_in 'Email',    :with => @admin.email
+        fill_in 'Password', :with => @admin.password
+      end
+      click_button 'Sign in'
+    end
+
+    it "new user creation" do
+      click_link '*permissions'
+      click_link 'Releaf/admins'
+      find('.create_new_item').click
+      page.should have_content 'Create new resource'
+      within("form.new_resource") do
+        fill_in 'Name',    :with => "John"
+        fill_in 'Surname', :with => "Appleseed"
+        fill_in 'Email', :with => "john@example.com"
+        fill_in 'Password:', :with => "password"
+        fill_in 'Password confirmation', :with => "password"
+      end
+      click_button 'Save'
+      page.should have_content 'John Appleseed'
+      visit '/admin/admins'
+      page.should have_content 'john@example.com'
+
+      visit '/admin/admins'
+      click_link 'john@example.com'
+      click_link 'Destroy'
+      page.should have_content 'Confirm destroy'
+      click_button 'Yes'
+      page.should_not have_content 'john@example.com'
+    end
+
+    it "user search" do
+      visit '/admin/admins'
+      page.should have_content 'simple@example.com'
+      within("form.search_form") do
+        fill_in 'search',    :with => "admin@example.com"
+      end
+      find('form.search_form button').click
+      page.should_not have_content 'simple@example.com'
+    end
+
+    it "user deletion" do
+    end
   end
 
   describe "login as admin procedure" do
@@ -29,6 +80,9 @@ describe "home page" do
       page.should have_content 'Releaf/content'
       page.should have_content '*permissions'
       page.should have_content 'Releaf/translations'
+      # admin/admins index view
+      page.should have_content 'admin@example.com'
+      page.should have_content 'simple@example.com'
     end
 
     it "logout sequence" do

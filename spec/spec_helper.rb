@@ -24,6 +24,16 @@ RSpec.configure do |config|
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
+
+  config.before(:each) do
+    DatabaseCleaner.start
+    # set settings
+    Settings.i18n_locales  = %w[en]
+    Settings.i18n_admin_locales = %w[en]
+    I18n.locale = Settings.i18n_locales.first
+    I18n.default_locale = Settings.i18n_locales.first
+  end
+
 end
 
 Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each { |f| require f }
