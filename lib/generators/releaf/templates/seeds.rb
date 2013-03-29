@@ -7,16 +7,24 @@ Settings.delete_all
 
 # Role {{{
 
-puts "Creating roles"
+# set max permissions for administrator role
+administrator = {
+  name:     'administrator',
+  default:   true,
+}
+
+Releaf.available_admin_controllers.each do |controller_name|
+  permission = controller_name.gsub("/", "_") + "_permission"
+  administrator[permission] = true
+end
+
+# build all roles list
 roles = {
-  default: {
-    name:     'default role',
-    default:  true
-  },
-  admins: {
-    name:     'admins',
-    default:  false,
-    admin_permission: true
+  administrator: administrator,
+  content_manager: {
+    name:     'content manager',
+    default: false,
+    releaf_content_permission: true
   }
 }
 
@@ -36,16 +44,16 @@ admins = {
     password_confirmation: 'password',
     locale: "en",
     email: 'admin@example.com',
-    role_id: roles[:admins][:id],
+    role_id: roles[:administrator][:id],
   },
-  janis: {
+  content_admin: {
     name: 'Simple',
     surname: 'User',
-    password: 'LetMeIn',
-    password_confirmation: 'LetMeIn',
+    password: 'password',
+    password_confirmation: 'password',
     locale: "en",
     email: 'user@example.com',
-    role_id: roles[:default][:id]
+    role_id: roles[:content_manager][:id]
   }
 }
 
