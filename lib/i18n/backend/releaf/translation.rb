@@ -26,7 +26,8 @@ module I18n
           joined.where('releaf_translation_groups.scope = :scope AND releaf_translation_data.lang = :locale AND releaf_translations.key in (:keys)', :keys => keys, :locale => locale, :scope => scope)
         }
         scope :filter, lambda{ |params|
-          where( 'releaf_translations.key LIKE ?', "%#{params[:search]}%" ) unless params[:search].blank?
+          translations_join = 'LEFT OUTER JOIN `releaf_translation_data` ON `releaf_translations`.`id` = `releaf_translation_data`.`translation_id`'
+          where( '(releaf_translations.key LIKE ? OR releaf_translation_data.localization LIKE ?)', "%#{params[:search]}%", "%#{params[:search]}%" ).joins(translations_join).group('releaf_translations.id') unless params[:search].blank?
         }
 
         after_commit :reload_cache
