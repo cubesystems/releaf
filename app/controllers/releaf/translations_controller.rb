@@ -17,7 +17,7 @@ module Releaf
       super
     end
 
-    def columns( view = nil )
+    def fields_to_display
       return super + (locales || [])
     end
 
