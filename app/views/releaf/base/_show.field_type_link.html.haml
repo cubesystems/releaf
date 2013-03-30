@@ -1,6 +1,6 @@
 .field.no_label_wrap_padding.type_link{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(name.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
+    .label= t(name, :scope => controller.controller_scope_name) + ':'
   .value
     - value = resource.send(name)
     - if value =~ /\A\d+\z/
@@ -8,7 +8,7 @@
       - if target
         = link_to resource_to_text(target), url_for(:action => :show, :id => value)
       - else
-        = I18n.t("Link not found")
+        = t("link_not_found", :scope => "admin.global")
     - else
       = link_to value, value
   .clear

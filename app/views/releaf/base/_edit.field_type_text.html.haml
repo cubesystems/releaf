@@ -1,4 +1,4 @@
 .field.type_text{ 'data-name' => name }
-  .label_wrap><= f.label name, t(name.humanize, :scope => controller.controller_scope_name) + ':'
+  .label_wrap><= f.label name, t(name, :scope => controller.controller_scope_name) + ':'
   .value><= f.text_field name
   .clear

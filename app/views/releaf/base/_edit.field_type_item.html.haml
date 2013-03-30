@@ -26,6 +26,6 @@
   select_params.push Hash[:include_blank, include_blank]
 
 .field.type_item{ 'data-name' => name }
-  .label_wrap><= f.label name, t(name.humanize, :scope => controller.controller_scope_name)+ ':'
+  .label_wrap><= f.label name, t(name.sub(/_id$/, '').to_s, :scope => controller.controller_scope_name)+ ':'
   .value><= f.select *select_params
   .clear

@@ -1,6 +1,6 @@
 .field.no_label_wrap_padding.type_url{:'data-name' => name}
   .label_wrap
-    .label= I18n.t(name.humanize, :scope => "models.#{resource.class.name.underscore}") + ':'
+    .label= t(name, :scope => controller.controller_scope_name) + ':'
   .value
     - value = resource.send(name)
     = link_to value, value
