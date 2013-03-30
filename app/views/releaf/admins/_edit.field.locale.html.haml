@@ -1,4 +1,4 @@
 .field.type_select{ 'data-name' => name }
-  .label_wrap><= f.label name, name.to_s.humanize + ':'
+  .label_wrap><= f.label name, t(name.humanize, :scope => controller.controller_scope_name) + ':'
   .value><= f.select name, Settings.i18n_admin_locales
   .clear

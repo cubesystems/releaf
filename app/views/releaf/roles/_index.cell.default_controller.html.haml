@@ -1,0 +1,9 @@
+:ruby
+  text = resource.send(name)
+  if text.to_s.empty?
+    text = '-'
+  else
+    text = t(text.to_s.sub('_', '/'), :scope => 'admin.menu_items')
+  end
+
+%a.main{ :href => url_for( :action => list_action, :id => resource.id ) }= text

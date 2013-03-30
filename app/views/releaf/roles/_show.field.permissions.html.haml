@@ -3,4 +3,4 @@
   .field.no_label_wrap_padding
     .label_wrap
       .label Manage #{permission}:
-    .value_wrap= @resource.send(:"#{permission}_permission")
+    .value_wrap=  I18n.t(  @resource.send(:"#{permission}_permission") ? "yes" : "no", :scope => 'admin.global')

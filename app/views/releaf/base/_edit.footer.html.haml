@@ -2,13 +2,13 @@
   .block.left_block
     %a.button{:href => "./"}
       = image_tag("releaf/icons/arrow_left.png", :alt => "") \
-      = t('cancel')
+      = t('cancel', :scope => 'admin.global')
   .block.center_block
     %button{:type => "submit"}
       = image_tag("releaf/icons/disk.png", :alt => "") \
-      = t('save')
+      = t('save', :scope => "admin.global")
   .block.right_block
     - if @features[:destroy] && !resource.new_record?
       %a.button{ :href => url_for( :action => 'confirm_destroy', :id => resource.id ) }
         = image_tag('releaf/icons/bin_empty.png', :alt => '')
-        %span= t('destroy')
+        %span= t('destroy', :scope => "admin.global")

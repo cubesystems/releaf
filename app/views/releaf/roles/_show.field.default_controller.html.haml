@@ -1,0 +1,13 @@
+:ruby
+  value = resource.send(name)
+  if value.to_s.empty?
+    value = '-'
+  else
+    value = t(value.to_s.sub('_', '/'), :scope => 'admin.menu_items')
+  end
+.field.no_label_wrap_padding
+  .label_wrap
+    .label= t(name.humanize, :scope => controller.controller_scope_name) + ':'
+  .value
+    = value
+  .clear

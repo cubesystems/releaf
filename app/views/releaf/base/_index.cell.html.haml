@@ -14,6 +14,8 @@
     else
       text = ""
     end
+  elsif text.is_a? TrueClass or text.is_a? FalseClass
+    text = t(text ? 'yes' : 'no', :scope => 'admin.global')
   end
 
 

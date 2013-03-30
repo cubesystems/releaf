@@ -3,16 +3,16 @@
     .block.left_block
       %a.button{ :href => url_for( :action => 'index' ) }
         = image_tag 'releaf/icons/arrow_left.png', :alt => ''
-        %span= t('back')
+        %span= t('back', :scope => 'admin.global')
 
     - if @features[:edit]
       .block.center_block
         %a.button{ :href => url_for( :action => 'edit', :id => resource.id ) }
           = image_tag 'releaf/icons/page_white_edit.png', :alt => ''
-          %span= t('edit')
+          %span= t('edit', :scope => 'admin.global')
 
     - if @features[:destroy]
       .block.right_block
         %a.button{ :href => url_for( :action => 'confirm_destroy', :id => resource.id ) }
           = image_tag('releaf/icons/bin_empty.png', :alt => '')
-          %span= t('destroy')
+          %span= t('destroy', :scope => 'admin.global')

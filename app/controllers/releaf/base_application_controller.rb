@@ -14,6 +14,10 @@ module Releaf
       self.class.name.sub(/Controller$/, '').underscore
     end
 
+    def controller_scope_name
+      'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
+    end
+
     def set_locale
       admin = send("current_" + ReleafDeviseHelper.devise_admin_model_name)
       I18n.locale = admin.locale

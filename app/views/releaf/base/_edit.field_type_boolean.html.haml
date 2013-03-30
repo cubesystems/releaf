@@ -1,5 +1,5 @@
 .field.type_boolean{ 'data-name' => name }
   .value
     = f.check_box name
-    = f.label name, name.to_s.humanize
+    = f.label name, t(name.humanize, :scope => controller.controller_scope_name)
   .clear

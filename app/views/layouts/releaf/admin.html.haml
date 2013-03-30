@@ -27,14 +27,14 @@
           %a{:href => self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), "data-method" => "delete"}
             %span.image_container
               = image_tag("releaf/logout.png")
-            %span.name_wrap= t("logout")
+            %span.name_wrap= t("logout", :scope => 'admin.global')
         %ul
           - admin_main_menu.each do |item|
             %li><
               %a{:href => main_menu_item_url(item), :class => is_this_main_menu_item_active?(item) ? :active : nil}
                 %span.image_container
                   = image_tag("releaf/module.png")
-                %span.name_wrap= t(item, :scope => "admin.main_menu")
+                %span.name_wrap= t(item, :scope => "admin.menu_items")
 
     #body_wrap{:class => "#{current_feature}-feature module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")

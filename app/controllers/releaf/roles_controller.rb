@@ -5,12 +5,13 @@ module Releaf
       Releaf::Role
     end
 
-    def edit
-      super
-      @available_admin_controllers = {}
+    def available_admin_controllers
+      available_admin_controllers = {}
       Releaf.available_admin_controllers.each do |controller|
-        @available_admin_controllers[controller] = controller.gsub('/', '_')
+        available_admin_controllers[t(controller, :scope => 'admin.menu_items')] = controller.gsub('/', '_')
       end
+
+      return available_admin_controllers
     end
 
     def fields_to_display

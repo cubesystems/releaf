@@ -1,6 +1,6 @@
 .field.no_label_wrap_padding
   .label_wrap
-    .label= name.sub(/_(uid|html|id)$/, '').humanize + ':'
+    .label= t(name.humanize, :scope => controller.controller_scope_name) + ':'
   .value
-    = @resource.send("#{name}?") ? I18n.t("common.true") : I18n.t("common.false")
+    = @resource.send("#{name}?") ? I18n.t("yes", :scope => 'admin.global') : I18n.t("no", :scope => 'admin.global')
   .clear
