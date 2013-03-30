@@ -3,4 +3,4 @@
     .releaf_table.no_border
       .nothing_found= t("nothing_found", :scope => "admin.global")
   - else
-    = render "index.table", :resources => resources
+    = render "index.table", :resources => resources, :count => count
