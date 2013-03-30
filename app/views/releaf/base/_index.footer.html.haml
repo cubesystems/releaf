@@ -1,7 +1,15 @@
+:ruby
+  if resources.respond_to? "group_values" and resources.group_values.length == 1
+    count = resources.except(:group).count(:distinct => resources.group_values.first)
+  else
+    count = resources.count
+  end
+
+
 .footer.center
   .padding
     .stats
-      %span.total= resources.count \
+      %span.total= count \
       = t("resources_found", :scope => 'admin.global')
 
     %span.actions
