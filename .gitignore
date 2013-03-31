@@ -7,3 +7,4 @@ spec/dummy
 doc/
 .yardoc/
 coverage/
+rdoc/
