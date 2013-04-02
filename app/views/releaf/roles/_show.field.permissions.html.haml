@@ -2,5 +2,5 @@
   - permission = controller_name.gsub('/', '_')
   .field.no_label_wrap_padding
     .label_wrap
-      .label= t("#{permission}_permission", :scope => controller.controller_scope_name) + ":"
+      .label= t("#{permission}_permission", :scope => controller_scope_name) + ":"
     .value_wrap=  I18n.t(  @resource.send(:"#{permission}_permission") ? "yes" : "no", :scope => 'admin.global')

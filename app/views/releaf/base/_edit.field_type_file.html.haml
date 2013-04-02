@@ -1,7 +1,7 @@
 .field.type_file{ 'data-name' => name }
   - field_name = name.sub(/_uid$/, '')
 
-  .label_wrap><= f.label field_name, t(name, :scope => controller.controller_scope_name) + ':'
+  .label_wrap><= f.label field_name, t(name, :scope => controller_scope_name) + ':'
   .value><
     = f.file_field field_name
     - unless f.object.send(name).blank?

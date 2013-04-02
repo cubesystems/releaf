@@ -8,7 +8,7 @@
   - case reflection.macro
   - when :has_many
     .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller.controller_scope_name)
+      .nested_title= t(field, :scope => controller_scope_name)
       .list
         - resource.send(field).each do |subresource|
           .resource
@@ -16,7 +16,7 @@
 
   - when :belongs_to
     .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller.controller_scope_name)
+      .nested_title= t(field, :scope => controller_scope_name)
       .item
 
         - subitem = resource.send(field)

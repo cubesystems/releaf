@@ -1,7 +1,7 @@
 .field.type_text{ 'data-name' => name }
   - field_name = name.sub(/_uid$/, '')
 
-  .label_wrap><= f.label field_name, t(field_name, :scope => controller.controller_scope_name) + ':'
+  .label_wrap><= f.label field_name, t(field_name, :scope => controller_scope_name) + ':'
   .value><
     = f.file_field field_name, :accept => 'image/png,image/jpeg,image/bmp,image/gif'
     - unless f.object.send(name).blank?

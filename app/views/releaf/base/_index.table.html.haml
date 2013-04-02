@@ -4,7 +4,7 @@
       - valid_order_by_fields = resource_class.column_names
 
       - fields_to_display.each do |name|
-        - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller.controller_scope_name)
+        - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
         %div
           - if valid_order_by_fields.include? name
 

@@ -9,7 +9,7 @@
   - when :has_many
     - sortable_objects = reflection.klass.column_names.include?('position')
     .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller.controller_scope_name)
+      .nested_title= t(field, :scope => controller_scope_name)
       .list{:'data-sortable' => sortable_objects ? '' : nil}
 
         .item.template{:style => 'display:none;'}
@@ -29,7 +29,7 @@
 
   - when :belongs_to
     .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller.controller_scope_name)
+      .nested_title= t(field, :scope => controller_scope_name)
       .item
         = f.fields_for field, f.object.send(field) do |ff|
 

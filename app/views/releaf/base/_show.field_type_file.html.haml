@@ -2,6 +2,6 @@
 
 .field.no_label_wrap_padding.type_file{:'data-name' => name}
   .label_wrap
-    .label= t(m, :scope => controller.controller_scope_name) + ':'
+    .label= t(m, :scope => controller_scope_name) + ':'
   .value= link_to t("download", :scope => "admin.global"), resource.send(m).url
   .clear

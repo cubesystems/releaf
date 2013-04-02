@@ -1,6 +1,6 @@
 .field.no_label_wrap_padding.type_date_time{:'data-name' => name}
   .label_wrap
-    .label= t(name, :scope => controller.controller_scope_name) + ':'
+    .label= t(name, :scope => controller_scope_name) + ':'
   .value
     - value = resource.send(name)
     -# FIXME
