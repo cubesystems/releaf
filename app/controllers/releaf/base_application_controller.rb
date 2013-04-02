@@ -10,6 +10,8 @@ module Releaf
     layout Releaf.layout
     protect_from_forgery
 
+    helper_method :controller_scope_name
+
     def full_controller_name
       self.class.name.sub(/Controller$/, '').underscore
     end
