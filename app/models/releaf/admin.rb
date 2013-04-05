@@ -22,21 +22,24 @@ module Releaf
       :password_confirmation
 
     scope :filter, lambda {|params|
-        fields = []
-        values = {}
+      sql_statement = []
+      sql_query_params = {}
 
-        if !params.empty?
-          if !params[:search].blank?
-            params[:search].strip.split(" ").each_with_index do|word, i|
-              fields << "email LIKE :email#{i}"
-              values["email#{i}".to_sym] = '%' + word + '%'
-            end
+      if !params.empty?
+        if !params[:search].blank?
+          nameQuery = []
+          params[:search].strip.split(" ").each_with_index do|word, i|
+            qquery = ["name LIKE :word#{i}", "surname LIKE :word#{i}", "email LIKE :word#{i}"]
+            nameQuery.push "(" + qquery.join(' OR ') + ")"
+            sql_query_params["word#{i}".to_sym] = '%' + word + '%'
           end
+          sql_statement.push nameQuery.join(' AND ')
         end
+      end
 
-        if !fields.empty?
-          where(fields.join(' AND '), values)
-        end
+      unless sql_statement.blank?
+        where(sql_statement.join(' AND '), sql_query_params)
+      end
     }
 
     def display_name

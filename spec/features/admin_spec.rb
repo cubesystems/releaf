@@ -3,15 +3,11 @@ describe "home page" do
   before do
     module Leaf
     end
-    @admin_role = create(:role, :admin)
     @admin = build(:admin)
-    @admin.role_id = @admin_role.id
     @admin.email = "admin@example.com"
     @admin.save
 
-    @simple_user_role = create(:role, :content_only)
-    @simple_user = build(:admin)
-    @simple_user.role_id = @simple_user_role.id
+    @simple_user = build(:content_admin)
     @simple_user.email = "simple@example.com"
     @simple_user.save
   end

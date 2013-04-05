@@ -33,6 +33,7 @@ group :development, :test, :demo do
   gem 'simplecov', :require => false, :platforms => :mri_19
   gem 'simplecov-rcov'
   gem 'database_cleaner'
+  gem 'shoulda-matchers'
 
   gem 'yard'
   gem 'redcarpet'
