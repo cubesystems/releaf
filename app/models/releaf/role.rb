@@ -17,6 +17,7 @@ module Releaf
 
     alias_attribute :to_text, :name
 
+    # Create *_permission getters, setters and attributes for all available admin controllers
     Releaf.available_admin_controllers.each do |controller_name|
       perms = controller_name.gsub("/", "_")
       attr_accessible :"#{perms}_permission"
@@ -37,30 +38,22 @@ module Releaf
 
     scope :order_by, lambda { |field=:name| order(field) }
 
+    # Return default role
     def self.default
       Role.find_by_default(true)
     end
 
-    def default
-      return true if @set_default
-      self.default?
-    end
-
-    def default=(is_default=true)
-      return unless is_default == true or is_default == '1'
-      @set_default = true
-    end
-
+    # Allow destroying of role if no Releaf::Admin object is using it
     def destroy
-      if (self.default? == false) && (!self.permissions.include?('admin') || (self.permissions.include?('admin') && Role.admin_roles_count > 1))
+      if Releaf::Admin.where(:role_id => id).count == 0
         super
       end
     end
 
-    def self.admin_roles_count
-      Role.where('permissions LIKE "%\n- admin\n%"').count
-    end
-
+    # Return true/false access for given controller and action
+    # @param [Controller, String] controller to check access
+    # @param [Controller, String] action to check access
+    # @return [Boolean] access to controller and action
     def authorize!(controller, action = nil)
       if controller.is_a? String
         controller_name = controller
@@ -73,12 +66,14 @@ module Releaf
 
     protected
 
+    # Parse stored YAML data
     def permissions
       perm = read_attribute :permissions
       return YAML::load(perm) if perm
       return []
     end
 
+    # Store data as YAML
     def permissions=(perm=[])
       raise ArgumentError unless perm.is_a? Array
       new_perm = perm.clone
@@ -88,6 +83,7 @@ module Releaf
 
     private
 
+    # Set all other roles "default" column to 0 and update itself
     def update_default_role
       if @set_default && self.id
         Role.update_all 'releaf_roles.default = false', ['releaf_roles.id <> ?', self.id]
@@ -97,6 +93,7 @@ module Releaf
       end
     end
 
+    # Update permissions for all available admin controllers
     def update_permissions
       my_permissions = []
 
