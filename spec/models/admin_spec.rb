@@ -10,7 +10,7 @@ describe Releaf::Admin do
   it { should have(1).error_on(:locale) }
   it { should have(2).error_on(:email) }
 
-  describe "#display_name" do
+  describe "#uniqueness of email" do
     before do
       @admin = FactoryGirl.create(:admin)
     end
