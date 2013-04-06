@@ -3,7 +3,6 @@ class CreateReleafRoles < ActiveRecord::Migration
     create_table :releaf_roles do |t|
       t.string  :name,        :null => false
       t.text    :permissions
-      t.boolean :default,     :null => false, :default => false
       t.string  :default_controller
 
       t.timestamps

@@ -17,9 +17,9 @@ module Releaf
     def fields_to_display
       case params[:action].to_sym
       when :index
-        %w[name default_controller default]
+        %w[name default_controller]
       when :create, :edit, :new, :update, :show
-        %w[name default default_controller permissions]
+        %w[name default_controller permissions]
       else
         []
       end
@@ -30,7 +30,7 @@ module Releaf
     def resource_params
       return [] unless %w[update create].include? params[:action]
 
-      fields = ['name', 'default', 'default_controller']
+      fields = ['name', 'default_controller']
 
       Releaf.available_admin_controllers.each do |controller_name|
         permission = controller_name.gsub("/", "_")

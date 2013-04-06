@@ -35,9 +35,7 @@ module Releaf
 
     def new
       super
-      if Releaf::Role.default
-        @resource.role = Releaf::Role.default
-      end
+      @resource.role = Releaf::Role.first
     end
 
     protected

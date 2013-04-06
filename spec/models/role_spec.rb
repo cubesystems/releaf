@@ -13,24 +13,6 @@ describe Releaf::Role do
   it { should validate_uniqueness_of(:name) }
   end
 
-  describe "#default role" do
-    before do
-      @admin_role = FactoryGirl.create(:admin_role)
-      @content_role = FactoryGirl.create(:content_role)
-    end
-
-    it "returns default role if no role defined" do
-      @content_role.id.should eq(Releaf::Role.default.id)
-    end
-
-    it "set default role to admin_role" do
-      @admin_role.default = true
-      @admin_role.save
-      @admin_role.id.should eq(Releaf::Role.default.id)
-      @content_role.id.should_not eq(Releaf::Role.default.id)
-    end
-  end
-
   describe "#destroying" do
     before do
       @admin_role = FactoryGirl.create(:admin_role)

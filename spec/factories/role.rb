@@ -11,7 +11,6 @@ FactoryGirl.define do
     end
 
     factory :content_role do
-      default true
       default_controller "releaf_content"
       releaf_content_permission true
     end

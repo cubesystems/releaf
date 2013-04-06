@@ -8,11 +8,9 @@ module Releaf
     has_many :admins
 
     before_save :update_permissions
-    after_save :update_default_role
 
     attr_accessible \
       :name,
-      :default,
       :default_controller
 
     alias_attribute :to_text, :name
@@ -37,11 +35,6 @@ module Releaf
     end
 
     scope :order_by, lambda { |field=:name| order(field) }
-
-    # Return default role
-    def self.default
-      Role.find_by_default(true)
-    end
 
     # Allow destroying of role if no Releaf::Admin object is using it
     def destroy
@@ -82,16 +75,6 @@ module Releaf
     end
 
     private
-
-    # Set all other roles "default" column to 0 and update itself
-    def update_default_role
-      if @set_default && self.id
-        Role.update_all 'releaf_roles.default = false', ['releaf_roles.id <> ?', self.id]
-        Role.update_all 'releaf_roles.default = true', ['releaf_roles.id = ?', self.id]
-        @set_default = false
-        self.reload
-      end
-    end
 
     # Update permissions for all available admin controllers
     def update_permissions

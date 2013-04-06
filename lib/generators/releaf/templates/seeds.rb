@@ -10,7 +10,6 @@ Settings.delete_all
 # set max permissions for administrator role
 administrator = {
   name:     'administrator',
-  default:   true,
 }
 
 Releaf.available_admin_controllers.each do |controller_name|
@@ -23,7 +22,6 @@ roles = {
   administrator: administrator,
   content_manager: {
     name:     'content manager',
-    default: false,
     releaf_content_permission: true
   }
 }

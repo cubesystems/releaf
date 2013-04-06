@@ -26,23 +26,6 @@ describe Releaf::Admin do
     it { should == 'Bill Withers' }
   end
 
-  describe "#default role" do
-    before do
-      @role = FactoryGirl.create(:content_role)
-      @customer = Releaf::Admin.new(
-        :email => 'customer@example.com',
-        :locale => 'en',
-        :password => 'password',
-        :password_confirmation => 'password'
-      )
-    end
-
-    it "returns default role if no role defined" do
-      @customer.role.id.should eq(Releaf::Role.default.id)
-    end
-
-  end
-
   describe "#filter scope" do
     before do
       @admin = FactoryGirl.create(:admin)
