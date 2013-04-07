@@ -14,7 +14,7 @@ describe Releaf::Admin do
     before do
       @admin = FactoryGirl.create(:admin)
     end
-  it { should validate_uniqueness_of(:email) }
+    it { should validate_uniqueness_of(:email) }
   end
 
   describe "#display_name" do

@@ -10,7 +10,7 @@ describe Releaf::Role do
     before do
       @role = FactoryGirl.create(:admin_role)
     end
-  it { should validate_uniqueness_of(:name) }
+    it { should validate_uniqueness_of(:name) }
   end
 
   describe "#destroying" do
