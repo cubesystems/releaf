@@ -6,14 +6,14 @@ describe Releaf::Role do
 
   it { should have(1).error_on(:name) }
 
-  describe "#uniqueness of name" do
+  describe "uniqueness of name" do
     before do
       @role = FactoryGirl.create(:admin_role)
     end
     it { should validate_uniqueness_of(:name) }
   end
 
-  describe "#destroying" do
+  describe "#destroy" do
     before do
       @admin_role = FactoryGirl.create(:admin_role)
       @content_role = FactoryGirl.create(:content_role)
@@ -22,29 +22,37 @@ describe Releaf::Role do
       @admin.save
     end
 
-    it "destroying of unused role" do
-      expect { @content_role.destroy }.to change { Releaf::Role.count }.by(-1)
+    context "when role is not used" do
+      it "destroys it" do
+        expect { @content_role.destroy }.to change { Releaf::Role.count }.by(-1)
+      end
     end
 
-    it "destroying of used role" do
-      expect { @admin_role.destroy }.to change { Releaf::Role.count }.by(0)
+    context "when role is use" do
+      it "does not doestry it" do
+        expect { @admin_role.destroy }.to_not change { Releaf::Role.count }
+      end
     end
   end
 
-  describe "#controller permissions" do
+  describe "#authorize!" do
     before do
       @admin_role = FactoryGirl.create(:admin_role)
       @content_role = FactoryGirl.create(:content_role)
     end
 
-    it "access to translations controller" do
-      @admin_role.authorize!(Releaf::TranslationsController.new).should eq(true)
-      @content_role.authorize!(Releaf::TranslationsController.new).should eq(false)
+    context "when permissions given" do
+      it "return true" do
+        @admin_role.authorize!(Releaf::TranslationsController.new).should be_true
+        @admin_role.authorize!(Releaf::ContentController.new).should      be_true
+        @content_role.authorize!(Releaf::ContentController.new).should    be_true
+      end
     end
 
-    it "access to content controller" do
-      @admin_role.authorize!(Releaf::ContentController.new).should eq(true)
-      @content_role.authorize!(Releaf::ContentController.new).should eq(true)
+    context "when permissions not given" do
+      it "returns false" do
+        @content_role.authorize!(Releaf::TranslationsController.new).should be_false
+      end
     end
   end
 end

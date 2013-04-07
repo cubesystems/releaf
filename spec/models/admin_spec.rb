@@ -10,7 +10,7 @@ describe Releaf::Admin do
   it { should have(1).error_on(:locale) }
   it { should have(2).error_on(:email) }
 
-  describe "#uniqueness of email" do
+  describe "uniqueness of email" do
     before do
       @admin = FactoryGirl.create(:admin)
     end
@@ -18,28 +18,30 @@ describe Releaf::Admin do
   end
 
   describe "#display_name" do
-    before do
-      @admin = FactoryGirl.create(:admin)
-    end
-    subject { @admin.display_name }
+    subject { FactoryGirl.create(:admin).display_name }
 
     it { should == 'Bill Withers' }
   end
 
   describe ".filter" do
     before do
-      @admin = FactoryGirl.create(:admin)
+      FactoryGirl.create(:admin, :name => 'Billy', :surname => 'Withers')
     end
 
-    it "returns 1 result for filtering with email, name, surname value" do
-      result = Releaf::Admin.filter(:search => "admin@example.com bill with")
-      result.count.should eq(1)
+    context "given there is user admin@example.com Billy Withers" do
+      context "when filtering with 'admin@example.com bill with'" do
+        it "returns 1 admins" do
+          Releaf::Admin.filter(:search => "admin@example.com bill with").should have(1).admin
+        end
+      end
+
+      context "when filtering with 'user@example.com bill with'" do
+        it "returns 0 admins" do
+          Releaf::Admin.filter(:search => "user@example.com bill with").should have(0).admins
+        end
+      end
     end
 
-    it "returns 0 result for filtering with name, surname" do
-      result = Releaf::Admin.filter(:search => "user@example.com bill with")
-      result.count.should eq(0)
-    end
   end
 
 end
