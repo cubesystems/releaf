@@ -30,7 +30,7 @@ describe Releaf::Admin do
 
     context "given there is user admin@example.com Billy Withers" do
       context "when filtering with 'admin@example.com bill with'" do
-        it "returns 1 admins" do
+        it "returns 1 admin" do
           Releaf::Admin.filter(:search => "admin@example.com bill with").should have(1).admin
         end
       end
