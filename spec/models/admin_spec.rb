@@ -26,7 +26,7 @@ describe Releaf::Admin do
     it { should == 'Bill Withers' }
   end
 
-  describe "#filter scope" do
+  describe ".filter" do
     before do
       @admin = FactoryGirl.create(:admin)
     end
@@ -36,7 +36,7 @@ describe Releaf::Admin do
       result.count.should eq(1)
     end
 
-    it "returns 9 result for filtering with name, surname" do
+    it "returns 0 result for filtering with name, surname" do
       result = Releaf::Admin.filter(:search => "user@example.com bill with")
       result.count.should eq(0)
     end
