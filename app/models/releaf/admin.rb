@@ -21,6 +21,8 @@ module Releaf
       :password,
       :password_confirmation
 
+    # Filter scope for base admin
+    # @param [String] params[:search] one or multiple words to search
     scope :filter, lambda {|params|
       sql_statement = []
       sql_query_params = {}
@@ -42,17 +44,15 @@ module Releaf
       end
     }
 
+    # Concatenate name and surname for object displaying
     def display_name
       [self.name, self.surname].join(' ')
     end
     alias :to_text :display_name
 
-    def role
-      super || Role.default
-    end
-
     protected
 
+    # Require password if we have new record or instance have empty password
     def password_required?
       self.new_record? || self.encrypted_password.blank?
     end
