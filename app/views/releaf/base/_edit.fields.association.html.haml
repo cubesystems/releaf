@@ -34,11 +34,10 @@
         = f.fields_for field, f.object.send(field) do |ff|
 
           - if subfields.is_a? Array
-            - subfields.each do |subfield|
-              - if has_template? "_#{new_view_prefix}.#{subfield}"
-                = render "#{new_view_prefix}.#{subfield}", :f => ff, :name => subfield
-              - else
-                = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
+            - if has_template? "_#{new_view_prefix}.#{field}"
+              = render "#{new_view_prefix}.#{field}", :f => ff, :name => subfield
+            - else
+              = render 'edit.fields', :f => ff, :fields => subfields, :view_prefix => new_view_prefix
 
           - elsif subfields.is_a? String or subfields.is_a? Symbol
             - if has_template? "_#{new_view_prefix}.#{field}"

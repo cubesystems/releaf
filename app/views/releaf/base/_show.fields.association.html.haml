@@ -19,18 +19,16 @@
       .nested_title= t(field, :scope => controller_scope_name)
       .item
 
-        - subitem = resource.send(field)
+        - subresource = resource.send(field)
 
         - if subfields.is_a? Array
-          - subfields.each do |subfield|
-            - if has_template? "_#{new_view_prefix}.#{subfield}"
-              = render "#{new_view_prefix}.#{subfield}", :resource => resource, :name => subfield
-            - else
-              = render 'show.fields', :resource => subresource, :fields => subfields, :view_prefix => new_view_prefix
+          - if has_template? "_#{new_view_prefix}.#{field}"
+            = render "#{new_view_prefix}.#{field}", :resource => subresource, :name => subfield
+          - else
+            = render 'show.fields', :resource => subresource, :fields => subfields, :view_prefix => new_view_prefix
 
         - elsif subfields.is_a? String or subfields.is_a? Symbol
           - if has_template? "_#{new_view_prefix}.#{field}"
-            = render "#{new_view_prefix}.#{field}", :resource => resource, :name => field
+            = render "#{new_view_prefix}.#{field}", :resource => subresource, :name => field
           - else
             = render 'show.field', :resource => subresource, :name => field, :view_prefix => new_view_prefix
-
