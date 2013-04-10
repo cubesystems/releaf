@@ -1,5 +1,13 @@
 jQuery(document).ready(function() {
 
+    jQuery(document.body).on('sortableupdate', '[data-sortable]', function(e) {
+        e.stopPropogation;
+        var sortable_container = jQuery(this);
+        sortable_container.find('> .item > input[type="hidden"].position').each(function(i) {
+            jQuery(this).attr('value', i);
+         });
+     });
+
     jQuery(document.body).on('initsortable', function(e) {
         jQuery(e.target).find('.list[data-sortable]').sortable({
             axis: "y",
