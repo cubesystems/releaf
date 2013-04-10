@@ -54,6 +54,10 @@ module Releaf
         controller_name = controller.class.to_s.gsub("::", "").gsub("Controller", "").gsub!(/(.)([A-Z])/,'\1_\2').downcase
       end
 
+      if controller_name ==  "releaf_tinymce_assets"
+        controller_name = "releaf_content"
+      end
+
       return send(controller_name + "_permission")
     end
 
