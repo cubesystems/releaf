@@ -54,7 +54,7 @@ module Releaf
             if b == false or b == "0" or b == 0
               self.send(:"#{name}=", nil)
             else
-              return unless self.send(:"#{name}?")
+              return if self.send(:"#{name}?")
               self.send(:"#{name}=", Time.now)
             end
           end
