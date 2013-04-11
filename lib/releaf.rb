@@ -7,6 +7,17 @@ require "releaf/boolean_at"
 
 
 module Releaf
+  mattr_accessor :menu
+  @@menu = [
+    'releaf/content',
+    {
+      :permissions => [
+        {:permissions =>   %w[releaf/admins releaf/roles]}
+      ]
+    },
+    'releaf/translations'
+  ]
+
   mattr_accessor :main_menu
   @@main_menu = [
     'releaf/content',
@@ -36,10 +47,20 @@ module Releaf
   mattr_accessor :yui_config
   @@yui_config = {}
 
+  # controller list
+  mattr_accessor :controller_list
+  @@controller_list = []
+
 
   class << self
     def setup
       yield self
+      build_controller_list
+    end
+
+    # build controller list from menu definition
+    def build_controller_list
+
     end
 
     def available_admin_controllers
