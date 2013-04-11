@@ -7,22 +7,17 @@ Settings.delete_all
 
 # Role {{{
 
-# set max permissions for administrator role
-administrator = {
-  name:     'administrator',
-}
-
-Releaf.available_admin_controllers.each do |controller_name|
-  permission = controller_name.gsub("/", "_") + "_permission"
-  administrator[permission] = true
-end
-
 # build all roles list
 roles = {
-  administrator: administrator,
+  administrator: {
+    name:     'administrator',
+    permissions: Releaf.available_admin_controllers
+  },
   content_manager: {
     name:     'content manager',
-    releaf_content_permission: true
+    permissions: [
+      'releaf/content'
+    ]
   }
 }
 
