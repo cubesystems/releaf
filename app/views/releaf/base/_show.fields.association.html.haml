@@ -15,20 +15,19 @@
             = render 'show.fields.has_many_template', :resource => subresource, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
 
   - when :belongs_to
-    .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller_scope_name)
-      .item
+    - subresource = resource.send(field)
+    - if subresource
+      .nested_wrap{:'data-name' => field}
+        .nested_title= t(field, :scope => controller_scope_name)
+        .item
+          - if subfields.is_a? Array
+            - if has_template? "_#{new_view_prefix}.#{field}"
+              = render "#{new_view_prefix}.#{field}", :resource => subresource, :name => subfield
+            - else
+              = render 'show.fields', :resource => subresource, :fields => subfields, :view_prefix => new_view_prefix
 
-        - subresource = resource.send(field)
-
-        - if subfields.is_a? Array
-          - if has_template? "_#{new_view_prefix}.#{field}"
-            = render "#{new_view_prefix}.#{field}", :resource => subresource, :name => subfield
-          - else
-            = render 'show.fields', :resource => subresource, :fields => subfields, :view_prefix => new_view_prefix
-
-        - elsif subfields.is_a? String or subfields.is_a? Symbol
-          - if has_template? "_#{new_view_prefix}.#{field}"
-            = render "#{new_view_prefix}.#{field}", :resource => subresource, :name => field
-          - else
-            = render 'show.field', :resource => subresource, :name => field, :view_prefix => new_view_prefix
+          - elsif subfields.is_a? String or subfields.is_a? Symbol
+            - if has_template? "_#{new_view_prefix}.#{field}"
+              = render "#{new_view_prefix}.#{field}", :resource => subresource, :name => field
+            - else
+              = render 'show.field', :resource => subresource, :name => field, :view_prefix => new_view_prefix
