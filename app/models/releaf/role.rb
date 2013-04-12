@@ -3,6 +3,7 @@ module Releaf
     self.table_name = 'releaf_roles'
 
     validates_presence_of :name
+    validates_presence_of :default_controller
     validates_uniqueness_of :name, :case_sensitive => false
 
     has_many :admins

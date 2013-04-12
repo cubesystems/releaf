@@ -5,6 +5,7 @@ require "spec_helper"
 describe Releaf::Role do
 
   it { should have(1).error_on(:name) }
+  it { should have(1).error_on(:default_controller) }
 
   describe "uniqueness of name" do
     before do
