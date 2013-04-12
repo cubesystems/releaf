@@ -1,20 +1,5 @@
 <div class="row" data-id="<%= resource.id %>">
-  <% if defined? :custom_cell_templates %>
-    <% fields_to_display.each do |name| %>
-      <% if custom_cell_templates[name] %>
-        <%= render "index.cell.#{name}", :resource => resource, :name => name %>
-      <% else %>
-        <%= render 'index.cell', :resource => resource, :name => name %>
-      <% end %>
-    <% end %>
-
-  <% else %>
-    <% fields_to_display.each do |name| %>
-      <% if has_template? "_index.cell.#{name}" %>
-        <%= render "index.cell.#{name}", :resource => resource, :name => name %>
-      <% else %>
-        <%= render 'index.cell', :resource => resource, :name => name %>
-      <% end %>
-    <% end %>
+  <% fields_to_display.each do |name| %>
+    <%= render cell_templates[name], :resource => resource, :name => name %>
   <% end %>
 </div>

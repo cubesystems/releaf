@@ -2,11 +2,18 @@
   supports_order_by = resource_class.respond_to? :order_by
   valid_order_by_fields = resource_class.column_names
 
+
+  # Optimizaiton: instead of checkig weather user has custom partial for each cell
+  # check once and and store partials name to render in hash
+  cell_templates = {}
+  fields_to_display.each do |name|
+    cell_templates[name] = has_template?("_index.cell.#{name}") ? "index.cell.#{name}" : 'index.cell'
+  end
+
+
 .releaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
   .thead
     %div
-
-
       - fields_to_display.each do |name|
         - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
         %div
@@ -17,20 +24,12 @@
 
             - else
               - if params[:order_by] == name
-                = link_to label + ' ↑', url_for(:order_by => name + '-reverse')
+                = link_to label + ' ↑', url_for(:order_by => name + '-reverse'), :class => :order_by
               - else
-                = link_to label + ' ↓', url_for(:order_by => name)
+                = link_to label + ' ↓', url_for(:order_by => name), :class => :order_by
 
           - else
             = label
   .tbody
-    :ruby
-      # Optimizaiton: instead of checkig weather user has custom partial for each cell
-      # Check one and pass it to index.row partial, which will use it (when available)
-      custom_cell_templates = {}
-      fields_to_display.each do |name|
-        custom_cell_templates[name] = has_template? "_index.cell.#{name}"
-      end
-
     - resources.each do |resource|
-      = render 'index.row', :resource => resource, :custom_cell_templates => custom_cell_templates
+      = render 'index.row', :resource => resource, :cell_templates => cell_templates

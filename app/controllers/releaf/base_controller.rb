@@ -2,7 +2,8 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < BaseApplicationController
-    helper_method :build_secondary_panel_variables,
+    helper_method \
+      :build_secondary_panel_variables,
       :fields_to_display,
       :resource_class,
       :find_parent_template,
@@ -131,13 +132,13 @@ module Releaf
     end
 
     def show
-      @resource = resource_class.includes(relations_for_includes).find(params[:id])
       raise FeatureDisabled unless @features[:show]
+      @resource = resource_class.includes(relations_for_includes).find(params[:id])
     end
 
     def edit
-      @resource = resource_class.includes(relations_for_includes).find(params[:id])
       raise FeatureDisabled unless @features[:edit]
+      @resource = resource_class.includes(relations_for_includes).find(params[:id])
     end
 
     def create
@@ -157,8 +158,8 @@ module Releaf
     end
 
     def update
-      @resource = resource_class.find(params[:id])
       raise FeatureDisabled unless @features[:edit]
+      @resource = resource_class.find(params[:id])
 
       respond_to do |format|
         if @resource.update_attributes( required_params.permit(*resource_params) )
@@ -170,13 +171,13 @@ module Releaf
     end
 
     def confirm_destroy
-      @resource = resource_class.find(params[:id])
       raise FeatureDisabled unless @features[:destroy]
+      @resource = resource_class.find(params[:id])
     end
 
     def destroy
-      @resource = resource_class.find(params[:id])
       raise FeatureDisabled unless @features[:destroy]
+      @resource = resource_class.find(params[:id])
       @resource.destroy
 
       respond_to do |format|
@@ -536,44 +537,49 @@ module Releaf
       resource_class.column_names
     end
 
-    private
-
+    # Tries to automagically figure you which relations should be passed to
+    # .includes
     def relations_for_includes
-      return nil
-      # XXX there's a problem with relations that have conditions with proc.
-      # If you refer to models attribute in proc, this function will break.
-      # As temp workaround we'll simply skip including relations that have conditions for now.
       rels = []
+      rels.push :translations if resource_class.respond_to?(:translations_table_name)
+
       fields_to_display.each do |field|
         if (field.is_a? String or field.is_a? Symbol) and field =~ /_id$/
-          reflection = resource_class.reflect_on_association(field[0..-4].to_sym)
-          next if reflection.blank?
-          next unless reflection.conditions.blank?
-          rels.push field[0..-4]
+          reflection_name = field[0..-4].to_sym
         elsif field.is_a? Hash
           field.keys.each do |key|
             if key =~ /_id$/
-              reflection = resource_class.reflect_on_association(key[0..-4].to_sym)
-              next if reflection.blank?
-              next unless reflection.conditions.blank?
-              rels.push key[0..-4] if resource_class.reflect_on_association(key[0..-4].to_sym)
+              reflection_name = key[0..-4].to_sym
             else
-              reflection = resource_class.reflect_on_association(key.to_sym)
-              next if reflection.blank?
-              next unless reflection.conditions.blank?
-              rels.push key if resource_class.reflect_on_association(key.to_sym)
+              refleaction_name = key.to_sym
             end
           end
         end
+
+        reflection = resource_class.reflect_on_association(reflection_name)
+
+        next if reflection.blank?
+        relation_class = reflection.klass
+        if relation_class.respond_to? :translations_table_name
+          rels.push({ reflection_name.to_s => :translations })
+        else
+          rels.push reflection_name.to_s
+        end
+
       end
       return rels
     end
 
+    # Returns valid order sql statement.
+    #
+    # This function is used if resource class supports .order_by scope.
     def valid_order_by
       return nil if params[:order_by].blank?
       return nil unless resource_class.column_names.include?(params[:order_by].sub(/-reverse$/, ''))
       return resource_class.table_name + '.' + params[:order_by].sub(/-reverse$/, ' DESC')
     end
+
+    private
 
     def filter_templates
       filter_templates_from_hash params
