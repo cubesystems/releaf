@@ -11,18 +11,23 @@ Settings.delete_all
 roles = {
   administrator: {
     name:     'administrator',
-    permissions: Releaf.available_admin_controllers
+    permissions: Releaf.available_admin_controllers,
+    default_controller: 'releaf/admin'
   },
   content_manager: {
     name:     'content manager',
     permissions: [
       'releaf/content'
-    ]
+    ],
+    default_controller: 'releaf/content'
   }
 }
 
 roles.each_value do |value|
-  value[:id] = Releaf::Role.create!(value).id
+  role = Releaf::Role.new value
+  puts role.errors.inspect unless role.valid?
+  role.save!
+  value[:id] = role.id
 end
 
 # }}}
@@ -51,7 +56,10 @@ admins = {
 }
 
 admins.each_value do |value|
-  value[:id] = Releaf::Admin.create!(value).id
+  admin = Releaf::Admin.new(value)
+  puts admin.errors.inspect unless admin.valid?
+  admin.save!
+  value[:id] = admin.id
 end
 
 # }}}
