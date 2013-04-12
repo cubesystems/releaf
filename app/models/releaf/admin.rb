@@ -31,7 +31,7 @@ module Releaf
         if !params[:search].blank?
           nameQuery = []
           params[:search].strip.split(" ").each_with_index do|word, i|
-            qquery = ["name LIKE :word#{i}", "surname LIKE :word#{i}", "email LIKE :word#{i}"]
+            qquery = ["releaf_admins.name LIKE :word#{i}", "releaf_admins.surname LIKE :word#{i}", "releaf_admins.email LIKE :word#{i}"]
             nameQuery.push "(" + qquery.join(' OR ') + ")"
             sql_query_params["word#{i}".to_sym] = '%' + word + '%'
           end
