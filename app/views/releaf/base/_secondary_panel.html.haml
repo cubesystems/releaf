@@ -1,10 +1,10 @@
 .inner.standard_submenu
   - if local_assigns.key?(:menu)
     %ul.block
-      - menu.each_pair do |section_key, section|
+      - menu.each do |section|
         %li
-          .section_title= t(section_key, :scope => "admin.menu_items")
+          .section_title= t(section[:name], :scope => "admin.menu_items")
           %ul
-            - section.each do |resource|
-              %li{:class => ("active" if resource[:controller] == controller.class.name.underscore.sub(/_controller$/, '')) }
-                %a{:href => url_for(:controller => resource[:controller], :action => "index") }=t(resource[:controller], :scope => "admin.menu_items")
+            - section[:items].each do |resource|
+              %li{:class => ("active" if resource[:active]) }
+                %a{:href => resource[:url] }=t(resource[:name], :scope => "admin.menu_items")

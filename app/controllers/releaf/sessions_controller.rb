@@ -4,20 +4,15 @@ module Releaf
 
     def after_sign_in_path_for(resource)
       controller_name = resource.role.default_controller
+      controller = Releaf.controller_list[controller_name]
 
-      if controller_name
-        if controller_name == 'releaf_content'
-          default_path = releaf_nodes_path
-        elsif controller_name == 'releaf_translations'
-          default_path = releaf_translation_groups_path
-        else
-          default_path = send("#{controller_name}_path")
-        end
+      if controller.has_key? :helper 
+        url = send(controller[:helper] + "_path")
       else
-        default_path = releaf_nodes_path
+        url = send(controller[:controller].gsub('/', '_') + "_path")
       end
 
-      return default_path
+      return url
     end
 
     def full_controller_name

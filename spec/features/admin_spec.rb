@@ -23,7 +23,7 @@ describe "home page" do
     end
 
     it "new user creation" do
-      click_link '*permissions'
+      click_link 'Permissions'
       click_link 'Releaf/admins'
       find('.create_new_item').click
       page.should have_content 'Create new resource'
@@ -74,7 +74,7 @@ describe "home page" do
     it "admin page content" do
       page.should have_content 'Logout'
       page.should have_content 'Releaf/content'
-      page.should have_content '*permissions'
+      page.should have_content 'Permissions'
       page.should have_content 'Releaf/translations'
       # admin/admins index view
       page.should have_content 'admin@example.com'

@@ -54,16 +54,22 @@ module Releaf
     end
 
     def self.test
-      controllers = []
+      controllers = {}
 
       menu = [
+        'releaf/admins',
         {
           :controller => 'releaf/content',
           :helper => 'releaf_nodes'
         },
         {
-          :permissions => [
-            {:permissions =>   %w[releaf/admins releaf/roles]}
+          :name => "permissions",
+          :sections => [
+            {
+              :name => "permissions",
+              :items =>   %w[releaf/admins releaf/roles]
+            }
+            #{:permissions =>   %w[releaf/admins releaf/roles]}
           ]
         },
         {
@@ -72,32 +78,34 @@ module Releaf
         },
       ]
 
-      menu.each do |menu_item|
+      menu.each_with_index do |menu_item, index|
         if menu_item.is_a? String
-          controllers << menu_item
+          menu[index] = {:controller => menu_item}
+          controllers[menu_item] = menu[index]
         elsif menu_item.is_a? Hash
-          # hash ir submenu item
-          if menu_item.keys.length == 1 and menu_item[menu_item.keys.first].is_a? Array
-            menu_item[menu_item.keys.first].each do |submenu_section|
-              # validate submenu section
-              if submenu_section.keys.length == 1 and submenu_section[submenu_section.keys.first].is_a? Array
-                submenu_section[submenu_section.keys.first].each do |submenu_item|
+          # submenu hash
+          if menu_item.has_key? :sections
+            menu_item[:sections].each_with_index do |submenu_section, submenu_index|
+              if submenu_section.has_key? :name and submenu_section.has_key? :items
+                submenu_section[:items].each_with_index do |submenu_item, submenu_item_index|
                   if submenu_item.is_a? String
-                    controllers << submenu_item
+                    submenu_section[:items][submenu_item_index] = {:controller => submenu_item}
+                    controllers[submenu_item] = {:controller => submenu_item}
+                  elsif submenu_item.has_key? :controller
+                    controllers[submenu_item[:controller]] = submenu_item
                   end
                 end
               end
             end
           elsif menu_item.has_key? :controller
-            controllers << menu_item[:controller]
+            controllers[menu_item[:controller]] = menu_item
           end
         end
-
       end
 
-      puts controllers
-
-
+      puts menu
+      puts "xxxxxxxxxxxx"
+      return controllers
     end
   end
 

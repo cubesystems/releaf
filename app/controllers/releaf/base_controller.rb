@@ -274,41 +274,30 @@ module Releaf
       # if this item is defined in main menu, then there will be no altmenu
       # defined for it in alt menu, instead this method should be overriden in
       # particular controller to return structure needed to render alt menu
-      return {} if Releaf.main_menu.include? menu_item_name
+      return {} unless Releaf.controller_list[menu_item_name].has_key? :submenu
 
       # preload current user
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
 
+      build_menu = {:menu => []}
+
       # if this item was not found in main menu, then we need to find it in one
       # of alt menus. This way we'll know which alt menu to render.
-      base_menus = Releaf.main_menu.reject { |item| item[0] != '*' }
-      base_menus.each do |base_menu_name|
-        if view_context.base_menu_items(base_menu_name).include?(menu_item_name)
-          build_menu = { :menu => {} }
-
-          base_menu = Releaf.base_menu[base_menu_name]
-
-          base_menu.each do |section|
-            section_name = section[0].to_sym
-            section_items = []
-            section[1].each do |item|
-              if user.role.authorize!(item.gsub('/', '_'))
-                section_items.push({:controller => item.split(/#/, 2).first})
-              end
+      Releaf.menu.each do |menu_item|
+        if menu_item.has_key? :sections and menu_item[:name] == Releaf.controller_list[menu_item_name][:submenu]
+          menu_item[:sections].each do |section|
+            section_data = {:name => section[:name]}
+            items = []
+            section[:items].each do |section_item|
+              items << view_context.get_releaf_menu_item(section_item) if user.role.authorize!(section_item[:controller])
             end
-
-            unless section_items.empty?
-              build_menu[:menu][section_name] = section_items
-            end
-
+            section_data[:items] = items
+            build_menu[:menu] << section_data
           end
-
-          return build_menu
         end
       end
 
-      # coundn't find current controller in base_menu
-      return {}
+      return build_menu
     end
 
     # Tries to return resource class.

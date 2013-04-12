@@ -9,13 +9,23 @@ require "releaf/boolean_at"
 module Releaf
   mattr_accessor :menu
   @@menu = [
-    'releaf/content',
+   {
+      :controller => 'releaf/content',
+      :helper => 'releaf_nodes'
+    },
     {
-      :permissions => [
-        {:permissions =>   %w[releaf/admins releaf/roles]}
+      :name => "permissions",
+      :sections => [
+        {
+          :name => "permissions",
+          :items =>   %w[releaf/admins releaf/roles]
+        }
       ]
     },
-    'releaf/translations'
+    {
+      :controller => 'releaf/translations',
+      :helper => 'releaf_translation_groups'
+    },
   ]
 
   mattr_accessor :main_menu
@@ -49,7 +59,7 @@ module Releaf
 
   # controller list
   mattr_accessor :controller_list
-  @@controller_list = []
+  @@controller_list = {}
 
 
   class << self
@@ -60,25 +70,35 @@ module Releaf
 
     # build controller list from menu definition
     def build_controller_list
+      Releaf.menu.each_with_index do |menu_item, index|
+        if menu_item.is_a? String
+          Releaf.menu[index] = {:controller => menu_item}
+          controller_list[menu_item] = Releaf.menu[index]
+        elsif menu_item.is_a? Hash
+          # submenu hash
+          if menu_item.has_key? :sections
+            menu_item[:sections].each_with_index do |submenu_section, submenu_index|
+              if submenu_section.has_key? :name and submenu_section.has_key? :items
+                submenu_section[:items].each_with_index do |submenu_item, submenu_item_index|
+                  if submenu_item.is_a? String
+                    submenu_item = {:controller => submenu_item}
+                  end
 
+                  submenu_item[:submenu] = menu_item[:name]
+                  submenu_section[:items][submenu_item_index] = submenu_item
+                  controller_list[submenu_item[:controller]] = submenu_item
+                end
+              end
+            end
+          elsif menu_item.has_key? :controller
+            controller_list[menu_item[:controller]] = menu_item
+          end
+        end
+      end
     end
 
     def available_admin_controllers
-      controllers = []
-
-      Releaf.main_menu.each do |menu_item|
-        if !menu_item.start_with?('*')
-          controllers << menu_item
-        end
-      end
-
-      Releaf.base_menu.each_pair do |k, menu_section|
-        menu_section.each do |menu_group|
-          controllers.concat(menu_group[1])
-        end
-      end
-
-      return controllers
+      controller_list.keys
     end
   end
 end

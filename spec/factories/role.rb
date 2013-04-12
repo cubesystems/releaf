@@ -3,16 +3,13 @@ FactoryGirl.define do
     sequence(:name) {|n| "role #{n}"}
 
     factory :admin_role do
-      default_controller "releaf_admins"
-      releaf_content_permission true
-      releaf_translations_permission true
-      releaf_admins_permission true
-      releaf_roles_permission true
+      default_controller "releaf/admins"
+      permissions Releaf.available_admin_controllers
     end
 
     factory :content_role do
-      default_controller "releaf_content"
-      releaf_content_permission true
+      default_controller "releaf/content"
+      permissions ['releaf/content']
     end
 
   end
