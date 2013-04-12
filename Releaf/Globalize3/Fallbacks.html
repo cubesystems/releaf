@@ -157,7 +157,12 @@
 13
 14
 15
-16</pre>
+16
+17
+18
+19
+20
+21</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/releaf/globalize3/fallbacks.rb', line 4</span>
@@ -169,10 +174,15 @@
   <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_locale'>locale</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>en</span><span class='tstring_end'>&#39;</span></span>
 
   <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>=</span> <span class='const'>Settings</span><span class='period'>.</span><span class='id identifier rubyid_i18n_locales'>i18n_locales</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>+=</span> <span class='const'>Settings</span><span class='period'>.</span><span class='id identifier rubyid_i18n_admin_locales'>i18n_admin_locales</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>en</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>+=</span> <span class='lbracket'>[</span><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_default_locale'>default_locale</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_locale'>locale</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_locales'>valid_locales</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
 
-  <span class='lparen'>(</span><span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_default_locale'>default_locale</span><span class='comma'>,</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_locale'>locale</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
-    <span class='id identifier rubyid_i18n_fallbacks'>i18n_fallbacks</span><span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>-</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
+    <span class='comment'># iterated &quot;locale&quot; must be first in list
+</span>    <span class='id identifier rubyid_i18n_fallbacks'>i18n_fallbacks</span><span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>-</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+
   <span class='const'>Globalize</span><span class='period'>.</span><span class='id identifier rubyid_fallbacks'>fallbacks</span> <span class='op'>=</span> <span class='id identifier rubyid_i18n_fallbacks'>i18n_fallbacks</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -185,7 +195,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sun Mar 24 16:04:40 2013 by
+  Generated on Sat Apr 13 00:18:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>

@@ -243,7 +243,8 @@ which you&#39;d like to create boolean setter and getter and scopes</p>
 67
 68
 69
-70</pre>
+70
+71</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/releaf/boolean_at.rb', line 32</span>
@@ -273,6 +274,7 @@ which you&#39;d like to create boolean setter and getter and scopes</p>
       <span class='kw'>if</span> <span class='id identifier rubyid_b'>b</span> <span class='op'>==</span> <span class='kw'>false</span> <span class='kw'>or</span> <span class='id identifier rubyid_b'>b</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>or</span> <span class='id identifier rubyid_b'>b</span> <span class='op'>==</span> <span class='int'>0</span>
         <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
       <span class='kw'>else</span>
+        <span class='kw'>return</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>?</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
         <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='rparen'>)</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
@@ -297,7 +299,7 @@ which you&#39;d like to create boolean setter and getter and scopes</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Mar 24 16:04:40 2013 by
+  Generated on Sat Apr 13 00:18:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>
