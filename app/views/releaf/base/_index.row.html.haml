@@ -1,6 +1,0 @@
-.row{ 'data-id' => resource.id }
-  - fields_to_display.each do |name|
-    - if has_template? "_index.cell.#{name}"
-      = render "index.cell.#{name}", :resource => resource, :name => name
-    - else
-      = render 'index.cell', :resource => resource, :name => name

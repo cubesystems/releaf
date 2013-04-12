@@ -1,4 +1,4 @@
-:ruby
+<%
   text = resource.send(name)
   if name =~ /_id$/
     if resource.class.respond_to?(:reflect_on_association)
@@ -17,6 +17,5 @@
   elsif text.is_a? TrueClass or text.is_a? FalseClass
     text = t(text ? 'yes' : 'no', :scope => 'admin.global')
   end
-
-
-%a.main{ :href => url_for( :action => list_action, :id => resource.id ) }= text
+%>
+<a class="main" href="<%= url_for( :action => list_action, :id => resource.id ) %>"><%= text %></a>
