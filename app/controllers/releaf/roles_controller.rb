@@ -8,7 +8,7 @@ module Releaf
     def available_admin_controllers
       available_admin_controllers = {}
       Releaf.available_admin_controllers.each do |controller|
-        available_admin_controllers[t(controller, :scope => 'admin.menu_items')] = controller.gsub('/', '_')
+        available_admin_controllers[t(controller, :scope => 'admin.menu_items')] = controller
       end
 
       return available_admin_controllers
@@ -29,14 +29,7 @@ module Releaf
 
     def resource_params
       return [] unless %w[update create].include? params[:action]
-
-      fields = ['name', 'default_controller']
-
-      Releaf.available_admin_controllers.each do |controller_name|
-        permission = controller_name.gsub("/", "_")
-        fields.push "#{permission}_permission"
-      end
-
+      fields = ['name', 'default_controller', 'permissions']
       return fields
     end
 
