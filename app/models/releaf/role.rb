@@ -53,60 +53,6 @@ module Releaf
       return permissions.include? (controller_name)
     end
 
-    def self.test
-      controllers = {}
-
-      menu = [
-        'releaf/admins',
-        {
-          :controller => 'releaf/content',
-          :helper => 'releaf_nodes'
-        },
-        {
-          :name => "permissions",
-          :sections => [
-            {
-              :name => "permissions",
-              :items =>   %w[releaf/admins releaf/roles]
-            }
-            #{:permissions =>   %w[releaf/admins releaf/roles]}
-          ]
-        },
-        {
-          :controller => 'releaf/translations',
-          :helper => 'releaf_translation_groups'
-        },
-      ]
-
-      menu.each_with_index do |menu_item, index|
-        if menu_item.is_a? String
-          menu[index] = {:controller => menu_item}
-          controllers[menu_item] = menu[index]
-        elsif menu_item.is_a? Hash
-          # submenu hash
-          if menu_item.has_key? :sections
-            menu_item[:sections].each_with_index do |submenu_section, submenu_index|
-              if submenu_section.has_key? :name and submenu_section.has_key? :items
-                submenu_section[:items].each_with_index do |submenu_item, submenu_item_index|
-                  if submenu_item.is_a? String
-                    submenu_section[:items][submenu_item_index] = {:controller => submenu_item}
-                    controllers[submenu_item] = {:controller => submenu_item}
-                  elsif submenu_item.has_key? :controller
-                    controllers[submenu_item[:controller]] = submenu_item
-                  end
-                end
-              end
-            end
-          elsif menu_item.has_key? :controller
-            controllers[menu_item[:controller]] = menu_item
-          end
-        end
-      end
-
-      puts menu
-      puts "xxxxxxxxxxxx"
-      return controllers
-    end
   end
 
 end
