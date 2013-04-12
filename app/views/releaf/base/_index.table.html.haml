@@ -1,12 +1,16 @@
+:ruby
+  supports_order_by = resource_class.respond_to? :order_by
+  valid_order_by_fields = resource_class.column_names
+
 .releaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
   .thead
     %div
-      - valid_order_by_fields = resource_class.column_names
+
 
       - fields_to_display.each do |name|
         - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
         %div
-          - if valid_order_by_fields.include? name
+          - if supports_order_by && valid_order_by_fields.include?(name)
 
             - if params[:order_by].blank? || params[:order_by].sub(/-reverse$/, '') != name
               = link_to label, url_for(:order_by => name)
