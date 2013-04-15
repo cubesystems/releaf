@@ -91,7 +91,7 @@ module ActionDispatch::Routing
 
           releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show], :path_names => { :edit => '' }
 
-          root :to => "content#index"
+          root :to => "home#index"
         end
       end
     end
