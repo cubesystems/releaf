@@ -293,7 +293,7 @@ module Releaf
               items << view_context.get_releaf_menu_item(section_item) if user.role.authorize!(section_item[:controller])
             end
             section_data[:items] = items
-            build_menu[:menu] << section_data
+            build_menu[:menu] << section_data unless items.empty?
           end
         end
       end
