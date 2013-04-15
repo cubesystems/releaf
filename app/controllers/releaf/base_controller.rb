@@ -555,18 +555,22 @@ module Releaf
             end
           end
         end
+        next if reflection_name.blank?
 
         reflection = resource_class.reflect_on_association(reflection_name)
-
         next if reflection.blank?
+
+        # things break with polyporhic associations
+        next if reflection.options[:polymorphic]
+
         relation_class = reflection.klass
         if relation_class.respond_to? :translations_table_name
           rels.push({ reflection_name.to_s => :translations })
         else
           rels.push reflection_name.to_s
         end
-
       end
+
       return rels
     end
 
