@@ -9,7 +9,7 @@ module Releaf
       if controller.has_key? :helper 
         url = send(controller[:helper] + "_path")
       else
-        url = send(controller[:controller].gsub('/', '_') + "_path")
+        url = url_for(:controller => controller[:controller])
       end
 
       return url
