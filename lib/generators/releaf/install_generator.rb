@@ -28,7 +28,7 @@ module Releaf
       end
 
       def install_seeds
-        copy_file "seeds.rb", "db/seeds.rb"
+        copy_files 'seeds', 'db'
       end
 
       def install_models
@@ -75,11 +75,15 @@ module Releaf
       def get_file_list subdir
         raise ArgumentError unless subdir.is_a? String
         raise ArgumetnError if subdir.blank?
-        dir = File.dirname(__FILE__)
+        dir = get_current_dir
         search_path = [dir, 'templates', subdir].join('/') + '/'
         file_list = Dir.glob(search_path + '**/*').map { |filename| File.directory?(filename) ? nil : filename.sub(search_path, '') }
         file_list.delete nil
         return file_list
+      end
+
+      def get_current_dir
+        File.dirname(__FILE__)
       end
 
     end
