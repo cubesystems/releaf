@@ -27,7 +27,7 @@ module Releaf
                   if submenu_item.has_key? :helper
                     item[:url] = send(submenu_item[:helper] + "_path")
                   else
-                    item[:url] = url_for(:controller => submenu_item[:controller])
+                    item[:url] = send(submenu_item[:controller].gsub('/', '_') + "_path")
                   end
                 end
               end
@@ -48,7 +48,7 @@ module Releaf
         if item.has_key? :helper 
           url = send(item[:helper] + "_path")
         else
-          url = url_for(:controller => item[:controller])
+          url = send(item[:controller].gsub('/', '_') + "_path")
         end
 
         {
