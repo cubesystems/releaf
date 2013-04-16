@@ -278,7 +278,10 @@
 52
 53
 54
-55</pre>
+55
+56
+57
+58</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 33</span>
@@ -302,6 +305,9 @@
   <span class='comment'># tinymce is checked against content controller access
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_controller_name'>controller_name</span> <span class='op'>==</span>  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf/tinymce_assets</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_controller_name'>controller_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf/content</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># always allow access to home controller, so we can route user to default controller
+</span>  <span class='kw'>elsif</span> <span class='id identifier rubyid_controller_name'>controller_name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>releaf/home</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_permissions'>permissions</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='lparen'>(</span><span class='id identifier rubyid_controller_name'>controller_name</span><span class='rparen'>)</span>
@@ -361,7 +367,7 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Apr 13 00:18:02 2013 by
+  Generated on Tue Apr 16 14:21:29 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>
