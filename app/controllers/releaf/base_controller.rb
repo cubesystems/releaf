@@ -97,17 +97,7 @@ module Releaf
     end
 
     def index
-      if resource_class.respond_to? :filter
-        @resources = resource_class.filter(:search => params[:search])
-      else
-        @resources = resource_class
-      end
-
-      if resource_class.respond_to? :order_by
-        @resources = @resources.order_by(valid_order_by)
-      end
-
-      @resources = @resources.includes(relations_for_includes).page( params[:page] ).per_page( @resources_per_page )
+      @resources = get_resources
 
       unless params[:ajax].blank?
         render :layout => false
@@ -488,6 +478,29 @@ module Releaf
     end
 
     protected
+
+    # Get resources collection for #index
+    def get_resources
+      filtered_and_ordered_resources resource_class
+    end
+
+    # filter, order and paginate resources
+    def filtered_and_ordered_resources resources
+      scoped_resources = resources
+
+      if resource_class.respond_to? :filter
+        scoped_resources = scoped_resources.filter(:search => params[:search])
+      end
+
+      if resource_class.respond_to? :order_by
+        scoped_resources = scoped_resources.order_by(valid_order_by)
+      end
+
+      scoped_resources = scoped_resources.includes(relations_for_includes).page( params[:page] ).per_page( @resources_per_page )
+
+      return scoped_resources
+    end
+
 
     def required_params
       params.require(:resource)
