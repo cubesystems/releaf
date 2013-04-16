@@ -108,11 +108,6 @@ module Releaf
       form_extras
     end
 
-    def setup
-      super
-      @features[:show] = false
-    end
-
     def get_content_form
       Rails.application.eager_load!
       raise ArgumentError unless content_type_class_names.include? params[:content_type]
@@ -131,6 +126,12 @@ module Releaf
     end
 
     protected
+
+    def setup
+      super
+      @features[:show] = false
+    end
+
 
     def _node_params
       params.require(:resource).permit!
