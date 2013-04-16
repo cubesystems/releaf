@@ -97,7 +97,7 @@ module Releaf
     end
 
     def index
-      @resources = get_resources
+      @resources = filter_order_and_paginate_collection(get_collection)
 
       unless params[:ajax].blank?
         render :layout => false
@@ -480,16 +480,16 @@ module Releaf
     protected
 
     # Get resources collection for #index
-    def get_resources
-      filtered_and_ordered_resources resource_class
+    def get_collection
+      resource_class
     end
 
     # filter, order and paginate resources
-    def filtered_and_ordered_resources resources
+    def filter_order_and_paginate_collection resources
       scoped_resources = resources
 
       if resource_class.respond_to? :filter
-        scoped_resources = scoped_resources.filter(:search => params[:search])
+        scoped_resources = scoped_resources.filter(params)
       end
 
       if resource_class.respond_to? :order_by
