@@ -16,6 +16,7 @@
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{controller_asset}.#{ext}")
         = stylesheet_link_tag "controllers/#{controller_asset}"
 
+    = csrf_meta_tags
   %body.yui3-skin-sam
     #body_wrap{:class => "module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
       = yield
