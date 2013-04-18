@@ -4,6 +4,9 @@ class CreateBooks < ActiveRecord::Migration
       t.string  :title,        :null => false
       t.integer    :year
       t.integer :author_id
+      t.string  :genre
+      t.text    :summary_html
+      t.boolean :active
 
       t.timestamps
     end
