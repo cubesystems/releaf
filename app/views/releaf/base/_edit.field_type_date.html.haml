@@ -1,7 +1,5 @@
 .field.type_date{ 'data-name' => name }
-  .label_wrap><
-    = f.label name, t(name, :scope => controller_scope_name) + ':'
-    .description= I18n.t("field.Format %{_format}", :default => "Format: %{_format}", :_format => I18n.t("format.input.date", :default => 'yyyy-mm-dd'))
+  = render "edit.field.label", :f => f, :name => name, :description => t("field.Format %{_format}", :default => "Format: %{_format}", :_format => I18n.t("format.input.date", :default => 'yyyy-mm-dd'))
   -# FIXME
   -# .value><= f.text_field name, l(f.object.send(name), :format => :date_picker), :class => 'date_picker', :data => {:date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd') }
   .value><= f.text_field name, :class => 'date_picker', :data => {:date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd') }
