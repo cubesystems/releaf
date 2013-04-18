@@ -16,16 +16,18 @@
     select_params.push html_options
   end
 
-  include_blank = true
-  f.object.class.validators_on(name).each do |validator|
-    if validator.is_a? ActiveModel::Validations::PresenceValidator
-      include_blank = false
-      break
+  unless local_assigns.key? :include_blank
+    include_blank = true
+    f.object.class.validators_on(name).each do |validator|
+      if validator.is_a? ActiveModel::Validations::PresenceValidator
+        include_blank = false
+        break
+      end
     end
   end
   select_params.push Hash[:include_blank, include_blank]
 
 .field.type_item{ 'data-name' => name }
-  .label_wrap><= f.label name, t(name.sub(/_id$/, '').to_s, :scope => controller_scope_name)+ ':'
+  = render "edit.field.label", :f => f, :name => name, :translation_name => name.sub(/_id$/, '').to_s
   .value><= f.select *select_params
   .clear

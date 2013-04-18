@@ -1,4 +1,4 @@
 .field.type_link{ 'data-name' => name }
-  .label_wrap><= f.label name, t(name, :scope => controller_scope_name) + ':'
+  = render "edit.field.label", :f => f, :name => name
   .value><= f.text_field name
   .clear

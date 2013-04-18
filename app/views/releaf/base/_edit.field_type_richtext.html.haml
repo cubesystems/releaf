@@ -1,4 +1,4 @@
 .field.type_richtext{ 'data-name' => name }
-  .label_wrap><= f.label name, t(name.sub(/_html$/, ''), :scope => controller_scope_name) + ':'
+  = render "edit.field.label", :f => f, :name => name, :translation_name => name.sub(/_html$/, '').to_s
   .value><= f.text_area name, :rows => 5, :cols => 50, :class => "richtext"
   .clear
