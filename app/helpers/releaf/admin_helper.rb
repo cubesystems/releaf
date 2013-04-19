@@ -12,29 +12,24 @@ module Releaf
             :name => menu_item[:name],
             :active => false
           }
-          is_any_controller_available = false
 
           menu_item[:sections].each do |menu_section|
             menu_section[:items].each do |submenu_item|
               if user.role.authorize!(submenu_item[:controller])
-                is_any_controller_available = true
 
                 if submenu_item[:controller] == params[:controller]
                   item[:active] = true
                 end
 
+                # use first available controller url
                 unless item.has_key? :url
-                  if submenu_item.has_key? :helper
-                    item[:url] = send(submenu_item[:helper] + "_path")
-                  else
-                    item[:url] = send(submenu_item[:controller].gsub('/', '_') + "_path")
-                  end
+                  item[:url] = get_releaf_menu_item(submenu_item)[:url]
                 end
               end
             end
           end
 
-          items << item if is_any_controller_available
+          items << item if item.has_key? :url
 
         elsif user.role.authorize!(menu_item[:controller])
           items << get_releaf_menu_item(menu_item)
