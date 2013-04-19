@@ -83,6 +83,7 @@ if dummy
   if ENV['DUMMY_DATABASE_FILE']
     run 'cp ' + ENV['DUMMY_DATABASE_FILE'] + ' config/database.yml'
   end
+  gsub_file 'config/boot.rb', "'../../Gemfile'", "'../../../../Gemfile'"
 else
   @current_recipe = "database"
   mysql_username = ask_wizard("Username for MySQL? (leave blank to use the 'root')", 'root')
