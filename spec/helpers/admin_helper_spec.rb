@@ -22,6 +22,7 @@ describe Releaf::AdminHelper do
     it "returns main menu" do
       output = [
         {:name=>"releaf/content", :url=>"/admin/content", :active=>false},
+        {:name=>"store", :active=>false, :url=>"/admin/books"},
         {:name=>"permissions", :active=>false, :url=>"/admin/admins"},
         {:name=>"releaf/translations", :url=>"/admin/translations", :active=>false}
       ]

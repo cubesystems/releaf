@@ -191,6 +191,8 @@ rake 'db:seed'
 if dummy
   # in "test" env "true" cause to fail on install generators, revert to normall
   gsub_file 'config/environments/test.rb', 'config.cache_classes = false', 'config.cache_classes = true'
+  generate "dummy:install -f"
+  rake 'db:migrate'
 else
   run 'git init .'
   run 'git add .'
