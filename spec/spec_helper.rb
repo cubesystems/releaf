@@ -19,8 +19,11 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
 
+  config.include Rails.application.routes.url_helpers
+
   # DEVISE
   config.include Devise::TestHelpers, :type => :controller
+  config.extend ControllerMacros, :type => :controller
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
