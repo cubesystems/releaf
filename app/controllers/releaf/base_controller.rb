@@ -247,9 +247,15 @@ module Releaf
     # @return array that represent which fields to render
     def fields_to_display
       cols = resource_class.column_names - %w[id created_at updated_at encrypted_password position]
+
+      if resource_class.respond_to?(:translations_table_name)
+        cols += resource_class.translates.map { |a| a.to_s }
+      end
+
       unless %w[new edit update create].include? params[:action]
         cols -= %w[password password_confirmation]
       end
+
       return cols
     end
 
@@ -547,7 +553,13 @@ module Releaf
     # The resulting array will be passed to strong_parameters ``permit``
     def resource_params
       return unless %w[create update].include? params[:action]
-      resource_class.column_names
+
+      cols = resource_class.column_names.dup
+      if resource_class.respond_to?(:translations_table_name)
+        cols << "translations_attributes"
+      end
+
+      return cols
     end
 
     # Tries to automagically figure you which relations should be passed to
