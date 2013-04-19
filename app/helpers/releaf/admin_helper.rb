@@ -40,17 +40,11 @@ module Releaf
     end
 
     def get_releaf_menu_item item
-        if item.has_key? :helper 
-          url = send(item[:helper] + "_path")
-        else
-          url = send(item[:controller].gsub('/', '_') + "_path")
-        end
-
-        {
-          :name => item[:controller],
-          :url => url,
-          :active => item[:controller] == params[:controller]
-        }
+      {
+        :name => item[:name],
+        :url => send(item[:url_helper]),
+        :active => (item[:controller] == params[:controller])
+      }
     end
 
   end

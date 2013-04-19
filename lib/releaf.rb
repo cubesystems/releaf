@@ -56,35 +56,53 @@ module Releaf
 
     # build controller list from menu definition
     def build_controller_list
-      Releaf.menu.each_with_index do |menu_item, index|
-        if menu_item.is_a? String
-          Releaf.menu[index] = {:controller => menu_item}
-          controller_list[menu_item] = Releaf.menu[index]
-        elsif menu_item.is_a? Hash
-          # submenu hash
-          if menu_item.has_key? :sections
-            menu_item[:sections].each_with_index do |submenu_section, submenu_index|
-              if submenu_section.has_key? :name and submenu_section.has_key? :items
-                submenu_section[:items].each_with_index do |submenu_item, submenu_item_index|
-                  if submenu_item.is_a? String
-                    submenu_item = {:controller => submenu_item}
-                  end
+      Releaf.menu.each_with_index do |item_data, index|
+        item = build_controller_list_item(item_data)
 
-                  submenu_item[:submenu] = menu_item[:name]
-                  submenu_section[:items][submenu_item_index] = submenu_item
-                  controller_list[submenu_item[:controller]] = submenu_item
-                end
+        if item.has_key? :sections
+          item[:sections].each_with_index do |submenu_section, submenu_index|
+            if submenu_section.has_key? :name and submenu_section.has_key? :items
+              submenu_section[:items].each_with_index do |submenu_item_data, submenu_item_index|
+                submenu_item = build_controller_list_item(submenu_item_data)
+
+                submenu_item[:submenu] = item[:name]
+                submenu_section[:items][submenu_item_index] = submenu_item
+                controller_list[submenu_item[:controller]] = submenu_item
               end
             end
-          elsif menu_item.has_key? :controller
-            controller_list[menu_item[:controller]] = menu_item
           end
         end
+
+        controller_list[item[:controller]] = item if item.has_key? :controller
+        Releaf.menu[index] = item
       end
     end
 
     def available_admin_controllers
       controller_list.keys
     end
+
+    private
+
+    def build_controller_list_item item_data
+      if item_data.is_a? String
+        item = {:controller => item_data}
+      elsif item_data.is_a? Hash
+        item = item_data
+      end
+
+      unless item.has_key? :name
+        item[:name] = item[:controller]
+      end
+
+      if item.has_key? :helper
+        item[:url_helper] = item[:helper] + "_path"
+      elsif item.has_key? :controller
+        item[:url_helper] = item[:controller].gsub('/', '_') + "_path"
+      end
+
+      return item
+    end
+
   end
 end
