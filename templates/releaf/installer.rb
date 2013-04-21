@@ -186,14 +186,14 @@ file 'config/routes.rb', <<-ROUTES
 end
 ROUTES
 
-rake 'db:seed'
-
 if dummy
   # in "test" env "true" cause to fail on install generators, revert to normall
   gsub_file 'config/environments/test.rb', 'config.cache_classes = false', 'config.cache_classes = true'
   generate "dummy:install -f"
   rake 'db:migrate'
+  rake 'db:seed'
 else
+  rake 'db:seed'
   run 'git init .'
   run 'git add .'
   run 'git commit -a -m "initialize project"'
