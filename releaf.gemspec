@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'yard'
   s.add_development_dependency 'github-markdown', '>= 0.5.3'
   s.add_development_dependency 'redcarpet', '>= 2.2.2'
+  s.add_development_dependency 'cucumber-rails'
   # s.add_development_dependency 'guard-yard'
   # s.add_development_dependency 'guard-sping'
 
