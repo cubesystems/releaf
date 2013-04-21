@@ -10,5 +10,5 @@ Given /^I as an admin am logged in as (.+)$/ do |email|
     step %{I fill in "Email" with "#{email}"}
     step %{I fill in "Password" with "password"}
     step %{I press "Sign in"}
-    step %{I should see "Logout"}
+    step %{I should see Logout link}
 end

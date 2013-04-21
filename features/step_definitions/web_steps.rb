@@ -245,11 +245,11 @@ When /^I follow image link "([^"]*)"$/ do |img_alt|
 end
 
 Then(/^I should not see Logout link$/) do
-  page.should_not have_selector(:css, 'a > img[alt="Logout"]')
+  page.should_not have_selector(:css, 'a img[alt="Logout"]')
 end
 
 Then(/^I should see Logout link$/) do
-  page.should have_selector(:css, 'a > img[alt="Logout"]')
+  page.should have_selector(:css, 'a img[alt="Logout"]')
 end
 
 When(/^I follow Logout link$/) do
