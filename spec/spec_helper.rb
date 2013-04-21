@@ -15,7 +15,7 @@ Rails.backtrace_cleaner.remove_silencers!
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 RSpec.configure do |config|
   config.mock_with :rspec
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
 
@@ -27,10 +27,20 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :helper
   config.extend ControllerMacros, :type => :helper
 
+  config.include FeatureMacros, :type => :feature
+
+
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
 
+  Capybara.javascript_driver = :webkit
+
   config.before(:each) do
+    if Capybara.current_driver == :rack_test
+      DatabaseCleaner.strategy = :transaction
+    else
+      DatabaseCleaner.strategy = :truncation
+    end
     DatabaseCleaner.start
     # set settings
     Settings.i18n_locales  = %w[en]
@@ -39,6 +49,9 @@ RSpec.configure do |config|
     I18n.default_locale = Settings.i18n_locales.first
   end
 
+  config.after do
+    DatabaseCleaner.clean
+  end
 end
 
 Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each { |f| require f }

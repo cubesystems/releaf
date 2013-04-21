@@ -20,10 +20,11 @@ describe "home page" do
         fill_in 'Password', :with => @admin.password
       end
       click_button 'Sign in'
+      page.should have_css('a', :text => /Logout/i)
     end
 
     it "new user creation" do
-      click_link 'Permissions'
+      click_link_i 'Permissions'
       click_link 'Releaf/admins'
       find('.create_new_item').click
       page.should have_content 'Create new resource'

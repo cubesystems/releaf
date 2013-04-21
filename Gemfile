@@ -26,6 +26,7 @@ gem 'rails-settings-cached'
 
 group :development, :test, :demo do
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'brakeman', '>= 1.9.2'
   gem 'rspec-rails'
   gem 'syntax'
