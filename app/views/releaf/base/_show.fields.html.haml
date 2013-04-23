@@ -14,4 +14,5 @@
       = render 'show.fields.association', :resource => resource, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix
   - elsif reflection
     - subfields = reflection.klass.column_names - %w[id created_at updated_at password password_confirmation encrypted_password position]
+    - subfields = subfields - [reflection.foreign_key]
     = render 'show.fields.association', :resource => resource, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix
