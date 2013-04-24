@@ -2,6 +2,14 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < BaseApplicationController
+    # This array lists _edit.field_label partial options that can be passed to
+    # _edit.field_type_* partials
+    #
+    # :minimal            - boolean
+    # :description        - String
+    # :translation_name   - String
+    LABEL_OPTIONS = [:minimal, :description, :translation_name]
+
     helper_method \
       :build_secondary_panel_variables,
       :fields_to_display,

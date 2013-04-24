@@ -1,6 +1,16 @@
 :ruby
-  select_params = [name]
+  label_opts = {
+    :f            => f,
+    :name         => name,
+    :translation_name => name.sub(/_id$/, '').to_s
+  }
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
 
+
+  select_params = [name]
 
   if local_assigns.key? :select_options
     select_params.push select_options
@@ -27,7 +37,8 @@
   end
   select_params.push Hash[:include_blank, include_blank]
 
+
 .field.type_item{ 'data-name' => name }
-  = render "edit.field.label", :f => f, :name => name, :translation_name => name.sub(/_id$/, '').to_s
+  = render "edit.field_label", label_opts
   .value><= f.select *select_params
   .clear

@@ -1,9 +1,16 @@
-- query_field = 'name' unless query_field
-- can_create = false unless can_create
-- autocomplete_url = url_for(:action => "autocomplete", :field => name, :query_field => query_field, :format => :json)
+:ruby
+  label_opts = {:f => f, :name => name}
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
+
+  query_field = 'name' unless query_field
+  can_create = false unless can_create
+  autocomplete_url = url_for(:action => "autocomplete", :field => name, :query_field => query_field, :format => :json)
 
 .field.type_autocomplete{ 'data-name' => name }
-  = render "edit.field.label", :f => f, :name => name
+  = render "edit.field_label", label_opts
   .value><
     - if can_create == true
       = f.text_field :"#{name}_text", :'data-autocomplete-url' => autocomplete_url

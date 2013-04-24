@@ -1,23 +1,32 @@
+:ruby
+  label_options = local_assigns.fetch(:label_options, {})
+  raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+  # if view_prefix is not, most likely we came from custom partial.
+  # To prevent infinit loop, we set view prefix to something that will prevent
+  # us from making infinite loop
+  view_prefix = local_assigns.fetch(:view_prefix, 'edit.field_custom_')
+
+
 - name_without_id_or_type = name.sub(/_(id|type)$/, '')
 
 - if f.object.class.reflect_on_association(name_without_id_or_type).try(:options).try('[]', :polymorphic) == true
   -# name =~ /_id$/ is required to prevent user template from being renedred 2x times:
   -# first time for _id field, second time for _type field
   - if name =~ /_id$/ && has_template?( "_#{view_prefix}.#{name_without_id_or_type}" )
-    = render "#{view_prefix}.#{name_without_id_or_type}", :f => f, :name => name, :view_prefix => view_prefix
+    = render "#{view_prefix}.#{name_without_id_or_type}", :f => f, :name => name, :view_prefix => view_prefix, :label_options => label_options
 
 - else
   - if has_template? "_#{view_prefix}.#{name}"
-    = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix
+    = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix, :label_options => label_options
   - else
 
     - render_field_type, use_i18n = render_field_type(f.object, name)
 
     - if use_i18n and has_template?( "_edit.field_type_#{render_field_type}_i18n" )
-      = render "edit.field_type_#{render_field_type}_i18n", :f => f, :name => name
+      = render "edit.field_type_#{render_field_type}_i18n", :f => f, :name => name, :label_options => label_options
 
     - elsif has_template? "_edit.field_type_#{render_field_type}"
-      = render "edit.field_type_#{render_field_type}", :f => f, :name => name
+      = render "edit.field_type_#{render_field_type}", :f => f, :name => name, :label_options => label_options
 
     - else
-      = render "edit.field_type_text", :f => f, :name => name
+      = render "edit.field_type_text", :f => f, :name => name, :label_options => label_options

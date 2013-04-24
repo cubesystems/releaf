@@ -1,4 +1,15 @@
+:ruby
+  label_opts = {
+    :f            => f,
+    :name         => name,
+    :translation_name => name.sub(/_html$/, '').to_s
+  }
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
+
 .field.type_richtext{ 'data-name' => name }
-  = render "edit.field.label", :f => f, :name => name, :translation_name => name.sub(/_html$/, '').to_s
+  = render "edit.field_label", label_opts
   .value><= f.text_area name, :rows => 5, :cols => 50, :class => "richtext"
   .clear

@@ -1,5 +1,16 @@
+:ruby
+  label_opts = {
+    :f            => f,
+    :name         => name,
+    :minimal      => true
+  }
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
+
 .field.type_boolean{ 'data-name' => name }
   .value
     = f.check_box name
-    = render "edit.field.label", :f => f, :name => name, :minimal => true
+    = render "edit.field_label", label_opts
   .clear

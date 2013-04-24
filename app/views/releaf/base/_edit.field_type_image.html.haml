@@ -1,7 +1,17 @@
+:ruby
+  label_opts = {
+    :f            => f,
+    :name         => name
+  }
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
+
 .field.type_text{ 'data-name' => name }
   - field_name = name.sub(/_uid$/, '')
 
-  = render "edit.field.label", :f => f, :name => field_name
+  = render "edit.field_label", label_opts
   .value><
     = f.file_field field_name, :accept => 'image/png,image/jpeg,image/bmp,image/gif'
     - unless f.object.send(name).blank?

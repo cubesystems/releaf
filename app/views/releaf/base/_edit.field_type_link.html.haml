@@ -1,4 +1,14 @@
+:ruby
+  label_opts = {
+    :f            => f,
+    :name         => name
+  }
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
+
 .field.type_link{ 'data-name' => name }
-  = render "edit.field.label", :f => f, :name => name
+  = render "edit.field_label", label_opts
   .value><= f.text_field name
   .clear

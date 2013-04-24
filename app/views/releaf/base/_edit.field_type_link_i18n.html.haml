@@ -1,4 +1,16 @@
-- default_locale = Settings.i18n_locales.first
+:ruby
+  label_opts = {
+    :f            => f,
+    :name         => name
+  }
+  if local_assigns.key? :label_options
+    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+    label_opts.merge!(label_options)
+  end
+
+
+  default_locale = Settings.i18n_locales.first
+
 .field.type_link.i18n{ :'data-name' => name }
   - Settings.i18n_locales.each_with_index do |locale, i|
     - translation = f.object.translations.find_or_initialize_by_locale(locale)
@@ -6,7 +18,7 @@
 
     .localization{:"data-locale" => locale, :style => is_default_locale ? nil : 'display:none'}
       = f.fields_for :"translations", translation, :child_index => i do |ff|
-        = render "edit.field.label", :f => ff, :name => name
+        = render "edit.field_label", label_opts.merge(:f => ff)
         .value
           - unless translation.new_record?
             = ff.hidden_field :id
