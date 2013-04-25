@@ -12,17 +12,19 @@ module Releaf
 
     helper_method \
       :build_secondary_panel_variables,
+      :current_feature,
       :fields_to_display,
-      :resource_class,
       :find_parent_template,
+      :get_template_input_options,
+      :get_template_label_options,
       :has_template?,
       :list_action,
       :render_field_type,
       :render_parent_template,
-      :secondary_panel,
-      :current_feature,
+      :resource_class,
       :resource_to_text,
-      :resource_to_text_method
+      :resource_to_text_method,
+      :secondary_panel
 
     before_filter do
       authorize!
@@ -489,6 +491,36 @@ module Releaf
         Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
         return fallback
       end
+    end
+
+
+    # This helper will return options passed to render 'edit_label'.
+    # It will merge in label_options when present
+    def get_template_label_options local_assigns, default_options={}
+      default_options = {
+        :f => local_assigns.fetch(:f, nil),
+        :name => local_assigns.fetch(:name, nil)
+      }.deep_merge!(default_options)
+
+      raise RuntimError, 'form_builder not passed to partial' if default_options[:f].blank?
+      raise RuntimError, 'name not passed to partial'         if default_options[:name].blank?
+
+      return default_options unless local_assigns.key? :label_options
+
+      custom_options = local_assigns[:label_options]
+      raise RuntimeError, 'label_options must a Hash' unless custom_options.is_a? Hash
+      return default_options.deep_merge(custom_options)
+    end
+
+    # This helper will return options for input fields (input, select,
+    # textarea).  It will merge in input_options when present. In input options
+    # you can pass any valid html tags attributes
+    def get_template_input_options local_assigns, default_options={}
+      return default_options unless local_assigns.key? :input_options
+
+      custom_options = local_assigns[:input_options]
+      raise RuntimeError, 'input_options must a Hash' unless custom_options.is_a? Hash
+      return default_options.deep_merge(custom_options)
     end
 
     protected

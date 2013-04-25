@@ -1,6 +1,7 @@
 :ruby
   label_options = local_assigns.fetch(:label_options, {})
-  raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
+  input_options = local_assigns.fetch(:input_options, {})
+
   # if view_prefix is not, most likely we came from custom partial.
   # To prevent infinit loop, we set view prefix to something that will prevent
   # us from making infinite loop
@@ -17,16 +18,16 @@
 
 - else
   - if has_template? "_#{view_prefix}.#{name}"
-    = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix, :label_options => label_options
+    = render "#{view_prefix}.#{name}", :f => f, :name => name, :view_prefix => view_prefix, :label_options => label_options, :input_options => input_options
   - else
 
     - render_field_type, use_i18n = render_field_type(f.object, name)
 
     - if use_i18n and has_template?( "_edit.field_type_#{render_field_type}_i18n" )
-      = render "edit.field_type_#{render_field_type}_i18n", :f => f, :name => name, :label_options => label_options
+      = render "edit.field_type_#{render_field_type}_i18n", :f => f, :name => name, :label_options => label_options, :input_options => input_options
 
     - elsif has_template? "_edit.field_type_#{render_field_type}"
-      = render "edit.field_type_#{render_field_type}", :f => f, :name => name, :label_options => label_options
+      = render "edit.field_type_#{render_field_type}", :f => f, :name => name, :label_options => label_options, :input_options => input_options
 
     - else
-      = render "edit.field_type_text", :f => f, :name => name, :label_options => label_options
+      = render "edit.field_type_text", :f => f, :name => name, :label_options => label_options, :input_options => input_options

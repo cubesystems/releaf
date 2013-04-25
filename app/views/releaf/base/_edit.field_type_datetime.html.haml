@@ -1,17 +1,20 @@
 :ruby
-  label_opts = {
-    :f            => f,
-    :name         => name,
+  label_opts = get_template_label_options local_assigns, {
     :description  => t("field.Format %{_format}", :default => "Format: %{_format}", :_format => I18n.t("format.input.date", :default => 'yyyy-mm-dd'))
   }
-  if local_assigns.key? :label_options
-    raise RuntimeError, 'label_options must be of type Hash' unless label_options.is_a? Hash
-    label_opts.merge!(label_options)
-  end
+  input_opts = get_template_input_options local_assigns, {
+    :class => 'datetime_picker',
+    :data => {
+      :date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'),
+      :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss')
+    }
+  }
+
+
 
 .field.type_datetime{ 'data-name' => name }
   = render "edit.field_label", label_opts
   -# FIXME
   -# .value><= f.text_field name, l(f.object.send(name), :format => :datetime_picker), :class => 'datetime_picker', :data => {:date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'), :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss') }
-  .value><= f.text_field name, :class => 'datetime_picker', :data => {:date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'), :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss') }
+  .value><= f.text_field name, input_opts
   .clear
