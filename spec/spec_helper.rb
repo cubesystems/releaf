@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+# SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.command_name 'rspec'
 SimpleCov.start 'rails'
 
