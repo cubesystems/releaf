@@ -1,4 +1,7 @@
 .body.inset_box
+  - if has_template? "_edit.body_top"
+    = render 'edit.body_top'
+
   .section
     -#TODO: improve style/html
     -if f.object.errors.any?
@@ -9,3 +12,6 @@
             %li= msg
 
     = render 'edit.fields', :f => f, :fields => fields_to_display, :view_prefix => 'edit.field'
+
+  - if has_template? "_edit.body_bottom"
+    = render 'edit.body_bottom'
