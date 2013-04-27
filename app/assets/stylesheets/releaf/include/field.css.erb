@@ -269,6 +269,15 @@
 .value_preview {
   padding:  5px;
 }
+.value_preview .image_wrap,
+.value_preview .remove_image
+{
+  float: left;;
+}
+.value_preview .remove_image
+{
+  margin: 5px;
+}
 .nested_wrap .list > .resource
 {
   padding-top: 10px;
@@ -278,4 +287,11 @@
 .nested_wrap .list > .resource:last-child
 {
   border-bottom: 1px dotted #DDD;
+}
+
+
+.field.type_delete_nested,
+.field.type_image .remove_image
+{
+  cursor: pointer;
 }

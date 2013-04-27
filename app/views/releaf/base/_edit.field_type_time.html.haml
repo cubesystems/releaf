@@ -6,10 +6,9 @@
     :class => 'time_picker',
     :format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm')
   }
+  field_attrs = get_template_field_attributes local_assigns
 
-
-
-.field.type_time{ 'data-name' => name }
+.field.type_time{field_attrs}
   = render "edit.field_label", label_opts
   -# FIXME
   -# .value><= f.text_field name, l(f.object.send(name), :format => :time_picker), :class => 'time_picker', :format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm')
