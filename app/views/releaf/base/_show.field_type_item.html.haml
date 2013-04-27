@@ -1,6 +1,9 @@
-- m = name.sub(/_id$/, '').to_s
+:ruby
+  field_attrs = get_template_field_attributes local_assigns
 
-.field.no_label_wrap_padding.type_item{:'data-name' => name}
+  m = name.sub(/_id$/, '').to_s
+
+.field.no_label_wrap_padding.type_item{field_attrs}
   .label_wrap
     .label= t(m, :scope => controller_scope_name) + ':'
   .value

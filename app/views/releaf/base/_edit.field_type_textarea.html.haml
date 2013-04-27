@@ -1,8 +1,8 @@
 :ruby
   label_opts = get_template_label_options local_assigns
-  input_opts = get_template_input_options local_assigns, { :rows => 5, :cols => 75 }
+  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 75 }
 
 .field.type_textarea{ 'data-name' => name }
   = render "edit.field_label", label_opts
-  .value><= f.text_area name, input_opts
+  .value><= f.text_area name, input_attrs
   .clear

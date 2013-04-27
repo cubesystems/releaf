@@ -1,8 +1,8 @@
 :ruby
   label_opts = get_template_label_options local_assigns, { :translation_name => name.sub(/_html$/, '').to_s }
-  input_opts = get_template_input_options local_assigns, { :rows => 5, :cols => 50, :class => "richtext" }
+  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 50, :class => "richtext" }
 
 .field.type_richtext{ 'data-name' => name }
   = render "edit.field_label", label_opts
-  .value><= f.text_area name, input_opts
+  .value><= f.text_area name, input_attrs
   .clear

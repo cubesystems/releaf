@@ -1,6 +1,6 @@
 :ruby
   label_opts = get_template_label_options local_assigns
-  input_opts = get_template_input_options local_assigns, :rows => 5, :cols => 75
+  input_attrs = get_template_input_attributes local_assigns, :rows => 5, :cols => 75
 
   default_locale = Settings.i18n_locales.first
 
@@ -16,7 +16,7 @@
           - unless translation.new_record?
             = ff.hidden_field :id
           = ff.hidden_field :locale
-          = ff.text_area name, input_opts
+          = ff.text_area name, input_attrs
         .clear
 
   .localization_buttons

@@ -1,4 +1,7 @@
-.field.no_label_wrap_padding.type_date_time{:'data-name' => name}
+:ruby
+  field_attrs = get_template_field_attributes local_assigns
+
+.field.no_label_wrap_padding.type_date_time{field_attrs}
   .label_wrap
     .label= t(name, :scope => controller_scope_name) + ':'
   .value

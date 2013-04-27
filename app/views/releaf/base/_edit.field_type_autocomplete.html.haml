@@ -1,22 +1,22 @@
 :ruby
-  label_opts = get_template_label_options local_assigns
-
+  label_opts  = get_template_label_options    local_assigns
   autocomplete_url = url_for(:action => "autocomplete", :field => name, :query_field => query_field, :format => :json)
-  input_opts = get_template_input_options local_assigns, { :data => { :'autocomplete-url' => autocomplete_url } }
+  input_attrs = get_template_input_attributes local_assigns, { :data => { :'autocomplete-url' => autocomplete_url } }
+  field_attrs = get_template_input_attributes local_assigns
 
 
   query_field = local_assigns.fetch(:query_field, 'name')
   can_create  = local_assigns.fetch(:can_create, false)
 
 
-.field.type_autocomplete{ 'data-name' => name }
+.field.type_autocomplete{field_attrs}
   = render "edit.field_label", label_opts
   .value><
     - if can_create == true
-      = f.text_field :"#{name}_text", input_opts
+      = f.text_field :"#{name}_text", input_attrs
     - else
-      - input_opts = { :value => resource_to_text(f.object.send(name.sub(/_id$/, ''))) }.merge(input_opts)
-      = text_field_tag "_tmp_field_#{f.object.object_id}_#{rand(999999999)}", resource_to_text(f.object.send(name.sub(/_id$/, ''))), input_opts
+      - input_attrs = { :value => resource_to_text(f.object.send(name.sub(/_id$/, ''))) }.merge(input_attrs)
+      = text_field_tag "_tmp_field_#{f.object.object_id}_#{rand(999999999)}", resource_to_text(f.object.send(name.sub(/_id$/, ''))), input_attrs
     = image_tag 'releaf/input/autocompleteExpandIcon.png', :alt => '', :class => :autocomplete_expand_icon
     = f.hidden_field name
 
