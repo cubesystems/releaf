@@ -502,7 +502,7 @@ module Releaf
       return default_options unless local_assigns.key? :label_options
 
       custom_options = local_assigns[:label_options]
-      raise RuntimeError, 'label_options must a Hash' unless custom_options.is_a? Hash
+      raise RuntimeError, 'label_options must be a Hash' unless custom_options.is_a? Hash
       return default_options.deep_merge(custom_options)
     end
 
@@ -515,7 +515,7 @@ module Releaf
       return default_attributes unless local_assigns.key? :input_attributes
 
       custom_attributes = local_assigns[:input_attributes]
-      raise RuntimeError, 'input_attributes must a Hash' unless custom_attributes.is_a? Hash
+      raise RuntimeError, 'input_attributes must be a Hash' unless custom_attributes.is_a? Hash
       return default_attributes.deep_merge(custom_attributes)
     end
 
@@ -535,7 +535,7 @@ module Releaf
       return default_attributes unless local_assigns.key? :field_attributes
 
       custom_attributes = local_assigns[:field_attributes]
-      raise RuntimeError, 'field_attributes must a Hash' unless custom_attributes.is_a? Hash
+      raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
       return default_attributes.deep_merge(custom_attributes)
     end
 
