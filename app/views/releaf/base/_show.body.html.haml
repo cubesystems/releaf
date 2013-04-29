@@ -1,9 +1,9 @@
 .body.outset_box
   - if has_template? "_show.body_top"
-    = render 'show.body_top'
+    = render 'show.body_top', :resource => @resource
 
   .section
     = render 'show.fields', :resource => @resource, :view_prefix => 'show.field', :fields => fields_to_display
 
   - if has_template? "_show.body_bottom"
-    = render 'show.body_bottom'
+    = render 'show.body_bottom', :resource => @resource

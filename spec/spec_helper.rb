@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+# SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.command_name 'rspec'
 SimpleCov.start 'rails'
 
@@ -18,6 +18,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+
+  config.add_formatter(:html, 'rspec.html')
+
 
   config.include Rails.application.routes.url_helpers
 
