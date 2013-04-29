@@ -142,10 +142,16 @@ module Releaf
       @resource.assign_attributes required_params.permit(*resource_params)
 
       respond_to do |format|
-        if @resource.save
-          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
-        else
-          format.html { render :action => "new" }
+        format.html do
+          if @resource.save
+            if @features[:show]
+              redirect_to url_for( :action => 'show', :id => @resource.id )
+            else
+              redirect_to url_for( :action => 'index' )
+            end
+          else
+            render :action => "new"
+          end
         end
       end
     end
@@ -155,10 +161,16 @@ module Releaf
       @resource = resource_class.find(params[:id])
 
       respond_to do |format|
-        if @resource.update_attributes( required_params.permit(*resource_params) )
-          format.html { redirect_to url_for( :action => @features[:show] ? 'show' : 'index', :id => @resource.id ) }
-        else
-          format.html { render :action => "edit" }
+        format.html do
+          if @resource.update_attributes( required_params.permit(*resource_params) )
+            if @features[:show]
+              redirect_to url_for( :action => 'show', :id => @resource.id )
+            else
+              redirect_to url_for( :action => 'index' )
+            end
+          else
+            render :action => "edit"
+          end
         end
       end
     end

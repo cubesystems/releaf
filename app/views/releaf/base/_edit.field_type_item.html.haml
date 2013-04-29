@@ -5,22 +5,26 @@
 
   select_params = [name]
 
+  relation_name = name.sub(/_id$/, '').to_sym
+
   if local_assigns.key? :select_options
     select_params.push select_options
   else
-    collection = f.object.class.reflect_on_association(name.sub(/_id$/, '').to_sym).try(:klass).try(:all)
+    collection = f.object.class.reflect_on_association(relation_name).try(:klass).try(:all)
     select_params.push options_from_collection_for_select(collection, :id, resource_to_text_method(collection.first), f.object.send(name))
   end
 
   select_helper_options = local_assigns.fetch(:options, {})
 
+  rel = f.object.send(relation_name)
   unless local_assigns.key? :include_blank
     include_blank = true
     f.object.class.validators_on(name).each do |validator|
-      if validator.is_a? ActiveModel::Validations::PresenceValidator
-        include_blank = f.object.new_record?
-        break
-      end
+      next unless validator.is_a? ActiveModel::Validations::PresenceValidator
+
+      # if new record, or object is missing (was deleted)
+      include_blank = f.object.new_record? || f.object.send(relation_name).blank?
+      break
     end
   end
 

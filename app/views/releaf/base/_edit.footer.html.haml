@@ -1,8 +1,9 @@
 .footer.center
   .block.left_block
-    %a.button{:href => "./"}
+    %a.button{ :href => @features[:show] ? url_for( :action => 'show', :id => resource.id ) : url_for( :action => 'index' ) }
       = image_tag("releaf/icons/arrow_left.png", :alt => "") \
       = t('cancel', :scope => 'admin.global')
+
   .block.center_block
     %button{:type => "submit"}
       = image_tag("releaf/icons/disk.png", :alt => "") \
