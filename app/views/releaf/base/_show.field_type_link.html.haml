@@ -1,4 +1,7 @@
-.field.no_label_wrap_padding.type_link{:'data-name' => name}
+:ruby
+  field_attrs = get_template_field_attributes local_assigns
+
+.field.no_label_wrap_padding.type_link{field_attrs}
   .label_wrap
     .label= t(name, :scope => controller_scope_name) + ':'
   .value

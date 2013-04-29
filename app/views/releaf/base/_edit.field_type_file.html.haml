@@ -1,13 +1,14 @@
 :ruby
-  label_opts = get_template_label_options local_assigns
-  input_opts = get_template_input_options local_assigns
+  label_opts  = get_template_label_options    local_assigns
+  input_attrs = get_template_input_attributes local_assigns
+  field_attrs = get_template_field_attributes local_assigns
 
-.field.type_file{ 'data-name' => name }
+.field.type_file{field_attrs}
   - field_name = name.sub(/_uid$/, '')
 
   = render "edit.field_label", label_opts
   .value><
-    = f.file_field field_name, input_opts
+    = f.file_field field_name, input_attrs
     - unless f.object.send(name).blank?
       = f.hidden_field "retained_#{field_name}"
       = link_to I18n.t("common.Download current"), f.object.send(field_name).url, :target => :_blank

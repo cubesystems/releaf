@@ -2,20 +2,13 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < BaseApplicationController
-    # This array lists _edit.field_label partial options that can be passed to
-    # _edit.field_type_* partials
-    #
-    # :minimal            - boolean
-    # :description        - String
-    # :translation_name   - String
-    LABEL_OPTIONS = [:minimal, :description, :translation_name]
-
     helper_method \
       :build_secondary_panel_variables,
       :current_feature,
       :fields_to_display,
       :find_parent_template,
-      :get_template_input_options,
+      :get_template_field_attributes,
+      :get_template_input_attributes,
       :get_template_label_options,
       :has_template?,
       :list_action,
@@ -496,14 +489,15 @@ module Releaf
 
     # This helper will return options passed to render 'edit_label'.
     # It will merge in label_options when present
-    def get_template_label_options local_assigns, default_options={}
+    def get_template_label_options local_assigns, options={}
+      raise ArgumentError unless options.is_a? Hash
       default_options = {
         :f => local_assigns.fetch(:f, nil),
         :name => local_assigns.fetch(:name, nil)
-      }.deep_merge!(default_options)
+      }.deep_merge(options)
 
-      raise RuntimError, 'form_builder not passed to partial' if default_options[:f].blank?
-      raise RuntimError, 'name not passed to partial'         if default_options[:name].blank?
+      raise RuntimeError, 'form_builder not passed to partial' if default_options[:f].blank?
+      raise RuntimeError, 'name not passed to partial'         if default_options[:name].blank?
 
       return default_options unless local_assigns.key? :label_options
 
@@ -512,15 +506,37 @@ module Releaf
       return default_options.deep_merge(custom_options)
     end
 
-    # This helper will return options for input fields (input, select,
-    # textarea).  It will merge in input_options when present. In input options
-    # you can pass any valid html tags attributes
-    def get_template_input_options local_assigns, default_options={}
-      return default_options unless local_assigns.key? :input_options
+    # This helper will return attributes for input fields (input, select,
+    # textarea). It will merge in input_attributes when present. You can pass
+    # any valid html attributes to input_attributes
+    def get_template_input_attributes local_assigns, attributes={}
+      raise ArgumentError unless attributes.is_a? Hash
+      default_attributes = attributes
+      return default_attributes unless local_assigns.key? :input_attributes
 
-      custom_options = local_assigns[:input_options]
-      raise RuntimeError, 'input_options must a Hash' unless custom_options.is_a? Hash
-      return default_options.deep_merge(custom_options)
+      custom_attributes = local_assigns[:input_attributes]
+      raise RuntimeError, 'input_attributes must a Hash' unless custom_attributes.is_a? Hash
+      return default_attributes.deep_merge(custom_attributes)
+    end
+
+    # This helper will return attributes for fields.  It will merge in
+    # field_attributes when present. You can pass any valid html attributes to
+    # field_attributes
+    def get_template_field_attributes local_assigns, attributes={}
+      raise ArgumentError unless attributes.is_a? Hash
+      default_attributes = {
+        :data => {
+          :name => local_assigns.fetch(:name, nil)
+        }
+      }.deep_merge(attributes)
+
+      raise RuntimeError, 'name not passed to partial' if default_attributes[:data].try('[]', :name).blank?
+
+      return default_attributes unless local_assigns.key? :field_attributes
+
+      custom_attributes = local_assigns[:field_attributes]
+      raise RuntimeError, 'field_attributes must a Hash' unless custom_attributes.is_a? Hash
+      return default_attributes.deep_merge(custom_attributes)
     end
 
     protected

@@ -1,6 +1,7 @@
 :ruby
-  label_opts = get_template_label_options local_assigns, { :translation_name => name.sub(/_id$/, '').to_s }
-  input_opts = get_template_input_options local_assigns, { :include_blank => true }
+  label_opts  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_id$/, '').to_s }
+  input_attrs = get_template_input_attributes local_assigns, { :include_blank => true }
+  field_attrs = get_template_field_attributes local_assigns
 
   select_params = [name]
 
@@ -26,10 +27,10 @@
   select_helper_options.merge!({:include_blank => include_blank})
 
   select_params.push select_helper_options
-  select_params.push input_opts
+  select_params.push input_attrs
 
 
-.field.type_item{ 'data-name' => name }
+.field.type_item{field_attrs}
   = render "edit.field_label", label_opts
   .value><= f.select *select_params
   .clear

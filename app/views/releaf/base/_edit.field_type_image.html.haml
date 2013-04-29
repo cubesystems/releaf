@@ -1,18 +1,23 @@
 :ruby
-  label_opts = get_template_label_options local_assigns
-  input_opts = get_template_input_options local_assigns, {
-    :accept => 'image/png,image/jpeg,image/bmp,image/gif'
-  }
+  label_opts  = get_template_label_options    local_assigns
+  input_attrs = get_template_input_attributes local_assigns, { :accept => 'image/png,image/jpeg,image/bmp,image/gif' }
+  field_attrs = get_template_field_attributes local_assigns
 
-.field.type_text{ 'data-name' => name }
+.field.type_image{field_attrs}
   - field_name = name.sub(/_uid$/, '')
 
   = render "edit.field_label", label_opts
   .value><
-    = f.file_field field_name, input_opts
+    = f.file_field field_name, input_attrs
     - unless f.object.send(name).blank?
       .value_preview
-        = f.hidden_field "retained_#{field_name}"
-        - img_object = f.object.send(field_name)
-        = link_to image_tag(img_object.thumb('x128>').url, :alt => ''), img_object.url, :target => :_blank, :data => {:lightbox => true }
+        .image_wrap
+          = f.hidden_field "retained_#{field_name}"
+          - img_object = f.object.send(field_name)
+          = link_to image_tag(img_object.thumb('x128>').url, :alt => ''), img_object.url, :target => :_blank, :data => {:lightbox => true }
+        .remove_image
+          = f.check_box "remove_#{field_name}"
+          = f.label "remove_#{field_name}", I18n.t("Remove image", :scope => 'admin.global')
+        .clear
+
   .clear
