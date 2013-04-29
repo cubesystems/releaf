@@ -4,7 +4,6 @@ module Releaf
   class BaseController < BaseApplicationController
     helper_method \
       :build_secondary_panel_variables,
-      :current_feature,
       :fields_to_display,
       :find_parent_template,
       :get_template_field_attributes,
@@ -26,21 +25,6 @@ module Releaf
     end
 
 
-    # Helper that returns current feature
-    def current_feature
-      case params[:action].to_sym
-      when :index
-        return :index
-      when :new, :create
-        return :create
-      when :edit, :update
-        return :edit
-      when :destroy, :confirm_destroy
-        return :destroy
-      else
-        return params[:action].to_sym
-      end
-    end
 
     def authorize!(action = nil)
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
@@ -192,9 +176,6 @@ module Releaf
 
 
 
-
-
-
     # Helper methods ##############################################################################
 
 
@@ -231,10 +212,6 @@ module Releaf
     # need to add either association name, or a Hash. Hash keys must match
     # association name, hash value must be array with nested fields to be
     # rendered.
-    #
-    # NOTE: currently if you add has_many associations name to array, then it
-    # will render all fields (except created_at etc.) including <tt>belongs_to
-    # :parent</tt>. This is know bug https://github.com/cubesystems/releaf/issues/64
     #
     # @example
     #   def fields_to_display

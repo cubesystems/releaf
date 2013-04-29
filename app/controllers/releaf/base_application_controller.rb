@@ -1,5 +1,7 @@
 module Releaf
   class BaseApplicationController < ActionController::Base
+    helper_method \
+      :current_feature
 
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     before_filter :set_locale
@@ -29,6 +31,22 @@ module Releaf
     def access_denied
       @controller_name = full_controller_name
       render :template => 'error_pages/access_denied'
+    end
+
+    # Helper that returns current feature
+    def current_feature
+      case params[:action].to_sym
+      when :index
+        return :index
+      when :new, :create
+        return :create
+      when :edit, :update
+        return :edit
+      when :destroy, :confirm_destroy
+        return :destroy
+      else
+        return params[:action].to_sym
+      end
     end
   end
 end
