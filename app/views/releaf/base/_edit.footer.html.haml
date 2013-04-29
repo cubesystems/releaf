@@ -1,6 +1,12 @@
 .footer.center
   .block.left_block
-    %a.button{ :href => @features[:show] ? url_for( :action => 'show', :id => resource.id ) : url_for( :action => 'index' ) }
+    :ruby
+      if resource.new_record? || @features[:show] == false
+        cancel_url = url_for( :action => 'index' )
+      else
+        cancel_url = url_for( :action => 'show', :id => resource.id )
+      end
+    %a.button{ :href => cancel_url }
       = image_tag("releaf/icons/arrow_left.png", :alt => "") \
       = t('cancel', :scope => 'admin.global')
 
