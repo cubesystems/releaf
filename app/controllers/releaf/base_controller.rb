@@ -361,15 +361,25 @@ module Releaf
       use_i18n = false
       obj_class = obj.class
 
+      column_type = :VIRTUAL
+
       if obj_class.respond_to?(:translations_table_name)
         use_i18n = obj_class.translates.include?(attribute_name.to_sym)
       end
 
-      column_type = :VIRTUAL
-      if attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
-        column_type = obj.common_field_field_type(attribute_name)
+      if use_i18n
+        begin
+          column_type = obj_class::Translation.columns_hash[attribute_name.to_s].try(:type) || :VIRTUAL
+        rescue
+        end
       else
         column_type = obj_class.columns_hash[attribute_name.to_s].try(:type) || :VIRTUAL
+      end
+
+      if column_type == :VIRTUAL
+        if attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
+          column_type = obj.common_field_field_type(attribute_name)
+        end
       end
 
       case column_type.to_sym
