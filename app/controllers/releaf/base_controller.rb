@@ -531,11 +531,32 @@ module Releaf
 
       raise RuntimeError, 'name not passed to partial' if default_attributes[:data].try('[]', :name).blank?
 
-      return default_attributes unless local_assigns.key? :field_attributes
+      return_attributes = default_attributes
 
-      custom_attributes = local_assigns[:field_attributes]
-      raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
-      return default_attributes.deep_merge(custom_attributes)
+      if local_assigns.key? :field_attributes
+        custom_attributes = local_assigns[:field_attributes]
+        raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
+        return_attributes.deep_merge!(custom_attributes)
+      end
+
+      return return_attributes unless local_assigns.key? :f
+
+      resource = local_assigns.fetch(:f).object
+      field = local_assigns.fetch(:name)
+      return return_attributes unless resource.errors.has_key? field.to_sym
+
+
+      if return_attributes.has_key? :class
+        if return_attributes[:class].is_a? Array
+          return_attributes[:class].push :error
+        else
+          return_attributes[:class] = :error
+        end
+      else
+        return_attributes[:class] = :error
+      end
+
+      return return_attributes
     end
 
     protected
