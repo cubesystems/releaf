@@ -1,7 +1,6 @@
 :ruby
   label_opts  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_html$/, '').to_s }
-  # Richtext inputs are in iframe, for test enviroment use simple textarea
-  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 50, :class => Rails.env.to_sym != :test ? :richtext : nil }
+  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 50, :class => "richtext" }
   field_attrs = get_template_field_attributes local_assigns
 
 .field.type_richtext{field_attrs}

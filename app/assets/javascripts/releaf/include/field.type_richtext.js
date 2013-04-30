@@ -86,5 +86,5 @@ jQuery(function()
         jQuery(e.target).find('.field.type_richtext textarea' ).trigger( 'richtextinit');
     })
 
-    jQuery( '.field.type_richtext textarea.richtext' ).trigger( 'richtextinit' );
+    jQuery( '.field.type_richtext textarea' ).trigger( 'richtextinit' );
 });
