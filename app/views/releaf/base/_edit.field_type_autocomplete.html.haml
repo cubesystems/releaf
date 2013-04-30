@@ -2,7 +2,7 @@
   label_opts  = get_template_label_options    local_assigns
   autocomplete_url = url_for(:action => "autocomplete", :field => name, :query_field => query_field, :format => :json)
   input_attrs = get_template_input_attributes local_assigns, { :data => { :'autocomplete-url' => autocomplete_url } }
-  field_attrs = get_template_input_attributes local_assigns
+  field_attrs = get_template_field_attributes local_assigns
 
 
   query_field = local_assigns.fetch(:query_field, 'name')
