@@ -18,4 +18,6 @@
   -# FIXME
   -# .value><= f.text_field name, l(f.object.send(name), :format => :datetime_picker), :class => 'datetime_picker', :data => {:date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'), :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss') }
   .value><= f.text_field name, input_attrs
+
+  = render "edit.field_errors", :f => f, :name => name
   .clear

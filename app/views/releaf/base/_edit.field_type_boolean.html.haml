@@ -7,4 +7,6 @@
   .value
     = f.check_box name, input_attrs
     = render "edit.field_label", label_opts
+
+  = render "edit.field_errors", :f => f, :name => name
   .clear

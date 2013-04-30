@@ -24,3 +24,6 @@
     - Settings.i18n_locales.each_with_index do |locale, i|
       - is_default_locale = locale == default_locale
       %button{:type => :button, :"data-locale" => locale, :class => is_default_locale ? :active : nil}= locale
+
+  = render "edit.field_errors", :f => f, :name => name
+  .clear

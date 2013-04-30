@@ -6,4 +6,6 @@
 .field.type_richtext{field_attrs}
   = render "edit.field_label", label_opts
   .value><= f.text_area name, input_attrs
+
+  = render "edit.field_errors", :f => f, :name => name
   .clear

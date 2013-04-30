@@ -37,4 +37,6 @@
 .field.type_item{field_attrs}
   = render "edit.field_label", label_opts
   .value><= f.select *select_params
+
+  = render "edit.field_errors", :f => f, :name => name
   .clear

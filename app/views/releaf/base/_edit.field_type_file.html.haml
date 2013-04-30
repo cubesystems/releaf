@@ -12,4 +12,6 @@
     - unless f.object.send(name).blank?
       = f.hidden_field "retained_#{field_name}"
       = link_to I18n.t("common.Download current"), f.object.send(field_name).url, :target => :_blank
+
+  = render "edit.field_errors", :f => f, :name => name
   .clear

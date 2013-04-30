@@ -559,7 +559,7 @@ module Releaf
       return return_attributes if resource.nil?
       # raise resource.errors.inspect
 
-      field = local_assigns.fetch(:name).try(:to_sym)
+      field = local_assigns.fetch(:name)
       return return_attributes if field.nil?
 
       return return_attributes unless resource.errors.has_key?(field.to_sym) || resource.errors.has_key?(field.sub(/_id$/, '').to_sym)
