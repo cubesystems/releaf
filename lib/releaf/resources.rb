@@ -116,11 +116,11 @@ module ActionDispatch::Routing
 
           releaf_resources :admins, :roles
 
-          releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show], :path_names => { :edit => '' } do
+          releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
             get :generate_url, :on => :collection
           end
 
-          releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show], :path_names => { :edit => '' }
+          releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show]
 
           root :to => "home#index"
         end
