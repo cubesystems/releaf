@@ -7,6 +7,7 @@ class CreateBooks < ActiveRecord::Migration
       t.string  :genre
       t.text    :summary_html
       t.boolean :active
+      t.datetime :published_at
 
       t.timestamps
     end
