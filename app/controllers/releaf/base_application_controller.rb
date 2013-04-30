@@ -31,14 +31,14 @@ module Releaf
     def access_denied
       @controller_name = full_controller_name
       respond_to do |format|
-        format.html { render :template => 'error_pages/access_denied', :status => 403 }
+        format.html { render 'releaf/error_pages/access_denied', :status => 403 }
         format.any  { render :text => '', :status =>403 }
       end
     end
 
     def page_not_found
       respond_to do |format|
-        format.html { render :template => 'error_pages/page_not_found', :status => 404 }
+        format.html { render 'releaf/error_pages/page_not_found', :status => 404 }
         format.any  { render :text => '', :status => 404 }
       end
     end
