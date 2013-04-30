@@ -30,7 +30,7 @@ module Releaf
 
     def access_denied
       @controller_name = full_controller_name
-      render :template => 'error_pages/access_denied'
+      render :template => 'error_pages/access_denied', :status => 403
     end
 
     # Helper that returns current feature
