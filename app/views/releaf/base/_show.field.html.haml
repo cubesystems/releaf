@@ -21,7 +21,9 @@
 
 - elsif has_template? "_#{view_prefix}.#{name}"
   = render "#{view_prefix}.#{name}", opts
-- elsif resource.send(name).blank? == false
+
+- elsif resource.send(name).blank? == false || resource.errors.has_key?(name.to_sym) || resource.errors.has_key?(name.sub(/_id$/, '').to_sym)
+  -# Render fields if they are not blank or have errors
   - render_field_type, use_i18n = render_field_type(resource, name)
   - if use_i18n and has_template?( "_show.field_type_#{render_field_type}_i18n" )
     = render "show.field_type_#{render_field_type}_i18n", opts
