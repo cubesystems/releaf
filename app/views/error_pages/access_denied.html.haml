@@ -1,1 +1,1 @@
-%h1{:class => "error"}=t('You are not authorized to access ') + " " + controller_name
+%h1.error= t('You are not authorized to access %{controller}', :default => 'You are not authorized to access %{controller}', :controller => controller_name)
