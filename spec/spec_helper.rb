@@ -20,6 +20,7 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.add_formatter(:html, 'rspec.html')
+  config.add_formatter(:progress)
 
 
   config.include Rails.application.routes.url_helpers
