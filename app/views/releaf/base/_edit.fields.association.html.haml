@@ -7,7 +7,7 @@
 
   - case reflection.macro
   - when :has_many
-    - sortable_objects = reflection.klass.column_names.include?('position')
+    - sortable_objects = reflection.klass.column_names.include?('item_position')
     .nested_wrap{:'data-name' => field}
       .nested_title= t(field, :scope => controller_scope_name)
       .list{:'data-sortable' => sortable_objects ? '' : nil}

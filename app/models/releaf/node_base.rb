@@ -8,7 +8,7 @@ module Releaf
     end
 
     def self.releaf_fields_to_display action
-      column_names - %w[id created_at updated_at position]
+      column_names - %w[id created_at updated_at item_position]
     end
 
     def self.node_type

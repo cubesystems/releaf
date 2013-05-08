@@ -12,7 +12,7 @@ class CreateReleafNodes < ActiveRecord::Migration
       t.datetime "created_at",      :null => false
       t.datetime "updated_at",      :null => false
       t.string   "content_string"
-      t.integer  "position"
+      t.integer  "item_position"
       t.boolean  'visible',         :null => false, :default => true
       t.boolean  'protected',       :null => false, :default => false
     end

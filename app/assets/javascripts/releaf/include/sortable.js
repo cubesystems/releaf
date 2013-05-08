@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
     jQuery(document.body).on('sortableupdate', '[data-sortable]', function(e) {
         e.stopPropogation;
         var sortable_container = jQuery(this);
-        sortable_container.find('> .item > input[type="hidden"].position').each(function(i) {
+        sortable_container.find('> .item > input[type="hidden"].item_position').each(function(i) {
             jQuery(this).attr('value', i);
          });
      });

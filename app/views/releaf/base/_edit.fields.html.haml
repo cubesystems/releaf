@@ -16,6 +16,6 @@
       - reflection = f.object.class.reflections[field.to_sym]
       = render 'edit.fields.association', :f => f, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix
   - elsif reflection
-    - subfields = reflection.klass.column_names - %w[id created_at updated_at password password_confirmation encrypted_password position]
+    - subfields = reflection.klass.column_names - %w[id created_at updated_at password password_confirmation encrypted_password item_position]
     - subfields = subfields - [reflection.foreign_key]
     = render 'edit.fields.association', :f => f, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix

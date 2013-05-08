@@ -3,12 +3,12 @@ module Releaf
     COMMON_FIELD_NAME_PREFIX = 'data_'
 
     acts_as_nested_set
-    acts_as_list :scope => :parent_id
+    acts_as_list :scope => :parent_id, :column => 'item_position'
     include Slug
     self.table_name = 'releaf_nodes'
 
     serialize :data, Hash
-    default_scope :order => 'position'
+    default_scope :order => 'releaf_nodes.item_position'
 
     validates_presence_of :name, :slug, :content_type
     validates_uniqueness_of :slug, :scope => :parent_id

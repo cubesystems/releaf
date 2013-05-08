@@ -232,7 +232,7 @@ module Releaf
     #
     # @return array that represent which fields to render
     def fields_to_display
-      cols = resource_class.column_names - %w[id created_at updated_at encrypted_password position]
+      cols = resource_class.column_names - %w[id created_at updated_at encrypted_password item_position]
 
       if resource_class.respond_to?(:translations_table_name)
         cols += resource_class.translates.map { |a| a.to_s }

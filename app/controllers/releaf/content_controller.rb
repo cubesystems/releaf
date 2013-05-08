@@ -6,7 +6,7 @@ module Releaf
       if obj_class.respond_to? :releaf_fields_to_display
         obj_class.releaf_fields_to_display params[:action]
       else
-        obj_class.column_names - %w[id created_at updated_at position]
+        obj_class.column_names - %w[id created_at updated_at item_position]
       end
     end
 
@@ -85,7 +85,7 @@ module Releaf
       unless params[:ajax] == '1'
         super
         @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
-        @position = 1
+        @item_position = 1
         @resource.parent_id = params[:parent_id]
         form_extras
       else
@@ -100,9 +100,9 @@ module Releaf
       @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
 
       if @resource.higher_item
-        @position = @resource.position
+        @item_position = @resource.item_position
       else
-        @position = 1
+        @item_position = 1
       end
 
       form_extras
