@@ -105,16 +105,24 @@ module ActionDispatch::Routing
 
     end
 
-    def mount_releaf_at mount_location
+    def mount_releaf_at mount_location, options={}
 
       post '/tinymce_assets' => 'releaf/tinymce_assets#create'
 
       devise_for Releaf.devise_for, :path => mount_location, :controllers => { :sessions => "releaf/sessions" }
 
       scope mount_location do
+        unless options[:controllers].blank?
+          namespace :releaf, :module => nil, :path => nil do
+            releaf_resources :admins, :controller => options[:controllers][:admins] if options[:controllers].try(:[], :admins)
+            releaf_resources :roles,  :controller => options[:controllers][:roles]  if options[:controllers].try(:[], :roles)
+          end
+        end
+
         namespace :releaf, :path => nil do
 
-          releaf_resources :admins, :roles
+          releaf_resources :admins if options[:controllers].try(:[], :admins).blank?
+          releaf_resources :roles  if options[:controllers].try(:[], :roles).blank?
 
           releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
             get :generate_url, :on => :collection
