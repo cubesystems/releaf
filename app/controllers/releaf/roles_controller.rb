@@ -15,22 +15,15 @@ module Releaf
     end
 
     def fields_to_display
-      case params[:action].to_sym
-      when :index
-        %w[name default_controller]
-      when :create, :edit, :new, :update, :show
-        %w[name default_controller permissions]
-      else
-        []
-      end
+      return %w[name default_controller] if params[:action] == 'index'
+      return %w[name default_controller permissions]
     end
 
     protected
 
     def resource_params
       return [] unless %w[update create].include? params[:action]
-      fields = ['name', 'default_controller', 'permissions']
-      return fields
+      return %w[name default_controller permissions]
     end
 
 
