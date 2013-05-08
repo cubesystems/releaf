@@ -26,12 +26,6 @@ module Releaf
 
 
 
-    def authorize!(action = nil)
-      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
-      raise Releaf::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
-    end
-
-
     def autocomplete
       c_obj = resource_class
 
@@ -539,6 +533,11 @@ module Releaf
     end
 
     protected
+
+    def authorize! action=nil
+      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+      raise Releaf::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
+    end
 
     # Get resources collection for #index
     def get_collection
