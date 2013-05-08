@@ -106,29 +106,30 @@ module ActionDispatch::Routing
     end
 
     def mount_releaf_at mount_location, options={}
+      allowed_controllers = options.try(:[], :allowed_controllers)
 
-      post '/tinymce_assets' => 'releaf/tinymce_assets#create'
+      if allowed_controllers.nil? or allowed_controllers.include? :content
+        post '/tinymce_assets' => 'releaf/tinymce_assets#create'
+      end
 
       devise_for Releaf.devise_for, :path => mount_location, :controllers => { :sessions => "releaf/sessions" }
 
       scope mount_location do
-        unless options[:controllers].blank?
-          namespace :releaf, :module => nil, :path => nil do
-            releaf_resources :admins, :controller => options[:controllers][:admins] if options[:controllers].try(:[], :admins)
-            releaf_resources :roles,  :controller => options[:controllers][:roles]  if options[:controllers].try(:[], :roles)
-          end
-        end
 
         namespace :releaf, :path => nil do
 
-          releaf_resources :admins if options[:controllers].try(:[], :admins).blank?
-          releaf_resources :roles  if options[:controllers].try(:[], :roles).blank?
+          releaf_resources :admins if (allowed_controllers.nil? or allowed_controllers.include? :admins)
+          releaf_resources :roles if (allowed_controllers.nil? or allowed_controllers.include? :roles)
 
-          releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
-            get :generate_url, :on => :collection
+          if allowed_controllers.nil? or allowed_controllers.include? :content
+            releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
+              get :generate_url, :on => :collection
+            end
           end
 
-          releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show]
+          if allowed_controllers.nil? or allowed_controllers.include? :translations
+            releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show]
+          end
 
           root :to => "home#index"
         end
