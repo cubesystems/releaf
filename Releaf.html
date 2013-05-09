@@ -275,12 +275,12 @@ href="http://yui.yahooapis.com/3.9.0/build/yui/yui-min.js">yui.yahooapis.com/3.9
       <pre class="lines">
 
 
-86
-87
-88</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available_admin_controllers'>available_admin_controllers</span>
   <span class='id identifier rubyid_controller_list'>controller_list</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
@@ -337,41 +337,31 @@ href="http://yui.yahooapis.com/3.9.0/build/yui/yui-min.js">yui.yahooapis.com/3.9
 76
 77
 78
-79
-80
-81
-82
-83
-84</pre>
+79</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_controller_list'>build_controller_list</span>
-  <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
-      <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:controller</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='rbrace'>}</span>
-      <span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Hash</span>
-      <span class='comment'># submenu hash
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:sections</span>
-        <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:sections</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='comma'>,</span> <span class='id identifier rubyid_submenu_index'>submenu_index</span><span class='op'>|</span>
-          <span class='kw'>if</span> <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:name</span> <span class='kw'>and</span> <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:items</span>
-            <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='comma'>,</span> <span class='id identifier rubyid_submenu_item_index'>submenu_item_index</span><span class='op'>|</span>
-              <span class='kw'>if</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
-                <span class='id identifier rubyid_submenu_item'>submenu_item</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:controller</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='rbrace'>}</span>
-              <span class='kw'>end</span>
+  <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_item_data'>item_data</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+    <span class='id identifier rubyid_item'>item</span> <span class='op'>=</span> <span class='id identifier rubyid_build_controller_list_item'>build_controller_list_item</span><span class='lparen'>(</span><span class='id identifier rubyid_item_data'>item_data</span><span class='rparen'>)</span>
 
-              <span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:submenu</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
-              <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_submenu_item_index'>submenu_item_index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span>
-              <span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span>
-            <span class='kw'>end</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:sections</span>
+      <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:sections</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='comma'>,</span> <span class='id identifier rubyid_submenu_index'>submenu_index</span><span class='op'>|</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:name</span> <span class='kw'>and</span> <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:items</span>
+          <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_submenu_item_data'>submenu_item_data</span><span class='comma'>,</span> <span class='id identifier rubyid_submenu_item_index'>submenu_item_index</span><span class='op'>|</span>
+            <span class='id identifier rubyid_submenu_item'>submenu_item</span> <span class='op'>=</span> <span class='id identifier rubyid_build_controller_list_item'>build_controller_list_item</span><span class='lparen'>(</span><span class='id identifier rubyid_submenu_item_data'>submenu_item_data</span><span class='rparen'>)</span>
+
+            <span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:submenu</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
+            <span class='id identifier rubyid_submenu_section'>submenu_section</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_submenu_item_index'>submenu_item_index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span>
+            <span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span>
           <span class='kw'>end</span>
         <span class='kw'>end</span>
-      <span class='kw'>elsif</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:controller</span>
-        <span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_menu_item'>menu_item</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span> <span class='kw'>if</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:controller</span>
+    <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -458,7 +448,7 @@ href="http://yui.yahooapis.com/3.9.0/build/yui/yui-min.js">yui.yahooapis.com/3.9
 </div>
 
     <div id="footer">
-  Generated on Tue Apr 16 14:21:29 2013 by
+  Generated on Thu May  9 10:48:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-2.0.0).
 </div>
