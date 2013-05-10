@@ -78,7 +78,8 @@ jQuery(function()
 			timeout = setTimeout(function()
 			{
 				// set loading icon
-				form.addClass( 'loading' );
+				var submit_button = form.find('button[type="submit"]');
+                submit_button.addClass( 'loading' );
 				// construct url
 				var url = new RequestUrl( form.attr( 'action' ) );
 				url.add( form.serializeArray() );
@@ -90,7 +91,7 @@ jQuery(function()
 					success: function( response )
 					{
 						// remove loading icon
-						form.removeClass( 'loading' );
+						submit_button.removeClass( 'loading' );
 						// create html holder
 						var html = jQuery( response );
 						body.html( html.filter( '.body' ).html() );
