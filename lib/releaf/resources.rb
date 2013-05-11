@@ -39,6 +39,8 @@ module ActionDispatch::Routing
 
         match :urls,            :on => :collection  if add_urls
         get   :confirm_destroy, :on => :member      if add_confirm_destroy
+        post  :validate,        :on => :new
+        put   :validate,        :on => :member
       end
     end
 

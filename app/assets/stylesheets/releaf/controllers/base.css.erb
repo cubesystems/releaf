@@ -203,3 +203,57 @@
     background: url(<%= asset_path("releaf/loader.gif") %>) center center no-repeat;
 }
 
+/* validation errors */
+form .hasError .errorBox
+{
+    display: none;
+}
+form .hasError .errorBox.show
+{
+    display: block;
+}
+form .hasError .errorBox
+{
+    position: absolute;
+    background: url("<%= asset_path 'releaf/validation/errorBox_bg_bottom.png' %>") no-repeat 30px bottom;
+    padding-bottom: 14px;
+    font-size: 100%;
+    bottom: 35px;
+    z-index: 15;
+}
+form .hasError .errorBox p
+{
+    color: #ffffff;
+    font-size: 91.667%;
+    line-height: 1.5em;
+    width: 160px;
+    margin: 0px;
+    padding: 20px;
+    background: url("<%= asset_path 'releaf/validation/errorBox_bg.png' %>");
+    white-space: normal;
+}
+form .attention
+{
+    top: 0;
+    margin-left: 14px;
+    display: none;
+    width: 17px;
+    height: 17px;
+    background: url("<%= asset_path 'releaf/validation/alert.png' %>") no-repeat;
+}
+form .hasError .attention
+{
+    position: absolute;
+    display: block;
+}
+form .field.hasError
+{
+    position: relative;
+}
+
+form .hasError input,
+form .hasError textarea,
+form .hasError select
+{
+    border: 1px solid #f53812;
+}

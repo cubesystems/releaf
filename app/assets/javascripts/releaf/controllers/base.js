@@ -1,8 +1,12 @@
 //= require ../3rd_party/jquery-cookie/jquery.cookie.js
 //= require ../lib/request_url.js
+//= require ../lib/validation.js
+//= require ../lib/base_validation.js
 
 jQuery(function()
 {
+    baseValidation.attachValidation( 'form[data-validation="on"]' );
+
 	// list action switcher
 
 	jQuery( '.action-index' ).on( 'click', '.list_action_switch button', function( event )

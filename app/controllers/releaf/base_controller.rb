@@ -113,45 +113,30 @@ module Releaf
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
     end
 
-    def create
-      raise FeatureDisabled unless @features[:create]
-
-      @resource = resource_class.new
+    def validate
+      if params[:id].nil?
+        @resource = resource_class.new
+      else
+        @resource = resource_class.includes(relations_for_includes).find(params[:id])
+      end
 
       @resource.assign_attributes required_params.permit(*resource_params)
 
-      respond_to do |format|
-        format.html do
-          if @resource.save
-            if @features[:show]
-              redirect_to url_for( :action => 'show', :id => @resource.id )
-            else
-              redirect_to url_for( :action => 'index' )
-            end
-          else
-            render :action => "new"
-          end
-        end
+      if @resource.valid?
+        render :json => {}
+      else
+        render :json => build_validation_errors(@resource), :status => 422
       end
+    end
+
+    def create
+      raise FeatureDisabled unless @features[:create]
+      save_and_respond :create
     end
 
     def update
       raise FeatureDisabled unless @features[:edit]
-      @resource = resource_class.find(params[:id])
-
-      respond_to do |format|
-        format.html do
-          if @resource.update_attributes( required_params.permit(*resource_params) )
-            if @features[:show]
-              redirect_to url_for( :action => 'show', :id => @resource.id )
-            else
-              redirect_to url_for( :action => 'index' )
-            end
-          else
-            render :action => "edit"
-          end
-        end
-      end
+      save_and_respond :update
     end
 
     def confirm_destroy
@@ -608,7 +593,7 @@ module Releaf
     #
     # The resulting array will be passed to strong_parameters ``permit``
     def resource_params
-      return unless %w[create update].include? params[:action]
+      return unless %w[create update validate].include? params[:action]
 
       cols = resource_class.column_names.dup
       if resource_class.respond_to?(:translations_table_name)
@@ -665,6 +650,55 @@ module Releaf
     end
 
     private
+
+    def save_and_respond request_type
+      if request_type == :create
+        @resource = resource_class.new
+        html_render_action = "new"
+      elsif request_type == :update
+        @resource = resource_class.find(params[:id])
+        html_render_action = "edit"
+      end
+
+      @resource.assign_attributes required_params.permit(*resource_params)
+
+      result = @resource.save
+      if result
+        if @features[:show]
+          success_url = url_for( :action => 'show', :id => @resource.id )
+        else
+          success_url = url_for( :action => 'index' )
+        end
+      end
+
+      respond_to do |format|
+        format.json  do
+          if result
+            render :json => {:url => success_url}, :status => 303
+          else
+            render :json => build_validation_errors(@resource), :status => 422
+          end
+        end
+        format.html do
+          if result
+            redirect_to success_url
+          else
+            render :action => html_render_action
+          end
+        end
+      end
+    end
+
+    def build_validation_errors resource
+        errors = {}
+        resource.errors.each do |attribute, message|
+            unless errors.has_key? attribute
+              errors[attribute] = []
+            end
+            errors[attribute] << {:error => message, :full_message => resource.errors.full_message(attribute, message)}
+        end
+        return errors
+    end
 
     def filter_templates
       filter_templates_from_hash params
