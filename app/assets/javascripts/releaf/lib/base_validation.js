@@ -53,24 +53,15 @@ baseValidation.attachValidation = function( targets )
 
                     if (errorBox.length == 0)
                     {
-                        errorBox = jQuery('<div class="errorBox"><p class="error"></p></div>').appendTo(fieldBox);
+                        errorBox = jQuery('<div class="errorBox"><div class="error"></div></div>').appendTo(fieldBox);
                     }
 
                     errorBox.find('.error').text( error.message );
 
                     fieldBox.addClass('hasError');
 
-                    var attention = fieldBox.find('.attention');
-
-
-                    if (attention.length == 0)
-                    {
-                        attention = jQuery('<div class="attention"></div>').appendTo(fieldBox);
-                    }
-
-                    var input = fieldBox.find('input:first, select:first');
-                    attention.css('left', input.position().left + input.width());
-                    errorBox.css('left', attention.css('left'));
+                    var input = fieldBox.find('input:first, select:first, textarea:first');
+                    errorBox.css('left', input.position().left + input.width());
                 }
             }
 
@@ -95,26 +86,4 @@ baseValidation.attachValidation = function( targets )
 
         });
     }
-
-
-    // ON focus
-    jQuery('form').on('focus', '.hasError input, .hasError textarea, .hasError select', function()
-    {
-        jQuery(this).parents('.hasError').find('.errorBox').addClass('show');
-    });
-
-    jQuery('form').on('blur', '.hasError input, .hasError textarea, .hasError select', function()
-    {
-        jQuery(this).parents('.hasError').find('.errorBox').removeClass('show');
-    });
-    ////////
-
-    //For error box
-    jQuery('form').on('mouseover', '.hasError .attention, .hasError input, .hasError textarea, .hasError select', function() {
-	    jQuery(this).parents('.hasError').find('.errorBox').addClass('show');
-    });
-
-    jQuery('form').on('mouseout', '.hasError .attention, .hasError input, .hasError textarea, .hasError select', function() {
-	    jQuery(this).parents('.hasError').find('.errorBox').removeClass('show');
-    });
 }
