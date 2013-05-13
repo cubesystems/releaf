@@ -72,8 +72,15 @@ jQuery(function()
 		});
 	}
 
-	jQuery( document ).on( 'richtextinit', function( event )
+	jQuery( document ).on( 'richtextinit', function( event, extra_config )
 	{
+        if (extra_config)
+        {
+            jQuery.each(extra_config, function(index, value){
+                tinymce_config[index] = value;
+            });
+        }
+
 		var textarea = jQuery( event.target );
 		if( !textarea.attr( 'id' ) )
 		{
