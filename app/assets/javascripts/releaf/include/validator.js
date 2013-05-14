@@ -24,7 +24,7 @@ var Validator = function( nodeOrSelector, options )
 
     // set options, override defaults from argument if passed
     v.options = jQuery.extend( { ui : true }, options );
-	
+
 
 	// attach click events to submit elements
     v.form.delegate('input[type="submit"], input[type="image"], button', 'click', function(event)
@@ -43,8 +43,11 @@ var Validator = function( nodeOrSelector, options )
 	// submit
 	v.form.submit(function( event )
 	{
-		event.preventDefault();
-		v.validateForm();
+        if ( window.FormData !== undefined )
+        {
+            event.preventDefault();
+            v.validateForm();
+        }
 	});
 
     jQuery( document ).bind( 'ok error fail', function( event, targetValidator, eventParams )
@@ -53,37 +56,37 @@ var Validator = function( nodeOrSelector, options )
 		{
 			return;
 		}
-        
+
         switch (event.type)
         {
             case 'ok':      // validation passed
-                
+
                 if (eventParams && eventParams.redirectUrl)
                 {
                     document.location.href = eventParams.redirectUrl;
                 }
                 else
                 {
-                    v.submitForm();                    
+                    v.submitForm();
                 }
-                
+
                 break;
 
             case 'error':   // validation error
-                
+
                 if (v.options.ui)
                 {
                     alert( eventParams.message );
                 }
-                
+
                 v.clickedButton = null;
-                
+
                 break;
 
             case 'fail':  	// fail (internal validation failure, not a user error)
-                
+
                 v.submitForm();
-                
+
                 break;
         }
     });
@@ -117,49 +120,42 @@ Validator.prototype.checkDependencies = function()
 Validator.prototype.validateForm = function()
 {
 	var v = this;
-    var url;
-
-	var data = v.form.serializeArray();
-    var files = v.form.find('input[type=file]');
-
-    // just validate and do not save if we have file fields
-    if( files.length )
-    {
-        url = v.form.data('validation-url');
-    }
-    else
-    {
-        url = v.form.attr('action');
-    }
+    var url = v.form.attr('action');
+    // TODO: possible to make only validation call
+    //var validateUrl = v.form.data('validation-url');
+	var formData = new FormData (v.form[0]);
 
 	jQuery.ajax
 	({
 		url:  url,
 		type: v.form.attr( 'method' ),
-		data: data,
-        dataType: 'json',
+		data: formData,
+        //contentType: 'multipart/form-data',
+        contentType: false,
+        processData: false,
         cache : false,
+        dataType: 'json',
 		complete: function( response, textStatus, jqXHR )
 		{
             switch (response.status)
             {
                 case 303:
                     // validation + saving ok
-                    var eventParams = 
+                    var eventParams =
                     {
                         redirectUrl : $.parseJSON( response.responseText )["url"]
                     };
-                    v.form.trigger( 'ok', [ v, eventParams ] );                    
+                    v.form.trigger( 'ok', [ v, eventParams ] );
                     return;
-                    
+
                 case 200:
                     // validation ok
                     v.form.trigger( 'ok', [ v, null ] );
-                    return;                    
-                 
-                case 422:   
+                    return;
+
+                case 422:
                     // validation returned errors
-                    
+
                     var errors = [];
                     $.each( $.parseJSON(response.responseText), function( fieldName, fieldErrors )
                     {
@@ -191,14 +187,14 @@ Validator.prototype.validateForm = function()
                         {
                             eventTarget = v.form;
                         }
-                        
+
                         eventTarget.trigger( 'error', [ v, error ] );
                     });
-                
+
                     return;
-                    
+
                 default:
-                    
+
                      // something wrong in the received response
                      v.form.trigger( 'fail', [ v ] );
                      return;
