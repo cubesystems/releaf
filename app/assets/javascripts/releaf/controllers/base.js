@@ -64,22 +64,18 @@ jQuery(function()
 
             if (errorBox.length == 0)
             {
-                errorBox = jQuery('<div class="errorBox"><div class="error"></div></div>').appendTo(fieldBox);
+                errorBox = jQuery('<div class="errorBox"><div class="error"></div></div>').appendTo(fieldBox.find('.value'));
             }
 
             errorBox.find('.error').text( error.message );
 
             fieldBox.addClass('hasError');
 
-
             if (!firstErrorFocused && target.focus)
             {
                 target.focus();
                 firstErrorFocused = true;
             }
-            
-            var input = fieldBox.find('input:first, select:first, textarea:first');
-            errorBox.css('left', input.position().left + input.width());
 
         });
 

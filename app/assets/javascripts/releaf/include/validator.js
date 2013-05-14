@@ -77,7 +77,6 @@ var Validator = function( nodeOrSelector, options )
                 }
                 
                 v.clickedButton = null;
-
                 
                 break;
 
