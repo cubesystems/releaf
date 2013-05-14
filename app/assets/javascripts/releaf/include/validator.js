@@ -176,8 +176,7 @@ Validator.prototype.validateForm = function()
 
                         var eventTarget = null;
 
-                        // TODO: better field finding!!
-                        field = v.form.find( '#resource_' + error.fieldName + '' ).first();
+                        field = v.form.find( '#' + error.fieldName ).first();
 
                         if (field && field.length > 0)
                         {

@@ -601,10 +601,23 @@ module Releaf
 
       cols = resource_class.column_names.dup
       if resource_class.respond_to?(:translations_table_name)
-        cols << "translations_attributes"
+        cols = cols + localize_attributes(resource_class.translates)
       end
 
       return cols
+    end
+
+    def localize_attributes args
+        attributes = []
+        if args.is_a? Array
+            args.each do |attribute|
+                Settings.i18n_locales.each do|locale|
+                    attributes << "#{attribute}_#{locale}"
+                end
+            end
+        end
+        
+        return attributes
     end
 
     # Tries to automagically figure you which relations should be passed to
@@ -687,7 +700,8 @@ module Releaf
           if result
             redirect_to success_url
           else
-            render :action => html_render_action
+            render :json => build_validation_errors(@resource), :status => 422
+            #render :action => html_render_action
           end
         end
       end
@@ -696,12 +710,27 @@ module Releaf
     def build_validation_errors resource
         errors = {}
         resource.errors.each do |attribute, message|
+            field_id = validation_attribute_field_id attribute
             unless errors.has_key? attribute
-              errors[attribute] = []
+              errors[field_id] = []
             end
-            errors[attribute] << {:error => message, :full_message => resource.errors.full_message(attribute, message)}
+            errors[field_id] << {:error => message, :full_message => resource.errors.full_message(attribute, message)}
         end
         return errors
+    end
+
+    def validation_attribute_field_id attribute_name
+        field_id = "resource_" + attribute_name.to_s
+        parts = attribute_name.to_s.split('.')
+
+        # normalize field id for globalize3 attributes without prefix
+        if parts.length == 1
+          if resource_class.respond_to?(:translations_table_name) and resource_class.translates.include?(attribute_name.to_sym)
+              field_id += "_#{I18n.default_locale}"
+          end
+        end
+
+        return field_id
     end
 
     def filter_templates

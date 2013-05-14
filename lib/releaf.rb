@@ -52,6 +52,8 @@ module Releaf
     def setup
       yield self
       build_controller_list
+      # used by easy_globalize3_accessors
+      I18n.available_locales = Settings.i18n_locales
     end
 
     # build controller list from menu definition

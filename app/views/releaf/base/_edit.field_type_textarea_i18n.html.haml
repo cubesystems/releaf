@@ -7,18 +7,14 @@
 
 .field.type_textarea.i18n{field_attrs}
   - Settings.i18n_locales.each_with_index do |locale, i|
-    - translation = f.object.translations.find_or_initialize_by_locale(locale)
+    - translation_name = "#{name}_#{locale}"
     - is_default_locale = locale == default_locale
 
     .localization{:"data-locale" => locale, :style => is_default_locale ? nil : 'display:none'}
-      = f.fields_for :"translations", translation, :child_index => i do |ff|
-        = render "edit.field_label", label_opts
-        .value
-          - unless translation.new_record?
-            = ff.hidden_field :id
-          = ff.hidden_field :locale
-          = ff.text_area name, input_attrs
-        .clear
+      = render "edit.field_label", label_opts
+      .value
+        = f.text_area translation_name, input_attrs
+      .clear
 
   .localization_buttons
     - Settings.i18n_locales.each_with_index do |locale, i|
