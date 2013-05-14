@@ -1,7 +1,6 @@
 //= require ../3rd_party/jquery-cookie/jquery.cookie.js
 //= require ../lib/request_url.js
 
-
 jQuery(function()
 {
     // define validation handlers 
@@ -20,14 +19,14 @@ jQuery(function()
         {
             // clear errors
             firstErrorFocused = false;
-            form.find('.hasError').each(function()
+            form.find('.has_error').each(function()
             {
                 var fieldBox = jQuery(this);
 
                 fieldBox[0].removeTimeout = setTimeout( function()
                 {
-                    fieldBox.removeClass('hasError');
-                    fieldBox.find('.errorBox').remove();
+                    fieldBox.removeClass('has_error');
+                    fieldBox.find('.error_box').remove();
                 }, 200 );
 
             });            
@@ -53,23 +52,23 @@ jQuery(function()
                 return;
             }
             
-            var previousErrorExists = fieldBox.hasClass('hasError');
+            var previousErrorExists = fieldBox.hasClass('has_error');
 
             if (previousErrorExists && fieldBox[0].removeTimeout)
             {
                 clearTimeout(fieldBox[0].removeTimeout);
             }
 
-            var errorBox = fieldBox.find('.errorBox');
+            var errorBox = fieldBox.find('.error_box');
 
             if (errorBox.length == 0)
             {
-                errorBox = jQuery('<div class="errorBox"><div class="error"></div></div>').appendTo(fieldBox.find('.value'));
+                errorBox = jQuery('<div class="error_box"><div class="error"></div></div>').appendTo(fieldBox.find('.value'));
             }
 
             errorBox.find('.error').text( error.message );
 
-            fieldBox.addClass('hasError');
+            fieldBox.addClass('has_error');
 
             if (!firstErrorFocused && target.focus)
             {
