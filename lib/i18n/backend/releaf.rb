@@ -34,12 +34,14 @@ module I18n
 
 
         def check_cache
-          return if I18N_CACHE.read('UPDATED_AT').nil? == false && I18N_CACHE.read('UPDATED_AT') == Settings.i18n_updated_at
+          return if I18N_CACHE.read('UPDATED_AT') == Settings.i18n_updated_at
           reload_cache
         end
 
         # Lookup translation from database
         def lookup(locale, key, scope = [], options = {})
+          check_cache
+
           if scope.blank? && key !~ /\./
             scope = DEFAULT_SCOPE
           end

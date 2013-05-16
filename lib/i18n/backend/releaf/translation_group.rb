@@ -14,17 +14,8 @@ module I18n
         attr_accessible \
           :scope
 
-        after_commit :reload_cache
-
         def to_s
           scope
-        end
-
-        private
-
-        def reload_cache
-          Settings.i18n_updated_at = Time.now
-          I18n.backend.reload_cache
         end
 
       end

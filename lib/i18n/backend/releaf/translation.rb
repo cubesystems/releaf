@@ -30,8 +30,6 @@ module I18n
           where( '(releaf_translations.key LIKE ? OR releaf_translation_data.localization LIKE ?)', "%#{params[:search]}%", "%#{params[:search]}%" ).joins(translations_join).group('releaf_translations.id') unless params[:search].blank?
         }
 
-        after_commit :reload_cache
-
         def locales
           values = {}
 
@@ -53,12 +51,6 @@ module I18n
           key.gsub(translation_group.scope + '.', '')
         end
 
-        private
-
-        def reload_cache
-          Settings.i18n_updated_at = Time.now
-          I18n.backend.reload_cache
-        end
       end
     end
   end
