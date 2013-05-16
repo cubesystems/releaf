@@ -710,7 +710,7 @@ module Releaf
     def build_validation_errors resource
         errors = {}
         resource.errors.each do |attribute, message|
-            field_id = validation_attribute_field_id attribute
+            field_id = validation_attribute_field_id resource, attribute
             unless errors.has_key? attribute
               errors[field_id] = []
             end
@@ -719,18 +719,37 @@ module Releaf
         return errors
     end
 
-    def validation_attribute_field_id attribute_name
-        field_id = "resource_" + attribute_name.to_s
-        parts = attribute_name.to_s.split('.')
+    def validation_attribute_field_id resource, attribute
+        parts = attribute.to_s.split('.')
+        field_id = "resource_"
 
-        # normalize field id for globalize3 attributes without prefix
-        if parts.length == 1
-          if resource_class.respond_to?(:translations_table_name) and resource_class.translates.include?(attribute_name.to_sym)
+        if parts.length > 1
+          field_id += validation_attribute_nested_field_id resource, parts
+        else
+          field_id += parts[0]
+          # normalize field id for globalize3 attributes without prefix
+          if resource_class.respond_to?(:translations_table_name) and resource_class.translates.include?(attribute.to_sym)
               field_id += "_#{I18n.default_locale}"
           end
         end
 
         return field_id
+    end
+
+    def validation_attribute_nested_field_id resource, parts
+      index = 0
+      resource.send(parts[0]).each do |item|
+        unless item.valid?
+          field_id = parts[0] + "_attributes_#{index}_"
+          if parts.length == 2
+            field_id += parts[1]
+          else
+            field_id += validation_attribute_nested_field_id item, parts[1..-1]
+          end
+          return field_id
+        end
+        index += 1
+     end
     end
 
     def filter_templates
