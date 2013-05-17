@@ -10,18 +10,16 @@ module Releaf
           translated_item = I18n.t("#{prefix.to_s}-#{value.to_s}", i18n_options.merge(:default => key.to_s))
           [translated_item, value]
         end
-
-        return translated_array
-
       elsif container.is_a? Array
         translated_array = container.map do |item|
           translated_item = I18n.t("#{prefix.to_s}-#{item.to_s}", i18n_options.merge(:default => item.to_s))
           [translated_item, item.to_s]
         end
-        return translated_array
       else
         raise ArgumentError, "unsupported container: #{container.class.name}"
       end
+
+      return options_for_select(translated_array, selected)
     end
 
   end
