@@ -8,5 +8,5 @@
   .field.type_boolean{ 'data-name' => controller_name }
     .value
       = check_box_tag("resource[permissions][]", controller_name, checked, :id => controller_name.gsub('/', '_'))
-      = label_tag(controller_name.gsub('/', '_'), t(controller_name, :scope => controller_scope_name))
+      = label_tag(controller_name.gsub('/', '_'), t(controller_name, :scope => "admin.menu_items"))
     .clear
