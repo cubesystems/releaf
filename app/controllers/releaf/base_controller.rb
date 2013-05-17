@@ -78,6 +78,7 @@ module Releaf
     end
 
     def index
+      raise FeatureDisabled unless @features[:index]
       @resources = filter_order_and_paginate_collection(get_collection)
 
       unless params[:ajax].blank?
@@ -595,7 +596,8 @@ module Releaf
         :edit     => true,
         :create   => true,
         :show     => true,
-        :destroy  => true
+        :destroy  => true,
+        :index    => true
       }
       @continuous_scroll = false
       @panel_layout      = true
