@@ -54,7 +54,7 @@ module Releaf
         return true
       end
 
-      return permissions.include? (controller_name)
+      return permissions.try(:include?, controller_name)
     end
 
   end

@@ -2,4 +2,4 @@
   .field.no_label_wrap_padding
     .label_wrap
       .label= t(controller_name, :scope => "admin.menu_items") + ":"
-    .value_wrap=  I18n.t(  @resource.permissions.include?(controller_name) ? "yes" : "no", :scope => 'admin.global')
+    .value_wrap=  I18n.t(  @resource.permissions.try(:include?, controller_name) ? "yes" : "no", :scope => 'admin.global')
