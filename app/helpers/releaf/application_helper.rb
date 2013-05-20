@@ -24,7 +24,10 @@ module Releaf
 
         else
           translated_array = container.map do |item|
-            I18n.t("#{prefix.to_s}-#{item.respond_to?(:to_text) ? item.to_text : item.to_s}", i18n_options.merge(:default => item.respond_to?(:to_text) ? item.to_text : item.to_s))
+            [
+              I18n.t("#{prefix.to_s}-#{item.respond_to?(:to_text) ? item.to_text : item.to_s}", i18n_options.merge(:default => item.respond_to?(:to_text) ? item.to_text : item.to_s)),
+              item.to_s
+            ]
           end
         end
       else
