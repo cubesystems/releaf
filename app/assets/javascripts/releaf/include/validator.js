@@ -120,7 +120,6 @@ var Validator = function( nodeOrSelector, options )
                             if (field && field.length > 0)
                             {
                                 eventTarget = field;
-                                  v.form.trigger( 'validationerror', [ v, event_params ] );
                             }
                             else
                             {
