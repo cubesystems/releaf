@@ -7,7 +7,8 @@
     :data => {
       :date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'),
       :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss')
-    }
+    },
+    :value => f.object.send(name).try(:strftime, I18n.t("format.datepicker.datetime", :default => '%Y-%m-%d %H:%M'))
   }
   field_attrs = get_template_field_attributes local_assigns
 

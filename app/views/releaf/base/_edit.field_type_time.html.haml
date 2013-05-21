@@ -4,7 +4,8 @@
   }
   input_attrs = get_template_input_attributes local_assigns, {
     :class => 'time_picker',
-    :format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm')
+    :format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm'),
+    :value => f.object.send(name).try(:strftime, I18n.t("format.datepicker.time", :default => '%H:%M'))
   }
   field_attrs = get_template_field_attributes local_assigns
 

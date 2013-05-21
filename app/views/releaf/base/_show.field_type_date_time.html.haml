@@ -5,8 +5,7 @@
   .label_wrap
     .label= t(name, :scope => controller_scope_name) + ':'
   .value
-    - value = resource.send(name)
+    = resource.send(name).try(:strftime, I18n.t("format.datepicker.datetime", :default => '%Y-%m-%d %H:%M'))
     -# FIXME
-    = value
     -# = I18n.l(value, :format => 'datetime_picker')
   .clear
