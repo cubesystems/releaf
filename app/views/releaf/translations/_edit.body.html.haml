@@ -8,7 +8,7 @@
         - f.object.errors.full_messages.each do |msg|
           %li= msg
 
-  .nested_wrap
+  .nested_wrap{:'data-name' => 'translations'}
     %table.releaf_table.no_border.label_first_column.translations.translations_table.list{:cellpadding => "0", :cellspacing => "0"}
       %thead
         %tr
@@ -18,8 +18,8 @@
               %span.name= locale
           %th.delete_header  
       %tbody#variables.list
-        - f.object.translations.each do |translation|
-          %tr.item{ :id => "translation_#{translation.id}" }
+        - f.object.translations.each_with_index do |translation, index|
+          %tr.item{ :id => "translation_#{translation.id}", :'data-name' => 'translations', :'data-index' => index }
             %td.translation_name.codeColumn{:title => translation.plain_key}
               .wrap
                 %input{:type=>"hidden", :name=>"translations[#{translation.id}][id]",  :value=>"#{translation.id}"}/
@@ -30,11 +30,11 @@
                 .wrap
                   %input{:type=>"text", :name=>"translations[#{translation.id}][localization][#{locale}]", :value=>translation.locales[locale]}/
             %td.delete_column
-              %span.remove= image_tag("releaf/icons/delete.png", :alt => "delete", :title => :delete)
+              %button.remove_nested_item{:type => 'button'}= image_tag("releaf/icons/delete.png", :alt => "delete", :title => :delete)
 
     %table{:style => "display:none;"}
       %tbody
-        %tr.template.item{:id => "translation__template_" }
+        %tr.template.item{:id => "translation__template_", :'data-name' => 'translations' }
           %td.translation_name.codeColumn
             .wrap
               %input{:type=>"text",   :name=>"translations[_template_][key]", :value=>""}/
@@ -43,8 +43,8 @@
               .wrap
                 %input{:type=>"text", :name=>"translations[_template_][localization][#{locale}]", :value=>""}/
           %td.delete_column
-            %span.remove= image_tag("releaf/icons/delete.png", :alt => "delete", :title => :delete)
+            %button.remove_nested_item{:type => 'button'}= image_tag("releaf/icons/delete.png", :alt => "delete", :title => :delete)
 
-    %button.add.new(type='button')
+    %button.add_nested_item(type='button')
       = image_tag 'releaf/icons/add.png', :atl => ''
       %span=t('new', :scope => 'admin.releaf_translations')

@@ -50,6 +50,10 @@ jQuery( document ).ready(function()
                     var template = target_block.find( template_selector ).first();
                     if (template.length != 1)
                     {
+                        if (typeof console != 'undefined' && 'log' in console)
+                        {
+                            console.log('Nested field template not found.');
+                        }
                         return null;
                     }
 
@@ -204,7 +208,7 @@ jQuery( document ).ready(function()
                 }
                 
                 // focus first visibile field in item
-                item.find( '.field input, .field select, .field textarea' ).filter(':visible').first().focus();
+                item.find( 'input, select, textarea' ).filter(':visible').first().focus();
 
             });
             

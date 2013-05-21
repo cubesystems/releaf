@@ -25,7 +25,5 @@ jQuery(function()
 		jQuery( location.hash ).addClass( 'highlighted' );
 	}
 
-    controller.on('itemadd', function() {
-        controller.find('table.translations tbody tr:last td.translation_name input[type="text"]').focus();
-    });
+
 });
