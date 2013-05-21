@@ -113,11 +113,6 @@ jQuery( document ).ready(function()
                             destroy_inputs.val( true );
                             
                             item.hide();
-                            
-                            if (!item.is(':last-child'))
-                            {
-                                item.insertAfter( list.children(':last-child') );
-                            }
                         }
                         else
                         {
