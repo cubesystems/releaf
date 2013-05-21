@@ -721,30 +721,34 @@ module Releaf
 
     def validation_attribute_field_id resource, attribute
         parts = attribute.to_s.split('.')
-        field_id = "resource_"
+        prefix = "resource"
 
         if parts.length > 1
-          field_id += validation_attribute_nested_field_id resource, parts
+          field_name = validation_attribute_nested_field_name resource, parts
         else
-          field_id += parts[0]
+          field_name = "["
+          field_name += parts[0]
           # normalize field id for globalize3 attributes without prefix
           if resource_class.respond_to?(:translations_table_name) and resource_class.translates.include?(attribute.to_sym)
-              field_id += "_#{I18n.default_locale}"
+              field_name += "_#{I18n.default_locale}"
           end
+          field_name += "]"
         end
 
-        return field_id
+        field_name = prefix + field_name
+
+        return field_name
     end
 
-    def validation_attribute_nested_field_id resource, parts
+    def validation_attribute_nested_field_name resource, parts
       index = 0
       resource.send(parts[0]).each do |item|
         unless item.valid?
-          field_id = parts[0] + "_attributes_#{index}_"
+          field_id = "[" + parts[0] + "_attributes][#{index}]"
           if parts.length == 2
-            field_id += parts[1]
+            field_id += "[" + parts[1] + "]"
           else
-            field_id += validation_attribute_nested_field_id item, parts[1..-1]
+            field_id += validation_attribute_nested_field_name item, parts[1..-1]
           end
           return field_id
         end

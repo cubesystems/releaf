@@ -113,7 +113,7 @@ var Validator = function( nodeOrSelector, options )
 
                             var eventTarget = null;
 
-                            field = v.form.find( '#' + error.fieldName ).first();
+                            field = v.form.find( '[name="' + error.fieldName + '"]' ).first();
 
                             event_params.error = error;
                             
