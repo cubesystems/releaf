@@ -46,24 +46,122 @@ var Validator = function( nodeOrSelector, options )
         if ( window.FormData !== undefined )
         {
             event.preventDefault();
-            v.validateForm();
+            v.validateForm(); 
         }
 	});
-
-    jQuery( document ).bind( 'ok error fail', function( event, targetValidator, eventParams )
+    
+    v.form.on('validationstart', function( event, validator, event_params )
     {
-		if (targetValidator !== v || event.isDefaultPrevented() || !v.form[0])
+		if (validator !== v || event.isDefaultPrevented() || !v.form[0])
+		{
+			return;
+		}
+        
+        var url = v.form.attr('action');
+        
+        // TODO: possible to make only validation call
+        //var validateUrl = v.form.data('validation-url');
+        
+        var formData = new FormData( v.form[0] );
+
+        jQuery.ajax
+        ({
+            url:  url,
+            type: v.form.attr( 'method' ),
+            data: formData,
+            //contentType: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            cache : false,
+            dataType: 'json',
+            complete: function( response, textStatus, jqXHR )
+            {
+                switch (response.status)
+                {
+                    case 303:
+                        // validation + saving ok
+                        event_params.redirect_url = $.parseJSON( response.responseText )["url"]
+
+                        v.form.trigger( 'validationok', [ v, event_params ] );
+                        break;
+
+                    case 200:
+                        // validation ok
+                        v.form.trigger( 'validationok', [ v, event_params ] );
+                        break;
+
+                    case 422:
+                        // validation returned errors
+
+                        var errors = [];
+                        jQuery.each( jQuery.parseJSON(response.responseText), function( fieldName, fieldErrors )
+                        {
+                            jQuery.each( fieldErrors, function( index, error )
+                            {
+                                errors.push(
+                                {
+                                    message   : error.full_message,
+                                    errorCode : error.error,
+                                    fieldName : fieldName
+                                });
+                            });
+                        });
+
+                        jQuery.each( errors, function(index, error)
+                        {
+                            var field = null;
+
+                            var eventTarget = null;
+
+                            field = v.form.find( '#' + error.fieldName ).first();
+
+                            event_params.error = error;
+                            
+                            if (field && field.length > 0)
+                            {
+                                eventTarget = field;
+                                  v.form.trigger( 'validationerror', [ v, event_params ] );
+                            }
+                            else
+                            {
+                                eventTarget = v.form;
+                            }
+
+                            eventTarget.trigger( 'validationerror', [ v, event_params ] );
+
+                        });
+
+                        break;
+
+                    default:
+
+                         // something wrong in the received response
+                        v.form.trigger( 'validationfail', [ v, event_params ] );
+                        
+                        break;
+                }
+                
+                v.form.trigger( 'validationend', [ v, event_params ] );
+                return;
+            }
+        });        
+
+    });
+
+    jQuery( document ).on( 'validationok validationerror validationfail', 'form', function( event, validator, event_params )
+    {
+		if (validator !== v || event.isDefaultPrevented() || !v.form[0])
 		{
 			return;
 		}
 
         switch (event.type)
         {
-            case 'ok':      // validation passed
+            case 'validationok':      // validation passed
 
-                if (eventParams && eventParams.redirectUrl)
+                if (event_params && event_params.redirect_url)
                 {
-                    document.location.href = eventParams.redirectUrl;
+                    document.location.href = event_params.redirect_url;
                 }
                 else
                 {
@@ -72,18 +170,18 @@ var Validator = function( nodeOrSelector, options )
 
                 break;
 
-            case 'error':   // validation error
+            case 'validationerror':   // validation error
 
                 if (v.options.ui)
                 {
-                    alert( eventParams.message );
+                    alert( event_params.error.message );
                 }
 
                 v.clickedButton = null;
 
                 break;
 
-            case 'fail':  	// fail (internal validation failure, not a user error)
+            case 'validationfail':  	// fail (internal validation failure, not a user error)
 
                 v.submitForm();
 
@@ -119,87 +217,14 @@ Validator.prototype.checkDependencies = function()
 
 Validator.prototype.validateForm = function()
 {
-	var v = this;
-    var url = v.form.attr('action');
-    // TODO: possible to make only validation call
-    //var validateUrl = v.form.data('validation-url');
-	var formData = new FormData (v.form[0]);
-
-	jQuery.ajax
-	({
-		url:  url,
-		type: v.form.attr( 'method' ),
-		data: formData,
-        //contentType: 'multipart/form-data',
-        contentType: false,
-        processData: false,
-        cache : false,
-        dataType: 'json',
-		complete: function( response, textStatus, jqXHR )
-		{
-            switch (response.status)
-            {
-                case 303:
-                    // validation + saving ok
-                    var eventParams =
-                    {
-                        redirectUrl : $.parseJSON( response.responseText )["url"]
-                    };
-                    v.form.trigger( 'ok', [ v, eventParams ] );
-                    return;
-
-                case 200:
-                    // validation ok
-                    v.form.trigger( 'ok', [ v, null ] );
-                    return;
-
-                case 422:
-                    // validation returned errors
-
-                    var errors = [];
-                    $.each( $.parseJSON(response.responseText), function( fieldName, fieldErrors )
-                    {
-                        $.each( fieldErrors, function( index, error )
-                        {
-                            errors.push(
-                            {
-                                message   : error.full_message,
-                                errorCode : error.error,
-                                fieldName : fieldName
-                            });
-                        });
-                    });
-
-                    jQuery.each( errors, function(index, error)
-                    {
-                        var field = null;
-
-                        var eventTarget = null;
-
-                        field = v.form.find( '#' + error.fieldName ).first();
-
-                        if (field && field.length > 0)
-                        {
-                            eventTarget = field;
-                        }
-                        else
-                        {
-                            eventTarget = v.form;
-                        }
-
-                        eventTarget.trigger( 'error', [ v, error ] );
-                    });
-
-                    return;
-
-                default:
-
-                     // something wrong in the received response
-                     v.form.trigger( 'fail', [ v ] );
-                     return;
-            }
-		},
-	});
+    var v = this;
+    
+    var event_params = 
+    {
+        validation_id : 'v' + new Date().getTime() + Math.random()
+    };
+    
+    v.form.trigger( 'validationstart', [ v, event_params ]);
 }
 
 Validator.prototype.submitForm = function()
