@@ -94,7 +94,7 @@ jQuery(function()
         textarea.tinymce(config);
 	});
 
-    jQuery(document).on('itemadd', function(e) {
+    jQuery(document).on('nestedfieldsitemadd', function(e) {
         jQuery(e.target).find('.field.type_richtext textarea.richtext' ).trigger( 'richtextinit');
     })
 
