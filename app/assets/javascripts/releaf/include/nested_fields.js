@@ -193,9 +193,16 @@ jQuery( document ).ready(function()
                 {   
                     var item = jQuery(this);
                     item.attr('data-index', index);
-                    
-                    var matchPattern  = new RegExp('\\[' + block_name + '_attributes\\]?\\[(\\d*|_template_)\\]')
-                    var searchPattern = new RegExp('(\\[' + block_name + '_attributes\\]?\\[)(\\d*|_template_)(\\])', 'g');            
+
+
+                    // this matches both of these syntaxes in attribute values:
+                    //
+                    //  resource[foo_attributes][0][bar]  /  resource[foo_attributes][_template_][bar]
+                    //  resource_foo_attributes_0_bar     /  resource_foo_attributes__template__bar
+                    //   
+                       
+                    var matchPattern  = new RegExp('(\\[|_)' + block_name + '_attributes(\\]\\[|_)(\\d*|_template_)?(\\]|_)')
+                    var searchPattern = new RegExp('((\\[|_)' + block_name + '_attributes(\\]\\[|_))(\\d*|_template_)?(\\]|_)', 'g');            
                     var attrs = ['name', 'id', 'for'];            
 
                     item.find('input,select,textarea,button,label').each(function()
@@ -205,7 +212,7 @@ jQuery( document ).ready(function()
                             var attr = jQuery(this).attr(attrs[i]);
                             if (attr && attr.match(matchPattern))
                             {
-                                jQuery(this).attr(attrs[i], attr.replace(searchPattern, '$1' + index + '$3'));
+                                jQuery(this).attr(attrs[i], attr.replace(searchPattern, '$1' + index + '$5'));
                             }                    
                         }
                     }); 
