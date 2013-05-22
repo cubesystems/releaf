@@ -14,9 +14,13 @@ jQuery( document ).ready(function()
             var block = jQuery(this);
             var list   = block.find('.list').first();
             
-            var block_name          = block.attr('data-name');
-            var item_selector       = '.item[data-name="' + block_name + '"]:not(.template)';
-            var template_selector   = '.item[data-name="' + block_name + '"].template';
+            var block_name               = block.attr('data-name');
+            var template_selector        = '.item[data-name="' + block_name + '"].template';            
+            var item_selector            = '.item[data-name="' + block_name + '"]:not(.template)';
+            
+            var new_item_selector        = '.item[data-name="' + block_name + '"].new';
+            var existing_item_selector   = '.item[data-name="' + block_name + '"]:not(.template,.new)';
+
             
             block.click( function( event )
             {
@@ -59,7 +63,7 @@ jQuery( document ).ready(function()
 
                     var new_item = template.clone( false );
 
-                    new_item.removeClass( 'template' );
+                    new_item.removeClass( 'template' ).addClass('new');
                     
                     // insert new item at the end of the list but before any removed items
                     var first_removed_item = list.find(item_selector).filter('.removed');
@@ -151,18 +155,41 @@ jQuery( document ).ready(function()
             
             block.on('nestedfieldsreindex', function( e )
             {
-                // update data-index attributes and names/ids for all fields inside the block
+                // update data-index attributes and names/ids for all fields inside a block
                 
                 // in case of nested blocks, this bubbles up and gets called for each parent block also
                 // so that each block can update it's own index in the names
+
+                // only new items are changed. 
+                // existing items always preserve their original indexes
+                // new item indexes start from largest of existing item indexes + 1
                 
-                var items = block.find(item_selector);
+                var first_available_new_index = 0;
                 
-                var index = 0;
+                var existing_items = block.find( existing_item_selector );
+                existing_items.each(function()
+                {
+                    var index = jQuery(this).attr('data-index');
+                    if (typeof index == 'undefined')
+                    {
+                        return;
+                    }
+                    index = index * 1;
+                    
+                    if (index >= first_available_new_index)
+                    {
+                        first_available_new_index = index + 1;
+                    }
+                })
+
+                var new_items = block.find(new_item_selector);
                 
-                var number_of_active_items = 0;
+                console.log( block_name + ': ' + first_available_new_index );
                 
-                items.each(function()
+                var index = first_available_new_index;
+                
+
+                new_items.each(function()
                 {   
                     var item = jQuery(this);
                     item.attr('data-index', index);
@@ -182,12 +209,7 @@ jQuery( document ).ready(function()
                             }                    
                         }
                     }); 
-                    
-                    if (!item.is('.removed'))
-                    {
-                        number_of_active_items++;
-                    }
-                
+
                     index++;
                 });
                 
