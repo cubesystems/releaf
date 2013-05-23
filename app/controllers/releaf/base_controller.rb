@@ -685,7 +685,7 @@ module Releaf
           success_url = url_for( :action => 'show', :id => @resource.id )
         else
           # TODO: add flash message on redirect to edit form
-          success_url = url_for( :action => 'edit' )
+          success_url = url_for( :action => 'edit', :id => @resource.id )
         end
       end
 
