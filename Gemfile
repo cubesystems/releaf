@@ -28,7 +28,7 @@ group :development, :test, :demo do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'brakeman', '>= 1.9.2'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 2.13.0'
   gem 'syntax'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false, :platforms => :mri_19
