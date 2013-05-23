@@ -684,7 +684,8 @@ module Releaf
         if @features[:show]
           success_url = url_for( :action => 'show', :id => @resource.id )
         else
-          success_url = url_for( :action => 'index' )
+          # TODO: add flash message on redirect to edit form
+          success_url = url_for( :action => 'edit' )
         end
       end
 
@@ -700,8 +701,7 @@ module Releaf
           if result
             redirect_to success_url
           else
-            render :json => build_validation_errors(@resource), :status => 422
-            #render :action => html_render_action
+            render :action => html_render_action
           end
         end
       end
