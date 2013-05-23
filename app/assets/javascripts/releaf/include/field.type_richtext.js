@@ -74,10 +74,11 @@ jQuery(function()
 
 	jQuery( document ).on( 'richtextinit', function( event, extra_config )
 	{
+        var config = tinymce_config;
         if (extra_config)
         {
             jQuery.each(extra_config, function(index, value){
-                tinymce_config[index] = value;
+                config[index] = value;
             });
         }
 
@@ -86,7 +87,11 @@ jQuery(function()
 		{
 			textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
 		}
-        textarea.tinymce(tinymce_config);
+        if (textarea.attr('data-tinymce-image-upload-url'))
+        {
+            config['uploadimage_form_url'] = textarea.attr('data-tinymce-image-upload-url');
+        }
+        textarea.tinymce(config);
 	});
 
     jQuery(document).on('itemadd', function(e) {
