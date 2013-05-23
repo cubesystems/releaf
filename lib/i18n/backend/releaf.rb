@@ -47,7 +47,6 @@ module I18n
           end
 
           key = normalize_flat_keys(locale, key, scope, options[:separator])
-          group = key.split('.')[0...-1].join('.')
 
           chain = key.split('.')
           search_key = chain[-1]
