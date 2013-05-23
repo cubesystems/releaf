@@ -90,6 +90,9 @@ if dummy
 
     mysql_password = ask_wizard("Password for MySQL user #{mysql_username}?", '')
     gsub_file "config/database.yml", /password:/, "password: #{mysql_password}"
+
+    mysql_database = ask_wizard("MySQL database name (leave blank to use 'releaf_dummy')?", 'releaf_dummy')
+    gsub_file "config/database.yml", /database: dummy_/, "database: #{mysql_database}_"
   end
   gsub_file 'config/boot.rb', "'../../Gemfile'", "'../../../../Gemfile'"
 else
