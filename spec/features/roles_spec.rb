@@ -14,6 +14,7 @@ describe Releaf::RolesController do
     # save new item and redirect to show view
     click_link "Create new item"
     within("form.new_resource") do
+      page.should have_select('Default controller', :options => Releaf.available_admin_controllers.map{|controller|  I18n.t(controller, :scope => 'admin.menu_items')})
       fill_in("Name", :with => "second role")
       select(I18n.t("admin/books", :scope => 'admin.menu_items'), :from => 'Default controller')
       check(I18n.t("admin/books", :scope => 'admin.menu_items'))

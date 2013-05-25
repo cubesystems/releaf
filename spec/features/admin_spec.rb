@@ -34,6 +34,9 @@ describe "home page" do
         fill_in 'Email', :with => "john@example.com"
         fill_in 'Password:', :with => "password"
         fill_in 'Password confirmation', :with => "password"
+
+        page.should have_select('Locale', :options => Settings.i18n_admin_locales)
+        select 'en', :from => 'Locale'
       end
       click_button 'Save'
       page.should have_content 'John Appleseed'
