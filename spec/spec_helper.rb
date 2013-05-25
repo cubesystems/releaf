@@ -2,7 +2,8 @@ require 'simplecov'
 require 'simplecov-rcov'
 # SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.command_name 'rspec'
-SimpleCov.start 'rails'
+
+require 'support/helpers'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
@@ -13,6 +14,10 @@ require 'capybara/rspec'
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+# for devise testing
+include Warden::Test::Helpers
+
 RSpec.configure do |config|
   config.mock_with :rspec
   config.use_transactional_fixtures = false
@@ -22,6 +27,7 @@ RSpec.configure do |config|
   config.add_formatter(:html, 'rspec.html')
   config.add_formatter(:progress)
 
+  config.include Helpers
 
   config.include Rails.application.routes.url_helpers
 
