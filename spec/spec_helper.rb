@@ -1,16 +1,18 @@
 require 'simplecov'
 require 'simplecov-rcov'
-# SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.command_name 'rspec'
 
-require 'support/helpers'
 
+development = !!ENV['GUARD_NOTIFY'] || !ENV["RAILS_ENV"]
 ENV['RAILS_ENV'] ||= 'test'
+
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl'
 require 'capybara/rspec'
+require 'support/helpers'
+
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
@@ -24,8 +26,14 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
 
+  config.color_enabled = true
+
+  if development
+    config.add_formatter(:documentation)
+  else
+    config.add_formatter(:progress)
+  end
   config.add_formatter(:html, 'rspec.html')
-  config.add_formatter(:progress)
 
   config.include Helpers
 
