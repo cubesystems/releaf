@@ -5,7 +5,7 @@
   else
     value = t(value.to_s.sub('_', '/'), :scope => 'admin.menu_items')
   end
-.field.no_label_wrap_padding
+.field.no_label_wrap_padding{"data-name" => "default_controller"}
   .label_wrap
     .label= t(name, :scope => controller_scope_name) + ':'
   .value
