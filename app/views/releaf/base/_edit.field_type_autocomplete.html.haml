@@ -20,4 +20,5 @@
     = image_tag 'releaf/input/autocompleteExpandIcon.png', :alt => '', :class => :autocomplete_expand_icon
     = f.hidden_field name
 
+  = render "edit.field_errors", :f => f, :name => name
   .clear

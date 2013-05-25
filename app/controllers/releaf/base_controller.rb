@@ -106,11 +106,17 @@ module Releaf
     def show
       raise FeatureDisabled unless @features[:show]
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
+
+      # trigger validations
+      @resource.valid?
     end
 
     def edit
       raise FeatureDisabled unless @features[:edit]
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
+
+      # trigger validations
+      @resource.valid?
     end
 
     def validate
@@ -511,11 +517,44 @@ module Releaf
 
       raise RuntimeError, 'name not passed to partial' if default_attributes[:data].try('[]', :name).blank?
 
-      return default_attributes unless local_assigns.key? :field_attributes
+      return_attributes = default_attributes
 
-      custom_attributes = local_assigns[:field_attributes]
-      raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
-      return default_attributes.deep_merge(custom_attributes)
+      if local_assigns.key? :field_attributes
+        custom_attributes = local_assigns[:field_attributes]
+        raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
+        return_attributes.deep_merge!(custom_attributes)
+      end
+
+      # return return_attributes unless local_assigns.key? :f
+
+      resource = case params[:action].to_sym
+                 when :edit, :create, :update
+                   local_assigns.fetch(:f).try(:object)
+                 when :show
+                   local_assigns.fetch(:resource)
+                 else
+                   nil
+                 end
+
+      return return_attributes if resource.nil?
+      # raise resource.errors.inspect
+
+      field = local_assigns.fetch(:name)
+      return return_attributes if field.nil?
+
+      return return_attributes unless resource.errors.has_key?(field.to_sym) || resource.errors.has_key?(field.sub(/_id$/, '').to_sym)
+
+      if return_attributes.has_key? :class
+        if return_attributes[:class].is_a? Array
+          return_attributes[:class].push :error
+        else
+          return_attributes[:class] = :error
+        end
+      else
+        return_attributes[:class] = :error
+      end
+
+      return return_attributes
     end
 
     protected

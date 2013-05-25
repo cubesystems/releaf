@@ -1,0 +1,11 @@
+:ruby
+  field_name_sym = name.to_sym
+  field_name_without_id_sym = name.sub(/_id$/, '').to_sym
+
+  errors = ((f.object.errors[field_name_sym] || []) + (f.object.errors[field_name_without_id_sym] || [])).map { |error| error.to_s.strip }
+
+- unless errors.blank?
+  .error_wrap
+    %ul
+      - errors.uniq.each do |error|
+        %li= error

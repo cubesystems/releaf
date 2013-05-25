@@ -20,4 +20,5 @@
           = f.label "remove_#{field_name}", I18n.t("Remove image", :scope => 'admin.global')
         .clear
 
+  = render "edit.field_errors", :f => f, :name => name
   .clear
