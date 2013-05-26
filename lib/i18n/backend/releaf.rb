@@ -12,12 +12,6 @@ module I18n
         include Base, Flatten
         DEFAULT_SCOPE = ['global']
 
-        def available_locales
-          TranslationData.select(:lang).group(:lang).pluck(:lang)
-        rescue ::ActiveRecord::StatementInvalid
-          []
-        end
-
         def store_translations(locale, data, options = {})
         end
 
