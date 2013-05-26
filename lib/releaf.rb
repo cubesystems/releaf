@@ -34,6 +34,9 @@ module Releaf
   mattr_accessor :layout
   @@layout = "releaf/admin"
 
+  mattr_accessor :use_releaf_i18n
+  @@use_releaf_i18n = true
+
   mattr_accessor :yui_js_url
   # @@yui_js_url = 'http://yui.yahooapis.com/3.9.0/build/yui/yui-min.js'
   @@yui_js_url = 'http://yui.yahooapis.com/3.9.0/build/yui-base/yui-base-min.js'
@@ -51,11 +54,16 @@ module Releaf
   class << self
     def setup
       yield self
-      build_controller_list
-      # used by easy_globalize3_accessors (table check for initial migration)
-      if Settings.table_exists?
-        I18n.available_locales = Settings.i18n_locales
+
+      if Releaf.use_releaf_i18n == true
+        require 'i18n/releaf'
+        # used by easy_globalize3_accessors (table check for initial migration)
+        if Settings.table_exists?
+          I18n.available_locales = Settings.i18n_locales
+        end
       end
+
+      build_controller_list
     end
 
     # build controller list from menu definition
