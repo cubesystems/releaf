@@ -8,6 +8,7 @@ module I18n
         self.table_name = "releaf_translation_groups"
 
         validates_presence_of :scope
+        validates_uniqueness_of :scope
 
         has_many :translations, :dependent => :destroy, :foreign_key => :group_id, :order => 'releaf_translations.key'
 

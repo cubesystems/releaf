@@ -13,7 +13,7 @@ module I18n
         DEFAULT_SCOPE = ['global']
 
         def available_locales
-          TranslationData.available_locales
+          TranslationData.select(:lang).group(:lang).pluck(:lang)
         rescue ::ActiveRecord::StatementInvalid
           []
         end

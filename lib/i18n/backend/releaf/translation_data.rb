@@ -16,12 +16,6 @@ module I18n
           :lang,
           :localization,
           :translation_id
-
-        scope :available_locales, where('lang IS NOT NULL').group(:lang).pluck(:lang)
-
-        def text
-          self[:localization].blank? == false ? self[:localization] : self.translation.try(:key).try(:humanize)
-        end
       end
     end
   end
