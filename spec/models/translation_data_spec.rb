@@ -10,8 +10,5 @@ describe I18n::Backend::Releaf::TranslationData do
     FactoryGirl.create(:translation_data)
     should validate_uniqueness_of(:translation_id).scoped_to([:lang])
   }
-  it { should be_accessible :lang }
-  it { should be_accessible :localization }
-  it { should be_accessible :translation_id }
   it { should belong_to(:translation) }
 end
