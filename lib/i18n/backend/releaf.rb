@@ -67,9 +67,6 @@ module I18n
 
           save_missing_translation(locale, key)
           return nil
-        rescue ::ActiveRecord::StatementInvalid
-          # is the translations table missing?
-          nil
         end
 
         def save_missing_translation(locale, key)
