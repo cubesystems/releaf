@@ -89,9 +89,7 @@ jQuery(function()
         
         form.bind( 'validationerror', function( event, v, event_params )
         {
-  
             var error = event_params.error;
-            
             var target = jQuery(event.target);
 
             if (target.is('input[type!="hidden"],textarea,select'))
@@ -164,9 +162,11 @@ jQuery(function()
                 }
                 
                 form.addClass('has_error');
-            }
-          
 
+                // Scroll to form_error_box
+                form_error_box.parent().scrollTop(form_error_box.offset().top - form_error_box.parent().offset().top + form_error_box.parent().scrollTop());
+
+            }
         });
  
 
