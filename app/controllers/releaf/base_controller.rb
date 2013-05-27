@@ -616,7 +616,7 @@ module Releaf
                 end
             end
         end
-        
+
         return attributes
     end
 
@@ -714,7 +714,7 @@ module Releaf
             unless errors.has_key? attribute
               errors[field_id] = []
             end
-            errors[field_id] << {:error => message, :full_message => resource.errors.full_message(attribute, message)}
+            errors[field_id] << {:error => message, :full_message => I18n.t(message, :scope => 'validation.' + controller_scope_name)}
         end
         return errors
     end
