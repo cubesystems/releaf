@@ -671,15 +671,17 @@ module Releaf
     def save_and_respond request_type
       if request_type == :create
         @resource = resource_class.new
+        @resource.assign_attributes required_params.permit(*resource_params)
+        result = @resource.save
+
         html_render_action = "new"
       elsif request_type == :update
         @resource = resource_class.find(params[:id])
+        result = @resource.update_attributes required_params.permit(*resource_params)
+
         html_render_action = "edit"
       end
 
-      @resource.assign_attributes required_params.permit(*resource_params)
-
-      result = @resource.save
       if result
         if @features[:show]
           success_url = url_for( :action => 'show', :id => @resource.id )
