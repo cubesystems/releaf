@@ -35,9 +35,7 @@ describe I18n::Backend::Releaf::TranslationGroup do
     end
 
     it "should destroy translations by destroying group itself" do
-      I18n::Backend::Releaf::Translation.all.count.should eq(3)
-      @group.destroy
-      I18n::Backend::Releaf::Translation.all.count.should eq(0)
+      expect { @group.destroy }.to change { I18n::Backend::Releaf::Translation.count }.from(3).to(0)
     end
   end
 end
