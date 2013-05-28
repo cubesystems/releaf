@@ -95,8 +95,8 @@ jQuery(function()
 	});
 
     jQuery(document).on('nestedfieldsitemadd', function(e) {
-        jQuery(e.target).find('.field.type_richtext textarea.richtext' ).trigger( 'richtextinit');
+        jQuery(e.target).find('.field.type_richtext textarea.richtext:visible' ).trigger( 'richtextinit');
     })
 
-    jQuery( '.field.type_richtext textarea' ).trigger( 'richtextinit' );
+    jQuery( '.field.type_richtext textarea:visible' ).trigger( 'richtextinit' );
 });
