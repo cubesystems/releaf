@@ -94,9 +94,11 @@ jQuery(function()
         textarea.tinymce(config);
 	});
 
+    var template_filter = function() {return !$(this).parents().hasClass('template')};
+
     jQuery(document).on('nestedfieldsitemadd', function(e) {
-        jQuery(e.target).find('.field.type_richtext textarea.richtext:visible' ).trigger( 'richtextinit');
+        jQuery(e.target).find('.field.type_richtext textarea.richtext' ).filter(template_filter).trigger( 'richtextinit' );
     })
 
-    jQuery( '.field.type_richtext textarea:visible' ).trigger( 'richtextinit' );
+    jQuery( '.field.type_richtext textarea' ).filter(template_filter).trigger( 'richtextinit' );
 });
