@@ -184,8 +184,6 @@ jQuery( document ).ready(function()
 
                 var new_items = block.find(new_item_selector);
                 
-                console.log( block_name + ': ' + first_available_new_index );
-                
                 var index = first_available_new_index;
                 
 
