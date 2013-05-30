@@ -1,6 +1,6 @@
 :ruby
   label_opts  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_id$/, '').to_s }
-  input_attrs = get_template_input_attributes local_assigns, { :include_blank => true }
+  input_attrs = get_template_input_attributes local_assigns
   field_attrs = get_template_field_attributes local_assigns
 
   select_params = [name]
@@ -32,7 +32,6 @@
 
   select_params.push select_helper_options
   select_params.push input_attrs
-
 
 .field.type_item{field_attrs}
   = render "edit.field_label", label_opts
