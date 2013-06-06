@@ -38,7 +38,7 @@ gem 'jquery-rails'
 gem 'releaf', :git => 'git@github.com:cubesystems/releaf.git'
 gem 'mysql2'
 gem 'rack-cache', :require => 'rack/cache'
-gem 'rails-settings-cached', :git => 'https://github.com/graudeejs/rails-settings-cached'
+gem "rails-settings-cached", "0.2.4"
 gem 'stringex'
 gem 'strong_parameters'
 gem 'tinymce-rails', '~> 3.5.8'
