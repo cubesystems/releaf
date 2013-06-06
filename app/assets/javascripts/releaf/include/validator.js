@@ -80,7 +80,15 @@ var Validator = function( nodeOrSelector, options )
                 {
                     case 303:
                         // validation + saving ok
-                        event_params.redirect_url = $.parseJSON( response.responseText )["url"]
+                        try {
+                            var jsonResponse = jQuery.parseJSON(response.responseText);
+                        }
+                        catch(error)
+                        {
+                            v.form.trigger( 'validationfail', [ v, event_params ] );
+                            break;
+                        }
+                        event_params.redirect_url = jsonResponse["url"]
 
                         v.form.trigger( 'validationok', [ v, event_params ] );
                         break;
@@ -92,9 +100,17 @@ var Validator = function( nodeOrSelector, options )
 
                     case 422:
                         // validation returned errors
+                        try {
+                            var jsonResponse = jQuery.parseJSON(response.responseText);
+                        }
+                        catch(error)
+                        {
+                            v.form.trigger( 'validationfail', [ v, event_params ] );
+                            break;
+                        }
 
                         var errors = [];
-                        jQuery.each( jQuery.parseJSON(response.responseText), function( fieldName, fieldErrors )
+                        jQuery.each( jsonResponse, function( fieldName, fieldErrors )
                         {
                             jQuery.each( fieldErrors, function( index, error )
                             {
