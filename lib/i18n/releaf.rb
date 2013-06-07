@@ -10,6 +10,15 @@ module I18n
       end
     end
   end
+
+  module Backend
+    module Base
+      # always return array if no values is set
+      def available_locales
+        []
+      end
+    end
+  end
 end
 
 I18n.exception_handler.extend I18n::UseKeyForMissing

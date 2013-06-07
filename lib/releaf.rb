@@ -60,8 +60,6 @@ module Releaf
         # used by easy_globalize3_accessors (table check for initial migration)
         if Settings.table_exists?
           I18n.available_locales = Settings.i18n_locales
-        else
-          I18n.available_locales = []
         end
       end
 
