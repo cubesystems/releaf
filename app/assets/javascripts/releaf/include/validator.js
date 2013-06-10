@@ -46,22 +46,22 @@ var Validator = function( nodeOrSelector, options )
         if ( window.FormData !== undefined )
         {
             event.preventDefault();
-            v.validateForm(); 
+            v.validateForm();
         }
 	});
-    
+
     v.form.on('validationstart', function( event, validator, event_params )
     {
 		if (validator !== v || event.isDefaultPrevented() || !v.form[0])
 		{
 			return;
 		}
-        
+
         var url = v.form.attr('action');
-        
+
         // TODO: possible to make only validation call
         //var validateUrl = v.form.data('validation-url');
-        
+
         var formData = new FormData( v.form[0] );
 
         jQuery.ajax
@@ -129,10 +129,10 @@ var Validator = function( nodeOrSelector, options )
 
                             var eventTarget = null;
 
-                            field = v.form.find( '[name="' + error.fieldName + '"]' ).first();
+                            field = v.form.find( '[name="' + error.fieldName + '"]:not([type="hidden"])' ).first();
 
                             event_params.error = error;
-                            
+
                             if (field && field.length > 0)
                             {
                                 eventTarget = field;
@@ -152,14 +152,14 @@ var Validator = function( nodeOrSelector, options )
 
                          // something wrong in the received response
                         v.form.trigger( 'validationfail', [ v, event_params ] );
-                        
+
                         break;
                 }
-                
+
                 v.form.trigger( 'validationend', [ v, event_params ] );
                 return;
             }
-        });        
+        });
 
     });
 
@@ -233,12 +233,12 @@ Validator.prototype.checkDependencies = function()
 Validator.prototype.validateForm = function()
 {
     var v = this;
-    
-    var event_params = 
+
+    var event_params =
     {
         validation_id : 'v' + new Date().getTime() + Math.random()
     };
-    
+
     v.form.trigger( 'validationstart', [ v, event_params ]);
 }
 
