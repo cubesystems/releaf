@@ -3,7 +3,6 @@ module Releaf
 
   class BaseController < BaseApplicationController
     helper_method \
-      :build_secondary_panel_variables,
       :fields_to_display,
       :find_parent_template,
       :get_template_field_attributes,
@@ -15,8 +14,7 @@ module Releaf
       :render_parent_template,
       :resource_class,
       :resource_to_text,
-      :resource_to_text_method,
-      :secondary_panel
+      :resource_to_text_method
 
     before_filter do
       authorize!
@@ -229,44 +227,6 @@ module Releaf
       end
 
       return cols
-    end
-
-
-    def secondary_panel
-      return '' unless @panel_layout
-      @_secondary_panel ||= render_to_string( :partial => "secondary_panel", :layout => false, :locals => build_secondary_panel_variables)
-    end
-
-    def build_secondary_panel_variables
-      menu_item_name = self.class.name.underscore.sub(/_controller$/, '')
-
-      # if this item is defined in main menu, then there will be no altmenu
-      # defined for it in alt menu, instead this method should be overriden in
-      # particular controller to return structure needed to render alt menu
-      return {} unless Releaf.controller_list[menu_item_name].has_key? :submenu
-
-      # preload current user
-      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
-
-      build_menu = {:menu => []}
-
-      # if this item was not found in main menu, then we need to find it in one
-      # of alt menus. This way we'll know which alt menu to render.
-      Releaf.menu.each do |menu_item|
-        if menu_item.has_key? :sections and menu_item[:name] == Releaf.controller_list[menu_item_name][:submenu]
-          menu_item[:sections].each do |section|
-            section_data = {:name => section[:name]}
-            items = []
-            section[:items].each do |section_item|
-              items << view_context.get_releaf_menu_item(section_item) if user.role.authorize!(section_item[:controller])
-            end
-            section_data[:items] = items
-            build_menu[:menu] << section_data unless items.empty?
-          end
-        end
-      end
-
-      return build_menu
     end
 
     # Tries to return resource class.

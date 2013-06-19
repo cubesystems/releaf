@@ -15,12 +15,7 @@ module Releaf
     },
     {
       :name => "permissions",
-      :sections => [
-        {
-          :name => "permissions",
-          :items =>   %w[releaf/admins releaf/roles]
-        }
-      ]
+      :items =>   %w[releaf/admins releaf/roles]
     },
     {
       :controller => 'releaf/translations',
@@ -71,16 +66,14 @@ module Releaf
       Releaf.menu.each_with_index do |item_data, index|
         item = build_controller_list_item(item_data)
 
-        if item.has_key? :sections
-          item[:sections].each_with_index do |submenu_section, submenu_index|
-            if submenu_section.has_key? :name and submenu_section.has_key? :items
-              submenu_section[:items].each_with_index do |submenu_item_data, submenu_item_index|
-                submenu_item = build_controller_list_item(submenu_item_data)
+        if item.has_key? :items
+          if item.has_key? :name and item.has_key? :items
+            item[:items].each_with_index do |submenu_item_data, submenu_item_index|
+              submenu_item = build_controller_list_item(submenu_item_data)
 
-                submenu_item[:submenu] = item[:name]
-                submenu_section[:items][submenu_item_index] = submenu_item
-                controller_list[submenu_item[:controller]] = submenu_item
-              end
+              submenu_item[:submenu] = item[:name]
+              item[:items][submenu_item_index] = submenu_item
+              controller_list[submenu_item[:controller]] = submenu_item
             end
           end
         end
