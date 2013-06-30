@@ -3,8 +3,8 @@ module Releaf
     helper_method :locales
 
     def locales
-      valid_locales = Settings.i18n_locales || []
-      valid_locales += Settings.i18n_admin_locales || []
+      valid_locales = Releaf.available_locales || []
+      valid_locales += Releaf.available_admin_locales || []
       valid_locales.uniq
     end
 

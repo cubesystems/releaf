@@ -12,6 +12,10 @@ module I18n
         include Base, Flatten
         DEFAULT_SCOPE = ['global']
 
+        def available_locales
+          []
+        end
+
         def store_translations(locale, data, options = {})
         end
 

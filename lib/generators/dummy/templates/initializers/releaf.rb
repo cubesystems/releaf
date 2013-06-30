@@ -31,6 +31,7 @@ Releaf.setup do |conf|
     },
    ]
 
+   conf.available_locales = ["en"]
   # conf.layout = 'releaf/admin'
   # conf.devise_for 'releaf/admin'
 

@@ -9,6 +9,7 @@ module Releaf
       :get_template_field_attributes,
       :get_template_input_attributes,
       :get_template_label_options,
+      :input_locales,
       :has_template?,
       :list_action,
       :render_field_type,
@@ -608,16 +609,16 @@ module Releaf
     end
 
     def localize_attributes args
-        attributes = []
-        if args.is_a? Array
-            args.each do |attribute|
-                Settings.i18n_locales.each do|locale|
-                    attributes << "#{attribute}_#{locale}"
-                end
-            end
+      attributes = []
+      if args.is_a? Array
+        args.each do |attribute|
+          resource_class.available_input_locales.each do|locale|
+              attributes << "#{attribute}_#{locale}"
+          end
         end
+      end
 
-        return attributes
+      return attributes
     end
 
     # Tries to automagically figure you which relations should be passed to
