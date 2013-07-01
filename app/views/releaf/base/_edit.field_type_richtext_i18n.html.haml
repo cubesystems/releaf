@@ -3,10 +3,10 @@
   input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 75, :class => "richtext" }
   field_attrs = get_template_field_attributes local_assigns
 
-  default_locale = Settings.i18n_locales.first
+  default_locale = @resource.class.available_input_locales.first
 
 .field.type_richtext.i18n{field_attrs}
-  - Settings.i18n_locales.each_with_index do |locale, i|
+  - @resource.class.available_input_locales.each_with_index do |locale, i|
     - translation_name = "#{name}_#{locale}"
     - is_default_locale = locale == default_locale
 
@@ -17,6 +17,6 @@
       .clear
 
   .localization_buttons
-    - Settings.i18n_locales.each_with_index do |locale, i|
+    - @resource.class.available_input_locales.each_with_index do |locale, i|
       - is_default_locale = locale == default_locale
       %button{:type => :button, :"data-locale" => locale, :class => is_default_locale ? :active : nil}= locale

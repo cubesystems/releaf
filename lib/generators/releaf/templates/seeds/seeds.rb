@@ -66,8 +66,6 @@ end
 # Settings {{{
 
 puts "Creating settings"
-Settings.i18n_locales  = %w[en]
-Settings.i18n_admin_locales  = %w[en]
 Settings.email_from = "do_not_reply@example.com"
 
 # }}}

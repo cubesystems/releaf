@@ -25,8 +25,8 @@ module I18n
         def locales
           values = {}
 
-          valid_locales = Settings.i18n_locales || []
-          valid_locales += Settings.i18n_admin_locales || []
+          valid_locales = ::Releaf.available_locales || []
+          valid_locales += ::Releaf.available_admin_locales || []
 
           valid_locales.uniq.each do |locale|
             values[locale] = nil

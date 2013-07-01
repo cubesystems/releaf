@@ -14,8 +14,8 @@ describe I18n::Backend::Releaf::Translation do
 
 
   before do
-    Settings.i18n_locales = ["de", "en"]
-    Settings.i18n_admin_locales = ["lv"]
+    Releaf.available_locales = ["de", "en"]
+    Releaf.available_admin_locales = ["lv"]
 
     @group = FactoryGirl.create(:translation_group, :scope => 'test')
     @translation = FactoryGirl.create(:translation, :translation_group => @group, :key => 'test.apple')
@@ -24,6 +24,13 @@ describe I18n::Backend::Releaf::Translation do
 
     Settings.i18n_updated_at = Time.now
   end
+
+  after do
+    # restore default values
+    Releaf.available_locales = ["en"]
+    Releaf.available_admin_locales = ["en"]
+   end
+
 
   describe "scope: filter" do
     context "when filtering with 'apfel'" do

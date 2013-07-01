@@ -5,6 +5,11 @@ jQuery(document).ready(function() {
     var controller_body = jQuery('.controller-releaf-content');
     if (controller_body.length) {
 
+        jQuery('.secondary_panel .tree_container').on('click', '.node button.toggle', function() {
+            jQuery(this).toggleClass('open');
+            jQuery(this).parents('.node:first').next().toggleClass('hide');
+        });
+
         jQuery('.secondary_panel .tree_container').delegate('a.create', 'click', function(e) {
             e.stopPropagation();
 

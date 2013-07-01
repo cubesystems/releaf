@@ -35,7 +35,7 @@ describe "home page" do
         fill_in 'Password:', :with => "password"
         fill_in 'Password confirmation', :with => "password"
 
-        page.should have_select('Locale', :options => Settings.i18n_admin_locales)
+        page.should have_select('Locale', :options => Releaf.available_admin_locales)
         select 'en', :from => 'Locale'
       end
       click_button 'Save'
