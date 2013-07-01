@@ -8,22 +8,12 @@ Releaf.setup do |conf|
       :helper => 'releaf_nodes'
     },
     {
-      :name => "store",
-      :sections => [
-        {
-          :name => "inventory",
-          :items =>   %w[admin/books admin/authors]
-       }
-      ]
+      :name => "inventory",
+      :items =>   %w[admin/books admin/authors]
     },
     {
       :name => "permissions",
-      :sections => [
-        {
-          :name => "permissions",
-          :items =>   %w[releaf/admins releaf/roles]
-       }
-      ]
+      :items =>   %w[releaf/admins releaf/roles]
     },
     {
       :controller => 'releaf/translations',
