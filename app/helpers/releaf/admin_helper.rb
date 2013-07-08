@@ -1,6 +1,10 @@
 module Releaf
   module AdminHelper
 
+    def current_admin_user
+      self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+    end
+
     def admin_main_menu
       items = []
 
@@ -17,6 +21,7 @@ module Releaf
           menu_item[:items].each do |submenu_item|
             if user.role.authorize!(submenu_item[:controller])
               submenu_item2 = get_releaf_menu_item(submenu_item)
+              item[:active] = true if submenu_item2[:active]
 
               # use first available controller url
               unless item.has_key? :url

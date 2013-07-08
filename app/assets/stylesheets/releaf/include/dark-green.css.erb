@@ -1,0 +1,434 @@
+/* Header navigation bar ******************************************************/
+#header.navbar.main {
+    background-color: #111;
+}
+
+#header.navbar .logo-leaf {
+    background: url(<%= asset_path("releaf/brand.png") %>) no-repeat;
+    width: 81px;
+    height: 60px;
+}
+
+#header.navbar .nav .nav-button {
+    border-left: 1px solid #242424;
+}
+
+#header.navbar .nav .nav-button.nav-button-logout {
+    background: #242424;
+}
+
+#header.navbar .nav .nav-button.nav-button-logout:hover,
+#header.navbar .nav .nav-button.nav-button-logout:hover i {
+    background: #37b1a7;
+    color: #111;
+}
+
+#header.navbar .nav .nav-button:hover {
+    background: #242424;
+}
+
+#header.navbar .nav [class^="icon-"] {
+    color: #37b1a7;
+}
+
+#header.navbar .nav .nav-profile a {
+    color: #d8d8d8;
+    border-right: 1px solid #111;
+    border-left: 1px solid #242424;
+}
+
+#header.navbar .nav .nav-profile a:hover {
+    color: #ffffff;
+    background-color: #242424;
+    border-right: 1px solid #111;
+}
+
+
+
+/* Menu css settings **********************************************************/
+#menu, #menu-inner {
+    background: #1d1d1d;
+}
+
+#menu .accordion-heading-inactive .toggle-background {
+    background-color: #171717;
+}
+
+#menu .accordion-heading-inactive a .toggle-angle-icon {
+    color: #37b1a7;
+}
+
+#menu .accordion-heading a {
+    color: #fff;
+}
+
+/* Category heading link on hover state */
+#menu .accordion-heading a:hover {
+    background-color: #37b1a7;
+    color: #282828;
+}
+
+/* Category heading */
+#menu .accordion-group,
+#menu .accordion-group-header {
+    border-color: #282828;
+}
+
+/* Category heading active (selected) state */
+#menu .accordion-group .active a,
+#menu .accordion-group-header .active a {
+    background-color: #37b1a7;
+    color: #282828;
+}
+
+/* Subcategories / Category heading inner content */
+#menu .accordion-inner {
+    border-top: 1px solid #282828;
+    background: #282828;
+}
+
+#menu .nav-list > li > a {
+    color: #a6a6a6;
+}
+
+/* Subcategories. Navigation list link style on hover and on focus states */
+#menu .nav-list > li > a:hover,
+#menu .nav-list > li > a:focus {
+    background-color: transparent;
+    color: #fff;
+}
+
+#menu .accordion-group .active a .chevron {
+    color: #111;
+}
+
+#menu .accordion-group a .chevron {
+    color: #4a4a4a;
+}
+
+#menu .accordion-group a .angle {
+    color: #37b1a7;
+}
+
+
+
+/* Compact state menu dropdown settings ***************************************/
+.menu-hidden.menu-activated #menu .accordion-group:hover .accordion-toggle {
+    background-color: #000;
+    color: #d3d3d3;
+}
+
+.menu-hidden.menu-activated #menu .accordion-inner {
+    border-top: 1px solid #000;
+}
+
+.menu-hidden.menu-activated #menu .accordion-group:hover {
+    background-color: #1d1d1d;
+}
+
+
+
+/* Content ********************************************************************/
+#content {
+    background: #fff;
+}
+
+
+
+/* Footer settings ************************************************************/
+#footer .navbar {
+    background: #d9d9d9;
+    border: 1px solid #c5c5c5;
+    border-bottom: 0;
+}
+
+#footer .navbar .nav > li > a {
+    color: #fff;
+}
+
+#footer .navbar .nav > li > a.btn {
+    color: #636363;
+    border-right: 1px solid #c5c5c5;
+}
+
+#footer .navbar .nav > li > a.btn:hover, #footer .navbar .nav > li > a.btn:focus {
+    color: #3c3c3c;
+    background-color: #c5c5c5;
+}
+
+#footer .navbar .nav > li > a.btn-primary {
+    color: #fff;
+    border-right: 0;
+}
+
+#footer .navbar .nav > li > a.btn-primary:hover, #footer .navbar .nav > li > a.btn-primary:focus {
+    background-color: #269990;
+    color: #fff;
+}
+
+
+/* Typography *****************************************************************/
+.page-header, .search-element  {
+    border-bottom: 2px solid #e6e6e6;
+
+}
+
+.text-error {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+
+/* Alerts *********************************************************************/
+.alert-info {
+    background-color: #d5eeec;
+}
+
+.alert-info i {
+    color: #37b1a7;
+}
+
+.alert-error {
+    background-color: #fdd5d5;
+}
+
+.alert-error i {
+    color: #e82121;
+}
+
+.alert-danger {
+    background-color: #f6f1ce;
+}
+
+.alert-danger i {
+    color: #ef3d64;
+}
+
+.alert-success {
+    background-color: #ddf4d0;
+}
+
+.alert-success i {
+    color: #369a13;
+}
+
+
+
+/* Tables and table box wrapper ***********************************************/
+.box .box-head {
+    background: #282828;
+
+}
+
+.box .box-head h2 {
+    color: #fff;
+    text-shadow: 0 1px 0 #222;
+}
+
+.box .box-head h2 .comment {
+    font-weight: normal;
+}
+
+.box .box-border {
+    border: 1px solid #d3d3d3;
+}
+
+.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th {
+    background-color: #f3f1f1;
+}
+
+.table-hover tbody tr:hover > td,
+.table-hover tbody tr:hover > th {
+    background-color: #d0eeec;
+}
+
+
+
+/* Dropdowns ******************************************************************/
+.dropdown-menu > li > a {
+    color: #37b1a7;
+    border-bottom: 1px solid #393939;
+}
+
+.dropdown-menu > li.dropdown-danger-state > a {
+    color: #ee462a;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+    background-image: none;
+}
+
+.dropdown-menu > li.dropdown-danger-state > a:hover {
+    background-color: #ee462a;
+}
+
+
+
+/* Icons **********************************************************************/
+.icon-green {
+    color: #37b1a7;
+}
+
+.icon-green:hover {
+    color: #269990;
+}
+
+
+
+/* Breadcrumb *****************************************************************/
+.breadcrumb {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.breadcrumb > li > .divider {
+    color: #000;
+}
+
+
+
+/* Labels and badges **********************************************************/
+.label-important, .badge-important {
+    background: #ef3d64;
+}
+
+
+/* Inputs and forms ***********************************************************/
+/* All inputs focus state */
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    border-color: rgba(55, 177, 167, 0.8);
+}
+
+.search-element input {
+    border: 2px solid #e6e6e6;
+}
+
+.search-element .input-append .add-on, .search-element .input-prepend .add-on {
+    border: 2px solid #e6e6e6;
+    color: #37b1a7;
+    border-left: 0;
+}
+
+.control-group.info input,
+.control-group.info select,
+.control-group.info textarea,
+.control-group.info input:focus,
+.control-group.info select:focus,
+.control-group.info textarea:focus {
+    border-color: #38b1a8;
+}
+
+.control-group.info .checkbox,
+.control-group.info .radio,
+.control-group.info input,
+.control-group.info select,
+.control-group.info textarea,
+.control-group.error .checkbox,
+.control-group.error .radio,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea,
+.control-group.warning .checkbox,
+.control-group.warning .radio,
+.control-group.warning input,
+.control-group.warning select,
+.control-group.warning textarea {
+    color: #111;
+}
+
+.control-group.info .help-block,
+.control-group.info .help-inline {
+    color: #38b1a8;
+}
+
+.control-group.info .control-label,
+.control-group.error .control-label,
+.control-group.warning .control-label {
+    color: inherit;
+}
+
+.input-append .add-on, .input-prepend .add-on {
+    background-color: #37b1a7;
+    border: 1px solid #37b1a7;
+    color: #fff;
+}
+
+.input-append .add-on:hover, .input-prepend .add-on:hover {
+    background-color: #269990;
+}
+
+
+
+/* Buttons ********************************************************************/
+.btn {
+    background-color: #d9d9d9;
+    color: #5e5e5e;
+}
+
+.btn:hover, btn:focus, .btn:active, .btn.active {
+    color: #171717;
+    background-color: #cac9c9;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: #37b1a7;
+    color: #fff;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #269990;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #ee462a;
+    color: #fff;
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .btn-danger.disabled, .btn-danger[disabled] {
+    background-color: #d4341a;
+    color: #fff;
+}
+
+
+
+/* Modals *********************************************************************/
+.modal a.modal-close {
+    border-left: 1px solid #4f4f4f;
+}
+
+.modal .modal-close:hover {
+    background-color: #3a3a3a;
+    border-left: 1px solid #505050;
+}
+
+.modal-header {
+    background: #282828;
+}
+
+.modal-header h2 {
+    color: #fff;
+}
+
+.modal-footer {
+    background-color: #d9d9d9;
+    border-top: 1px solid #c5c5c5;
+}
