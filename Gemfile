@@ -25,6 +25,7 @@ gem 'will_paginate', '>= 3.0.4'
 gem 'rails-settings-cached'
 gem 'font-awesome-rails'
 gem 'gravatar_image_tag'
+gem 'jquery-cookie-rails'
 
 group :development, :test, :demo do
   gem 'capybara'

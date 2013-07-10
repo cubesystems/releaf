@@ -1,6 +1,11 @@
-.body.outset_box
-  - if resources.empty?
-    .releaf_table.no_border
-      .nothing_found= t("nothing_found", :scope => "admin.global")
-  - else
-    = render "index.table", :resources => resources, :count => count
+.box
+  .box-head
+    %h2
+      Very nice table heading
+      %span.comment (box komentārs, kuru redzēju iekš mogo dizaina)
+  .box-content
+    - if resources.empty?
+      .releaf_table.no_border
+        .nothing_found= t("nothing_found", :scope => "admin.global")
+    - else
+      = render "index.table", :resources => resources, :count => count

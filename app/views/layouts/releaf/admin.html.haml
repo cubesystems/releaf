@@ -22,79 +22,49 @@
     = csrf_meta_tags
   %body
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
-      .container-fluid.fixed
-        .navbar.main{:id => "header"}
-          %ul.nav.sidebar-toggle.hidden-desktop
-            %li.nav-button
-              %a.sidebar-toggle-button{:href => "#"}
-                %i.icon-align-justify.icon-1x
-          / Brand logo
-          %a.brand.logo-leaf.hidden-phone{:href => "#"}
-          / Upper navigation menu
-          %ul.nav.pull-right
-            / Warnings
-            %li.nav-button.nav-notification
+      %header
+        .container-header
+          %a.brand{:href => "#"}
+          %ul.nav.block
+            %li.profile
               %a{:href => "#"}
-                %i.icon-warning-sign.icon-1x
-                %span.label.label-important 16
-            / Warnings
-            %li.nav-button.nav-notification
-              %a{:href => "#"}
-                %i.icon-th-list.icon-1x
-                %span.label.label-important 327
-            / Profile
-            %li.nav-profile.hidden-phone.hidden-tablet
-              %a{:href => "#"}
-                Hasans Hindenburgs
-                =gravatar_image_tag(current_admin_user.email, :alt => 'Michael Deering', :gravatar => { :size => 36 })
-            / Logout
-            %li.nav-button.nav-button-logout
-              %a{:href => self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), "data-method" => "delete"}
-                %i.icon-off.icon-1x
-        .wrapper
-          / Side menu start
-          #menu
-            #menu-inner
-              #side-accordion.accordion
-                / "Collapse/Expand menu" category link
-                .accordion-group-header.hidden-phone.hidden-tablet
-                  .accordion-heading-inactive
-                    %a.accordion-toggle-master.menu-collapse-link{:href => "#"}
-                    .toggle-background
-                      %i.icon-double-angle-left.toggle-angle-icon
-                    .clearfix
-                / Extra category one
-                - admin_main_menu.each do |menu_item|
-                  .accordion-group
-                    / To set accordion as active add class with name "active" into accordion-heading
-                    .accordion-heading{:class => ("active" if menu_item[:active])}
-                      %a.accordion-toggle{"data-toggle" => "collapse", :href => "#collapse-three"}
-                        %i.icon-flag.icon-large
-                        %span=t(menu_item[:name], :scope => "admin.menu_items")
-                        %span.pull-right
-                          %i.icon-chevron-up.icon-large.chevron
-                    / To collapse out element and show contents add class with name "in" into accordion-body
-                    .accordion-body.collapse.in.open
-                      .accordion-inner
-                        - if menu_item.has_key? :items
-                          %ul.nav.nav-list.drop-list
-                            - menu_item[:items].each do |section_item|
-                              -#%li{:class => ("active" if section_item[:active]) }
-                              %li
-                                %a{:href => section_item[:url] }=t(section_item[:name], :scope => "admin.menu_items")
-                / Go to google
-                .accordion-group
-                  .accordion-heading
-                    %a.accordion-toggle{:href => "http://google.lv"}
-                      %i.icon-external-link.icon-large
-                      %span Go to google
-          / Side menu end
+                %span.name Hasans Hindenburgs
+                = gravatar_image_tag(current_admin_user.email, :alt => 'Michael Deering', :gravatar => { :size => 36 }, :class => "avatar")
+            %li.sign-out
+              %form{:action => self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), :method => "delete"}
+                %button{:type => "submit"}
+                  %i.icon-off.icon-header
 
 
+      .side
+        .compacter
+          %button{:type => "button"}
+            %i.toggle-angle-icon.icon-double-angle-left
+        %nav
+          %ul.block
+            - admin_main_menu.each do |menu_item|
+              %li.collapsed{:class => ("active" if menu_item[:active])}
+                - if menu_item[:items]
+                  %span.trigger
+                    %i.icon-large{:class => "icon-" + menu_item[:icon]}
+                    %span.name= t(menu_item[:name], :scope => "admin.menu_items")
+                    %span.collapser
+                      %button{:type => "button"}
+                        %i.icon-small.chevron.icon-chevron-down
+                  %ul.block
+                    - menu_item[:items].each do |section_item|
+                      %li
+                        %a.trigger{:href => section_item[:url]}
+                          %span.name= t(section_item[:name], :scope => "admin.menu_items")
+                - else
+                  %a.trigger{:href => menu_item[:url]}
+                    %i.icon-large{:class => "icon-" + menu_item[:icon]}
+                    %span.name= t(menu_item[:name], :scope => "admin.menu_items")
+        .clear
+        %footer
+          CUBE
 
-
-
-
+      .main{:id => "main"}= yield
 
 
     -##body_wrap{:class => "#{current_feature}-feature module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}

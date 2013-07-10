@@ -10,7 +10,6 @@ module Releaf
       :get_template_label_options,
       :input_locales,
       :has_template?,
-      :list_action,
       :render_field_type,
       :render_parent_template,
       :resource_class,
@@ -102,11 +101,6 @@ module Releaf
       @resource = resource_class.new
     end
 
-    def show
-      raise FeatureDisabled unless @features[:show]
-      @resource = resource_class.includes(relations_for_includes).find(params[:id])
-    end
-
     def edit
       raise FeatureDisabled unless @features[:edit]
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
@@ -157,22 +151,6 @@ module Releaf
 
     # Helper methods ##############################################################################
 
-
-    def list_action
-      if !cookies['base_module:list_action'].blank?
-        feature = cookies['base_module:list_action']
-        if feature == 'confirm_destroy'
-          feature = 'destroy'
-        end
-        feature = feature.to_sym
-        if @features[feature]
-          return cookies['base_module:list_action']
-        end
-      end
-
-      return 'show' if @features[:show]
-      return 'edit'
-    end
 
     # Defines which fields/associations should be rendered.
     #
@@ -262,7 +240,7 @@ module Releaf
       return render_to_string( arguments ).html_safe
     end
 
-    # Helps to determinate which template to render in :show and :edit feature
+    # Helps to determinate which template to render in :edit feature
     # for given objects attribute.
     #
     # @return [field_type, use_i18n]
@@ -519,7 +497,7 @@ module Releaf
     # == Defines
     # @fetures::
     #   Hash with symbol keys and boolean values. Each key represents action
-    #   (currently only `:edit`, `:create`, `:show`, `:destroy` are supported). If one
+    #   (currently only `:edit`, `:create`, `:destroy` are supported). If one
     #   of features is disabled, then routing to it will raise <tt>Releaf::FeatureDisabled</tt>
     #   error
     #
@@ -534,14 +512,13 @@ module Releaf
     # @example
     #   def setup
     #     super
-    #     @fetures[:show] = false
+    #     @fetures[:edit] = false
     #     @resources_per_page = 20
     #   end
     def setup
       @features = {
         :edit     => true,
         :create   => true,
-        :show     => true,
         :destroy  => true,
         :index    => true
       }
@@ -644,12 +621,8 @@ module Releaf
       end
 
       if result
-        if @features[:show]
-          success_url = url_for( :action => 'show', :id => @resource.id )
-        else
-          # TODO: add flash message on redirect to edit form
-          success_url = url_for( :action => 'edit', :id => @resource.id )
-        end
+        # TODO: add flash message on redirect to edit form
+        success_url = url_for( :action => 'edit', :id => @resource.id )
       end
 
       respond_to do |format|

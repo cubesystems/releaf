@@ -18,4 +18,4 @@
     text = t(text ? 'yes' : 'no', :scope => 'admin.global')
   end
 %>
-<a class="main" href="<%= url_for( :action => list_action, :id => resource.id ) %>"><%= text %></a>
+<a class="main" href="<%= url_for( :action => :edit, :id => resource.id ) %>"><%= text %></a>

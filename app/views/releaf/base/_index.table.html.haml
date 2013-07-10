@@ -11,8 +11,8 @@
   end
 
 
-.releaf_table.no_border.selectable{"data-continuous" => @continuous_scroll ? "1" : "0", "data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
-  .thead
+%table.table.table-bordered.table-hover.table-striped{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
+  %thead.thead
     %div
       - fields_to_display.each do |name|
         - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
@@ -30,6 +30,6 @@
 
           - else
             = label
-  .tbody
+  %tbody.tbody
     - resources.each do |resource|
       = render 'index.row', :resource => resource, :cell_templates => cell_templates

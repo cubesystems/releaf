@@ -7,10 +7,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.cookie
 //= require tinymce-jquery
 //= require_tree ./include
 //= require ./3rd_party/jquery-ui-timepicker-addon
 //= require ./controllers/base
 //= require ./3rd_party/lightbox
-//= require ./3rd_party/bootstrap
-//= require ./3rd_party/bootbox

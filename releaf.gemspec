@@ -38,6 +38,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rvm'
   s.add_dependency 'font-awesome-rails'
   s.add_dependency 'gravatar_image_tag'
+  s.add_dependency 'jquery-cookie-rails'
 
   # v0.2.0 is broken currently
   s.add_dependency 'strong_parameters', '= 0.1.6'

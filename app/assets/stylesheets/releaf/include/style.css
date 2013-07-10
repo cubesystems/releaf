@@ -1,661 +1,657 @@
-/* Base layout settings *******************************************************/
-body {
-    font-size: 12px;
-    min-height: 100%;
-    width: 100%;
-    position: absolute;
-    padding-bottom: 40px;
+html
+{
+    font-size: 100.01%;
 }
 
-#wrapper {
-    margin-top: -4px;
-    float: left;
-    height: inherit;
-    overflow: hidden;
-    width: 100%;
-    min-height: 100%;
-}
-
-.container-fluid.fixed {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-a {
-    text-decoration: none;
-}
-
-a:hover, 
-a:focus {
-    text-decoration: none;
-}
-
-
-
-/* Header navigation bar ******************************************************/
-#header.navbar.main {
-    height: 60px;
-    background-image: none;
-    margin: 0;
+html, body
+{
+	margin:  0;
+	padding: 0;
     position: relative;
-    padding: 0;
-    top: 0;
-    min-width: 560px;
-    z-index: 1000;
+    font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
 }
 
-#header.navbar .nav .nav-button {
-    width: 60px;
-    height: 60px;
+body, input, select, textarea, button, th, td, pre
+{
+	font-family: Arial, helvetica, sans-serif;
+    font-size:   100%;
 }
 
-#header.navbar .nav .nav-button a {
-    padding-top: 21px;
-    padding-left: 23px;
-    padding-bottom: 0px;
-    text-decoration: none;
+pre
+{
+    font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
 }
 
-#header.navbar .nav .nav-button.nav-notification {
-    width: 77px;
-}
-
-#header.navbar .nav .nav-button.nav-notification a {
-    padding-left: 26px;
-}
-
-#header.navbar .nav .nav-button.nav-notification .label {
-    font-size: 9px;
-    position: absolute;
-    top: 11px;
-    border-radius: 6px;
-}
-
-#header.navbar .nav [class^="icon-"] {
-    font-size: 18px;
-}
-
-#header.navbar .brand {
-    padding: 0;
-    margin-left: 10px;
-}
-
-#header.navbar .nav .nav-profile img {
-    padding-left: 25px;
-}
-
-#header.navbar .nav .nav-profile a {
-    padding: 12px 15px;
-}
-
-#header.navbar .nav > li > a {
-    text-shadow: none;
-}
-
-
-
-/* Menu css settings **********************************************************/
-#menu {
-    width: 240px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    overflow: hidden;
-    float: left;
+html
+{
     min-height: 100%;
     height: 100%;
-    -webkit-transition-duration: 0.3s;
-       -moz-transition-duration: 0.3s;
-         -o-transition-duration: 0.3s;
-            transition-duration: 0.3s;
 }
 
-#menu-inner {
-    padding-left: 1px;
+body
+{
+    min-height: 100%;
+}
+
+body
+{
+    font-size:   81.25%;    /* 13px */
+    line-height: 1.53846;   /* 20px line height */
+    background-color: #FFFFFF;
+    color: #1d1d1d;
+}
+
+h1, h2, h3, h4, h5, h6, form
+{
+    margin: 0;
+    padding: 0;
+}
+
+a
+{
+    color: #37b1a7;
+	text-decoration: underline;
+}
+
+a img
+{
+	border: none;
+}
+
+p
+{
+    margin-top: 0;
+}
+
+
+.block,
+.block li
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-image: none;
+}
+
+.clear
+{
+    display: block;
+    clear: both;
+    overflow:   hidden;
+    visibility: hidden;
+    height: 0px;
+
+}
+
+
+button,
+.button,
+input[type="button"],
+input[type="submit"]
+{
+	cursor: pointer;
+    background: transparent;
+	border: none;
+	padding: 0;
+    margin: 0;
+	box-shadow: none;
+    color: inherit;
+}
+
+button:focus,
+.button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus
+{
+    outline-width: 1px;
+    outline-style: dotted;
+    outline-color: #37b1a7;
+}
+
+button:active,
+.button:active,
+input[type="button"]:active,
+input[type="submit"]:active
+{
+    outline: none;
+}
+
+button::-moz-focus-inner,
+.button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner
+{
+    border: 0;
+    padding: 0;
+}
+
+div, footer
+{
+	-webkit-transition: left .1s ease-out, right .1s ease-out, -webkit-transform .1s ease-out;
+	transition: left .1s ease-out, right .1s ease-out, transform .1s ease-out;
+}
+
+
+/* skip links */
+body > .skip-links
+{
+    position: absolute;
+    top: -300px;
+    width: 80%;
+    left: 100px;
+    z-index: 20;
+    overflow: visible;
+}
+
+body > .skip-links a
+{
+    position: absolute;
+    top: 0;
+    z-index: 30;
+}
+
+body > .skip-links a:active,
+body > .skip-links a:focus
+{
+    top:    320px;
+    height: 1.6em;
+}
+
+
+
+
+/* main layout */
+
+body > header
+{
+    background: #111111;
+    color: #d8d8d8;
+    height: 60px;
     position: relative;
-    width: 240px;
-    float: left;
+    z-index: 10;
+}
+
+body > .side,
+body > .main
+{
+    position: relative;
+    min-height: 100%;
+}
+
+body > .side > *:first-child,
+body > .main > *:first-child
+{
     padding-top: 60px;
 }
 
-/* All categories block */
-#menu .accordion {
-    margin-bottom: 20px;
-    margin-right: 1px;
-}
+body > .side,
+body.side-open > .side
+{
+    background: #1d1d1d;
+    color: #d3d3d3;
 
-/* Category heading */
-#menu .accordion-inner {
-    padding-right: 0;
-}
-
-#menu .accordion-heading .accordion-toggle,
-#menu .accordion-heading .dropdown-toggle  {
-    display: block;
-    padding: 12px 13px 12px 13px;
-}
-
-/* Collapse toggle upper button settings */
-#menu .accordion-heading-inactive .accordion-toggle-master {
-    display: block;
-    padding-left: 13px;
-}
-
-#menu .accordion-heading-inactive a {
-    text-align: right;
-}
-
-#menu .accordion-heading-inactive .toggle-background {
-    float: right;
-    padding: 9px 13px 8px 13px;
-}
-
-
-#menu .accordion-heading-inactive a .toggle-angle-icon {
-    font-size: 24px;
-    background-color: #171717;
-    text-decoration: none;
-}
-/* End collapse toggle upper button settings*/
-
-
-
-/* Category heading link */
-#menu .accordion-heading a {
-    text-decoration: none;
-}
-
-/* Category heading */
-#menu .accordion-group,
-#menu .accordion-group-header {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
-    margin-bottom: 0;
-    border-style: solid;
-    border-width: 0 0 1px 0;
-}
-
-/* Subcategories. Navigation list link style */
-#menu .nav-list {
-    padding-right: 0;
-}
-
-#menu .nav-list > li > a {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-    text-shadow: none;
-    padding-right: 0px;
-}
-
-#menu .nav-list > li > a:hover {
-    background-repeat: no-repeat;
-    background-position: center right;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAQCAYAAAArij59AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjBDMEZBNzQzRTIzNjExRTJBRUFEQzYzQURGOTQ2NjNDIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjBDMEZBNzQ0RTIzNjExRTJBRUFEQzYzQURGOTQ2NjNDIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MEMwRkE3NDFFMjM2MTFFMkFFQURDNjNBREY5NDY2M0MiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MEMwRkE3NDJFMjM2MTFFMkFFQURDNjNBREY5NDY2M0MiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5zXYiVAAAAVUlEQVR42mL8//8/Ax4gxIRPEoh3MYBMwIKFgPjMf0KS/wlJ/ick+Z+Q5H9CkiAA8yYzTs8imXIelxV4FTEQUsRASBEDIUWMeGITFFl7GQlFN0CAAQA0ED89Oa3A/wAAAABJRU5ErkJggg==);
-}
-
-.nav-list > li > a, .nav-list .nav-header {
-    margin-right: 0;
-}
-
-/* Subcategories. Navigation list link style on hover and on focus states */
-#menu .accordion-group a .angle {
-    font-size: 20px;
-}
-
-
-
-/* Compact state menu dropdown settings ***************************************/
-/* Set menu overflow visible if menu state is compact */
-.menu-hidden.menu-activated #menu {
-    overflow: visible;
-}
-
-.menu-hidden.menu-activated .collapse {
-    overflow: visible;
-}
-
-.menu-hidden.menu-activated #menu .accordion-body {
-    display: none;
-}
-
-.menu-hidden.menu-activated #menu .accordion-group:hover .drop-list {
-    display: block;
-}
-
-.menu-hidden.menu-activated #menu .accordion-group:hover .accordion-body {
-    display: block;
-}
-
-.menu-hidden.menu-activated #menu .accordion-group:hover .accordion-toggle {
-    margin-left: -40px;
-}
-
-.menu-hidden.menu-activated #menu .accordion-group:hover .accordion-toggle:last-child {
-    margin-bottom: -1px;
-}
-
-.menu-hidden.menu-activated #menu .accordion-group:hover a span {
-    display: inline;
-    margin-left: 25px;
-}
-
-.menu-hidden.menu-activated #menu .accordion-group:hover {
-    display: block;
-    position: relative;
-    z-index: 999999;
+    position: absolute;
+    width: 240px;
+    left: 0;
     top: 0;
-    left: 41px;
+    bottom: 0;
+
+    z-index: 5;
+
+	-webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+
+
+body > .side > footer
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 240px;
 }
 
-.menu-hidden.menu-activated #menu .accordion-group .active a .chevron,
-.menu-hidden.menu-activated #menu .accordion-group a .chevron {
+body > .main,
+body.side-open > .main
+{
+    position: relative;
+
+    padding: 0 40px 50px 280px;
+    z-index: 1;
+}
+
+body .main > footer,
+body.side-open > footer
+{
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    left: 280px;
+    bottom: 0;
+    padding-top: 10px;
+    background: #fff;
+}
+
+body .main > footer .tools
+{
+    height: 40px;
+    background: #e6e6e6;
+    color: #818181;
+}
+
+body > .side > footer,
+body .main > footer .tools
+{
+    height: 40px;
+}
+
+
+/* menu hiding and compacting stuff */
+
+header .side-opener
+{
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    display: none;
+}
+
+body > .main,
+body > .side
+{
+    -webkit-transition:
+        width .1s ease-out,
+        padding-left .1s ease-out,
+        left .1s ease-out,
+        right .1s ease-out,
+        -webkit-transform .1s ease-out
+    ;
+	transition:
+        width .1s ease-out,
+        padding-left .1s ease-out,
+        left .1s ease-out,
+        right .1s ease-out,
+        transform .1s ease-out
+    ;
+}
+body > .side .compacter
+{
+  text-align: right;
+  border-bottom: 1px solid #282828;
+}
+body > .side .compacter button
+{
+  height: 39px;
+  width: 45px;
+  background: #171717;
+}
+body > .side .compacter button:hover
+{
+  background: #282828;
+}
+body > .side .compacter .toggle-angle-icon
+{
+    color: #37b1a7;
+    font-size: 24px;
+}
+
+
+body > footer
+{
+
+}
+
+@media all and (max-width: 1000px)
+{
+    body > .side
+    {
+        -webkit-transform: translate(-240px, 0);
+        -ms-transform: translate(-240px, 0);
+        transform: translate(-240px, 0);
+    }
+    body > .main
+    {
+        padding-left: 40px;
+    }
+    body .main > footer
+    {
+        left: 40px;
+    }
+    body > header .side-opener
+    {
+        display: block;
+    }
+
+    body .side .compacter
+    {
+        display: none;
+    }
+
+    body .side nav
+    {
+        padding-top: 60px;
+    }
+}
+
+/* compact sidebar stuff */
+body.side-compact > .side
+{
+    width: 40px;
+}
+
+body.side-compact > .side .compacter button
+{
+    width: 40px;
+}
+
+body.side-compact  > .main
+{
+    padding-left: 80px;
+}
+
+body.side-compact > footer
+{
+    left: 80px;
+}
+
+body.side-compact > .side nav li .name,
+body.side-compact > .side nav li .collapser
+{
+    display: none;
+}
+
+body.side-compact > .side nav li .trigger
+{
+    padding-right: 20px;
+}
+body.side-compact > .side nav > ul > li:hover > .trigger .name
+{
+    position: absolute;
+    top: 0;
+    left: 40px;
+    height: 30px;
+    width: 227px;
+    padding: 9px 0 0 13px;
+    display: block;
+    background: #000;
+}
+
+body.side-compact > .side nav > ul > li:hover > .trigger
+{
+    background-color: #050505;
+    color: #fff;
+}
+
+body.side-compact > .side nav > ul > li.active > .trigger,
+body.side-compact > .side nav > ul > li.active > .trigger .name
+{
+    background-color: #37b1a7;
+}
+body.side-compact > .side nav > ul > li:hover > ul
+{
+    position: absolute;
+    top: 39px;
+    left: 41px;
+    width: 240px;
+    display: block;
+    background: #000;
+}
+body.side-compact > .side nav > ul > li > ul
+{
+    display: none;
+}
+body.side-compact > .side nav > ul > li:hover > ul .name
+{
+    display: block;
+}
+
+/* header */
+
+/*body > header .logo
+{
+    float: left;
+}*/
+
+
+body > header > .item
+{
+    display: inline-block;
+    margin-left: 20px;
+}
+
+/* side */
+body > .side nav li
+{
+    border-bottom: 1px solid #282828;
+    position: relative;
+}
+
+body > .side nav li .collapser
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #4a4a4a;
+}
+body > .side nav li .collapser button
+{
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+
+body > .side nav li li
+{
+    background: #282828;
+    border-bottom: none;
+}
+
+body > .side nav li .trigger
+{
+    color: #d3d3d3;
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px 40px 10px 13px;
+}
+
+body > .side nav > ul > li > .trigger:hover
+{
+    background-color: #050505;
+    color: #fff;
+}
+body > .side nav .trigger:hover
+{
+    color: #fff;
+}
+body > .side nav > ul > li > .trigger:hover .collapser
+{
+  color: #929292;
+}
+body > .side nav > ul > li.active > .trigger
+{
+  background-color: #37b1a7;
+  color: #111111;
+}
+body > .side nav > ul > li.active > .trigger .collapser
+{
+  color: #111111;
+}
+
+body > .side nav li .icon
+{
+
+}
+body > .side nav > ul > li > .trigger > .name
+{
+    padding: 0 0 0 8px;
+}
+
+body > .side nav li li .trigger
+{
+    padding-left: 18px;
+    color: #a6a6a6;
+}
+
+body > .side nav li.collapsed ul
+{
     display: none;
 }
 
 
 
-/* Content ********************************************************************/
-#content {
-    position: relative;
-    overflow: hidden;
-    margin: 0 0 0 240px;
-    min-height: 600px;
-    transition: margin-left 0.3s ease-out;
+
+/* Hint:
+    top right bottom left
+    top right bottom
+    top right
+*/
+/* Top menu */
+.container-header {
 }
 
-
-
-/* Footer settings ************************************************************/
-#footer {
-    height: 40px;
-    position: fixed;
-    bottom: 0;
-    z-index: 1000;
-    left: 0;
-    right: 0;
-    width: 100%;
+.container-header:before, .container-header:after {
+    content: "";
+    display: table;
+    line-height: 0;
 }
 
-#footer .wrap {
-    padding-left: 240px;
+.container-header:after {
+    clear: both;
 }
 
-#footer .navbar {
-    height: 40px;
-    margin-bottom: 0;
-}
-
-#footer .navbar .nav {
-    margin: 0;
-}
-
-#footer .navbar .btn, .navbar .btn-group {
-    margin-top: 0px;
-}
-
-#footer .navbar .nav > li > a {
-    padding: 10px 17px;
-    text-shadow: none;
-}
-
-
-
-/* Typography *****************************************************************/
-.page-header {
-    margin: 20px 0 30px;
-    padding-bottom: 9px;
-}
-
-.search-header {
-    margin: 0;
-    margin-top: 20px;
-    padding-bottom: 0px;
-}
-
-.search-header h1 {
-    margin-bottom: 0;
-}
-
-.search-element {
+.brand {
     display: block;
-    width: 100%;
+    background-image: url('../assets/images/brand.png');
+    background-repeat: no-repeat;
+    width: 81px;
+    height: 31px;
+    text-decoration: none;
+    float: left;
+    margin: 14px 0 0 24px;
 }
 
-.text-center {
-    text-align: center !important;
+.icon-green {
+    color: #37b1a7;
 }
 
-
-
-/* Alerts *********************************************************************/
-.alert {
-    border-radius: 0;
-    padding: 12px 35px 12px 14px;
-    text-shadow: none;
-    line-height: 24px;
-}
-
-.alert-info,
-.alert-danger,
-.alert-success,
-.alert-error {
-    border: none;
-}
-
-
-
-/* Tables and table box wrapper ***********************************************/
-.box {
-    margin-bottom: 20px;
-}
-
-.box .box-padded {
-    padding: 20px 15px 10px 15px;
-}
-
-.box .box-head {
-    height: 40px;
-    max-height: 40px;
-}
-
-.box .box-head h2 {
-    font-size: 16px;
-    font-weight: 600;
-    padding-left: 15px;
-}
-
-.box .row-fluid [class*="span"] {
-    -webkit-box-sizing: inherit;
-       -moz-box-sizing: inherit; 
-            box-sizing: inherit;
-    min-height: 0;
-}
-
-.table-bordered {
-    border-radius: 0;
-}
-
-.table-bordered thead:last-child tr:last-child > th:first-child, .table-bordered tbody:last-child tr:last-child > td:first-child, .table-bordered tbody:last-child tr:last-child > th:first-child, .table-bordered tfoot:last-child tr:last-child > td:first-child, .table-bordered tfoot:last-child tr:last-child > th:first-child {
-    border-bottom-left-radius: 0;
-}
-
-.table-bordered thead:first-child tr:first-child > th:first-child, .table-bordered tbody:first-child tr:first-child > td:first-child, .table-bordered tbody:first-child tr:first-child > th:first-child {
-    border-top-left-radius: 0;
-}
-
-.table-bordered thead:first-child tr:first-child > th:last-child, .table-bordered tbody:first-child tr:first-child > td:last-child, .table-bordered tbody:first-child tr:first-child > th:last-child {
-    border-top-right-radius: 0;
-}
-
-
-/* Dropdowns ******************************************************************/
-.dropdown-menu {
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    margin: -6px 0 0 38px;
-    min-width: 200px;
-}
-
-.dropdown-menu > li > a {
-    padding: 10px 20px;
-    font-weight: bold;
-}
-
-.dropdown-menu > li > a i {
-    padding-right: 10px;
-}
-
-
-
-/* Icons **********************************************************************/
-.icon-1x {
-    font-size: 1.4em;
-}
-
-
-
-/* Breadcrumb *****************************************************************/
-.breadcrumb {
+.nav {
     list-style: none outside none;
-    margin: 0 0 20px;
-    padding: 8px 15px;
-    border-radius: 0;
-    background: none;
+    margin-left: 0;
+    list-style: none;
+    float: right;
 }
 
-.breadcrumb > li > .divider {
-    padding: 0 14px;
-    font-size: 10px;
+.nav > li {
+  float: left;
 }
 
-
-
-/* Labels and badges **********************************************************/
-
-
-
-/* Wells **********************************************************************/
-.search-block-header .well {
-    border-radius: 0;
-    box-shadow: none;
-    border-top: 0;
+.nav > li > a {
+    display: block;
+    text-decoration: none;
 }
 
 
-
-/* Inputs and forms ***********************************************************/
-select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-    height: 22px;
-    line-height: 22px;
-    margin-bottom: 10px;
-    padding: 6px 6px;
-    border-radius: 0;
+.icon-header {
+    font-size: 20px;
 }
 
-legend {
+.label {
+    cursor: default;
+    font-size: 11px;
+    padding: 2px 4px;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 14px;
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    vertical-align: baseline;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+}
+
+.label-warning {
+    background: #ef3d64;
+}
+
+.label-custom {
+    position: relative;
+    right: -44px;
+    top: -16px;
+}
+
+header .nav a {
+  height: 60px;
+}
+.header-item-warning {
+    padding-left: 24px;
+
+}
+.header-item-table {
+    padding-left: 22px;
+    padding-right: 38px;
+}
+
+
+
+
+header .nav .profile{
+  padding-right: 1px;
+}
+header .nav .profile a{
+    position: relative;
+    width: 237px;
+    color: #d8d8d8;
+    border-left: 1px solid #242424;
+}
+header .nav .profile a:hover{
+    background-color: #242424;
+    color: #fff;
+}
+header .nav .profile a > .name{
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  display: block;
+  width: 152px;
+}
+
+header .nav .profile a > .avatar{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: block;
+  width: 36px;
+}
+
+header .nav .sign-out button{
+    position: relative;
+    background-color: #242424;
+    color: #37b1a7;
+    width: 60px;
+    height: 60px;
+}
+header .nav .sign-out button:hover {
+    background-color: #37b1a7;
+    color: #242424;
+}
+header .nav .sign-out button i
+{
     font-size: 18px;
 }
 
-.input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
-    border-radius: 0;
+img {
+    vertical-align: middle;
 }
 
-.search-element input {
-    margin-bottom: -2px;
-    border-radius: 0;
+.divider-vertical {
     height: 20px;
-    line-height: 20px;
-    min-width: 16px;
-    padding: 4px 5px;
+    margin: 0 5px 0 5px;
+    border-left: 1px solid #242424;
 }
-
-.search-element .input-append, .search-element .input-prepend {
-    margin-bottom: 0;
-}
-
-.search-element .input-append .add-on, .search-element .input-prepend .add-on {
-    background: none;
-    margin-bottom: -2px;
-    height: 20px;
-    line-height: 20px;
-    min-width: 16px;
-    padding: 4px 5px;
-}
-
-.control-group .help-block {
-    font-size: 10px;
-    font-style: italic;
-    margin-top: -7px;
-}
-
-
-/* Append / Prepend elements for inputs */
-.input-prepend .add-on:first-child, .input-prepend .btn:first-child {
-    border-radius: 0px;
-}
-
-.input-append .add-on, .input-prepend .add-on {
-    text-shadow: none;
-    min-width: 22px;
-    height: 24px;
-    padding-top: 6px;
-}
-
-
-
-/* Buttons ********************************************************************/
-.btn {
-    background-image: none;
-    border: none;
-    border-radius: 0;
-    text-shadow: none;
-    box-shadow: none;
-    padding: 8px 17px;
-}
-
-.btn-small {
-    padding: 5px 12px;
-}
-
-.btn-large {
-    font-size: 16px;
-    padding: 10px 17px;
-}
-
-.btn-primary {
-    background-image: none;
-    border: none;
-    text-shadow: none;
-}
-
-.btn-danger {
-    background-image: none;
-    border: none;
-    text-shadow: none;
-}
-
-
-
-/* Modals *********************************************************************/
-.modal {
-    border-radius: 0;
-}
-
-.modal-backdrop, .modal-backdrop.fade.in {
-    opacity: 0.5;
-}
-
-.modal a.modal-close {
-    display: block;
-    float: right;
-    padding: 10px 17px;
-}
-
-.modal .modal-caption {
-    display: block;
-    float: left;
-}
-
-.modal-header {
-    border-bottom: none;
-    padding: 0;
-    padding-left: 15px;
-}
-
-.modal-header h2 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0;
-    color: #fff;
-}
-
-.modal-footer {
-    border-radius: 0;
-    box-shadow: none;
-    padding: 0;
-    text-align: left;
-}
-
-.modal-footer .btn + .btn {
-    margin: 0;
-}
-
-
-
-/* Media settings *************************************************************/
-@media (min-width: 980px) {
-    .menu-hidden #menu {
-        width: 40px;
-    }
-    .menu-hidden #menu-inner {
-        width: 40px;
-    }
-    .menu-hidden #footer .wrap {
-        padding-left: 40px;
-    }
-    .menu-hidden #menu .accordion-heading a span,
-    .menu-hidden #menu .accordion-heading a span {
-        display: none;
-    }
-    .menu-hidden #content {
-        margin-left: 40px;
-    }
-}
-    
-@media (max-width: 979px) {
-    #menu-inner {
-        padding-top: 0px;
-    }
-    .navbar.main {
-        z-index: 0;
-    }
-    .sidebar-toggle {
-        padding-left: 240px;
-    }
-    .menu-hidden .navbar .nav {
-        padding-left: 0;
-    }
-    .menu-hidden #menu {
-        width: 0;
-    }
-    .menu-hidden #content {
-        margin: 0;
-    }
-    .menu-hidden #footer .wrap {
-        padding-left: 0;
-    }
-    .container-fluid.fixed {
-        width: auto;
-        border: none;
-        margin: 0;
-    }
-}
-
-@media (max-width: 767px) {
-    #menu-inner {
-        padding-top: 0px;
-    }
-    .navbar.main {
-        z-index: 0;
-    }
-    .sidebar-toggle {
-        padding-left: 240px;
-    }
-    .menu-hidden .navbar .nav {
-        padding-left: 0;
-    }
-    .menu-hidden #menu {
-        width: 0;
-    }
-    .menu-hidden #footer .wrap {
-        padding-left: 0px;
-    }
-    .menu-hidden #content {
-        margin: 0;
-    }
-}
-

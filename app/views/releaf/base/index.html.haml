@@ -4,6 +4,8 @@
   else
     count = @resources.count
   end
-= render 'index.header',  :resources => @resources
-= render 'index.body',    :resources => @resources, :count => count
+#content
+  .container-fluid
+    = render 'index.header',  :resources => @resources
+    = render 'index.body',    :resources => @resources, :count => count
 = render 'index.footer',  :resources => @resources, :count => count

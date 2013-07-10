@@ -14,6 +14,8 @@ module Releaf
         if menu_item.has_key? :items
           item = {
             :name => menu_item[:name],
+            :icon => menu_item[:icon],
+            :collapsed => cookies["admin_collapse-permissions"],
             :active => false
           }
 
@@ -49,6 +51,7 @@ module Releaf
 
     def get_releaf_menu_item item
       {
+        :icon => item[:icon],
         :name => item[:name],
         :url => send(item[:url_helper]),
         :active => (item[:controller] == params[:controller])
