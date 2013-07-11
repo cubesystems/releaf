@@ -1,4 +1,3 @@
-//= require ../3rd_party/jquery-cookie/jquery.cookie.js
 //= require ../lib/request_url.js
 
 jQuery(function()
@@ -200,52 +199,6 @@ jQuery(function()
     // attach validation to default forms
     jQuery('form[data-validation-url]').trigger('validationinit');
 
-
-
-    // list action switcher
-    jQuery( '.action-index' ).on( 'click', '.list_action_switch button', function( event )
-	{
-		var button = jQuery( this );
-		var action = button.attr( 'data-action' );
-		button.siblings( '.active' ).removeClass( 'active' );
-		button.addClass( 'active' );
-		// store cookie
-		jQuery.cookie( 'base_module:list_action', action, { path: '/', expires: 365 * 5 } );
-		// modify current links
-		var table = button.parents( '.panel_layout' ).find( '.body .releaf_table' );
-		// collect ids
-		var ids = [];
-		var rows = table.find( '.tbody > .row' );
-		rows.each(function()
-		{
-			ids.push( jQuery( this ).attr( 'data-id' ) );
-		});
-		var url = new RequestUrl();
-		url.path += '/urls.json';
-		jQuery.ajax
-		({
-			url: url.getUrl(),
-			type: 'post',
-			data: { ids: ids, to_action: action },
-			success: function( json )
-			{
-				rows.each(function()
-				{
-					var row = jQuery( this );
-					if( json[ row.attr( 'data-id' ) ] )
-					{
-						row.children( '.main' ).attr( 'href', json[ row.attr( 'data-id' ) ] );
-						if( row.is( 'a' ) )
-						{
-							row.attr( 'href', json[ row.attr( 'data-id' ) ] );
-						}
-					}
-				});
-			}
-		});
-		// clear cache on continuous scroll tables
-		table.trigger( 'flushcache' );
-	});
 
 	// ajax search
 
