@@ -1,5 +1,0 @@
-- Releaf.available_admin_controllers.each do |controller_name|
-  .field.no_label_wrap_padding{ 'data-name' => controller_name }
-    .label_wrap
-      .label= t(controller_name, :scope => "admin.menu_items") + ":"
-    .value_wrap=  I18n.t(  @resource.permissions.try(:include?, controller_name) ? "yes" : "no", :scope => 'admin.global')

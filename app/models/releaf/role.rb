@@ -17,8 +17,6 @@ module Releaf
 
     alias_attribute :to_text, :name
 
-    scope :order_by, lambda { |field=:name| order(field) }
-
     # Allow destroying of role if no Releaf::Admin object is using it
     def destroy
       if Releaf::Admin.where(:role_id => id).count == 0
