@@ -219,11 +219,12 @@ body .main footer,
 body.side-open > footer
 {
     position: fixed;
-    width: 100%;
-    z-index: 10;
-    left: 280px;
     bottom: 0;
-    padding-top: 10px;
+    right: 0;
+    left: 0;
+    ppadding-top: 10px;
+    margin: 0 40px 0px 280px;
+    z-index: 10;
     background: #fff;
 }
 
@@ -232,16 +233,22 @@ body .main footer .tools
     height: 40px;
     background: #e6e6e6;
     color: #818181;
+    border: 1px solid #c5c5c5;
+    border-bottom: 0;
 }
 body .main footer .tools > .primary
 {
-  float: right;
+    float: right;
+    padding: 10px 17px;
 }
 body .main footer .tools > .secondary
 {
-  float: left;
+    float: left;
 }
-
+body .main footer .tools > .secondary a.button
+{
+    display: block;
+}
 
 
 body > .side > footer,
@@ -321,6 +328,7 @@ body > footer
     }
     body .main footer
     {
+        margin-left: 0px;
         left: 40px;
     }
     body > header .side-opener
@@ -713,7 +721,8 @@ input[type="passwod"]:focus
 .button
 {
   text-decoration: none;
-  padding: 13px 17px;
+  padding: 10px 17px;
+  line-height: 20px;
   background-color: #d9d9d9;
   color: #636363;
 }
