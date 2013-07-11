@@ -891,11 +891,14 @@ body.view-edit .main footer
 /* index view */
 .view-index form.search
 {
-  position: relative;
-  border-bottom: 2px solid #e6e6e6;
   margin: 15px 0 43px 0;
 }
-.view-index form > .primary
+.view-index form.search .primary
+{
+  position: relative;
+  border-bottom: 2px solid #e6e6e6;
+}
+.view-index form > .primary .wrapper
 {
   float: right;
 }
@@ -914,4 +917,11 @@ body.view-edit .main footer
   right: 10px;
   top: 6px;
   color: #37b1a7;
+}
+.view-index form.search .extras
+{
+  border: 1px solid #e6e6e6;
+  border-top: none;
+  background-color: #f6f6f6;
+  padding: 30px;
 }
