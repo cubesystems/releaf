@@ -681,6 +681,7 @@ img {
 {
   padding: 5px 0;
 }
+select,
 input[type="text"],
 input[type="password"]
 {
@@ -689,15 +690,21 @@ input[type="password"]
   border: 1px solid #d4d4d4;
   padding: 8px 15px;
   height: 16px;
-  font-size: 13px;
   outline: none;
   font-weight: bold;
 }
+select
+{
+  height: 30px;
+  padding: 0;
+}
+select:hover,
 input[type="text"]:hover,
 input[type="password"]:hover
 {
   border: 1px solid #b2b1b1;
 }
+select:focus,
 input[type="text"]:focus,
 input[type="passwod"]:focus
 {
@@ -725,7 +732,6 @@ input[type="passwod"]:focus
 {
   background-color: #269990;
 }
-
 
 /* Edit view */
 body.view-edit .main footer
@@ -765,12 +771,25 @@ body.view-edit .main footer
 }
 
 /* form inputs styling */
+.view-edit form .section .field label,
+.view-edit form .section .field select,
+.view-edit form .section .field input[type="text"],
+.view-edit form .section .field input[type="password"]
+{
+  font-size: 13px;
+}
+
 .view-edit form .section .field input[type="text"],
 .view-edit form .section .field input[type="password"]
 {
   width: 380px;
 }
+.view-edit form .section .field select
+{
+  width: 412px;
+}
 
+.view-edit form .section .field.has_error select,
 .view-edit form .section .field.has_error input[type="text"],
 .view-edit form .section .field.has_erro input[type="password"]
 {
