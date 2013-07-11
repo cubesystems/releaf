@@ -3,6 +3,7 @@
     <button type="button">
       <i class="icon-large icon-cog"></i>
     </button>
+    <%= render :partial => "index.row.tools", :resource => resource %>
   </td>
   <% fields_to_display.each do |name| %>
     <%= render cell_templates[name], :resource => resource, :name => name %>
