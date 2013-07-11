@@ -535,28 +535,8 @@ body > .side nav li.collapsed ul
 }
 
 
-
-
-/* Hint:
-    top right bottom left
-    top right bottom
-    top right
-*/
-/* Top menu */
-.container-header {
-}
-
-.container-header:before, .container-header:after {
-    content: "";
-    display: table;
-    line-height: 0;
-}
-
-.container-header:after {
-    clear: both;
-}
-
-.brand {
+/* Header */
+header > .brand {
     display: block;
     background-image: url(<%= asset_path("releaf/brand.png") %>);
     background-repeat: no-repeat;
@@ -567,86 +547,34 @@ body > .side nav li.collapsed ul
     margin: 14px 0 0 24px;
 }
 
-.icon-green {
-    color: #37b1a7;
-}
-
-.nav {
-    list-style: none outside none;
-    margin-left: 0;
-    list-style: none;
+header > ul {
     float: right;
 }
 
-.nav > li {
-  float: left;
+header > ul > li {
+    float: left;
 }
 
-.nav > li > a {
+header > ul > li > a {
     display: block;
     text-decoration: none;
+    height: 60px;
 }
 
-
-.icon-header {
-    font-size: 20px;
-}
-
-.label {
-    cursor: default;
-    font-size: 11px;
-    padding: 2px 4px;
-    display: inline-block;
-    font-weight: bold;
-    line-height: 14px;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    white-space: nowrap;
-    vertical-align: baseline;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
-}
-
-.label-warning {
-    background: #ef3d64;
-}
-
-.label-custom {
-    position: relative;
-    right: -44px;
-    top: -16px;
-}
-
-header .nav a {
-  height: 60px;
-}
-.header-item-warning {
-    padding-left: 24px;
-
-}
-.header-item-table {
-    padding-left: 22px;
-    padding-right: 38px;
-}
-
-
-
-
-header .nav .profile{
+header .profile{
   padding-right: 1px;
 }
-header .nav .profile a{
+header .profile a{
     position: relative;
     width: 237px;
     color: #d8d8d8;
     border-left: 1px solid #242424;
 }
-header .nav .profile a:hover{
+header .profile a:hover{
     background-color: #242424;
     color: #fff;
 }
-header .nav .profile a > .name{
+header .profile a > .name{
   position: absolute;
   top: 20px;
   left: 25px;
@@ -654,7 +582,7 @@ header .nav .profile a > .name{
   width: 152px;
 }
 
-header .nav .profile a > .avatar{
+header .profile a > .avatar{
   position: absolute;
   top: 12px;
   right: 12px;
@@ -662,31 +590,21 @@ header .nav .profile a > .avatar{
   width: 36px;
 }
 
-header .nav .sign-out button{
+header .sign-out button{
     position: relative;
     background-color: #242424;
     color: #37b1a7;
     width: 60px;
     height: 60px;
 }
-header .nav .sign-out button:hover {
+header .sign-out button:hover {
     background-color: #37b1a7;
     color: #242424;
 }
-header .nav .sign-out button i
+header .sign-out button i
 {
     font-size: 18px;
 }
-
-img {
-    vertical-align: middle;
-}
-
-.divider-vertical {
-    height: 20px;
-    margin: 0 5px 0 5px;
-    border-left: 1px solid #242424;
-  }
 
 /* Inputs */
 .label_wrap
