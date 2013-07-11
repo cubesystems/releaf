@@ -26,7 +26,7 @@
         YUI_config = #{Releaf.yui_config.to_json}
 
     = csrf_meta_tags
-  %body{:class => body_classes.join(" ")}
+  %body{:class => body_classes}
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
       %header
         .container-header
