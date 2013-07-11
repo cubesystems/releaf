@@ -21,11 +21,13 @@ jQuery(function(){
     {
         if (body.hasClass('side-compact'))
         {
+            $.removeCookie('releaf.side.compact');
             body.removeClass('side-compact');
             $('.toggle-angle-icon').addClass('icon-double-angle-left').removeClass('icon-double-angle-right');
         }
         else
         {
+            $.cookie( 'releaf.side.compact', 1, { path: '/', expires: 365 * 5 } );
             body.addClass('side-compact').removeClass('side-open');
             $('.toggle-angle-icon').addClass('icon-double-angle-right').removeClass('icon-double-angle-left');
         }
