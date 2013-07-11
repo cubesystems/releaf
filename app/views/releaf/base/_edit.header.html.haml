@@ -1,3 +1,2 @@
-.header
-  .padding
-    %h2= resource.new_record? ? t('create_new_resource', :scope => 'admin.global') : resource_to_text(resource)
+%h2.header
+  = resource.new_record? ? t('create_new_resource', :scope => 'admin.global') : resource_to_text(resource)
