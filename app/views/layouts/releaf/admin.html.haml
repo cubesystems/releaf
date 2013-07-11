@@ -44,7 +44,7 @@
       .side
         .compacter
           %button{:type => "button"}
-            %i.toggle-angle-icon.icon-double-angle-left
+            %i.toggle-angle-icon{:class => "icon-double-angle-" + ( cookies['releaf.side.compact']  ? "right" : "left" )}
         %nav
           %ul.block
             - admin_main_menu.each do |menu_item|
