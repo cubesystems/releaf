@@ -20,7 +20,7 @@
         YUI_config = #{Releaf.yui_config.to_json}
 
     = csrf_meta_tags
-  %body
+  %body{:class => "controller-#{params[:controller].tr( '/', '-' )} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
       %header
         .container-header

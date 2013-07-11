@@ -732,28 +732,28 @@ input[type="passwod"]:focus
 
 
 /* Edit view */
-form .section
+.view-edit form .section
 {
   max-width: 860px;
   border: 1px solid #d4d4d4;
   padding: 41px 29px;
 }
-form .section .field
+.view-edit form .section .field
 {
   padding: 8px 0;
   float: left;
   width: 412px;
 }
 
-form .section .field:nth-child(2n){
+.view-edit form .section .field:nth-child(2n){
   margin-left: 36px;
 }
 
-form .section .field .value
+.view-edit form .section .field .value
 {
   position: relative;
 }
-form .section .field .value .error_box
+.view-edit form .section .field .value .error_box
 {
   position: absolute;
   right: 20px;
@@ -764,14 +764,14 @@ form .section .field .value .error_box
 }
 
 /* form inputs styling */
-form .section .field input[type="text"],
-form .section .field input[type="password"]
+.view-edit form .section .field input[type="text"],
+.view-edit form .section .field input[type="password"]
 {
   width: 380px;
 }
 
-form .section .field.has_error input[type="text"],
-form .section .field.has_erro input[type="password"]
+.view-edit form .section .field.has_error input[type="text"],
+.view-edit form .section .field.has_erro input[type="password"]
 {
   border: 1px solid #f00a0a;
 }
@@ -783,15 +783,8 @@ form .section .field.has_erro input[type="password"]
   border-collapse:collapse;
   font-size: 13px;
   border: 1px solid #d4d4d4;
+  border-top: none;
 }
-.table thead tr.summary th
-{
-  text-align: left;
-  color: #fff;
-  font-size: 20px;
-  background-color: #282828;
-}
-
 .table th,
 .table td
 {
@@ -846,3 +839,13 @@ form .section .field.has_erro input[type="password"]
   height:100%;
   width:100%;
 }
+
+/* index view */
+.view-index h2.summary
+{
+  color: #fff;
+  font-size: 20px;
+  background-color: #282828;
+  padding: 5px 17px;
+}
+

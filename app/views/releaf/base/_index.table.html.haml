@@ -10,9 +10,7 @@
   end
 
 %table.table{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
-  %thead.thead
-    %tr.summary
-      %th{:colspan => (fields_to_display.count + 1)}= t("all_title", :scope => 'admin.global')
+  %thead
     %tr
       %th
       - fields_to_display.each do |name|
