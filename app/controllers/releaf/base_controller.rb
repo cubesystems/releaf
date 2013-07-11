@@ -501,9 +501,6 @@ module Releaf
     #   of features is disabled, then routing to it will raise <tt>Releaf::FeatureDisabled</tt>
     #   error
     #
-    # @continuous_scroll::
-    #   Boolean. If set to `true` will enable continuous scrool in `#index` view
-    #
     # @resources_per_page::
     #   Integer - sets the number of resources to display on `#index` view
     #
@@ -522,7 +519,6 @@ module Releaf
         :destroy  => true,
         :index    => true
       }
-      @continuous_scroll = false
       @panel_layout      = true
       @resources_per_page    = 40
     end

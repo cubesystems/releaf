@@ -247,8 +247,6 @@ jQuery(function()
 						var html = jQuery( response );
 						body.html( html.filter( '.body' ).html() );
 						footer.html( html.filter( '.footer' ).html() );
-						// init continuous scroll
-						body.find( '.releaf_table' ).trigger( 'scrollinit' );
 					}
 				});
 			}, 200 );

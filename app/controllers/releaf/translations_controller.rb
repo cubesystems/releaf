@@ -68,8 +68,6 @@ module Releaf
     def setup
       super
       @object_class = I18n::Backend::Releaf::TranslationGroup
-      @features[:show] = false
-      @continuous_scroll = true
     end
 
     private
