@@ -2,7 +2,6 @@
   supports_order_by = resource_class.respond_to? :order_by
   valid_order_by_fields = resource_class.column_names
 
-
   # Optimizaiton: instead of checkig weather user has custom partial for each cell
   # check once and and store partials name to render in hash
   cell_templates = {}
@@ -10,13 +9,15 @@
     cell_templates[name] = has_template?("_index.cell.#{name}") ? "index.cell.#{name}" : 'index.cell'
   end
 
-
-%table.table.table-bordered.table-hover.table-striped{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
+%table.table{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
   %thead.thead
-    %div
+    %tr.summary
+      %th{:colspan => (fields_to_display.count + 1)}= t("all_title", :scope => 'admin.global')
+    %tr
+      %th
       - fields_to_display.each do |name|
         - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
-        %div
+        %th
           - if supports_order_by && valid_order_by_fields.include?(name)
 
             - if params[:order_by].blank? || params[:order_by].sub(/-reverse$/, '') != name

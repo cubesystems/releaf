@@ -1,5 +1,10 @@
-<div class="row" data-id="<%= resource.id %>">
+<tr class="row" data-id="<%= resource.id %>">
+  <td class="tool">
+    <button type="button">
+      <i class="icon-large icon-cog"></i>
+    </button>
+  </td>
   <% fields_to_display.each do |name| %>
     <%= render cell_templates[name], :resource => resource, :name => name %>
   <% end %>
-</div>
+</tr>

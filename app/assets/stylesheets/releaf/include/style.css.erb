@@ -1,25 +1,20 @@
-html
-{
-    font-size: 100.01%;
-}
-
 html, body
 {
 	margin:  0;
 	padding: 0;
-    position: relative;
-    font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
+  position: relative;
+  font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
 }
 
-body, input, select, textarea, button, th, td, pre
+body, input, select, textarea, button, pre
 {
 	font-family: Arial, helvetica, sans-serif;
-    font-size:   100%;
+  font-size:   100%;
 }
 
 pre
 {
-    font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
+  font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
 }
 
 html
@@ -35,7 +30,7 @@ body
 
 body
 {
-    font-size:   81.25%;    /* 13px */
+    font-size:   14px;    /* 13px */
     line-height: 1.53846;   /* 20px line height */
     background-color: #FFFFFF;
     color: #1d1d1d;
@@ -90,13 +85,13 @@ button,
 input[type="button"],
 input[type="submit"]
 {
-	cursor: pointer;
-    background: transparent;
-	border: none;
-	padding: 0;
-    margin: 0;
-	box-shadow: none;
-    color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  color: inherit;
 }
 
 button:focus,
@@ -217,7 +212,7 @@ body > .main,
 body.side-open > .main
 {
     position: relative;
-    padding: 0 0 50px 280px;
+    padding: 0 40px 50px 280px;
     z-index: 1;
 }
 
@@ -243,10 +238,16 @@ body .main footer .tools
     background: #e6e6e6;
     color: #818181;
 }
-body .main footer .tools .primary
+body .main footer .tools > .primary
 {
   float: right;
 }
+body .main footer .tools > .secondary
+{
+  float: left;
+}
+
+
 
 body > .side > footer,
 body .main footer .tools
@@ -694,27 +695,24 @@ input[type="passwod"]:focus
   background-color: #ffffff;
   border: 1px solid #6c6c6c;
 }
-button,
-a.button
+.button
 {
   text-decoration: none;
-  font-size: 14px;
   padding: 13px 17px;
   background-color: #d9d9d9;
   color: #636363;
 }
-button:hover,
-a.button:hover
+.button:hover
 {
   background-color: #c5c5c5;
   color: #3c3c3c;
 }
-button.primary
+.button.primary
 {
   background-color: #37b1a7;
   color: #ffffff;
 }
-button.primary:hover
+.button.primary:hover
 {
   background-color: #269990;
 }
@@ -765,3 +763,73 @@ form .section .field.has_erro input[type="password"]
   border: 1px solid #f00a0a;
 }
 
+/* table style */
+.table
+{
+  width: 100%;
+  border-collapse:collapse;
+  font-size: 13px;
+  border: 1px solid #d4d4d4;
+}
+.table thead tr.summary th
+{
+  text-align: left;
+  color: #fff;
+  font-size: 20px;
+  background-color: #282828;
+}
+
+.table th,
+.table td
+{
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
+}
+.table tr th
+{
+  text-align: center;
+  font-weight: bold;
+}
+
+.table tr:nth-child(odd) td
+{
+  background-color: #f3f1f1;
+}
+
+
+.table tr:hover td{
+  background-color: #d0eeec;
+}
+.table td a {
+  text-decoration: none;
+  color: #1d1d1d;
+  display: inline-block;
+  height:100%;
+  width:100%;
+}
+.table th,
+.table td a
+{
+  padding: 5px 0;
+}
+.table td a span
+{
+  padding: 0 16px;
+}
+
+.table td.tool
+{
+  text-align: center;
+  color: #37b1a7;
+  width:46px;
+}
+.table tr:hover td.tool
+{
+  color: #1e8e85;
+}
+.table td.tool button
+{
+  display: inline-block;
+  height:100%;
+  width:100%;
+}

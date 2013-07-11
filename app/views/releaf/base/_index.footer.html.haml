@@ -1,15 +1,12 @@
-#footer
-  .wrap
-    .row-fuid
-      .navbar.span12
-        %ul.nav.footer-nav
-          - if @features[:create]
-            %li
-              %a.btn.btn-large{:href => url_for(:controller => controller.controller_name, :action => "new")}
-                %i.icon-plus
-                = t('create_new_item', :scope => 'admin.global')
+%footer
+  .tools
+    .primary
+      %span.total
+        = count \
+        = t("resources_found", :scope => 'admin.global')
+    .secondary
+      - if @features[:create]
+        %a.button.primary{ :href => url_for(:controller => controller.controller_name, :action => "new") }
+          %i.icon-plus
+          = t('create_new_item', :scope => 'admin.global')
 
-        %ul.nav.footer-nav.pull-right
-          %li
-            %span.total= count \
-            = t("resources_found", :scope => 'admin.global')
