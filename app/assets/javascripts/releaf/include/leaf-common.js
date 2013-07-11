@@ -37,15 +37,18 @@ jQuery(function(){
     jQuery('body > .side > nav .collapser button').click(function(e)
     {
         var sectionLi = jQuery(this).parents('li').first();
+        var cookieName = 'releaf.side.opened.' + sectionLi.data('name')
         e.stopPropagation();
         sectionLi.toggleClass('collapsed');
         jQuery(this).blur();
         if (sectionLi.hasClass('collapsed'))
         {
+            $.removeCookie(cookieName);
             sectionLi.find('.chevron').addClass('icon-chevron-down').removeClass('icon-chevron-up');
         }
         else
         {
+            $.cookie(cookieName, 1, { path: '/', expires: 365 * 5 });
             sectionLi.find('.chevron').addClass('icon-chevron-up').removeClass('icon-chevron-down');
         }
     });

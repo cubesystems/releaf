@@ -49,7 +49,7 @@
         %nav
           %ul.block
             - admin_main_menu.each do |menu_item|
-              %li.collapsed{:class => ("active" if menu_item[:active])}
+              %li{:class => [("active" if menu_item[:active]), ("collapsed" unless cookies['releaf.side.opened.' + menu_item[:name]]) ], "data-name" => menu_item[:name]}
                 - if menu_item[:items]
                   %span.trigger
                     %i.icon-large{:class => "icon-" + menu_item[:icon]}
