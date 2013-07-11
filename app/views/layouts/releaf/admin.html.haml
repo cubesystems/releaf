@@ -30,12 +30,12 @@
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
       %header
         .container-header
-          %a.brand{:href => "#"}
+          %a.brand{:href => releaf_root_path}
           %ul.nav.block
             %li.profile
               %a{:href => "#"}
-                %span.name Hasans Hindenburgs
-                = gravatar_image_tag(current_admin_user.email, :alt => 'Michael Deering', :gravatar => { :size => 36 }, :class => "avatar")
+                %span.name= current_admin_user.to_text
+                = gravatar_image_tag(current_admin_user.email, :alt => current_admin_user.to_text, :gravatar => { :size => 36 }, :class => "avatar")
             %li.sign-out
               %form{:action => self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), :method => "delete"}
                 %button{:type => "submit"}
