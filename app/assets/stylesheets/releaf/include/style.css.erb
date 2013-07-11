@@ -382,7 +382,7 @@ body.side-compact > .side nav > ul > li:hover > .trigger .name
     left: 40px;
     height: 30px;
     width: 227px;
-    padding: 9px 0 0 13px;
+    padding: 9px 0 0 14px;
     display: block;
     background: #000;
 }
@@ -506,7 +506,20 @@ body > .side nav li li .trigger
 {
     padding-left: 18px;
     color: #a6a6a6;
+    position: relative;
 }
+body > .side nav li li .trigger i
+{
+    position: absolute;
+    top: 7px;
+    right: 0px;
+    display: none;
+}
+body > .side nav li li .trigger.active_item i
+{
+    display: block;
+}
+
 
 body > .side nav li.collapsed ul
 {
