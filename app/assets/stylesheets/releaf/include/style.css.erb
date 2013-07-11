@@ -694,28 +694,38 @@ img {
   padding: 5px 0;
 }
 select,
+textarea,
 input[type="text"],
 input[type="password"]
 {
   color: #1d1d1d;
   background-color: #f8f8f8;
   border: 1px solid #d4d4d4;
-  padding: 8px 15px;
-  height: 16px;
   outline: none;
   font-weight: bold;
+}
+input[type="text"],
+input[type="password"]
+{
+  padding: 8px 15px;
+  height: 16px;
+}
+textarea
+{
+  padding: 8px;
 }
 select
 {
   height: 30px;
-  padding: 0;
 }
+textarea:hover,
 select:hover,
 input[type="text"]:hover,
 input[type="password"]:hover
 {
   border: 1px solid #b2b1b1;
 }
+textarea:focus,
 select:focus,
 input[type="text"]:focus,
 input[type="passwod"]:focus
@@ -787,7 +797,8 @@ body.view-edit .main footer
 .view-edit form .section .field label,
 .view-edit form .section .field select,
 .view-edit form .section .field input[type="text"],
-.view-edit form .section .field input[type="password"]
+.view-edit form .section .field input[type="password"],
+.view-edit form .section .field textarea
 {
   font-size: 13px;
 }
@@ -797,9 +808,18 @@ body.view-edit .main footer
 {
   width: 380px;
 }
+.view-edit form .section .field textarea
+{
+  width: 392px;
+}
 .view-edit form .section .field select
 {
   width: 412px;
+}
+.view-edit form .section .field.type_textarea
+{
+  clear: both;
+  margin-left: 0;
 }
 
 .view-edit form .section .field.has_error select,
