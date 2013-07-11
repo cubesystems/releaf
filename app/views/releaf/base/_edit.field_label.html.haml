@@ -6,6 +6,6 @@
   = f.label name, t(translation_name, :scope => controller_scope_name)
 - else
   .label_wrap><
-    = f.label name, t(translation_name, :scope => controller_scope_name) + ':'
+    = f.label name, t(translation_name, :scope => controller_scope_name)
     - if local_assigns.fetch(:description, nil)
       .description= description

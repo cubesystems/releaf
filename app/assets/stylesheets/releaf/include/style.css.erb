@@ -217,12 +217,11 @@ body > .main,
 body.side-open > .main
 {
     position: relative;
-
-    padding: 0 40px 50px 280px;
+    padding: 0 0 50px 280px;
     z-index: 1;
 }
 
-body .main > footer,
+body .main footer,
 body.side-open > footer
 {
     position: fixed;
@@ -234,15 +233,23 @@ body.side-open > footer
     background: #fff;
 }
 
-body .main > footer .tools
+body .main footer
+{
+  max-width: 920px;
+}
+body .main footer .tools
 {
     height: 40px;
     background: #e6e6e6;
     color: #818181;
 }
+body .main footer .tools .primary
+{
+  float: right;
+}
 
 body > .side > footer,
-body .main > footer .tools
+body .main footer .tools
 {
     height: 40px;
 }
@@ -283,6 +290,7 @@ body > .side .compacter
 }
 body > .side .compacter button
 {
+  padding: 0;
   height: 39px;
   width: 45px;
   background: #171717;
@@ -315,7 +323,7 @@ body > footer
     {
         padding-left: 40px;
     }
-    body .main > footer
+    body .main footer
     {
         left: 40px;
     }
@@ -437,6 +445,8 @@ body > .side nav li .collapser
 }
 body > .side nav li .collapser button
 {
+    padding: 0;
+    background-color: transparent;
     width: 40px;
     height: 40px;
     display: block;
@@ -654,4 +664,104 @@ img {
     height: 20px;
     margin: 0 5px 0 5px;
     border-left: 1px solid #242424;
+  }
+
+/* Inputs */
+.label_wrap
+{
+  padding: 5px 0;
 }
+input[type="text"],
+input[type="password"]
+{
+  color: #1d1d1d;
+  background-color: #f8f8f8;
+  border: 1px solid #d4d4d4;
+  padding: 8px 15px;
+  height: 16px;
+  font-size: 13px;
+  outline: none;
+  font-weight: bold;
+}
+input[type="text"]:hover,
+input[type="password"]:hover
+{
+  border: 1px solid #b2b1b1;
+}
+input[type="text"]:focus,
+input[type="passwod"]:focus
+{
+  background-color: #ffffff;
+  border: 1px solid #6c6c6c;
+}
+button,
+a.button
+{
+  text-decoration: none;
+  font-size: 14px;
+  padding: 13px 17px;
+  background-color: #d9d9d9;
+  color: #636363;
+}
+button:hover,
+a.button:hover
+{
+  background-color: #c5c5c5;
+  color: #3c3c3c;
+}
+button.primary
+{
+  background-color: #37b1a7;
+  color: #ffffff;
+}
+button.primary:hover
+{
+  background-color: #269990;
+}
+
+
+/* Edit view */
+form .section
+{
+  max-width: 860px;
+  border: 1px solid #d4d4d4;
+  padding: 41px 29px;
+}
+form .section .field
+{
+  padding: 8px 0;
+  float: left;
+  width: 412px;
+}
+
+form .section .field:nth-child(2n){
+  margin-left: 36px;
+}
+
+form .section .field .value
+{
+  position: relative;
+}
+form .section .field .value .error_box
+{
+  position: absolute;
+  right: 20px;
+  bottom: -20px;
+  color: #f00a0a;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* form inputs styling */
+form .section .field input[type="text"],
+form .section .field input[type="password"]
+{
+  width: 380px;
+}
+
+form .section .field.has_error input[type="text"],
+form .section .field.has_erro input[type="password"]
+{
+  border: 1px solid #f00a0a;
+}
+

@@ -1,36 +1,10 @@
--#.footer.center
-  -#.block.left_block
-    -#:ruby
-      -#if resource.new_record? || @features[:show] == false
-        -#cancel_url = url_for( :action => 'index' )
-      -#else
-        -#cancel_url = url_for( :action => 'show', :id => resource.id )
-      -#end
-    -#%a.button{ :href => cancel_url }
-      -#= image_tag("releaf/icons/arrow_left.png", :alt => "") \
-      -#= t('cancel', :scope => 'admin.global')
-
-  -#.block.center_block
-    -#%button{:type => "submit"}
-      -#= image_tag("releaf/icons/disk.png", :alt => "") \
-      -#= t('save', :scope => "admin.global")
-  -#.block.right_block
-    -#- if @features[:destroy] && !resource.new_record?
-      -#%a.button{ :href => url_for( :action => 'confirm_destroy', :id => resource.id ) }
-        -#= image_tag('releaf/icons/bin_empty.png', :alt => '')
-        -#%span= t('destroy', :scope => "admin.global")
-#footer
-  .wrap
-    .row-fuid
-      .navbar.span12
-        %ul.nav.footer-nav
-          - if @features[:create]
-            %li
-              %a.btn.btn-large{:href => url_for(:controller => controller.controller_name, :action => "new")}
-                %i.icon-plus
-                = t('create_new_item', :scope => 'admin.global')
-
-        %ul.nav.footer-nav.pull-right
-          %li
-            %button.btn.btn-primary.btn-large{:type => "submit"}
-              = t('save', :scope => "admin.global")
+%footer
+  .tools
+    .primary
+      %button.primary{:type => "submit"}
+        %i.icon-ok
+        = t('save', :scope => "admin.global")
+    .secondary
+      %a.button{ :href => url_for( :action => 'index' ) }
+        %i.icon-ban-circle
+        = t('cancel', :scope => 'admin.global')
