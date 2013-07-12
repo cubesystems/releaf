@@ -677,18 +677,21 @@ input[type="passwod"]:focus
   background-color: #269990;
 }
 
-/* Edit view */
+/* new/edit view */
+body.view-new .main footer
 body.view-edit .main footer
 {
   max-width: 920px;
 }
 
+.view-new form .section,
 .view-edit form .section
 {
   max-width: 860px;
   border: 1px solid #d4d4d4;
   padding: 10px 29px 30px 29px;
 }
+.view-new form .section .field,
 .view-edit form .section .field
 {
   padding: 8px 0;
@@ -696,14 +699,18 @@ body.view-edit .main footer
   width: 412px;
 }
 
-.view-edit form .section .field:nth-child(2n){
+.view-new form .section .field:nth-child(2n),
+.view-edit form .section .field:nth-child(2n)
+{
   margin-left: 36px;
 }
 
+.view-new form .section .field .value,
 .view-edit form .section .field .value
 {
   position: relative;
 }
+.view-new form .section .field .value .error_box,
 .view-edit form .section .field .value .error_box
 {
   position: absolute;
@@ -715,6 +722,11 @@ body.view-edit .main footer
 }
 
 /* form inputs styling */
+.view-new form .section .field label,
+.view-new form .section .field select,
+.view-new form .section .field input[type="text"],
+.view-new form .section .field input[type="password"],
+.view-new form .section .field textarea,
 .view-edit form .section .field label,
 .view-edit form .section .field select,
 .view-edit form .section .field input[type="text"],
@@ -724,25 +736,33 @@ body.view-edit .main footer
   font-size: 13px;
 }
 
+.view-new form .section .field input[type="text"],
+.view-new form .section .field input[type="password"],
 .view-edit form .section .field input[type="text"],
 .view-edit form .section .field input[type="password"]
 {
   width: 380px;
 }
+.view-new form .section .field textarea,
 .view-edit form .section .field textarea
 {
   width: 392px;
 }
+.view-new form .section .field select,
 .view-edit form .section .field select
 {
   width: 412px;
 }
+.view-new form .section .field.type_textarea,
 .view-edit form .section .field.type_textarea
 {
   clear: both;
   margin-left: 0;
 }
 
+.view-new form .section .field.has_error select,
+.view-new form .section .field.has_error input[type="text"],
+.view-new form .section .field.has_erro input[type="password"],
 .view-edit form .section .field.has_error select,
 .view-edit form .section .field.has_error input[type="text"],
 .view-edit form .section .field.has_erro input[type="password"]
