@@ -1,5 +1,6 @@
 :ruby
   body_classes = []
+  body_classes << "application-#{Rails.application.class.parent_name.downcase}"
   body_classes << "controller-#{params[:controller].tr( '/', '-' )}"
   body_classes << "view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"
   body_classes << "side-compact" if cookies['releaf.side.compact']
