@@ -8,14 +8,14 @@ module Releaf
     class LinkRenderer < WillPaginate::ActionView::LinkRenderer
 
       def to_html
-        html_items = []
+        prev_next_items = []
         options = ["<div class='pages'><select id='page_select' name='page'>"]
-        html = pagination.map do |item|
+        pagination.each do |item|
           unless item.is_a?(Fixnum)
             if item == :gap
               options << send(item)
             else
-              html_items << send(item)
+              prev_next_items << send(item)
             end
           else
             selected = item == current_page ? "selected=selected" : nil
@@ -30,9 +30,9 @@ module Releaf
         options << "</select></div>"
 
         html = [
-          html_items[0],
+          prev_next_items[0],
           options.join,
-          html_items[1]
+          prev_next_items[1]
         ]
 
         html = html.join
