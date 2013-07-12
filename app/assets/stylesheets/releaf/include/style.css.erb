@@ -676,6 +676,12 @@ input[type="passwod"]:focus
 {
   background-color: #269990;
 }
+.button.disabled,
+.button.disabled:hover
+{
+  color: #b7c0bf;
+  background-color: #d9d9d9;
+}
 
 /* new/edit view */
 body.view-new .main footer
@@ -894,31 +900,33 @@ body.view-edit .main footer
 }
 .view-index footer .tools .pagination
 {
-  float: right;
-  border-left: 1px solid #c5c5c5;
-  border-right: 1px solid #c5c5c5;
+  text-align: center;
 }
 .view-index footer .tools .pagination > .button
 {
-  float: left;
-  padding: 10px 15px;
-}
-.view-index footer .tools .pagination > .button:first
-{
+  padding: 10px 16px;
+  display: inline-block;
+  border-left: 1px solid #c5c5c5;
   border-right: 1px solid #c5c5c5;
+}
+
+.view-index footer .tools .pagination > .button i
+{
+  padding-right: 0px;
 }
 .view-index footer .tools .pagination > .button:hover
 {
   color: #307872;
 }
+.view-index footer .tools .pagination > .button.disabled:hover
+{
+  color: #b7c0bf;
+}
 .view-index footer .tools .pagination .pages
 {
+  display: inline-block;
   padding: 5px 4px 0px;
-  height: 35px;
   width: 96px;
-  float: left;
-  border-right: 1px solid #c5c5c5;
-  border-left: 1px solid #c5c5c5;
 }
 .view-index footer .tools .pagination .pages > select
 {
