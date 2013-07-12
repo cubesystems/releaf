@@ -222,11 +222,15 @@ body.side-open > footer
     bottom: 0;
     right: 0;
     left: 0;
-    ppadding-top: 10px;
     margin: 0 40px 0px 280px;
     z-index: 10;
     background: #fff;
 }
+body.side-compact .main > footer
+{
+    margin-left: 80px;
+}
+
 
 body .main footer .tools
 {
@@ -662,6 +666,7 @@ input[type="passwod"]:focus
 {
   background-color: #37b1a7;
   color: #ffffff;
+  display: block;
 }
 .button.primary:hover
 {
@@ -859,5 +864,41 @@ body.view-edit .main footer
 }
 .view-index footer .totals
 {
-  margin-left: 40%;
+  padding: 10px 17px;
+  line-height: 20px;
+  text-align: center;
+}
+.view-index footer .tools .pagination
+{
+  float: right;
+  width: 184px;
+  border-left: 1px solid #c5c5c5;
+  border-right: 1px solid #c5c5c5;
+}
+.view-index footer .tools .pagination > .button
+{
+  float: left;
+  padding: 10px 15px;
+}
+.view-index footer .tools .pagination > .button:first
+{
+  border-right: 1px solid #c5c5c5;
+}
+.view-index footer .tools .pagination > .button:hover
+{
+  color: #307872;
+}
+.view-index footer .tools .pagination .pages
+{
+  padding: 5px 4px 0px;
+  height: 35px;
+  width: 96px;
+  float: left;
+  border-right: 1px solid #c5c5c5;
+  border-left: 1px solid #c5c5c5;
+}
+.view-index footer .tools .pagination .pages > select
+{
+  width: 96px;
+  margin: 0px;
 }

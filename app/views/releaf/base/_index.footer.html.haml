@@ -1,10 +1,21 @@
 %footer
   .tools
+    
     .primary
       - if @features[:create]
         %a.button.primary{ :href => url_for(:controller => controller.controller_name, :action => "new") }
           %i.icon-plus
-          = t('create_new_item', :scope => 'admin.global')
+            = t('create_new_item', :scope => 'admin.global')
+    .pagination
+      %a.button
+        %i.icon-chevron-left
+      .pages
+        = select_tag :pages, options_for_select(%w[test test test])
+      %a.button
+        %i.icon-chevron-right
+      
+      .clear
+
     .secondary
       = render :partial => "index.footer.extras"
     .totals
