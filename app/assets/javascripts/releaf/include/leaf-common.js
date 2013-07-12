@@ -16,7 +16,6 @@ jQuery(function(){
 
     //});
 
-
     jQuery('body > .side > .compacter button').click(function()
     {
         if (body.hasClass('side-compact'))
@@ -59,6 +58,19 @@ jQuery(function(){
 
     });
 
+    jQuery('body.view-index .table .tools button').click(function(e)
+    {
+        e.stopPropagation();
+        // close all opened toolbox
+        jQuery(this).closest('.table').find('.tools .wrapper').hide();
 
+        var toolsContainer = jQuery(this).parent().find('.wrapper').first();
+        toolsContainer.css('top', ( jQuery(this).parent().height() / 2 + 12 ) + 'px');
+        toolsContainer.show();
+        $('body').on('click', function(e) {
+            toolsContainer.hide();
+            $(this).unbind(e);
+        });
+    });
 
 });

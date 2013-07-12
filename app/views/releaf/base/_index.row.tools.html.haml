@@ -1,1 +1,4 @@
--#TOOLS todo
+%li
+  %a.button.danger{:href => url_for( :action => :confirm_destroy, :id => resource.id )}
+    %i.icon-large.icon-trash
+    = t('delete', :scope => 'admin.global')

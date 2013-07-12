@@ -657,6 +657,10 @@ input[type="passwod"]:focus
   background-color: #d9d9d9;
   color: #636363;
 }
+.button i
+{
+  padding-right: 5px;
+}
 .button:hover
 {
   background-color: #c5c5c5;
@@ -794,7 +798,7 @@ body.view-edit .main footer
   width:100%;
 }
 .table th,
-.table td a
+.table td:not(.tools) a
 {
   padding: 5px 0;
 }
@@ -808,17 +812,17 @@ body.view-edit .main footer
   display: block;
 }
 
-.table td.tool
+.table td.tools
 {
   text-align: center;
   color: #37b1a7;
   width:46px;
 }
-.table tr:hover td.tool
+.table tr:hover td.tools
 {
   color: #1e8e85;
 }
-.table td.tool button
+.table td.tools button
 {
   display: inline-block;
   height:100%;
@@ -902,3 +906,54 @@ body.view-edit .main footer
   width: 96px;
   margin: 0px;
 }
+.view-index .table .tools
+{
+  position: relative;
+}
+.view-index .table .tools > .wrapper
+{
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 170px;
+  text-align: left;
+  z-index: 100;
+  padding: 0 0 0 4px;
+}
+.view-index .table .tools > .wrapper > i
+{
+  color: #282828;
+  position: relative;
+  top: -8px;
+  left: 16px;
+}
+.view-index .table .tools > .wrapper > ul
+{
+  position: relative;
+  top: -15px;
+}
+.view-index .table .tools ul li:not(:last-child) .button
+{
+  border-bottom: 1px solid #393939;
+}
+.view-index .table .button
+{
+  background: #282828;
+  color: #37b1a7;
+}
+.view-index .table .button.danger
+{
+  background: #282828;
+  color: #ee462a;
+}
+.view-index .table .button:hover
+{
+  background: #37b1a7;
+  color: #ffffff;
+}
+.view-index .table .button.danger:hover
+{
+  background: #ee462a;
+}
+
