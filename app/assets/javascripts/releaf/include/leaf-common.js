@@ -20,7 +20,7 @@ jQuery(function(){
     {
         if (body.hasClass('side-compact'))
         {
-            $.removeCookie('releaf.side.compact');
+            $.removeCookie('releaf.side.compact', { path: '/' });
             body.removeClass('side-compact');
             $('.toggle-angle-icon').addClass('icon-double-angle-left').removeClass('icon-double-angle-right');
         }
@@ -42,7 +42,7 @@ jQuery(function(){
         jQuery(this).blur();
         if (sectionLi.hasClass('collapsed'))
         {
-            $.removeCookie(cookieName);
+            $.removeCookie(cookieName, { path: '/' });
             sectionLi.find('.chevron').addClass('icon-chevron-down').removeClass('icon-chevron-up');
         }
         else
