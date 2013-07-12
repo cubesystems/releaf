@@ -5,19 +5,23 @@ Releaf.setup do |conf|
    conf.menu = [
     {
       :controller => 'releaf/content',
-      :helper => 'releaf_nodes'
+      :helper => 'releaf_nodes',
+      :icon => 'file-text-alt',
     },
     {
       :name => "inventory",
-      :items =>   %w[admin/books admin/authors]
+      :items =>   %w[admin/books admin/authors],
+      :icon => 'briefcase',
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/admins releaf/roles]
+      :items =>   %w[releaf/admins releaf/roles],
+      :icon => 'user',
     },
     {
       :controller => 'releaf/translations',
-      :helper => 'releaf_translation_groups'
+      :helper => 'releaf_translation_groups',
+      :icon => 'group',
     },
    ]
 
