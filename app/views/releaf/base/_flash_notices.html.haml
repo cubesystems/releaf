@@ -1,0 +1,7 @@
+- flash.each do |name, msg|
+  .flash{:class => name}
+    -if name.to_s == "success"
+      %i.icon-ok.icon-2x
+    -elsif name.to_s == "error"
+      %i.icon-remove-sign.icon-2x
+    = msg

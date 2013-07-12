@@ -140,7 +140,11 @@ module Releaf
     def destroy
       raise FeatureDisabled unless @features[:destroy]
       @resource = resource_class.find(params[:id])
-      @resource.destroy
+      result = @resource.destroy
+
+      if result
+        flash[:success] = I18n.t('deleted', :scope => 'notices.' + controller_scope_name)
+      end
 
       respond_to do |format|
         format.html { redirect_to url_for( :action => 'index' ) }
@@ -617,8 +621,14 @@ module Releaf
       end
 
       if result
-        # TODO: add flash message on redirect to edit form
+        if request_type == :create
+          flash[:success] = I18n.t('created', :scope => 'notices.' + controller_scope_name)
+        else
+          flash[:success] = I18n.t('updated', :scope => 'notices.' + controller_scope_name)
+        end
         success_url = url_for( :action => 'edit', :id => @resource.id )
+      else
+        flash[:error] = I18n.t('error', :scope => 'notices.' + controller_scope_name)
       end
 
       respond_to do |format|
