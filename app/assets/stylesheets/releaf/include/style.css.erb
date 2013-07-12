@@ -179,23 +179,16 @@ body > .side > *:first-child
     padding-top: 60px;
 }
 
-body > .side,
-body.side-open > .side
+body > .side
 {
     background: #1d1d1d;
     color: #d3d3d3;
-
     position: absolute;
     width: 240px;
     left: 0;
     top: 0;
     bottom: 0;
-
     z-index: 5;
-
-	-webkit-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-	transform: translate(0, 0);
 }
 
 
@@ -207,16 +200,14 @@ body > .side > footer
     width: 240px;
 }
 
-body > .main,
-body.side-open > .main
+body > .main
 {
     position: relative;
     padding: 0 40px 50px 280px;
     z-index: 1;
 }
 
-body .main footer,
-body.side-open > footer
+body .main footer
 {
     position: fixed;
     bottom: 0;
@@ -271,24 +262,6 @@ header .side-opener
     display: none;
 }
 
-body > .main,
-body > .side
-{
-    -webkit-transition:
-        width .1s ease-out,
-        padding-left .1s ease-out,
-        left .1s ease-out,
-        right .1s ease-out,
-        -webkit-transform .1s ease-out
-    ;
-	transition:
-        width .1s ease-out,
-        padding-left .1s ease-out,
-        left .1s ease-out,
-        right .1s ease-out,
-        transform .1s ease-out
-    ;
-}
 body > .side .compacter
 {
   text-align: right;
@@ -319,12 +292,6 @@ body > footer
 
 @media all and (max-width: 1000px)
 {
-    body > .side
-    {
-        -webkit-transform: translate(-240px, 0);
-        -ms-transform: translate(-240px, 0);
-        transform: translate(-240px, 0);
-    }
     body > .main
     {
         padding-left: 40px;

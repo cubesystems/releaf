@@ -2,20 +2,6 @@ jQuery(function(){
 
     var body = jQuery('body');
 
-    //jQuery('body > header > .side-opener button').click(function()
-    //{
-
-        //if (body.hasClass('side-open'))
-        //{
-            //body.removeClass('side-open');
-        //}
-        //else
-        //{
-            //body.addClass('side-open').removeClass('side-compact');
-        //}
-
-    //});
-
     jQuery('body > .side > .compacter button').click(function()
     {
         if (body.hasClass('side-compact'))
@@ -27,7 +13,7 @@ jQuery(function(){
         else
         {
             $.cookie( 'releaf.side.compact', 1, { path: '/', expires: 365 * 5 } );
-            body.addClass('side-compact').removeClass('side-open');
+            body.addClass('side-compact');
             $('.toggle-angle-icon').addClass('icon-double-angle-right').removeClass('icon-double-angle-left');
         }
     });
