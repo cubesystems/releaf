@@ -12,7 +12,11 @@ module Releaf
         options = ["<div class='pages'><select id='page_select' name='page'>"]
         html = pagination.map do |item|
           unless item.is_a?(Fixnum)
-            html_items << send(item)
+            if item == :gap
+              options << send(item)
+            else
+              html_items << send(item)
+            end
           else
             selected = item == current_page ? "selected=selected" : nil
             start_item = item == 1 ? 1 : (item-1) * @collection.per_page + 1
