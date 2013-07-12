@@ -267,4 +267,12 @@ jQuery(function()
 	// init default form
 
 	jQuery( '.view-index .search_form' ).trigger( 'searchinit' );
+
+    jQuery('#page_select').on('change', function(){
+        var val=jQuery(this).val();
+        var request_url = new RequestUrl().add({page: val}).getUrl();
+        console.log(request_url);
+
+        window.location.href = request_url;
+    });
 });

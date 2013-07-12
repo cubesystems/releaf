@@ -6,13 +6,10 @@
         %a.button.primary{ :href => url_for(:controller => controller.controller_name, :action => "new") }
           %i.icon-plus
             = t('create_new_item', :scope => 'admin.global')
-    .pagination
-      %a.button
-        %i.icon-chevron-left
-      .pages
-        = select_tag :pages, options_for_select(%w[test test test])
-      %a.button
-        %i.icon-chevron-right
+
+    - unless @continuous_scroll
+      - if resources.respond_to?(:page)
+        = will_paginate( resources, :class=> "pagination", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :outer_window => 0, :inner_window => 2 )
       
       .clear
 

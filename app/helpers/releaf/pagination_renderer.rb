@@ -7,15 +7,35 @@ module Releaf
 
     class LinkRenderer < WillPaginate::ActionView::LinkRenderer
 
-      protected
-
-      def page_number(page)
-        unless page == current_page
-          link(page, page, :rel => rel_value(page), :class => 'button')
-        else
-          tag(:em, "<span>#{page}</span>", :class => 'current active button')
+      def to_html
+        html_items = []
+        options = ["<div class='pages'><select id='page_select' name='page'>"]
+        html = pagination.map do |item|
+          unless item.is_a?(Fixnum)
+            html_items << send(item)
+          else
+            selected = item == current_page ? "selected=selected" : nil
+            start_item = item == 1 ? 1 : (item-1) * @collection.per_page + 1
+            end_item = item * @collection.per_page
+            if end_item > @collection.total_entries
+              end_item = @collection.total_entries
+            end
+            options << "<option value='#{item}' #{selected}>#{start_item} - #{end_item}</option>"
+          end
         end
+        options << "</select></div>"
+
+        html = [
+          html_items[0],
+          options.join,
+          html_items[1]
+        ]
+
+        html = html.join
+        @options[:container] ? html_container(html) : html
       end
+
+      protected
 
       def gap
         text = '&hellip;'
@@ -24,9 +44,17 @@ module Releaf
 
       def previous_or_next_page(page, text, classname)
         if page
-          link(text, page, :class => classname + ' button')
+          if classname == 'previous_page'
+            link('<i class="icon-chevron-left"></i>', page, :class => classname + ' button')
+          else
+            link('<i class="icon-chevron-right"></i>', page, :class => classname + ' button')
+          end
         else
-          tag(:span, "<span>#{text}</span>", :class => classname + ' button disabled')
+          if classname == 'previous_page'
+            tag(:span, '<i class="icon-chevron-left"></i>', :class => classname + ' button disabled')
+          else
+            tag(:span, '<i class="icon-chevron-right"></i>', :class => classname + ' button disabled')
+          end
         end
       end
 

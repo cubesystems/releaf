@@ -520,7 +520,7 @@ module Releaf
         :index    => true
       }
       @panel_layout      = true
-      @resources_per_page    = 40
+      @resources_per_page    = 10
     end
 
     def mass_assigment_actions
