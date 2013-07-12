@@ -39,7 +39,7 @@ module Releaf
 
       def gap
         text = '&hellip;'
-        %(<span class="gap button disabled">#{text}</span>)
+        %(<option value="" class="gap">#{text}</option>)
       end
 
       def previous_or_next_page(page, text, classname)

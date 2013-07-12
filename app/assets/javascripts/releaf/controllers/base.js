@@ -270,9 +270,10 @@ jQuery(function()
 
     jQuery('#page_select').on('change', function(){
         var val=jQuery(this).val();
-        var request_url = new RequestUrl().add({page: val}).getUrl();
-        console.log(request_url);
-
-        window.location.href = request_url;
+        if(val)
+        {
+            var request_url = new RequestUrl().add({page: val}).getUrl();
+            window.location.href = request_url;
+        }
     });
 });
