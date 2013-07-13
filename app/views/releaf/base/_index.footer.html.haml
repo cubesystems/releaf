@@ -7,9 +7,8 @@
           %i.icon-plus
             = t('create_new_item', :scope => 'admin.global')
 
-    - unless @continuous_scroll
-      - if resources.respond_to?(:page)
-        = will_paginate( resources, :class=> "pagination", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :outer_window => 0, :inner_window => 2 )
+    - if resources.respond_to?(:page)
+      = will_paginate( resources, :class=> "pagination", :renderer => "Releaf::PaginationRenderer::LinkRenderer", :outer_window => 0, :inner_window => 2 )
 
     .secondary
       = render :partial => "index.footer.extras"
