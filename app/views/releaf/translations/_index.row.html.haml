@@ -1,5 +1,11 @@
-%a.row{ 'data-id' => resource.id, :href => "#{url_for( :action => list_action, :id => resource.group_id )}#translation_#{resource.id}" }
-  %span= resource.translation_group.scope
-  %span= resource.key
-  - locales.each do |locale|
-    %span= resource.locales[locale]
+%tr.row{"data-id" => resource.id}
+  %td.tools
+    %button{:type => "button"}
+      %i.icon-large.icon-cog
+    .wrapper
+      %i.icon-caret-up.icon-large
+      %ul.block
+        = render :partial => "index.row.tools", :locals => {:resource => resource}
+  %td
+    %a.main{:href => url_for( :action => :edit, :id => resource.id )}
+      %span= resource.scope

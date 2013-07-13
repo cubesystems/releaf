@@ -15,6 +15,10 @@ module I18n
         attr_accessible \
           :scope
 
+        scope :filter, lambda{ |params|
+          where( 'releaf_translation_groups.scope LIKE ?', "%#{params[:search]}%") unless params[:search].blank?
+        }
+
         def to_s
           scope
         end

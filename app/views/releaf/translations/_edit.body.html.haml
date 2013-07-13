@@ -1,3 +1,8 @@
+%h2.header
+  .scope-field
+    %label{:for => "scope"}= t('scope', :scope => 'admin.releaf_translations') + ":"
+    %input#scope{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @resource.scope}/
+
 .body.inset_box.no_shadow
 
   -#TODO: improve style/html
@@ -9,10 +14,10 @@
           %li= msg
 
   .nested_wrap{:'data-name' => 'translations'}
-    %table.releaf_table.no_border.label_first_column.translations.translations_table.list{:cellpadding => "0", :cellspacing => "0"}
+    %table.table{:cellpadding => "0", :cellspacing => "0"}
       %thead
         %tr
-          %th.code_header Nosaukums
+          %th.code_header= t('key', :scope => 'admin.releaf_translations')
           - locales.each do |locale|
             %th.language_header{"data-locale" => locale}
               %span.name= locale
@@ -30,7 +35,8 @@
                 .wrap
                   %input{:type=>"text", :name=>"translations[#{translation.id}][localization][#{locale}]", :value=>translation.locales[locale]}/
             %td.delete_column
-              %button.remove_nested_item{:type => 'button'}= image_tag("releaf/icons/delete.png", :alt => "delete", :title => :delete)
+              %button.remove_nested_item{:type => 'button'}
+                %i.icon-remove
 
     %table{:style => "display:none;"}
       %tbody
@@ -43,8 +49,9 @@
               .wrap
                 %input{:type=>"text", :name=>"translations[_template_][localization][#{locale}]", :value=>""}/
           %td.delete_column
-            %button.remove_nested_item{:type => 'button'}= image_tag("releaf/icons/delete.png", :alt => "delete", :title => :delete)
+            %button.remove_nested_item{:type => 'button'}
+              %i.icon-remove
 
     %button.add_nested_item(type='button')
-      = image_tag 'releaf/icons/add.png', :atl => ''
-      %span=t('new', :scope => 'admin.releaf_translations')
+      %i.icon-plus
+      %span= t('new', :scope => 'admin.releaf_translations')

@@ -2,6 +2,10 @@ module Releaf
   class TranslationsController < BaseController
     helper_method :locales
 
+    def resource_class
+      I18n::Backend::Releaf::TranslationGroup
+    end
+
     def locales
       valid_locales = Releaf.available_locales || []
       valid_locales += Releaf.available_admin_locales || []
@@ -18,18 +22,12 @@ module Releaf
     end
 
     def fields_to_display
-      return super + (locales || [])
-    end
-
-    def index
-      @resources = @object_class = I18n::Backend::Releaf::Translation.includes(:translation_data).filter(:search => params[:search])
-      if !params[:ajax].blank?
-        render :layout => false
+      cols = super
+      unless %w[index].include? params[:action]
+        cols += (locales || [])
       end
-    end
 
-    def edit
-      @resource = resource_class.find(params[:id])
+      return cols
     end
 
     def create
@@ -37,6 +35,7 @@ module Releaf
 
       respond_to do |format|
         if @resource.save
+          flash[:success] = I18n.t('created', :scope => 'notices.' + controller_scope_name)
           update_translations
           Settings.i18n_updated_at = Time.now
           format.html { redirect_to url_for(:action => "edit", :id => @resource.id) }
@@ -51,6 +50,7 @@ module Releaf
 
       unless params[:translations].blank?
         ids_to_keep = update_translations
+        flash[:success] = I18n.t('updated', :scope => 'notices.' + controller_scope_name)
         @resource.translations.where('id NOT IN (?)', ids_to_keep).destroy_all
       else
         @resource.translations.destroy_all

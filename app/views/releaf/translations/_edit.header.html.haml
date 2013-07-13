@@ -1,19 +1,2 @@
-.visibleLanguagesSwitch
-  %button{:type => "button"}
-    = t('visible_languages', :scope => 'admin.releaf_translations')
-    =image_tag("releaf/expand_tool/close_hover_shim.png", :alt => "")
-  %ul.block
-    - locales.each do |locale|
-      %li
-        %label
-.header
-  .padding
-    .groupInfo
-      .field
-        %label{:for => "scope"}= t('scope', :scope => 'admin.releaf_translations') + ":"
-        %input#scope{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @resource.scope}/
-    .translations_table.translations_table_head
-      .th.code_header{:style => "width: 208px; "}><= t('key', :scope => 'admin.releaf_translations')
-      - locales.each do |locale|
-        .th.language_header.languageId-1.languageCode-lv{"data-languagecode" => locale, "data-languageid" => "1", :style => "width: 300px; "}><
-          %span.name= locale
+= render :partial => "breadcrumbs"
+= render :partial => "flash_notices"
