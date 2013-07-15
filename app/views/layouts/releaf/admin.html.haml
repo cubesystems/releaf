@@ -8,7 +8,7 @@
 !!! 5
 %html
   %head
-    %title re:leaf
+    %title= t(params[:controller], :scope => "admin.menu_items") + " - " + Rails.application.class.parent_name
     %link{ :rel =>"icon", :href => asset_path("releaf/favicon.ico"), :type => "image/x-icon" }
 
     = stylesheet_link_tag "releaf/application"
