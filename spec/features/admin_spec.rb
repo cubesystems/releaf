@@ -23,9 +23,8 @@ describe "home page" do
       page.should have_css('header > ul > li.sign-out > form > button')
     end
 
-    it "new user creation" do
-      click_link_i 'Permissions'
-      click_link 'Releaf/admins'
+    it "new user creation", :js => true do
+      visit '/admin/admins'
       click_link 'Create new item'
       page.should have_content 'Create new resource'
       within("form.new_resource") do
@@ -43,13 +42,12 @@ describe "home page" do
       visit '/admin/admins'
       page.should have_content 'john@example.com'
 
-      # TODO: rewrite with js support
-      #visit '/admin/admins'
-      #click_link 'john@example.com'
-      #click_link 'Destroy'
-      #page.should have_content 'Confirm destroy'
-      #click_button 'Yes'
-      #page.should_not have_content 'john@example.com'
+      visit '/admin/admins'
+      find('.main > .table tr[data-id="' + Releaf::Admin.last.id.to_s  + '"] td.tools > button').click
+      click_link 'Delete'
+      page.should have_content 'Confirm destroy'
+      click_button 'Yes'
+      page.should_not have_content 'john@example.com'
     end
 
     it "user search" do
