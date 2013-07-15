@@ -198,6 +198,12 @@ body > .side > footer
     bottom: 0;
     left: 0;
     width: 240px;
+    z-index: 9;
+}
+body.side-compact > .side > footer
+{
+  width: 40px;
+  overflow: hidden;
 }
 
 body > .main
@@ -217,8 +223,7 @@ body .main footer
     z-index: 10;
     background: #fff;
 }
-body.side-compact .main > footer,
-body.side-compact .main .edit_resource footer
+body.side-compact .main > footer
 {
     margin-left: 80px;
 }
@@ -651,10 +656,17 @@ input[type="passwod"]:focus
 }
 
 /* new/edit view */
-body.view-new .main footer
-body.view-edit .main footer
+body.view-new .main > .new_resource,
+body.view-edit .main > .edit_resource,
+body.view-new .main > .new_resource > footer,
+body.view-edit .main > .edit_resource > footer
 {
   max-width: 920px;
+}
+body.side-compact .main > .new_resource > footer,
+body.side-compact .main > .edit_resource > footer
+{
+    margin-left: 80px;
 }
 
 .view-new form .section,
