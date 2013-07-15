@@ -217,7 +217,8 @@ body .main footer
     z-index: 10;
     background: #fff;
 }
-body.side-compact .main > footer
+body.side-compact .main > footer,
+body.side-compact .main .edit_resource footer
 {
     margin-left: 80px;
 }
@@ -284,11 +285,6 @@ body > .side .compacter .toggle-angle-icon
     font-size: 20px;
 }
 
-
-body > footer
-{
-
-}
 
 @media all and (max-width: 1000px)
 {
@@ -882,6 +878,9 @@ body.view-edit .main footer
 .view-index footer .tools .pagination
 {
   text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 .view-index footer .tools .pagination > .button
 {
