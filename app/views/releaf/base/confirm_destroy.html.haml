@@ -3,8 +3,7 @@
   .description= resource_to_text(@resource)
   .buttons
     = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id ), :as => :resource, :method => :delete do |f|
-      %button{ :type => 'submit' }
-        = image_tag 'releaf/icons/bin_empty.png', :alt => ''
+      %button.button{ :type => 'submit' }
         %span= t('yes', :scope => 'admin.global')
     - if @features[:show]
       %a.button{ :href => url_for( :action => 'show', :id => @resource.id ) }

@@ -1,7 +1,5 @@
 .login_form_container
   = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login_form" } ) do |f|
-    .logo_container
-      = image_tag("releaf/controllers/#{controller.controller_name}/logo.jpg")
     .inputs
       %label.login
         %span Email:
