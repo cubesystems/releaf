@@ -1,1 +1,12 @@
-%div breadcrumbs TODO here
+%ul.block.breadcrumbs
+  %li
+    %a{:href => releaf_root_path}
+      = t('Home', :scope => 'releaf.global')
+    %i.icon-small.icon-chevron-right
+  %li
+    %a{:href => "#"}
+      Controller
+    %i.icon-small.icon-chevron-right
+  %li
+    Action
+
