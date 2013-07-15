@@ -1,12 +1,14 @@
-%ul.block.breadcrumbs
-  %li
-    %a{:href => releaf_root_path}
-      = t('Home', :scope => 'releaf.global')
-    %i.icon-small.icon-chevron-right
-  %li
-    %a{:href => "#"}
-      Controller
-    %i.icon-small.icon-chevron-right
-  %li
-    Action
+- breadcrumbs = admin_breadcrumbs @resource
 
+- unless breadcrumbs.blank?
+  %ul.block.breadcrumbs
+    - breadcrumbs.each_with_index do |item, i|
+      %li
+        - unless i == breadcrumbs.length-1
+          %a{:href => item[:url]}
+            = item[:name]
+        - else
+          = item[:name]
+
+        - unless i == breadcrumbs.length-1
+          %i.icon-small.icon-chevron-right
