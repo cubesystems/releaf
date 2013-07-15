@@ -12,24 +12,25 @@
 %table.table{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
   %thead
     %tr
+    - if @features[:index_row_tools]
       %th
-      - fields_to_display.each do |name|
-        - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
-        %th
-          %span
-            - if supports_order_by && valid_order_by_fields.include?(name)
+    - fields_to_display.each do |name|
+      - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)
+      %th
+        %span
+          - if supports_order_by && valid_order_by_fields.include?(name)
 
-              - if params[:order_by].blank? || params[:order_by].sub(/-reverse$/, '') != name
-                = link_to label, url_for(:order_by => name)
-
-              - else
-                - if params[:order_by] == name
-                  = link_to label + ' ↑', url_for(:order_by => name + '-reverse'), :class => :order_by
-                - else
-                  = link_to label + ' ↓', url_for(:order_by => name), :class => :order_by
+            - if params[:order_by].blank? || params[:order_by].sub(/-reverse$/, '') != name
+              = link_to label, url_for(:order_by => name)
 
             - else
-              = label
+              - if params[:order_by] == name
+                = link_to label + ' ↑', url_for(:order_by => name + '-reverse'), :class => :order_by
+              - else
+                = link_to label + ' ↓', url_for(:order_by => name), :class => :order_by
+
+          - else
+            = label
   %tbody.tbody
     - resources.each do |resource|
       = render 'index.row', :resource => resource, :cell_templates => cell_templates
