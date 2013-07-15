@@ -1,7 +1,7 @@
 %form.search{:action => url_for( :controller => controller_name, :action => :index ), :title => "#{ resource_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + resource_class.to_s + ' to enable searching' }"}
   .primary
     .wrapper
-      %input.search{:name => "search", :type => "text", :value => params[:search], :autofocus => true, :disabled => !resource_class.respond_to?( :filter ) }
+      %input{:name => "search", :type => "text", :value => params[:search], :autofocus => true, :disabled => !resource_class.respond_to?( :filter ) }
       %button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
         %i.icon-search
     .clear

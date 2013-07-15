@@ -2,26 +2,26 @@
 
 jQuery(function()
 {
-    // define validation handlers 
-    jQuery( document ).on( 'validationinit', 'form', function( event ) 
+    // define validation handlers
+    jQuery( document ).on( 'validationinit', 'form', function( event )
     {
         if (event.isDefaultPrevented())
         {
             return;
         }
-        
+
         var form = jQuery(event.target);
 
         form.data( 'validator', new Validator(form, { ui : false } ));
-        
-        form.on( 'validationstart', function( event, v, event_params ) 
+
+        form.on( 'validationstart', function( event, v, event_params )
         {
             form.attr( 'data-validation-id', event_params.validation_id );
-          
-            // :TODO: show loader            
+
+            // :TODO: show loader
         });
-        
-        
+
+
         form.on( 'validationend', function( event, v, event_params )
         {
             // remove all errors left from earlier validations
@@ -32,29 +32,29 @@ jQuery(function()
                 // do not go further if this is not the last validation
                 return;
             }
-            
-            
+
+
             // remove old field errors
             form.find('.field.has_error').each(function()
             {
                 var field = jQuery(this);
                 var error_box = field.find( '.error_box' );
                 var error_node = error_box.find('.error');
-                
+
                 if (error_node.attr('data-validation-id') != last_validation_id)
                 {
                     error_box.remove();
                     field.removeClass('has_error');
                 }
-                
+
             });
-            
+
             // remove old form errors
             if (form.hasClass('has_error'))
             {
                 var form_error_box = form.find('.form_error_box');
                 var form_errors_remain = false;
-                
+
                 form_error_box.find('.error').each(function()
                 {
                     var error_node = jQuery(this);
@@ -67,25 +67,25 @@ jQuery(function()
                         form_errors_remain = true;
                     }
                 });
-                
+
                 if (!form_errors_remain)
                 {
                     form_error_box.remove();
                     form.removeClass('has_error');
                 }
             }
-            
-            
+
+
 
             // if error fields still exist, focus to first visible
             var focus_target = form.find('.field.has_error').find('input[type!="hidden"],textarea,select').filter(':visible').first();
-            
+
             focus_target.focus();
-                
+
             // :TODO: remove loader
         });
-        
-        
+
+
         form.bind( 'validationerror', function( event, v, event_params )
         {
             var error = event_params.error;
@@ -100,7 +100,7 @@ jQuery(function()
                 }
 
                 var error_box = field_box.find('.error_box');
-                
+
                 if (error_box.length < 1)
                 {
                     error_box = jQuery('<div class="error_box"><div class="error"></div></div>');
@@ -112,7 +112,7 @@ jQuery(function()
                 error_node.text( error.message );
 
                 field_box.addClass('has_error');
-                
+
             }
             else if (target.is('form'))
             {
@@ -129,9 +129,9 @@ jQuery(function()
                     form_error_box = jQuery('<div class="form_error_box"></div>');
                     form_error_box.prependTo( form_error_box_container );
                 }
-                
+
                 var error_node = null;
-                
+
                 // reuse error node if it has the same text
                 form_error_box.find('.error').each(function()
                 {
@@ -144,22 +144,22 @@ jQuery(function()
                         error_node = jQuery(this);
                     }
                 })
-                
+
                 var new_error_node = !error_node;
-                
+
                 if (!error_node)
                 {
                     error_node = jQuery('<div class="error"></div>');
                 }
-                
+
                 error_node.attr('data-validation-id', event_params.validation_id);
-                error_node.text( error.message );                
-                
+                error_node.text( error.message );
+
                 if (new_error_node)
                 {
                     error_node.appendTo( form_error_box );
                 }
-                
+
                 form.addClass('has_error');
 
                 // Scroll to form_error_box
@@ -167,14 +167,14 @@ jQuery(function()
 
             }
         });
- 
 
 
-        
+
+
     });
-    
 
-    jQuery( document ).on( 'validate', 'form', function( event ) 
+
+    jQuery( document ).on( 'validate', 'form', function( event )
     {
         // use this to manually trigger form validation outside of a submit event
 
@@ -182,20 +182,20 @@ jQuery(function()
         {
             return;
         }
-        
+
         var form = jQuery(event.target);
-        
+
         if (!form.data('validator'))
         {
             return;
         }
-        
+
         form.data('validator').validateForm();
         return;
 
-        
+
     });
-    
+
     // attach validation to default forms
     jQuery('form[data-validation-url]').trigger('validationinit');
 
@@ -206,14 +206,15 @@ jQuery(function()
 	{
 		var form = jQuery( event.target );
 
-		var input = form.find( '.search' );
+		var input = form.find( 'input[name="search"]' );
 		var timeout;
 		var request;
 		var last_search_query = input.val();
 
-		var panel  = form.parents( '.primary_panel:first' )
-		var body   = panel.children( '.body' );
-		var footer = panel.children( '.footer' );
+		var main  = form.parents( 'body > .main' )
+		var header   = main.children( '.header' );
+		var table   = main.children( '.table' );
+		var footer = main.children( 'footer' );
 
 		// custom "lookup" event allows to issue extra reloads from the outside
 
@@ -244,9 +245,11 @@ jQuery(function()
 						// remove loading icon
 						submit_button.removeClass( 'loading' );
 						// create html holder
-						var html = jQuery( response );
-						body.html( html.filter( '.body' ).html() );
-						footer.html( html.filter( '.footer' ).html() );
+                        var html = jQuery( response );
+
+                        header.html( html.filter( '.header' ).html() );
+                        table.html( html.filter( '.table' ).html() );
+                        footer.html( html.filter( 'footer' ).html() );
 					}
 				});
 			}, 200 );
@@ -266,7 +269,7 @@ jQuery(function()
 
 	// init default form
 
-	jQuery( '.view-index .search_form' ).trigger( 'searchinit' );
+	jQuery( '.view-index form.search' ).trigger( 'searchinit' );
 
     jQuery('#page_select').on('change', function(){
         var val=jQuery(this).val();
