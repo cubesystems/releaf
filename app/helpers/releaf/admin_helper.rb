@@ -9,7 +9,7 @@ module Releaf
       breadcrumbs = []
       breadcrumbs << { :name => I18n.t('Home', :scope => 'admin.breadcrumbs'), :url => releaf_root_path }
       
-      admin_main_menu.each do |item|
+      admin_menu.each do |item|
         if item[:active]
           breadcrumbs << {:name => I18n.t(item[:name], :scope => "admin.menu_items"), :url => item[:url]}
           unless item[:items].blank?
@@ -36,7 +36,7 @@ module Releaf
     end
 
 
-    def admin_main_menu
+    def admin_menu
       items = []
 
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
