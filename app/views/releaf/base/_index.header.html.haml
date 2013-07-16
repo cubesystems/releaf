@@ -1,3 +1,4 @@
 = render :partial => "breadcrumbs"
 = render :partial => "flash_notices"
-= render :partial => "index.search"
+- if resource_class.respond_to?( :filter )
+  = render :partial => "index.search"
