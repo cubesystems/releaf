@@ -1,0 +1,486 @@
+/* skip links */
+body > .skip-links
+{
+    position: absolute;
+    top: -300px;
+    width: 80%;
+    left: 100px;
+    z-index: 20;
+    overflow: visible;
+}
+
+body > .skip-links a
+{
+    position: absolute;
+    top: 0;
+    z-index: 30;
+}
+
+body > .skip-links a:active,
+body > .skip-links a:focus
+{
+    top:    320px;
+    height: 1.6em;
+}
+
+
+/* main layout */
+
+body > header
+{
+    background: #111111;
+    color: #d8d8d8;
+    height: 60px;
+    position: relative;
+    z-index: 10;
+}
+
+body > .side,
+body > .main
+{
+    position: relative;
+    min-height: 100%;
+}
+
+body > .side > *:first-child
+{
+    padding-top: 60px;
+}
+
+body > .side
+{
+    background: #1d1d1d;
+    color: #d3d3d3;
+    position: absolute;
+    width: 240px;
+    left: 0;
+    top: 0;
+    z-index: 5;
+}
+body > .side > nav
+{
+    margin-bottom: 50px;
+}
+
+body > .side > footer
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 240px;
+    z-index: 9;
+    margin-top: -50px;
+}
+body.side-compact > .side > footer
+{
+  width: 40px;
+  overflow: hidden;
+}
+
+body > .main
+{
+    position: relative;
+    padding: 0 40px 50px 280px;
+    z-index: 1;
+}
+
+body .main footer
+{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0 40px 0px 280px;
+    z-index: 10;
+    background: #fff;
+}
+body.side-compact .main > footer
+{
+    margin-left: 80px;
+}
+
+
+body .main footer .tools
+{
+    height: 40px;
+    background: #e6e6e6;
+    color: #818181;
+    border: 1px solid #c5c5c5;
+    border-bottom: 0;
+}
+body .main footer .tools > .primary
+{
+    float: right;
+}
+body .main footer .tools > .secondary
+{
+    float: left;
+}
+body .main footer .tools > .secondary a.button
+{
+    display: block;
+}
+
+
+body > .side > footer,
+body .main footer .tools
+{
+    height: 40px;
+}
+
+
+/* menu hiding and compacting stuff */
+
+header .side-opener
+{
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    display: none;
+}
+
+body > .side .compacter
+{
+  text-align: right;
+  border-bottom: 1px solid #282828;
+}
+body > .side .compacter button
+{
+  padding: 0;
+  height: 39px;
+  width: 45px;
+  background: #171717;
+}
+body > .side .compacter button:hover
+{
+  background: #282828;
+}
+body > .side .compacter .toggle-angle-icon
+{
+    color: #37b1a7;
+    font-size: 20px;
+}
+
+
+@media all and (max-width: 1000px)
+{
+    body > .main
+    {
+        padding-left: 40px;
+    }
+    body .main footer
+    {
+        margin-left: 0px;
+        left: 40px;
+    }
+    body > header .side-opener
+    {
+        display: block;
+    }
+
+    body .side .compacter
+    {
+        display: none;
+    }
+
+    body .side nav
+    {
+        padding-top: 60px;
+    }
+}
+
+/* compact sidebar stuff */
+body.side-compact > .side
+{
+    width: 40px;
+}
+
+body.side-compact > .side .compacter button
+{
+    width: 40px;
+}
+
+body.side-compact  > .main
+{
+    padding-left: 80px;
+}
+
+body.side-compact > footer
+{
+    left: 80px;
+}
+
+body.side-compact > .side nav li .name,
+body.side-compact > .side nav li .collapser
+{
+    display: none;
+}
+
+body.side-compact > .side nav li .trigger
+{
+    padding-right: 20px;
+}
+body.side-compact > .side nav > ul > li:hover > .trigger .name
+{
+    position: absolute;
+    top: 0;
+    left: 40px;
+    height: 30px;
+    width: 227px;
+    padding: 9px 0 0 14px;
+    display: block;
+    background: #000;
+}
+
+body.side-compact > .side nav > ul > li:hover > .trigger
+{
+    background-color: #050505;
+    color: #fff;
+}
+
+body.side-compact > .side nav > ul > li.active > .trigger,
+body.side-compact > .side nav > ul > li.active > .trigger .name
+{
+    background-color: #37b1a7;
+}
+body.side-compact > .side nav > ul > li:hover > ul
+{
+    position: absolute;
+    top: 39px;
+    left: 41px;
+    width: 240px;
+    display: block;
+    background: #000;
+}
+body.side-compact > .side nav > ul > li > ul
+{
+    display: none;
+}
+body.side-compact > .side nav > ul > li:hover > ul .name
+{
+    display: block;
+}
+
+
+body > header > .item
+{
+    display: inline-block;
+    margin-left: 20px;
+}
+
+/* side */
+body > .side nav li
+{
+    border-bottom: 1px solid #282828;
+    position: relative;
+}
+
+body > .side nav li .collapser
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #4a4a4a;
+}
+body > .side nav li .collapser button
+{
+    padding: 0;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+
+body > .side nav li li
+{
+    background: #282828;
+    border-bottom: none;
+}
+
+body > .side nav li .trigger
+{
+    color: #d3d3d3;
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px 40px 10px 13px;
+}
+
+body > .side nav li .trigger i
+{
+  font-size: 12px;
+}
+body > .side nav > ul > li > .trigger:hover
+{
+    background-color: #050505;
+    color: #fff;
+}
+body > .side nav .trigger:hover
+{
+    color: #fff;
+}
+body > .side nav > ul > li > .trigger:hover .collapser
+{
+  color: #929292;
+}
+body > .side nav > ul > li.active > .trigger
+{
+  background-color: #37b1a7;
+  color: #111111;
+}
+body > .side nav > ul > li.active > .trigger .collapser
+{
+  color: #111111;
+}
+
+body > .side nav > ul > li > .trigger > .name
+{
+    padding: 0 0 0 8px;
+}
+
+body > .side nav li li .trigger
+{
+    padding-left: 18px;
+    color: #a6a6a6;
+    position: relative;
+}
+body > .side nav li li .trigger i
+{
+    position: absolute;
+    top: 7px;
+    right: 0px;
+    display: none;
+}
+body > .side nav li li .trigger.active_item i
+{
+    display: block;
+}
+
+
+body > .side nav li.collapsed ul
+{
+    display: none;
+}
+
+
+/* Header */
+header > .brand {
+    display: block;
+    background-image: url(<%= asset_path("releaf/brand.png") %>);
+    background-repeat: no-repeat;
+    width: 81px;
+    height: 31px;
+    text-decoration: none;
+    float: left;
+    margin: 14px 0 0 24px;
+}
+
+header > ul {
+    float: right;
+}
+
+header > ul > li {
+    float: left;
+}
+
+header > ul > li > a {
+    display: block;
+    text-decoration: none;
+    height: 60px;
+}
+
+header .profile{
+  padding-right: 1px;
+}
+header .profile a{
+    position: relative;
+    width: 237px;
+    color: #d8d8d8;
+    border-left: 1px solid #242424;
+}
+header .profile a:hover{
+    background-color: #242424;
+    color: #fff;
+}
+header .profile a > .name{
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  display: block;
+  width: 152px;
+}
+
+header .profile a > .avatar{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: block;
+  width: 36px;
+}
+
+header .sign-out button{
+    position: relative;
+    background-color: #242424;
+    color: #37b1a7;
+    width: 60px;
+    height: 60px;
+}
+header .sign-out button:hover {
+    background-color: #37b1a7;
+    color: #242424;
+}
+header .sign-out button i
+{
+    font-size: 18px;
+}
+
+  /* flash notices */
+.flash
+{
+  border-radius: 0;
+  padding: 12px 35px 12px 14px;
+  text-shadow: none;
+  line-height: 24px;
+  margin: 8px 0;
+}
+.flash.success
+{
+  background-color: #ddf4d0;
+  color: #468847;
+}
+.flash.error
+{
+  background-color: #eed3d7;
+  color: #b94a48;
+}
+
+/* Breadcrumbs */
+body .main .breadcrumbs
+{
+  padding: 14px 0px;
+  border-bottom: 1px solid #e6e6e6;
+}
+body .main .breadcrumbs > li
+{
+  display: inline-block;
+}
+body .main .breadcrumbs > li a
+{
+  position: relative;
+  z-index: 100;
+  font-size: 1em;
+  color: #000;
+  text-decoration: none;
+}
+body .main .breadcrumbs > li a:hover
+{
+  text-decoration: none;
+  color: #42690d;
+}
+body .main .breadcrumbs > li i
+{
+  padding: 0px 8px;
+  font-size: 10px;
+}
