@@ -1,15 +1,14 @@
-.login_form_container
-  = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login_form" } ) do |f|
-    .inputs
-      %label.login
-        %span Email:
+.container
+  .login-box
+    .logo
+    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login-form" } ) do |f|
+      .control-group
+        %label.control-label E-mail
         = f.email_field :email, :autofocus => "autofocus"
-      %label
-        %span Password:
+
+      .control-group
+        %label.control-label Password
         = f.password_field :password
-    .actions
-      %button{:type => "submit"} Sign in
-    %div.copy
-      %span © 2012-#{Time.now.year} CubeSystems
-      |
-      = link_to "www.cubesystems.lv", "http://cubesystems.lv"
+
+      .control-group
+        %button{:type => "submit"} Sign in
