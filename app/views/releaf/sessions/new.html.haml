@@ -3,12 +3,10 @@
     .logo
     = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login-form" } ) do |f|
       .control-group
-        %label.control-label E-mail
-        = f.email_field :email, :autofocus => "autofocus"
-
+        %label.control-label{:for => :email}= t("email", :scope => 'admin.sessions')
+        = f.email_field :email, :autofocus => "autofocus", :id => :email
       .control-group
-        %label.control-label Password
-        = f.password_field :password
-
+        %label.control-label{:for => :password}= t("password", :scope => 'admin.sessions')
+        = f.password_field :password, :id => :password
       .control-group
-        %button{:type => "submit"} Sign in
+        %button{:type => "submit"}= t("sign in", :scope => 'admin.sessions')
