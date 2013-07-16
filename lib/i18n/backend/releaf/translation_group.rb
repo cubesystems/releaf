@@ -11,6 +11,7 @@ module I18n
         validates_uniqueness_of :scope
 
         has_many :translations, :dependent => :destroy, :foreign_key => :group_id, :order => 'releaf_translations.key'
+        default_scope order('releaf_translation_groups.scope ASC')
 
         attr_accessible \
           :scope

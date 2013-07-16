@@ -1,0 +1,52 @@
+.table
+{
+  width: 100%;
+  border-collapse:collapse;
+  font-size: 13px;
+  border: 1px solid #d4d4d4;
+  border-top: none;
+}
+.table th,
+.table td
+{
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
+}
+.table tr th
+{
+  text-align: center;
+  font-weight: bold;
+}
+
+.table tr:nth-child(odd) td
+{
+  background-color: #f3f1f1;
+}
+
+.table tr:hover td{
+  background-color: #d0eeec;
+}
+.table td a {
+  text-decoration: none;
+  color: #1d1d1d;
+  display: inline-block;
+  height:100%;
+  width:100%;
+}
+.table th,
+.table td:not(.tools) a
+{
+  padding: 5px 0;
+}
+.table th span,
+.table td a > span,
+.table td > span
+{
+  display: inline-block;
+  padding: 0 6px;
+}
+.table th span
+{
+  display: block;
+}
+
