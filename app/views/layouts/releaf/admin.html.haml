@@ -5,6 +5,9 @@
   body_classes << "view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"
   body_classes << "side-compact" if cookies['releaf.side.compact']
 
+  _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
+  controller_asset = params[:controller]
+
 !!! 5
 %html
   %head
@@ -12,10 +15,6 @@
     %link{ :rel =>"icon", :href => asset_path("releaf/favicon.ico"), :type => "image/x-icon" }
 
     = stylesheet_link_tag "releaf/application"
-
-    - _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
-
-    - controller_asset = params[:controller]
     - %w[css.scss.erb scss.erb css.scss scss css.erb css].each do |ext|
       - if File.exists?(_assets_path + "/stylesheets/releaf/controllers/#{controller_asset}.#{ext}")
         = stylesheet_link_tag "releaf/controllers/#{controller_asset}"
@@ -23,10 +22,6 @@
         = stylesheet_link_tag "controllers/#{controller_asset}"
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
         = stylesheet_link_tag "releaf/#{Rails.application.class.parent_name.downcase}"
-
-    - unless Releaf.yui_config.blank?
-      :javascript
-        YUI_config = #{Releaf.yui_config.to_json}
 
     = csrf_meta_tags
   %body{:class => body_classes}
@@ -42,7 +37,6 @@
             = form_tag(self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), :method => :delete) do
               %button{:type => "submit"}
                 %i.icon-off.icon-header
-
 
       .side
         .compacter
@@ -72,23 +66,10 @@
         .clear
         %footer
           CUBE
-
       .main{:id => "main"}= yield
+    - else
+      = yield
 
-
-    -##body_wrap{:class => "#{current_feature}-feature module-#{controller.controller_name} method-#{controller.action_name} controller-#{params[:controller].tr( '/', '-' )} action-#{controller.action_name} view-#{ controller.active_template.virtual_path.split('/').pop() if controller.active_template }"}
-      -#- if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
-        -#.panel_layout
-          .primary_panel
-            = yield
-      - else
-        = yield
-
-    #preload_wrap
-      #preload
-        .loading_icon
-
-    %script{:type => 'text/javascript', :src => Releaf.yui_js_url}
     = javascript_include_tag "releaf/application"
     - %w[js js.erb].each do |ext|
       - if File.exists?(_assets_path + "/javascripts/releaf/controllers/#{controller_asset}.#{ext}")

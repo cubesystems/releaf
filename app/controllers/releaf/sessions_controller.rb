@@ -1,5 +1,5 @@
 module Releaf
   class SessionsController < Devise::SessionsController
-    layout "releaf/devise"
+    layout "releaf/admin"
   end
 end
