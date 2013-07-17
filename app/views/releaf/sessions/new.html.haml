@@ -1,7 +1,7 @@
 .container
-  .login-box
+  .box
     .logo
-    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login-form" } ) do |f|
+    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login" } ) do |f|
       .control-group
         %label.control-label{:for => :email}= t("email", :scope => 'admin.sessions')
         = f.email_field :email, :autofocus => "autofocus", :id => :email
