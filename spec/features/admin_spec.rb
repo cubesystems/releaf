@@ -15,7 +15,7 @@ describe "home page" do
   describe "admin users CRUD" do
     before do
       visit "/admin"
-      within("form.login_form") do
+      within("form.login") do
         fill_in 'Email',    :with => @admin.email
         fill_in 'Password', :with => @admin.password
       end
@@ -67,7 +67,7 @@ describe "home page" do
   describe "login as admin procedure" do
     before do
       visit "/admin"
-      within("form.login_form") do
+      within("form.login") do
         fill_in 'Email',    :with => @admin.email
         fill_in 'Password', :with => @admin.password
       end
@@ -97,7 +97,7 @@ describe "home page" do
   describe "login as simple user procedure" do
     before do
       visit "/admin"
-      within("form.login_form") do
+      within("form.login") do
         fill_in 'Email',    :with => @simple_user.email
         fill_in 'Password', :with => @simple_user.password
       end
