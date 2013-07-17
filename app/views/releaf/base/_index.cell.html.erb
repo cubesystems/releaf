@@ -16,6 +16,8 @@
     end
   elsif text.is_a? TrueClass or text.is_a? FalseClass
     text = t(text ? 'yes' : 'no', :scope => 'admin.global')
+  elsif text.is_a? Time
+    text = I18n.l(text, :format => :default)
   end
 %>
 <td>
