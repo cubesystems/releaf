@@ -283,4 +283,9 @@ jQuery(function()
             window.location.href = request_url;
         }
     });
+
+    //Override dialogs close button
+    jQuery(document).on( "dialogcreate", '.ui-dialog', function( event, ui ) {
+        jQuery(this).find('.ui-dialog-titlebar-close').html('<i class="icon-remove"></i>');
+    });
 });
