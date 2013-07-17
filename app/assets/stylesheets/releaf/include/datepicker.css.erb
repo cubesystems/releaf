@@ -8,19 +8,36 @@
   background: black;
   height: 38px;
 }
+.ui-datepicker-header .ui-datepicker-next,
 .ui-datepicker-header .ui-datepicker-prev
 {
   float: left;
   display: block;
-  margin-top: 8px;
-  margin-left: 5px;
+  width: 39px;
+  height: 38px;
+  line-height: 38px;
+  color: white;
+  text-align: center;
+}
+.ui-datepicker-header .ui-datepicker-next:hover,
+.ui-datepicker-header .ui-datepicker-prev:hover
+{
+  background-color: #3a3a3a;
+  color: #37b1a7;
+  text-decoration: none;
+}
+.ui-datepicker-header .ui-datepicker-prev
+{
+  float: left;
 }
 .ui-datepicker-header .ui-datepicker-next
 {
   float: right;
-  display: block;
-  margin-top: 8px;
-  margin-right: 5px;
+}
+.ui-datepicker-header .ui-datepicker-next span,
+.ui-datepicker-header .ui-datepicker-prev span
+{
+  display: none;
 }
 .ui-datepicker-header .ui-datepicker-title
 {

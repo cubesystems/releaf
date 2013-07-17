@@ -1,4 +1,13 @@
 jQuery(document).ready(function() {
+
+    var chevronIconsShow = function( instance ) {
+        // Set timeout to execute this after datepicker has been initialized
+        setTimeout( function() {
+            jQuery(instance.dpDiv[0]).find('.ui-datepicker-prev').html('<i class="icon-chevron-left"></i>');
+            jQuery(instance.dpDiv[0]).find('.ui-datepicker-next').html('<i class="icon-chevron-right"></i>');
+        }, 0);
+    }
+
     // initialize date/datetime/time pickers
     jQuery(document.body).delegate('form', 'initcalendars', function() {
         var forms = jQuery(this);
@@ -8,7 +17,14 @@ jQuery(document).ready(function() {
             showHour: true,
             showMinute: true,
             changeMonth: true,
-            changeYear: true
+            changeYear: true,
+            beforeShow: function(input, instance) {
+                chevronIconsShow( instance );
+            },
+            onChangeMonthYear: function(year, month, instance)
+            {
+                chevronIconsShow( instance );
+            }
             // showSecond: true,
             // showTimezone: true,
         }
@@ -37,6 +53,7 @@ jQuery(document).ready(function() {
          * });
          */
     });
+
 
     jQuery('form').trigger('initcalendars');
 
