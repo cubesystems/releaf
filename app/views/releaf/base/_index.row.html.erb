@@ -2,10 +2,10 @@
   <% if @features[:index_row_tools] %>
   <td class="tools">
     <div class="cell-wrap"><%# Extra wrapper needed for positioning in FF %>
-    <button type="button">
+    <button type="button" class="trigger">
       <i class="icon-large icon-cog"></i>
     </button>
-    <div class="wrapper">
+    <div class="toolbox">
       <i class="icon-caret-up icon-large"></i>
       <ul class="block">
         <%= render :partial => "index.row.tools", :locals => {:resource => resource} %>
