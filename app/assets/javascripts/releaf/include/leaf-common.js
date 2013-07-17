@@ -120,7 +120,7 @@ jQuery(function(){
         var trigger        = tools.find('.trigger');
         var triggerOffset  = trigger.offset();
         
-        var triggerCenterX = triggerOffset.left + (trigger.width() / 2);
+        var triggerCenterX = triggerOffset.left + (trigger.outerWidth() / 2);
         
         var toolboxWidth  = toolbox.outerWidth();
         var openToRight = ((jQuery(document).width() - triggerCenterX - toolboxWidth - 50) > 0);
@@ -132,7 +132,7 @@ jQuery(function(){
             toolbox.css
             ({
                 left:  triggerCenterX - 23,
-                top :  triggerOffset.top  + trigger.height(),
+                top :  triggerOffset.top  + trigger.outerHeight(),
             });
             beak.css(
             {
@@ -144,7 +144,7 @@ jQuery(function(){
             toolbox.css
             ({
                 left:  triggerCenterX - toolboxWidth + 20,
-                top :  triggerOffset.top  + trigger.height(),
+                top :  triggerOffset.top  + trigger.outerHeight(),
             });         
             beak.css(
             {
