@@ -211,9 +211,11 @@ jQuery(function()
 		var request;
 		var last_search_query = input.val();
 
-		var main  = form.parents( 'body > .main' )
+		var main  = form.parents( 'body > .main' );
 		var header   = main.children( '.header' );
-		var table   = main.children( '.table' );
+        // sometime all index can be inside form (because of checkbox/etc),
+        // so use "find" method
+		var table   = main.find( '.table' );
 		var footer = main.children( 'footer' );
 
 		// custom "lookup" event allows to issue extra reloads from the outside
@@ -248,7 +250,9 @@ jQuery(function()
                         var html = jQuery( response );
 
                         header.html( html.filter( '.header' ).html() );
-                        table.html( html.filter( '.table' ).html() );
+                        // sometime all index can be inside form (because of checkbox/etc),
+                        // so use "find" method
+                        table.html( html.find( '.table' ).html() );
                         footer.html( html.filter( 'footer' ).html() );
 					}
 				});
