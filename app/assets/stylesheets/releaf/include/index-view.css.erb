@@ -120,11 +120,17 @@
   color: #37b1a7;
   width:46px;
 }
+.view-index .table .tools .cell-wrap
+{
+  width: 100%;
+  position: relative;
+}
+
 .view-index  .table tr:hover .tools
 {
   color: #1e8e85;
 }
-.view-index .table .tools > .wrapper
+.view-index .table .tools .wrapper
 {
   display: none;
   position: absolute;
@@ -135,14 +141,14 @@
   z-index: 100;
   padding: 0 0 0 4px;
 }
-.view-index .table .tools > .wrapper > i
+.view-index .table .tools .wrapper > i
 {
   color: #282828;
   position: relative;
   top: -8px;
   left: 16px;
 }
-.view-index .table .tools > .wrapper > ul
+.view-index .table .tools .wrapper > ul
 {
   position: relative;
   top: -15px;
@@ -151,25 +157,30 @@
 {
   border-bottom: 1px solid #393939;
 }
-.view-index .table .button
+
+.view-index .table .tools .button
 {
   background: #282828;
   color: #37b1a7;
 }
-.view-index .table .button.danger
+
+.view-index .table .tools .button.danger
 {
   background: #282828;
   color: #ee462a;
 }
-.view-index .table .button:hover
+
+.view-index .table .tools .button:hover
 {
   background: #37b1a7;
   color: #ffffff;
 }
-.view-index .table .button.danger:hover
+
+.view-index .table .tools .button.danger:hover
 {
   background: #ee462a;
 }
+
 .view-index .table td.tools > button
 {
   display: inline-block;

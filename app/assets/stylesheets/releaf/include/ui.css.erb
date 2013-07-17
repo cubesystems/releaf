@@ -1,43 +1,68 @@
-button,
-.button,
-input[type="button"],
-input[type="submit"]
+/* apply releaf button styles */
+.button
 {
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  box-shadow: none;
-  color: inherit;
+    cursor:pointer;
+    display: inline-block;    
+    background: #d9d9d9;
+    color: #636363;
+
+    font-weight: normal;
+    font-size: 14px;    
+    line-height: 20px;
+    padding: 10px 17px;
+
+    text-decoration: none;
+}
+.button i
+{
+    padding-right: 5px;
 }
 
-button:focus,
+.button:hover,
 .button:focus,
-input[type="button"]:focus,
-input[type="submit"]:focus
+.button:active
 {
-    outline-width: 1px;
-    outline-style: dotted;
-    outline-color: #37b1a7;
+    background: #c5c5c5;
+    color: #3c3c3c;
+    text-decoration: none;
 }
 
-button:active,
-.button:active,
-input[type="button"]:active,
-input[type="submit"]:active
+
+.button.primary,
+.button.danger
 {
-    outline: none;
+    background: #37b1a7;
+    color: #fff;
+}
+.button.primary:hover,
+.button.primary:focus,
+.button.primary:active
+{   
+    background: #269990;
 }
 
-button::-moz-focus-inner,
-.button::-moz-focus-inner,
-input[type="button"]::-moz-focus-inner,
-input[type="submit"]::-moz-focus-inner
+
+.button.danger:hover,
+.button.danger:focus,
+.button.danger:active
 {
-    border: 0;
-    padding: 0;
+    background: #ee462a;
 }
+
+.button.disabled,
+.button.disabled:hover,
+.button.disabled:focus,
+.button.disabled:active
+{
+    color: #b7c0bf;
+    background-color: #d9d9d9;
+}
+
+
+
+
+
+
 
 /* Inputs */
 .label_wrap
@@ -86,36 +111,6 @@ input[type="passwod"]:focus
   background-color: #ffffff;
   border: 1px solid #6c6c6c;
 }
-.button
-{
-  text-decoration: none;
-  padding: 10px 17px;
-  line-height: 20px;
-  background-color: #d9d9d9;
-  color: #636363;
-}
-.button i
-{
-  padding-right: 5px;
-}
-.button:hover
-{
-  background-color: #c5c5c5;
-  color: #3c3c3c;
-}
-.button.primary
-{
-  background-color: #37b1a7;
-  color: #ffffff;
-  display: block;
-}
-.button.primary:hover
-{
-  background-color: #269990;
-}
-.button.disabled,
-.button.disabled:hover
-{
-  color: #b7c0bf;
-  background-color: #d9d9d9;
-}
+
+
+

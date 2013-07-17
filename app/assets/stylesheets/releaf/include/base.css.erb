@@ -88,6 +88,7 @@ p
   margin-top: 20px;
 }
 
+
 .clearInside:after
 {
 	content: '.';
@@ -95,4 +96,44 @@ p
 	clear: both;
 	height: 0;
 	visibility: hidden;
+}
+
+/* reset native button and link styles */
+button,
+input[type="button"],
+input[type="submit"]
+{
+	cursor: pointer;
+    background: transparent;
+	border: none;
+	padding: 0;
+    margin: 0;
+	box-shadow: none;
+    color: inherit;
+}
+
+button:focus,
+a:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus
+{
+    outline-width: 1px;
+    outline-style: dotted;
+    outline-color: #37b1a7;
+}
+
+button:active,
+a:active,
+input[type="button"]:active,
+input[type="submit"]:active
+{
+    outline: none;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner
+{
+    border: 0;
+    padding: 0;
 }

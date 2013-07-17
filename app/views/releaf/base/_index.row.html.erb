@@ -1,6 +1,7 @@
 <tr class="row" data-id="<%= resource.id %>">
   <% if @features[:index_row_tools] %>
   <td class="tools">
+    <div class="cell-wrap"><%# Extra wrapper needed for positioning in FF %>
     <button type="button">
       <i class="icon-large icon-cog"></i>
     </button>
@@ -9,6 +10,7 @@
       <ul class="block">
         <%= render :partial => "index.row.tools", :locals => {:resource => resource} %>
       </ul>
+    </div>
     </div>
   </td>
   <% end %>
