@@ -4,9 +4,9 @@ jQuery( document ).ready(function()
     jQuery(document).bind('nestedfieldsinit', function( e )
     {
         var target = jQuery(e.target);
-        if (!target.is('.nested_wrap'))
+        if (!target.is('.nested-wrap'))
         {
-            target = target.find('.nested_wrap');
+            target = target.find('.nested-wrap');
         }
         
         target.each(function()
@@ -33,23 +33,23 @@ jQuery( document ).ready(function()
                 }
                 
                 if (
-                    (!trigger.is('button.add_nested_item'))
+                    (!trigger.is('button.add-nested-item'))
                     &&
-                    (!trigger.is('button.remove_nested_item'))
+                    (!trigger.is('button.remove-nested-item'))
                 )
                 {
                     // irrelevant click
                     return;
                 }
                 
-                var target_block = trigger.parents('.nested_wrap').first();
+                var target_block = trigger.parents('.nested-wrap').first();
                                     
                 if (target_block.attr('data-name') != block_name)
                 {
                     return;   // only react to own clicks
                 }
 
-                if (trigger.is('.add_nested_item'))
+                if (trigger.is('.add-nested-item'))
                 {
                     var template = target_block.find( template_selector ).first();
                     if (template.length != 1)
@@ -103,7 +103,7 @@ jQuery( document ).ready(function()
                     }
     
                 }
-                else if (trigger.is('.remove_nested_item'))
+                else if (trigger.is('.remove-nested-item'))
                 {
                     var item = trigger.parents(item_selector).first();
 

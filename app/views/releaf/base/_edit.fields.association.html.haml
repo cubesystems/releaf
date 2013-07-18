@@ -8,9 +8,10 @@
   - case reflection.macro
   - when :has_many
     - sortable_objects = reflection.klass.column_names.include?('item_position')
-    .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller_scope_name)
+    .nested-wrap{:'data-name' => field}
+      .nested-title= t(field, :scope => controller_scope_name)
       .list{:'data-sortable' => sortable_objects ? '' : nil}
+
 
         .item.template{:style => 'display:none;', :'data-name' => field}
           = f.fields_for field, reflection.klass.new, :child_index => '_template_' do |ff|
@@ -22,14 +23,14 @@
               = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
 
 
-      %button.add_nested_item{:type => 'button'}
+      %button.add-nested-item{:type => 'button'}
         = image_tag 'releaf/icons/add.png', :atl => ''
         %span= t("new", :scope => 'admin.global')
 
 
   - when :belongs_to
-    .nested_wrap{:'data-name' => field}
-      .nested_title= t(field, :scope => controller_scope_name)
+    .nested-wrap{:'data-name' => field}
+      .nested-title= t(field, :scope => controller_scope_name)
       .item
         = f.fields_for field, f.object.send(field) do |ff|
 
