@@ -8,7 +8,7 @@ module Releaf
     def admin_breadcrumbs resource = nil
       breadcrumbs = []
       breadcrumbs << { :name => I18n.t('Home', :scope => 'admin.breadcrumbs'), :url => releaf_root_path }
-      
+
       admin_menu.each do |item|
         if item[:active]
           breadcrumbs << {:name => I18n.t(item[:name], :scope => "admin.menu_items"), :url => item[:url]}
@@ -46,7 +46,7 @@ module Releaf
           item = {
             :name => menu_item[:name],
             :icon => menu_item[:icon],
-            :collapsed => cookies["admin_collapse-permissions"],
+            :collapsed => !cookies["releaf.side.opened.#{menu_item[:name]}"],
             :active => false
           }
 
@@ -54,7 +54,11 @@ module Releaf
           menu_item[:items].each do |submenu_item|
             if user.role.authorize!(submenu_item[:controller])
               submenu_item2 = get_releaf_menu_item(submenu_item)
-              item[:active] = true if submenu_item2[:active]
+              if submenu_item2[:active]
+                item[:active] = true
+                # always expand if one if submenu items is active
+                item[:collapsed] = false
+              end
 
               # use first available controller url
               unless item.has_key? :url
