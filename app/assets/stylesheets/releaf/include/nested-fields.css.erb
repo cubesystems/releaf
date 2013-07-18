@@ -2,3 +2,73 @@
 {
     clear: both;
 }
+
+.nested-wrap .list .item
+{
+    border: 1px solid #d4d4d4;
+    padding: 0 28px 11px 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.nested-wrap .list .item.template
+{
+    display: none;
+}
+
+.nested-wrap .list .item:after
+{
+	content: '\00a0';
+	display: block;
+	clear: both;
+	height: 0;
+	visibility: hidden;
+}
+
+
+.nested-wrap .remove-item-box
+{
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    width: auto;
+}
+
+.nested-wrap .remove-item-box .button
+{
+    padding: 6px 10px 7px 10px;
+}
+
+.view-new  form .section .nested-wrap .field, 
+.view-edit form .section .nested-wrap .field
+{
+    width: 380px;
+}
+
+.view-new  form .section .nested-wrap .field input[type="text"],
+.view-new  form .section .nested-wrap .field input[type="password"],
+.view-edit form .section .nested-wrap .field input[type="text"],
+.view-edit form .section .nested-wrap .field input[type="password"]
+.view-new  form .section .nested-wrap .field textarea,
+.view-edit form .section .nested-wrap .field textarea
+{
+    width: 360px;
+}
+
+.view-new  form .section .nested-wrap .field select,
+.view-edit form .section .nested-wrap .field select
+{
+    width: 380px;
+}
+
+.view-new  form .section .nested-wrap .field,
+.view-edit form .section .nested-wrap .field
+{
+    margin-right: 20px;
+}
+
+.view-new  form .section .nested-wrap .field:nth-child(2n),
+.view-edit form .section .nested-wrap .field:nth-child(2n)
+{
+    margin-right: 0;
+}
