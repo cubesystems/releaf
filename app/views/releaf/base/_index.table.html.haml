@@ -12,7 +12,7 @@
 %table.table{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
   %thead
     %tr
-    - if @features[:index_row_tools]
+    - if @features[:index_row_toolbox]
       %th
     - fields_to_display.each do |name|
       - label = t(name.sub(/_(id|uid|html)$/, '').to_s, :scope => controller_scope_name)

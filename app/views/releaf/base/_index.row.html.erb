@@ -1,15 +1,7 @@
 <tr class="row" data-id="<%= resource.id %>">
-  <% if @features[:index_row_tools] %>
-  <td class="tools">
-    <button type="button" class="trigger" title="<%= t('Tools', :scope => 'admin.global') %>">
-      <i class="icon-large icon-cog"></i>
-    </button>
-    <div class="toolbox">
-      <i class="icon-caret-up icon-large"></i>
-      <ul class="block">
-        <%= render :partial => "index.row.tools", :locals => {:resource => resource} %>
-      </ul>
-    </div>
+  <% if @features[:index_row_toolbox] %>
+  <td class="toolbox-cell">
+    <%= render 'toolbox', :resource => resource %>
   </td>
   <% end %>
   <% fields_to_display.each do |name| %>
