@@ -1,7 +1,7 @@
 <tr class="row" data-id="<%= resource.id %>">
   <% if @features[:index_row_tools] %>
   <td class="tools">
-    <button type="button" class="trigger">
+    <button type="button" class="trigger" title="<%= t('Tools', :scope => 'admin.global') %>">
       <i class="icon-large icon-cog"></i>
     </button>
     <div class="toolbox">
