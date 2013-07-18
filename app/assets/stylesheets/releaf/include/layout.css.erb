@@ -338,10 +338,20 @@ body > .side nav > ul > li > .trigger > .name
 
 body > .side nav li li .trigger
 {
-    padding-left: 18px;
     color: #a6a6a6;
     position: relative;
+    padding: 4px 40px 5px 18px;
 }
+
+body > .side nav li li:first-child .trigger
+{
+    padding-top: 10px;
+}
+body > .side nav li li:last-child .trigger
+{
+    padding-bottom: 14px;
+}
+
 body > .side nav li li .trigger i
 {
     position: absolute;
@@ -349,9 +359,19 @@ body > .side nav li li .trigger i
     right: 0px;
     display: none;
 }
+
+body > .side nav li li .trigger.active_item
+{
+    color: #ffffff;
+    background: #383838;
+}
 body > .side nav li li .trigger.active_item i
 {
     display: block;
+    position: absolute;
+    right: -1px;
+    top: 0;
+    font-size: 28px;
 }
 
 
