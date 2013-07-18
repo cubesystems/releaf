@@ -2,7 +2,7 @@
   - if has_template? "_edit.body_top"
     = render 'edit.body_top', :f => f
 
-  .section
+  .section.clearInside
     -#TODO: improve style/html
     -if f.object.errors.any?
       #error_explanation
@@ -10,9 +10,7 @@
         %ul
           - f.object.errors.full_messages.each do |msg|
             %li= msg
-
     = render 'edit.fields', :f => f, :fields => fields_to_display, :view_prefix => 'edit.field'
-    .clear
 
   - if has_template? "_edit.body_bottom"
     = render 'edit.body_bottom', :f => f
