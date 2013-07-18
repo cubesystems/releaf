@@ -3,4 +3,5 @@
     %i.icon-large.icon-cog
   %menu.block.toolbox-items{:type => 'toolbar'}
     %i.icon-large.icon-caret-up
-    = render 'toolbox.items', :resource => resource
+    %ul.block
+      = render 'toolbox.items', :resource => resource
