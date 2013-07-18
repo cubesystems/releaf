@@ -101,6 +101,10 @@ module Releaf
       @resource = resource_class.new
     end
 
+    def show
+      redirect_to url_for( :action => 'edit', :id => params[:id])
+    end
+
     def edit
       raise FeatureDisabled unless @features[:edit]
       @resource = resource_class.includes(relations_for_includes).find(params[:id])
