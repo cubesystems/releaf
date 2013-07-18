@@ -64,18 +64,8 @@ jQuery( document ).ready(function()
                     var new_item = template.clone( false );
 
                     new_item.removeClass( 'template' ).addClass('new');
-                    
-                    // insert new item at the end of the list but before any removed items
-                    var first_removed_item = list.find(item_selector).filter('.removed');
-                    
-                    if (first_removed_item.length > 0)
-                    {
-                        new_item.insertBefore( first_removed_item );
-                    }
-                    else
-                    {
-                        new_item.appendTo( list );                        
-                    }
+
+                    new_item.appendTo( list );                        
                     
                     new_item.trigger( 'nestedfieldsreindex' );
                     
