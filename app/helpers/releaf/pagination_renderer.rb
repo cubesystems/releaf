@@ -49,15 +49,15 @@ module Releaf
       def previous_or_next_page(page, text, classname)
         if page
           if classname == 'previous_page'
-            link('<i class="icon-chevron-left"></i>', page, :class => classname + ' button')
+            link('<i class="icon-chevron-left"></i>', page, :class => classname + ' button secondary')
           else
-            link('<i class="icon-chevron-right"></i>', page, :class => classname + ' button')
+            link('<i class="icon-chevron-right"></i>', page, :class => classname + ' button secondary')
           end
         else
           if classname == 'previous_page'
-            tag(:span, '<i class="icon-chevron-left"></i>', :class => classname + ' button disabled')
+            tag(:span, '<i class="icon-chevron-left"></i>', :class => classname + ' button secondary disabled')
           else
-            tag(:span, '<i class="icon-chevron-right"></i>', :class => classname + ' button disabled')
+            tag(:span, '<i class="icon-chevron-right"></i>', :class => classname + ' button secondary disabled')
           end
         end
       end
