@@ -37,11 +37,7 @@ jQuery(function()
             body.trigger('toolboxcloseall');
 
             var menu = toolbox.data('toolbox-menu');
-            if (!menu)
-            {
-                menu = toolbox.find('menu').first();
-                toolbox.data('toolbox-menu', menu);
-            }     
+  
             toolbox.attr('data-toolbox-open', true);
 
             menu.appendTo( body );
@@ -59,10 +55,6 @@ jQuery(function()
             var toolbox   = jQuery(this);
 
             var menu = toolbox.data('toolbox-menu');
-            if (!menu)
-            {
-                return;
-            }
 
             menu.hide().appendTo( toolbox );
 
@@ -130,6 +122,20 @@ jQuery(function()
         toolboxes.find('.trigger').click(function(e)
         {
             jQuery(this).closest('.toolbox').trigger('toolboxtoggle');
+        });
+        
+        
+        toolboxes.each(function()
+        {
+            var toolbox = jQuery(this);
+
+            var menu = toolbox.find('menu').first();
+            toolbox.data('toolbox-menu', menu);
+            
+            var items = menu.find('li');
+            
+            toolbox.toggleClass('empty', (items.length < 1));
+            
         });
          
     }); 
