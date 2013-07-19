@@ -12,6 +12,8 @@ jQuery(function()
     {
         var target = jQuery(e.target);
 
+        e.stopPropagation();
+        
         var toolboxes;
         if (target.is('.toolbox'))
         {
@@ -21,9 +23,11 @@ jQuery(function()
         {
             toolboxes = target.find('.toolbox');
         }
-        
-        e.stopPropagation();
-        
+
+        if (toolboxes.length < 1)
+        {
+            return;
+        }
     
         toolboxes.bind('toolboxopen', function()
         {
@@ -142,5 +146,12 @@ jQuery(function()
     });
     
     body.trigger('toolboxinit');
+    
+    body.on('contentreplaced', function(e)
+    { 
+        // reinit toolboxes for all content that gets replaced via ajax
+        jQuery(e.target).trigger('toolboxinit');
+        
+    });
     
 });
