@@ -12,6 +12,7 @@ jQuery(function()
                 
         var all_inputs   = jQuery().add(text_inputs).add(other_inputs);
         
+        var submit_buttons = form.find('button[type="submit"]');
                 
         var request;
         var timeout;
@@ -70,7 +71,7 @@ jQuery(function()
 
             timeout = setTimeout(function()
             {
-                form.addClass( 'loading' );
+                submit_buttons.trigger('loadingstart');
                 
                 // construct url
                 var url = new url_builder( false );
@@ -89,9 +90,6 @@ jQuery(function()
                     url: url.getUrl(),
                     success: function( response )
                     {
-                        // remove loading icon
-                        form.removeClass( 'loading' );
-
                         form.trigger('searchresponse', response);
 
                         form.trigger('searchend');
@@ -122,7 +120,7 @@ jQuery(function()
         
         form.on( 'searchend', function( e )
         {
-            form.removeClass( 'loading' );
+            submit_buttons.trigger('loadingend');
         });
 
         var start_search_if_value_changed = function()

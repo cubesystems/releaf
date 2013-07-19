@@ -3,7 +3,12 @@
     .text-search
       .wrapper
         %input{:name => "search", :type => "text", :value => params[:search], :autofocus => true }
-        %button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
+        %button.button.only-icon{:type => "submit", :disabled => !resource_class.respond_to?( :filter ), :title => t('Search', :scope => 'admin.global')}>
           %i.icon-search
       .clear
-  = render :partial => "index.search.extras"
+  - if has_template? "_index.search.extras"
+    .extras
+      = render :partial => "index.search.extras"
+      %button.button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
+        %i.icon-search
+        = t('Filter', :scope => 'admin.global')

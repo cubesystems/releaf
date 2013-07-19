@@ -11,7 +11,7 @@
 {
   float: right;
 }
-.view-index form.search input[type="text"]
+.view-index form.search .text-search input[type="text"]
 {
   color: #acacac;
   font-weight: normal;
@@ -19,18 +19,23 @@
   width: 210px;
   border: 1px solid #e6e6e6;
 }
-.view-index form.search input[name="search"]
+.view-index form.search .text-search input[name="search"]
 {
   border: 2px solid #e6e6e6;
   border-bottom: none;
 }
-.view-index form.search button[type="submit"]
+.view-index .text-search .button
 {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 7px 10px;
+  background: transparent;
+  padding: 5px 10px;
   color: #37b1a7;
+}
+.view-index .text-search .button:hover
+{
+  color: #383838;
 }
 .view-index form.search .extras
 {
