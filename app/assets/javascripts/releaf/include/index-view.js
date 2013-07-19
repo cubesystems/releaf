@@ -4,12 +4,18 @@ jQuery(function()
     {
         var form = jQuery(e.target);
 
-        var input   = form.find('[name="search"]');
+        var text_input_selector  = 'input[type="text"]';
+        var other_input_selector = 'input:not([type="text"]), select';
+
+        var text_inputs  = form.find( text_input_selector  );
+        var other_inputs = form.find( other_input_selector );
+                
+        var all_inputs   = jQuery().add(text_inputs).add(other_inputs);
+        
                 
         var request;
         var timeout;
 
-        var last_query  = input.val();
         
         var options = form.data('search-options');
 
@@ -49,6 +55,12 @@ jQuery(function()
         {
             // cancel previous timeout
             clearTimeout( timeout );
+
+            // store previous values for all inputs
+            all_inputs.each(function()
+            {
+                jQuery(this).data('previous-value', jQuery(this).val());
+            });
 
             // cancel previous unfinished request
             if (request)
@@ -113,35 +125,22 @@ jQuery(function()
             form.removeClass( 'loading' );
         });
 
-
-        input.on( 'keyup',  function()
+        var start_search_if_value_changed = function()
         {
-            if (input.val() == last_query )
+            var input = jQuery(this);
+            
+            var previous_value = input.data('previous-value');
+            
+            if (input.val() == previous_value)
             {
-                return;
-            }
-            last_query = input.val();
-
-            form.trigger( 'searchstart' );
-        });
-
-
-        form.on('change', 'input, select', function( e)
-        {
-            if (
-                (input[0] == e.target)
-                &&
-                (input.val() == last_query )
-            )
-            {
-                // do not trigger searchstart on main input change
-                // if last query is the same
                 return;
             }
             
-            form.trigger('searchstart');
-        });
+            form.trigger( 'searchstart' );            
+        }
 
+        text_inputs.on( 'keyup',  start_search_if_value_changed);
+        all_inputs.on(  'change', start_search_if_value_changed);
 
     });
 
