@@ -1,4 +1,4 @@
-//= require ../../lib/request_url
+//= require ../../lib/url_builder
 
 jQuery(document).ready(function() {
     // var controller_body = jQuery(document.body);
@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
             }
 
 
-            var url = new RequestUrl( a.attr('href') ).add({ajax: 1}).getUrl();
+            var url = new url_builder( a.attr('href') ).add({ajax: 1}).getUrl();
             var new_object_menu_anchor = jQuery('#new_object_menu_anchor')
             if (new_object_menu_anchor.length === 0) {
                 new_object_menu_anchor = jQuery('<div id="new_object_menu_anchor"><div id="new_object_menu" style="display:none;"></div></div>');
@@ -68,7 +68,7 @@ jQuery(document).ready(function() {
             var generate_slug_button = jQuery('button.generate_slug');
 
             var generate_slug = function () {
-                var url = new RequestUrl( generate_slug_button.attr('data-new_slug_url') ).add({name: name_input.attr('value')}).getUrl();
+                var url = new url_builder( generate_slug_button.attr('data-new_slug_url') ).add({name: name_input.attr('value')}).getUrl();
 
                 jQuery.ajax({
                     type:       'GET',

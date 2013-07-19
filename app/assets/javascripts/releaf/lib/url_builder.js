@@ -1,5 +1,5 @@
 // constructor
-function RequestUrl( params )
+function url_builder( params )
 {
 	if( params === undefined )
 	{
@@ -78,7 +78,7 @@ function RequestUrl( params )
 	}
 }
 
-RequestUrl.prototype.add = function( params, value )
+url_builder.prototype.add = function( params, value )
 {
 	if( params instanceof Array )
 	{
@@ -114,7 +114,7 @@ RequestUrl.prototype.add = function( params, value )
 	{
 		if( value === undefined )
 		{
-			var temp = new RequestUrl( '?' + params );
+			var temp = new url_builder( '?' + params );
 			for( var i in temp.query )
 			{
 				this.query[ i ] = temp.query[i];
@@ -128,7 +128,7 @@ RequestUrl.prototype.add = function( params, value )
 	return this;
 }
 
-RequestUrl.prototype.removeAll = function( preserveParams )
+url_builder.prototype.removeAll = function( preserveParams )
 {
     for( var i in this.query )
     {
@@ -140,13 +140,13 @@ RequestUrl.prototype.removeAll = function( preserveParams )
 	return this;
 }
 
-RequestUrl.prototype.remove = function( name )
+url_builder.prototype.remove = function( name )
 {
 	delete this.query[ name ];
 	return this;
 }
 
-RequestUrl.prototype.get = function( name )
+url_builder.prototype.get = function( name )
 {
 	if( this.query[ name ] !== undefined )
 	{
@@ -155,7 +155,7 @@ RequestUrl.prototype.get = function( name )
 	return null;
 }
 
-RequestUrl.prototype.getUrl = function()
+url_builder.prototype.getUrl = function()
 {
 	var query = '';
 	var isFirst = true;

@@ -1,4 +1,4 @@
-//= require ../lib/request_url.js
+//= require ../lib/url_builder
 
 jQuery(function(){
 

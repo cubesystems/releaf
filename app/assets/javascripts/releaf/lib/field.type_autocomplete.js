@@ -1,4 +1,4 @@
-//= require ../lib/request_url
+//= require ../lib/url_builder
 
 YUI().use('node', 'event', 'autocomplete', 'autocomplete-highlighters', function (Y) {
     var init_autocomplete = function(scope) {
@@ -14,7 +14,7 @@ YUI().use('node', 'event', 'autocomplete', 'autocomplete-highlighters', function
                     resultListLocator: 'results',
                     resultTextLocator: 'text',
                     minQueryLength: 1,
-                    source: new RequestUrl(field.getData('autocomplete-url')).add({'q': '{query}'}).getUrl(),
+                    source: new url_builder(field.getData('autocomplete-url')).add({'q': '{query}'}).getUrl(),
                     on: {
                         select: function (itemNode, object) {
                             hidden.set('value', itemNode.result.raw.id);

@@ -73,7 +73,7 @@ jQuery(function()
                 form.addClass( 'loading' );
                 
                 // construct url
-                var url = new RequestUrl( false );
+                var url = new url_builder( false );
                 url.add( form.serializeArray() );
 
                 if ('replaceState' in window.history)
@@ -161,8 +161,8 @@ jQuery(function()
         var val=jQuery(this).val();
         if(val)
         {
-            var request_url = new RequestUrl().add({page: val}).getUrl();
-            window.location.href = request_url;
+            var url = new url_builder().add({page: val}).getUrl();
+            window.location.href = url;
         }
     });
     
