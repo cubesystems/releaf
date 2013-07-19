@@ -1,8 +1,9 @@
-%form.search{:action => url_for( :controller => controller_name, :action => :index ), :title => "#{ resource_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + resource_class.to_s + ' to enable searching' }"}
-  .primary
-    .wrapper
-      %input{:name => "search", :type => "text", :value => params[:search], :autofocus => true }
-      %button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
-        %i.icon-search
-    .clear
+%form.search{:class => (@features[:index_text_search]) ? 'has-text-search' : '', :action => url_for( :controller => controller_name, :action => :index ), :title => "#{ resource_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + resource_class.to_s + ' to enable searching' }"}
+  - if @features[:index_text_search]
+    .text-search
+      .wrapper
+        %input{:name => "search", :type => "text", :value => params[:search], :autofocus => true }
+        %button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
+          %i.icon-search
+      .clear
   = render :partial => "index.search.extras"
