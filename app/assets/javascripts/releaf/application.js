@@ -11,5 +11,4 @@
 //= require tinymce-jquery
 //= require_tree ./include
 //= require ./3rd_party/jquery-ui-timepicker-addon
-//= require ./controllers/base
 //= require ./3rd_party/lightbox
