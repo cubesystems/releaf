@@ -43,7 +43,7 @@ describe "home page" do
       page.should have_content 'john@example.com'
 
       visit '/admin/admins'
-      find('.main > .table tr[data-id="' + Releaf::Admin.last.id.to_s  + '"] td.tools > button').click
+      find('.main > .table tr[data-id="' + Releaf::Admin.last.id.to_s  + '"] .toolbox button.trigger').click
       click_link 'Delete'
       page.should have_content 'Confirm destroy'
       click_button 'Yes'
