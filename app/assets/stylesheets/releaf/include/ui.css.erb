@@ -12,7 +12,9 @@
     padding: 10px 17px;
 
     text-decoration: none;
+    position: relative;
 }
+
 .button i
 {
     padding-right: 5px;
@@ -60,8 +62,29 @@
 }
 
 
+.button.loading
+{
+    color: transparent;
+    opacity: 0.7;
+}
 
 
+.button.loading *
+{
+    visibility: hidden;
+}
+
+.button.loading .loader
+{
+    visibility: visible;
+    
+    padding: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.5em;
+    margin-top:  -0.5em;
+}
 
 
 
