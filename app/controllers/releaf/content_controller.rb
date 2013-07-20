@@ -118,7 +118,6 @@ module Releaf
       respond_to do |format|
         format.html { render :partial => 'get_content_form', :layout => false }
       end
-
     end
 
     def resource_class
@@ -131,7 +130,6 @@ module Releaf
       super
       @features[:show] = false
     end
-
 
     def _node_params
       params.require(:resource).permit!
@@ -174,6 +172,5 @@ module Releaf
     def get_base_models
       @base_models ||= content_type_classes
     end
-
   end
 end

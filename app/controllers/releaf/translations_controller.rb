@@ -55,6 +55,7 @@ module Releaf
       else
         @resource.translations.destroy_all
       end
+
       Settings.i18n_updated_at = Time.now
 
 
@@ -73,13 +74,13 @@ module Releaf
       # Numbers requires this
       p.use_shared_strings = true
 
-      add_group_to_workbook( @resource, p )
+      add_group_to_workbook(@resource, p)
 
       respond_to do |format|
         format.xlsx do
           outstrio = StringIO.new
-          outstrio.write( p.to_stream.read )
-          send_data( outstrio.string, :filename => @resource.scope + '.xlsx' )
+          outstrio.write(p.to_stream.read)
+          send_data(outstrio.string, :filename => @resource.scope + '.xlsx')
         end
       end
     end
@@ -88,11 +89,11 @@ module Releaf
     def import
       @resource = resource_class.find(params[:id])
 
-      require( 'roo' )
+      require('roo')
 
       json = { :sheets => {} }
 
-      xls = Roo::Excelx.new( params[:resource][:import_file].tempfile.path, nil, :ignore )
+      xls = Roo::Excelx.new(params[:resource][:import_file].tempfile.path, nil, :ignore)
 
       xls.each_with_pagename do |name, sheet|
         json[:sheets][name] = {}
@@ -100,20 +101,22 @@ module Releaf
         locales = []
         sheet.row(1).each_with_index do |cell, i|
           if i > 0
-            locales.push( cell )
+            locales.push(cell)
           end
         end
+
         # iterate over data
         (2..sheet.last_row).each do |row_no|
           item = {}
           key = nil
-          sheet.row( row_no ).each_with_index do |cell, i|
+          sheet.row(row_no).each_with_index do |cell, i|
             if i == 0
               key = cell
             else
               item[ locales[ i - 1 ] ] = cell
             end
           end
+
           if !key.blank?
             json[:sheets][name][key] = item
           end
@@ -153,13 +156,11 @@ module Releaf
         translation.key = params[:translation_group][:scope] + '.' + t['key']
         translation.save
 
-
         unless id =~ /\A\d+\z/
           id = translation.id
         end
 
         ids_to_keep.push  id
-
 
         (locales || []).each do |locale|
           translation_data = I18n::Backend::Releaf::TranslationData.find_or_initialize_by_translation_id_and_lang(id, locale)
@@ -171,6 +172,7 @@ module Releaf
           end
         end
       end
+
       return ids_to_keep
     end
 
@@ -178,7 +180,7 @@ module Releaf
       params.require(:resource).permit(:scope)
     end
 
-   def add_group_to_workbook( group, p )
+    def add_group_to_workbook(group, p)
       sheet = p.workbook.add_worksheet(:name => group.scope)
 
       if locales.blank?
@@ -188,16 +190,18 @@ module Releaf
       # title row
       row = [ '' ]
       locales.each do |locale|
-        row.push( locale )
+        row.push(locale)
       end
-      xls_row = sheet.add_row( row )
+
+      xls_row = sheet.add_row(row)
 
       group.translations.each do |translation|
         row = [ translation.plain_key ]
         locales.each do |locale|
-          row.push( translation.locales[locale] )
+          row.push(translation.locales[locale])
         end
-        xls_row = sheet.add_row( row )
+
+        xls_row = sheet.add_row(row)
       end
 
       return sheet

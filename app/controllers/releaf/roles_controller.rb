@@ -25,7 +25,5 @@ module Releaf
       return [] unless %w[update create].include? params[:action]
       return %w[name default_controller permissions]
     end
-
-
   end
 end

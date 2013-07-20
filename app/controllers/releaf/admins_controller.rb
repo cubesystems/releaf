@@ -44,6 +44,5 @@ module Releaf
       return [] unless %w[create update].include? params[:action]
       %w[name surname role_id email password password_confirmation locale]
     end
-
   end
 end

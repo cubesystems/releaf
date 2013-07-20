@@ -22,13 +22,10 @@ module Releaf
       setup
     end
 
-
-
     def autocomplete
       c_obj = resource_class
 
-      if params[:query_field] and params[:q] and params[:field] #and params[:field] =~ /_id\z/ and c_obj.column_names.include?(params[:field]) and c_obj.respond_to?(:reflect_on_association) and c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym)
-
+      if params[:query_field] && params[:q] && params[:field]
         obj = c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym).klass
         obj_fields = obj.column_names
 
@@ -67,7 +64,6 @@ module Releaf
         respond_to do |format|
           format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @resources } }
         end
-
       else
         respond_to do |format|
           format.json { raise }
@@ -91,6 +87,7 @@ module Releaf
           params[:ids].each do |id|
             json[id] = url_for( :action => params[:to_action], :id => id, :only_path => true )
           end
+
           render :json => json, :layout => false
         end
       end
@@ -155,8 +152,6 @@ module Releaf
       end
     end
 
-
-
     # Helper methods ##############################################################################
 
 
@@ -197,7 +192,9 @@ module Releaf
     #     else
     #       return super
     #     end
+
     #   end
+
     #
     # Fields will be rendered in same order as specified in array
     #
@@ -227,7 +224,6 @@ module Releaf
       @resource_class ||= self.class.name.split('::').last.sub(/Controller$/, '').classify.constantize
     end
 
-
     # Cheheck if there is a template in lookup_context with given name.
     #
     # @return `true` or `false`
@@ -244,6 +240,7 @@ module Releaf
       if template.blank?
         return 'blank'
       end
+
       arguments = { :layout => false, :locals => locals, :template => template.virtual_path }
       return render_to_string( arguments ).html_safe
     end
@@ -306,13 +303,12 @@ module Releaf
 
         when /_link$/, 'link'
           field_type = 'link'
-
         else
           field_type = 'text'
         end
 
       when :integer
-        if attribute_name.to_s =~ /_id$/ and obj_class.reflect_on_association( attribute_name[0..-4].to_sym )
+        if attribute_name.to_s =~ /_id$/ && obj_class.reflect_on_association(attribute_name[0..-4].to_sym)
           field_type = 'item'
         else
           field_type = 'text'
@@ -328,7 +324,6 @@ module Releaf
 
         when /_html$/, 'html'
           field_type = 'richtext'
-
         else
           field_type = 'textarea'
         end
@@ -341,18 +336,17 @@ module Releaf
 
       when :time
         field_type = 'time'
-
       else # virtual attributes
         case attribute_name.to_s
         when /(thumbnail|image|photo|picture|avatar|logo|banner|icon)_uid$/
           field_type = 'image'
 
         when /_id$/
-          if obj_class.reflect_on_association( attribute_name[0..-4].to_sym )
+          if obj_class.reflect_on_association(attribute_name[0..-4].to_sym)
             field_type = 'item'
-          else
-            field_type = 'text'
-          end
+        else
+          field_type = 'text'
+        end
 
         when /_uid$/
           field_type = 'file'
@@ -386,11 +380,9 @@ module Releaf
 
         when /_at$/
           field_type = 'datetime'
-
         else
           field_type = 'text'
         end
-
       end
 
       return [field_type || 'text', use_i18n]
@@ -408,10 +400,9 @@ module Releaf
         return :to_text
       else
         Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
-        return fallback
+          return fallback
       end
     end
-
 
     # This helper will return options passed to render 'edit_label'.
     # It will merge in label_options when present
@@ -494,7 +485,6 @@ module Releaf
       return scoped_resources
     end
 
-
     def required_params
       params.require(:resource)
     end
@@ -520,17 +510,16 @@ module Releaf
     #     @fetures[:edit] = false
     #     @resources_per_page = 20
     #   end
+
     def setup
       @features = {
         :edit     => true,
         :create   => true,
         :destroy  => true,
         :index    => true,
-        
         # enable toolbox for each table row
         # it can be unnecessary for read only report like indexes
         :index_row_toolbox   => true,
-        
         # enable text search field if class responds to filter scope
         # some classes may respond to filter but have no textual search
         :index_text_search   => true
@@ -562,7 +551,7 @@ module Releaf
       if args.is_a? Array
         args.each do |attribute|
           resource_class.available_input_locales.each do|locale|
-              attributes << "#{attribute}_#{locale}"
+            attributes << "#{attribute}_#{locale}"
           end
         end
       end
@@ -577,17 +566,18 @@ module Releaf
       rels.push :translations if resource_class.respond_to?(:translations_table_name)
 
       fields_to_display.each do |field|
-        if (field.is_a? String or field.is_a? Symbol) and field =~ /_id$/
+        if (field.is_a?(String) || field.is_a?(Symbol)) && field =~ /_id$/
           reflection_name = field[0..-4].to_sym
         elsif field.is_a? Hash
           field.keys.each do |key|
             if key =~ /_id$/
               reflection_name = key[0..-4].to_sym
             else
-              refleaction_name = key.to_sym
+              reflection_name = key.to_sym
             end
           end
         end
+
         next if reflection_name.blank?
 
         reflection = resource_class.reflect_on_association(reflection_name)
@@ -638,6 +628,7 @@ module Releaf
         else
           flash[:success] = I18n.t('updated', :scope => 'notices.' + controller_scope_name)
         end
+
         success_url = url_for( :action => 'edit', :id => @resource.id )
       else
         flash[:error] = I18n.t('error', :scope => 'notices.' + controller_scope_name)
@@ -651,6 +642,7 @@ module Releaf
             render :json => build_validation_errors(@resource), :status => 422
           end
         end
+
         format.html do
           if result
             redirect_to success_url
@@ -662,36 +654,39 @@ module Releaf
     end
 
     def build_validation_errors resource
-        errors = {}
-        resource.errors.each do |attribute, message|
-            field_id = validation_attribute_field_id resource, attribute
-            unless errors.has_key? attribute
-              errors[field_id] = []
-            end
-            errors[field_id] << {:error => message, :full_message => I18n.t(message, :scope => 'validation.' + controller_scope_name)}
+      errors = {}
+      resource.errors.each do |attribute, message|
+        field_id = validation_attribute_field_id resource, attribute
+        unless errors.has_key? attribute
+          errors[field_id] = []
         end
-        return errors
+
+        errors[field_id] << {:error => message, :full_message => I18n.t(message, :scope => 'validation.' + controller_scope_name)}
+      end
+
+      return errors
     end
 
     def validation_attribute_field_id resource, attribute
-        parts = attribute.to_s.split('.')
-        prefix = "resource"
+      parts = attribute.to_s.split('.')
+      prefix = "resource"
 
-        if parts.length > 1
-          field_name = validation_attribute_nested_field_name resource, parts
-        else
-          field_name = "["
-          field_name += parts[0]
-          # normalize field id for globalize3 attributes without prefix
-          if resource_class.respond_to?(:translations_table_name) and resource_class.translates.include?(attribute.to_sym)
-              field_name += "_#{I18n.default_locale}"
-          end
-          field_name += "]"
-        end
+      if parts.length > 1
+        field_name = validation_attribute_nested_field_name(resource, parts)
+      else
+        field_name = "["
+                       field_name += parts[0]
+                       # normalize field id for globalize3 attributes without prefix
+                       if resource_class.respond_to?(:translations_table_name) && resource_class.translates.include?(attribute.to_sym)
+                         field_name += "_#{I18n.default_locale}"
+                       end
 
-        field_name = prefix + field_name
+                       field_name += "]"
+      end
 
-        return field_name
+      field_name = prefix + field_name
+
+      return field_name
     end
 
     def validation_attribute_nested_field_name resource, parts
@@ -702,25 +697,27 @@ module Releaf
           if parts.length == 2
             field_id += "[" + parts[1] + "]"
           else
-            field_id += validation_attribute_nested_field_name item, parts[1..-1]
+            field_id += validation_attribute_nested_field_name(item, parts[1..-1])
           end
+
           return field_id
         end
+
         index += 1
-     end
+      end
     end
 
     def filter_templates
-      filter_templates_from_hash params
+      filter_templates_from_hash(params)
     end
 
     def filter_templates_from_array arr
       return unless arr.is_a? Array
       arr.each do |item|
         if item.is_a? Hash
-          filter_templates_from_hash item
+          filter_templates_from_hash(item)
         elsif item.is_a? Array
-          filter_templates_from_array item
+          filter_templates_from_array(item)
         end
       end
     end
@@ -730,8 +727,7 @@ module Releaf
       hsk.delete :_template_
       hsk.delete '_template_'
 
-      filter_templates_from_array hsk.values
+      filter_templates_from_array(hsk.values)
     end
-
   end
 end
