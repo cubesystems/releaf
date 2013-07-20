@@ -2,10 +2,10 @@
   .scope-field
     %label{:for => "scope"}= t('scope', :scope => 'admin.releaf_translations') + ":"
     %input#scope{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @resource.scope}/
+  .toolbox-wrap
+    = render 'toolbox', :resource => @resource
 
 .body.inset_box.no_shadow
-
-  -#TODO: improve style/html
   -if f.object.errors.any?
     #error_explanation
       %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"
@@ -55,4 +55,3 @@
     %button.button.add-nested-item{:type => 'button'}
       %i.icon-plus
       = t('Add item', :scope => 'admin.releaf_translations')
-

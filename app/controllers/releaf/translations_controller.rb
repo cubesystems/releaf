@@ -84,6 +84,49 @@ module Releaf
       end
     end
 
+    # TODO: perhaps change this into a collection method
+    def import
+      @resource = resource_class.find(params[:id])
+
+      require( 'roo' )
+
+      json = { :sheets => {} }
+
+      xls = Roo::Excelx.new( params[:resource][:import_file].tempfile.path, nil, :ignore )
+
+      xls.each_with_pagename do |name, sheet|
+        json[:sheets][name] = {}
+        # read locales
+        locales = []
+        sheet.row(1).each_with_index do |cell, i|
+          if i > 0
+            locales.push( cell )
+          end
+        end
+        # iterate over data
+        (2..sheet.last_row).each do |row_no|
+          item = {}
+          key = nil
+          sheet.row( row_no ).each_with_index do |cell, i|
+            if i == 0
+              key = cell
+            else
+              item[ locales[ i - 1 ] ] = cell
+            end
+          end
+          if !key.blank?
+            json[:sheets][name][key] = item
+          end
+        end
+      end
+
+      respond_to do |format|
+        format.json do
+          render :json => json, :layout => false
+        end
+      end
+    end
+
     protected
 
     def setup

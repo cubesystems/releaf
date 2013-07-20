@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
   s.add_dependency 'axlsx'
+  s.add_dependency 'roo', '~> 1.11.2'
 
   # v0.2.0 is broken currently
   s.add_dependency 'strong_parameters', '= 0.1.6'
@@ -55,7 +56,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'yard'
   s.add_development_dependency 'github-markdown', '>= 0.5.3'
   s.add_development_dependency 'redcarpet', '>= 2.2.2'
-  s.add_development_dependency 'roo', '~> 1.11.2'
   # s.add_development_dependency 'guard-yard'
   # s.add_development_dependency 'guard-sping'
 

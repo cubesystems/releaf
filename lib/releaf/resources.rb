@@ -133,6 +133,7 @@ module ActionDispatch::Routing
             releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show] do
               member do
                 get :export
+                post :import
               end
             end
           end

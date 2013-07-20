@@ -5,6 +5,22 @@ describe Releaf::TranslationsController do
     @role = Releaf::Role.first
   end
 
+  describe "#import" do
+    before do
+      @group = I18n::Backend::Releaf::TranslationGroup.create(:scope => "time.formats")
+      @translation = I18n::Backend::Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
+    end
+
+    it "import xsls file for selected translation group", :js => true do
+      visit edit_releaf_translation_group_path(@group)
+      find('.main .toolbox button.trigger').click
+      click_button 'Import'
+      pending("find out how to upload file within capybara-webkit")
+      #Capybara.save_screenshot "shot.png"
+      #attach_file "resource_import_file", File.dirname(__FILE__) + '/../fixtures/time.formats.xlsx', :visible => false
+    end
+  end
+
   describe "#export" do
     before do
       @group = I18n::Backend::Releaf::TranslationGroup.create(:scope => "time.formats")

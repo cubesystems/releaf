@@ -1,4 +1,9 @@
 - unless resource.new_record?
+  - if params[:action] == 'edit'
+    %li
+      %button.button{ :type => :button, :name => :import, 'data-loading' => t('import_loading', :scope => 'admin.releaf_translations') }
+        %i.icon-large.icon-upload
+        = t('import', :scope => 'admin.releaf_translations')
   %li
     %a.button{:href => url_for(:action => 'export', :id => resource.id, :format => 'xlsx')}
       %i.icon-large.icon-download
