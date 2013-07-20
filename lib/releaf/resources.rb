@@ -130,7 +130,11 @@ module ActionDispatch::Routing
           end
 
           if allowed_controllers.nil? or allowed_controllers.include? :translations
-            releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show]
+            releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show] do
+              member do
+                get :export
+              end
+            end
           end
 
           root :to => "home#index"

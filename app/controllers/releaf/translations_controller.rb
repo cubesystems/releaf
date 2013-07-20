@@ -63,6 +63,27 @@ module Releaf
       end
     end
 
+    def export
+      @resource = resource_class.find(params[:id])
+
+      require( 'axlsx' )
+
+      # construct xlsx file
+      p = Axlsx::Package.new
+      # Numbers requires this
+      p.use_shared_strings = true
+
+      add_group_to_workbook( @resource, p )
+
+      respond_to do |format|
+        format.xlsx do
+          outstrio = StringIO.new
+          outstrio.write( p.to_stream.read )
+          send_data( outstrio.string, :filename => @resource.scope + '.xlsx' )
+        end
+      end
+    end
+
     protected
 
     def setup
@@ -114,5 +135,29 @@ module Releaf
       params.require(:resource).permit(:scope)
     end
 
+   def add_group_to_workbook( group, p )
+      sheet = p.workbook.add_worksheet(:name => group.scope)
+
+      if locales.blank?
+        return sheet
+      end
+
+      # title row
+      row = [ '' ]
+      locales.each do |locale|
+        row.push( locale )
+      end
+      xls_row = sheet.add_row( row )
+
+      group.translations.each do |translation|
+        row = [ translation.plain_key ]
+        locales.each do |locale|
+          row.push( translation.locales[locale] )
+        end
+        xls_row = sheet.add_row( row )
+      end
+
+      return sheet
+    end
   end
 end

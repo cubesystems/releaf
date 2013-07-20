@@ -41,6 +41,7 @@ group :development, :test, :demo do
 
   gem 'yard'
   gem 'redcarpet'
+  gem 'roo', '~> 1.11.2'
   # gem 'guard-spin'
   # gem 'guard-cucumber'
   # gem 'guard-yard'
