@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.bindir            = 'bin'
   s.executables       = %w(releaf)
 
-  s.add_dependency 'rails', '= 3.2.12'
+  s.add_dependency 'rails', '= 3.2.13'
   s.add_dependency 'sass-rails', '>= 3.2.5'
   s.add_dependency 'jquery-rails', '= 2.3.0'
   s.add_dependency 'railties', '>= 3.1'
