@@ -20,7 +20,7 @@ end
 
 source "https://rubygems.org"
 
-gem "rails", "3.2.12"
+gem "rails", "3.2.13"
 
 # gems used by releaf
 
@@ -44,6 +44,9 @@ gem 'strong_parameters'
 gem 'tinymce-rails', '~> 3.5.8'
 gem 'tinymce-rails-imageupload'
 gem 'will_paginate', '~> 3.0.4'
+gem 'font-awesome-rails'
+gem 'gravatar_image_tag'
+gem 'jquery-cookie-rails'
 
 gem "unicorn"
 
@@ -150,22 +153,17 @@ else
     raise "RVM ruby lib is currently unavailable."
   end
 
-  rvm_env = "2.0.0@#{app_name}"
+  # create ruby version meta files
+  file ".ruby-version", "ruby-2.0.0"
 
-  # create rvmrc file
-  file ".rvmrc", <<-END
-  rvm #{rvm_env}
-  END
+  # create ruby gemset meta files
+  file ".ruby-gemset", "#{app_name}"
 
   say "Creating RVM gemset #{app_name}"
   RVM.gemset_create app_name
 
-  say "Trusting project's .rvmrc"
-  run "rvm rvmrc trust"
-
   say "Switching to use RVM gemset #{app_name}"
   RVM.gemset_use! app_name
-
 
   if run("gem list --installed bundler", :capture => true) =~ /false/
     run "gem install bundler --no-rdoc --no-ri"
