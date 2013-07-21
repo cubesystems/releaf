@@ -23,30 +23,9 @@ source "https://rubygems.org"
 gem "rails", "3.2.13"
 
 # gems used by releaf
-
-gem "jquery-rails"
-gem "rack-cache", :require => "rack/cache"
-gem 'acts_as_list'
-gem 'awesome_nested_set'
-gem 'devise', '~> 2.1.2'
-gem 'dragonfly', '~>0.9.12'
-gem 'globalize3'
 gem 'easy_globalize3_accessors', :git => 'https://github.com/paneq/easy_globalize3_accessors.git'
-gem 'haml'
-gem 'haml-rails'
-gem 'jquery-rails'
 gem 'releaf', :git => 'git@github.com:cubesystems/releaf.git'
 gem 'mysql2'
-gem 'rack-cache', :require => 'rack/cache'
-gem "rails-settings-cached", "0.2.4"
-gem 'stringex'
-gem 'strong_parameters'
-gem 'tinymce-rails', '~> 3.5.8'
-gem 'tinymce-rails-imageupload'
-gem 'will_paginate', '~> 3.0.4'
-gem 'font-awesome-rails'
-gem 'gravatar_image_tag'
-gem 'jquery-cookie-rails'
 
 gem "unicorn"
 
