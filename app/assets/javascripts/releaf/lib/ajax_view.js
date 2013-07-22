@@ -28,7 +28,7 @@ jQuery(document).ready( function(){
             scrolling       : 'no',
             padding         : 0,
             overlayColor    : '#000000',
-            overlayOpacity  : 0.6
+            overlayOpacity  : 0.5
         }
 
         ajax_view_link.on('click', function(){
@@ -45,6 +45,10 @@ jQuery(document).ready( function(){
                     success: function( data ) {
                         params.content = data;
                         jQuery.fancybox( params );
+                        jQuery(document).on('click', '.fancybox-opened button[data-type="cancel"]', function(){
+                            jQuery.fancybox.close();
+                            return false;
+                        });
                     }
                 });
 

@@ -1,3 +1,17 @@
+:ruby
+  unless params.has_key?(:return_url)
+    if @features[:show]
+      action = url_for( :action => 'show', :id => @resource.id )
+    elsif @features[:edit]
+      action = url_for( :action => 'edit', :id => @resource.id )
+    else
+      action = url_for( :action => 'index' )
+    end
+  else
+    action = prams[:return_url]
+  end
+
+
 .body.outset_box.delete_dialog
   %i.icon-trash
   .dialog
@@ -7,16 +21,9 @@
     = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id ), :as => :resource, :method => :delete do |f|
       %button.button.primary{ :type => 'submit' }
         %i.icon-trash
-        %span= t('yes', :scope => 'admin.global')
-    - if @features[:show]
-      %a.button.secondary{ :href => url_for( :action => 'show', :id => @resource.id ) }
-        %i.icon-ban-circle
-        %span= t('no', :scope => 'admin.global')
-    - elsif @features[:edit]
-      %a.button.secondary{ :href => url_for( :action => 'edit', :id => @resource.id ) }
-        %i.icon-ban-circle
-        %span= t('no', :scope => 'admin.global')
-    - else
-      %a.button.secondary{ :href => url_for( :action => 'index' ) }
+          %span= t('yes', :scope => 'admin.global')
+
+    = form_for @resource, :url => action, :as => :resource, :method => :get do |f|
+      %button.button.secondary{:data => {:type => 'cancel'}, :type => 'submit'}
         %i.icon-ban-circle
         %span= t('no', :scope => 'admin.global')
