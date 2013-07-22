@@ -28,20 +28,4 @@ Releaf.setup do |conf|
    conf.available_locales = ["en"]
   # conf.layout = 'releaf/admin'
   # conf.devise_for 'releaf/admin'
-
-
-  ### Configure YUI
-  # You can, for example put YUI in /public and then point this setting to path
-  # in public that points to yui-min.js, yui-base-min.js or yui-core-min.js.
-  # Or you can point it to different host etc....
-  #
-  # conf.yui_js_url = 'http://yui.yahooapis.com/3.9.1/build/yui-base/yui-base-min.js'
-  #
-  # If you need additional configuration, you can set this in yui_config.
-  # It will be exported as json and assigned to YUI_config.
-  # See http://yuilibrary.com/yui/docs/api/classes/config.html#properties
-  # for more info
-  #
-  # conf.yui_config = {}
-
 end
