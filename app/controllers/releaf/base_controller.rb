@@ -630,8 +630,6 @@ module Releaf
         end
 
         success_url = url_for( :action => 'edit', :id => @resource.id )
-      else
-        flash[:error] = I18n.t('error', :scope => 'notices.' + controller_scope_name)
       end
 
       respond_to do |format|
@@ -647,6 +645,7 @@ module Releaf
           if result
             redirect_to success_url
           else
+            flash[:error] = I18n.t('error', :scope => 'notices.' + controller_scope_name)
             render :action => html_render_action
           end
         end
