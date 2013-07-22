@@ -7,4 +7,4 @@
   %li
     %a.button{:href => url_for(:action => 'export', :id => resource.id, :format => 'xlsx')}
       %i.icon-large.icon-download
-      = t('Export', :scope => controller_name)
+      = t('export', :scope => controller_scope_name)
