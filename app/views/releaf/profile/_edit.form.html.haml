@@ -1,0 +1,4 @@
+= form_for resource, :as => :resource, :url => releaf_profile_path, :html => {:multipart => true, 'data-validation-url' => releaf_profile_validate_path} do |f|
+  = render "edit.header", :resource => resource
+  = render "edit.body", :f => f
+  = render "edit.footer", :resource => resource

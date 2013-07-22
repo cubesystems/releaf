@@ -11,6 +11,5 @@ FactoryGirl.define do
       default_controller "releaf/content"
       permissions ['releaf/content']
     end
-
   end
 end

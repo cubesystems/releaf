@@ -123,6 +123,12 @@ module ActionDispatch::Routing
           releaf_resources :admins if (allowed_controllers.nil? or allowed_controllers.include? :admins)
           releaf_resources :roles if (allowed_controllers.nil? or allowed_controllers.include? :roles)
 
+          if allowed_controllers.nil? or allowed_controllers.include? :admins
+            get "profile", to: "profile#edit"
+            put "profile", to: "profile#update"
+            put "profile/validate", to: "profile#validate"
+          end
+
           if allowed_controllers.nil? or allowed_controllers.include? :content
             releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
               get :generate_url, :on => :collection
