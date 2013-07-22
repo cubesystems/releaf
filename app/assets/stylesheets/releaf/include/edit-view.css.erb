@@ -14,24 +14,27 @@ body.side-compact .main > .edit_resource > footer
 .view-new form .section,
 .view-edit form .section
 {
-  max-width: 860px;
+  max-width: 888px;
   border: 1px solid #d4d4d4;
-  padding: 10px 29px 30px 29px;
+  padding: 10px 0 30px 29px;
 }
 .view-new form .section .field,
 .view-edit form .section .field
 {
   padding: 8px 0;
   float: left;
-  width: 412px;
-  margin-right: 36px;
+  width: 410px;
+  margin-right: 34px;
+  position: relative;
 }
 
-.view-new form .section .field:nth-child(2n),
-.view-edit form .section .field:nth-child(2n)
+.view-new  form .section .field.type_richtext,
+.view-edit form .section .field.type_richtext
 {
-    margin-right: 0;
+  width: 854px;
 }
+
+
 
 .view-new form .section .field .value,
 .view-edit form .section .field .value
@@ -69,17 +72,19 @@ body.side-compact .main > .edit_resource > footer
 .view-edit form .section .field input[type="text"],
 .view-edit form .section .field input[type="password"]
 {
-  width: 380px;
+  box-sizing: border-box;
+  width: 410px;
 }
 .view-new form .section .field textarea,
 .view-edit form .section .field textarea
 {
-  width: 392px;
+  box-sizing: border-box;
+  width: 410px;
 }
 .view-new form .section .field select,
 .view-edit form .section .field select
 {
-  width: 412px;
+  width: 410px;
 }
 .view-new form .section .field.type_richtext,
 .view-edit form .section .field.type_richtext,

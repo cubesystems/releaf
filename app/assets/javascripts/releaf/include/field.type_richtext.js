@@ -40,6 +40,7 @@ jQuery(function()
 		relative_urls : false,
 		theme_advanced_resizing : true,
 		object_resizing : false,
+        width: 854,
 		//content_css: '/styles/textFormat.css',
 		init_instance_callback: function( instance )
 		{
