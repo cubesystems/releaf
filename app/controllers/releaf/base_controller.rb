@@ -125,11 +125,13 @@ module Releaf
 
     def create
       raise FeatureDisabled unless @features[:create]
+      @resource = resource_class.new
       save_and_respond :create
     end
 
     def update
       raise FeatureDisabled unless @features[:edit]
+      @resource = resource_class.find(params[:id])
       save_and_respond :update
     end
 
@@ -610,13 +612,11 @@ module Releaf
 
     def save_and_respond request_type
       if request_type == :create
-        @resource = resource_class.new
         @resource.assign_attributes required_params.permit(*resource_params)
         result = @resource.save
 
         html_render_action = "new"
       elsif request_type == :update
-        @resource = resource_class.find(params[:id])
         result = @resource.update_attributes required_params.permit(*resource_params)
 
         html_render_action = "edit"
