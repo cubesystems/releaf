@@ -1,12 +1,181 @@
-jQuery(document).ready(function() {
-    jQuery('form').on('click', 'button[data-locale]', function(e) {
-        var form = jQuery(e.delegateTarget);
-        var button = jQuery(e.currentTarget);
-        var locale = button.attr('data-locale')
-
-        form.find('.localization[data-locale]').hide();
-        form.find('button[data-locale]').removeClass('active');
-        form.find('button[data-locale="' + locale + '"]').addClass('active');
-        form.find('.localization[data-locale="' + locale + '"]').show();
+jQuery(function()
+{
+    var body = jQuery('body');    
+    
+    var overlay = jQuery('<div />').addClass('localization-menu-overlay').appendTo(body);
+    overlay.bind('click', function()
+    {
+        body.trigger('localizationmenucloseall');
     });
+    
+    body.bind('localizationinit', function(e)
+    {
+        var target = jQuery(e.target);
+
+        e.stopPropagation();
+        
+        var fields;
+        if (target.is('.field.i18n'))
+        {
+            fields = target;
+        }
+        else
+        {
+            fields = target.find('.field.i18n');
+        }
+
+        if (fields.length < 1)
+        {
+            return;
+        }
+    
+        fields.bind('localizationmenuopen', function()
+        {
+            var field  = jQuery(this);
+
+            // close all other open menus
+            body.trigger('localizationmenucloseall');
+
+            var menu = field.data('localization-menu');
+  
+            field.attr('data-localization-menu-open', true);
+
+            menu.appendTo( body );
+            
+            field.trigger('localizationmenuposition');
+
+            overlay.show();
+
+            menu.show();
+
+            return;        
+        });
+
+        fields.bind('localizationmenuclose', function()
+        {
+            var field   = jQuery(this);
+
+            var menu = field.data('localization-menu');
+
+            var localization_switch = field.data('localization-switch');
+            
+            menu.hide().appendTo( localization_switch );
+
+            overlay.hide();
+
+            field.removeAttr('data-localization-menu-open');
+
+            return;
+        });
+
+        fields.bind('localizationmenutoggle', function()
+        {
+            var field  = jQuery(this);
+            var event = (field.attr('data-localization-menu-open')) ? 'localizationmenuclose' : 'localizationmenuopen';
+            field.trigger( event );
+        });
+
+        fields.bind('localizationmenuposition', function()
+        {
+            var field   = jQuery(this);
+            if (!field.attr('data-localization-menu-open'))
+            {
+                return;
+            }
+
+            var menu = field.data('localization-menu');
+
+            var trigger        = field.data('localization-switch-trigger');
+            
+            var triggerOffset  = trigger.offset();
+
+            console.log( triggerOffset );
+            
+            menu.css
+            ({
+                left:  triggerOffset.left + trigger.outerWidth() - menu.outerWidth() ,
+                top :  triggerOffset.top + trigger.outerHeight(),
+            });         
+
+        });
+    
+        fields.find('.localization-switch .trigger').click(function(e)
+        {
+            jQuery(this).closest('.field.i18n').trigger('localizationmenutoggle');
+        });
+        
+        
+        fields.find('.localization-menu-items button').click(function(e)
+        {
+            var button = jQuery(this);
+            var locale  = button.attr('data-locale');
+            var menu    = button.closest('.localization-menu-items');
+            var field   = menu.data('field');
+            var form    = field.closest('form');
+            
+            body.trigger('localizationmenucloseall');
+            
+            form.find('.field.i18n').trigger('localizationsetlocale', { locale : locale })
+        });
+        
+        
+        fields.bind('localizationsetlocale', function( e, params )
+        {
+            var field = jQuery(this);
+            
+            var locale = params.locale;
+            
+            var localization_boxes = field.find('.localization[data-locale]');
+            
+            var target_box  = localization_boxes.filter('[data-locale="' + locale + '"]');
+            var other_boxes = localization_boxes.not( target_box );
+            
+            target_box.addClass('active');
+            other_boxes.removeClass('active');
+            
+            var trigger_label = field.find('.localization-switch .trigger .label');
+            
+            trigger_label.text( locale );
+            
+        });
+        
+        
+
+        
+        fields.each(function()
+        {
+            var field = jQuery(this);
+
+            var localization_switch = field.find('.localization-switch').first();
+            
+            field.data('localization-switch', localization_switch );
+            
+            field.data('localization-switch-trigger', localization_switch.find('.trigger').first() );
+            
+            var menu = localization_switch.find('menu').first();
+            
+            field.data('localization-menu', menu);
+            
+            menu.data('field', field);
+
+        });
+        
+    }); 
+
+    body.bind('localizationmenucloseall', function()
+    {
+        body.find('.field.i18n[data-localization-menu-open]').trigger('localizationmenuclose');        
+    });
+    
+    body.trigger('localizationinit');
+    
+    body.on('contentreplaced', function(e)
+    { 
+        // reinit localization for all content that gets replaced via ajax
+        jQuery(e.target).trigger('localizationinit');
+        
+    });
+
 });
+
+

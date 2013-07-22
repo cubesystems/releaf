@@ -1,22 +1,12 @@
 :ruby
-  label_opts  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_html$/, '').to_s }
-  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 75, :class => "richtext" }
-  field_attrs = get_template_field_attributes local_assigns
+  field_attrs                 = get_template_field_attributes local_assigns
 
-  default_locale = @resource.class.available_input_locales.first
+  local_assigns[:label_opts]  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_html$/, '').to_s }
+  local_assigns[:input_attrs] = get_template_input_attributes local_assigns, { :rows => 5, :cols => 75, :class => "richtext" }
+
+  local_assigns[:resource]    = @resource
+  local_assigns[:field_type]  = 'text_area'
+
 
 .field.type_richtext.i18n{field_attrs}
-  - @resource.class.available_input_locales.each_with_index do |locale, i|
-    - translation_name = "#{name}_#{locale}"
-    - is_default_locale = locale == default_locale
-
-    .localization{:"data-locale" => locale, :style => is_default_locale ? nil : 'display:none'}
-      = render "edit.field_label", label_opts
-      .value
-        = f.text_area translation_name, input_attrs
-      .clear
-
-  .localization_buttons
-    - @resource.class.available_input_locales.each_with_index do |locale, i|
-      - is_default_locale = locale == default_locale
-      %button{:type => :button, :"data-locale" => locale, :class => is_default_locale ? :active : nil}= locale
+  = render :partial => 'edit.field_localization', :locals => local_assigns 

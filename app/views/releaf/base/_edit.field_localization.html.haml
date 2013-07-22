@@ -1,0 +1,26 @@
+:ruby
+  default_locale = resource.class.available_input_locales.first
+
+- resource.class.available_input_locales.each_with_index do |locale, i|
+  - translation_name = "#{name}_#{locale}"
+  - is_default_locale = locale == default_locale
+
+  .localization{:'data-locale' => locale, :class => is_default_locale ? "active" : nil}
+    = render "edit.field_label", label_opts
+    .value
+      = f.send(field_type, translation_name, input_attrs)
+    .clear
+
+
+.localization-switch
+  %button.trigger{:type => 'button', :title => t('Switch locale', :scope => 'admin.global')}
+    %span.label
+      = default_locale
+    %i.icon-chevron-down
+  %menu.block.localization-menu-items{:type => 'toolbar'}
+    %ul.block
+    - resource.class.available_input_locales.each_with_index do |locale, i|
+      - is_default_locale = locale == default_locale
+      %li
+        %button{:type => :button, :'data-locale' => locale, }= locale
+      
