@@ -1,12 +1,12 @@
 require 'spec_helper'
-describe Releaf::ProfileController do
+describe Releaf::AdminProfileController do
   before do
     auth_as_admin
     @admin = Releaf::Admin.last
   end
 
   it "update current user profile with new values", :js => true do
-    visit releaf_profile_path
+    visit releaf_admin_profile_path
 
     within("form.edit_resource") do
       fill_in 'Name',    :with => "Will"
@@ -24,7 +24,7 @@ describe Releaf::ProfileController do
   end
 
   it "update user password", :js => true do
-    visit releaf_profile_path
+    visit releaf_admin_profile_path
 
     within("form.edit_resource") do
       fill_in 'Password', :with => "newpassword123", :match => :prefer_exact
@@ -48,7 +48,7 @@ describe Releaf::ProfileController do
   it "do not update user role", :js => true do
     content_role = FactoryGirl.create(:content_role)
 
-    visit releaf_profile_path
+    visit releaf_admin_profile_path
     # inject role_id to profile form
     inject_script = 'jQuery("form.edit_resource").append(\'<input type="text" name="resource[role_id]" value="' + content_role.id.to_s + '" />\');'
     page.evaluate_script(inject_script)

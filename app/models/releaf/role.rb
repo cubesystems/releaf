@@ -48,7 +48,7 @@ module Releaf
       if controller_name ==  "releaf/tinymce_assets"
         controller_name = "releaf/content"
       # always allow access to profile controller
-      elsif controller_name == 'releaf/profile'
+      elsif controller_name == 'releaf/admin_profile'
         return true
       # always allow access to home controller, so we can route user to default controller
       elsif controller_name == 'releaf/home'

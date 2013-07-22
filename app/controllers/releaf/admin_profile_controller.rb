@@ -1,8 +1,8 @@
 module Releaf
-  class ProfileController < BaseController
+  class AdminProfileController < BaseController
 
     def resource_class
-      Releaf::Admin
+      Releaf.devise_for.classify.constantize
     end
 
     def update
@@ -16,32 +16,15 @@ module Releaf
     end
 
     def fields_to_display
-      fields = super - %w[
-        authentication_token
-        confirmation_sent_at
-        confirmation_token
-        confirmed_at
-        current_sign_in_at
-        current_sign_in_ip
-        encrypted_password
-        failed_attempts
-        last_sign_in_at
-        last_sign_in_ip
-        locked_at
-        remember_created_at
-        reset_password_sent_at
-        reset_password_token
-        sign_in_count
-        unconfirmed_email
-        unlock_token
-        role_id
+      return %w[
+        name
+        surname
+        locale
+        email
+        password
+        password_confirmation
       ]
-
-      fields += ['password', 'password_confirmation']
-
-      return fields
     end
-
 
     protected
 
