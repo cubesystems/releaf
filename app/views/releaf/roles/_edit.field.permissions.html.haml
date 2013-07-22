@@ -1,9 +1,9 @@
 - Releaf.available_admin_controllers.each do |controller_name|
   :ruby
-    if @resource.new_record?
-      checked = false
-    else
+    unless @resource.permissions.nil?
       checked = @resource.permissions.include?(controller_name)
+    else
+      checked = false
     end
   .field.type_boolean{ 'data-name' => controller_name }
     .value
