@@ -104,14 +104,17 @@ module Releaf
 
     def edit
       raise FeatureDisabled unless @features[:edit]
-      @resource = resource_class.includes(relations_for_includes).find(params[:id])
+      # load resource only if is not loaded yet
+      @resource = resource_class.includes(relations_for_includes).find(params[:id]) if @resource.nil?
     end
 
     def validate
       if params[:id].nil?
+        # load resource only if is not loaded yet
         @resource = resource_class.new
       else
-        @resource = resource_class.includes(relations_for_includes).find(params[:id])
+        # load resource only if is not loaded yet
+        @resource = resource_class.includes(relations_for_includes).find(params[:id]) if @resource.nil?
       end
 
       @resource.assign_attributes required_params.permit(*resource_params)
@@ -125,13 +128,11 @@ module Releaf
 
     def create
       raise FeatureDisabled unless @features[:create]
-      @resource = resource_class.new
       save_and_respond :create
     end
 
     def update
       raise FeatureDisabled unless @features[:edit]
-      @resource = resource_class.find(params[:id])
       save_and_respond :update
     end
 
@@ -612,11 +613,15 @@ module Releaf
 
     def save_and_respond request_type
       if request_type == :create
+        # load resource only if is not loaded yet
+        @resource = resource_class.new if @resource.nil?
         @resource.assign_attributes required_params.permit(*resource_params)
         result = @resource.save
 
         html_render_action = "new"
       elsif request_type == :update
+        # load resource only if is not loaded yet
+        @resource = resource_class.find(params[:id]) if @resource.nil?
         result = @resource.update_attributes required_params.permit(*resource_params)
 
         html_render_action = "edit"
