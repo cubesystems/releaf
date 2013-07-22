@@ -16,7 +16,7 @@ describe Releaf::AdminProfileController do
     end
     click_button 'Save'
 
-    expect(page).to have_content 'Updated'
+    page.should have_content 'Updated'
     expect(find_field('Name').value).to eq('Will')
     expect(find_field('Surname').value).to eq('Smith')
     expect(find_field('Email').value).to eq('will@example.com')
@@ -42,7 +42,7 @@ describe Releaf::AdminProfileController do
       fill_in 'Password', :with => "newpassword123"
     end
     click_button 'Sign in'
-    expect(page).to have_css('header > ul > li.sign-out > form > button')
+    page.should have_css('header > ul > li.sign-out > form > button')
   end
 
   it "do not update user role", :js => true do
@@ -54,7 +54,7 @@ describe Releaf::AdminProfileController do
     page.evaluate_script(inject_script)
     click_button 'Save'
 
-    expect(page).to have_content 'Updated'
-    expect(page).to have_content 'Permissions'
+    page.should have_content 'Updated'
+    page.should have_content 'Permissions'
   end
 end
