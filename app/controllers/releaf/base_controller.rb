@@ -139,6 +139,7 @@ module Releaf
     def confirm_destroy
       raise FeatureDisabled unless @features[:destroy]
       @resource = resource_class.find(params[:id])
+      render :layout => false if params.has_key?(:ajax)
     end
 
     def destroy
