@@ -96,12 +96,18 @@ body.side-compact .main > .edit_resource > footer
   margin-left: 0;
 }
 
-.view-new form .section .field.has_error select,
-.view-new form .section .field.has_error input[type="text"],
-.view-new form .section .field.has_erro input[type="password"],
-.view-edit form .section .field.has_error select,
-.view-edit form .section .field.has_error input[type="text"],
-.view-edit form .section .field.has_erro input[type="password"]
+.view-new  form .section .field.has_error:not(.i18n) select,
+.view-new  form .section .field.has_error:not(.i18n) input[type="text"],
+.view-new  form .section .field.has_error:not(.i18n) input[type="password"],
+.view-edit form .section .field.has_error:not(.i18n) select,
+.view-edit form .section .field.has_error:not(.i18n) input[type="text"],
+.view-edit form .section .field.has_error:not(.i18n) input[type="password"],
+.view-new  form .section .field.i18n.has_error .localization.has_error select,
+.view-new  form .section .field.i18n.has_error .localization.has_error input[type="text"],
+.view-new  form .section .field.i18n.has_error .localization.has_error input[type="password"],
+.view-edit form .section .field.i18n.has_error .localization.has_error select,
+.view-edit form .section .field.i18n.has_error .localization.has_error input[type="text"],
+.view-edit form .section .field.i18n.has_error .localization.has_error input[type="password"]
 {
   border: 1px solid #f00a0a;
 }

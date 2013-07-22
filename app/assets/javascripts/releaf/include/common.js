@@ -46,14 +46,17 @@ jQuery(function(){
 
     });
 
-        // define validation handlers
+    // define validation handlers
     jQuery( document ).on( 'validationinit', 'form', function( event )
     {
         if (event.isDefaultPrevented())
         {
             return;
         }
-
+            
+        // selector for field input matching 
+        var input_selector = 'input[type!="hidden"],textarea,select'; 
+        
         var form = jQuery(event.target);
 
         form.data( 'validator', new Validator(form, { ui : false } ));
@@ -70,6 +73,7 @@ jQuery(function(){
         {
             // remove all errors left from earlier validations
             var last_validation_id = form.attr( 'data-validation-id' );
+
 
             if (event_params.validation_id != last_validation_id)
             {
@@ -89,6 +93,10 @@ jQuery(function(){
                 {
                     error_box.remove();
                     field.removeClass('has_error');
+                    if (field.is('.i18n'))
+                    {
+                        field.find('.localization').removeClass('has_error');
+                    }
                 }
 
             });
@@ -119,13 +127,15 @@ jQuery(function(){
                 }
             }
 
-
-
             // if error fields still exist, focus to first visible
-            var focus_target = form.find('.field.has_error').find('input[type!="hidden"],textarea,select').filter(':visible').first();
-
-            focus_target.focus();
-
+            
+            // locate first input inside visible error fields, 
+            // but for i18n fields exclude inputs inside .localization without .has_error
+            
+            var focus_target = form.find('.field.has_error').filter(':visible').find(input_selector).not('.localization:not(.has_error) *').first();
+            
+            focus_target.focus(); 
+            
             // :TODO: remove loader
         });
 
@@ -134,8 +144,8 @@ jQuery(function(){
         {
             var error = event_params.error;
             var target = jQuery(event.target);
-
-            if (target.is('input[type!="hidden"],textarea,select'))
+            
+            if (target.is(input_selector))
             {
                 var field_box = target.parents('.field').first();
                 if (field_box.length != 1)
@@ -156,7 +166,13 @@ jQuery(function(){
                 error_node.text( error.message );
 
                 field_box.addClass('has_error');
-
+                
+                if (field_box.is('.i18n'))
+                {
+                    var localization_box = target.closest('.localization');
+                    localization_box.addClass('has_error');
+                }
+                
             }
             else if (target.is('form'))
             {

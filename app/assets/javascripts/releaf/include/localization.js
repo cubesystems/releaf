@@ -111,15 +111,16 @@ jQuery(function()
             var locale  = button.attr('data-locale');
             var menu    = button.closest('.localization-menu-items');
             var field   = menu.data('field');
-            var form    = field.closest('form');
+            var localization_box = field.find('.localization[data-locale="' + locale + '"]');
             
             body.trigger('localizationmenucloseall');
             
-            form.find('.field.i18n').trigger('localizationsetlocale', { locale : locale })
+            localization_box.trigger('localizationlocaleactivate');
+
         });
         
         
-        fields.bind('localizationsetlocale', function( e, params )
+        fields.bind('localizationlocaleset', function( e, params )
         {
             var field = jQuery(this);
             
@@ -139,9 +140,25 @@ jQuery(function()
             
         });
         
+        fields.find('.localization').bind('localizationlocaleactivate', function(e)
+        {
+            var localization_box = jQuery(this);
+            var locale = localization_box.attr('data-locale');
+            
+            var form   = localization_box.closest('form');
+            form.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
+   
+        });
         
-
-        
+        fields.find('input[type!="hidden"],textarea,select').focus(function(e) 
+        { 
+            var localization_box = jQuery(this).closest('.localization');
+            if (!localization_box.is('.active'))
+            {
+                localization_box.trigger('localizationlocaleactivate');
+            }
+        });
+  
         fields.each(function()
         {
             var field = jQuery(this);
