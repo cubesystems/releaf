@@ -1,5 +1,5 @@
 //= require ../3rd_party/jquery.fancybox.js
-//= require ./url_builder.js
+//= require ./url_builder
 
 /** init **/
 jQuery(document).ready( function(){
