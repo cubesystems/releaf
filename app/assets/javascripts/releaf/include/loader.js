@@ -15,7 +15,6 @@ jQuery(function()
         button.data('disabled-before-loading', button.prop('disabled') );
         
         button.prop('disabled', true);
-        button.addClass( 'disabled' );
         
         var loader = jQuery('<i />').addClass('loader icon-spin icon-spinner');
         button.append( loader );
@@ -34,7 +33,6 @@ jQuery(function()
         {
             if (!disabled_before_loading)
             {
-                button.removeClass('disabled');
                 button.prop('disabled', false);
             }
         }
