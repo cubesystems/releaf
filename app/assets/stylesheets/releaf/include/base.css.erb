@@ -3,18 +3,12 @@ html, body
 	margin:  0;
 	padding: 0;
   position: relative;
-  font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
 }
 
 body, input, select, textarea, button, pre
 {
 	font-family: Arial, helvetica, sans-serif;
   font-size:   100%;
-}
-
-pre
-{
-  font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Courier New', Courier, monospace;
 }
 
 html
@@ -30,8 +24,8 @@ body
 
 body
 {
-    font-size:   14px;    
-    line-height: 1.5; 
+    font-size:   14px;
+    line-height: 1.5;
     background-color: #FFFFFF;
     color: #1d1d1d;
 }
@@ -80,6 +74,7 @@ p
 
 .header
 {
+  font-family: 'robotoregular';
   font-weight: normal;
   color: #fff;
   font-size: 20px;
@@ -88,11 +83,15 @@ p
   margin-top: 20px;
   position: relative;
 }
+.header *
+{
+	font-family: Arial, helvetica, sans-serif;
+}
 
 .subheader
 {
     font-size: 20px;
-    font-weight: normal;    
+    font-weight: normal;
     color: #1d1d1d;
     background: transparent;
     padding: 12px 0 7px 0;
