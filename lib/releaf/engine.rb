@@ -15,6 +15,7 @@ require 'awesome_nested_set'
 require 'devise'
 require 'dragonfly'
 require 'globalize3'
+require 'easy_globalize3_accessors'
 
 module Releaf
   class Engine < ::Rails::Engine

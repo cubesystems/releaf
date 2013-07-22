@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-cookie-rails'
   s.add_dependency 'axlsx'
   s.add_dependency 'roo', '~> 1.11.2'
+  s.add_dependency 'easy_globalize3_accessors', '~> 1.3.0'
 
   # v0.2.0 is broken currently
   s.add_dependency 'strong_parameters', '= 0.1.6'

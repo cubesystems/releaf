@@ -23,7 +23,6 @@ source "https://rubygems.org"
 gem "rails", "3.2.13"
 
 # gems used by releaf
-gem 'easy_globalize3_accessors', :git => 'https://github.com/paneq/easy_globalize3_accessors.git'
 gem 'releaf', :git => 'git@github.com:cubesystems/releaf.git'
 gem 'mysql2'
 
