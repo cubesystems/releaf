@@ -7,15 +7,17 @@ module I18n
 
         self.table_name = "releaf_translations"
 
-        validates_presence_of :group_id, :key
+        validates_presence_of :translation_group, :key
         validates_uniqueness_of :key
 
-        belongs_to :translation_group, :foreign_key => :group_id
-        has_many :translation_data, :dependent => :destroy, :class_name => 'Releaf::TranslationData'
+        belongs_to :translation_group, :foreign_key => :group_id, :inverse_of => :translations
+        has_many :translation_data, :dependent => :destroy, :class_name => 'Releaf::TranslationData', :inverse_of => :translation
+        accepts_nested_attributes_for :translation_data, :allow_destroy => true
 
         attr_accessible \
           :group_id,
-          :key
+          :key,
+          :translation_data_attributes
 
         scope :filter, lambda{ |params|
           translations_join = 'LEFT OUTER JOIN `releaf_translation_data` ON `releaf_translations`.`id` = `releaf_translation_data`.`translation_id`'

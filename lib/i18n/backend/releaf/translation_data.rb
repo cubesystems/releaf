@@ -7,10 +7,10 @@ module I18n
 
         self.table_name = "releaf_translation_data"
 
-        validates_presence_of :translation_id, :lang
+        validates_presence_of :translation, :lang
         validates_uniqueness_of :translation_id, :scope => :lang
 
-        belongs_to :translation
+        belongs_to :translation, :inverse_of => :translation_data
 
         attr_accessible \
           :lang,

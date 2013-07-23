@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe I18n::Backend::Releaf::TranslationData do
 
-  it { should have(1).error_on(:translation_id) }
+  it { should have(1).error_on(:translation) }
   it { should have(1).error_on(:lang) }
   it {
     FactoryGirl.create(:translation_data)
