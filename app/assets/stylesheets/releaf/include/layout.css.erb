@@ -216,7 +216,7 @@ body.side-compact > .side nav li .trigger
 {
     padding-right: 20px;
 }
-body.side-compact > .side nav > ul > li:hover > .trigger .name
+body.side-compact > .side nav > ul > li.open > .trigger .name
 {
     position: absolute;
     top: 0;
@@ -228,7 +228,7 @@ body.side-compact > .side nav > ul > li:hover > .trigger .name
     background: #000;
 }
 
-body.side-compact > .side nav > ul > li:hover > .trigger
+body.side-compact > .side nav > ul > li.open > .trigger
 {
     background-color: #050505;
     color: #fff;
@@ -239,7 +239,7 @@ body.side-compact > .side nav > ul > li.active > .trigger .name
 {
     background-color: #37b1a7;
 }
-body.side-compact > .side nav > ul > li:hover > ul
+body.side-compact > .side nav > ul > li.open > ul
 {
     position: absolute;
     top: 39px;
@@ -252,9 +252,20 @@ body.side-compact > .side nav > ul > li > ul
 {
     display: none;
 }
-body.side-compact > .side nav > ul > li:hover > ul .name
+body.side-compact > .side nav > ul > li.open > ul .name
 {
     display: block;
+}
+body > .side-compact-overlay
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: none;
+
 }
 
 
