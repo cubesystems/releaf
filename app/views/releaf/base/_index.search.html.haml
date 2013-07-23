@@ -7,7 +7,7 @@
           %i.icon-search
       .clear
   - if has_template? "_index.search.extras"
-    .extras
+    .extras.clearInside
       = render :partial => "index.search.extras"
       %button.button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
         %i.icon-search
