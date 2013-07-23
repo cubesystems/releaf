@@ -641,7 +641,7 @@ module Releaf
       respond_to do |format|
         format.json  do
           if result
-            render :json => {:url => success_url}, :status => 303
+            render :json => {:url => success_url, :message => flash[:success]}, :status => 303
           else
             render :json => build_validation_errors(@resource), :status => 422
           end
