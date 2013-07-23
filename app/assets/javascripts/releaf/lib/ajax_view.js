@@ -21,18 +21,24 @@ jQuery(document).ready( function(){
         modal = (typeof modal != 'undefined' && modal == "1") ? true : false;
 
         var params = {
-            modal           : modal,
-            autoDimensions  : true,
-            autoScale       : true,
-            centerOnScroll  : true,
-            scrolling       : 'no',
-            padding         : 0,
-            overlayColor    : '#000000',
-            overlayOpacity  : 0.5
+            autoDimensions    : true,
+            autoScale         : true,
+            centerOnScroll    : true,
+            scrolling         : 'no',
+            padding           : 0,
+            overlayColor      : '#000000',
+            overlayOpacity    : 0.5
+        }
+
+        // If modal, disable closeClicks and closeButton
+        if (modal)
+        {
+            params['closeBtn'] = false;
+            params['closeClick'] = false;
+            params['helpers'] = {overlay: {closeClick: false}};
         }
 
         ajax_view_link.on('click', function(){
-
             ajax_xhr ? ajax_xhr.abort() : null;
 
             if (jQuery(this).attr('href'))
