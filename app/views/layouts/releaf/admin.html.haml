@@ -65,6 +65,7 @@
         %footer
           CUBE
       .main{:id => "main"}= yield
+      .notifications{:'data-close-text' => t(:close, :scope => "admin.global")}
     - else
       = yield
 
