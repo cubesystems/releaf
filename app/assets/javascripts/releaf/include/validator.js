@@ -81,15 +81,16 @@ var Validator = function( nodeOrSelector, options )
                     case 303:
                         // validation + saving ok
                         try {
-                            var jsonResponse = jQuery.parseJSON(response.responseText);
+                            var json_response = jQuery.parseJSON(response.responseText);
                         }
                         catch(error)
                         {
                             v.form.trigger( 'validationfail', [ v, event_params ] );
                             break;
                         }
-                        event_params.redirect_url = jsonResponse["url"]
-
+                        event_params.response = json_response;
+                        
+                        
                         v.form.trigger( 'validationok', [ v, event_params ] );
                         break;
 
@@ -101,16 +102,17 @@ var Validator = function( nodeOrSelector, options )
                     case 422:
                         // validation returned errors
                         try {
-                            var jsonResponse = jQuery.parseJSON(response.responseText);
+                            var json_response = jQuery.parseJSON(response.responseText);
                         }
                         catch(error)
                         {
                             v.form.trigger( 'validationfail', [ v, event_params ] );
                             break;
                         }
-
+                        event_params.response = json_response;      
+                        
                         var errors = [];
-                        jQuery.each( jsonResponse, function( fieldName, fieldErrors )
+                        jQuery.each( json_response, function( fieldName, fieldErrors )
                         {
                             jQuery.each( fieldErrors, function( index, error )
                             {
@@ -174,9 +176,9 @@ var Validator = function( nodeOrSelector, options )
         {
             case 'validationok':      // validation passed
 
-                if (event_params && event_params.redirect_url)
+                if (event_params && event_params.response && event_params.response.url)
                 {
-                    document.location.href = event_params.redirect_url;
+                    document.location.href = event_params.response.url;
                 }
                 else
                 {
