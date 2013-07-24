@@ -1,11 +1,7 @@
 jQuery(function()
 {
-	// highlight selected entry
-	if( location.hash )
-	{
-		jQuery( location.hash ).addClass( 'highlighted' );
-	}
-
+    var body = jQuery('body');    
+    
 
 	// import
     var controller = jQuery( '.controller-releaf-translations' );
@@ -13,17 +9,77 @@ jQuery(function()
 	var import_file            = import_form.find( 'input[type="file"]' );
 	var import_button 		   = controller.find( 'button[name="import"]' );
 	var scope_input   		   = controller.find( 'input[name="resource[scope]"]' );
-	var translations_container = controller.find( '.nested_wrap[data-name="translations"]' );
+	var translations_container = controller.find( '.nested-wrap[data-name="translations"]' );
+    var add_item_button        = controller.find( 'button.add-nested-item');
+        
+        
+    var unflash_timer;
+    
+    var unflash_changed_cells = function()
+    {
+        var cells = controller.find( 'td.changed' );
 
-	var regular_button_text = import_button.html();
+        cells.find('input').css({
+            '-webkit-transition': 'background-color .3s linear',
+            '-moz-transition':    'background-color .3s linear',
+            'transition' :        'background-color .3s linear'                              
+        });
+        cells.removeClass( 'changed' );
+    }
+    
+    var set_row_values = function( row, key, locale_values )
+    {
+        row.find('.translation_name input[type="text"]').val( key );
+        
+        for (var locale in locale_values )
+        {
+            var new_value = ('' + locale_values[ locale ]).trim();
+            
+            var cell = row.find( 'td[data-locale="' + locale + '"]' );
+            var value_input = cell.find( 'input[type="text"]' );
+            
+            value_input.css(
+            {
+                '-webkit-transition': '',
+                '-moz-transition':    '',
+                'transition' :        ''                              
+            });
+            
+            var current_value = value_input.val().trim();
+            
+            if (current_value != new_value)
+            {
+                value_input.val( new_value );
+                cell.addClass( 'changed' );
+                unflash_timer = setTimeout( unflash_changed_cells, 200);
+            }
+        }
+    }
+
+    translations_container.on('nestedfieldsitemadd', '.item[data-name="translations"]', function(e, event_params) 
+    { 
+        if (
+            (!event_params)
+            ||
+            (!('translation_key' in event_params))
+            ||
+            (!('translation_values' in event_params))
+        )
+        {
+            return;
+        }
+        
+        var row = jQuery(e.target);
+        set_row_values( row, event_params.translation_key, event_params.translation_values, true);
+    });
+    
 
 	import_button.click(function(){ import_file.click() });
 
 	import_file.change(function()
 	{
-		import_button.html( import_button.attr( 'data-loading' ) );
-		import_button.attr( 'disabled', true );
-
+        body.trigger('toolboxcloseall');
+        
 		jQuery.ajax
 		({
 			url: import_form.attr( 'action' ),
@@ -32,88 +88,52 @@ jQuery(function()
 			type: 'post',
 			success: function( json )
 			{
-				import_button.html( regular_button_text );
-				import_button.removeAttr( 'disabled' );
-
-				var inputs = controller.find( 'tr:not(.template) .translation_name input[type="text"]' );
-				var find = function( value )
+                var key_inputs = controller.find( 'tr.item[data-name="translations"]:not(.template,.removed) .translation_name input[type="text"]' );
+                
+				var find_key_input = function( value )
 				{
-					for( var i = 0; i < inputs.length; i++ )
+                    value = ('' + value).trim();
+					for( var i = 0; i < key_inputs.length; i++ )
 					{
-						if( inputs[i].value == value )
+                        if (key_inputs[i].value.trim() == value)
 						{
-							return jQuery( inputs[i] );
+							return jQuery( key_inputs[i] );
 						}
 					}
 					return null;
 				}
 
-				if( 'sheets' in json && json['sheets'][ scope_input.val() ] )
+				if ( 'sheets' in json && json['sheets'][ scope_input.val() ] )
 				{
 					var sheet = json['sheets'][ scope_input.val() ];
 					for( var key in sheet )
 					{
 						// try to find appropriate input - css selectors cannot be used because they don't reflect
 						// changes made after pageload
-						var input = find( key );
-						var row;
-						// construct new row if it does not exist
-						if( !input )
-						{
-							translations_container.trigger( 'nestedfieldscreateitem', [function( new_row )
-							{
-								row = new_row;
-								input = row.find( '.translation_name input' );
-								input.val( key );
-							}] );
-						}
-						else
-						{
-							row = input.parents( 'tr:first' );
-						}
-						if( input )
-						{
-							for( var locale in sheet[key] )
-							{
-								if( sheet[key][locale] )
-								{
-									var cell = row.find( 'td[data-locale="' + locale + '"]' );
-									var value_input = cell.find( 'input[type="text"]' );
-									if( value_input.val() != sheet[key][locale] )
-									{
-										value_input.val( sheet[key][locale] );
-										cell.css
-										({
-											'-webkit-transition': 'none',
-											'-moz-transition':    'none',
-											'transition':         'none'
-										});
-										cell.addClass( 'flash' );
-									}
-								}
-							}
-						}
+						var key_input = find_key_input( key );
+                        var row;
+                        
+                        if (key_input)
+                        {
+                            set_row_values( key_input.closest('tr'), key, sheet[key], false );
+                        }
+                        else
+                        {
+                            var event_params = 
+                            {
+                                no_animation        : true,
+                                translation_key     : key,
+                                translation_values  : sheet[key]
+                            };
+                            add_item_button.trigger('click', event_params);
+                        }
 					}
-					setTimeout(function()
-					{
-						var cells = controller.find( 'td.flash' );
-						cells.css
-						({
-							'-webkit-transition': '',
-							'-moz-transition':    '',
-							'transition':         ''
-						});
-						setTimeout(function()
-						{
-							cells.removeClass( 'flash' );
-						},100);
-					},0);
+
 				}
 			},
 			error: function()
 			{
-				import_button.html( regular_button_text );
-				import_button.removeAttr( 'disabled' );
+                
 			},
 			// tell jQuery not to process data or worry about content-type
 			cache: false,
