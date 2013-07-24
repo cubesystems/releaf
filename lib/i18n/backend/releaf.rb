@@ -49,27 +49,33 @@ module I18n
           end
 
           key = normalize_flat_keys(locale, key, scope, options[:separator])
-
           chain = key.split('.')
-          search_key = chain[-1]
+          search_key = chain.pop
           keys_to_check_for_other_locales = []
 
-          begin
-            chain.pop
+          while (chain.length > 0) do
+            # build full translation key with current scope
             check_key = (chain + [search_key]).join('.')
+            # read value from 118N cache
             result = I18N_CACHE.read [locale, check_key]
-
+            # store key for checking in other locales
             keys_to_check_for_other_locales.push check_key
 
-            next if result.nil? # nothing in cache was found
-            return nil if result == false # found nil translaiton in cache
-            return result unless result.blank? # found translation in cache
-          end while chain.empty? == false
+            # remove chain last value
+            chain.pop
 
-          return nil if I18N_CACHE.read [:missing, [locale, check_key]]
-          I18N_CACHE.write([:missing, [locale, check_key]], true) if Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
+            # go to next scope as translation do not exist
+            next if result.nil?
+            # return only if translation is not blank
+            return result unless result.blank?
+          end
 
-          save_missing_translation(locale, key)
+          # do not create new translation if exists in database in any scope
+          unless Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
+            I18N_CACHE.write([:missing, [locale, check_key]], true)
+            save_missing_translation(locale, key)
+          end
+
           return nil
         end
 
