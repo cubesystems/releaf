@@ -39,7 +39,7 @@
                   %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][lang]",  :value => locale }
                   %input{:type=>"text",   :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][localization]", :value => translation.locales[locale] }
             %td.delete_column
-              %button.remove-nested-item{:type => 'button',  :title => t('Remove item', :scope => 'admin.releaf_translations')}
+              %button.button.danger.only-icon.remove-nested-item{:type => 'button',  :title => t('Remove item', :scope => 'admin.releaf_translations')}
                 %i.icon-remove
 
     %table{:style => "display:none;"}
@@ -47,7 +47,7 @@
         %tr.template.item{:id => "translation__template_", :'data-name' => 'translations' }
           %td.translation_name.codeColumn
             .wrap
-              %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][key]", :value=>""}/
+              %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][key]", :value=>""}
           - locales.each_with_index do |locale, locale_index|
             %td.translationCell{"data-locale" => locale}
               .wrap
