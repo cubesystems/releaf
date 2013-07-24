@@ -69,23 +69,36 @@ jQuery( document ).ready(function()
                     
                     new_item.trigger( 'nestedfieldsreindex', event_params );
                     
-                    if (new_item.is('tr, td') )
+                    if (event_params && event_params.no_animation)
                     {
-                        new_item.trigger( 'nestedfieldsitemadd', event_params );
-                        new_item.trigger( 'nestedfieldsinit', event_params );                        
+                        new_item.trigger( 'nestedfieldsitemadd', event_params);
+                        new_item.trigger( 'nestedfieldsinit', event_params ); 
                     }
                     else
                     {
-                        new_item.css({ opacity: 0 });
-                        new_item.slideDown( 'fast', function()
+                        if (new_item.is('tr, td') )
                         {
                             new_item.css({ opacity: 1 }).hide();
-                            new_item.fadeIn( 'fast', function()
+                            new_item.fadeIn( 'normal', function()
                             {
-                                new_item.trigger( 'nestedfieldsitemadd', event_params );
+                                new_item.trigger( 'nestedfieldsitemadd', event_params);
                             });
-                            new_item.trigger( 'nestedfieldsinit', event_params);                            
-                        });
+
+                            new_item.trigger( 'nestedfieldsinit', event_params );                        
+                        }
+                        else
+                        {
+                            new_item.css({ opacity: 0 });
+                            new_item.slideDown( 'fast', function()
+                            {
+                                new_item.css({ opacity: 1 }).hide();
+                                new_item.fadeIn( 'fast', function()
+                                {
+                                    new_item.trigger( 'nestedfieldsitemadd', event_params );
+                                });
+                                new_item.trigger( 'nestedfieldsinit', event_params);                            
+                            });
+                        }
                     }
     
                 }
@@ -116,21 +129,27 @@ jQuery( document ).ready(function()
                     
                     item.trigger( 'nestedfieldsitemremove', event_params );                    
                     
-                    item.fadeOut( 'fast', function()
+                    if (event_params && event_params.no_animation)
                     {
-                        if (item.is('tr,td'))
+                        removeItem( item );
+                    }
+                    else
+                    {
+                        item.fadeOut( 'fast', function()
                         {
-                            removeItem( item );
-                        }
-                        else
-                        {
-                            item.css({ opacity: 0 }).show().slideUp( 'fast', function()
+                            if (item.is('tr,td'))
                             {
                                 removeItem( item );
-                            });
-                        }
-                    });
-                    
+                            }
+                            else
+                            {
+                                item.css({ opacity: 0 }).show().slideUp( 'fast', function()
+                                {
+                                    removeItem( item );
+                                });
+                            }
+                        });
+                    }
                 }
 
                 return;
