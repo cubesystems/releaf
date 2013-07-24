@@ -22,7 +22,7 @@ jQuery( document ).ready(function()
             var existing_item_selector   = '.item[data-name="' + block_name + '"]:not(.template,.new)';
 
             
-            block.click( function( event )
+            block.click( function( event, event_params )
             {
                 var trigger = jQuery( event.target );     
                 
@@ -67,28 +67,24 @@ jQuery( document ).ready(function()
 
                     new_item.appendTo( list );                        
                     
-                    new_item.trigger( 'nestedfieldsreindex' );
+                    new_item.trigger( 'nestedfieldsreindex', event_params );
                     
                     if (new_item.is('tr, td') )
                     {
-                        new_item.fadeIn( 'normal', function()
-                        {
-                            new_item.trigger( 'nestedfieldsitemadd' );
-                        });
-                        new_item.trigger( 'nestedfieldsinit' );                        
+                        new_item.trigger( 'nestedfieldsitemadd', event_params );
+                        new_item.trigger( 'nestedfieldsinit', event_params );                        
                     }
                     else
                     {
-                        
                         new_item.css({ opacity: 0 });
                         new_item.slideDown( 'fast', function()
                         {
                             new_item.css({ opacity: 1 }).hide();
                             new_item.fadeIn( 'fast', function()
                             {
-                                new_item.trigger( 'nestedfieldsitemadd' );
+                                new_item.trigger( 'nestedfieldsitemadd', event_params );
                             });
-                            new_item.trigger( 'nestedfieldsinit' );                            
+                            new_item.trigger( 'nestedfieldsinit', event_params);                            
                         });
                     }
     
@@ -113,12 +109,12 @@ jQuery( document ).ready(function()
                             item.remove();
                         }
 
-                        target_block.trigger( 'nestedfieldsreindex' );
+                        target_block.trigger( 'nestedfieldsreindex', event_params );
                     }
                     
                     item.addClass( 'removed' );
                     
-                    item.trigger( 'nestedfieldsitemremove' );                    
+                    item.trigger( 'nestedfieldsitemremove', event_params );                    
                     
                     item.fadeOut( 'fast', function()
                     {
