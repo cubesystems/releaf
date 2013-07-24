@@ -51,7 +51,9 @@ jQuery(document).ready( function()
                     cancel_button.focus();
                 }
                 
-                this.inner.trigger('contentreplaced');                
+                this.inner.trigger('contentreplaced');      
+                
+                this.inner.trigger('ajaxboxdone');
             }
         }
         
