@@ -4,6 +4,7 @@ module I18n
   module Backend
     class Releaf
       class Translation < ::ActiveRecord::Base
+        before_save :reassign_scope
 
         self.table_name = "releaf_translations"
 
@@ -43,6 +44,12 @@ module I18n
 
         def plain_key
           key.gsub(translation_group.scope + '.', '')
+        end
+
+        private
+
+        def reassign_scope
+          self.key = translation_group.scope + "." + key.split(".").last
         end
       end
     end

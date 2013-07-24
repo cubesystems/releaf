@@ -120,7 +120,7 @@ body.side-compact .main > .edit_resource > footer
     clear: both;
 }
 
-.nested-wrap .list .item
+.nested-wrap .list .item:not(tr)
 {
     border: 1px solid #d4d4d4;
     padding: 0 28px 11px 20px;
@@ -133,7 +133,7 @@ body.side-compact .main > .edit_resource > footer
     display: none;
 }
 
-.nested-wrap .list .item:after
+.nested-wrap .list .item:after:not(tr)
 {
 	content: '\00a0';
 	display: block;
@@ -156,7 +156,7 @@ body.side-compact .main > .edit_resource > footer
     padding: 6px 10px 7px 10px;
 }
 
-.view-new  form .section .nested-wrap .field, 
+.view-new  form .section .nested-wrap .field,
 .view-edit form .section .nested-wrap .field
 {
     width: 380px;
@@ -207,7 +207,7 @@ body.side-compact .main > .edit_resource > footer
     text-align: center;
     line-height: 40px;
     padding: 0;
-    background: #242424;    
+    background: #242424;
 }
 
 

@@ -1,7 +1,8 @@
 %h2.header
-  .scope-field
+  .scope-field.field
     %label{:for => "scope"}= t('scope', :scope => 'admin.releaf_translations') + ":"
-    %input#scope{:name => "translation_group[scope]", :size => "50", :type => "text", :value => @resource.scope}/
+    %span.value
+      %input#scope{:name => "resource[scope]", :size => "50", :type => "text", :value => @resource.scope}
   .toolbox-wrap
     = render 'toolbox', :resource => @resource
 
@@ -27,13 +28,16 @@
           %tr.item{ :id => "translation_#{translation.id}", :'data-name' => 'translations', :'data-index' => index }
             %td.translation_name.codeColumn{:title => translation.plain_key}
               .wrap
-                %input{:type=>"hidden", :name=>"translations[#{translation.id}][id]",  :value=>"#{translation.id}"}/
-                %input{:type=>"text",   :name=>"translations[#{translation.id}][key]", :value=>"#{translation.plain_key}"}/
-            - locales.each do |locale|
-
+                %input.destroy{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][_destroy]" }
+                %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][id]",  :value => translation.id }
+                %input{:type=>"text",   :name=>"resource[translations_attributes][#{index}][key]", :value => translation.plain_key }
+            - locales.each_with_index do |locale, locale_index|
+              - translation_data_id = translation.translation_data.find_by_lang(locale).try(:id)
               %td.translationCell{"data-locale" => locale, :title => translation.locales[locale]}
                 .wrap
-                  %input{:type=>"text", :name=>"translations[#{translation.id}][localization][#{locale}]", :value=>translation.locales[locale]}/
+                  %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][id]",  :value => translation_data_id }
+                  %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][lang]",  :value => locale }
+                  %input{:type=>"text",   :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][localization]", :value => translation.locales[locale] }
             %td.delete_column
               %button.remove-nested-item{:type => 'button',  :title => t('Remove item', :scope => 'admin.releaf_translations')}
                 %i.icon-remove
@@ -43,11 +47,12 @@
         %tr.template.item{:id => "translation__template_", :'data-name' => 'translations' }
           %td.translation_name.codeColumn
             .wrap
-              %input{:type=>"text",   :name=>"translations[_template_][key]", :value=>""}/
-          - locales.each do |locale|
+              %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][key]", :value=>""}/
+          - locales.each_with_index do |locale, locale_index|
             %td.translationCell{"data-locale" => locale}
               .wrap
-                %input{:type=>"text", :name=>"translations[_template_][localization][#{locale}]", :value=>""}/
+                %input{:type=>"hidden", :name=>"resource[translations_attributes][_template_][translation_data_attributes][#{locale_index}][lang]",  :value => locale }
+                %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][translation_data_attributes][#{locale_index}][localization]" }
           %td.delete_column
             %button.remove-nested-item{:type => 'button', :title => t('Remove item', :scope => 'admin.releaf_translations')}
               %i.icon-remove
