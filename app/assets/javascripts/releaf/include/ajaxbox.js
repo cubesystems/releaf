@@ -9,6 +9,69 @@ jQuery(document).ready( function()
     
     var body = jQuery('body');        
 
+    var open_ajax_box = function( params )
+    {
+        var fancybox_params = 
+        {
+            autoDimensions    : true,
+            autoScale         : true,
+            centerOnScroll    : true,
+            scrolling         : 'no',
+            padding           : 0,
+            overlayColor      : '#000000',
+            overlayOpacity    : 0.5,
+            closeBtn          : false,
+            afterShow        : function()
+            {
+                // insert close button if header exists and box is not modal
+                if (!params.modal)
+                {
+                    var header = this.inner.find('.dialog > .header').first();
+                    if (header.length > 0)
+                    {
+                        var close_icon   = jQuery('<i />').addClass('icon-remove icon-large');
+                        var close_button = jQuery('<button />').attr('type', 'button').addClass('button secondary close only-icon').append(close_icon);
+                        close_button.on('click', function()
+                        {
+                            close_ajax_box();
+                        })
+                        header.append( close_button );
+                    }
+                }
+               
+                // focus on cancel button in footer if found
+                var cancel_button = this.inner.find('.dialog > .footer .button[data-type="cancel"]').first();
+                if (cancel_button.length > 0)
+                {
+                    cancel_button.bind('click', function()
+                    {
+                        body.trigger('ajaxboxclose');
+                        return false;
+                    });
+                    cancel_button.focus();
+                }
+                
+                this.inner.trigger('contentreplaced');                
+            }
+        }
+        
+        if (params.modal)
+        {
+            fancybox_params.closeClick   = false;
+            fancybox_params.helpers     = { overlay: { closeClick: false } };            
+        }
+        
+        fancybox_params.content = params.content;
+        jQuery.fancybox( fancybox_params );        
+        return;
+    }
+    
+    var close_ajax_box = function()
+    {
+        jQuery.fancybox.close();   
+    }
+    
+    
     body.on('ajaxboxinit', function(e)
     {
         var target = jQuery(e.target);
@@ -16,75 +79,53 @@ jQuery(document).ready( function()
         // init links 
         var links = (target.is(ajaxbox_link_selector)) ? target : target.find(ajaxbox_link_selector);
         
-        if (links.length < 1)
-        {
-            return;
-        }
-
         links.on('click', function()
+        {
+            var link = jQuery(this);
+            
+            var params = 
+            {
+                url     : new url_builder( link.attr('href') ).add( { ajax: 1 } ).getUrl(),
+                modal   : (link.attr('data-ajaxbox-modal') == '1')
+            };
+
+            link.trigger('ajaxboxopen', params);
+            
+            return false;
+        });
+
+    });
+    
+    body.on('ajaxboxopen', function(e, params)
+    {
+        // params expects either url or content
+        if ('content' in params)
+        {
+            open_ajax_box( params );
+        }
+        else if ('url' in params)
         {
             if (xhr)
             {
                 xhr.abort();
             }
 
-            var link = jQuery(this);
-            
-            // Expects data-modal to be 0 or 1
-            var modal = (link.attr('data-ajaxbox-modal') == '1');
-            
-            var params = 
-            {
-                autoDimensions    : true,
-                autoScale         : true,
-                centerOnScroll    : true,
-                scrolling         : 'no',
-                padding           : 0,
-                overlayColor      : '#000000',
-                overlayOpacity    : 0.5,
-                afterShow        : function()
-                {
-                    this.inner.trigger('contentreplaced');
-                    
-                    var cancel_button = this.inner.find('.button[data-type="cancel"]').first();
-                    if (cancel_button.length < 1)
-                    {
-                        return;
-                    }
-                    cancel_button.bind('click', function()
-                    {
-                        jQuery.fancybox.close();
-                        return false;
-                    });
-                    cancel_button.focus();
-                }
-            }
-
-            // If modal, disable closeClicks and closeButton
-            if (modal)
-            {
-                params.closeBtn     = false;
-                params.closeClick   = false;
-                params.helpers     = { overlay: {closeClick: false} };
-            }
-            
-            var url = new url_builder( link.attr('href') ).add( {ajax: 1} ).getUrl();
-
             xhr = jQuery.ajax(
             {
-                url: url,
+                url:   params.url,
                 type: 'get',
                 success: function( data ) 
                 {
                     params.content = data;
-                    jQuery.fancybox( params );
+                    open_ajax_box( params );
                 }
             });
+        }
+    });
 
-            return false;
-        });
-
-
+    body.on('ajaxboxclose', function(e)
+    {
+        close_ajax_box();
     });
 
     body.trigger('ajaxboxinit');

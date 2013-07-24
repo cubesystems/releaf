@@ -346,8 +346,5 @@ jQuery(function(){
     jQuery('form[data-validation-url]').trigger('validationinit');
 
 
-    //Override dialogs close button
-    jQuery(document).on( "dialogcreate", '.ui-dialog', function( event, ui ) {
-        jQuery(this).find('.ui-dialog-titlebar-close').html('<i class="icon-remove"></i>');
-    });
+    
 });

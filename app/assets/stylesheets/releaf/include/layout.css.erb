@@ -467,67 +467,107 @@ header .sign-out button i
 {
     font-size: 18px;
 }
-/* Delete dialog */
-.view-confirm_destroy .delete_dialog
+
+/* dialog */
+
+.dialog
 {
-  margin-top: 40px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
 }
-.delete_dialog
+
+.dialog .header
 {
-  width: 390px;
-  margin: 0 auto;
-  padding-top: 37px;
-  background-color: white;
-  box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
+    padding-right: 50px;
 }
-.delete_dialog > i
+
+.dialog .content
 {
-  display: block;
-  margin: 0 auto;
-  border-radius: 40px;
-  width: 50px;
-  background-color: #d4d4d4;
-  color: white;
-  font-size: 3.57em;
-  padding: 9px;
-  text-align: center;
-  line-height: 1em;
+    position: relative;
 }
-.delete_dialog .dialog
+
+.dialog .footer
 {
-  padding: 22px 10px 55px;
-  text-align: center;
+    position: relative;
+    background-color: #d9d9d9;
+    border-top: #c5c5c5 1px solid;
+    text-align: right;
 }
-.delete_dialog .dialog .question
-{
-  font-size: 2.2857em;
-  line-height: 1.25em;
-  margin-bottom: 40px;
-  font-family: 'robotoregular';
-  font-weight: normal;
-}
-.delete_dialog .dialog .description
-{
-  color: #37b1a7;
-  font-size: 1em;
-  line-height: 1.4em;
-  font-weight: bold;
-}
-.delete_dialog .buttons
-{
-  background-color: #d9d9d9;
-  border-top: #c5c5c5 1px solid;
-  text-align: right;
-}
-.delete_dialog .buttons form
+
+.dialog .footer form
 {
     display: inline-block;
 }
 
-.delete_dialog .buttons .button.secondary
+.dialog .footer .button.secondary
 {
     border-left: #c5c5c5 1px solid;
 }
+
+.fancybox-inner .dialog > .header
+{
+    margin-top: 0;
+}
+
+.fancybox-inner .dialog > .header .close
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 40px;
+}
+
+
+
+/* Delete dialog */
+.view-confirm_destroy .delete_dialog
+{
+    margin-top: 40px;
+}
+
+.delete_dialog
+{
+    width: 390px;
+}
+
+.delete_dialog .content
+{
+    padding: 37px 10px 55px;
+    text-align: center;
+}
+
+.delete_dialog .content i
+{
+    display: block;
+    margin: 0 auto;
+    border-radius: 40px;
+    width: 50px;
+    background-color: #d4d4d4;
+    color: white;
+    font-size: 3.57em;
+    padding: 9px;
+    text-align: center;
+    line-height: 1em;
+    margin-bottom: 22px;
+}
+
+.delete_dialog .content .question
+{
+    font-size: 2.2857em;
+    line-height: 1.25em;
+    margin-bottom: 40px;
+    font-family: 'robotoregular';
+    font-weight: normal;
+}
+.delete_dialog .content .description
+{
+    color: #37b1a7;
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: bold;
+}
+
 
 /* notifications */
 body > .notifications
