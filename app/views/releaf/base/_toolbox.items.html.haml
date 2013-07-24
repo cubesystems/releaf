@@ -1,6 +1,6 @@
 = render 'toolbox.extras', :resource => resource
 - unless resource.new_record?
   %li
-    %a.button.danger.ajax_view{:href => url_for( :action => :confirm_destroy, :id => resource.id, :request_url => request.fullpath.to_s), :data => {:modal => 1}}
+    %a.button.danger.ajaxbox{:href => url_for( :action => :confirm_destroy, :id => resource.id, :request_url => request.fullpath.to_s), :data => {:modal => 1}}
       %i.icon-large.icon-trash
       = t('Delete', :scope => 'admin.global')

@@ -14,7 +14,7 @@
         .image_wrap
           = f.hidden_field "retained_#{field_name}"
           - img_object = f.object.send(field_name)
-          = link_to image_tag(img_object.thumb('x128>').url, :alt => ''), img_object.url, :target => :_blank, :class => :ajax_view
+          = link_to image_tag(img_object.thumb('x128>').url, :alt => ''), img_object.url, :target => :_blank, :class => :ajaxbox
         .remove_image
           = f.check_box "remove_#{field_name}"
           = f.label "remove_#{field_name}", I18n.t("Remove image", :scope => 'admin.global')
