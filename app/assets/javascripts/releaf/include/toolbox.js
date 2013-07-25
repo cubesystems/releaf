@@ -133,8 +133,13 @@ jQuery(function()
             toolbox.data('toolbox-menu', menu);
             
             var items = menu.find('li');
-            
+
             toolbox.toggleClass('empty', (items.length < 1));
+            
+            items.find('.button').click(function()
+            {
+                toolbox.trigger('toolboxclose');
+            });
             
         });
          
