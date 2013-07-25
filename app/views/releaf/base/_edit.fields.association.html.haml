@@ -13,12 +13,12 @@
       .list{:'data-sortable' => sortable_objects ? '' : nil}
 
 
-        .item.template{ :'data-name' => field}
+        .item.clearInside.template{ :'data-name' => field}
           = f.fields_for field, reflection.klass.new, :child_index => '_template_' do |ff|
             = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
 
         - f.object.send(field).each_with_index do |obj, i|
-          .item{:'data-name' => field, :'data-index' => i}
+          .item.clearInside{:'data-name' => field, :'data-index' => i}
             = f.fields_for field, obj, :child_index => i do |ff|
               = render 'edit.fields.has_many_template', :ff => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
 
