@@ -23,10 +23,12 @@ jQuery(document).ready( function()
             closeBtn          : false,
             afterShow        : function()
             {
+                this.inner.addClass('ajaxbox-inner');
+                
                 // insert close button if header exists and box is not modal
                 if (!params.modal)
                 {
-                    var header = this.inner.find('.dialog > .header').first();
+                    var header = this.inner.find('.body .header').first();
                     if (header.length > 0)
                     {
                         var close_icon   = jQuery('<i />').addClass('icon-remove icon-large');
@@ -40,7 +42,7 @@ jQuery(document).ready( function()
                 }
                
                 // focus on cancel button in footer if found
-                var cancel_button = this.inner.find('.dialog > .footer .button[data-type="cancel"]').first();
+                var cancel_button = this.inner.find('.body .footer .button[data-type="cancel"]').first();
                 if (cancel_button.length > 0)
                 {
                     cancel_button.bind('click', function()
