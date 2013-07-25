@@ -40,7 +40,6 @@ jQuery(function()
 		relative_urls : false,
 		theme_advanced_resizing : true,
 		object_resizing : false,
-        width: 854,
 		//content_css: '/styles/textFormat.css',
 		init_instance_callback: function( instance )
 		{
@@ -72,26 +71,33 @@ jQuery(function()
 			);
 		});
 	}
+    
 
-	jQuery( document ).on( 'richtextinit', function( event, extra_config )
-	{
+
+	jQuery( document ).on( 'richtextinit', 'textarea', function( event, extra_config )
+    {
+		var textarea = jQuery( event.target );
+
         var config = tinymce_config;
+        config.width = textarea.outerWidth();
+        
         if (extra_config)
         {
             jQuery.each(extra_config, function(index, value){
                 config[index] = value;
             });
         }
-
-		var textarea = jQuery( event.target );
+        
 		if( !textarea.attr( 'id' ) )
 		{
 			textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
 		}
+        
         if (textarea.attr('data-tinymce-image-upload-url'))
         {
             config['uploadimage_form_url'] = textarea.attr('data-tinymce-image-upload-url');
         }
+        
         textarea.tinymce(config);
 	});
 
