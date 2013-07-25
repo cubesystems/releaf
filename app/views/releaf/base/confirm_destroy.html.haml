@@ -25,4 +25,4 @@
     = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id ), :as => :resource, :method => :delete do |f|
       %button.button.danger{ :type => 'submit' }
         %i.icon-trash
-          %span= t('yes', :scope => 'admin.global')
+        %span= t('yes', :scope => 'admin.global')
