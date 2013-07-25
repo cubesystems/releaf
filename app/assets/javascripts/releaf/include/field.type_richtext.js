@@ -46,6 +46,7 @@ jQuery(function()
 			jQuery( instance.contentAreaContainer ).trigger( 'tinymceinit', [ instance ] );
 		}
 	};
+    
 	tinymce_config.setup = function( editor )
 	{
 		// skip first onBeforeGetContent call because textFormat.css has not loaded yet
@@ -71,8 +72,7 @@ jQuery(function()
 			);
 		});
 	}
-    
-
+ 
 
 	jQuery( document ).on( 'richtextinit', 'textarea', function( event, extra_config )
     {
@@ -101,11 +101,11 @@ jQuery(function()
         textarea.tinymce(config);
 	});
 
-    var template_filter = function() {return !$(this).parents().hasClass('template')};
-
-    jQuery(document).on('nestedfieldsitemadd', function(e) {
-        jQuery(e.target).find('.field.type_richtext textarea.richtext' ).filter(template_filter).trigger( 'richtextinit' );
+    jQuery(document).on('nestedfieldsitemadd', function(e) 
+    {
+        jQuery( '.field.type_richtext:not(.manual-init) textarea' ).not('.template textarea').trigger( 'richtextinit' );
     })
 
-    jQuery( '.field.type_richtext textarea' ).filter(template_filter).trigger( 'richtextinit' );
+    jQuery( '.field.type_richtext:not(.manual-init) textarea' ).not('.template textarea').trigger( 'richtextinit' );
+    
 });
