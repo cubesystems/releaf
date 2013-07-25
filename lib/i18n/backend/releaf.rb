@@ -70,10 +70,12 @@ module I18n
             return result unless result.blank?
           end
 
-          # do not create new translation if exists in database in any scope
-          unless Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
-            I18N_CACHE.write([:missing, [locale, check_key]], true)
-            save_missing_translation(locale, key)
+          if ::Releaf.create_missing_translations
+            # do not create new translation if exists in database in any scope
+            unless Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
+              I18N_CACHE.write([:missing, [locale, check_key]], true)
+              save_missing_translation(locale, key)
+            end
           end
 
           return nil
