@@ -139,12 +139,20 @@ jQuery(function(){
         {
             return;
         }
-            
+
+        var form = jQuery(event.target);
+        
+        if (form.data( 'validator' ))
+        {
+            // multiple validators on a single form are not supported
+            // a validator already exists. return
+            return;
+        }
+        
+
         // selector for field input matching 
         var input_selector = 'input[type!="hidden"],textarea,select'; 
         
-        var form = jQuery(event.target);
-
         form.data( 'validator', new Validator(form, { ui : false } ));
 
         form.on( 'validationstart', function( event, v, event_params )
