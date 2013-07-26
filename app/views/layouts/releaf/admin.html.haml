@@ -52,7 +52,7 @@
               %li{:class => [("active" if menu_item[:active]), ("collapsed" if menu_item[:collapsed]) ], "data-name" => menu_item[:name]}
                 - if menu_item[:items]
                   %span.trigger
-                    %i{:class => "icon-" + menu_item[:icon]}
+                    %i.icon-large{:class => "icon-" + menu_item[:icon]}
                     %span.name= t(menu_item[:name], :scope => "admin.menu_items")
                     %span.collapser
                       %button{:type => "button"}
