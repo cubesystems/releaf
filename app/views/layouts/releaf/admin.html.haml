@@ -62,7 +62,7 @@
                       %li
                         %a.trigger{:href => section_item[:url], :class => section_item[:active] ? :active_item : nil}
                           %span.name= t(section_item[:name], :scope => "admin.menu_items")
-                          %i.icon-caret-left
+                          %i.icon-caret-left.active
                 - else
                   %a.trigger{:href => menu_item[:url]}
                     %i.icon-large{:class => "icon-" + menu_item[:icon]}
