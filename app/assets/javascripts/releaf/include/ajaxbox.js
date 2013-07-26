@@ -56,6 +56,12 @@ jQuery(document).ready( function()
                 this.inner.trigger('contentreplaced');      
                 
                 this.inner.trigger('ajaxboxdone');
+                
+            },
+            beforeClose  : function()
+            {
+                
+                this.inner.trigger('ajaxboxbeforeclose');
             }
         }
         

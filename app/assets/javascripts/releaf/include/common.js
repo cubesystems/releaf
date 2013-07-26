@@ -384,8 +384,6 @@ jQuery(function(){
         forms.trigger('validationinit');
         
     });
-    
-    
 
     
 });
