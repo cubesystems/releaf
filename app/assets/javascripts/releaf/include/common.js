@@ -139,7 +139,7 @@ jQuery(function(){
         {
             return;
         }
-
+        
         var form = jQuery(event.target);
         
         if (form.data( 'validator' ))
@@ -149,7 +149,7 @@ jQuery(function(){
             return;
         }
         
-
+                
         // selector for field input matching 
         var input_selector = 'input[type!="hidden"],textarea,select'; 
         
@@ -162,28 +162,26 @@ jQuery(function(){
             // :TODO: show loader
         });
 
-
-        form.on( 'validationend', function( event, v, event_params )
+        form.on( 'validationclearerrors', function( event, v, event_params )
         {
-            // remove all errors left from earlier validations
-            var last_validation_id = form.attr( 'data-validation-id' );
-
-
-            if (event_params.validation_id != last_validation_id)
-            {
-                // do not go further if this is not the last validation
-                return;
-            }
-
-
-            // remove old field errors
+            // trigger this to clear existing errors in form
+            // optional event_params.except_validation_id can be used
+            // to preserve errors created by that specific validation
+            
+            var except_validation_id = (event_params && ('except_validation_id' in event_params)) ? event_params.except_validation_id : null;
+            
+            // remove field errors
             form.find('.field.has_error').each(function()
             {
                 var field = jQuery(this);
-                var error_box = field.find( '.error_box' );
+                var error_box   = field.find( '.error_box' );
                 var error_node = error_box.find('.error');
 
-                if (error_node.attr('data-validation-id') != last_validation_id)
+                if (
+                    (!except_validation_id)
+                    ||
+                    (error_node.attr('data-validation-id') != except_validation_id)
+                )   
                 {
                     error_box.remove();
                     field.removeClass('has_error');
@@ -192,10 +190,10 @@ jQuery(function(){
                         field.find('.localization').removeClass('has_error');
                     }
                 }
-
             });
 
-            // remove old form errors
+
+            // remove form errors
             if (form.hasClass('has_error'))
             {
                 var form_error_box = form.find('.form_error_box');
@@ -204,7 +202,11 @@ jQuery(function(){
                 form_error_box.find('.error').each(function()
                 {
                     var error_node = jQuery(this);
-                    if (error_node.attr('data-validation-id') != last_validation_id)
+                    if (
+                        (!except_validation_id)
+                        ||
+                        (error_node.attr('data-validation-id') != except_validation_id)
+                    )
                     {
                         error_node.remove();
                     }
@@ -220,6 +222,25 @@ jQuery(function(){
                     form.removeClass('has_error');
                 }
             }
+            
+        });
+
+        form.on( 'validationend', function( event, v, event_params )
+        {
+            // remove all errors left from earlier validations
+            
+            var last_validation_id = form.attr( 'data-validation-id' );
+
+            if (event_params.validation_id != last_validation_id)
+            {
+                // do not go further if this is not the last validation
+                return;
+            }
+
+            event_params.except_validation_id = last_validation_id;
+            
+            form.trigger('validationclearerrors', [ v, event_params ]);
+
 
             // if error fields still exist, focus to first visible
             
