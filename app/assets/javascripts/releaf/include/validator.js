@@ -89,13 +89,14 @@ var Validator = function( nodeOrSelector, options )
                             break;
                         }
                         event_params.response = json_response;
-                        
-                        
+
+
                         v.form.trigger( 'validationok', [ v, event_params ] );
                         break;
 
                     case 200:
                         // validation ok
+                        event_params.response = response;
                         v.form.trigger( 'validationok', [ v, event_params ] );
                         break;
 
@@ -109,8 +110,8 @@ var Validator = function( nodeOrSelector, options )
                             v.form.trigger( 'validationfail', [ v, event_params ] );
                             break;
                         }
-                        event_params.response = json_response;      
-                        
+                        event_params.response = json_response;
+
                         var errors = [];
                         jQuery.each( json_response, function( fieldName, fieldErrors )
                         {
@@ -182,7 +183,19 @@ var Validator = function( nodeOrSelector, options )
                 }
                 else
                 {
-                    v.submitForm();
+                    var ct = event_params.response.getResponseHeader("content-type") || "";
+                    // replace existing form content with new one
+                    if (ct.indexOf('html') > -1)
+                    {
+                        var form = jQuery(v.form[0]);
+                        var form_selector = 'form[action="' + form.attr('action') + '"]';
+                        var response_html = jQuery('<html />').html(event_params.response.responseText);
+                        form.html(response_html.find(form_selector).html());
+                    }
+                    else
+                    {
+                        v.submitForm();
+                    }
                 }
 
                 break;

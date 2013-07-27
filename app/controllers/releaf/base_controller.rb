@@ -518,6 +518,7 @@ module Releaf
     def setup
       @features = {
         :edit     => true,
+        :edit_ajax_reload  => false,
         :create   => true,
         :destroy  => true,
         :index    => true,
@@ -641,7 +642,13 @@ module Releaf
       respond_to do |format|
         format.json  do
           if result
-            render :json => {:url => success_url, :message => flash[:success]}, :status => 303
+            if @features[:edit_ajax_reload] && request_type == :update
+              flash.discard(:success)
+              flash.now[:success] = I18n.t('updated', :scope => 'notices.' + controller_scope_name)
+              render :action => html_render_action, :formats => [:html], :content_type => "text/html"
+            else
+              render :json => {:url => success_url, :message => flash[:success]}, :status => 303
+            end
           else
             render :json => build_validation_errors(@resource), :status => 422
           end
