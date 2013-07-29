@@ -273,12 +273,16 @@ jQuery(function(){
 
             if ('url' in event_params.response)
             {
-                event.preventDefault();
+                // json redirect url received
+                
+                event.preventDefault(); // prevent validator's built in submit_form on ok
                 
                 document.location.href = event_params.response.url;
             }
             else if ('getResponseHeader' in event_params.response)
             {
+                // html content returned, replace main form if found in response
+                
                 var form_id = form.attr('id');
                 if (!form_id)
                 {
@@ -305,7 +309,7 @@ jQuery(function(){
                         
                 body.trigger('contentreplace', [ response_html, form_selector ])
 
-                event.preventDefault();
+                event.preventDefault(); // prevent validator's built in submit_form on ok
                 
             }
             
