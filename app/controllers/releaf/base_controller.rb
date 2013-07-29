@@ -148,7 +148,7 @@ module Releaf
       result = @resource.destroy
 
       if result
-        flash[:success] = I18n.t('deleted', :scope => 'notices.' + controller_scope_name)
+        flash[:success] = { :id => resource_status, :message => I18n.t('deleted', :scope => 'notices.' + controller_scope_name) }
       end
 
       respond_to do |format|
@@ -631,9 +631,9 @@ module Releaf
 
       if result
         if request_type == :create
-          flash[:success] = I18n.t('created', :scope => 'notices.' + controller_scope_name)
+          flash[:success] = { :id => :resource_status, :message => I18n.t('created', :scope => 'notices.' + controller_scope_name) }
         else
-          flash[:success] = I18n.t('updated', :scope => 'notices.' + controller_scope_name)
+          flash[:success] = { :id => :resource_status, :message => I18n.t('updated', :scope => 'notices.' + controller_scope_name) }
         end
 
         success_url = url_for( :action => 'edit', :id => @resource.id )
@@ -644,10 +644,10 @@ module Releaf
           if result
             if @features[:edit_ajax_reload] && request_type == :update
               flash.discard(:success)
-              flash.now[:success] = I18n.t('updated', :scope => 'notices.' + controller_scope_name)
+              flash.now[:success] = { :id => :resource_status, :message => I18n.t('updated', :scope => 'notices.' + controller_scope_name) }
               render :action => html_render_action, :formats => [:html], :content_type => "text/html"
             else
-              render :json => {:url => success_url, :message => flash[:success]}, :status => 303
+              render :json => {:url => success_url, :message => flash[:success][:message]}, :status => 303
             end
           else
             render :json => build_validation_errors(@resource), :status => 422
@@ -658,7 +658,7 @@ module Releaf
           if result
             redirect_to success_url
           else
-            flash[:error] = I18n.t('error', :scope => 'notices.' + controller_scope_name)
+            flash[:error] = { :id => :resource_status, :message => I18n.t('error', :scope => 'notices.' + controller_scope_name) }
             render :action => html_render_action
           end
         end
