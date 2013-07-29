@@ -289,27 +289,11 @@ jQuery(function(){
                     return;
                 }
 
-                var content_type = event_params.response.getResponseHeader("content-type");
-                
-                if (!content_type || !content_type.match(/html/))
-                {
-                    return;
-                }
-
-                
                 var form_selector = 'form#' + form_id;
 
-                var response_html = jQuery('<html />').append( event_params.response.responseText );
-                
-                var response_form = response_html.find('form#' + form_id);
-                
-                // move all flash notices in response inside the form
-                // so that the contentreplace on the form includes them
-                response_html.find('.flash').appendTo( response_form );
-                        
-                body.trigger('contentreplace', [ response_html, form_selector ])
-
                 event.preventDefault(); // prevent validator's built in submit_form on ok
+                
+                body.trigger('contentreplace', [ event_params.response, form_selector ])
                 
             }
             
