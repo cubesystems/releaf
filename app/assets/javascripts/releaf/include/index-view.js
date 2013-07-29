@@ -113,8 +113,9 @@ jQuery(function()
                 var content = response.find( block.result_selector ).first().html();
 
                 jQuery( block.target ).html( content );
+                
+                block.target.trigger('contentloaded');
 
-                block.target.trigger('contentreplaced');
             }
         });
 

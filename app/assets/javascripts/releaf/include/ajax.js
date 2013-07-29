@@ -53,10 +53,15 @@ jQuery(document).ready( function()
         
         old_node.replaceWith( new_node );
         
-        new_node.trigger('contentreplaced');
+        new_node.trigger('contentloaded');
     
     });
     
-   
+    // use setTimeout to trigger this after all scripts have been loaded
+    // and attached their initial handlers for this event
+    setTimeout( function()
+    {
+        body.trigger('contentloaded');    
+    }, 0);
 });
  

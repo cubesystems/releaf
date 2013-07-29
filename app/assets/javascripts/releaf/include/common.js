@@ -428,18 +428,14 @@ jQuery(function(){
 
     });
 
-    // attach validation to default forms
-    jQuery('form[data-validation-url]').trigger('validationinit');
-
+    // attach validation to any new default forms after any content load
     
-    body.on('contentreplaced', function(e)
+    body.on('contentloaded', function(e)
     { 
-        // reinit validation for all content that gets replaced via ajax
         var block = jQuery(e.target);
         var forms = (block.is('form[data-validation-url]')) ? block : block.find('form[data-validation-url]');
         
         forms.trigger('validationinit');
-        
     });
 
     

@@ -184,9 +184,9 @@ jQuery(function()
         body.find('.field.i18n[data-localization-menu-open]').trigger('localizationmenuclose');        
     });
     
-    body.trigger('localizationinit');
-    
-    body.on('contentreplaced', function(e)
+ 
+    // attach localizationinit to all loaded content
+    body.on('contentloaded', function(e)
     { 
         // reinit localization for all content that gets replaced via ajax
         jQuery(e.target).trigger('localizationinit');

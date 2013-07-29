@@ -260,11 +260,9 @@ jQuery(function()
     
     body.trigger('notificationsinit');
 
-    body.find('.flash').trigger('notificationaddflash');
-    
-    body.on('contentreplaced', function(e)
+    // attach notificationaddflash to all loaded content
+    body.on('contentloaded', function(e)
 	{    	
-        // reinit flash notifications for all content that gets replaced via ajax
         jQuery(e.target).find('.flash').trigger('notificationaddflash');
     });
     

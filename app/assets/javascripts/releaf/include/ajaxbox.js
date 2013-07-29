@@ -53,7 +53,7 @@ jQuery(document).ready( function()
                     cancel_button.focus();
                 }
                 
-                this.inner.trigger('contentreplaced');      
+                this.inner.trigger('contentloaded');      
                 
                 this.inner.trigger('ajaxboxdone');
                 
@@ -138,9 +138,9 @@ jQuery(document).ready( function()
         close_ajax_box();
     });
 
-    body.trigger('ajaxboxinit');
-    
-    body.on('contentreplaced', function(e)
+
+    // attach ajaxboxinit to all loaded content
+    body.on('contentloaded', function(e)
     { 
         // reinit ajaxbox for all content that gets replaced via ajax
         jQuery(e.target).trigger('ajaxboxinit');

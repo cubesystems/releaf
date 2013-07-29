@@ -144,8 +144,7 @@ jQuery(function()
         });
          
     }); 
-    
-    
+ 
     jQuery(window).bind('resize', function()
     {
         jQuery('.toolbox[data-toolbox-open]').trigger('toolboxposition');
@@ -156,13 +155,11 @@ jQuery(function()
         body.find('.toolbox[data-toolbox-open]').trigger('toolboxclose');        
     });
     
-    body.trigger('toolboxinit');
-    
-    body.on('contentreplaced', function(e)
+
+    // attach toolboxinit to all loaded content
+    body.on('contentloaded', function(e)
     { 
-        // reinit toolboxes for all content that gets replaced via ajax
         jQuery(e.target).trigger('toolboxinit');
-        
     });
     
 });
