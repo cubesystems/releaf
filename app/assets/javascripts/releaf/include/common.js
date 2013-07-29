@@ -152,8 +152,8 @@ jQuery(function(){
                 
         // selector for field input matching 
         var input_selector = 'input[type!="hidden"],textarea,select'; 
-        
-        form.data( 'validator', new Validator(form, { ui : false } ));
+                
+        form.data( 'validator', new Validator(form, { ui : false, submit_on_ok : false } ));
 
         form.on( 'validationstart', function( event, v, event_params )
         {
@@ -256,6 +256,60 @@ jQuery(function(){
             
         });
 
+        form.bind( 'validationok', function( event, v, event_params )
+        {
+            var handler = form.attr('data-validation-ok-handler');
+            
+            if (handler != 'ajax')
+            {
+                // custom handler or undefined
+                return;
+            }
+            
+            if (!event_params || !event_params.response)
+            {
+                return;
+            } 
+
+            if ('url' in event_params.response)
+            {
+                event.preventDefault();
+                
+                document.location.href = event_params.response.url;
+            }
+            else if ('getResponseHeader' in event_params.response)
+            {
+                var form_id = form.attr('id');
+                if (!form_id)
+                {
+                    return;
+                }
+
+                var content_type = event_params.response.getResponseHeader("content-type");
+                
+                if (!content_type || !content_type.match(/html/))
+                {
+                    return;
+                }
+
+                
+                var form_selector = 'form#' + form_id;
+
+                var response_html = jQuery('<html />').append( event_params.response.responseText );
+                
+                var response_form = response_html.find('form#' + form_id);
+                
+                // move all flash notices in response inside the form
+                // so that the contentreplace on the form includes them
+                response_html.find('.flash').appendTo( response_form );
+                        
+                body.trigger('contentreplace', [ response_html, form_selector ])
+
+                event.preventDefault();
+                
+            }
+            
+        });        
 
         form.bind( 'validationerror', function( event, v, event_params )
 		{

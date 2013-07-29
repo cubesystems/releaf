@@ -1,13 +1,10 @@
-var Validator = function( nodeOrSelector, options )
+var Validator = function( node_or_selector, options )
 {
 	// self
 	var v = this;
 
-	// check dependencies
-	v.checkDependencies();
-
 	// form
-	v.form = nodeOrSelector;
+	v.form = node_or_selector;
 
 	if (!(v.form instanceof jQuery))
 	{
@@ -46,7 +43,7 @@ var Validator = function( nodeOrSelector, options )
         if ( window.FormData !== undefined )
         {
             event.preventDefault();
-            v.validateForm();
+            v.validate_form();
         }
 	});
 
@@ -177,26 +174,7 @@ var Validator = function( nodeOrSelector, options )
         {
             case 'validationok':      // validation passed
 
-                if (event_params && event_params.response && event_params.response.url)
-                {
-                    document.location.href = event_params.response.url;
-                }
-                else
-                {
-                    var ct = event_params.response.getResponseHeader("content-type") || "";
-                    // replace existing form content with new one
-                    if (ct.indexOf('html') > -1)
-                    {
-                        var form = jQuery(v.form[0]);
-                        var form_selector = 'form[action="' + form.attr('action') + '"]';
-                        var response_html = jQuery('<html />').html(event_params.response.responseText);
-                        form.html(response_html.find(form_selector).html());
-                    }
-                    else
-                    {
-                        v.submitForm();
-                    }
-                }
+                v.submit_form();
 
                 break;
 
@@ -213,7 +191,7 @@ var Validator = function( nodeOrSelector, options )
 
             case 'validationfail':  	// fail (internal validation failure, not a user error)
 
-                v.submitForm();
+                v.submit_form();
 
                 break;
         }
@@ -233,19 +211,7 @@ Validator.prototype.logError = function( msg )
 
 }
 
-// dependencies
-Validator.prototype.checkDependencies = function()
-{
-	// jQuery
-	if( window.jQuery === undefined )
-	{
-        v.logError('Validator requires jQuery.');
-		return false;
-	}
-	return true;
-}
-
-Validator.prototype.validateForm = function()
+Validator.prototype.validate_form = function()
 {
     var v = this;
 
@@ -257,7 +223,7 @@ Validator.prototype.validateForm = function()
     v.form.trigger( 'validationstart', [ v, event_params ]);
 }
 
-Validator.prototype.submitForm = function()
+Validator.prototype.submit_form = function()
 {
 	var v = this;
 
