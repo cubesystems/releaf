@@ -90,7 +90,7 @@ module Releaf
             if i == 0
               key = cell
             else
-              item[ locales[ i - 1 ] ] = cell
+              item[ locales[ i - 1 ] ] = cell.nil? ? '' : cell
             end
           end
 
