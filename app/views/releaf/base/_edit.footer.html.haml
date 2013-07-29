@@ -1,9 +1,9 @@
 %footer
   .tools
     .primary
-      %button.button.primary{:type => "submit"}
+      %button.button.primary{:type => "submit", :data => { :type => 'ok' } }
         %i.icon-ok
-        = t('save', :scope => "admin.global")
+        %span= t('save', :scope => "admin.global")
     .secondary
       %a.button.secondary{ :href => url_for( :action => 'index' ) }
         %i.icon-caret-left

@@ -20,7 +20,7 @@ var Validator = function( nodeOrSelector, options )
         v.logError('Multiple forms are not supported for single validator instance.');
     }
 
-    v.clickedButton = null;
+    v.clicked_button = null;
 
     // set options, override defaults from argument if passed
     v.options = jQuery.extend( { ui : true }, options );
@@ -37,7 +37,7 @@ var Validator = function( nodeOrSelector, options )
 		{
 			return;
 		}
-		v.clickedButton = target;
+		v.clicked_button = target;
     });
 
 	// submit
@@ -207,7 +207,7 @@ var Validator = function( nodeOrSelector, options )
                     alert( event_params.error.message );
                 }
 
-                v.clickedButton = null;
+                v.clicked_button = null;
 
                 break;
 
@@ -263,11 +263,11 @@ Validator.prototype.submitForm = function()
 
     // append clicked button as a hidden field
     // because no button value will be sent when submitting the form via .submit()
-    if ((v.clickedButton) && (v.clickedButton.length > 0) && v.clickedButton.attr('name'))
+    if ((v.clicked_button) && (v.clicked_button.length > 0) && v.clicked_button.attr('name'))
     {
         var input = jQuery('<input type="hidden" />');
-        input.attr('name',  v.clickedButton.attr('name'));
-        input.val( v.clickedButton.val() );
+        input.attr('name',  v.clicked_button.attr('name'));
+        input.val( v.clicked_button.val() );
         input.appendTo(v.form);
     }
     v.form[0].submit();

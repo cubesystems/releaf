@@ -159,7 +159,10 @@ jQuery(function(){
         {
             form.attr( 'data-validation-id', event_params.validation_id );
 
-            // :TODO: show loader
+			if (v.clicked_button)
+			{
+				v.clicked_button.trigger('loadingstart');
+			}
         });
 
         form.on( 'validationclearerrors', function( event, v, event_params )
@@ -251,15 +254,15 @@ jQuery(function(){
             
             focus_target.focus(); 
             
-            // :TODO: remove loader
         });
 
 
         form.bind( 'validationerror', function( event, v, event_params )
-        {
-            var error = event_params.error;
+		{
+            var error  = event_params.error;
             var target = jQuery(event.target);
-            
+            var form   = (target.is('form')) ? target : target.closest('form');
+			
             if (target.is(input_selector))
             {
                 var field_box = target.parents('.field').first();
@@ -291,8 +294,6 @@ jQuery(function(){
             }
             else if (target.is('form'))
             {
-                var form = target;
-
                 var form_error_box = form.find('.form_error_box');
                 if (form_error_box.length < 1)
                 {
@@ -341,6 +342,8 @@ jQuery(function(){
                 form_error_box.parent().scrollTop(form_error_box.offset().top - form_error_box.parent().offset().top + form_error_box.parent().scrollTop());
 
             }
+
+            form.find('.button.loading').trigger('loadingend');
         });
 
 
