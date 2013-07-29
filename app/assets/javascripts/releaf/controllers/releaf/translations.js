@@ -37,7 +37,11 @@ jQuery(function()
             
             var cell = row.find( 'td[data-locale="' + locale + '"]' );
             var value_input = cell.find( 'input[type="text"]' );
-            
+            if( value_input.length == 0 )
+            {
+                continue;
+            }
+
             value_input.css(
             {
                 '-webkit-transition': '',
