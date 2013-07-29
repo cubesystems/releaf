@@ -10,3 +10,4 @@ coverage/
 rdoc/
 .sass-cache/
 /rspec.html
+.project
