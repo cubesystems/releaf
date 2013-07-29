@@ -93,7 +93,7 @@ jQuery(function()
     }
 
     body.on('notificationsinit', function(e)
-    {
+    {    
         
         body.on('notificationadd', function(e, custom_params)
         {
@@ -159,7 +159,7 @@ jQuery(function()
         });
         
         body.on('notificationremove', function(e, params)
-        {
+       {
             // removes single or multiple notifications
             
             var removable_notification_ids = get_notification_ids( params );
@@ -235,23 +235,39 @@ jQuery(function()
             }
             
         });
+        
+        body.on('notificationaddflash', '.flash', function(e)
+        {
+            // convert .flash notice to notification
+            var params = 
+            {
+                type    : jQuery(this).attr('data-type'),
+                message : jQuery(this).text().trim()
+            };
+            
+            var id = jQuery(this).attr('data-id');
+            if (typeof id != 'undefined')
+            {
+                params.id = id;
+            }
+            
+            body.trigger('notificationadd', params);
+            jQuery(this).remove();            
+            
+        });
 
     });
     
     body.trigger('notificationsinit');
- 
- 
-    // show flash notices as notifications
-    jQuery('.flash').each(function()
-    {
-        var params = 
-        {
-            type    : jQuery(this).attr('data-type'),
-            message : jQuery(this).text().trim()
-        };
-        
-        body.trigger('notificationadd', params);
+
+    body.find('.flash').trigger('notificationaddflash');
+    
+    body.on('contentreplaced', function(e)
+	{    	
+        // reinit flash notifications for all content that gets replaced via ajax
+        jQuery(e.target).find('.flash').trigger('notificationaddflash');
     });
     
+
 
 });
