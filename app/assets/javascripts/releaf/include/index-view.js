@@ -1,6 +1,6 @@
 jQuery(function()
 {
-    jQuery('body').on('searchinit', 'form', function( e ) 
+    jQuery('body').on('searchinit', 'form', function( e )
     {
         var form = jQuery(e.target);
 
@@ -9,30 +9,30 @@ jQuery(function()
 
         var text_inputs  = form.find( text_input_selector  );
         var other_inputs = form.find( other_input_selector );
-                
+
         var all_inputs   = jQuery().add(text_inputs).add(other_inputs);
-        
+
         var submit_buttons = form.find('button[type="submit"]');
-                
+
         var request;
         var timeout;
 
-        
+
         var options = form.data('search-options');
 
         if (typeof options == 'undefined')
         {
             options = {};
         }
-        
+
         if (typeof options.result_blocks == 'undefined')
         {
             // define default html blocks that will be fetched from search response
             // and placed in page body
-            options.result_blocks = 
+            options.result_blocks =
             {
-                header : 
-                { 
+                header :
+                {
                     result_selector : '.header',
                     target : jQuery('body > .main .header').first()
                 },
@@ -50,8 +50,8 @@ jQuery(function()
                 }
             };
         }
-        
- 
+
+
         form.on( 'searchstart', function()
         {
             // cancel previous timeout
@@ -72,7 +72,7 @@ jQuery(function()
             timeout = setTimeout(function()
             {
                 submit_buttons.trigger('loadingstart');
-                
+
                 // construct url
                 var url = new url_builder( false );
                 url.add( form.serializeArray() );
@@ -83,7 +83,7 @@ jQuery(function()
                 }
 
                 url.add({ ajax: 1 });
-                
+
                 // send request
                 request = jQuery.ajax
                 ({
@@ -96,28 +96,28 @@ jQuery(function()
                     }
                 });
             }, 200 );
-        }); 
+        });
 
-        
+
         form.on( 'searchresponse', function(e, response)
         {
             var response = jQuery('<div />').append( response );
-            
-            // for each result block find its content in response 
+
+            // for each result block find its content in response
             // and copy it to its target container
-            
+
             for (var key in options.result_blocks)
             {
                 var block = options.result_blocks[ key ];
-                
+
                 var content = response.find( block.result_selector ).first().html();
 
                 jQuery( block.target ).html( content );
-                
+
                 block.target.trigger('contentreplaced');
             }
         });
-        
+
         form.on( 'searchend', function( e )
         {
             submit_buttons.trigger('loadingend');
@@ -126,15 +126,15 @@ jQuery(function()
         var start_search_if_value_changed = function()
         {
             var input = jQuery(this);
-            
+
             var previous_value = input.data('previous-value');
-            
+
             if (input.val() == previous_value)
             {
                 return;
             }
-            
-            form.trigger( 'searchstart' );            
+
+            form.trigger( 'searchstart' );
         }
 
         text_inputs.on( 'keyup',  start_search_if_value_changed);
@@ -142,26 +142,33 @@ jQuery(function()
 
     });
 
-    setTimeout( function () 
+    setTimeout( function ()
     {
-        // initialize search via timeout 
+        // initialize search via timeout
         // to allow any custom code to set custom form search options
-        
+
         jQuery( '.view-index form.search' ).trigger( 'searchinit' );
-        
+
     }, 0);
 
 
-
-
-
-    jQuery('#page_select').on('change', function(){
-        var val=jQuery(this).val();
-        if(val)
+    pagination_init = function()
+    {
+        jQuery('#page_select').on('change', function()
         {
-            var url = new url_builder().add({page: val}).getUrl();
-            window.location.href = url;
-        }
+            var val=jQuery(this).val();
+            if(val)
+            {
+                var url = new url_builder().add({page: val}).getUrl();
+                window.location.href = url;
+            }
+        });
+    }
+
+    pagination_init();
+    jQuery('body').on('contentreplaced', function(e)
+    {
+        // reinit toolboxes for all content that gets replaced via ajax
+        pagination_init();
     });
-    
 });
