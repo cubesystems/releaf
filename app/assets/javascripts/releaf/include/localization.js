@@ -1,19 +1,19 @@
 jQuery(function()
 {
-    var body = jQuery('body');    
-    
+    var body = jQuery('body');
+
     var overlay = jQuery('<div />').addClass('localization-menu-overlay').appendTo(body);
     overlay.bind('click', function()
     {
         body.trigger('localizationmenucloseall');
     });
-    
+
     body.bind('localizationinit', function(e)
     {
         var target = jQuery(e.target);
 
         e.stopPropagation();
-        
+
         var fields;
         if (target.is('.field.i18n'))
         {
@@ -28,7 +28,7 @@ jQuery(function()
         {
             return;
         }
-    
+
         fields.bind('localizationmenuopen', function()
         {
             var field  = jQuery(this);
@@ -37,18 +37,18 @@ jQuery(function()
             body.trigger('localizationmenucloseall');
 
             var menu = field.data('localization-menu');
-  
+
             field.attr('data-localization-menu-open', true);
 
             menu.appendTo( body );
-            
+
             field.trigger('localizationmenuposition');
 
             overlay.show();
 
             menu.show();
 
-            return;        
+            return;
         });
 
         fields.bind('localizationmenuclose', function()
@@ -58,7 +58,7 @@ jQuery(function()
             var menu = field.data('localization-menu');
 
             var localization_switch = field.data('localization-switch');
-            
+
             menu.hide().appendTo( localization_switch );
 
             overlay.hide();
@@ -86,25 +86,23 @@ jQuery(function()
             var menu = field.data('localization-menu');
 
             var trigger        = field.data('localization-switch-trigger');
-            
+
             var triggerOffset  = trigger.offset();
 
-            console.log( triggerOffset );
-            
             menu.css
             ({
                 left:  triggerOffset.left + trigger.outerWidth() - menu.outerWidth() ,
                 top :  triggerOffset.top + trigger.outerHeight(),
-            });         
+            });
 
         });
-    
+
         fields.find('.localization-switch .trigger').click(function(e)
         {
             jQuery(this).closest('.field.i18n').trigger('localizationmenutoggle');
         });
-        
-        
+
+
         fields.find('.localization-menu-items button').click(function(e)
         {
             var button = jQuery(this);
@@ -112,85 +110,85 @@ jQuery(function()
             var menu    = button.closest('.localization-menu-items');
             var field   = menu.data('field');
             var localization_box = field.find('.localization[data-locale="' + locale + '"]');
-            
+
             body.trigger('localizationmenucloseall');
-            
+
             localization_box.trigger('localizationlocaleactivate');
 
         });
-        
-        
+
+
         fields.bind('localizationlocaleset', function( e, params )
         {
             var field = jQuery(this);
-            
+
             var locale = params.locale;
-            
+
             var localization_boxes = field.find('.localization[data-locale]');
-            
+
             var target_box  = localization_boxes.filter('[data-locale="' + locale + '"]');
             var other_boxes = localization_boxes.not( target_box );
-            
+
             target_box.addClass('active');
             other_boxes.removeClass('active');
-            
+
             var trigger_label = field.find('.localization-switch .trigger .label');
-            
+
             trigger_label.text( locale );
-            
+
         });
-        
+
         fields.find('.localization').bind('localizationlocaleactivate', function(e)
         {
             var localization_box = jQuery(this);
             var locale = localization_box.attr('data-locale');
-            
+
             var form   = localization_box.closest('form');
             form.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
-   
+
         });
-        
-        fields.find('input[type!="hidden"],textarea,select').focus(function(e) 
-        { 
+
+        fields.find('input[type!="hidden"],textarea,select').focus(function(e)
+        {
             var localization_box = jQuery(this).closest('.localization');
             if (!localization_box.is('.active'))
             {
                 localization_box.trigger('localizationlocaleactivate');
             }
         });
-  
+
         fields.each(function()
         {
             var field = jQuery(this);
 
             var localization_switch = field.find('.localization-switch').first();
-            
+
             field.data('localization-switch', localization_switch );
-            
+
             field.data('localization-switch-trigger', localization_switch.find('.trigger').first() );
-            
+
             var menu = localization_switch.find('menu').first();
-            
+
             field.data('localization-menu', menu);
-            
+
             menu.data('field', field);
 
         });
-        
-    }); 
+
+    });
 
     body.bind('localizationmenucloseall', function()
     {
-        body.find('.field.i18n[data-localization-menu-open]').trigger('localizationmenuclose');        
+        body.find('.field.i18n[data-localization-menu-open]').trigger('localizationmenuclose');
     });
-    
- 
+
+
     // attach localizationinit to all loaded content
     body.on('contentloaded', function(e)
-    { 
+    {
         // reinit localization for all content that gets replaced via ajax
         jQuery(e.target).trigger('localizationinit');
-        
+
     });
 
 });

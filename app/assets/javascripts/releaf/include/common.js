@@ -9,9 +9,9 @@ jQuery(function(){
     {
         body.trigger('sidecompactcloseall');
     });
-    
-    var first_level_side_items =  jQuery('body > .side > nav > ul > li');        
-    
+
+    var first_level_side_items =  jQuery('body > .side > nav > ul > li');
+
     jQuery('body > .side > .compacter button').click(function()
     {
         var button = jQuery(this);
@@ -41,14 +41,14 @@ jQuery(function(){
             {
                 var trigger = jQuery(this).children('.trigger');
                 trigger.attr( 'title', trigger.children('.name').text() );
-            });            
+            });
         }
         else
         {
             first_level_side_items.children('.trigger').removeAttr('title');
         }
     });
-    
+
     body.trigger('sidecompactchange');
 
     jQuery('body > .side > nav .collapser button').click(function(e)
@@ -76,26 +76,26 @@ jQuery(function(){
         jQuery(this).addClass('open');
         side_compact_overlay.show();
     });
-    
+
     first_level_side_items.bind('sidecompactitemclose', function(e)
     {
         jQuery(this).removeClass('open');
         side_compact_overlay.hide();
     });
-    
-    
+
+
     first_level_side_items.bind('sidecompacttoggle', function(e)
     {
         var item   = jQuery(this);
         var event = (item.is('.open')) ? 'sidecompactitemclose' : 'sidecompactitemopen';
         item.trigger( event );
     });
-    
+
     body.bind('sidecompactcloseall', function(e)
     {
         first_level_side_items.filter('.open').trigger('sidecompactitemclose');
     })
-    
+
     jQuery('body > header').click(function()
     {
         // add additional trigger on header to close opened compact submenu
@@ -108,12 +108,11 @@ jQuery(function(){
         {
             return;
         }
-        console.log('wat');
-        
+
         body.trigger('sidecompactcloseall');
         return false;
     });
-    
+
     jQuery('body > .side > nav span.trigger').click(function(e)
     {
         if (body.hasClass('side-compact'))
@@ -126,11 +125,11 @@ jQuery(function(){
             jQuery(this).find('.collapser button').trigger('click');
         }
     });
-    
-    
-    
-    
-    
+
+
+
+
+
 
     // define validation handlers
     jQuery( document ).on( 'validationinit', 'form', function( event )
@@ -139,20 +138,20 @@ jQuery(function(){
         {
             return;
         }
-        
+
         var form = jQuery(event.target);
-        
+
         if (form.data( 'validator' ))
         {
             // multiple validators on a single form are not supported
             // a validator already exists. return
             return;
         }
-        
-                
-        // selector for field input matching 
-        var input_selector = 'input[type!="hidden"],textarea,select'; 
-                
+
+
+        // selector for field input matching
+        var input_selector = 'input[type!="hidden"],textarea,select';
+
         form.data( 'validator', new Validator(form, { ui : false, submit_on_ok : false } ));
 
         form.on( 'validationstart', function( event, v, event_params )
@@ -170,9 +169,9 @@ jQuery(function(){
             // trigger this to clear existing errors in form
             // optional event_params.except_validation_id can be used
             // to preserve errors created by that specific validation
-            
+
             var except_validation_id = (event_params && ('except_validation_id' in event_params)) ? event_params.except_validation_id : null;
-            
+
             // remove field errors
             form.find('.field.has_error').each(function()
             {
@@ -184,7 +183,7 @@ jQuery(function(){
                     (!except_validation_id)
                     ||
                     (error_node.attr('data-validation-id') != except_validation_id)
-                )   
+                )
                 {
                     error_box.remove();
                     field.removeClass('has_error');
@@ -225,13 +224,13 @@ jQuery(function(){
                     form.removeClass('has_error');
                 }
             }
-            
+
         });
 
         form.on( 'validationend', function( event, v, event_params )
         {
             // remove all errors left from earlier validations
-            
+
             var last_validation_id = form.attr( 'data-validation-id' );
 
             if (event_params.validation_id != last_validation_id)
@@ -241,48 +240,48 @@ jQuery(function(){
             }
 
             event_params.except_validation_id = last_validation_id;
-            
+
             form.trigger('validationclearerrors', [ v, event_params ]);
 
 
             // if error fields still exist, focus to first visible
-            
-            // locate first input inside visible error fields, 
+
+            // locate first input inside visible error fields,
             // but for i18n fields exclude inputs inside .localization without .has_error
-            
+
             var focus_target = form.find('.field.has_error').filter(':visible').find(input_selector).not('.localization:not(.has_error) *').first();
-            
-            focus_target.focus(); 
-            
+
+            focus_target.focus();
+
         });
 
         form.bind( 'validationok', function( event, v, event_params )
         {
             var handler = form.attr('data-validation-ok-handler');
-            
+
             if (handler != 'ajax')
             {
                 // custom handler or undefined
                 return;
             }
-            
+
             if (!event_params || !event_params.response)
             {
                 return;
-            } 
+            }
 
             if ('url' in event_params.response)
             {
                 // json redirect url received
-                
+
                 event.preventDefault(); // prevent validator's built in submit_form on ok
-                
+
                 document.location.href = event_params.response.url;
             }
             else if ('getResponseHeader' in event_params.response)
             {
                 // html content returned, replace main form if found in response
-                
+
                 var form_id = form.attr('id');
                 if (!form_id)
                 {
@@ -292,19 +291,19 @@ jQuery(function(){
                 var form_selector = 'form#' + form_id;
 
                 event.preventDefault(); // prevent validator's built in submit_form on ok
-                
+
                 body.trigger('contentreplace', [ event_params.response, form_selector ])
-                
+
             }
-            
-        });        
+
+        });
 
         form.bind( 'validationerror', function( event, v, event_params )
 		{
             var error  = event_params.error;
             var target = jQuery(event.target);
             var form   = (target.is('form')) ? target : target.closest('form');
-			
+
             if (target.is(input_selector))
             {
                 var field_box = target.parents('.field').first();
@@ -326,13 +325,13 @@ jQuery(function(){
                 error_node.text( error.message );
 
                 field_box.addClass('has_error');
-                
+
                 if (field_box.is('.i18n'))
                 {
                     var localization_box = target.closest('.localization');
                     localization_box.addClass('has_error');
                 }
-                
+
             }
             else if (target.is('form'))
             {
@@ -417,14 +416,14 @@ jQuery(function(){
     });
 
     // attach validation to any new default forms after any content load
-    
+
     body.on('contentloaded', function(e)
-    { 
+    {
         var block = jQuery(e.target);
         var forms = (block.is('form[data-validation-url]')) ? block : block.find('form[data-validation-url]');
-        
+
         forms.trigger('validationinit');
     });
 
-    
+
 });
