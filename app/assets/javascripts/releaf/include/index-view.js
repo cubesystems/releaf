@@ -1,6 +1,8 @@
 jQuery(function()
 {
-    jQuery('body').on('searchinit', 'form', function( e )
+    var body = jQuery('body');
+    
+    body.on('searchinit', 'form', function( e )
     {
         var form = jQuery(e.target);
 
@@ -153,23 +155,17 @@ jQuery(function()
     }, 0);
 
 
-    pagination_init = function()
+    body.on('contentloaded', function(e)
     {
-        jQuery('#page_select').on('change', function()
+        jQuery(e.target).find('#page_select').on('change', function()
         {
-            var val=jQuery(this).val();
-            if(val)
+            var val = jQuery(this).val();
+            if (val)
             {
                 var url = new url_builder().add({page: val}).getUrl();
                 window.location.href = url;
             }
         });
-    }
-
-    pagination_init();
-    jQuery('body').on('contentreplaced', function(e)
-    {
-        // reinit toolboxes for all content that gets replaced via ajax
-        pagination_init();
     });
+    
 });
