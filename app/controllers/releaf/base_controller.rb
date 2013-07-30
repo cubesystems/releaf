@@ -148,7 +148,7 @@ module Releaf
       result = @resource.destroy
 
       if result
-        flash[:success] = { :id => resource_status, :message => I18n.t('deleted', :scope => 'notices.' + controller_scope_name) }
+        flash[:success] = { :id => :resource_status, :message => I18n.t('deleted', :scope => 'notices.' + controller_scope_name) }
       end
 
       respond_to do |format|
