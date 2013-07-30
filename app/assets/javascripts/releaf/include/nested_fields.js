@@ -1,6 +1,6 @@
 jQuery( document ).ready(function()
 {
-    
+
     jQuery(document).bind('nestedfieldsinit', function( e )
     {
         var target = jQuery(e.target);
@@ -8,30 +8,30 @@ jQuery( document ).ready(function()
         {
             target = target.find('.nested-wrap');
         }
-        
+
         target.each(function()
         {
             var block = jQuery(this);
             var list   = block.find('.list').first();
-            
+
             var block_name               = block.attr('data-name');
-            var template_selector        = '.item[data-name="' + block_name + '"].template';            
+            var template_selector        = '.item[data-name="' + block_name + '"].template';
             var item_selector            = '.item[data-name="' + block_name + '"]:not(.template)';
-            
+
             var new_item_selector        = '.item[data-name="' + block_name + '"].new';
             var existing_item_selector   = '.item[data-name="' + block_name + '"]:not(.template,.new)';
 
-            
+
             block.click( function( event, event_params )
             {
-                var trigger = jQuery( event.target );     
-                
+                var trigger = jQuery( event.target );
+
                 // webkit browsers go beyond button node when setting click target
                 if (!trigger.is('button'))
                 {
                     trigger = trigger.parents( 'button' ).first();
                 }
-                
+
                 if (
                     (!trigger.is('button.add-nested-item'))
                     &&
@@ -41,9 +41,9 @@ jQuery( document ).ready(function()
                     // irrelevant click
                     return;
                 }
-                
+
                 var target_block = trigger.parents('.nested-wrap').first();
-                                    
+
                 if (target_block.attr('data-name') != block_name)
                 {
                     return;   // only react to own clicks
@@ -65,14 +65,14 @@ jQuery( document ).ready(function()
 
                     new_item.removeClass( 'template' ).addClass('new');
 
-                    new_item.appendTo( list );                        
-                    
+                    new_item.appendTo( list );
+
                     new_item.trigger( 'nestedfieldsreindex', event_params );
-                    
+
                     if (event_params && event_params.no_animation)
                     {
                         new_item.trigger( 'nestedfieldsitemadd', event_params);
-                        new_item.trigger( 'nestedfieldsinit', event_params ); 
+                        new_item.trigger( 'nestedfieldsinit', event_params );
                     }
                     else
                     {
@@ -84,7 +84,7 @@ jQuery( document ).ready(function()
                                 new_item.trigger( 'nestedfieldsitemadd', event_params);
                             });
 
-                            new_item.trigger( 'nestedfieldsinit', event_params );                        
+                            new_item.trigger( 'nestedfieldsinit', event_params );
                         }
                         else
                         {
@@ -96,11 +96,11 @@ jQuery( document ).ready(function()
                                 {
                                     new_item.trigger( 'nestedfieldsitemadd', event_params );
                                 });
-                                new_item.trigger( 'nestedfieldsinit', event_params);                            
+                                new_item.trigger( 'nestedfieldsinit', event_params);
                             });
                         }
                     }
-    
+
                 }
                 else if (trigger.is('.remove-nested-item'))
                 {
@@ -109,12 +109,12 @@ jQuery( document ).ready(function()
                     var removeItem = function( item )
                     {
                         var destroy_inputs = item.find('input.destroy');
-                        
+
                         if (destroy_inputs.length > 0)
                         {
                             // mark as destroyable, hide and move to end of list
                             destroy_inputs.val( true );
-                            
+
                             item.hide();
                         }
                         else
@@ -124,11 +124,11 @@ jQuery( document ).ready(function()
 
                         target_block.trigger( 'nestedfieldsreindex', event_params );
                     }
-                    
+
                     item.addClass( 'removed' );
-                    
-                    item.trigger( 'nestedfieldsitemremove', event_params );                    
-                    
+
+                    item.trigger( 'nestedfieldsitemremove', event_params );
+
                     if (event_params && event_params.no_animation)
                     {
                         removeItem( item );
@@ -153,24 +153,24 @@ jQuery( document ).ready(function()
                 }
 
                 return;
-            });            
+            });
 
-            
-            // :TODO: trigger nestedfieldsreindex ofter sorting in case of sortable_objects 
-            
+
+            // :TODO: trigger nestedfieldsreindex ofter sorting in case of sortable_objects
+
             block.on('nestedfieldsreindex', function( e )
             {
                 // update data-index attributes and names/ids for all fields inside a block
-                
+
                 // in case of nested blocks, this bubbles up and gets called for each parent block also
                 // so that each block can update it's own index in the names
 
-                // only new items are changed. 
+                // only new items are changed.
                 // existing items always preserve their original indexes
                 // new item indexes start from largest of existing item indexes + 1
-                
+
                 var first_available_new_index = 0;
-                
+
                 var existing_items = block.find( existing_item_selector );
                 existing_items.each(function()
                 {
@@ -180,7 +180,7 @@ jQuery( document ).ready(function()
                         return;
                     }
                     index = index * 1;
-                    
+
                     if (index >= first_available_new_index)
                     {
                         first_available_new_index = index + 1;
@@ -188,12 +188,12 @@ jQuery( document ).ready(function()
                 })
 
                 var new_items = block.find(new_item_selector);
-                
+
                 var index = first_available_new_index;
-                
+
 
                 new_items.each(function()
-                {   
+                {
                     var item = jQuery(this);
                     item.attr('data-index', index);
 
@@ -202,11 +202,11 @@ jQuery( document ).ready(function()
                     //
                     //  resource[foo_attributes][0][bar]  /  resource[foo_attributes][_template_][bar]
                     //  resource_foo_attributes_0_bar     /  resource_foo_attributes__template__bar
-                    //   
-                       
+                    //
+
                     var matchPattern  = new RegExp('(\\[|_)' + block_name + '_attributes(\\]\\[|_)(\\d*|_template_)?(\\]|_)')
-                    var searchPattern = new RegExp('((\\[|_)' + block_name + '_attributes(\\]\\[|_))(\\d*|_template_)?(\\]|_)', 'g');            
-                    var attrs = ['name', 'id', 'for'];            
+                    var searchPattern = new RegExp('((\\[|_)' + block_name + '_attributes(\\]\\[|_))(\\d*|_template_)?(\\]|_)', 'g');
+                    var attrs = ['name', 'id', 'for'];
 
                     item.find('input,select,textarea,button,label').each(function()
                     {
@@ -216,35 +216,35 @@ jQuery( document ).ready(function()
                             if (attr && attr.match(matchPattern))
                             {
                                 jQuery(this).attr(attrs[i], attr.replace(searchPattern, '$1' + index + '$5'));
-                            }                    
+                            }
                         }
-                    }); 
+                    });
 
                     index++;
                 });
-                
+
             });
-            
+
             block.on('nestedfieldsitemadd', function( e )
             {
                 var item = jQuery( e.target );
-                
+
                 if (item.attr('data-name') != block_name)
                 {
                     return; // the added item does not belong to this block
                 }
-                
+
                 // focus first visibile field in item
                 item.find( 'input, select, textarea' ).filter(':visible').first().focus();
 
             });
-            
+
 
         });
-        
+
 	});
-    
+
     jQuery(document).trigger('nestedfieldsinit');
-      
-    
+
+
 });

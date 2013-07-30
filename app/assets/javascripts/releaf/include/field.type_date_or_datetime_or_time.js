@@ -1,8 +1,8 @@
-jQuery(document).ready(function() 
+jQuery(document).ready(function()
 {
     var body = jQuery('body');
-    
-    var chevron_icons_show = function( instance ) 
+
+    var chevron_icons_show = function( instance )
     {
         // Set timeout to execute this after datepicker has been initialized
         setTimeout( function() {
@@ -12,11 +12,11 @@ jQuery(document).ready(function()
     }
 
     // initialize date/datetime/time pickers
-    body.on('calendarsinit', function(e) 
+    body.on('calendarsinit', function(e)
     {
         var block = jQuery(e.target);
 
-        var options = 
+        var options =
         {
             timeFormat: 'HH:mm:ss',
             controlType: 'select',
@@ -65,6 +65,6 @@ jQuery(document).ready(function()
     {
         jQuery(e.target).trigger('calendarsinit');
     });
-    
+
 
 });

@@ -1,7 +1,7 @@
 jQuery(function()
 {
-    var body = jQuery('body');    
-    
+    var body = jQuery('body');
+
     var overlay = jQuery('<div />').addClass('toolbox-overlay').appendTo(body);
     overlay.bind('click', function()
     {
@@ -13,7 +13,7 @@ jQuery(function()
         var target = jQuery(e.target);
 
         e.stopPropagation();
-        
+
         var toolboxes;
         if (target.is('.toolbox'))
         {
@@ -28,7 +28,7 @@ jQuery(function()
         {
             return;
         }
-    
+
         toolboxes.bind('toolboxopen', function()
         {
             var toolbox   = jQuery(this);
@@ -37,7 +37,7 @@ jQuery(function()
             body.trigger('toolboxcloseall');
 
             var menu = toolbox.data('toolbox-menu');
-  
+
             toolbox.attr('data-toolbox-open', true);
 
             menu.appendTo( body );
@@ -47,7 +47,7 @@ jQuery(function()
 
             menu.show();
 
-            return;        
+            return;
         });
 
         toolboxes.bind('toolboxclose', function()
@@ -90,7 +90,7 @@ jQuery(function()
             var menuWidth   = menu.outerWidth();
             var openToRight = ((jQuery(document).width() - triggerCenterX - menuWidth - 50) > 0);
 
-            var beak = menu.children('i').first();        
+            var beak = menu.children('i').first();
 
             if (openToRight)
             {
@@ -110,41 +110,41 @@ jQuery(function()
                 ({
                     left:  triggerCenterX - menuWidth + 20,
                     top :  triggerOffset.top  + trigger.outerHeight(),
-                });         
+                });
                 beak.css(
                 {
                     left : menuWidth - 27,
-                });            
+                });
             }
 
         });
-    
+
         toolboxes.find('.trigger').click(function(e)
         {
             jQuery(this).closest('.toolbox').trigger('toolboxtoggle');
         });
-        
-        
+
+
         toolboxes.each(function()
         {
             var toolbox = jQuery(this);
 
             var menu = toolbox.find('menu').first();
             toolbox.data('toolbox-menu', menu);
-            
+
             var items = menu.find('li');
 
             toolbox.toggleClass('empty', (items.length < 1));
-            
+
             items.find('.button').click(function()
             {
                 toolbox.trigger('toolboxclose');
             });
-            
+
         });
-         
-    }); 
- 
+
+    });
+
     jQuery(window).bind('resize', function()
     {
         jQuery('.toolbox[data-toolbox-open]').trigger('toolboxposition');
@@ -152,14 +152,14 @@ jQuery(function()
 
     body.bind('toolboxcloseall', function()
     {
-        body.find('.toolbox[data-toolbox-open]').trigger('toolboxclose');        
+        body.find('.toolbox[data-toolbox-open]').trigger('toolboxclose');
     });
-    
+
 
     // attach toolboxinit to all loaded content
     body.on('contentloaded', function(e)
-    { 
+    {
         jQuery(e.target).trigger('toolboxinit');
     });
-    
+
 });

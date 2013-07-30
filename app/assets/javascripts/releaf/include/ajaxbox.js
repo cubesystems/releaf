@@ -4,14 +4,14 @@
 jQuery(document).ready( function()
 {
     var ajaxbox_link_selector = 'a.ajaxbox';
-        
+
     var xhr;
-    
-    var body = jQuery('body');        
+
+    var body = jQuery('body');
 
     var open_ajax_box = function( params )
     {
-        var fancybox_params = 
+        var fancybox_params =
         {
             autoDimensions    : true,
             autoScale         : true,
@@ -24,7 +24,7 @@ jQuery(document).ready( function()
             afterShow        : function()
             {
                 this.inner.addClass('ajaxbox-inner');
-                
+
                 // insert close button if header exists and box is not modal
                 if (!params.modal)
                 {
@@ -40,7 +40,7 @@ jQuery(document).ready( function()
                         header.append( close_button );
                     }
                 }
-               
+
                 // focus on cancel button in footer if found
                 var cancel_button = this.inner.find('.body .footer .button[data-type="cancel"]').first();
                 if (cancel_button.length > 0)
@@ -52,60 +52,60 @@ jQuery(document).ready( function()
                     });
                     cancel_button.focus();
                 }
-                
-                this.inner.trigger('contentloaded');      
-                
+
+                this.inner.trigger('contentloaded');
+
                 this.inner.trigger('ajaxboxdone');
-                
+
             },
             beforeClose  : function()
             {
-                
+
                 this.inner.trigger('ajaxboxbeforeclose');
             }
         }
-        
+
         if (params.modal)
         {
             fancybox_params.closeClick   = false;
-            fancybox_params.helpers     = { overlay: { closeClick: false } };            
+            fancybox_params.helpers     = { overlay: { closeClick: false } };
         }
-        
+
         fancybox_params.content = params.content;
-        jQuery.fancybox( fancybox_params );        
+        jQuery.fancybox( fancybox_params );
         return;
     }
-    
+
     var close_ajax_box = function()
     {
-        jQuery.fancybox.close();   
+        jQuery.fancybox.close();
     }
-    
-    
+
+
     body.on('ajaxboxinit', function(e)
     {
         var target = jQuery(e.target);
 
-        // init links 
+        // init links
         var links = (target.is(ajaxbox_link_selector)) ? target : target.find(ajaxbox_link_selector);
-        
+
         links.on('click', function()
         {
             var link = jQuery(this);
-            
-            var params = 
+
+            var params =
             {
                 url     : new url_builder( link.attr('href') ).add( { ajax: 1 } ).getUrl(),
                 modal   : (link.attr('data-ajaxbox-modal') == '1')
             };
 
             link.trigger('ajaxboxopen', params);
-            
+
             return false;
         });
 
     });
-    
+
     body.on('ajaxboxopen', function(e, params)
     {
         // params expects either url or content
@@ -124,7 +124,7 @@ jQuery(document).ready( function()
             {
                 url:   params.url,
                 type: 'get',
-                success: function( data ) 
+                success: function( data )
                 {
                     params.content = data;
                     open_ajax_box( params );
@@ -141,10 +141,10 @@ jQuery(document).ready( function()
 
     // attach ajaxboxinit to all loaded content
     body.on('contentloaded', function(e)
-    { 
+    {
         // reinit ajaxbox for all content that gets replaced via ajax
         jQuery(e.target).trigger('ajaxboxinit');
     });
-    
+
 });
 

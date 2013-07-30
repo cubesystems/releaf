@@ -8,14 +8,14 @@ jQuery(document).ready(function() {
          });
      });
 
-    jQuery(document.body).on('initsortable', function(e) 
+    jQuery(document.body).on('initsortable', function(e)
     {
         var target = jQuery(e.target);
         if (!target.is('[data-sortable]'))
         {
             target = target.find('[data-sortable]');
         }
-        
+
         target.sortable({
             axis: "y",
             ontainment: "parent",
@@ -25,12 +25,12 @@ jQuery(document).ready(function() {
             handle: '> .handle',
             items: "> .item",
             scroll: true,
-            update: function( event, ui ) 
+            update: function( event, ui )
             {
                 jQuery(this).trigger('sortableupdate');
             }
         });
-        
+
     });
 
     jQuery(document.body).trigger('initsortable');

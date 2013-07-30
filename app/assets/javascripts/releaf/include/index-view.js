@@ -1,7 +1,7 @@
 jQuery(function()
 {
     var body = jQuery('body');
-    
+
     body.on('searchinit', 'form', function( e )
     {
         var form = jQuery(e.target);
@@ -115,7 +115,7 @@ jQuery(function()
                 var content = response.find( block.result_selector ).first().html();
 
                 jQuery( block.target ).html( content );
-                
+
                 block.target.trigger('contentloaded');
 
             }
@@ -167,5 +167,5 @@ jQuery(function()
             }
         });
     });
-    
+
 });

@@ -33,7 +33,7 @@ function url_builder( params )
 			{
 				var variable = queryParts[ i ].split( '=' );
 				var name = variable.shift();
-				
+
 				if( variable.length > 0 )
 				{
 					var value = variable.shift();
@@ -42,12 +42,12 @@ function url_builder( params )
 				{
 					var value = '';
 				}
-				
+
 				if( unescape( name ).substr( unescape( name ).length - 2, 2 ) == '[]' )
 				{
 					name = unescape( name );
 				}
-				
+
 				if( name.substr( name.length - 2, 2 ) == '[]' )
 				{
 					name = name.substr( 0, name.length - 2 );
@@ -178,6 +178,6 @@ url_builder.prototype.getUrl = function()
 			query += i + '=' + this.query[ i ];
 		}
 	}
-	
+
 	return this.path + '?' + query;
 }

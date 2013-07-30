@@ -20,5 +20,5 @@ module Releaf
     #   asset = TinymceAsset.find(params[:id])
     #   send_file asset.file.path, :type => asset.file_type
     # end
-end
+  end
 end

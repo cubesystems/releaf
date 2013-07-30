@@ -348,9 +348,9 @@ module Releaf
         when /_id$/
           if obj_class.reflect_on_association(attribute_name[0..-4].to_sym)
             field_type = 'item'
-        else
-          field_type = 'text'
-        end
+          else
+            field_type = 'text'
+          end
 
         when /_uid$/
           field_type = 'file'
@@ -404,7 +404,7 @@ module Releaf
         return :to_text
       else
         Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
-          return fallback
+        return fallback
       end
     end
 
@@ -687,13 +687,13 @@ module Releaf
         field_name = validation_attribute_nested_field_name(resource, parts)
       else
         field_name = "["
-                       field_name += parts[0]
-                       # normalize field id for globalize3 attributes without prefix
-                       if resource_class.respond_to?(:translations_table_name) && resource_class.translates.include?(attribute.to_sym)
-                         field_name += "_#{I18n.default_locale}"
-                       end
+        field_name += parts[0]
+        # normalize field id for globalize3 attributes without prefix
+        if resource_class.respond_to?(:translations_table_name) && resource_class.translates.include?(attribute.to_sym)
+          field_name += "_#{I18n.default_locale}"
+        end
 
-                       field_name += "]"
+        field_name += "]"
       end
 
       field_name = prefix + field_name
