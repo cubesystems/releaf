@@ -11,10 +11,6 @@ module Releaf
 
     helper_method :controller_scope_name
 
-    def full_controller_name
-      self.class.name.sub(/Controller$/, '').underscore
-    end
-
     def controller_scope_name
       'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
@@ -26,7 +22,7 @@ module Releaf
     end
 
     def access_denied
-      @controller_name = full_controller_name
+      @controller_name = self.class.name.sub(/Controller$/, '').underscore
       respond_to do |format|
         format.html { render 'releaf/error_pages/access_denied', :status => 403 }
         format.any  { render :text => '', :status =>403 }
