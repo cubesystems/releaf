@@ -145,6 +145,7 @@ module ActionDispatch::Routing
           end
 
           root :to => "home#index"
+          get '/*path' => 'base_application#page_not_found'
         end
       end
     end
