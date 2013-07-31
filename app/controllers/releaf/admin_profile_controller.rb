@@ -1,10 +1,6 @@
 module Releaf
   class AdminProfileController < BaseController
 
-    def resource_class
-      Releaf.devise_for.classify.constantize
-    end
-
     def update
       old_password = @resource.password
       super
@@ -32,6 +28,8 @@ module Releaf
       @features = {
         :edit     => true
       }
+
+      # use already loaded admin user instance
       @resource = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
     end
 
