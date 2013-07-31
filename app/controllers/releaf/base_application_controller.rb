@@ -5,16 +5,19 @@ module Releaf
 
     rescue_from Releaf::AccessDenied,           :with => :access_denied
 
-    # check_authorization :unless => :devise_controller?
     layout Releaf.layout
     protect_from_forgery
 
     helper_method :controller_scope_name
 
+    # return contoller translation scope name for using
+    # with I18.translation call within hash params
+    # ex. t("save", scope: controller_scope_name)
     def controller_scope_name
       'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
 
+    # set locale for interface translating from current admin user
     def set_locale
       admin = send("current_" + ReleafDeviseHelper.devise_admin_model_name)
       I18n.locale = admin.locale
