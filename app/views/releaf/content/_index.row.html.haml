@@ -1,0 +1,10 @@
+%tr{ :class => (resource.children.empty?) ? nil : 'has-children', :data => { :level => level, :id => resource.id, :ancestry => ancestry } }
+  %td.toolbox-cell
+    = render 'toolbox', :resource => resource
+  %td.node
+    %span.wrap
+      - unless resource.children.empty?
+        %button.secondary.button.toggler.only-icon{ :type => :button }
+          %i.icon-chevron-down
+      %a{:href => url_for(:action => :edit, :id => resource.id)}
+        = resource.name

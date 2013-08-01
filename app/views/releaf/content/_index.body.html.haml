@@ -1,0 +1,12 @@
+%h2.header
+  = t("all_title", :scope => 'admin.global')
+
+- if resources.empty?
+  %table.table
+    %tr
+      %th
+        .nothing_found= t("nothing_found", :scope => "admin.global")
+- else
+  = render "index.table", :resources => resources, :count => count
+
+

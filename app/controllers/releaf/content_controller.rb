@@ -16,7 +16,7 @@ module Releaf
     end
 
     def index
-      @nodes = Node.roots
+      @resources = Node.roots
     end
 
     def create
