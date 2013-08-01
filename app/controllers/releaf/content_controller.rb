@@ -15,15 +15,8 @@ module Releaf
       return %w[name parent_id visible protected content]
     end
 
-    def build_secondary_panel_variables
-      @nodes = Node.roots
-      super
-    end
-
     def index
-      respond_to do |format|
-        format.html
-      end
+      @nodes = Node.roots
     end
 
     def create
