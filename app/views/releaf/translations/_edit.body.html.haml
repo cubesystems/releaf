@@ -6,7 +6,7 @@
   .toolbox-wrap
     = render 'toolbox', :resource => @resource
 
-.body.inset_box.no_shadow
+.body
   -if f.object.errors.any?
     #error_explanation
       %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"

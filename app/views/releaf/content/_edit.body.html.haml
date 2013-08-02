@@ -1,4 +1,4 @@
-.body.inset_box.no_shadow
+.body
   - if f.object.new_record?
     = f.hidden_field :parent_id, :value => params[:parent_id] || f.object.parent_id
 
