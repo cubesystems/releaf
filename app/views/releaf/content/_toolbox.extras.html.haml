@@ -1,6 +1,6 @@
 - unless resource.new_record?
   %li
-    %a.button.ajaxbox{:href => url_for( :action => :add_child, :id => resource.id )}
+    %a.button.ajaxbox{:href => url_for( :action => :new, :parent_id => resource.id )}
       %i.icon-large.icon-plus
       = t('Add child', :scope => controller_scope_name)
   %li

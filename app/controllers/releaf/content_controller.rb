@@ -71,23 +71,7 @@ module Releaf
 
       respond_after_save request_type, result, html_render_action
 
-   end
-
-
-    def add_child
-      @resource = resource_class.find(params[:id])
-
-      Rails.application.eager_load!
-      get_base_models
-
-      respond_to do |format|
-        format.html do
-          render :layout => nil if params.has_key?(:ajax)
-        end
-      end
-
     end
-
 
     def new
       super
@@ -102,6 +86,13 @@ module Releaf
       end
 
       form_extras
+
+      respond_to do |format|
+        format.html do
+          render :layout => nil if params.has_key?(:ajax)
+        end
+      end
+
     end
 
     def edit

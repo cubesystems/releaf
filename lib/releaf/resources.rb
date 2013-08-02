@@ -132,9 +132,7 @@ module ActionDispatch::Routing
           if allowed_controllers.nil? or allowed_controllers.include? :content
             releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
               get :generate_url, :on => :collection
-              member do
-                get :add_child
-              end
+
             end
           end
 
