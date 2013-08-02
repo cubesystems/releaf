@@ -19,20 +19,6 @@ module Releaf
       @resources = Node.roots
     end
 
-    def create
-      content_type = _node_params[:content_type].constantize
-      @resource = resource_class.new(_node_params)
-
-      respond_to do |format|
-        if @resource.save
-          format.html { redirect_to url_for(:action => "edit", :controller => 'content', :id => @resource.id)}
-        else
-          form_extras
-          @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
-          format.html { render action: "new" }
-        end
-      end
-    end
 
     def generate_url
       tmp_resource = nil
@@ -56,23 +42,36 @@ module Releaf
       end
     end
 
-    def update
-      @resource = resource_class.find(params[:id])
 
-      form_extras
-      @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
+    def save_and_respond request_type
 
-      @resource.assign_attributes(_node_params)
+      if request_type == :create
+        content_type = _node_params[:content_type].constantize
+        @resource = resource_class.new(_node_params)
 
+        result = @resource.save
 
-      respond_to do |format|
-        if @resource.save
-          format.html { redirect_to url_for(:action => "edit") }
-        else
-          format.html { render action: "edit" }
-        end
+        form_extras
+        @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
+
+        html_render_action = "new"
+
+      elsif request_type == :update
+
+        @resource = resource_class.find(params[:id])
+        @resource.assign_attributes(_node_params)
+
+        result = @resource.save
+
+        form_extras
+        @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
+
+        html_render_action = "edit"
       end
-    end
+
+      respond_after_save request_type, result, html_render_action
+
+   end
 
 
     def add_child
