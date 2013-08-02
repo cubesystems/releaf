@@ -24,12 +24,18 @@ module Releaf
 
       unless resource.nil?
         if resource.new_record?
-          breadcrumbs << { :name => I18n.t('New record', :scope => 'admin.breadcrumbs') }
-        elsif resource.respond_to?(:to_text)
-          breadcrumbs << {:name => resource.send(:to_text)}
+          text = I18n.t('New record', :scope => 'admin.breadcrumbs')
+          url  = url_for(:action => :new )
         else
-          breadcrumbs << { :name => I18n.t('Edit record', :scope => 'admin.breadcrumbs') }
+          if resource.respond_to?(:to_text)
+            text = resource.send(:to_text)
+          else
+            text =  I18n.t('Edit record', :scope => 'admin.breadcrumbs')
+          end
+          url = url_for(:action => :edit, :id => resource.id)
         end
+
+        breadcrumbs << { :name => text, :url => url }
       end
 
       return breadcrumbs
