@@ -74,18 +74,28 @@ module Releaf
       end
     end
 
-    def new
-      unless params[:ajax] == '1'
-        super
-        @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
-        @item_position = 1
-        @resource.parent_id = params[:parent_id]
-        form_extras
-      else
-        Rails.application.eager_load!
-        get_base_models
-        render 'ajax.new', :layout => nil
+
+    def add_child
+      @resource = resource_class.find(params[:id])
+
+      Rails.application.eager_load!
+      get_base_models
+
+      respond_to do |format|
+        format.html do
+          render :layout => nil if params.has_key?(:ajax)
+        end
       end
+
+    end
+
+
+    def new
+      super
+      @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
+      @item_position = 1
+      @resource.parent_id = params[:parent_id]
+      form_extras
     end
 
     def edit
