@@ -94,6 +94,13 @@ module Releaf
       @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
       @item_position = 1
       @resource.parent_id = params[:parent_id]
+
+      unless params[:parent_id].blank?
+        parent = Node.find( params[:parent_id] )
+        @ancestors = parent.ancestors
+        @ancestors << parent
+      end
+
       form_extras
     end
 
@@ -106,6 +113,8 @@ module Releaf
       else
         @item_position = 1
       end
+
+      @ancestors = @resource.ancestors
 
       form_extras
     end

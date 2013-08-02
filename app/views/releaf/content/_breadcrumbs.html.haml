@@ -1,0 +1,15 @@
+:ruby
+  breadcrumbs = admin_breadcrumbs @resource
+
+  unless @ancestors.blank?
+    last_item = breadcrumbs.pop
+
+    # insert ancestor breadcrumbs before the last item
+    @ancestors.each do |ancestor|
+      breadcrumbs << { :name => ancestor, :url => url_for( :action => :edit, :id => ancestor.id ) }
+    end
+
+    breadcrumbs << last_item
+  end
+
+= render_parent_template '_breadcrumbs', { :breadcrumbs => breadcrumbs }
