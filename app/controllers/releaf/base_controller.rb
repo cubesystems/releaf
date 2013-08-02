@@ -644,6 +644,8 @@ module Releaf
         success_url = url_for( :action => 'edit', :id => @resource.id )
       end
 
+      @ancestors = @resource.ancestors
+
       respond_to do |format|
         format.json  do
           if result
