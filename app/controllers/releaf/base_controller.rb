@@ -518,7 +518,7 @@ module Releaf
     def setup
       @features = {
         :edit     => true,
-        :edit_ajax_reload  => false,
+        :edit_ajax_reload  => true,
         :create   => true,
         :destroy  => true,
         :index    => true,
