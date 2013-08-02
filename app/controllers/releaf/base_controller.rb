@@ -629,6 +629,11 @@ module Releaf
         html_render_action = "edit"
       end
 
+      respond_after_save request_type, result, html_render_action
+    end
+
+    def respond_after_save request_type, result, html_render_action
+
       if result
         if request_type == :create
           flash[:success] = { :id => :resource_status, :message => I18n.t('created', :scope => 'notices.' + controller_scope_name) }
@@ -663,7 +668,10 @@ module Releaf
           end
         end
       end
+
     end
+
+
 
     def build_validation_errors resource
       errors = {}
