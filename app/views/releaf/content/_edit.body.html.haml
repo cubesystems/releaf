@@ -3,7 +3,7 @@
     = f.hidden_field :parent_id, :value => params[:parent_id] || f.object.parent_id
 
 
-  .globalFieldContainer.collapsableSection.global_fields
+  .section.node-fields
     = render 'edit.field', :name => 'name', :f => f, :view_prefix => 'edit.field'
 
     .field{ 'data-name' => 'template' }
@@ -13,7 +13,7 @@
         %span= (f.object.content_type || params[:content_type])
       - if f.object.new_record?
         = hidden_field(:resource, :content_type, {:value => params[:content_type]})
-    .clear
+      .clear
 
 
     = render 'edit.slug', :name => 'slug', :f => f
@@ -29,18 +29,11 @@
           end
 
         = f.select :item_position, options_for_select(opt_for_select, @item_position)
+      .clear
     .clear
-
     = render 'edit.field', :name => 'visible', :f => f, :view_prefix => 'edit.field'
     = render 'edit.field', :name => 'protected', :f => f, :view_prefix => 'edit.field'
     .clear
-
-
-    %button.no_styling.toggleSection.collapse{:title => "Saīsināt sadaļu", :type => "button"}
-      = image_tag("releaf/icons/130.png", :alt => "Saīsināt sadaļu")
-    %button.no_styling.toggleSection.expand{:title => "Parādīt pilnu sadaļu", :type => "button"}
-      = image_tag("releaf/icons/129.png", :alt => "Parādīt pilnu sadaļu")
-    .clear.persistent
 
   = render 'edit.content_fields', :f => f
 

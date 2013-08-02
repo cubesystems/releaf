@@ -6,7 +6,6 @@ jQuery(function()
     {
         var block = jQuery(e.target);
 
-
         // row collapse / expand
 
         var get_children = function( row )
@@ -87,45 +86,44 @@ jQuery(function()
         });
 
 
+        // slug generation
+        var name_input  = block.find('.node-fields .field[data-name="name"] input');
+        var slug_field  = block.find('.node-fields .field[data-name="slug"]');
 
-    });
+        if (name_input.length && slug_field.length)
+        {
+            var slug_input  = slug_field.find('input');
+            var slug_button = slug_field.find('.generate')
+            var slug_link   = slug_field.find('a');
 
+            slug_input.on('sluggenerate', function(e)
+            {
+                var url = slug_input.attr('data-generator-url');
 
-/*
-    // var controller_body = jQuery(document.body);
-    var controller_body = jQuery('.controller-releaf-content');
-    if (controller_body.length) {
+                slug_button.trigger('loadingstart');
+                jQuery.get( url, { name: name_input.val() }, function( slug )
+                {
+                    slug_input.val( slug );
+                    slug_link.find('span').text( encodeURIComponent( slug ) );
+                    slug_button.trigger('loadingend');
+                }, 'text');
+            });
 
-        var name_input = jQuery('#releaf_node_name');
-        if (name_input.length) {
-            var slug_input = jQuery('#releaf_node_slug');
-            var generate_slug_button = jQuery('button.generate_slug');
+            slug_button.click(function()
+            {
+                slug_input.trigger('sluggenerate');
+            });
 
-            var generate_slug = function () {
-                var url = new url_builder( generate_slug_button.attr('data-new_slug_url') ).add({name: name_input.attr('value')}).getUrl();
-
-                jQuery.ajax({
-                    type:       'GET',
-                    dataType:   'text',
-                    url:        url,
-                    timeout:    3000,
-                    success:    function (data, textStatus) {
-                                    slug_input.attr('value', data);
-                                },
-                    error:      function (xhr, textStatus, errorThrown) {
-                                    // FIXME
-                                    alert("Failed to generate slug");
-                                }
+            if (name_input.val() == '')
+            {
+                // bind onchange slug generation only if starting out with an empty name
+                name_input.change(function()
+                {
+                    slug_input.trigger('sluggenerate');
                 });
-            }
-            generate_slug_button.on('click', generate_slug)
-
-            if (name_input.attr('value').length === 0) {
-                name_input.one('change', generate_slug);
             }
         }
 
-    }
-*/
+    });
 
 });

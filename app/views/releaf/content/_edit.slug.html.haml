@@ -1,10 +1,15 @@
-.field.type_text{ 'data-name' => name }
-  .label_wrap><= f.label name, name.humanize + ':'
+:ruby
+  label_opts  = get_template_label_options    local_assigns
+  input_attrs = get_template_input_attributes local_assigns, :'data-generator-url' => generate_url_releaf_nodes_path(:parent_id => f.object.parent_id, :id => f.object.id)
+  field_attrs = get_template_field_attributes local_assigns
+
+.field.type_text{ field_attrs }
+  = render "edit.field_label", label_opts
   .value><
-    = f.text_field name
-    %button.no_styling.generate_slug{:type => 'button', :'data-new_slug_url' => generate_url_releaf_nodes_path(:parent_id => f.object.parent_id, :id => f.object.id), :title => t('.suggest_slug', :rescue_format => false)}><
-      = image_tag('releaf/icons/keyboard.png', :alt => t('.suggest_slug', :rescue_format => false))
-  .object_url><
+    = f.text_field name, input_attrs
+    %button.button.secondary.only-icon.generate{:type => 'button', :title => t('.suggest_slug') }
+      %i.icon-keyboard
+  .link
     %a{:href => "#{f.object.url}"}
       = "#{request.protocol}#{request.host_with_port}#{f.object.parent.try(:url)}/"
       %span><= f.object.slug
