@@ -132,14 +132,30 @@ jQuery(function()
             var menu = toolbox.find('menu').first();
             toolbox.data('toolbox-menu', menu);
 
+            var trigger = toolbox.find('.trigger');
+
             var items = menu.find('li');
 
             toolbox.toggleClass('empty', (items.length < 1));
 
-            items.find('.button').click(function()
+            var buttons = items.find('.button');
+
+            buttons.click(function()
             {
                 toolbox.trigger('toolboxclose');
             });
+
+            // forward loader events from item buttons to main toolbox trigger
+            buttons.on('loadingstart', function( e )
+            {
+                trigger.trigger('loadingstart');
+            });
+
+            buttons.on('loadingend', function( e )
+            {
+                trigger.trigger('loadingend');
+            });
+
 
         });
 

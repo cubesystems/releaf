@@ -24,7 +24,6 @@ jQuery(function()
     jQuery('body').on('loadingend', '.button', function(e)
     {
         var button = jQuery(e.target);
-
         button.find('.loader').remove();
 
         var disabled_before_loading = button.data('disabled-before-loading') ;
