@@ -69,6 +69,8 @@ module Releaf
         html_render_action = "edit"
       end
 
+      @ancestors = @resource.ancestors
+
       respond_after_save request_type, result, html_render_action
 
     end
