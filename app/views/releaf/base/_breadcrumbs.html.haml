@@ -1,4 +1,5 @@
-- breadcrumbs = admin_breadcrumbs @resource
+- if breadcrumbs.blank?
+  - breadcrumbs = admin_breadcrumbs @resource
 
 - unless breadcrumbs.blank?
   %ul.block.breadcrumbs
