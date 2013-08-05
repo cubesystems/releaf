@@ -633,7 +633,6 @@ module Releaf
     end
 
     def respond_after_save request_type, result, html_render_action
-
       if result
         if request_type == :create
           flash[:success] = { :id => :resource_status, :message => I18n.t('created', :scope => 'notices.' + controller_scope_name) }
@@ -643,7 +642,6 @@ module Releaf
 
         success_url = url_for( :action => 'edit', :id => @resource.id )
       end
-
 
       respond_to do |format|
         format.json  do
@@ -669,10 +667,7 @@ module Releaf
           end
         end
       end
-
     end
-
-
 
     def build_validation_errors resource
       errors = {}
@@ -712,13 +707,25 @@ module Releaf
 
     def validation_attribute_nested_field_name resource, parts
       index = 0
-      resource.send(parts[0]).each do |item|
+
+      association_type = resource.class.reflect_on_association(parts[0].to_sym).macro
+      if association_type == :belongs_to
+        nested_items = [resource.send(parts[0])]
+      else
+        nested_items = resource.send(parts[0])
+      end
+
+      nested_items.each do |item|
         unless item.valid?
-          field_id = "[" + parts[0] + "_attributes][#{index}]"
-          if parts.length == 2
-            field_id += "[" + parts[1] + "]"
+          if association_type == :belongs_to
+            field_id = "[" + parts[0] + "_attributes][#{parts[1]}]"
           else
-            field_id += validation_attribute_nested_field_name(item, parts[1..-1])
+            field_id = "[" + parts[0] + "_attributes][#{index}]"
+            if parts.length == 2
+              field_id += "[" + parts[1] + "]"
+            else
+              field_id += validation_attribute_nested_field_name(item, parts[1..-1])
+            end
           end
 
           return field_id
