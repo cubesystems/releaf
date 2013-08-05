@@ -1,68 +1,124 @@
-.controller-releaf-content .view-index .resources
+.controller-releaf-content.view-index .resources
 {
-
+    border-left:  1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+    font-size: 13px;
 }
 
-.controller-releaf-content.view-index .resources .wrap
+.controller-releaf-content.view-index .resources li
+{
+    clear: both;
+}
+
+.controller-releaf-content.view-index .resources li ul
+{
+    clear: both;
+}
+
+
+.controller-releaf-content.view-index .resources .toolbox-cell,
+.controller-releaf-content.view-index .resources .collapser-cell
+{
+    border-right: 1px solid #d4d4d4;
+    float: left;
+}
+
+.controller-releaf-content.view-index .resources .toolbox-cell .trigger,
+.controller-releaf-content.view-index .resources .collapser-cell .button
+{
+    width:  30px;
+    height: 29px;
+    padding: 4px 5px;
+    background: transparent;
+}
+
+
+.controller-releaf-content.view-index .resources .node-cell
+{
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.controller-releaf-content.view-index .resources .node-cell a
+{
+    display: block;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding: 4px 10px 5px 10px;
+    font-weight: bold;
+}
+.controller-releaf-content.view-index .resources .node-cell a:hover
+{
+    background: #d0eeec;
+}
+
+.controller-releaf-content.view-index .resources .node-cell a span
 {
     position: relative;
-    display: block;
-
-}
-
-.controller-releaf-content.view-index .resources .has-children .wrap
-{
-
-}
-
-.controller-releaf-content.view-index .resources .wrap .collapser
-{
-    position: absolute;
-    left: -35px;
-    top: 0;
-    padding-left: 5px;
-    padding-right: 5px;
-    width: 30px;
-    opacity: 0.5;
+    left: 13px
 }
 
 
-.controller-releaf-content.view-index .resources tr[data-level] .wrap
+.controller-releaf-content.view-index .resources li  ul ul
 {
-    margin-left: 275px
+    background: #f3f1f1;
 }
-.controller-releaf-content.view-index .resources tr[data-level="1"] .wrap
+
+.controller-releaf-content.view-index .resources li ul .toolbox-cell
 {
-    margin-left: 35px;
+    border-left:  1px solid #d4d4d4;
 }
-.controller-releaf-content.view-index .resources tr[data-level="2"] .wrap
+
+
+.controller-releaf-content.view-index .resources li[data-level="2"].has-children > .toolbox-cell
 {
-    margin-left: 65px;
+    margin-left: 30px;
 }
-.controller-releaf-content.view-index .resources tr[data-level="3"] .wrap
+
+.controller-releaf-content.view-index .resources li[data-level="2"]:not(.has-children) > .toolbox-cell,
+.controller-releaf-content.view-index .resources li[data-level="3"] > .toolbox-cell
 {
-    margin-left: 95px;
+    margin-left: 61px;
 }
-.controller-releaf-content.view-index .resources tr[data-level="4"] .wrap
+
+.controller-releaf-content.view-index .resources li[data-level="3"]:not(.has-children)  > .toolbox-cell,
+.controller-releaf-content.view-index .resources li[data-level="4"].has-children > .toolbox-cell
 {
-    margin-left: 125px;
+    margin-left: 92px;
 }
-.controller-releaf-content.view-index .resources tr[data-level="5"] .wrap
+
+.controller-releaf-content.view-index .resources li[data-level="4"]:not(.has-children)  > .toolbox-cell,
+.controller-releaf-content.view-index .resources li[data-level="5"].has-children > .toolbox-cell
 {
-    margin-left: 155px;
+    margin-left: 123px;
 }
-.controller-releaf-content.view-index .resources tr[data-level="6"] .wrap
+
+.controller-releaf-content.view-index .resources li[data-level="5"]:not(.has-children)  > .toolbox-cell,
+.controller-releaf-content.view-index .resources li[data-level="6"].has-children > .toolbox-cell
+{
+    margin-left: 154px;
+}
+
+.controller-releaf-content.view-index .resources li[data-level="6"]:not(.has-children)  > .toolbox-cell,
+.controller-releaf-content.view-index .resources li[data-level="7"].has-children > .toolbox-cell
 {
     margin-left: 185px;
 }
-.controller-releaf-content.view-index .resources tr[data-level="7"] .wrap
+
+.controller-releaf-content.view-index .resources li[data-level="7"]:not(.has-children)  > .toolbox-cell,
+.controller-releaf-content.view-index .resources li[data-level="8"].has-children > .toolbox-cell
 {
-    margin-left: 215px;
+    margin-left: 216px;
 }
-.controller-releaf-content.view-index .resources tr[data-level="8"] .wrap
+
+
+
+.controller-releaf-content.view-index .resources .collapsed ul
 {
-    margin-left: 245px;
+    display: none;
 }
+
+
+
 
 
 .controller-releaf-content .add-child-dialog

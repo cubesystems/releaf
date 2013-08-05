@@ -1,5 +1,4 @@
-- resources.each do |resource|
-  = render 'index.row', :resource => resource, :level => level, :ancestry => ancestry
-  - if !resource.children.empty?
-    = render 'index.tree_level', :resources => resource.children, :level => level + 1, :ancestry => ((ancestry.empty?) ? resource.id.to_s : ancestry + "-" + resource.id.to_s)
+%ul.block.clearInside{ :'data-level' => level }
+  - resources.each do |resource|
+    = render 'index.row', :resource => resource, :level => level, :ancestry => ancestry
 

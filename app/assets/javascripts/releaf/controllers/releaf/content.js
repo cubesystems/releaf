@@ -7,28 +7,9 @@ jQuery(function()
         var block = jQuery(e.target);
 
         // row collapse / expand
-
-        var get_children = function( row )
+        block.find('.row .collapser').click(function()
         {
-            var children = row.data('children');
-
-            if (typeof children == 'undefined')
-            {
-                var table = row.closest('table.resources');
-                var ancestry = row.attr('data-ancestry');
-                var ancestry_parts = (ancestry) ? ancestry.split('-') : [];
-                ancestry_parts.push( row.attr('data-id') );
-                var children_ancestry = ancestry_parts.join('-');
-                children = table.find('tr[data-ancestry="' + children_ancestry + '"]');
-                row.data('children', children);
-            }
-
-            return children;
-        }
-
-        block.find('tr.node .collapser').click(function()
-        {
-            var row   = jQuery(this).closest('tr.node');
+            var row   = jQuery(this).closest('.row');
 
             var event_name = (row.is('.collapsed')) ? 'noderowexpand' : 'noderowcollapse';
 
@@ -36,54 +17,26 @@ jQuery(function()
 
         });
 
-
-        block.find('tr.node').bind('noderowcollapse', function()
+        block.find('.row').bind('noderowcollapse', function( e )
         {
-            var row = jQuery(this);
+            e.stopPropagation();
+
+            var row = jQuery(e.target);
             row.addClass('collapsed');
-            row.find('.collapser i').removeClass('icon-chevron-up').addClass('icon-chevron-right');
+            row.children('.collapser-cell').find('.collapser i').removeClass('icon-chevron-down').addClass('icon-chevron-right');
 
-            var children = get_children( row );
-            children.trigger('noderowhide');
         });
 
-
-        block.find('tr.node').bind('noderowexpand', function()
+        block.find('.row').bind('noderowexpand', function( e )
         {
-            var row = jQuery(this);
+            e.stopPropagation();
+
+            var row = jQuery(e.target);
             row.removeClass('collapsed');
-            row.find('.collapser i').removeClass('icon-chevron-right').addClass('icon-chevron-up');
-
-            var children = get_children( row );
-            children.trigger('noderowshow');
-        });
-
-
-        block.find('tr.node').bind('noderowshow', function()
-        {
-            var row = jQuery(this);
-
-            row.show();
-
-            if (row.is('.collapsed'))
-            {
-                return; // collapsed row, do not show children
-            }
-
-            var children = get_children( row );
-            children.trigger('noderowshow');
+            row.children('.collapser-cell').find('.collapser i').removeClass('icon-chevron-right').addClass('icon-chevron-down');
 
         });
 
-
-        block.find('tr.node').bind('noderowhide', function()
-        {
-            var row = jQuery(this);
-            row.hide();
-
-            var children = get_children( row );
-            children.trigger('noderowhide');
-        });
 
 
         // slug generation

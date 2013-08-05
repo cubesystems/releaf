@@ -1,10 +1,13 @@
-%tr.node{ :class => (resource.children.empty?) ? nil : 'has-children', :data => { :level => level, :id => resource.id, :ancestry => ancestry } }
-  %td.toolbox-cell
+%li.row.clearInside{ :class => (resource.children.empty?) ? nil : 'has-children', :data => { :level => level, :id => resource.id, :ancestry => ancestry } }
+  %div.toolbox-cell
     = render 'toolbox', :resource => resource
-  %td
-    %span.wrap
-      - unless resource.children.empty?
-        %button.secondary.button.collapser.only-icon{ :type => :button }
-          %i.icon-chevron-up
-      %a{:href => url_for(:action => :edit, :id => resource.id)}
+  - unless resource.children.empty?
+    %div.collapser-cell
+      %button.secondary.button.collapser.only-icon{ :type => :button }
+        %i.icon-chevron-down
+  %div.node-cell
+    %a{:href => url_for(:action => :edit, :id => resource.id)}
+      %span
         = resource.name
+  - unless resource.children.empty?
+    = render 'index.tree_level', :resources => resource.children, :level => level + 1, :ancestry => ((ancestry.empty?) ? resource.id.to_s : ancestry + "-" + resource.id.to_s)
