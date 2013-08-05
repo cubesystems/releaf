@@ -25,7 +25,7 @@ module I18n
           query = Translation.joins(:translation_data)
           query = query.select(["releaf_translations.key", "releaf_translation_data.lang", "releaf_translation_data.localization"])
 
-          query.find_each do |translation|
+          query.each do |translation|
             I18N_CACHE.write [translation.lang, translation.key], translation.localization
           end
           I18N_CACHE.write('UPDATED_AT', Settings.i18n_updated_at)
