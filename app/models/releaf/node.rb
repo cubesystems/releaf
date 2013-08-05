@@ -15,7 +15,7 @@ module Releaf
 
     alias_attribute :to_text, :name
 
-    belongs_to :content, :polymorphic => true, :dependent => :destroy
+    belongs_to :content, :polymorphic => true, :dependent => :destroy, :class_name => Proc.new{|r| r.content_type.constantize}
     accepts_nested_attributes_for :content
 
     # FIXME get rid of attr_protected
@@ -23,25 +23,13 @@ module Releaf
 
     acts_as_url :name, :url_attribute => :slug, :scope => :parent_id #, :only_when_blank => true, :limit => 255
 
-    def content_object
-      self.content
+    def build_content(params, assignment_options)
+      self.content = content_type.constantize.new(params)
     end
 
-    def content_object_attributes=(new_attr)
-      if self.content
-        self.content.update_attributes(new_attr)
-      else
-        nc = new_content(new_attr)
-        nc.save
-
-        self.content = nc
-        self.update_attribute(:content_id, nc.id)
-      end
-    end
 
     ##
     # Return node public url
-
     def url
       if parent_id
         url = parent.url + "/" + slug.to_s

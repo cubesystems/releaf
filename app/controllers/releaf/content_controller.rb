@@ -19,7 +19,6 @@ module Releaf
       @resources = Node.roots
     end
 
-
     def generate_url
       tmp_resource = nil
 
@@ -42,44 +41,27 @@ module Releaf
       end
     end
 
-
-    def save_and_respond request_type
-
-      if request_type == :create
-        content_type = _node_params[:content_type].constantize
-        @resource = resource_class.new(_node_params)
-
-        result = @resource.save
-
-        form_extras
-        @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
-
-        html_render_action = "new"
-
-      elsif request_type == :update
-
-        @resource = resource_class.find(params[:id])
-        @resource.assign_attributes(_node_params)
-
-        result = @resource.save
-
-        form_extras
-        @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
-
-        html_render_action = "edit"
-      end
-
-      @ancestors = @resource.ancestors
-
-      respond_after_save request_type, result, html_render_action
-
-    end
-
     def new
       super
+
+      if params[:content_type].blank?
+        Rails.application.eager_load!
+        @base_models = content_type_classes
+      end
+
       @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
       @item_position = 1
       @resource.parent_id = params[:parent_id]
+
+      if params[:content_type]
+        content_class = params[:content_type].constantize
+        if content_class <  Releaf::NodeBase
+          @resource.content_type = params[:content_type]
+          if content_class.node_type == 'Releaf::NodeBase'
+            @resource.content = content_class.new
+          end
+        end
+      end
 
       unless params[:parent_id].blank?
         parent = Node.find( params[:parent_id] )
@@ -87,14 +69,11 @@ module Releaf
         @ancestors << parent
       end
 
-      form_extras
-
       respond_to do |format|
         format.html do
           render :layout => nil if params.has_key?(:ajax)
         end
       end
-
     end
 
     def edit
@@ -108,8 +87,6 @@ module Releaf
       end
 
       @ancestors = @resource.ancestors
-
-      form_extras
     end
 
     def get_content_form
@@ -128,17 +105,6 @@ module Releaf
       Node
     end
 
-    protected
-
-    def setup
-      super
-      @features[:show] = false
-    end
-
-    def _node_params
-      params.require(:resource).permit!
-    end
-
     private
 
     def content_type_class_names
@@ -149,32 +115,8 @@ module Releaf
       NodeBase.node_classes + BlankNodeBase.node_classes
     end
 
-    def form_extras
-      Rails.application.eager_load!
-      get_base_models
-
-      new_content_if_needed
-    end
-
     def resource_params
-      []
-    end
-
-    def new_content_if_needed
-      return if @resource.content
-      if params[:content_type]
-        if get_base_models.map { |bm| bm.name }.include? params[:content_type]
-          @resource.content_type = params[:content_type]
-          content_class = @resource.content_type.constantize
-          if content_class.node_type == 'Releaf::NodeBase'
-            @resource.content = @resource.content_type.constantize.new
-          end
-        end
-      end
-    end
-
-    def get_base_models
-      @base_models ||= content_type_classes
+      super + [:content_attributes]
     end
   end
 end

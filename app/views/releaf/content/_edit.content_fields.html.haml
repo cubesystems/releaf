@@ -7,6 +7,6 @@
 
 
   - if f.object.content
-    = f.fields_for :content_object, f.object.content_object do |ff|
+    = f.fields_for :content, f.object.content do |ff|
       = render 'edit.fields', :f => ff, :fields => content_fields_to_display(ff.object.class), :view_prefix => 'edit.field.content'
   .clear
