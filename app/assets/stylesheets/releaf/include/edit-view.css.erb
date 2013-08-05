@@ -99,12 +99,23 @@ body.side-compact .main > .edit_resource > footer
 .nested-wrap
 {
     clear: both;
+    padding-right: 29px;
+}
+
+.nested-wrap .nested-wrap
+{
+    padding-right: 0px;
+}
+
+.nested-wrap .list
+{
+
 }
 
 .nested-wrap .list .item:not(tr)
 {
     border: 1px solid #d4d4d4;
-    padding: 0 28px 11px 20px;
+    padding: 0 20px 11px 20px;
     margin-bottom: 20px;
     position: relative;
 }
@@ -143,25 +154,31 @@ body.side-compact .main > .edit_resource > footer
 }
 
 .view-edit form .section .nested-wrap .field input[type="text"],
-.view-edit form .section .nested-wrap .field input[type="password"]
+.view-edit form .section .nested-wrap .field input[type="password"],
 .view-edit form .section .nested-wrap .field textarea
 {
     width: 360px;
 }
 
-.view-edit form .section .nested-wrap .field select
+
+.view-edit form .section .nested-wrap .nested-wrap .field
 {
-    width: 380px;
+    width: 360px;
 }
+
+.view-edit form .section .nested-wrap .nested-wrap .field input[type="text"],
+.view-edit form .section .nested-wrap .nested-wrap .field input[type="password"],
+.view-edit form .section .nested-wrap .nested-wrap .field textarea
+{
+    width: 340px;
+}
+
+
+
 
 .view-edit form .section .nested-wrap .field
 {
     margin-right: 20px;
-}
-
-.view-edit form .section .nested-wrap .field:nth-child(2n)
-{
-    margin-right: 0;
 }
 
 .view-edit .header .toolbox-wrap
