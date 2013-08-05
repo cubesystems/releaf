@@ -27,10 +27,19 @@ var Validator = function( node_or_selector, options )
     v.form.delegate('input[type="submit"], input[type="image"], button', 'click', function(event)
     {
 		var target = jQuery( event.target );
+
+		// webkit sends inner button elements as event targets instead of the button
+		// so catch if the click is inside a button element and change the target if needed
+		var closest_button = target.closest('button');
+		if (closest_button.length > 0)
+		{
+		    target = closest_button;
+		}
+
 		// register only submit buttons - buttons with type="submit" or without type attribute at all
 		// direct target[0].type property is used because of inconsistent attr() method return values
 		// between older and newer jQuery versions
-        if( target.is( 'button' ) && target[0].type != 'submit' )
+        if (target.is( 'button' ) && target[0].type != 'submit' )
 		{
 			return;
 		}
