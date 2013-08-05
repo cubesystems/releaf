@@ -1,4 +1,4 @@
-%li.row.clearInside{ :class => (resource.children.empty?) ? nil : 'has-children', :data => { :level => level, :id => resource.id, :ancestry => ancestry } }
+%li.row.clearInside{ :class => (resource.children.empty?) ? nil : 'has-children', :data => { :level => level, :id => resource.id } }
   %div.toolbox-cell
     = render 'toolbox', :resource => resource
   - unless resource.children.empty?
@@ -10,4 +10,4 @@
       %span
         = resource.name
   - unless resource.children.empty?
-    = render 'index.tree_level', :resources => resource.children, :level => level + 1, :ancestry => ((ancestry.empty?) ? resource.id.to_s : ancestry + "-" + resource.id.to_s)
+    = render 'index.tree_level', :resources => resource.children, :level => level + 1
