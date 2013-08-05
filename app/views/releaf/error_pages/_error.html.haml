@@ -5,7 +5,6 @@
   - if defined? description
     %div.description
       = description
-  - if defined? home
-    %a.return{ :href => releaf_root_path }
-      = t('Go home', :scope => 'admin.global')
-      %i.icon-chevron-right
+  %a.return{ :href => releaf_root_path }
+    = t('Go home', :scope => 'admin.global')
+    %i.icon-chevron-right
