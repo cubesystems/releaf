@@ -1,0 +1,11 @@
+.body.error
+  %h1.error
+    %i.icon-large.icon-warning-sign
+    = message
+  - if defined? description
+    %div.description
+      = description
+  - if defined? home
+    %a.return{ :href => releaf_root_path }
+      = t('Go home', :scope => 'admin.global')
+      %i.icon-chevron-right
