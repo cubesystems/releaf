@@ -767,7 +767,7 @@ module Releaf
         else
           name = I18n.t('Edit record', :scope => 'admin.breadcrumbs')
         end
-        url = url_for(:action => :edit, :id => resource.id)
+        url = url_for(:action => :edit, :id => resource.id, :only_path => true)
       end
       @breadcrumbs << { name: name, url: url }
     end
