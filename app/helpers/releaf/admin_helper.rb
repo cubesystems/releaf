@@ -5,43 +5,6 @@ module Releaf
       self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
     end
 
-    def admin_breadcrumbs resource = nil
-      breadcrumbs = []
-      breadcrumbs << { :name => I18n.t('Home', :scope => 'admin.breadcrumbs'), :url => releaf_root_path }
-
-      admin_menu.each do |item|
-        if item[:active]
-          breadcrumbs << {:name => I18n.t(item[:name], :scope => "admin.menu_items"), :url => item[:url]}
-          unless item[:items].blank?
-            item[:items].each do |sub_menu_item|
-              if sub_menu_item[:active]
-                breadcrumbs << { :name => I18n.t(sub_menu_item[:name], :scope => "admin.menu_items"), :url => sub_menu_item[:url] }
-              end
-            end
-          end
-        end
-      end
-
-      unless resource.nil?
-        if resource.new_record?
-          text = I18n.t('New record', :scope => 'admin.breadcrumbs')
-          url  = url_for(:action => :new )
-        else
-          if resource.respond_to?(:to_text)
-            text = resource.send(:to_text)
-          else
-            text =  I18n.t('Edit record', :scope => 'admin.breadcrumbs')
-          end
-          url = url_for(:action => :edit, :id => resource.id)
-        end
-
-        breadcrumbs << { :name => text, :url => url }
-      end
-
-      return breadcrumbs
-    end
-
-
     def admin_menu
       items = []
 

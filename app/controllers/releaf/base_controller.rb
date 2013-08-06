@@ -19,6 +19,7 @@ module Releaf
     before_filter do
       authorize!
       filter_templates
+      build_breadcrumbs
       setup
     end
 
@@ -95,7 +96,9 @@ module Releaf
 
     def new
       raise FeatureDisabled unless @features[:create]
-      @resource = resource_class.new
+      # load resource only if is not initialized yet
+      @resource = resource_class.new if @resource.nil?
+      add_resource_breadcrumb(@resource)
     end
 
     def show
@@ -106,6 +109,7 @@ module Releaf
       raise FeatureDisabled unless @features[:edit]
       # load resource only if is not loaded yet
       @resource = resource_class.includes(relations_for_includes).find(params[:id]) if @resource.nil?
+      add_resource_breadcrumb(@resource)
     end
 
     def validate
@@ -647,6 +651,7 @@ module Releaf
         format.json  do
           if result
             if @features[:edit_ajax_reload] && request_type == :update
+              add_resource_breadcrumb(@resource)
               flash.discard(:success)
               flash.now[:success] = { :id => :resource_status, :message => I18n.t('updated', :scope => 'notices.' + controller_scope_name) }
               render :action => html_render_action, :formats => [:html], :content_type => "text/html"
@@ -737,6 +742,34 @@ module Releaf
 
     def filter_templates
       filter_templates_from_hash(params)
+    end
+
+    def build_breadcrumbs
+      @breadcrumbs = []
+      @breadcrumbs << { :name => I18n.t('Home', :scope => 'admin.breadcrumbs'), :url => releaf_root_path }
+
+      controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
+      unless controller_params.nil?
+        @breadcrumbs << {
+          :name => I18n.t(controller_params[:name], :scope => "admin.menu_items"),
+          :url => send(controller_params[:url_helper])
+        }
+      end
+    end
+
+    def add_resource_breadcrumb resource
+      if resource.new_record?
+        name=  I18n.t('New record', :scope => 'admin.breadcrumbs')
+        url = url_for(:action => :new )
+      else
+        if resource.respond_to?(:to_text)
+          name = resource.send(:to_text)
+        else
+          name = I18n.t('Edit record', :scope => 'admin.breadcrumbs')
+        end
+        url = url_for(:action => :edit, :id => resource.id)
+      end
+      @breadcrumbs << { name: name, url: url }
     end
 
     def filter_templates_from_array arr

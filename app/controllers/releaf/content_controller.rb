@@ -42,6 +42,8 @@ module Releaf
     end
 
     def new
+      @resource = resource_class.new
+      @resource.parent_id = params[:parent_id]
       super
 
       if params[:content_type].blank?
@@ -63,12 +65,6 @@ module Releaf
         end
       end
 
-      unless params[:parent_id].blank?
-        parent = Node.find( params[:parent_id] )
-        @ancestors = parent.ancestors
-        @ancestors << parent
-      end
-
       respond_to do |format|
         format.html do
           render :layout => nil if params.has_key?(:ajax)
@@ -85,8 +81,6 @@ module Releaf
       else
         @item_position = 1
       end
-
-      @ancestors = @resource.ancestors
     end
 
     def get_content_form
@@ -99,6 +93,23 @@ module Releaf
       respond_to do |format|
         format.html { render :partial => 'get_content_form', :layout => false }
       end
+    end
+
+    # override base_controller method for adding content tree ancestors
+    # to breadcrumbs
+    def add_resource_breadcrumb resource
+      if resource.new_record?
+        ancestors = resource.parent.ancestors
+        ancestors += [resource.parent]
+      else
+        ancestors = resource.ancestors
+      end
+
+      ancestors.each do |ancestor|
+        @breadcrumbs << { :name => ancestor, :url => url_for( :action => :edit, :id => ancestor.id ) }
+      end
+
+      super resource
     end
 
     def resource_class

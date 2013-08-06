@@ -1,9 +1,6 @@
-- if breadcrumbs.blank?
-  - breadcrumbs = admin_breadcrumbs @resource
-
-- unless breadcrumbs.blank?
+- unless @breadcrumbs.blank?
   %ul.block.breadcrumbs
-    - breadcrumbs.each_with_index do |item, i|
+    - @breadcrumbs.each_with_index do |item, i|
       %li
         - unless item[:url].blank?
           %a{:href => item[:url]}
@@ -11,5 +8,5 @@
         - else
           = item[:name]
 
-        - unless i == breadcrumbs.length-1
+        - unless i == @breadcrumbs.length-1
           %i.icon-small.icon-chevron-right
