@@ -98,9 +98,12 @@ module Releaf
     # override base_controller method for adding content tree ancestors
     # to breadcrumbs
     def add_resource_breadcrumb resource
+      ancestors = []
       if resource.new_record?
-        ancestors = resource.parent.ancestors
-        ancestors += [resource.parent]
+        if resource.parent_id
+          ancestors = resource.parent.ancestors
+          ancestors += [resource.parent]
+        end
       else
         ancestors = resource.ancestors
       end
