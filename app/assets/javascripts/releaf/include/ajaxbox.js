@@ -141,10 +141,12 @@ jQuery(document).ready( function()
 
     body.on('ajaxboxdone', function(e, params)
     {
-        if (!params || (!('trigger') in params))
+
+        if (!params || !('trigger' in params))
         {
             return;
         }
+
         params.trigger.trigger('loadingend');
     });
 
