@@ -107,7 +107,7 @@ module ActionDispatch::Routing
 
     end
 
-    def mount_releaf_at mount_location, options={}
+    def mount_releaf_at mount_location, options={}, &block
       allowed_controllers = options.try(:[], :allowed_controllers)
 
       if allowed_controllers.nil? or allowed_controllers.include? :content
@@ -117,6 +117,7 @@ module ActionDispatch::Routing
       devise_for Releaf.devise_for, :path => mount_location, :controllers => { :sessions => "releaf/sessions" }
 
       scope mount_location do
+        yield if block_given?
 
         namespace :releaf, :path => nil do
 
