@@ -1,6 +1,8 @@
 //= G
 jQuery(function()
 {
+    var body = jQuery('body');
+
 	// richtext config
 	var plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari', 'uploadimage' ];
 
@@ -73,10 +75,9 @@ jQuery(function()
 		});
 	}
 
-
-	jQuery( document ).on( 'richtextinit', 'textarea', function( event, extra_config )
+    body.on( 'richtextinit', 'textarea.richtext', function( event, extra_config )
     {
-		var textarea = jQuery( event.target );
+        var textarea = jQuery(this);
 
         var config = tinymce_config;
         config.width = textarea.outerWidth();
@@ -88,10 +89,10 @@ jQuery(function()
             });
         }
 
-		if( !textarea.attr( 'id' ) )
-		{
-			textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
-		}
+        if( !textarea.attr( 'id' ) )
+        {
+            textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
+        }
 
         if (textarea.attr('data-tinymce-image-upload-url'))
         {
@@ -99,13 +100,22 @@ jQuery(function()
         }
 
         textarea.tinymce(config);
-	});
 
-    jQuery(document).on('nestedfieldsitemadd', function(e)
+    });
+
+
+    // initialize richtext editor for any new richtext textarea after any content load
+    body.on('contentloaded', function(e)
     {
-        jQuery( '.field.type_richtext:not(.manual-init) textarea' ).not('.template textarea').trigger( 'richtextinit' );
-    })
+        var block = jQuery(e.target);
+        var textareas = block.is('textarea.richtext') ? block : block.find( 'textarea.richtext' );
 
-    jQuery( '.field.type_richtext:not(.manual-init) textarea' ).not('.template textarea').trigger( 'richtextinit' );
+        // remove textareas that need not be initialized automatically
+        textareas = textareas.not('.template textarea, textarea.manual-init');
+
+        textareas.trigger('richtextinit');
+
+    });
+
 
 });
