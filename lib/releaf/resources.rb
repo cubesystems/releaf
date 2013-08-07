@@ -116,8 +116,15 @@ module ActionDispatch::Routing
 
       devise_for Releaf.devise_for, :path => mount_location, :controllers => { :sessions => "releaf/sessions" }
 
+      mount_location_namespace = mount_location.gsub("/", "").to_sym
       scope mount_location do
-        yield if block_given?
+        if mount_location_namespace.empty?
+          yield if block_given?
+        else
+          namespace mount_location_namespace, :path => nil do
+            yield if block_given?
+          end
+        end
 
         namespace :releaf, :path => nil do
 
