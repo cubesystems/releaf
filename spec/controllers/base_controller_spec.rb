@@ -11,6 +11,25 @@ describe Admin::BooksController do
     ]
   end
 
+  describe "GET #new" do
+    it "assigns the requested record to @resource" do
+      get :new
+
+      expect(assigns(:resource).new_record?).to be_true
+    end
+
+    describe "it assigns requested record breadcrumb part" do
+      context "when object respond to #to_text method" do
+        it "use #to_text return in resource breadcrumb name part" do
+          get :new
+          breadcrumbs = @breadcrumbs_base + [{"name" => "New record", "url" => new_admin_book_path}]
+
+          expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
+        end
+      end
+    end
+  end
+
   describe "GET #edit" do
     before do
       @resource = FactoryGirl.create(:book)
