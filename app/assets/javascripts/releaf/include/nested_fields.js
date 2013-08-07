@@ -71,6 +71,7 @@ jQuery( document ).ready(function()
 
                     if (event_params && event_params.no_animation)
                     {
+                        new_item.trigger( 'contentloaded' );
                         new_item.trigger( 'nestedfieldsitemadd', event_params);
                         new_item.trigger( 'nestedfieldsinit', event_params );
                     }
@@ -81,6 +82,7 @@ jQuery( document ).ready(function()
                             new_item.css({ opacity: 1 }).hide();
                             new_item.fadeIn( 'normal', function()
                             {
+                                new_item.trigger( 'contentloaded' );
                                 new_item.trigger( 'nestedfieldsitemadd', event_params);
                             });
 
