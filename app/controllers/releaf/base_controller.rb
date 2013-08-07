@@ -760,7 +760,7 @@ module Releaf
     def add_resource_breadcrumb resource
       if resource.new_record?
         name=  I18n.t('New record', :scope => 'admin.breadcrumbs')
-        url = url_for(:action => :new )
+        url = url_for(action: :new, only_path: true)
       else
         if resource.respond_to?(:to_text)
           name = resource.send(:to_text)
