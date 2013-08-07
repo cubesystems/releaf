@@ -166,6 +166,7 @@ jQuery(function(){
 
         form.on( 'validationclearerrors', function( event, v, event_params )
         {
+
             // trigger this to clear existing errors in form
             // optional event_params.except_validation_id can be used
             // to preserve errors created by that specific validation
@@ -176,22 +177,39 @@ jQuery(function(){
             form.find('.field.has_error').each(function()
             {
                 var field = jQuery(this);
-                var error_box   = field.find( '.error_box' );
-                var error_node = error_box.find('.error');
 
-                if (
-                    (!except_validation_id)
-                    ||
-                    (error_node.attr('data-validation-id') != except_validation_id)
-                )
+                // in case of i18n fields there may be multiple error boxes inside a single field
+                var error_boxes = field.find( '.error_box' );
+
+                error_boxes.each(function()
                 {
-                    error_box.remove();
-                    field.removeClass('has_error');
-                    if (field.is('.i18n'))
+                    var error_box = jQuery(this);
+
+                    var error_node = error_box.find('.error');
+
+                    if (
+                        (!except_validation_id)
+                        ||
+                        (error_node.attr('data-validation-id') != except_validation_id)
+                    )
                     {
-                        field.find('.localization').removeClass('has_error');
+                        if (field.is('.i18n'))
+                        {
+                            error_box.closest('.localization').removeClass('has_error');
+                        }
+                        error_box.remove();
                     }
+                });
+
+                // see if any error boxes are left in the field.
+                var error_boxes = field.find( '.error_box' );
+
+                if (error_boxes.length < 1)
+                {
+                    field.removeClass('has_error');
                 }
+
+
             });
 
 
@@ -312,13 +330,16 @@ jQuery(function(){
                     return;
                 }
 
-                var error_box = field_box.find('.error_box');
+                var wrap = (field_box.is('.i18n')) ? target.closest('.localization') : field_box;
+
+                var error_box = wrap.find('.error_box');
 
                 if (error_box.length < 1)
                 {
                     error_box = jQuery('<div class="error_box"><div class="error"></div></div>');
-                    error_box.appendTo( field_box.find('.value') );
+                    error_box.appendTo( wrap.find('.value') );
                 }
+
 
                 var error_node = error_box.find('.error');
                 error_node.attr('data-validation-id', event_params.validation_id );
@@ -328,10 +349,8 @@ jQuery(function(){
 
                 if (field_box.is('.i18n'))
                 {
-                    var localization_box = target.closest('.localization');
-                    localization_box.addClass('has_error');
+                    wrap.addClass('has_error');
                 }
-
             }
             else if (target.is('form'))
             {
