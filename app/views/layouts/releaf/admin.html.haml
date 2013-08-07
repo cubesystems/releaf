@@ -16,8 +16,8 @@
 !!! 5
 %html
   %head
-    %title= t(params[:controller], :scope => "admin.menu_items") + " - " + Rails.application.class.parent_name
-    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
+    %title= t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+    %meta{content: "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
     = stylesheet_link_tag "releaf/application"
     - %w[css.scss.erb scss.erb css.scss scss css.erb css].each do |ext|
       - if File.exists?(_assets_path + "/stylesheets/releaf/controllers/#{controller_asset}.#{ext}")
@@ -28,50 +28,50 @@
         = stylesheet_link_tag "releaf/#{Rails.application.class.parent_name.downcase}"
 
     = csrf_meta_tags
-  %body{:class => body_classes}
+  %body{class: body_classes}
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
       %header
-        %a.brand{:href => releaf_root_path}
+        %a.brand{href: releaf_root_path}
         %ul.block
           %li.profile
-            %a{:href => self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_path")}
+            %a{href: self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_path")}
               %span.name= current_admin_user.to_text
-              = gravatar_image_tag(current_admin_user.email, :alt => current_admin_user.to_text, :gravatar => { :size => 36, :secure => request.ssl?, :default => 'mm' }, :class => "avatar")
+              = gravatar_image_tag(current_admin_user.email, alt: current_admin_user.to_text, gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
           %li.sign-out
-            = form_tag(self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), :method => :delete) do
-              %button{:type => "submit"}
+            = form_tag(self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), method: :delete) do
+              %button{type: "submit"}
                 %i.icon-off.icon-header
 
       .side
         .compacter
-          %button{:type => "button"}
-            %i.toggle-angle-icon{:class => "icon-double-angle-" + ( cookies['releaf.side.compact']  ? "right" : "left" )}
+          %button{type: "button"}
+            %i.toggle-angle-icon{class: "icon-double-angle-" + ( cookies['releaf.side.compact']  ? "right" : "left" )}
         %nav
           %ul.block
             - admin_menu.each do |menu_item|
-              %li{:class => [("active" if menu_item[:active]), ("collapsed" if menu_item[:collapsed]) ], "data-name" => menu_item[:name]}
+              %li{class: [("active" if menu_item[:active]), ("collapsed" if menu_item[:collapsed]) ], "data-name" => menu_item[:name]}
                 - if menu_item[:items]
                   %span.trigger
-                    %i.icon-large{:class => "icon-" + menu_item[:icon]}
-                    %span.name= t(menu_item[:name], :scope => "admin.menu_items")
+                    %i.icon-large{class: "icon-" + menu_item[:icon]}
+                    %span.name= t(menu_item[:name], scope: "admin.menu_items")
                     %span.collapser
-                      %button{:type => "button"}
+                      %button{type: "button"}
                         %i.icon-small.chevron.icon-chevron-down
                   %ul.block
                     - menu_item[:items].each do |section_item|
                       %li
-                        %a.trigger{:href => section_item[:url], :class => section_item[:active] ? :active_item : nil}
-                          %span.name= t(section_item[:name], :scope => "admin.menu_items")
+                        %a.trigger{href: section_item[:url], class: section_item[:active] ? :active_item : nil}
+                          %span.name= t(section_item[:name], scope: "admin.menu_items")
                           %i.icon-caret-left.active
                 - else
-                  %a.trigger{:href => menu_item[:url]}
-                    %i.icon-large{:class => "icon-" + menu_item[:icon]}
-                    %span.name= t(menu_item[:name], :scope => "admin.menu_items")
+                  %a.trigger{href: menu_item[:url]}
+                    %i.icon-large{class: "icon-" + menu_item[:icon]}
+                    %span.name= t(menu_item[:name], scope: "admin.menu_items")
         .clear
         %footer
           CUBE
-      .main{:id => "main"}= yield
-      .notifications{:'data-close-text' => t(:close, :scope => "admin.global")}
+      .main{id: "main"}= yield
+      .notifications{:'data-close-text' => t(:close, scope: "admin.global")}
     - else
       = yield
 

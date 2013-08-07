@@ -59,11 +59,11 @@ module Releaf
 
         @resources = []
         list.each do |resource|
-          @resources.push({ :id => resource.id, :text => resource.to_text })
+          @resources.push({ id: resource.id, text: resource.to_text })
         end
 
         respond_to do |format|
-          format.json { render :json => {:matching_items_count => matching_items_count, :query => params[:q], :results => @resources } }
+          format.json { render json: {matching_items_count: matching_items_count, query: params[:q], results: @resources } }
         end
       else
         respond_to do |format|
@@ -77,7 +77,7 @@ module Releaf
       @resources = filter_order_and_paginate_collection(get_collection)
 
       unless params[:ajax].blank?
-        render :layout => false
+        render layout: false
       end
     end
 
@@ -86,10 +86,10 @@ module Releaf
         format.json do
           json = {}
           params[:ids].each do |id|
-            json[id] = url_for( :action => params[:to_action], :id => id, :only_path => true )
+            json[id] = url_for( action: params[:to_action], id: id, only_path: true )
           end
 
-          render :json => json, :layout => false
+          render json: json, layout: false
         end
       end
     end
@@ -102,7 +102,7 @@ module Releaf
     end
 
     def show
-      redirect_to url_for( :action => 'edit', :id => params[:id])
+      redirect_to url_for( action: 'edit', id: params[:id])
     end
 
     def edit
@@ -124,9 +124,9 @@ module Releaf
       @resource.assign_attributes required_params.permit(*resource_params)
 
       if @resource.valid?
-        render :json => {}
+        render json: {}
       else
-        render :json => build_validation_errors(@resource), :status => 422
+        render json: build_validation_errors(@resource), status: 422
       end
     end
 
@@ -143,7 +143,7 @@ module Releaf
     def confirm_destroy
       raise FeatureDisabled unless @features[:destroy]
       @resource = resource_class.find(params[:id])
-      render :layout => false if params.has_key?(:ajax)
+      render layout: false if params.has_key?(:ajax)
     end
 
     def destroy
@@ -152,11 +152,11 @@ module Releaf
       result = @resource.destroy
 
       if result
-        flash[:success] = { :id => :resource_status, :message => I18n.t('deleted', :scope => 'notices.' + controller_scope_name) }
+        flash[:success] = { id: :resource_status, message: I18n.t('deleted', scope: 'notices.' + controller_scope_name) }
       end
 
       respond_to do |format|
-        format.html { redirect_to url_for( :action => 'index' ) }
+        format.html { redirect_to url_for( action: 'index' ) }
       end
     end
 
@@ -249,7 +249,7 @@ module Releaf
         return 'blank'
       end
 
-      arguments = { :layout => false, :locals => locals, :template => template.virtual_path }
+      arguments = { layout: false, locals: locals, template: template.virtual_path }
       return render_to_string( arguments ).html_safe
     end
 
@@ -417,8 +417,8 @@ module Releaf
     def get_template_label_options local_assigns, options={}
       raise ArgumentError unless options.is_a? Hash
       default_options = {
-        :f => local_assigns.fetch(:f, nil),
-        :name => local_assigns.fetch(:name, nil)
+        f: local_assigns.fetch(:f, nil),
+        name: local_assigns.fetch(:name, nil)
       }.deep_merge(options)
 
       raise RuntimeError, 'form_builder not passed to partial' if default_options[:f].blank?
@@ -450,8 +450,8 @@ module Releaf
     def get_template_field_attributes local_assigns, attributes={}
       raise ArgumentError unless attributes.is_a? Hash
       default_attributes = {
-        :data => {
-          :name => local_assigns.fetch(:name, nil)
+        data: {
+          name: local_assigns.fetch(:name, nil)
         }
       }.deep_merge(attributes)
 
@@ -521,17 +521,17 @@ module Releaf
 
     def setup
       @features = {
-        :edit     => true,
-        :edit_ajax_reload  => true,
-        :create   => true,
-        :destroy  => true,
-        :index    => true,
+        edit:              true,
+        edit_ajax_reload:  true,
+        create:            true,
+        destroy:           true,
+        index:             true,
         # enable toolbox for each table row
         # it can be unnecessary for read only report like indexes
-        :index_row_toolbox   => true,
+        index_row_toolbox: true,
         # enable text search field if class responds to filter scope
         # some classes may respond to filter but have no textual search
-        :index_text_search   => true
+        index_text_search: true
       }
       @panel_layout      = true
       @resources_per_page    = 40
@@ -639,12 +639,12 @@ module Releaf
     def respond_after_save request_type, result, html_render_action
       if result
         if request_type == :create
-          flash[:success] = { :id => :resource_status, :message => I18n.t('created', :scope => 'notices.' + controller_scope_name) }
+          flash[:success] = { id: :resource_status, message: I18n.t('created', scope: 'notices.' + controller_scope_name) }
         else
-          flash[:success] = { :id => :resource_status, :message => I18n.t('updated', :scope => 'notices.' + controller_scope_name) }
+          flash[:success] = { id: :resource_status, message: I18n.t('updated', scope: 'notices.' + controller_scope_name) }
         end
 
-        success_url = url_for( :action => 'edit', :id => @resource.id )
+        success_url = url_for( action: 'edit', id: @resource.id )
       end
 
       respond_to do |format|
@@ -653,13 +653,13 @@ module Releaf
             if @features[:edit_ajax_reload] && request_type == :update
               add_resource_breadcrumb(@resource)
               flash.discard(:success)
-              flash.now[:success] = { :id => :resource_status, :message => I18n.t('updated', :scope => 'notices.' + controller_scope_name) }
-              render :action => html_render_action, :formats => [:html], :content_type => "text/html"
+              flash.now[:success] = { id: :resource_status, message: I18n.t('updated', scope: 'notices.' + controller_scope_name) }
+              render action: html_render_action, formats: [:html], content_type: "text/html"
             else
-              render :json => {:url => success_url, :message => flash[:success][:message]}, :status => 303
+              render json: {url: success_url, message: flash[:success][:message]}, status: 303
             end
           else
-            render :json => build_validation_errors(@resource), :status => 422
+            render json: build_validation_errors(@resource), status: 422
           end
         end
 
@@ -667,8 +667,8 @@ module Releaf
           if result
             redirect_to success_url
           else
-            flash[:error] = { :id => :resource_status, :message => I18n.t('error', :scope => 'notices.' + controller_scope_name) }
-            render :action => html_render_action
+            flash[:error] = { id: :resource_status, message: I18n.t('error', scope: 'notices.' + controller_scope_name) }
+            render action: html_render_action
           end
         end
       end
@@ -682,7 +682,7 @@ module Releaf
           errors[field_id] = []
         end
 
-        errors[field_id] << {:error => message, :full_message => I18n.t(message, :scope => 'validation.' + controller_scope_name)}
+        errors[field_id] << {error: message, full_message: I18n.t(message, scope: 'validation.' + controller_scope_name)}
       end
 
       return errors
@@ -746,28 +746,28 @@ module Releaf
 
     def build_breadcrumbs
       @breadcrumbs = []
-      @breadcrumbs << { :name => I18n.t('Home', :scope => 'admin.breadcrumbs'), :url => releaf_root_path }
+      @breadcrumbs << { name: I18n.t('Home', scope: 'admin.breadcrumbs'), url: releaf_root_path }
 
       controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
       unless controller_params.nil?
         @breadcrumbs << {
-          :name => I18n.t(controller_params[:name], :scope => "admin.menu_items"),
-          :url => send(controller_params[:url_helper])
+          name: I18n.t(controller_params[:name], scope: "admin.menu_items"),
+          url: send(controller_params[:url_helper])
         }
       end
     end
 
     def add_resource_breadcrumb resource
       if resource.new_record?
-        name=  I18n.t('New record', :scope => 'admin.breadcrumbs')
+        name=  I18n.t('New record', scope: 'admin.breadcrumbs')
         url = url_for(action: :new, only_path: true)
       else
         if resource.respond_to?(:to_text)
           name = resource.send(:to_text)
         else
-          name = I18n.t('Edit record', :scope => 'admin.breadcrumbs')
+          name = I18n.t('Edit record', scope: 'admin.breadcrumbs')
         end
-        url = url_for(:action => :edit, :id => resource.id, :only_path => true)
+        url = url_for(action: :edit, id: resource.id, only_path: true)
       end
       @breadcrumbs << { name: name, url: url }
     end

@@ -8,7 +8,7 @@ module Releaf
     def available_admin_controllers
       available_admin_controllers = {}
       Releaf.available_admin_controllers.each do |controller|
-        available_admin_controllers[t(controller, :scope => 'admin.menu_items')] = controller
+        available_admin_controllers[t(controller, scope: 'admin.menu_items')] = controller
       end
 
       return available_admin_controllers

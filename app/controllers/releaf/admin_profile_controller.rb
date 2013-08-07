@@ -7,7 +7,7 @@ module Releaf
 
       # reload resource as password has been changed
       if @resource.password != old_password
-        sign_in(self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}"), :bypass => true)
+        sign_in(self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}"), bypass: true)
       end
     end
 
@@ -26,7 +26,7 @@ module Releaf
 
     def setup
       @features = {
-        :edit     => true
+        edit: true
       }
 
       # use already loaded admin user instance

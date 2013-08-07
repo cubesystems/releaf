@@ -11,10 +11,10 @@ module Releaf
       Releaf.menu.each do |menu_item|
         if menu_item.has_key? :items
           item = {
-            :name => menu_item[:name],
-            :icon => menu_item[:icon],
-            :collapsed => !cookies["releaf.side.opened.#{menu_item[:name]}"],
-            :active => false
+            name: menu_item[:name],
+            icon: menu_item[:icon],
+            collapsed: !cookies["releaf.side.opened.#{menu_item[:name]}"],
+            active: false
           }
 
           submenu_items = []
@@ -53,10 +53,10 @@ module Releaf
 
     def get_releaf_menu_item item
       {
-        :icon => item[:icon],
-        :name => item[:name],
-        :url => send(item[:url_helper]),
-        :active => (item[:controller] == params[:controller])
+        icon: item[:icon],
+        name: item[:name],
+        url: send(item[:url_helper]),
+        active: (item[:controller] == params[:controller])
       }
     end
 

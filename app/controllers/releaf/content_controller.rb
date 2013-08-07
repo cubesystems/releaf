@@ -37,7 +37,7 @@ module Releaf
       tmp_resource.send(:ensure_unique_url)
 
       respond_to do |format|
-        format.js { render :text => tmp_resource.slug }
+        format.js { render text: tmp_resource.slug }
       end
     end
 
@@ -51,7 +51,7 @@ module Releaf
         @base_models = content_type_classes
       end
 
-      @order_nodes = Node.where(:parent_id => (params[:parent_id] ? params[:parent_id] : nil))
+      @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
       @item_position = 1
       @resource.parent_id = params[:parent_id]
 
@@ -67,14 +67,14 @@ module Releaf
 
       respond_to do |format|
         format.html do
-          render :layout => nil if params.has_key?(:ajax)
+          render layout: nil if params.has_key?(:ajax)
         end
       end
     end
 
     def edit
       super
-      @order_nodes = Node.where(:parent_id => (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', :id => params[:id])
+      @order_nodes = Node.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
 
       if @resource.higher_item
         @item_position = @resource.item_position
@@ -91,7 +91,7 @@ module Releaf
       @resource = params[:content_type].constantize.new
 
       respond_to do |format|
-        format.html { render :partial => 'get_content_form', :layout => false }
+        format.html { render partial: 'get_content_form', layout: false }
       end
     end
 
@@ -109,7 +109,7 @@ module Releaf
       end
 
       ancestors.each do |ancestor|
-        @breadcrumbs << { :name => ancestor, :url => url_for( :action => :edit, :id => ancestor.id ) }
+        @breadcrumbs << { name: ancestor, url: url_for( action: :edit, id: ancestor.id ) }
       end
 
       super resource

@@ -3,25 +3,25 @@ module Releaf
     COMMON_FIELD_NAME_PREFIX = 'data_'
 
     acts_as_nested_set
-    acts_as_list :scope => :parent_id, :column => 'item_position'
+    acts_as_list scope: :parent_id, column: 'item_position'
     include Slug
     self.table_name = 'releaf_nodes'
 
     serialize :data, Hash
-    default_scope :order => 'releaf_nodes.item_position'
+    default_scope order: 'releaf_nodes.item_position'
 
     validates_presence_of :name, :slug, :content_type
-    validates_uniqueness_of :slug, :scope => :parent_id
+    validates_uniqueness_of :slug, scope: :parent_id
 
     alias_attribute :to_text, :name
 
-    belongs_to :content, :polymorphic => true, :dependent => :destroy, :class_name => Proc.new{|r| r.content_type.constantize}
+    belongs_to :content, polymorphic: true, dependent: :destroy, class_name: Proc.new{|r| r.content_type.constantize}
     accepts_nested_attributes_for :content
 
     # FIXME get rid of attr_protected
     attr_protected :none
 
-    acts_as_url :name, :url_attribute => :slug, :scope => :parent_id #, :only_when_blank => true, :limit => 255
+    acts_as_url :name, url_attribute: :slug, scope: :parent_id
 
     def build_content(params, assignment_options)
       self.content = content_type.constantize.new(params)
@@ -68,7 +68,7 @@ module Releaf
       end
 
       path.each do |part|
-        node = Node.where(:parent_id => (parent_node ? parent_node.id : nil), :slug => part).first
+        node = Node.where(parent_id: (parent_node ? parent_node.id : nil), slug: part).first
         if node
           parent_node = node
           matched_parts += 1
@@ -85,8 +85,8 @@ module Releaf
       end
 
       request_data = {
-        :node => node,
-        :unmatched_parts => path.slice(matched_parts, path.length)
+        node: node,
+        unmatched_parts: path.slice(matched_parts, path.length)
       }
 
       return request_data

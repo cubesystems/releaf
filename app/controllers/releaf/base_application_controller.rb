@@ -3,7 +3,7 @@ module Releaf
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     before_filter :set_locale
 
-    rescue_from Releaf::AccessDenied,           :with => :access_denied
+    rescue_from Releaf::AccessDenied, with: :access_denied
 
     layout Releaf.layout
     protect_from_forgery
@@ -27,15 +27,15 @@ module Releaf
     def access_denied
       @controller_name = self.class.name.sub(/Controller$/, '').underscore
       respond_to do |format|
-        format.html { render 'releaf/error_pages/access_denied', :status => 403 }
-        format.any  { render :text => '', :status =>403 }
+        format.html { render 'releaf/error_pages/access_denied', status: 403 }
+        format.any  { render text: '', status: 403 }
       end
     end
 
     def page_not_found
       respond_to do |format|
-        format.html { render 'releaf/error_pages/page_not_found', :status => 404 }
-        format.any  { render :text => '', :status => 404 }
+        format.html { render 'releaf/error_pages/page_not_found', status: 404 }
+        format.any  { render text: '', status: 404 }
       end
     end
   end

@@ -57,7 +57,7 @@ module Releaf
         format.xlsx do
           outstrio = StringIO.new
           outstrio.write(p.to_stream.read)
-          send_data(outstrio.string, :filename => @resource.scope + '.xlsx')
+          send_data(outstrio.string, filename: @resource.scope + '.xlsx')
         end
       end
     end
@@ -68,7 +68,7 @@ module Releaf
 
       require('roo')
 
-      json = { :sheets => {} }
+      json = { sheets: {} }
 
       xls = Roo::Excelx.new(params[:resource][:import_file].tempfile.path, nil, :ignore)
 
@@ -102,7 +102,7 @@ module Releaf
 
       respond_to do |format|
         format.json do
-          render :json => json, :layout => false
+          render json: json, layout: false
         end
       end
     end
@@ -115,7 +115,7 @@ module Releaf
     end
 
     def add_group_to_workbook(group, p)
-      sheet = p.workbook.add_worksheet(:name => group.scope)
+      sheet = p.workbook.add_worksheet(name: group.scope)
 
       if locales.blank?
         return sheet
