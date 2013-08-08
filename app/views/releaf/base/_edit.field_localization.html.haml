@@ -1,5 +1,8 @@
 :ruby
-  default_locale = resource.class.available_input_locales.first
+  default_locale = cookies[:'releaf.i18n.locale']
+  default_locale = resource.class.available_input_locales.first unless resource.class.available_input_locales.include? default_locale
+
+
 
 - resource.class.available_input_locales.each_with_index do |locale, i|
   - translation_name = "#{name}_#{locale}"
@@ -23,4 +26,4 @@
       - is_default_locale = locale == default_locale
       %li
         %button{:type => :button, :'data-locale' => locale, }= locale
-      
+

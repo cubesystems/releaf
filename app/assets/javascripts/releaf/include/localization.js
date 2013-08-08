@@ -136,9 +136,9 @@ jQuery(function()
 
             trigger_label.text( locale );
 
-            var form = field.closest('form');
 
-            form.trigger('localizationlocalestore', { locale : locale } );
+            jQuery.cookie( 'releaf.i18n.locale', locale, { path: '/' } );
+
 
         });
 
@@ -191,62 +191,11 @@ jQuery(function()
         });
 
 
-        block.trigger('localizationlocalesrestore');
-
     });
 
     body.bind('localizationmenucloseall', function()
     {
         body.find('.field.i18n[data-localization-menu-open]').trigger('localizationmenuclose');
-    });
-
-    body.on('localizationlocalestore', 'form', function(e, params)
-    {
-        if (!params || (!('locale' in params)))
-        {
-            return;
-        }
-
-        // define a selector by which to locate the form in the body after it gets replaced
-        var form = jQuery(e.target);
-        var form_id = form.attr('id');
-        if (!form_id)
-        {
-            return;
-        }
-
-        var stored_locales = body.data('localizationactivelocales') || {};
-
-        selector = 'form#' + form_id;
-        var locale = params.locale;
-
-        stored_locales[ selector ] = locale;
-        body.data('localizationactivelocales', stored_locales );
-
-    });
-
-    body.on('localizationlocalesrestore', function(e)
-    {
-        // restore previously stored locales for elements that have them
-
-        var block = jQuery(e.target);
-
-        var stored_locales = body.data('localizationactivelocales') || {};
-
-        jQuery.each( stored_locales, function( selector, locale )
-        {
-            var target = block.is( selector ) ? block : block.find( selector );
-            if (target.length < 1)
-            {
-                return;
-            }
-
-            // remove stored locale from cache. will be set again if needed
-            delete stored_locales[ selector ];
-
-            target.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
-        });
-
     });
 
 
