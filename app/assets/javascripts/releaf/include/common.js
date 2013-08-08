@@ -269,9 +269,12 @@ jQuery(function(){
 
             var focus_target = form.find('.field.has_error').filter(':visible').find(input_selector).not('.localization:not(.has_error) *').first();
 
+            focus_target.trigger('focusprepare');
+
             focus_target.focus();
 
         });
+
 
         form.bind( 'validationok', function( event, v, event_params )
         {

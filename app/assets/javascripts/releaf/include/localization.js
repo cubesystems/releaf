@@ -122,6 +122,7 @@ jQuery(function()
         {
             var field = jQuery(this);
 
+
             var locale = params.locale;
 
             var localization_boxes = field.find('.localization[data-locale]');
@@ -138,24 +139,35 @@ jQuery(function()
 
         });
 
+
         fields.find('.localization').bind('localizationlocaleactivate', function(e)
         {
             var localization_box = jQuery(this);
             var locale = localization_box.attr('data-locale');
 
             var form   = localization_box.closest('form');
+
             form.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
 
         });
 
-        fields.find('input[type!="hidden"],textarea,select').focus(function(e)
+
+        var input_selector = 'input[type!="hidden"],textarea,select';
+        fields.find(input_selector).bind('focusprepare', function(e)
         {
-            var localization_box = jQuery(this).closest('.localization');
+            var localization_box = (jQuery(e.target).closest('.localization'));
+            if (localization_box.length < 1)
+            {
+                return;
+            }
+
+            // focus target is inside a i18n localization box
             if (!localization_box.is('.active'))
             {
                 localization_box.trigger('localizationlocaleactivate');
             }
         });
+
 
         fields.each(function()
         {
