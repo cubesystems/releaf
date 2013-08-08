@@ -10,18 +10,18 @@ jQuery(function()
 
     body.bind('localizationinit', function(e)
     {
-        var target = jQuery(e.target);
+        var block = jQuery(e.target);
 
         e.stopPropagation();
 
         var fields;
-        if (target.is('.field.i18n'))
+        if (block.is('.field.i18n'))
         {
-            fields = target;
+            fields = block;
         }
         else
         {
-            fields = target.find('.field.i18n');
+            fields = block.find('.field.i18n');
         }
 
         if (fields.length < 1)
@@ -122,7 +122,6 @@ jQuery(function()
         {
             var field = jQuery(this);
 
-
             var locale = params.locale;
 
             var localization_boxes = field.find('.localization[data-locale]');
@@ -136,6 +135,10 @@ jQuery(function()
             var trigger_label = field.find('.localization-switch .trigger .label');
 
             trigger_label.text( locale );
+
+            var form = field.closest('form');
+
+            form.trigger('localizationlocalestore', { locale : locale } );
 
         });
 
@@ -187,12 +190,65 @@ jQuery(function()
 
         });
 
+
+        block.trigger('localizationlocalesrestore');
+
     });
 
     body.bind('localizationmenucloseall', function()
     {
         body.find('.field.i18n[data-localization-menu-open]').trigger('localizationmenuclose');
     });
+
+    body.on('localizationlocalestore', 'form', function(e, params)
+    {
+        if (!params || (!('locale' in params)))
+        {
+            return;
+        }
+
+        // define a selector by which to locate the form in the body after it gets replaced
+        var form = jQuery(e.target);
+        var form_id = form.attr('id');
+        if (!form_id)
+        {
+            return;
+        }
+
+        var stored_locales = body.data('localizationactivelocales') || {};
+
+        selector = 'form#' + form_id;
+        var locale = params.locale;
+
+        stored_locales[ selector ] = locale;
+        body.data('localizationactivelocales', stored_locales );
+
+    });
+
+    body.on('localizationlocalesrestore', function(e)
+    {
+        // restore previously stored locales for elements that have them
+
+        var block = jQuery(e.target);
+
+        var stored_locales = body.data('localizationactivelocales') || {};
+
+        jQuery.each( stored_locales, function( selector, locale )
+        {
+            var target = block.is( selector ) ? block : block.find( selector );
+            if (target.length < 1)
+            {
+                return;
+            }
+
+            // remove stored locale from cache. will be set again if needed
+            delete stored_locales[ selector ];
+
+            target.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
+        });
+
+    });
+
 
 
     // attach localizationinit to all loaded content
