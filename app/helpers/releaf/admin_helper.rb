@@ -13,7 +13,7 @@ module Releaf
           item = {
             name: menu_item[:name],
             icon: menu_item[:icon],
-            collapsed: !cookies["releaf.side.opened.#{menu_item[:name]}"],
+            collapsed: !current_admin_user.settings["side.opened.#{menu_item[:name]}"],
             active: false
           }
 

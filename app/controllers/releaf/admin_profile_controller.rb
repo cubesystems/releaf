@@ -1,6 +1,19 @@
 module Releaf
   class AdminProfileController < BaseController
 
+    def settings
+      if params[:settings].is_a? Hash
+        params[:settings].each_pair do|key, value|
+          value = false if value == "false"
+          value = true if value == "true"
+          @resource.settings[key] = value
+        end
+        render nothing: true, status: 200
+      else
+        render nothing: true, status: 422
+      end
+    end
+
     def update
       old_password = @resource.password
       super

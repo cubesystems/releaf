@@ -3,6 +3,16 @@
 jQuery(function(){
 
     var body = jQuery('body');
+    var settings_url = jQuery('header .profile a[data-settings-url]').data('settings-url');
+    body.on('updatesettings', function( event, event_params ){
+        jQuery.ajax
+        ({
+            url:  settings_url,
+            data: {"settings": event_params},
+            type: 'POST',
+            dataType: 'json'
+        });
+    });
 
     var side_compact_overlay = jQuery('<div />').addClass('side-compact-overlay').appendTo(body);
     side_compact_overlay.bind('click', function()
@@ -20,13 +30,13 @@ jQuery(function(){
         if (body.hasClass('side-compact'))
         {
             body.trigger('sidecompactcloseall');
-            jQuery.removeCookie('releaf.side.compact', { path: '/' });
+            body.trigger( 'updatesettings', {"side.compact": false} );
             body.removeClass('side-compact');
             icon.addClass('icon-double-angle-left').removeClass('icon-double-angle-right');
         }
         else
         {
-            jQuery.cookie( 'releaf.side.compact', 1, { path: '/', expires: 365 * 5 } );
+            body.trigger( 'updatesettings', {"side.compact": true} );
             body.addClass('side-compact');
             icon.addClass('icon-double-angle-right').removeClass('icon-double-angle-left');
         }
@@ -54,20 +64,23 @@ jQuery(function(){
     jQuery('body > .side > nav .collapser button').click(function(e)
     {
         var sectionLi = jQuery(this).parents('li').first();
-        var cookieName = 'releaf.side.opened.' + sectionLi.data('name')
+        var collapsed;
         e.stopPropagation();
         sectionLi.toggleClass('collapsed');
         jQuery(this).blur();
         if (sectionLi.hasClass('collapsed'))
         {
-            $.removeCookie(cookieName, { path: '/' });
+            collapsed = false;
             sectionLi.find('.chevron').addClass('icon-chevron-down').removeClass('icon-chevron-up');
         }
         else
         {
-            $.cookie(cookieName, 1, { path: '/', expires: 365 * 5 });
+            collapsed = true;
             sectionLi.find('.chevron').addClass('icon-chevron-up').removeClass('icon-chevron-down');
         }
+        var data = {}
+        data['side.opened.' + sectionLi.data('name')] = collapsed
+        body.trigger( 'updatesettings', data );
     });
 
     first_level_side_items.bind('sidecompactitemopen', function(e)

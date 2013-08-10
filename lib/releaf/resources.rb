@@ -135,6 +135,7 @@ module ActionDispatch::Routing
             get "profile", to: "admin_profile#edit", as: :admin_profile
             put "profile", to: "admin_profile#update", as: :admin_profile
             put "profile/validate", to: "admin_profile#validate", as: :admin_profile_validate
+            post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
           end
 
           if allowed_controllers.nil? or allowed_controllers.include? :content

@@ -2,6 +2,9 @@ module Releaf
   class Admin < ActiveRecord::Base
     self.table_name = 'releaf_admins'
 
+    # store UI settings with RailsSettings
+    include RailsSettings::Extend
+
     # Include default devise modules. Others available are:
     # :token_authenticatable, :confirmable,
     # :lockable, :timeoutable and :omniauthable

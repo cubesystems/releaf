@@ -8,7 +8,7 @@
     view = "edit" if view == "new"
     body_classes << "view-#{view}"
   end
-  body_classes << "side-compact" if cookies['releaf.side.compact']
+  body_classes << "side-compact" if current_admin_user.settings['side.compact']
 
   _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
   controller_asset = params[:controller]
@@ -34,7 +34,7 @@
         %a.brand{href: releaf_root_path}
         %ul.block
           %li.profile
-            %a{href: self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_path")}
+            %a{href: self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_path"), "data-settings-url" => self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_settings_path")}
               %span.name= current_admin_user.to_text
               = gravatar_image_tag(current_admin_user.email, alt: current_admin_user.to_text, gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
           %li.sign-out
@@ -45,7 +45,7 @@
       .side
         .compacter
           %button{type: "button"}
-            %i.toggle-angle-icon{class: "icon-double-angle-" + ( cookies['releaf.side.compact']  ? "right" : "left" )}
+            %i.toggle-angle-icon{class: "icon-double-angle-" + ( current_admin_user.settings['side.compact'] ? "right" : "left" )}
         %nav
           %ul.block
             - admin_menu.each do |menu_item|
