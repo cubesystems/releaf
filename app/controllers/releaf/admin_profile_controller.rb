@@ -1,6 +1,7 @@
 module Releaf
   class AdminProfileController < BaseController
 
+    # Store settings for menu collapsing and others
     def settings
       if params[:settings].is_a? Hash
         params[:settings].each_pair do|key, value|
