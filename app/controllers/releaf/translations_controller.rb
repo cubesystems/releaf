@@ -12,11 +12,6 @@ module Releaf
       valid_locales.uniq
     end
 
-    def build_secondary_panel_variables
-      @groups = I18n::Backend::Releaf::TranslationGroup.order(:scope).all
-      super
-    end
-
     def fields_to_display
       cols = super
       unless %w[index].include? params[:action]
