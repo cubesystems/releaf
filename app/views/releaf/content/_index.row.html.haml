@@ -1,10 +1,13 @@
-%li.row.clearInside{ :class => (resource.children.empty?) ? nil : 'has-children', :data => { :level => level, :id => resource.id } }
+:ruby
+  opened = (current_admin_user.settings["controller.content.opened.#{resource.id}"] == true)
+
+%li.row.clearInside{ :class => [(resource.children.empty?) ? nil : 'has-children', ('collapsed' unless opened)], :data => { :level => level, :id => resource.id } }
   %div.toolbox-cell
     = render 'toolbox', :resource => resource
   - unless resource.children.empty?
     %div.collapser-cell
       %button.secondary.button.collapser.only-icon{ :type => :button }
-        %i.icon-chevron-down
+        %i{class: opened ? 'icon-chevron-down' : 'icon-chevron-right'}
   %div.node-cell
     %a{:href => url_for(:action => :edit, :id => resource.id)}
       %span

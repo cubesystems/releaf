@@ -9,12 +9,15 @@ jQuery(function()
         // row collapse / expand
         block.find('.row .collapser').click(function()
         {
-            var row   = jQuery(this).closest('.row');
-
-            var event_name = (row.is('.collapsed')) ? 'noderowexpand' : 'noderowcollapse';
+            var row        = jQuery(this).closest('.row');
+            var collapsed  = row.is('.collapsed');
+            var event_name = collapsed ? 'noderowexpand' : 'noderowcollapse';
 
             row.trigger(event_name);
 
+            var data = {}
+            data['controller.content.opened.' + row.data('id')] = collapsed
+            body.trigger( 'updatesettings', data );
         });
 
         block.find('.row').bind('noderowcollapse', function( e )
