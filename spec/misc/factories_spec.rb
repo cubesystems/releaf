@@ -31,4 +31,10 @@ describe "FactoryGirl factories" do
       expect { FactoryGirl.create(:translation_data) }.to change { I18n::Backend::Releaf::TranslationData.count }.by(1)
     end
   end
+
+  describe "node factory" do
+    it "creates new content node" do
+      expect { FactoryGirl.create(:node) }.to change { Releaf::Node.count }.by(1)
+    end
+  end
 end
