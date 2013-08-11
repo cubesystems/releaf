@@ -108,7 +108,7 @@ module Releaf
     def edit
       raise FeatureDisabled unless @features[:edit]
       # load resource only if is not loaded yet
-      @resource = resource_class.includes(relations_for_includes).find(params[:id]) if @resource.nil?
+      @resource = resource_class.find(params[:id]) if @resource.nil?
       add_resource_breadcrumb(@resource)
     end
 
@@ -118,7 +118,7 @@ module Releaf
         @resource = resource_class.new
       else
         # load resource only if is not loaded yet
-        @resource = resource_class.includes(relations_for_includes).find(params[:id]) if @resource.nil?
+        @resource = resource_class.find(params[:id]) if @resource.nil?
       end
 
       @resource.assign_attributes required_params.permit(*resource_params)
@@ -488,7 +488,7 @@ module Releaf
         scoped_resources = scoped_resources.order_by(valid_order_by)
       end
 
-      scoped_resources = scoped_resources.includes(relations_for_includes).page( params[:page] ).per_page( @resources_per_page )
+      scoped_resources = scoped_resources.page( params[:page] ).per_page( @resources_per_page )
 
       return scoped_resources
     end
@@ -566,44 +566,6 @@ module Releaf
       end
 
       return attributes
-    end
-
-    # Tries to automagically figure you which relations should be passed to
-    # .includes
-    def relations_for_includes
-      rels = []
-      rels.push :translations if resource_class.respond_to?(:translations_table_name)
-
-      fields_to_display.each do |field|
-        if (field.is_a?(String) || field.is_a?(Symbol)) && field =~ /_id$/
-          reflection_name = field[0..-4].to_sym
-        elsif field.is_a? Hash
-          field.keys.each do |key|
-            if key =~ /_id$/
-              reflection_name = key[0..-4].to_sym
-            else
-              reflection_name = key.to_sym
-            end
-          end
-        end
-
-        next if reflection_name.blank?
-
-        reflection = resource_class.reflect_on_association(reflection_name)
-        next if reflection.blank?
-
-        # things break with polyporhic associations
-        next if reflection.options[:polymorphic]
-
-        relation_class = reflection.klass
-        if relation_class.respond_to? :translations_table_name
-          rels.push({ reflection_name.to_s => :translations })
-        else
-          rels.push reflection_name.to_s
-        end
-      end
-
-      return rels
     end
 
     # Returns valid order sql statement.
