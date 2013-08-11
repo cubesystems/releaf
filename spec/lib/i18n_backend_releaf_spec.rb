@@ -49,7 +49,7 @@ describe I18n::Backend::Releaf do
           I18N_CACHE.write('UPDATED_AT', Settings.i18n_updated_at)
         end
 
-        it "no not reload cache" do
+        it "do not reload cache" do
           I18n.backend.should_not_receive(:reload_cache)
           I18n.t("cancel", scope: "admin.content")
         end
