@@ -35,7 +35,7 @@ describe "Side menu visual appearance" do
     end
 
     context "when submenu item is active" do
-      it "its parent menu is not collapsed", js: true do
+      it "its parent menu is expanded", js: true do
         find('.side li[data-name="permissions"] > .trigger').click
         expect(page).to have_css('.side li[data-name="permissions"].collapsed')
         wait_for_ajax_to_complete
@@ -51,7 +51,7 @@ describe "Side menu visual appearance" do
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end
 
-      it "have permanent close status", js: true do
+      it "have permanent collapsed status", js: true do
         find('.side li[data-name="inventory"] > .trigger').click
         wait_for_ajax_to_complete
         visit releaf_admin_profile_path
