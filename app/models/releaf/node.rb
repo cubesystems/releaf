@@ -20,6 +20,7 @@ module Releaf
 
     # FIXME get rid of attr_protected
     attr_protected :none
+    after_save :update_settings_timestamp
 
     acts_as_url :name, url_attribute: :slug, scope: :parent_id
 
@@ -150,6 +151,14 @@ module Releaf
         raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
       end
       return cfschema
+    end
+
+    def self.updated_at
+      Settings['nodes.updated_at']
+    end
+
+    def update_settings_timestamp
+      Settings['nodes.updated_at'] = Time.now
     end
 
     private
