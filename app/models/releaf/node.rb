@@ -153,15 +153,20 @@ module Releaf
       return cfschema
     end
 
+    def destroy
+      super
+      update_settings_timestamp
+    end
+
     def self.updated_at
       Settings['nodes.updated_at']
     end
 
+    private
+
     def update_settings_timestamp
       Settings['nodes.updated_at'] = Time.now
     end
-
-    private
 
     def common_fields_schema_for_instance
 
