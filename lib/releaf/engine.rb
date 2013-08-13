@@ -19,5 +19,10 @@ require 'easy_globalize3_accessors'
 
 module Releaf
   class Engine < ::Rails::Engine
+    initializer "releaf.insert_middleware" do |app|
+      if Releaf.load_routes_middleware
+        app.middleware.use Releaf::RoutesReloader
+      end
+    end
   end
 end

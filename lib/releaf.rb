@@ -33,6 +33,9 @@ module Releaf
   mattr_accessor :use_releaf_i18n
   @@use_releaf_i18n = true
 
+  mattr_accessor :load_routes_middleware
+  @@load_routes_middleware = true
+
   mattr_accessor :create_missing_translations
   @@create_missing_translations = true
 
