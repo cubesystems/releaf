@@ -34,11 +34,11 @@ describe Releaf::AdminHelper do
       it "returns all available controllers in menu" do
         output = [
           {:icon=>"file-text-alt", :name=>"releaf/content", :url=>"/admin/content", :active=>false},
-          {:name=>"inventory", :icon=>"briefcase", :collapsed=>true, :active=>false, :url=>"/admin/books",
+          {:name=>"inventory", :icon=>"briefcase", :collapsed=>false, :active=>false, :url=>"/admin/books",
            :items=>[
              {:icon=>nil, :name=>"admin/books", :url=>"/admin/books", :active=>false},
              {:icon=>nil, :name=>"admin/authors", :url=>"/admin/authors", :active=>false}]},
-          {:name=>"permissions", :icon=>"user", :collapsed=>true, :active=>false, :url=>"/admin/admins",
+          {:name=>"permissions", :icon=>"user", :collapsed=>false, :active=>false, :url=>"/admin/admins",
            :items=>[
              {:icon=>nil, :name=>"releaf/admins", :url=>"/admin/admins", :active=>false},
              {:icon=>nil, :name=>"releaf/roles", :url=>"/admin/roles", :active=>false}]},

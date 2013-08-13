@@ -14,7 +14,7 @@ module Releaf
           item = {
             name: menu_item[:name],
             icon: menu_item[:icon],
-            collapsed: (current_admin_user.settings["releaf.menu.collapsed.#{menu_item[:name]}"] != true),
+            collapsed: (current_admin_user.settings["releaf.menu.collapsed.#{menu_item[:name]}"] == true),
             active: false
           }
 

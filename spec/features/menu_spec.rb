@@ -29,29 +29,33 @@ describe "Side menu visual appearance" do
 
   describe "menu item collapsing functionality" do
     context "when logged first time" do
-      it "have permissions menu collapsed", js: true do
-        expect(page).to have_css('.side li.collapsed[data-name="permissions"]')
+      it "permissions is not collapsed", js: true do
+        expect(page).to have_css('.side li[data-name="permissions"]:not(.collapsed)')
       end
     end
 
-    context "when submenu item is opened" do
-      it "have its parent menu opened", js: true do
+    context "when submenu item is active" do
+      it "its parent menu is not collapsed", js: true do
+        find('.side li[data-name="permissions"] > .trigger').click
+        expect(page).to have_css('.side li[data-name="permissions"].collapsed')
+        wait_for_ajax_to_complete
+
         visit releaf_admins_path
         expect(page).to have_css('.side li[data-name="permissions"]:not(.collapsed)')
       end
     end
 
     context "when click to inventory item", js: true do
-      it "open submenu", js: true do
-        find('.side li[data-name="inventory"] .trigger').click
-        expect(page).to have_css('.side li[data-name="inventory"]:not(collapsed)')
+      it "collapse submenu", js: true do
+        find('.side li[data-name="inventory"] > .trigger').click
+        expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end
 
-      it "have permanent open status", js: true do
-        find('.side li[data-name="inventory"] .trigger').click
+      it "have permanent close status", js: true do
+        find('.side li[data-name="inventory"] > .trigger').click
         wait_for_ajax_to_complete
         visit releaf_admin_profile_path
-        expect(page).to have_css('.side li[data-name="inventory"]:not(collapsed)')
+        expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end
     end
   end
