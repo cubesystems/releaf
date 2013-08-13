@@ -20,6 +20,7 @@ describe "Side menu visual appearance" do
 
       it "have permanent collapsing status", js: true do
         find('.side .compacter button').click
+        wait_for_ajax_to_complete
         visit releaf_admin_profile_path
         expect(page).to have_css('body.side-compact')
       end
@@ -48,6 +49,7 @@ describe "Side menu visual appearance" do
 
       it "have permanent open status", js: true do
         find('.side li[data-name="inventory"] .trigger').click
+        wait_for_ajax_to_complete
         visit releaf_admin_profile_path
         expect(page).to have_css('.side li[data-name="inventory"]:not(collapsed)')
       end

@@ -13,4 +13,9 @@ module Helpers
       login_as admin
     end
   end
+
+  def wait_for_ajax_to_complete
+    # pass timeout in seconds if you need to override default_wait_time
+    page.wait_until { page.evaluate_script('jQuery.active === 0') }
+  end
 end
