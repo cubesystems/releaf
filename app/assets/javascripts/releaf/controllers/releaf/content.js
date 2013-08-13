@@ -10,13 +10,13 @@ jQuery(function()
         block.find('.row .collapser').click(function()
         {
             var row             = jQuery(this).closest('.row');
-            var shoud_expand    = row.is('.collapsed');
-            var event_name      = shoud_expand ? 'noderowexpand' : 'noderowcollapse';
+            var should_expand   = row.is('.collapsed');
+            var event_name      = should_expand ? 'noderowexpand' : 'noderowcollapse';
 
             row.trigger(event_name);
 
             var setting_key = 'content.tree.expanded.' + row.data('id');
-            body.trigger( 'settingssave', [ setting_key, shoud_expand ] );
+            body.trigger( 'settingssave', [ setting_key, should_expand ] );
         });
 
         block.find('.row').bind('noderowcollapse', function( e )
