@@ -10,14 +10,16 @@ module Releaf
 
       Releaf.menu.each do |menu_item|
         if menu_item.has_key? :items
+
           item = {
             name: menu_item[:name],
             icon: menu_item[:icon],
-            collapsed: !current_admin_user.settings["side.opened.#{menu_item[:name]}"],
+            collapsed: current_admin_user.settings["releaf.menu.collapsed.#{menu_item[:name]}"],
             active: false
           }
 
           submenu_items = []
+
           menu_item[:items].each do |submenu_item|
             if current_admin_user.role.authorize!(submenu_item[:controller])
               submenu_item2 = get_releaf_menu_item(submenu_item)
@@ -39,6 +41,7 @@ module Releaf
           items << item if item.has_key? :url
 
         elsif current_admin_user.role.authorize!(menu_item[:controller])
+
           item = get_releaf_menu_item(menu_item)
           if menu_item[:controller] == params[:controller]
             item[:active] = true

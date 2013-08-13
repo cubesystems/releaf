@@ -3,12 +3,26 @@
 jQuery(function(){
 
     var body = jQuery('body');
-    var settings_url = jQuery('header .profile a[data-settings-url]').data('settings-url');
-    body.on('updatesettings', function( event, event_params ){
+
+    var settings_url = jQuery('header .profile').data('settings-url');
+    body.on('settingssave', function( event, key_or_settings, value )
+    {
+        if (!settings_url)
+        {
+            return;
+        }
+
+        var settings = key_or_settings;
+        if (typeof settings == "string")
+        {
+            settings = {};
+            settings[key_or_settings] = value;
+        }
+
         jQuery.ajax
         ({
             url:  settings_url,
-            data: {"settings": event_params},
+            data: { "settings": settings},
             type: 'POST',
             dataType: 'json'
         });
@@ -30,13 +44,13 @@ jQuery(function(){
         if (body.hasClass('side-compact'))
         {
             body.trigger('sidecompactcloseall');
-            body.trigger( 'updatesettings', {"side.compact": false} );
+            body.trigger( 'settingssave', [ "releaf.side.compact", false ] );
             body.removeClass('side-compact');
             icon.addClass('icon-double-angle-left').removeClass('icon-double-angle-right');
         }
         else
         {
-            body.trigger( 'updatesettings', {"side.compact": true} );
+            body.trigger( 'settingssave', [ "releaf.side.compact", true ] );
             body.addClass('side-compact');
             icon.addClass('icon-double-angle-right').removeClass('icon-double-angle-left');
         }
@@ -63,24 +77,27 @@ jQuery(function(){
 
     jQuery('body > .side > nav .collapser button').click(function(e)
     {
-        var sectionLi = jQuery(this).parents('li').first();
+        var item = jQuery(this).closest('li');
         var collapsed;
         e.stopPropagation();
-        sectionLi.toggleClass('collapsed');
+
+        item.toggleClass('collapsed');
         jQuery(this).blur();
-        if (sectionLi.hasClass('collapsed'))
+
+        if (item.hasClass('collapsed'))
         {
-            collapsed = false;
-            sectionLi.find('.chevron').addClass('icon-chevron-down').removeClass('icon-chevron-up');
+            collapsed = true;
+            item.find('.chevron').addClass('icon-chevron-down').removeClass('icon-chevron-up');
         }
         else
         {
-            collapsed = true;
-            sectionLi.find('.chevron').addClass('icon-chevron-up').removeClass('icon-chevron-down');
+            collapsed = false;
+            item.find('.chevron').addClass('icon-chevron-up').removeClass('icon-chevron-down');
         }
-        var data = {}
-        data['side.opened.' + sectionLi.data('name')] = collapsed
-        body.trigger( 'updatesettings', data );
+
+        var setting_key = 'releaf.menu.collapsed.' + item.data('name');
+        body.trigger( 'settingssave', [ setting_key, collapsed ]  );
+
     });
 
     first_level_side_items.bind('sidecompactitemopen', function(e)
