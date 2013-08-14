@@ -1,4 +1,4 @@
-module ActiveRecord
+module ActionController
   module Acts #:nodoc:
     module Node #:nodoc:
       def self.included(base)
@@ -9,7 +9,7 @@ module ActiveRecord
       #
       # Text example:
       #
-      #   class Text < ActiveRecord::Base
+      #   class ContactFormController < ActionController::Base
       #     has_many :acts_as_node
       #   end
       #
@@ -23,7 +23,7 @@ module ActiveRecord
           ActsAsNode.register_class(self.name)
 
           class_eval <<-EOV
-            include ::ActiveRecord::Acts::Node::InstanceMethods
+            include ::ActionController::Acts::Node::InstanceMethods
 
             # Load all nodes for class
             def self.nodes
@@ -38,12 +38,12 @@ module ActiveRecord
 
         # Return object node
         def node
-          Releaf::Node.find_by_content_type_and_content_id(self.class.name, id)
+          nil
         end
 
         # Return list of editable fields
         def node_editable_fields
-          self.class.column_names - %w[id created_at updated_at]
+          []
         end
       end
     end

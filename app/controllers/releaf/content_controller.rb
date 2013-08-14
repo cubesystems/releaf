@@ -43,25 +43,24 @@ module Releaf
 
     def new
       @resource = resource_class.new
-      @resource.parent_id = params[:parent_id]
       super
 
       if params[:content_type].blank?
-        Rails.application.eager_load!
-        @base_models = content_type_classes
-      end
+        @content_types = content_type_classes
+      else
+        unless ActsAsNode.classes.include? params[:content_type]
+          raise ArgumentError, "invalid content_type"
+        end
 
-      @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
-      @item_position = 1
-      @resource.parent_id = params[:parent_id]
+        @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
+        @item_position = 1
 
-      if params[:content_type]
+        @resource.content_type = params[:content_type]
+        @resource.parent_id = params[:parent_id]
+
         content_class = params[:content_type].constantize
-        if content_class <  Releaf::NodeBase
-          @resource.content_type = params[:content_type]
-          if content_class.node_type == 'Releaf::NodeBase'
-            @resource.content = content_class.new
-          end
+        if content_class < ActiveRecord::Base
+          @resource.content = content_class.new
         end
       end
 
@@ -84,7 +83,6 @@ module Releaf
     end
 
     def get_content_form
-      Rails.application.eager_load!
       raise ArgumentError unless content_type_class_names.include? params[:content_type]
       @node = resource_class.find(params[:id])
 
@@ -126,7 +124,7 @@ module Releaf
     end
 
     def content_type_classes
-      NodeBase.node_classes + BlankNodeBase.node_classes
+      ActsAsNode.classes.map{|class_name| class_name.constantize}
     end
 
     def resource_params
