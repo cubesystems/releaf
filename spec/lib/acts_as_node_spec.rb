@@ -21,6 +21,12 @@ class Contact < ActiveRecord::Base
 end
 
 describe ActsAsNode do
+  describe ".classes" do
+    it "return all registerd classes" do
+      expect(ActsAsNode.classes).to include("ContactFormController", "Contact")
+    end
+  end
+
   describe ActiveRecord::Acts::Node do
     context "when model acts as node" do
       it "have name included within ActsAsNode.classes" do
