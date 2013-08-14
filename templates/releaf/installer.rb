@@ -151,7 +151,6 @@ else
 end
 rake 'db:create'
 
-generate "settings settings"
 generate "devise:install"
 generate "releaf:install #{ARGV.join(' ')}"
 rake 'db:migrate'
