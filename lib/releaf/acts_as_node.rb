@@ -9,6 +9,9 @@ module ActsAsNode
   end
 
   def self.classes
+    # eager load in dev env
+    Rails.application.eager_load! if Rails.env.development?
+
     @classes
   end
 
