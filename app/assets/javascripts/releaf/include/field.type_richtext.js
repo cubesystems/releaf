@@ -4,7 +4,7 @@ jQuery(function()
     var body = jQuery('body');
 
 	// richtext config
-	var plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari', 'uploadimage' ];
+	var plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari', 'uploadimage', 'fullscreen' ];
 
 	// remove inlinepopups plugin for Opera 10
 	if( typeof BrowserDetect != 'undefined' )
@@ -29,7 +29,7 @@ jQuery(function()
 		entities : '160,nbsp,38,amp,60,lt,62,gt',
 		body_class : 'content',
 		plugins : plugins.join(','),
-		theme_advanced_buttons1 : 'bold,italic,formatselect,justifyleft,justifycenter,justifyright,justifyfull,|,sub,sup,|,bullist,numlist,|,link,unlink,uploadimage,image,embed,|,code,cleanup,removeformat',
+		theme_advanced_buttons1 : 'bold,italic,formatselect,justifyleft,justifycenter,justifyright,justifyfull,|,sub,sup,|,bullist,numlist,|,link,unlink,uploadimage,image,embed,|,code,cleanup,removeformat|,fullscreen',
 		theme_advanced_blockformats : 'p,address,pre,h2,h3,h4,h5,h6',
 		theme_advanced_buttons2 : '',
 		theme_advanced_buttons3 : '',
@@ -40,9 +40,8 @@ jQuery(function()
 		plugin_insertdate_timeFormat : '%H:%M:%S',
 		extended_valid_elements : 'a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]',
 		relative_urls : false,
-		theme_advanced_resizing : true,
+		theme_advanced_resizing : false,
 		object_resizing : false,
-		//content_css: '/styles/textFormat.css',
 		init_instance_callback: function( instance )
 		{
 			jQuery( instance.contentAreaContainer ).trigger( 'tinymceinit', [ instance ] );
