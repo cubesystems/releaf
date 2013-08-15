@@ -162,6 +162,29 @@ module Releaf
       Settings['nodes.updated_at']
     end
 
+    def copy_to_node parent_id
+      new_node = self.dup
+
+      if content_id.present?
+        new_content = content.dup
+        new_content.save
+        new_node.content_id = new_content.id
+      end
+
+      new_node.parent_id = parent_id
+      new_node.save
+
+      children.each do |child|
+        child.copy_to_node(new_node.id)
+      end
+
+      return new_node
+    end
+
+    def move_to_node parent_id
+    end
+
+
     private
 
     def update_settings_timestamp

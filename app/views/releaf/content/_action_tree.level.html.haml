@@ -1,0 +1,3 @@
+%ul.block.clearInside{ :'data-level' => level }
+  - resources.each do |resource|
+    = render 'action_tree.row', :resource => resource, :level => level, :action => action

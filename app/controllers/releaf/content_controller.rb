@@ -71,6 +71,41 @@ module Releaf
       end
     end
 
+    def copy
+      @node = Node.find_by_id params[:node_id]
+      @resources = Node.roots
+      respond_to do |format|
+        format.html do
+          render layout: nil if params.has_key?(:ajax)
+        end
+      end
+    end
+
+    def copy_action
+      node = Node.find_by_id params[:node_id]
+      node.copy_to_node params[:new_parent_id]
+
+      redirect_to :action => "index"
+    end
+
+    def move
+      @resources = Node.roots
+      respond_to do |format|
+        format.html do
+          render layout: nil if params.has_key?(:ajax)
+        end
+      end
+    end
+
+    def go_to
+      @resources = Node.roots
+      respond_to do |format|
+        format.html do
+          render layout: nil if params.has_key?(:ajax)
+        end
+      end
+    end
+
     def edit
       super
       @order_nodes = Node.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
