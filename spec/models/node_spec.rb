@@ -42,4 +42,76 @@ describe Releaf::Node do
       expect(Releaf::Node.updated_at).to eq(time_now)
     end
   end
+
+  describe "#copy_to_node" do
+    before do
+      @text_node = FactoryGirl.create(:node_text)
+      @text_node_2 = FactoryGirl.create(:node_text)
+    end
+
+    context "with corect parent_id" do
+      it "creates new node" do
+        expect{ @text_node_2.copy_to_node(@text_node.id) }.to change{ Releaf::Node.count }.by(1)
+      end
+    end
+
+    context "when node have children" do
+      it "creates multiple new nodes" do
+        @text_node_2.copy_to_node(@text_node.id)
+        expect{ @text_node.copy_to_node(@text_node_2.id) }.to change{ Releaf::Node.count }.by( @text_node.children.size + 1 )
+      end
+    end
+
+    context "when parent_id is nil" do
+      it "desn't create new node" do
+        expect{ @text_node_2.copy_to_node(nil) }.not_to change{ Releaf::Node.count }.by(1)
+      end
+    end
+
+    context "with unexisting parent_id" do
+      it "desn't create new node" do
+        expect{ @text_node_2.copy_to_node(99991) }.not_to change{ Releaf::Node.count }.by(1)
+      end
+    end
+
+    context "with same parent_id as node.id" do
+      it "desn't create new node" do
+        expect{ @text_node.copy_to_node(@text_node.id) }.not_to change{ Releaf::Node.count }.by(1)
+      end
+    end
+  end
+
+
+  describe "#move_to_node" do
+    before do
+      @text_node = FactoryGirl.create(:node_text)
+      @text_node_2 = FactoryGirl.create(:node_text)
+      @text_node_3 = FactoryGirl.create(:node_text)
+    end
+
+    context "when moving existing node to other nodes child's position" do
+      it "changes parent_id" do
+        expect{ @text_node_3.move_to_node(@text_node.id) }.to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(nil).to(@text_node.id)
+      end
+    end
+
+    context "when moving to self child's position" do
+      it "doesn't change parent_id" do
+        expect{ @text_node_3.move_to_node(@text_node_3.id) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(nil)
+      end
+    end
+
+    context "when passing nil as target node" do
+      it "doesn't change parent_id" do
+        expect{ @text_node_3.move_to_node(nil) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(nil)
+      end
+    end
+
+    context "when passing unexisting target node's id" do
+      it "doesn't change parent_id" do
+        expect{ @text_node_3.move_to_node(998123) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(nil)
+      end
+    end
+  end
+
 end
