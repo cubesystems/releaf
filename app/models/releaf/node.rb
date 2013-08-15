@@ -163,7 +163,7 @@ module Releaf
     end
 
     def copy_to_node parent_id
-      return if parent_id == id
+      return if parent_id.to_i == id
 
       new_node = self.dup
 
@@ -184,7 +184,7 @@ module Releaf
     end
 
     def move_to_node parent_id
-      return if parent_id == id
+      return if parent_id.to_i == id
 
       self.parent_id = parent_id
       self.save
