@@ -34,16 +34,6 @@ describe ActsAsNode do
       end
     end
 
-    context "#node" do
-      it "return node object" do
-        contact = Contact.new
-        contact.stub(:id).and_return(1)
-
-        Releaf::Node.stub(:find_by_content_type_and_content_id).with(Contact.to_s, 1).and_return("node_obj")
-        expect(contact.node).to eq("node_obj")
-      end
-    end
-
     context "#node_editable_fields" do
       it "return model columns" do
         contact = Contact.new
@@ -68,12 +58,6 @@ describe ActsAsNode do
     context "when controller acts as node" do
       it "have name included within ActsAsNode.classes" do
         expect(ActsAsNode.classes.include?(ContactFormController.to_s)).to be_true
-      end
-    end
-
-    context "#node" do
-      it "return nil" do
-        expect(ContactFormController.new.node).to be_nil
       end
     end
 

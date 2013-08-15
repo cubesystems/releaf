@@ -36,11 +36,6 @@ module ActionController
       # All the methods available to a record that has had <tt>acts_as_node</tt> specified.
       module InstanceMethods
 
-        # Return object node
-        def node
-          nil
-        end
-
         # Return list of editable fields
         def node_editable_fields
           []

@@ -36,11 +36,6 @@ module ActiveRecord
       # All the methods available to a record that has had <tt>acts_as_node</tt> specified.
       module InstanceMethods
 
-        # Return object node
-        def node
-          Releaf::Node.find_by_content_type_and_content_id(self.class.name, id)
-        end
-
         # Return list of editable fields
         def node_editable_fields
           self.class.column_names - %w[id created_at updated_at]
