@@ -2,10 +2,11 @@ module Releaf
   class Node < ActiveRecord::Base
     COMMON_FIELD_NAME_PREFIX = 'data_'
 
+    self.table_name = 'releaf_nodes'
+
     acts_as_nested_set
     acts_as_list scope: :parent_id, column: 'item_position'
     include Slug
-    self.table_name = 'releaf_nodes'
 
     serialize :data, Hash
     default_scope order: 'releaf_nodes.item_position'
