@@ -141,8 +141,15 @@ module ActionDispatch::Routing
           if allowed_controllers.nil? or allowed_controllers.include? :content
             releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
               get :generate_url, :on => :collection
-              get :copy, :on => :collection
-              post :copy_action, :on => :collection
+
+              member do 
+                get :copy_dialog
+                post :copy
+
+                get :move_dialog
+                post :move
+              end
+
             end
           end
 

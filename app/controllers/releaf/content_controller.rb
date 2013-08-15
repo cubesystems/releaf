@@ -71,8 +71,8 @@ module Releaf
       end
     end
 
-    def copy
-      @node = Node.find_by_id params[:node_id]
+    def copy_dialog
+      @node = Node.find params[:id]
       @resources = Node.roots
       respond_to do |format|
         format.html do
@@ -81,14 +81,15 @@ module Releaf
       end
     end
 
-    def copy_action
-      node = Node.find_by_id params[:node_id]
+    def copy
+      node = Node.find params[:id]
       node.copy_to_node params[:new_parent_id]
 
       redirect_to :action => "index"
     end
 
-    def move
+    def move_dialog
+      @node = Node.find params[:id]
       @resources = Node.roots
       respond_to do |format|
         format.html do
@@ -97,7 +98,14 @@ module Releaf
       end
     end
 
-    def go_to
+    def move
+      node = Node.find params[:id]
+      node.move_to_node params[:new_parent_id]
+
+      redirect_to :action => "index"
+    end
+
+    def go_to_dialog
       @resources = Node.roots
       respond_to do |format|
         format.html do

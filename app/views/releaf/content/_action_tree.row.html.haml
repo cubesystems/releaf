@@ -8,12 +8,11 @@
         %i{class: expanded ? 'icon-chevron-down' : 'icon-chevron-right'}
   %div.node-cell
     - if action == 'go_to'
-      %a{:href => url_for(:action => action, :parent_id => resource.id)}
+      %a{:href => url_for(:action => action, :parent_id => resource.id, :id => @node.id)}
         %span
           = resource.name
     - else
-      = form_tag url_for(:action => "#{action}_action"), :method => :post do
-        %input{:type => :hidden, :name => :node_id, :value => @node.id}
+      = form_tag url_for(:action => action, :id => @node.id), :method => :post do
         %input{:type => :hidden, :name => :new_parent_id, :value => resource.id}
         %button{:type => :submit}
           %span= resource.name

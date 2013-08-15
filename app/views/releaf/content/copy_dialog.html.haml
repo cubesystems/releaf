@@ -1,0 +1,16 @@
+.body.dialog.copy-node-dialog
+  .header
+    = t("Copy node '%{node_name}' to", :scope => controller_scope_name, :default => "Copy node '%{node_name}' to", :node_name => @node.name )
+  .content.clearInside
+
+    %div.action-tree.resources
+      - unless @resources.size < 1
+        = render 'action_tree.level', :resources => @resources, :level => 1, :action => :copy
+
+  .footer.clearInside
+    - cancel_url = url_for( :action => 'index' )
+    %a.button.secondary{ :data => {:type => 'cancel'}, :href => cancel_url }
+      %i.icon-ban-circle
+      %span= t('cancel', :scope => 'admin.global')
+
+

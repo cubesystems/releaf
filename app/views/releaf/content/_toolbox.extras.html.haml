@@ -4,12 +4,11 @@
       %i.icon-large.icon-plus
       = t('Add child', :scope => controller_scope_name)
   %li
-    %a.button.ajaxbox{:href => url_for( :action => :copy, :node_id => resource.id )}
+    %a.button.ajaxbox{:href => url_for( :action => :copy_dialog, :id => resource.id )}
       %i.icon-large.icon-copy
       = t('Copy', :scope => controller_scope_name)
 
   %li
-    %a.button{:href => '#'}
+    %a.button{:href => url_for( :action => :move_dialog, :id => resource.id )}
       %i.icon-large.icon-move
       = t('Move', :scope => controller_scope_name)
-      TODO:

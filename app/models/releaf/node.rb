@@ -182,6 +182,10 @@ module Releaf
     end
 
     def move_to_node parent_id
+      if parent_id != self.id
+        self.parent_id = parent_id
+        self.save
+      end
     end
 
 
