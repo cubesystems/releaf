@@ -163,7 +163,10 @@ module Releaf
     end
 
     def copy_to_node parent_id
+      return if parent_id == id
+
       new_node = self.dup
+      existing_children = children
 
       if content_id.present?
         new_content = content.dup
@@ -174,7 +177,7 @@ module Releaf
       new_node.parent_id = parent_id
       new_node.save
 
-      children.each do |child|
+      existing_children.each do |child|
         child.copy_to_node(new_node.id)
       end
 
@@ -182,10 +185,10 @@ module Releaf
     end
 
     def move_to_node parent_id
-      if parent_id != self.id
-        self.parent_id = parent_id
-        self.save
-      end
+      return if parent_id == id
+
+      self.parent_id = parent_id
+      self.save
     end
 
 
