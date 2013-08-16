@@ -7,8 +7,8 @@
       %button.secondary.button.collapser.only-icon{ :type => :button }
         %i{class: expanded ? 'icon-chevron-down' : 'icon-chevron-right'}
   %div.node-cell
-    - if action == 'go_to'
-      %a{:href => url_for(:action => action, :parent_id => resource.id, :id => @node.id)}
+    - if action == :edit
+      %a{:href => url_for(:action => action, :id => resource.id)}
         %span
           = resource.name
     - else

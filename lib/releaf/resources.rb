@@ -142,6 +142,8 @@ module ActionDispatch::Routing
             releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
               get :generate_url, :on => :collection
 
+              get :go_to_dialog, :on => :collection
+
               member do 
                 get :copy_dialog
                 post :copy
