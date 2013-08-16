@@ -3,6 +3,7 @@
     %a.button.ajaxbox{:href => url_for( :action => :new, :parent_id => resource.id )}
       %i.icon-large.icon-plus
       = t('Add child', :scope => controller_scope_name)
+
   %li.go-to
     %a.button.ajaxbox{:href => url_for( :action => :go_to_dialog )}
       %i.icon-large.icon-external-link
@@ -14,6 +15,6 @@
       = t('Copy', :scope => controller_scope_name)
 
   %li
-    %a.button{:href => url_for( :action => :move_dialog, :id => resource.id )}
+    %a.button.ajaxbox{:href => url_for( :action => :move_dialog, :id => resource.id )}
       %i.icon-large.icon-move
       = t('Move', :scope => controller_scope_name)
