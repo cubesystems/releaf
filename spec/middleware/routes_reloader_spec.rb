@@ -23,6 +23,7 @@ describe Releaf::RoutesReloader do
   describe ".reload_if_expired" do
     describe "when routes is up to date" do
       it "do not reload routes" do
+        Releaf::Node.stub(:updated_at).and_return(Time.parse("1991-01-01"))
         expect(Rails.application).to_not receive(:reload_routes!)
         Releaf::RoutesReloader.reload_if_expired
       end
