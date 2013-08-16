@@ -6,8 +6,5 @@ class Text < ActiveRecord::Base
   alias_attribute :to_text, :id
 
   attr_accessible \
-    :title,
-    :description,
     :text_html
-
 end
