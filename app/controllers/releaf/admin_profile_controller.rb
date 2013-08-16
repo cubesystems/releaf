@@ -36,6 +36,10 @@ module Releaf
       ]
     end
 
+    def resource_class
+      Releaf.devise_for.classify.constantize
+    end
+
     protected
 
     def setup
