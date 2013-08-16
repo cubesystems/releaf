@@ -61,32 +61,32 @@ describe I18n::Backend::Releaf do
         context "unexisting translation in given scope" do
           it "use parent scope" do
             translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
-            FactoryGirl.create(:translation_data, translation: translation, lang: I18n.locale, localization: "Tukšs")
-            expect(I18n.t("blank", scope: "validation.admin.roles")).to eq("Tukšs")
+            FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+            expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
         end
 
         context "empty translation value in given scope" do
           it "use parent scope" do
             parent_translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
-            FactoryGirl.create(:translation_data, translation: parent_translation, lang: I18n.locale, localization: "Tukšs")
+            FactoryGirl.create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
 
             translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin.roles"))
-            FactoryGirl.create(:translation_data, translation: translation, lang: I18n.locale, localization: "")
+            FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "")
 
-            expect(I18n.t("blank", scope: "validation.admin.roles")).to eq("Tukšs")
+            expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
         end
 
         context "and existing translation value in given scope" do
           it "use given scope" do
             parent_translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
-            FactoryGirl.create(:translation_data, translation: parent_translation, lang: I18n.locale, localization: "Tukšs")
+            FactoryGirl.create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
 
             translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin.roles"))
-            FactoryGirl.create(:translation_data, translation: translation, lang: I18n.locale, localization: "Tukša vērtība")
+            FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukša vērtība")
 
-            expect(I18n.t("blank", scope: "validation.admin.roles")).to eq("Tukša vērtība")
+            expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukša vērtība")
           end
         end
       end
@@ -94,16 +94,16 @@ describe I18n::Backend::Releaf do
       context "with scope" do
         it "use given scope" do
           translation = FactoryGirl.create(:translation, key: "cancel", translation_group: FactoryGirl.create(:translation_group, scope: "admin.content"))
-          FactoryGirl.create(:translation_data, translation: translation, lang: I18n.locale, localization: "Atlikt")
-          expect(I18n.t("cancel", scope: "admin.content")).to eq("Atlikt")
+          FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Atlikt")
+          expect(I18n.t("cancel", scope: "admin.content", locale: "lv")).to eq("Atlikt")
         end
       end
 
       context "without scope" do
         it "add default scope" do
           translation = FactoryGirl.create(:translation, translation_group: FactoryGirl.create(:translation_group, scope: "global"))
-          FactoryGirl.create(:translation_data, translation: translation, lang: I18n.locale, localization: "Saglabāt")
-          expect(I18n.t("save")).to eq("Saglabāt")
+          FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
+          expect(I18n.t("save", locale: "lv")).to eq("Saglabāt")
         end
       end
     end
