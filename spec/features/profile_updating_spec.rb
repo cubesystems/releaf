@@ -12,7 +12,6 @@ feature "Admin user update profile" do
     select 'lv', :from => 'Locale'
     click_button 'Save'
 
-    expect(page).to have_content 'Updated'
     expect(find_field('Name').value).to eq('Will')
     expect(find_field('Surname').value).to eq('Smith')
     expect(find_field('Email').value).to eq('will@example.com')
