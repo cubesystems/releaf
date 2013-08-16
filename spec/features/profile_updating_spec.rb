@@ -19,7 +19,7 @@ feature "Admin user update profile" do
     expect(find_field('Locale').value).to eq('lv')
   end
 
-  scenario "password", :js => true do
+  scenario "password" do
     # update
     fill_in 'Password', :with => "newpassword123", :match => :prefer_exact
     fill_in 'Password confirmation', :with => "newpassword123", :match => :prefer_exact
