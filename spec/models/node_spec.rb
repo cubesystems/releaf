@@ -45,8 +45,8 @@ describe Releaf::Node do
 
   describe "#copy_to_node" do
     before do
-      @text_node = FactoryGirl.create(:node_text)
-      @text_node_2 = FactoryGirl.create(:node_text)
+      @text_node = FactoryGirl.create(:text_node)
+      @text_node_2 = FactoryGirl.create(:text_node)
     end
 
     context "with corect parent_id" do
@@ -90,9 +90,9 @@ describe Releaf::Node do
 
   describe "#move_to_node" do
     before do
-      @text_node = FactoryGirl.create(:node_text)
-      @text_node_2 = FactoryGirl.create(:node_text)
-      @text_node_3 = FactoryGirl.create(:node_text)
+      @text_node = FactoryGirl.create(:text_node)
+      @text_node_2 = FactoryGirl.create(:text_node)
+      @text_node_3 = FactoryGirl.create(:text_node)
     end
 
     context "when moving existing node to other nodes child's position" do

@@ -5,10 +5,10 @@ FactoryGirl.define do
     content_type "fake_type"
   end
 
-  factory :node_text, class: ::Releaf::Node do
+  factory :text_node, class: ::Releaf::Node do
     sequence(:name) {|n| "node #{n}"}
     sequence(:slug) {|n| "node-#{n}"}
     content_type "Text"
+    content_attributes ({ text_html: "some <strong>STRIONG</strong> text" })
   end
-
 end
