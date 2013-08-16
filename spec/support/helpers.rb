@@ -1,6 +1,10 @@
 module Helpers
   def auth_as_admin full_login = false, factory = :admin
-    admin = FactoryGirl.create(factory)
+    if factory.is_a? Releaf::Admin
+      admin = factory
+    else
+      admin = FactoryGirl.create(factory)
+    end
     if full_login
       visit "/"
       within("form.login") do
