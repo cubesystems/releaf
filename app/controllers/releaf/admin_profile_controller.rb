@@ -44,7 +44,8 @@ module Releaf
 
     def setup
       @features = {
-        edit: true
+        edit: true,
+        edit_ajax_reload: false
       }
 
       # use already loaded admin user instance
