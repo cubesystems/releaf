@@ -79,6 +79,12 @@ describe Releaf::Node do
         expect{ @text_node.copy_to_node(@text_node.id) }.not_to change{ Releaf::Node.count }
       end
     end
+
+    context "when passing string as argument" do
+      it "desn't create new node" do
+        expect{ @text_node.copy_to_node("some_id") }.not_to change{ Releaf::Node.count }
+      end
+    end
   end
 
 
@@ -110,6 +116,12 @@ describe Releaf::Node do
     context "when passing unexisting target node's id" do
       it "doesn't change parent_id" do
         expect{ @text_node_3.move_to_node(998123) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
+      end
+    end
+
+    context "when passing string as argument" do
+      it "doesn't change parent_id" do
+        expect{ @text_node_3.move_to_node("test") }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
   end
