@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe Releaf::ContentController do
   before do
-    auth_as_admin
+    @admin = auth_as_admin
     # build little tree
     @root = FactoryGirl.create(:node)
     FactoryGirl.create(:node, parent_id: @root.id)
@@ -21,22 +21,25 @@ describe Releaf::ContentController do
     context "when click to uncollapse node" do
       it "show node children", js: true do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
+
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
       end
 
       it "keep opened node children visibility permanent", js: true do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        wait_for_ajax_to_complete
+        page.wait_until{ @admin.settings.last.try(:value) == true }
         visit releaf_nodes_path
+
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
       end
 
       it "keep closed node children visibility permanent", js: true do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        wait_for_ajax_to_complete
+        page.wait_until{ @admin.settings.last.try(:value) == true }
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        wait_for_ajax_to_complete
+        page.wait_until{ @admin.settings.last.try(:value) == false }
         visit releaf_nodes_path
+
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"].collapsed')
       end
     end

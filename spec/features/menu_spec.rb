@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe "Side menu visual appearance" do
   before do
-    auth_as_admin
+    @admin = auth_as_admin
     visit releaf_admin_profile_path
   end
 
@@ -15,13 +15,15 @@ describe "Side menu visual appearance" do
     context "when click to collapse button", js: true do
       it "collapses side menu", js: true do
         find('.side .compacter button').click
+
         expect(page).to have_css('body.side-compact')
       end
 
       it "have permanent collapsing status", js: true do
         find('.side .compacter button').click
-        wait_for_ajax_to_complete
+        page.wait_until{ @admin.settings.last.try(:value) == true }
         visit releaf_admin_profile_path
+
         expect(page).to have_css('body.side-compact')
       end
     end
@@ -38,9 +40,10 @@ describe "Side menu visual appearance" do
       it "its parent menu is expanded", js: true do
         find('.side li[data-name="permissions"] > .trigger').click
         expect(page).to have_css('.side li[data-name="permissions"].collapsed')
-        wait_for_ajax_to_complete
 
+        page.wait_until{ @admin.settings.last.try(:value) == true }
         visit releaf_admins_path
+
         expect(page).to have_css('.side li[data-name="permissions"]:not(.collapsed)')
       end
     end
@@ -48,13 +51,15 @@ describe "Side menu visual appearance" do
     context "when click to inventory item", js: true do
       it "collapse submenu", js: true do
         find('.side li[data-name="inventory"] > .trigger').click
+
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end
 
       it "have permanent collapsed status", js: true do
         find('.side li[data-name="inventory"] > .trigger').click
-        wait_for_ajax_to_complete
+        page.wait_until{ @admin.settings.last.try(:value) == true }
         visit releaf_admin_profile_path
+
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end
     end
