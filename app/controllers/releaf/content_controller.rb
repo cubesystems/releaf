@@ -83,7 +83,13 @@ module Releaf
 
     def copy
       node = Node.find params[:id]
-      node.copy_to_node params[:new_parent_id]
+      success = node.copy_to_node params[:new_parent_id]
+
+      if success.nil?
+        flash[:error] = { id: :resource_status, message: I18n.t('copy not possible', scope: 'notices.' + controller_scope_name) }
+      else
+        flash[:success] = { id: :resource_status, message: I18n.t('copied', scope: 'notices.' + controller_scope_name) }
+      end
 
       redirect_to :action => "index"
     end
@@ -100,8 +106,13 @@ module Releaf
 
     def move
       node = Node.find params[:id]
-      node.move_to_node params[:new_parent_id]
+      success = node.move_to_node params[:new_parent_id]
 
+      if success.nil?
+        flash[:error] = { id: :resource_status, message: I18n.t('move not possible', scope: 'notices.' + controller_scope_name) }
+      else
+        flash[:success] = { id: :resource_status, message: I18n.t('moved', scope: 'notices.' + controller_scope_name) }
+      end
       redirect_to :action => "index"
     end
 
