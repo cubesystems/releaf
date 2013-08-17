@@ -36,6 +36,7 @@ RSpec.configure do |config|
   config.add_formatter(:html, 'rspec.html')
 
   config.include Helpers
+  config.include WaitSteps
 
   config.include Rails.application.routes.url_helpers
 
@@ -44,8 +45,6 @@ RSpec.configure do |config|
   config.extend ControllerMacros, :type => :controller
   config.include Devise::TestHelpers, :type => :helper
   config.extend ControllerMacros, :type => :helper
-
-  config.include FeatureMacros, :type => :feature
 
 
   # FactoryGirl

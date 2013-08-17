@@ -21,7 +21,7 @@ describe "Side menu visual appearance" do
 
       it "have permanent collapsing status", js: true do
         find('.side .compacter button').click
-        page.wait_until{ @admin.settings.last.try(:value) == true }
+        expect{ @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_admin_profile_path
 
         expect(page).to have_css('body.side-compact')
@@ -41,7 +41,7 @@ describe "Side menu visual appearance" do
         find('.side li[data-name="permissions"] > .trigger').click
         expect(page).to have_css('.side li[data-name="permissions"].collapsed')
 
-        page.wait_until{ @admin.settings.last.try(:value) == true }
+        expect{ @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_admins_path
 
         expect(page).to have_css('.side li[data-name="permissions"]:not(.collapsed)')
@@ -57,7 +57,7 @@ describe "Side menu visual appearance" do
 
       it "have permanent collapsed status", js: true do
         find('.side li[data-name="inventory"] > .trigger').click
-        page.wait_until{ @admin.settings.last.try(:value) == true }
+        expect{ @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_admin_profile_path
 
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')

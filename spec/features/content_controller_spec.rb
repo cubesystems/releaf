@@ -29,7 +29,7 @@ describe Releaf::ContentController do
 
       it "keep opened node children visibility permanent", js: true do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        page.wait_until{ @admin.settings.last.try(:value) == true }
+        expect { @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_nodes_path
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
@@ -37,9 +37,8 @@ describe Releaf::ContentController do
 
       it "keep closed node children visibility permanent", js: true do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        page.wait_until{ @admin.settings.last.try(:value) == true }
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        page.wait_until{ @admin.settings.last.try(:value) == false }
+        expect{ @admin.settings.last.try(:value) == false }.to become_true
         visit releaf_nodes_path
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"].collapsed')
