@@ -5,21 +5,18 @@ feature "Admin user update profile" do
     visit releaf_admin_profile_path
   end
 
-  scenario "for all data, except password" do
-    fill_in 'Name',    :with => "Will"
-    fill_in 'Surname', :with => "Smith"
-    fill_in 'Email', :with => "will@example.com"
-    select 'lv', :from => 'Locale'
+  scenario "name, surname and locale" do
+    fill_in 'Name',    :with => "Edward"
+    fill_in 'Surname', :with => "Bat"
+    select "lv", :from => "Locale"
     click_button 'Save'
 
-    expect(find_field('Name').value).to eq('Will')
-    expect(find_field('Surname').value).to eq('Smith')
-    expect(find_field('Email').value).to eq('will@example.com')
-    expect(find_field('Locale').value).to eq('lv')
+    expect(page).to have_css('header .profile .name', text: "Edward Bat")
   end
 
-  scenario "password" do
+  scenario "password and email" do
     # update
+    fill_in 'Email', :with => "new.email@example.com"
     fill_in 'Password', :with => "newpassword123", :match => :prefer_exact
     fill_in 'Password confirmation', :with => "newpassword123", :match => :prefer_exact
     click_button 'Save'
@@ -29,7 +26,7 @@ feature "Admin user update profile" do
 
     # login
     visit releaf_root_path
-    fill_in 'Email',    :with => "email@example.com"
+    fill_in 'Email',    :with => "new.email@example.com"
     fill_in 'Password', :with => "newpassword123"
     click_button 'Sign in'
 

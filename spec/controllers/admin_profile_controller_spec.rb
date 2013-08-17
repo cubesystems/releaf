@@ -14,7 +14,14 @@ describe Releaf::AdminProfileController do
 
     context 'with allowed attributes' do
       it "save new attributes" do
-        expect{ put :update, {resource: {name: "new name"}} }.to change{ admin.name }
+        attributes = {
+          "name" => "new name",
+          "surname" => "new surname",
+          "email" => "new.email@example.com",
+          "locale" => "lv"
+        }
+        admin.should_receive(:update_attributes).with(attributes)
+        put :update, {resource: attributes}
       end
     end
   end
