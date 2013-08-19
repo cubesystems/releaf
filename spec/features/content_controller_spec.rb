@@ -3,7 +3,7 @@ describe Releaf::ContentController do
   before do
     @admin = auth_as_admin
     # build little tree
-    @root = FactoryGirl.create(:node, name: "Root")
+    @root = FactoryGirl.create(:node, name: "RootNode")
     FactoryGirl.create(:node, parent_id: @root.id)
     @sub_root = FactoryGirl.create(:node, parent_id: @root.id)
     FactoryGirl.create(:node, parent_id: @sub_root.id)
@@ -86,9 +86,9 @@ describe Releaf::ContentController do
       it "navigates to targeted node's edit view" do
         find('.toolbox button').click
         find('.toolbox-items li a.ajaxbox', text: "Go to").click
-        find('.dialog.goto-node-dialog .action-tree ul li .node-cell a', text: "Root").click
+        find('.dialog.goto-node-dialog .action-tree ul li .node-cell a', text: "RootNode").click
 
-        expect(page).to have_css('.view-edit .edit_resource h2.header', text: 'Root', visible: true)
+        expect(page).to have_css('.view-edit .edit_resource h2.header', text: 'RootNode', visible: true)
       end
     end
   end
@@ -98,7 +98,7 @@ describe Releaf::ContentController do
       it "shows copied node in tree" do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         find('.toolbox-items li a.ajaxbox', text: "Copy").click
-        find('.dialog.copy-node-dialog .action-tree ul li .node-cell button', text: "Root").click
+        find('.dialog.copy-node-dialog .action-tree ul li .node-cell button', text: "RootNode").click
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
 
         expect(page).to have_css('li > .node-cell a', text: "Main", count: 2, visible: true)
@@ -121,7 +121,7 @@ describe Releaf::ContentController do
       it "moves selected node to new position" do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         find('.toolbox-items li a.ajaxbox', text: "Move").click
-        find('.dialog.move-node-dialog .action-tree ul li .node-cell button', text: "Root").click
+        find('.dialog.move-node-dialog .action-tree ul li .node-cell button', text: "RootNode").click
         expect(page).not_to have_css('li > .node-cell a', text: "Main", visible: true)
 
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
