@@ -42,10 +42,6 @@ module Releaf
       url
     end
 
-    def test
-      raise self.inspect
-    end
-
     # returns node content object public controller
     def controller
       raise "Missing content object" if content_type.blank?
