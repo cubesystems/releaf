@@ -22,7 +22,6 @@ module Releaf
     # FIXME get rid of attr_protected
     attr_protected :none
     after_save :update_settings_timestamp
-    before_validation :maintain_name
 
     acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
 
@@ -178,6 +177,7 @@ module Releaf
       end
 
       new_node.parent_id = parent_id
+      new_node.maintain_name
       new_node.save
 
       children.each do |child|
@@ -195,11 +195,10 @@ module Releaf
       self.parent_id = parent_id
       self.ensure_unique_url
 
+      maintain_name
       self.save
     end
 
-
-    private
 
     def maintain_name
       mod = nil
@@ -214,6 +213,9 @@ module Releaf
 
       self.name = "#{name}#{mod}"
     end
+
+
+    private
 
     def update_settings_timestamp
       Settings['nodes.updated_at'] = Time.now

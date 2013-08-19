@@ -127,4 +127,25 @@ describe Releaf::Node do
     end
   end
 
+
+  describe "#maintain_name" do
+    let(:root) { FactoryGirl.create(:text_node) }
+    let(:node) { FactoryGirl.create(:text_node, :parent_id => root.id, :name => "Test node") }
+    let(:sibling) { FactoryGirl.create(:text_node, :parent_id => root.id, :name => "Test node(1)") }
+
+    context "when node have sibling/s with same name" do
+      it "changes node's name" do
+        new_node = Releaf::Node.new(:name => node.name, :parent_id => root.id)
+        expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(1)")
+      end
+
+      it "increments node's name number" do
+        sibling
+        new_node = Releaf::Node.new(:name => node.name, :parent_id => root.id)
+        expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(2)")
+      end
+    end
+
+  end
+
 end
