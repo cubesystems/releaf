@@ -22,6 +22,7 @@ module Releaf
     # FIXME get rid of attr_protected
     attr_protected :none
     after_save :update_settings_timestamp
+    before_validation :maintain_name
 
     acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
 
@@ -168,6 +169,7 @@ module Releaf
       return if self.class.find_by_id(parent_id).nil? && !parent_id.nil?
 
       new_node = self.dup
+      new_node.item_position = self.self_and_siblings[-1].item_position + 1
 
       if content_id.present?
         new_content = content.dup
@@ -187,14 +189,31 @@ module Releaf
 
     def move_to_node parent_id
       return if parent_id.to_i == id
+      return if parent_id.to_i == self.parent_id
       return if self.class.find_by_id(parent_id).nil? && !parent_id.nil?
 
       self.parent_id = parent_id
+      self.ensure_unique_url
+
       self.save
     end
 
 
     private
+
+    def maintain_name
+      mod = nil
+      total_count = 0
+
+      while self.class.where("parent_id = ? AND name = ?", self.parent_id, "#{name}#{mod}").count.to_i > 0 do
+        count = self.class.where("parent_id = ? AND name = ?", self.parent_id, "#{name}#{mod}").count.to_i
+
+        total_count += count
+        mod = "(#{total_count})"
+      end
+
+      self.name = "#{name}#{mod}"
+    end
 
     def update_settings_timestamp
       Settings['nodes.updated_at'] = Time.now
