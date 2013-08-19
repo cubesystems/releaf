@@ -1,11 +1,22 @@
+- action = :copy
+
 .body.dialog.copy-node-dialog
   .header
     = t("Copy node '%{node_name}' to", :scope => controller_scope_name, :default => "Copy node '%{node_name}' to", :node_name => @node.name )
   .content.clearInside
 
     %div.action-tree.resources
+      %ul.block.clearInside{ :'data-level' => 0 }
+        - if action != :edit
+          %li.root.row.clearInside
+            %div.node-cell
+              = form_tag url_for(:action => action, :id => @node.id), :method => :post do
+                %input{:type => :hidden, :name => :new_parent_id, :value => nil}
+                %button{:type => :submit}
+                  %span= t("Root node", :scope => controller_scope_name)
+
       - unless @resources.size < 1
-        = render 'action_tree.level', :resources => @resources, :level => 1, :action => :copy
+        = render 'action_tree.level', :resources => @resources, :level => 1, :action => action
 
   .footer.clearInside
     - cancel_url = url_for( :action => 'index' )

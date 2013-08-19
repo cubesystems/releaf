@@ -47,6 +47,7 @@ describe Releaf::Node do
     before do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
+      @text_node_3 = FactoryGirl.create(:text_node, :parent_id => @text_node.id )
     end
 
     context "with corect parent_id" do
@@ -63,8 +64,8 @@ describe Releaf::Node do
     end
 
     context "when parent_id is nil" do
-      it "desn't create new node" do
-        expect{ @text_node_2.copy_to_node(nil) }.not_to change{ Releaf::Node.count }.by(1)
+      it "creates new node" do
+        expect{ @text_node_3.copy_to_node(nil) }.to change{ Releaf::Node.count }.by(1)
       end
     end
 
@@ -92,12 +93,12 @@ describe Releaf::Node do
     before do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
-      @text_node_3 = FactoryGirl.create(:text_node)
+      @text_node_3 = FactoryGirl.create(:text_node, :parent_id => @text_node_2.id)
     end
 
     context "when moving existing node to other nodes child's position" do
       it "changes parent_id" do
-        expect{ @text_node_3.move_to_node(@text_node.id) }.to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(nil).to(@text_node.id)
+        expect{ @text_node_3.move_to_node(@text_node.id) }.to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(@text_node_2.id).to(@text_node.id)
       end
     end
 
@@ -109,7 +110,7 @@ describe Releaf::Node do
 
     context "when passing nil as target node" do
       it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(nil) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
+        expect{ @text_node_3.move_to_node(nil) }.to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
 
