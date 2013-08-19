@@ -23,7 +23,7 @@ module Releaf
     attr_protected :none
     after_save :update_settings_timestamp
 
-    acts_as_url :name, url_attribute: :slug, scope: :parent_id
+    acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
 
     def build_content(params, assignment_options)
       self.content = content_type.constantize.new(params)
@@ -40,6 +40,10 @@ module Releaf
       end
 
       url
+    end
+
+    def test
+      raise self.inspect
     end
 
     # returns node content object public controller
