@@ -12,7 +12,7 @@ module Releaf
 
     def fields_to_display
       return super unless params[:action] == 'show'
-      return %w[name parent_id visible protected content]
+      return %w[name parent_id active protected content]
     end
 
     def index
