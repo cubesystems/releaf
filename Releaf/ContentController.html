@@ -120,32 +120,10 @@
 
     <ul class="summary">
       
-        <li class="protected ">
-  <span class="summary_signature">
-    
-      <a href="#_node_params-instance_method" title="#_node_params (instance method)">- (Object) <strong>_node_params</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title protected">protected</span>
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#build_secondary_panel_variables-instance_method" title="#build_secondary_panel_variables (instance method)">- (Object) <strong>build_secondary_panel_variables</strong> </a>
+      <a href="#add_resource_breadcrumb-instance_method" title="#add_resource_breadcrumb (instance method)">- (Object) <strong>add_resource_breadcrumb</strong>(resource) </a>
     
 
     
@@ -159,7 +137,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>override base_controller method for adding content tree ancestors to
+breadcrumbs.</p>
+</div></span>
   
 </li>
 
@@ -189,7 +170,29 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create-instance_method" title="#create (instance method)">- (Object) <strong>create</strong> </a>
+      <a href="#copy-instance_method" title="#copy (instance method)">- (Object) <strong>copy</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#copy_dialog-instance_method" title="#copy_dialog (instance method)">- (Object) <strong>copy_dialog</strong> </a>
     
 
     
@@ -299,7 +302,73 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#go_to_dialog-instance_method" title="#go_to_dialog (instance method)">- (Object) <strong>go_to_dialog</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#index-instance_method" title="#index (instance method)">- (Object) <strong>index</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#move-instance_method" title="#move (instance method)">- (Object) <strong>move</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#move_dialog-instance_method" title="#move_dialog (instance method)">- (Object) <strong>move_dialog</strong> </a>
     
 
     
@@ -362,50 +431,6 @@
 </li>
 
       
-        <li class="protected ">
-  <span class="summary_signature">
-    
-      <a href="#setup-instance_method" title="#setup (instance method)">- (Object) <strong>setup</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title protected">protected</span>
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#update-instance_method" title="#update (instance method)">- (Object) <strong>update</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -419,7 +444,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="BaseController.html" title="Releaf::BaseController (class)">BaseController</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="BaseController.html#authorize%21-instance_method" title="Releaf::BaseController#authorize! (method)">#authorize!</a></span>, <span class='object_link'><a href="BaseController.html#autocomplete-instance_method" title="Releaf::BaseController#autocomplete (method)">#autocomplete</a></span>, <span class='object_link'><a href="BaseController.html#confirm_destroy-instance_method" title="Releaf::BaseController#confirm_destroy (method)">#confirm_destroy</a></span>, <span class='object_link'><a href="BaseController.html#destroy-instance_method" title="Releaf::BaseController#destroy (method)">#destroy</a></span>, <span class='object_link'><a href="BaseController.html#filter_order_and_paginate_collection-instance_method" title="Releaf::BaseController#filter_order_and_paginate_collection (method)">#filter_order_and_paginate_collection</a></span>, <span class='object_link'><a href="BaseController.html#find_parent_template-instance_method" title="Releaf::BaseController#find_parent_template (method)">#find_parent_template</a></span>, <span class='object_link'><a href="BaseController.html#get_collection-instance_method" title="Releaf::BaseController#get_collection (method)">#get_collection</a></span>, <span class='object_link'><a href="BaseController.html#get_template_field_attributes-instance_method" title="Releaf::BaseController#get_template_field_attributes (method)">#get_template_field_attributes</a></span>, <span class='object_link'><a href="BaseController.html#get_template_input_attributes-instance_method" title="Releaf::BaseController#get_template_input_attributes (method)">#get_template_input_attributes</a></span>, <span class='object_link'><a href="BaseController.html#get_template_label_options-instance_method" title="Releaf::BaseController#get_template_label_options (method)">#get_template_label_options</a></span>, <span class='object_link'><a href="BaseController.html#has_template%3F-instance_method" title="Releaf::BaseController#has_template? (method)">#has_template?</a></span>, <span class='object_link'><a href="BaseController.html#list_action-instance_method" title="Releaf::BaseController#list_action (method)">#list_action</a></span>, <span class='object_link'><a href="BaseController.html#localize_attributes-instance_method" title="Releaf::BaseController#localize_attributes (method)">#localize_attributes</a></span>, <span class='object_link'><a href="BaseController.html#mass_assigment_actions-instance_method" title="Releaf::BaseController#mass_assigment_actions (method)">#mass_assigment_actions</a></span>, <span class='object_link'><a href="BaseController.html#relations_for_includes-instance_method" title="Releaf::BaseController#relations_for_includes (method)">#relations_for_includes</a></span>, <span class='object_link'><a href="BaseController.html#render_field_type-instance_method" title="Releaf::BaseController#render_field_type (method)">#render_field_type</a></span>, <span class='object_link'><a href="BaseController.html#render_parent_template-instance_method" title="Releaf::BaseController#render_parent_template (method)">#render_parent_template</a></span>, <span class='object_link'><a href="BaseController.html#required_params-instance_method" title="Releaf::BaseController#required_params (method)">#required_params</a></span>, <span class='object_link'><a href="BaseController.html#resource_to_text-instance_method" title="Releaf::BaseController#resource_to_text (method)">#resource_to_text</a></span>, <span class='object_link'><a href="BaseController.html#resource_to_text_method-instance_method" title="Releaf::BaseController#resource_to_text_method (method)">#resource_to_text_method</a></span>, <span class='object_link'><a href="BaseController.html#secondary_panel-instance_method" title="Releaf::BaseController#secondary_panel (method)">#secondary_panel</a></span>, <span class='object_link'><a href="BaseController.html#show-instance_method" title="Releaf::BaseController#show (method)">#show</a></span>, <span class='object_link'><a href="BaseController.html#urls-instance_method" title="Releaf::BaseController#urls (method)">#urls</a></span>, <span class='object_link'><a href="BaseController.html#valid_order_by-instance_method" title="Releaf::BaseController#valid_order_by (method)">#valid_order_by</a></span>, <span class='object_link'><a href="BaseController.html#validate-instance_method" title="Releaf::BaseController#validate (method)">#validate</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="BaseController.html#authorize%21-instance_method" title="Releaf::BaseController#authorize! (method)">#authorize!</a></span>, <span class='object_link'><a href="BaseController.html#autocomplete-instance_method" title="Releaf::BaseController#autocomplete (method)">#autocomplete</a></span>, <span class='object_link'><a href="BaseController.html#confirm_destroy-instance_method" title="Releaf::BaseController#confirm_destroy (method)">#confirm_destroy</a></span>, <span class='object_link'><a href="BaseController.html#create-instance_method" title="Releaf::BaseController#create (method)">#create</a></span>, <span class='object_link'><a href="BaseController.html#destroy-instance_method" title="Releaf::BaseController#destroy (method)">#destroy</a></span>, <span class='object_link'><a href="BaseController.html#filter_order_and_paginate_collection-instance_method" title="Releaf::BaseController#filter_order_and_paginate_collection (method)">#filter_order_and_paginate_collection</a></span>, <span class='object_link'><a href="BaseController.html#find_parent_template-instance_method" title="Releaf::BaseController#find_parent_template (method)">#find_parent_template</a></span>, <span class='object_link'><a href="BaseController.html#get_collection-instance_method" title="Releaf::BaseController#get_collection (method)">#get_collection</a></span>, <span class='object_link'><a href="BaseController.html#get_template_field_attributes-instance_method" title="Releaf::BaseController#get_template_field_attributes (method)">#get_template_field_attributes</a></span>, <span class='object_link'><a href="BaseController.html#get_template_input_attributes-instance_method" title="Releaf::BaseController#get_template_input_attributes (method)">#get_template_input_attributes</a></span>, <span class='object_link'><a href="BaseController.html#get_template_label_options-instance_method" title="Releaf::BaseController#get_template_label_options (method)">#get_template_label_options</a></span>, <span class='object_link'><a href="BaseController.html#has_template%3F-instance_method" title="Releaf::BaseController#has_template? (method)">#has_template?</a></span>, <span class='object_link'><a href="BaseController.html#localize_attributes-instance_method" title="Releaf::BaseController#localize_attributes (method)">#localize_attributes</a></span>, <span class='object_link'><a href="BaseController.html#mass_assigment_actions-instance_method" title="Releaf::BaseController#mass_assigment_actions (method)">#mass_assigment_actions</a></span>, <span class='object_link'><a href="BaseController.html#render_field_type-instance_method" title="Releaf::BaseController#render_field_type (method)">#render_field_type</a></span>, <span class='object_link'><a href="BaseController.html#render_parent_template-instance_method" title="Releaf::BaseController#render_parent_template (method)">#render_parent_template</a></span>, <span class='object_link'><a href="BaseController.html#required_params-instance_method" title="Releaf::BaseController#required_params (method)">#required_params</a></span>, <span class='object_link'><a href="BaseController.html#resource_to_text-instance_method" title="Releaf::BaseController#resource_to_text (method)">#resource_to_text</a></span>, <span class='object_link'><a href="BaseController.html#resource_to_text_method-instance_method" title="Releaf::BaseController#resource_to_text_method (method)">#resource_to_text_method</a></span>, <span class='object_link'><a href="BaseController.html#setup-instance_method" title="Releaf::BaseController#setup (method)">#setup</a></span>, <span class='object_link'><a href="BaseController.html#show-instance_method" title="Releaf::BaseController#show (method)">#show</a></span>, <span class='object_link'><a href="BaseController.html#update-instance_method" title="Releaf::BaseController#update (method)">#update</a></span>, <span class='object_link'><a href="BaseController.html#urls-instance_method" title="Releaf::BaseController#urls (method)">#urls</a></span>, <span class='object_link'><a href="BaseController.html#valid_order_by-instance_method" title="Releaf::BaseController#valid_order_by (method)">#valid_order_by</a></span>, <span class='object_link'><a href="BaseController.html#validate-instance_method" title="Releaf::BaseController#validate (method)">#validate</a></span></p>
 
   
   
@@ -430,7 +455,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="BaseApplicationController.html" title="Releaf::BaseApplicationController (class)">BaseApplicationController</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="BaseApplicationController.html#access_denied-instance_method" title="Releaf::BaseApplicationController#access_denied (method)">#access_denied</a></span>, <span class='object_link'><a href="BaseApplicationController.html#controller_scope_name-instance_method" title="Releaf::BaseApplicationController#controller_scope_name (method)">#controller_scope_name</a></span>, <span class='object_link'><a href="BaseApplicationController.html#current_feature-instance_method" title="Releaf::BaseApplicationController#current_feature (method)">#current_feature</a></span>, <span class='object_link'><a href="BaseApplicationController.html#full_controller_name-instance_method" title="Releaf::BaseApplicationController#full_controller_name (method)">#full_controller_name</a></span>, <span class='object_link'><a href="BaseApplicationController.html#page_not_found-instance_method" title="Releaf::BaseApplicationController#page_not_found (method)">#page_not_found</a></span>, <span class='object_link'><a href="BaseApplicationController.html#set_locale-instance_method" title="Releaf::BaseApplicationController#set_locale (method)">#set_locale</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="BaseApplicationController.html#access_denied-instance_method" title="Releaf::BaseApplicationController#access_denied (method)">#access_denied</a></span>, <span class='object_link'><a href="BaseApplicationController.html#controller_scope_name-instance_method" title="Releaf::BaseApplicationController#controller_scope_name (method)">#controller_scope_name</a></span>, <span class='object_link'><a href="BaseApplicationController.html#page_not_found-instance_method" title="Releaf::BaseApplicationController#page_not_found (method)">#page_not_found</a></span>, <span class='object_link'><a href="BaseApplicationController.html#set_locale-instance_method" title="Releaf::BaseApplicationController#set_locale (method)">#set_locale</a></span></p>
 
   
 
@@ -439,61 +464,69 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="_node_params-instance_method">
+  <h3 class="signature first" id="add_resource_breadcrumb-instance_method">
   
-    - (<tt>Object</tt>) <strong>_node_params</strong>  <span class="extras">(protected)</span>
-  
-
+    - (<tt>Object</tt>) <strong>add_resource_breadcrumb</strong>(resource) 
   
 
   
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
 
-
-136
-137
-138</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 136</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid__node_params'>_node_params</span>
-  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit!'>permit!</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
+  
+</h3><div class="docstring">
+  <div class="discussion">
     
-      <div class="method_details ">
-  <h3 class="signature " id="build_secondary_panel_variables-instance_method">
-  
-    - (<tt>Object</tt>) <strong>build_secondary_panel_variables</strong> 
+<p>override base_controller method for adding content tree ancestors to
+breadcrumbs</p>
+
+
+  </div>
+</div>
+<div class="tags">
   
 
-  
-
-  
-</h3><table class="source_code">
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-18
-19
-20
-21</pre>
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 152</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_build_secondary_panel_variables'>build_secondary_panel_variables</span>
-  <span class='ivar'>@nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_roots'>roots</span>
-  <span class='kw'>super</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add_resource_breadcrumb'>add_resource_breadcrumb</span> <span class='id identifier rubyid_resource'>resource</span>
+  <span class='id identifier rubyid_ancestors'>ancestors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_new_record?'>new_record?</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span>
+      <span class='id identifier rubyid_ancestors'>ancestors</span> <span class='op'>=</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_ancestors'>ancestors</span>
+      <span class='id identifier rubyid_ancestors'>ancestors</span> <span class='op'>+=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_ancestors'>ancestors</span> <span class='op'>=</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_ancestors'>ancestors</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_ancestors'>ancestors</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ancestor'>ancestor</span><span class='op'>|</span>
+    <span class='ivar'>@breadcrumbs</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span> <span class='label'>name:</span> <span class='id identifier rubyid_ancestor'>ancestor</span><span class='comma'>,</span> <span class='label'>url:</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span> <span class='label'>action:</span> <span class='symbol'>:edit</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='id identifier rubyid_ancestor'>ancestor</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span> <span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>super</span> <span class='id identifier rubyid_resource'>resource</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -539,9 +572,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="create-instance_method">
+  <h3 class="signature " id="copy-instance_method">
   
-    - (<tt>Object</tt>) <strong>create</strong> 
+    - (<tt>Object</tt>) <strong>copy</strong> 
   
 
   
@@ -553,35 +586,73 @@
       <pre class="lines">
 
 
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42</pre>
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 84</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
-  <span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid__node_params'>_node_params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
-  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid__node_params'>_node_params</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_copy'>copy</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_success'>success</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_copy_to_node'>copy_to_node</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:new_parent_id</span><span class='rbracket'>]</span>
 
+  <span class='kw'>if</span> <span class='id identifier rubyid_success'>success</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>copy not possible</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>copied</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>index</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="copy_dialog-instance_method">
+  
+    - (<tt>Object</tt>) <strong>copy_dialog</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_copy_dialog'>copy_dialog</span>
+  <span class='ivar'>@node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
+  <span class='ivar'>@resources</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_roots'>roots</span>
   <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-      <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span><span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edit</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:controller</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>content</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='rbrace'>}</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_form_extras'>form_extras</span>
-      <span class='ivar'>@order_nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>new</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_render'>render</span> <span class='label'>layout:</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:ajax</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -605,33 +676,29 @@
       <pre class="lines">
 
 
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 128</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_edit'>edit</span>
   <span class='kw'>super</span>
-  <span class='ivar'>@order_nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>?</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id != :id</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='ivar'>@order_nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>parent_id:</span> <span class='lparen'>(</span><span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>?</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id != :id</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>id:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_higher_item'>higher_item</span>
     <span class='ivar'>@item_position</span> <span class='op'>=</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_item_position'>item_position</span>
   <span class='kw'>else</span>
     <span class='ivar'>@item_position</span> <span class='op'>=</span> <span class='int'>1</span>
   <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_form_extras'>form_extras</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -685,30 +752,30 @@
       <pre class="lines">
 
 
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64</pre>
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_url'>generate_url</span>
   <span class='id identifier rubyid_tmp_resource'>tmp_resource</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -728,7 +795,7 @@
 </span>  <span class='id identifier rubyid_tmp_resource'>tmp_resource</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:ensure_unique_url</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_js'>js</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_tmp_resource'>tmp_resource</span><span class='period'>.</span><span class='id identifier rubyid_slug'>slug</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_js'>js</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>text:</span> <span class='id identifier rubyid_tmp_resource'>tmp_resource</span><span class='period'>.</span><span class='id identifier rubyid_slug'>slug</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -773,33 +840,69 @@
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122</pre>
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_content_form'>get_content_form</span>
-  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_eager_load!'>eager_load!</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_content_type_class_names'>content_type_class_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span>
   <span class='ivar'>@node</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 
   <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>get_content_form</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='kw'>false</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>partial:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>get_content_form</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>layout:</span> <span class='kw'>false</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="go_to_dialog-instance_method">
+  
+    - (<tt>Object</tt>) <strong>go_to_dialog</strong> 
+  
 
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_go_to_dialog'>go_to_dialog</span>
+  <span class='ivar'>@resources</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_roots'>roots</span>
+  <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_render'>render</span> <span class='label'>layout:</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:ajax</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -821,18 +924,102 @@
       <pre class="lines">
 
 
-23
-24
-25
-26
-27</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_index'>index</span>
+  <span class='ivar'>@resources</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_roots'>roots</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="move-instance_method">
+  
+    - (<tt>Object</tt>) <strong>move</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_move'>move</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_success'>success</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_move_to_node'>move_to_node</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:new_parent_id</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_success'>success</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>move not possible</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>moved</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>index</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="move_dialog-instance_method">
+  
+    - (<tt>Object</tt>) <strong>move_dialog</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 97</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_move_dialog'>move_dialog</span>
+  <span class='ivar'>@node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
+  <span class='ivar'>@resources</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_roots'>roots</span>
   <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span>
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_render'>render</span> <span class='label'>layout:</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:ajax</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -855,34 +1042,66 @@
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96</pre>
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:ajax</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>super</span>
-    <span class='ivar'>@order_nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='rparen'>)</span>
-    <span class='ivar'>@item_position</span> <span class='op'>=</span> <span class='int'>1</span>
-    <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_form_extras'>form_extras</span>
+  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='kw'>super</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='ivar'>@content_types</span> <span class='op'>=</span> <span class='id identifier rubyid_content_type_classes'>content_type_classes</span>
   <span class='kw'>else</span>
-    <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_eager_load!'>eager_load!</span>
-    <span class='id identifier rubyid_get_base_models'>get_base_models</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ajax.new</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span>
+    <span class='kw'>unless</span> <span class='const'>ActsAsNode</span><span class='period'>.</span><span class='id identifier rubyid_classes'>classes</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>invalid content_type</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='ivar'>@order_nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>parent_id:</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='ivar'>@item_position</span> <span class='op'>=</span> <span class='int'>1</span>
+
+    <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span>
+    <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:parent_id</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_content_class'>content_class</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_content_class'>content_class</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
+      <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_content_class'>content_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_render'>render</span> <span class='label'>layout:</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:ajax</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -905,105 +1124,15 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource_class'>resource_class</span>
   <span class='const'>Node</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="setup-instance_method">
-  
-    - (<tt>Object</tt>) <strong>setup</strong>  <span class="extras">(protected)</span>
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-130
-131
-132
-133</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 130</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
-  <span class='kw'>super</span>
-  <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:show</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="update-instance_method">
-  
-    - (<tt>Object</tt>) <strong>update</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 66</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
-  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_form_extras'>form_extras</span>
-  <span class='ivar'>@order_nodes</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:parent_id</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>?</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id != :id</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-
-  <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_assign_attributes'>assign_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid__node_params'>_node_params</span><span class='rparen'>)</span>
-
-
-  <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-      <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span><span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edit</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>edit</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1015,9 +1144,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Jun 25 16:15:02 2013 by
+  Generated on Tue Aug 20 15:28:45 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-2.0.0).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>

@@ -105,7 +105,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="AdminsController.html" title="Releaf::AdminsController (class)">AdminsController</a></span>, <span class='object_link'><a href="ContentController.html" title="Releaf::ContentController (class)">ContentController</a></span>, <span class='object_link'><a href="HomeController.html" title="Releaf::HomeController (class)">HomeController</a></span>, <span class='object_link'><a href="RolesController.html" title="Releaf::RolesController (class)">RolesController</a></span>, <span class='object_link'><a href="TinymceAssetsController.html" title="Releaf::TinymceAssetsController (class)">TinymceAssetsController</a></span>, <span class='object_link'><a href="TranslationsController.html" title="Releaf::TranslationsController (class)">TranslationsController</a></span></p>
+  <p class="children"><span class='object_link'><a href="AdminProfileController.html" title="Releaf::AdminProfileController (class)">AdminProfileController</a></span>, <span class='object_link'><a href="AdminsController.html" title="Releaf::AdminsController (class)">AdminsController</a></span>, <span class='object_link'><a href="ContentController.html" title="Releaf::ContentController (class)">ContentController</a></span>, <span class='object_link'><a href="HomeController.html" title="Releaf::HomeController (class)">HomeController</a></span>, <span class='object_link'><a href="RolesController.html" title="Releaf::RolesController (class)">RolesController</a></span>, <span class='object_link'><a href="TinymceAssetsController.html" title="Releaf::TinymceAssetsController (class)">TinymceAssetsController</a></span>, <span class='object_link'><a href="TranslationsController.html" title="Releaf::TranslationsController (class)">TranslationsController</a></span></p>
 </div>
 
 
@@ -148,28 +148,6 @@
   <span class="summary_signature">
     
       <a href="#autocomplete-instance_method" title="#autocomplete (instance method)">- (Object) <strong>autocomplete</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#build_secondary_panel_variables-instance_method" title="#build_secondary_panel_variables (instance method)">- (Object) <strong>build_secondary_panel_variables</strong> </a>
     
 
     
@@ -294,7 +272,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Defines which fields/associations should be rendered.</p>
+<p>Fields will be rendered in same order as specified in array.</p>
 </div></span>
   
 </li>
@@ -489,28 +467,6 @@ textarea).</p>
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#list_action-instance_method" title="#list_action (instance method)">- (Object) <strong>list_action</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
         <li class="protected ">
   <span class="summary_signature">
     
@@ -577,31 +533,6 @@ textarea).</p>
 </li>
 
       
-        <li class="protected ">
-  <span class="summary_signature">
-    
-      <a href="#relations_for_includes-instance_method" title="#relations_for_includes (instance method)">- (Object) <strong>relations_for_includes</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title protected">protected</span>
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Tries to automagically figure you which relations should be passed to
-.includes.</p>
-</div></span>
-  
-</li>
-
-      
         <li class="public ">
   <span class="summary_signature">
     
@@ -620,8 +551,8 @@ textarea).</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Helps to determinate which template to render in :show and :edit feature
-for given objects attribute.</p>
+<p>Helps to determinate which template to render in :edit feature for given
+objects attribute.</p>
 </div></span>
   
 </li>
@@ -763,28 +694,6 @@ for given objects attribute.</p>
     <span class="summary_desc"><div class='inline'>
 <p>`:to_text` if resource supports `#to_text`, otherwise fallback.</p>
 </div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#secondary_panel-instance_method" title="#secondary_panel (instance method)">- (Object) <strong>secondary_panel</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -938,7 +847,7 @@ for given objects attribute.</p>
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="BaseApplicationController.html" title="Releaf::BaseApplicationController (class)">BaseApplicationController</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="BaseApplicationController.html#access_denied-instance_method" title="Releaf::BaseApplicationController#access_denied (method)">#access_denied</a></span>, <span class='object_link'><a href="BaseApplicationController.html#controller_scope_name-instance_method" title="Releaf::BaseApplicationController#controller_scope_name (method)">#controller_scope_name</a></span>, <span class='object_link'><a href="BaseApplicationController.html#current_feature-instance_method" title="Releaf::BaseApplicationController#current_feature (method)">#current_feature</a></span>, <span class='object_link'><a href="BaseApplicationController.html#full_controller_name-instance_method" title="Releaf::BaseApplicationController#full_controller_name (method)">#full_controller_name</a></span>, <span class='object_link'><a href="BaseApplicationController.html#page_not_found-instance_method" title="Releaf::BaseApplicationController#page_not_found (method)">#page_not_found</a></span>, <span class='object_link'><a href="BaseApplicationController.html#set_locale-instance_method" title="Releaf::BaseApplicationController#set_locale (method)">#set_locale</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="BaseApplicationController.html#access_denied-instance_method" title="Releaf::BaseApplicationController#access_denied (method)">#access_denied</a></span>, <span class='object_link'><a href="BaseApplicationController.html#controller_scope_name-instance_method" title="Releaf::BaseApplicationController#controller_scope_name (method)">#controller_scope_name</a></span>, <span class='object_link'><a href="BaseApplicationController.html#page_not_found-instance_method" title="Releaf::BaseApplicationController#page_not_found (method)">#page_not_found</a></span>, <span class='object_link'><a href="BaseApplicationController.html#set_locale-instance_method" title="Releaf::BaseApplicationController#set_locale (method)">#set_locale</a></span></p>
 
   
 
@@ -983,13 +892,13 @@ for given objects attribute.</p>
       <pre class="lines">
 
 
-523
-524
-525
-526</pre>
+472
+473
+474
+475</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 523</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 472</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorize!'>authorize!</span> <span class='id identifier rubyid_action'>action</span><span class='op'>=</span><span class='kw'>nil</span>
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_</span><span class='embexpr_beg'>#{</span><span class='const'>ReleafDeviseHelper</span><span class='period'>.</span><span class='id identifier rubyid_devise_admin_model_name'>devise_admin_model_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1015,6 +924,9 @@ for given objects attribute.</p>
       <pre class="lines">
 
 
+26
+27
+28
 29
 30
 31
@@ -1059,21 +971,15 @@ for given objects attribute.</p>
 70
 71
 72
-73
-74
-75
-76
-77
-78</pre>
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_autocomplete'>autocomplete</span>
   <span class='id identifier rubyid_c_obj'>c_obj</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:query_field</span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:field</span><span class='rbracket'>]</span> <span class='comment'>#and params[:field] =~ /_id\z/ and c_obj.column_names.include?(params[:field]) and c_obj.respond_to?(:reflect_on_association) and c_obj.reflect_on_association(params[:field].sub(/_id\z/, &#39;&#39;).to_sym)
-</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:query_field</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:field</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_obj'>obj</span> <span class='op'>=</span> <span class='id identifier rubyid_c_obj'>c_obj</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:field</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id\z</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_klass'>klass</span>
     <span class='id identifier rubyid_obj_fields'>obj_fields</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_column_names'>column_names</span>
 
@@ -1106,104 +1012,17 @@ for given objects attribute.</p>
 
     <span class='ivar'>@resources</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_resource'>resource</span><span class='op'>|</span>
-      <span class='ivar'>@resources</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='lbrace'>{</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:text</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_to_text'>to_text</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+      <span class='ivar'>@resources</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>text:</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_to_text'>to_text</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 
     <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-      <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_json'>json</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:json</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='symbol'>:matching_items_count</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_matching_items_count'>matching_items_count</span><span class='comma'>,</span> <span class='symbol'>:query</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:results</span> <span class='op'>=&gt;</span> <span class='ivar'>@resources</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_json'>json</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='label'>matching_items_count:</span> <span class='id identifier rubyid_matching_items_count'>matching_items_count</span><span class='comma'>,</span> <span class='label'>query:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>results:</span> <span class='ivar'>@resources</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
     <span class='kw'>end</span>
-
   <span class='kw'>else</span>
     <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
       <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_json'>json</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_raise'>raise</span> <span class='rbrace'>}</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="build_secondary_panel_variables-instance_method">
-  
-    - (<tt>Object</tt>) <strong>build_secondary_panel_variables</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 240</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_build_secondary_panel_variables'>build_secondary_panel_variables</span>
-  <span class='id identifier rubyid_menu_item_name'>menu_item_name</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_underscore'>underscore</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_controller$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-
-  <span class='comment'># if this item is defined in main menu, then there will be no altmenu
-</span>  <span class='comment'># defined for it in alt menu, instead this method should be overriden in
-</span>  <span class='comment'># particular controller to return structure needed to render alt menu
-</span>  <span class='kw'>return</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_menu_item_name'>menu_item_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:submenu</span>
-
-  <span class='comment'># preload current user
-</span>  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_</span><span class='embexpr_beg'>#{</span><span class='const'>ReleafDeviseHelper</span><span class='period'>.</span><span class='id identifier rubyid_devise_admin_model_name'>devise_admin_model_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_build_menu'>build_menu</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:menu</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-
-  <span class='comment'># if this item was not found in main menu, then we need to find it in one
-</span>  <span class='comment'># of alt menus. This way we&#39;ll know which alt menu to render.
-</span>  <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:sections</span> <span class='kw'>and</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_controller_list'>controller_list</span><span class='lbracket'>[</span><span class='id identifier rubyid_menu_item_name'>menu_item_name</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:submenu</span><span class='rbracket'>]</span>
-      <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:sections</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_section'>section</span><span class='op'>|</span>
-        <span class='id identifier rubyid_section_data'>section_data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_section'>section</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-        <span class='id identifier rubyid_items'>items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-        <span class='id identifier rubyid_section'>section</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_section_item'>section_item</span><span class='op'>|</span>
-          <span class='id identifier rubyid_items'>items</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_view_context'>view_context</span><span class='period'>.</span><span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_section_item'>section_item</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_role'>role</span><span class='period'>.</span><span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_section_item'>section_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-        <span class='kw'>end</span>
-        <span class='id identifier rubyid_section_data'>section_data</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_items'>items</span>
-        <span class='id identifier rubyid_build_menu'>build_menu</span><span class='lbracket'>[</span><span class='symbol'>:menu</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_section_data'>section_data</span> <span class='kw'>unless</span> <span class='id identifier rubyid_items'>items</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>return</span> <span class='id identifier rubyid_build_menu'>build_menu</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1247,17 +1066,19 @@ for given objects attribute.</p>
       <pre class="lines">
 
 
-142
 143
 144
-145</pre>
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_confirm_destroy'>confirm_destroy</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:destroy</span><span class='rbracket'>]</span>
   <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>layout:</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:ajax</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1301,13 +1122,13 @@ for given objects attribute.</p>
       <pre class="lines">
 
 
-132
 133
 134
-135</pre>
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:create</span><span class='rbracket'>]</span>
@@ -1355,26 +1176,40 @@ for given objects attribute.</p>
       <pre class="lines">
 
 
-147
-148
 149
 150
 151
 152
 153
 154
-155</pre>
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_destroy'>destroy</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:destroy</span><span class='rbracket'>]</span>
   <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_destroy'>destroy</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_destroy'>destroy</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span>
+    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>deleted</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
 
   <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
-    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>index</span><span class='tstring_end'>&#39;</span></span> <span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_redirect_url'>redirect_url</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:list_url</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_redirect_url'>redirect_url</span> <span class='op'>=</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span> <span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>index</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_redirect_url'>redirect_url</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_html'>html</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='id identifier rubyid_redirect_url'>redirect_url</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1419,17 +1254,21 @@ for given objects attribute.</p>
       <pre class="lines">
 
 
+108
+109
+110
 111
 112
-113
-114</pre>
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_edit'>edit</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:edit</span><span class='rbracket'>]</span>
-  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_includes'>includes</span><span class='lparen'>(</span><span class='id identifier rubyid_relations_for_includes'>relations_for_includes</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='comment'># load resource only if is not loaded yet
+</span>  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_add_resource_breadcrumb'>add_resource_breadcrumb</span><span class='lparen'>(</span><span class='ivar'>@resource</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1448,23 +1287,6 @@ for given objects attribute.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Defines which fields/associations should be rendered.</p>
-
-<p>By default renders resource columns except few (check source).</p>
-
-<p>You can override this method to make it possible to render pretty complex
-views which inludes nested fields.</p>
-
-<p>To render field you simply need to add it&#39;s name to array.</p>
-
-<p>belongs_to relations will be automatically rendered (by default) as select
-field.  For belongs_to to be recognized you need to use Integer field that
-ends with <code>_id</code></p>
-
-<p>You can also render has_many associations. For these associations you need
-to add either association name, or a Hash. Hash keys must match association
-name, hash value must be array with nested fields to be rendered.</p>
-
 <p>Fields will be rendered in same order as specified in array</p>
 
 
@@ -1472,32 +1294,6 @@ name, hash value must be array with nested fields to be rendered.</p>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='kw'>def</span> <span class='id identifier rubyid_fields_to_display'>fields_to_display</span>
-  <span class='kw'>case</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:action</span><span class='rbracket'>]</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>edit</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>update</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>create</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>new</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>return</span> <span class='lbracket'>[</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>category_id</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>description</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>offer_card_types</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>card_type_id</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>description</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>show_banner</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>published</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>item_count</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>images</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>image_uid</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>partner_id</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>offer_checkout_places</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>checkout_place_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
-    <span class='rbracket'>]</span>
-  <span class='kw'>else</span>
-    <span class='kw'>return</span> <span class='kw'>super</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></code></pre>
-    
-  </div>
-
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -1523,22 +1319,22 @@ name, hash value must be array with nested fields to be rendered.</p>
       <pre class="lines">
 
 
+213
+214
+215
+216
+217
+218
+219
 220
 221
 222
 223
 224
-225
-226
-227
-228
-229
-230
-231
-232</pre>
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 213</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fields_to_display'>fields_to_display</span>
   <span class='id identifier rubyid_cols'>cols</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_column_names'>column_names</span> <span class='op'>-</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>created_at</span><span class='words_sep'> </span><span class='tstring_content'>updated_at</span><span class='words_sep'> </span><span class='tstring_content'>encrypted_password</span><span class='words_sep'> </span><span class='tstring_content'>item_position</span><span class='words_sep'>]</span>
@@ -1584,24 +1380,24 @@ name, hash value must be array with nested fields to be rendered.</p>
       <pre class="lines">
 
 
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545
-546
-547
-548</pre>
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 534</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 483</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter_order_and_paginate_collection'>filter_order_and_paginate_collection</span> <span class='id identifier rubyid_resources'>resources</span>
   <span class='id identifier rubyid_scoped_resources'>scoped_resources</span> <span class='op'>=</span> <span class='id identifier rubyid_resources'>resources</span>
@@ -1614,7 +1410,7 @@ name, hash value must be array with nested fields to be rendered.</p>
     <span class='id identifier rubyid_scoped_resources'>scoped_resources</span> <span class='op'>=</span> <span class='id identifier rubyid_scoped_resources'>scoped_resources</span><span class='period'>.</span><span class='id identifier rubyid_order_by'>order_by</span><span class='lparen'>(</span><span class='id identifier rubyid_valid_order_by'>valid_order_by</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_scoped_resources'>scoped_resources</span> <span class='op'>=</span> <span class='id identifier rubyid_scoped_resources'>scoped_resources</span><span class='period'>.</span><span class='id identifier rubyid_includes'>includes</span><span class='lparen'>(</span><span class='id identifier rubyid_relations_for_includes'>relations_for_includes</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='lparen'>(</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:page</span><span class='rbracket'>]</span> <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_per_page'>per_page</span><span class='lparen'>(</span> <span class='ivar'>@resources_per_page</span> <span class='rparen'>)</span>
+  <span class='id identifier rubyid_scoped_resources'>scoped_resources</span> <span class='op'>=</span> <span class='id identifier rubyid_scoped_resources'>scoped_resources</span><span class='period'>.</span><span class='id identifier rubyid_page'>page</span><span class='lparen'>(</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:page</span><span class='rbracket'>]</span> <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_per_page'>per_page</span><span class='lparen'>(</span> <span class='ivar'>@resources_per_page</span> <span class='rparen'>)</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_scoped_resources'>scoped_resources</span>
 <span class='kw'>end</span></pre>
@@ -1638,12 +1434,12 @@ name, hash value must be array with nested fields to be rendered.</p>
       <pre class="lines">
 
 
-291
-292
-293</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 291</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_parent_template'>find_parent_template</span><span class='lparen'>(</span> <span class='id identifier rubyid_name'>name</span> <span class='rparen'>)</span>
   <span class='id identifier rubyid_lookup_context'>lookup_context</span><span class='period'>.</span><span class='id identifier rubyid_find_template'>find_template</span><span class='lparen'>(</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_lookup_context'>lookup_context</span><span class='period'>.</span><span class='id identifier rubyid_prefixes'>prefixes</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span> <span class='int'>1</span><span class='comma'>,</span> <span class='id identifier rubyid_lookup_context'>lookup_context</span><span class='period'>.</span><span class='id identifier rubyid_prefixes'>prefixes</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>false</span> <span class='rparen'>)</span>
@@ -1679,12 +1475,12 @@ name, hash value must be array with nested fields to be rendered.</p>
       <pre class="lines">
 
 
-529
-530
-531</pre>
+478
+479
+480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 529</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 478</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_collection'>get_collection</span>
   <span class='id identifier rubyid_resource_class'>resource_class</span>
@@ -1735,31 +1531,31 @@ field_attributes</p>
       <pre class="lines">
 
 
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519</pre>
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 504</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 453</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_template_field_attributes'>get_template_field_attributes</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Hash</span>
   <span class='id identifier rubyid_default_attributes'>default_attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='symbol'>:data</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-      <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='label'>data:</span> <span class='lbrace'>{</span>
+      <span class='label'>name:</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
     <span class='rbrace'>}</span>
   <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge'>deep_merge</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span>
 
@@ -1817,18 +1613,18 @@ valid html attributes to input_attributes</p>
       <pre class="lines">
 
 
-491
-492
-493
-494
-495
-496
-497
-498
-499</pre>
+440
+441
+442
+443
+444
+445
+446
+447
+448</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 491</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 440</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_template_input_attributes'>get_template_input_attributes</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Hash</span>
@@ -1884,31 +1680,31 @@ will merge in label_options when present</p>
       <pre class="lines">
 
 
-471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486</pre>
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 471</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 420</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_template_label_options'>get_template_label_options</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Hash</span>
   <span class='id identifier rubyid_default_options'>default_options</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='symbol'>:f</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:f</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span>
-    <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='label'>f:</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:f</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>name:</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge'>deep_merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RuntimeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>form_builder not passed to partial</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_default_options'>default_options</span><span class='lbracket'>[</span><span class='symbol'>:f</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -1969,12 +1765,12 @@ will merge in label_options when present</p>
       <pre class="lines">
 
 
-287
-288
-289</pre>
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_template?'>has_template?</span> <span class='id identifier rubyid_name'>name</span>
   <span class='id identifier rubyid_lookup_context'>lookup_context</span><span class='period'>.</span><span class='id identifier rubyid_template_exists?'>template_exists?</span><span class='lparen'>(</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_lookup_context'>lookup_context</span><span class='period'>.</span><span class='id identifier rubyid_prefixes'>prefixes</span><span class='comma'>,</span> <span class='kw'>false</span> <span class='rparen'>)</span>
@@ -2021,79 +1817,25 @@ will merge in label_options when present</p>
       <pre class="lines">
 
 
+75
+76
+77
+78
+79
 80
 81
-82
-83
-84
-85
-86
-87</pre>
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_index'>index</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span>
   <span class='ivar'>@resources</span> <span class='op'>=</span> <span class='id identifier rubyid_filter_order_and_paginate_collection'>filter_order_and_paginate_collection</span><span class='lparen'>(</span><span class='id identifier rubyid_get_collection'>get_collection</span><span class='rparen'>)</span>
 
   <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:ajax</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
+    <span class='id identifier rubyid_render'>render</span> <span class='label'>layout:</span> <span class='kw'>false</span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="list_action-instance_method">
-  
-    - (<tt>Object</tt>) <strong>list_action</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 162</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_list_action'>list_action</span>
-  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>base_module:list_action</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
-    <span class='id identifier rubyid_feature'>feature</span> <span class='op'>=</span> <span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>base_module:list_action</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_feature'>feature</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>confirm_destroy</span><span class='tstring_end'>&#39;</span></span>
-      <span class='id identifier rubyid_feature'>feature</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>destroy</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>end</span>
-    <span class='id identifier rubyid_feature'>feature</span> <span class='op'>=</span> <span class='id identifier rubyid_feature'>feature</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-    <span class='kw'>if</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='id identifier rubyid_feature'>feature</span><span class='rbracket'>]</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_cookies'>cookies</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>base_module:list_action</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>show</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:show</span><span class='rbracket'>]</span>
-  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>edit</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2115,33 +1857,33 @@ will merge in label_options when present</p>
       <pre class="lines">
 
 
-610
-611
-612
-613
-614
-615
-616
-617
-618
-619
-620
-621</pre>
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 610</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 561</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_localize_attributes'>localize_attributes</span> <span class='id identifier rubyid_args'>args</span>
-    <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
-        <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attribute'>attribute</span><span class='op'>|</span>
-            <span class='const'>Settings</span><span class='period'>.</span><span class='id identifier rubyid_i18n_locales'>i18n_locales</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span><span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
-                <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attribute'>attribute</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-            <span class='kw'>end</span>
-        <span class='kw'>end</span>
+  <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attribute'>attribute</span><span class='op'>|</span>
+      <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_available_input_locales'>available_input_locales</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span><span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
+        <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attribute'>attribute</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
 
-    <span class='kw'>return</span> <span class='id identifier rubyid_attributes'>attributes</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_attributes'>attributes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2163,12 +1905,12 @@ will merge in label_options when present</p>
       <pre class="lines">
 
 
-592
-593
-594</pre>
+543
+544
+545</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 592</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 543</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mass_assigment_actions'>mass_assigment_actions</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>create</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>update</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>validate</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -2215,121 +1957,21 @@ will merge in label_options when present</p>
       <pre class="lines">
 
 
+97
+98
+99
+100
 101
-102
-103
-104</pre>
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:create</span><span class='rbracket'>]</span>
-  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="relations_for_includes-instance_method">
-  
-    - (<tt>Object</tt>) <strong>relations_for_includes</strong>  <span class="extras">(protected)</span>
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Tries to automagically figure you which relations should be passed to
-.includes</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
-651
-652
-653
-654
-655
-656
-657
-658</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 625</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_relations_for_includes'>relations_for_includes</span>
-  <span class='id identifier rubyid_rels'>rels</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_rels'>rels</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='symbol'>:translations</span> <span class='kw'>if</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:translations_table_name</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_fields_to_display'>fields_to_display</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>or</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Symbol</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id identifier rubyid_field'>field</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span>
-      <span class='id identifier rubyid_reflection_name'>reflection_name</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Hash</span>
-      <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
-        <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span>
-          <span class='id identifier rubyid_reflection_name'>reflection_name</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-        <span class='kw'>else</span>
-          <span class='id identifier rubyid_refleaction_name'>refleaction_name</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-        <span class='kw'>end</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_reflection_name'>reflection_name</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
-
-    <span class='id identifier rubyid_reflection'>reflection</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span><span class='id identifier rubyid_reflection_name'>reflection_name</span><span class='rparen'>)</span>
-    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_reflection'>reflection</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
-
-    <span class='comment'># things break with polyporhic associations
-</span>    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_reflection'>reflection</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:polymorphic</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_relation_class'>relation_class</span> <span class='op'>=</span> <span class='id identifier rubyid_reflection'>reflection</span><span class='period'>.</span><span class='id identifier rubyid_klass'>klass</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_relation_class'>relation_class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:translations_table_name</span>
-      <span class='id identifier rubyid_rels'>rels</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='lbrace'>{</span> <span class='id identifier rubyid_reflection_name'>reflection_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=&gt;</span> <span class='symbol'>:translations</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_rels'>rels</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_reflection_name'>reflection_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>return</span> <span class='id identifier rubyid_rels'>rels</span>
+  <span class='comment'># load resource only if is not initialized yet
+</span>  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_add_resource_breadcrumb'>add_resource_breadcrumb</span><span class='lparen'>(</span><span class='ivar'>@resource</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2356,8 +1998,8 @@ will merge in label_options when present</p>
   </div>
 
 
-<p>Helps to determinate which template to render in :show and :edit feature
-for given objects attribute.</p>
+<p>Helps to determinate which template to render in :edit feature for given
+objects attribute.</p>
 
 <p>where field_type is a string representing field type and use_i18n is a
 `true` or `false`. If use_i18n is true, then template with localization
@@ -2390,6 +2032,51 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
 316
 317
 318
@@ -2474,60 +2161,10 @@ features should be used (if exists)</p>
 397
 398
 399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450</pre>
+400</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 316</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 271</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_field_type'>render_field_type</span><span class='lparen'>(</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span> <span class='rparen'>)</span>
   <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -2575,13 +2212,12 @@ features should be used (if exists)</p>
 
     <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_link$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>link</span><span class='tstring_end'>&#39;</span></span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>link</span><span class='tstring_end'>&#39;</span></span>
-
     <span class='kw'>else</span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
 
   <span class='kw'>when</span> <span class='symbol'>:integer</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span> <span class='kw'>and</span> <span class='id identifier rubyid_obj_class'>obj_class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_obj_class'>obj_class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>item</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>else</span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
@@ -2597,7 +2233,6 @@ features should be used (if exists)</p>
 
     <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_html$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>html</span><span class='tstring_end'>&#39;</span></span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>richtext</span><span class='tstring_end'>&#39;</span></span>
-
     <span class='kw'>else</span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>textarea</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
@@ -2610,14 +2245,13 @@ features should be used (if exists)</p>
 
   <span class='kw'>when</span> <span class='symbol'>:time</span>
     <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>time</span><span class='tstring_end'>&#39;</span></span>
-
   <span class='kw'>else</span> <span class='comment'># virtual attributes
 </span>    <span class='kw'>case</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
     <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(thumbnail|image|photo|picture|avatar|logo|banner|icon)_uid$</span><span class='regexp_end'>/</span></span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>image</span><span class='tstring_end'>&#39;</span></span>
 
     <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span>
-      <span class='kw'>if</span> <span class='id identifier rubyid_obj_class'>obj_class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_obj_class'>obj_class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>item</span><span class='tstring_end'>&#39;</span></span>
       <span class='kw'>else</span>
         <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
@@ -2655,11 +2289,9 @@ features should be used (if exists)</p>
 
     <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_at$</span><span class='regexp_end'>/</span></span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>datetime</span><span class='tstring_end'>&#39;</span></span>
-
     <span class='kw'>else</span>
       <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
-
   <span class='kw'>end</span>
 
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_use_i18n'>use_i18n</span><span class='rbracket'>]</span>
@@ -2684,24 +2316,26 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-295
-296
-297
-298
-299
-300
-301
-302</pre>
+249
+250
+251
+252
+253
+254
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 295</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 249</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_parent_template'>render_parent_template</span><span class='lparen'>(</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_locals'>locals</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='rparen'>)</span>
   <span class='id identifier rubyid_template'>template</span> <span class='op'>=</span> <span class='id identifier rubyid_find_parent_template'>find_parent_template</span><span class='lparen'>(</span> <span class='id identifier rubyid_name'>name</span> <span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_template'>template</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>blank</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='symbol'>:locals</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_locals'>locals</span><span class='comma'>,</span> <span class='symbol'>:template</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_template'>template</span><span class='period'>.</span><span class='id identifier rubyid_virtual_path'>virtual_path</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>layout:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>locals:</span> <span class='id identifier rubyid_locals'>locals</span><span class='comma'>,</span> <span class='label'>template:</span> <span class='id identifier rubyid_template'>template</span><span class='period'>.</span><span class='id identifier rubyid_virtual_path'>virtual_path</span> <span class='rbrace'>}</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_render_to_string'>render_to_string</span><span class='lparen'>(</span> <span class='id identifier rubyid_arguments'>arguments</span> <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_html_safe'>html_safe</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2724,12 +2358,12 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-551
-552
-553</pre>
+499
+500
+501</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 551</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 499</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_required_params'>required_params</span>
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:resource</span><span class='rparen'>)</span>
@@ -2787,12 +2421,12 @@ override this method to return class that you want.</p>
       <pre class="lines">
 
 
-279
-280
-281</pre>
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 279</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 234</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource_class'>resource_class</span>
   <span class='ivar'>@resource_class</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>::</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>Controller$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_classify'>classify</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
@@ -2830,19 +2464,19 @@ override this method to return class that you want.</p>
       <pre class="lines">
 
 
-599
-600
-601
-602
-603
-604
-605
-606
-607
-608</pre>
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 599</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 550</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource_params'>resource_params</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_mass_assigment_actions'>mass_assigment_actions</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:action</span><span class='rbracket'>]</span>
@@ -2886,12 +2520,12 @@ fallback method</p>
       <pre class="lines">
 
 
-454
-455
-456</pre>
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 454</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource_to_text'>resource_to_text</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_fallback'>fallback</span><span class='op'>=</span><span class='symbol'>:to_s</span>
   <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span> <span class='id identifier rubyid_resource_to_text_method'>resource_to_text_method</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_fallback'>fallback</span><span class='rparen'>)</span>
@@ -2913,7 +2547,7 @@ fallback method</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>`:to_text` if resource supports `#to_text`, otherwise fallback.</p>
+<p>Returns `:to_text` if resource supports `#to_text`, otherwise fallback.</p>
 
 
   </div>
@@ -2945,17 +2579,17 @@ fallback method</p>
       <pre class="lines">
 
 
-459
-460
-461
-462
-463
-464
-465
-466</pre>
+409
+410
+411
+412
+413
+414
+415
+416</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 409</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource_to_text_method'>resource_to_text_method</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_fallback'>fallback</span><span class='op'>=</span><span class='symbol'>:to_s</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_text</span><span class='rparen'>)</span>
@@ -2964,38 +2598,6 @@ fallback method</p>
     <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Re:Leaf: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> doesn&#39;t support #to_text method. Please define it</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>return</span> <span class='id identifier rubyid_fallback'>fallback</span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="secondary_panel-instance_method">
-  
-    - (<tt>Object</tt>) <strong>secondary_panel</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-235
-236
-237
-238</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 235</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_secondary_panel'>secondary_panel</span>
-  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@panel_layout</span>
-  <span class='ivar'>@_secondary_panel</span> <span class='op'>||=</span> <span class='id identifier rubyid_render_to_string'>render_to_string</span><span class='lparen'>(</span> <span class='symbol'>:partial</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>secondary_panel</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='symbol'>:locals</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_build_secondary_panel_variables'>build_secondary_panel_variables</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3021,12 +2623,9 @@ variables, that are later used in views and # controllers</p>
 <dl class="rdoc-list note-list"><dt>@fetures
 <dd>
 <p>Hash with symbol keys and boolean values. Each key represents action
-(currently only `:edit`, `:create`, `:show`, `:destroy` are supported). If
-one of features is disabled, then routing to it will raise
+(currently only `:edit`, `:create`, `:destroy` are supported). If one of
+features is disabled, then routing to it will raise
 <code>Releaf::FeatureDisabled</code> error</p>
-</dd><dt>@continuous_scroll
-<dd>
-<p>Boolean. If set to `true` will enable continuous scrool in `#index` view</p>
 </dd><dt>@resources_per_page
 <dd>
 <p>Integer - sets the number of resources to display on `#index` view</p>
@@ -3045,7 +2644,7 @@ one of features is disabled, then routing to it will raise
       
       <pre class="example code"><code><span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
   <span class='kw'>super</span>
-  <span class='ivar'>@fetures</span><span class='lbracket'>[</span><span class='symbol'>:show</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@fetures</span><span class='lbracket'>[</span><span class='symbol'>:edit</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@resources_per_page</span> <span class='op'>=</span> <span class='int'>20</span>
 <span class='kw'>end</span></code></pre>
     
@@ -3058,31 +2657,41 @@ one of features is disabled, then routing to it will raise
       <pre class="lines">
 
 
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590</pre>
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 579</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 525</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
   <span class='ivar'>@features</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='symbol'>:edit</span>     <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='symbol'>:create</span>   <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='symbol'>:show</span>     <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='symbol'>:destroy</span>  <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='symbol'>:index</span>    <span class='op'>=&gt;</span> <span class='kw'>true</span>
+    <span class='label'>edit:</span>              <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>edit_ajax_reload:</span>  <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>create:</span>            <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>destroy:</span>           <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>index:</span>             <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='comment'># enable toolbox for each table row
+</span>    <span class='comment'># it can be unnecessary for read only report like indexes
+</span>    <span class='label'>index_row_toolbox:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='comment'># enable text search field if class responds to filter scope
+</span>    <span class='comment'># some classes may respond to filter but have no textual search
+</span>    <span class='label'>index_text_search:</span> <span class='kw'>true</span>
   <span class='rbrace'>}</span>
-  <span class='ivar'>@continuous_scroll</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@panel_layout</span>      <span class='op'>=</span> <span class='kw'>true</span>
   <span class='ivar'>@resources_per_page</span>    <span class='op'>=</span> <span class='int'>40</span>
 <span class='kw'>end</span></pre>
@@ -3100,45 +2709,21 @@ one of features is disabled, then routing to it will raise
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="FeatureDisabled.html" title="Releaf::FeatureDisabled (class)">FeatureDisabled</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-106
-107
-108
-109</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show'>show</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:show</span><span class='rbracket'>]</span>
-  <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_includes'>includes</span><span class='lparen'>(</span><span class='id identifier rubyid_relations_for_includes'>relations_for_includes</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span> <span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>edit</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>id:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3182,13 +2767,13 @@ one of features is disabled, then routing to it will raise
       <pre class="lines">
 
 
-137
 138
 139
-140</pre>
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>FeatureDisabled</span> <span class='kw'>unless</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='symbol'>:edit</span><span class='rbracket'>]</span>
@@ -3214,29 +2799,31 @@ one of features is disabled, then routing to it will raise
       <pre class="lines">
 
 
+84
+85
+86
+87
+88
 89
 90
 91
 92
 93
 94
-95
-96
-97
-98
-99</pre>
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_urls'>urls</span>
   <span class='id identifier rubyid_respond_to'>respond_to</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_format'>format</span><span class='op'>|</span>
     <span class='id identifier rubyid_format'>format</span><span class='period'>.</span><span class='id identifier rubyid_json'>json</span> <span class='kw'>do</span>
       <span class='id identifier rubyid_json'>json</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
       <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:ids</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
-        <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:to_action</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:only_path</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rparen'>)</span>
+        <span class='id identifier rubyid_json'>json</span><span class='lbracket'>[</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span> <span class='label'>action:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:to_action</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>only_path:</span> <span class='kw'>true</span> <span class='rparen'>)</span>
       <span class='kw'>end</span>
-      <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:json</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='symbol'>:layout</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
+
+      <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_json'>json</span><span class='comma'>,</span> <span class='label'>layout:</span> <span class='kw'>false</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -3273,14 +2860,14 @@ one of features is disabled, then routing to it will raise
       <pre class="lines">
 
 
-663
-664
-665
-666
-667</pre>
+577
+578
+579
+580
+581</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 663</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 577</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid_order_by'>valid_order_by</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:order_by</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -3307,6 +2894,7 @@ one of features is disabled, then routing to it will raise
       <pre class="lines">
 
 
+115
 116
 117
 118
@@ -3321,24 +2909,27 @@ one of features is disabled, then routing to it will raise
 127
 128
 129
-130</pre>
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/base_controller.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='comment'># load resource only if is not loaded yet
+</span>    <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='kw'>else</span>
-    <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_includes'>includes</span><span class='lparen'>(</span><span class='id identifier rubyid_relations_for_includes'>relations_for_includes</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='comment'># load resource only if is not loaded yet
+</span>    <span class='ivar'>@resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource_class'>resource_class</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_assign_attributes'>assign_attributes</span> <span class='id identifier rubyid_required_params'>required_params</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_resource_params'>resource_params</span><span class='rparen'>)</span>
 
   <span class='kw'>if</span> <span class='ivar'>@resource</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:json</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_render'>render</span> <span class='symbol'>:json</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_build_validation_errors'>build_validation_errors</span><span class='lparen'>(</span><span class='ivar'>@resource</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:status</span> <span class='op'>=&gt;</span> <span class='int'>422</span>
+    <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_build_validation_errors'>build_validation_errors</span><span class='lparen'>(</span><span class='ivar'>@resource</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='int'>422</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3351,9 +2942,9 @@ one of features is disabled, then routing to it will raise
 </div>
 
     <div id="footer">
-  Generated on Tue Jun 25 16:15:02 2013 by
+  Generated on Tue Aug 20 15:28:45 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-2.0.0).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>

@@ -174,7 +174,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#page_number-instance_method" title="#page_number (instance method)">- (Object) <strong>page_number</strong>(page) </a>
+      <a href="#previous_or_next_page-instance_method" title="#previous_or_next_page (instance method)">- (Object) <strong>previous_or_next_page</strong>(page, text, classname) </a>
     
 
     
@@ -193,10 +193,10 @@
 </li>
 
       
-        <li class="protected ">
+        <li class="public ">
   <span class="summary_signature">
     
-      <a href="#previous_or_next_page-instance_method" title="#previous_or_next_page (instance method)">- (Object) <strong>previous_or_next_page</strong>(page, text, classname) </a>
+      <a href="#to_html-instance_method" title="#to_html (instance method)">- (Object) <strong>to_html</strong> </a>
     
 
     
@@ -204,7 +204,7 @@
   
   
   
-  <span class="note title protected">protected</span>
+  
   
   
   
@@ -240,17 +240,17 @@
       <pre class="lines">
 
 
-20
-21
-22
-23</pre>
+44
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gap'>gap</span>
   <span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;hellip;</span><span class='tstring_end'>&#39;</span></span>
-  <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>&lt;span class=&quot;gap button disabled&quot;&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_text'>text</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/span&gt;</span><span class='tstring_end'>)</span></span>
+  <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>&lt;option value=&quot;&quot; class=&quot;gap&quot;&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_text'>text</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/option&gt;</span><span class='tstring_end'>)</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -272,17 +272,17 @@
       <pre class="lines">
 
 
-33
-34
-35
-36
-37
-38
-39
-40</pre>
+65
+66
+67
+68
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_target'>target</span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_target'>target</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Fixnum</span>
@@ -291,44 +291,6 @@
   <span class='kw'>end</span>
   <span class='id identifier rubyid_attributes'>attributes</span><span class='lbracket'>[</span><span class='symbol'>:href</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span>
   <span class='id identifier rubyid_tag'>tag</span><span class='lparen'>(</span><span class='symbol'>:a</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_text'>text</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="page_number-instance_method">
-  
-    - (<tt>Object</tt>) <strong>page_number</strong>(page)  <span class="extras">(protected)</span>
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-12
-13
-14
-15
-16
-17
-18</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 12</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_page_number'>page_number</span><span class='lparen'>(</span><span class='id identifier rubyid_page'>page</span><span class='rparen'>)</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_page'>page</span> <span class='op'>==</span> <span class='id identifier rubyid_current_page'>current_page</span>
-    <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='symbol'>:rel</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_rel_value'>rel_value</span><span class='lparen'>(</span><span class='id identifier rubyid_page'>page</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>button</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_tag'>tag</span><span class='lparen'>(</span><span class='symbol'>:em</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_page'>page</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>current active button</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -350,23 +312,125 @@
       <pre class="lines">
 
 
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_previous_or_next_page'>previous_or_next_page</span><span class='lparen'>(</span><span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_classname'>classname</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_page'>page</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>previous_page</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;i class=&quot;icon-chevron-left&quot;&gt;&lt;/i&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> button secondary</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;i class=&quot;icon-chevron-right&quot;&gt;&lt;/i&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> button secondary</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>previous_page</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_tag'>tag</span><span class='lparen'>(</span><span class='symbol'>:span</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;i class=&quot;icon-chevron-left&quot;&gt;&lt;/i&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>class:</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> button secondary disabled</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_tag'>tag</span><span class='lparen'>(</span><span class='symbol'>:span</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;i class=&quot;icon-chevron-right&quot;&gt;&lt;/i&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>class:</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> button secondary disabled</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_html-instance_method">
+  
+    - (<tt>Object</tt>) <strong>to_html</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
 25
 26
 27
 28
 29
 30
-31</pre>
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/pagination_renderer.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_previous_or_next_page'>previous_or_next_page</span><span class='lparen'>(</span><span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_classname'>classname</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_page'>page</span>
-    <span class='id identifier rubyid_link'>link</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_page'>page</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> button</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_tag'>tag</span><span class='lparen'>(</span><span class='symbol'>:span</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;span&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_text'>text</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/span&gt;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_classname'>classname</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> button disabled</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_to_html'>to_html</span>
+  <span class='id identifier rubyid_prev_next_items'>prev_next_items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;div class=&#39;pages&#39;&gt;&lt;select id=&#39;page_select&#39; name=&#39;page&#39;&gt;</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_pagination'>pagination</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Fixnum</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_item'>item</span> <span class='op'>==</span> <span class='symbol'>:gap</span>
+        <span class='id identifier rubyid_options'>options</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_prev_next_items'>prev_next_items</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_selected'>selected</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span> <span class='op'>==</span> <span class='id identifier rubyid_current_page'>current_page</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>selected=selected</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='kw'>nil</span>
+      <span class='id identifier rubyid_start_item'>start_item</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='int'>1</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='ivar'>@collection</span><span class='period'>.</span><span class='id identifier rubyid_per_page'>per_page</span> <span class='op'>+</span> <span class='int'>1</span>
+      <span class='id identifier rubyid_end_item'>end_item</span> <span class='op'>=</span> <span class='id identifier rubyid_item'>item</span> <span class='op'>*</span> <span class='ivar'>@collection</span><span class='period'>.</span><span class='id identifier rubyid_per_page'>per_page</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_end_item'>end_item</span> <span class='op'>&gt;</span> <span class='ivar'>@collection</span><span class='period'>.</span><span class='id identifier rubyid_total_entries'>total_entries</span>
+        <span class='id identifier rubyid_end_item'>end_item</span> <span class='op'>=</span> <span class='ivar'>@collection</span><span class='period'>.</span><span class='id identifier rubyid_total_entries'>total_entries</span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;option value=&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_item'>item</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_selected'>selected</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_start_item'>start_item</span><span class='embexpr_end'>}</span><span class='tstring_content'> - </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_end_item'>end_item</span><span class='embexpr_end'>}</span><span class='tstring_content'>&lt;/option&gt;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;/select&gt;&lt;/div&gt;</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_html'>html</span> <span class='op'>=</span> <span class='lbracket'>[</span>
+    <span class='id identifier rubyid_prev_next_items'>prev_next_items</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_prev_next_items'>prev_next_items</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_html'>html</span> <span class='op'>=</span> <span class='id identifier rubyid_html'>html</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
+  <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='symbol'>:container</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_html_container'>html_container</span><span class='lparen'>(</span><span class='id identifier rubyid_html'>html</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_html'>html</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -378,9 +442,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Jun 25 16:15:02 2013 by
+  Generated on Tue Aug 20 15:28:45 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-2.0.0).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>

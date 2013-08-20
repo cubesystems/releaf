@@ -102,7 +102,29 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#admin_main_menu-instance_method" title="#admin_main_menu (instance method)">- (Object) <strong>admin_main_menu</strong> </a>
+      <a href="#admin_menu-instance_method" title="#admin_menu (instance method)">- (Object) <strong>admin_menu</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_admin_user-instance_method" title="#current_admin_user (instance method)">- (Object) <strong>current_admin_user</strong> </a>
     
 
     
@@ -153,9 +175,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="admin_main_menu-instance_method">
+  <h3 class="signature first" id="admin_menu-instance_method">
   
-    - (<tt>Object</tt>) <strong>admin_main_menu</strong> 
+    - (<tt>Object</tt>) <strong>admin_menu</strong> 
   
 
   
@@ -167,10 +189,6 @@
       <pre class="lines">
 
 
-4
-5
-6
-7
 8
 9
 10
@@ -203,47 +221,103 @@
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 8</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_admin_main_menu'>admin_main_menu</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_admin_menu'>admin_menu</span>
   <span class='id identifier rubyid_items'>items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
-  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_</span><span class='embexpr_beg'>#{</span><span class='const'>ReleafDeviseHelper</span><span class='period'>.</span><span class='id identifier rubyid_devise_admin_model_name'>devise_admin_model_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-
   <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:sections</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:items</span>
+
       <span class='id identifier rubyid_item'>item</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-        <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='comma'>,</span>
-        <span class='symbol'>:active</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
+        <span class='label'>name:</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>icon:</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:icon</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='label'>collapsed:</span> <span class='lparen'>(</span><span class='id identifier rubyid_current_admin_user'>current_admin_user</span><span class='period'>.</span><span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf.menu.collapsed.</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='comma'>,</span>
+        <span class='label'>active:</span> <span class='kw'>false</span>
       <span class='rbrace'>}</span>
 
-      <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:sections</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_menu_section'>menu_section</span><span class='op'>|</span>
-        <span class='id identifier rubyid_menu_section'>menu_section</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='op'>|</span>
-          <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_role'>role</span><span class='period'>.</span><span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_submenu_items'>submenu_items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
-            <span class='kw'>if</span> <span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span>
-              <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:active</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
-            <span class='kw'>end</span>
-
-            <span class='comment'># use first available controller url
-</span>            <span class='kw'>unless</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:url</span>
-              <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>
-            <span class='kw'>end</span>
+      <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='op'>|</span>
+        <span class='kw'>if</span> <span class='id identifier rubyid_current_admin_user'>current_admin_user</span><span class='period'>.</span><span class='id identifier rubyid_role'>role</span><span class='period'>.</span><span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_submenu_item2'>submenu_item2</span> <span class='op'>=</span> <span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_submenu_item'>submenu_item</span><span class='rparen'>)</span>
+          <span class='kw'>if</span> <span class='id identifier rubyid_submenu_item2'>submenu_item2</span><span class='lbracket'>[</span><span class='symbol'>:active</span><span class='rbracket'>]</span>
+            <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:active</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+            <span class='comment'># always expand if one if submenu items is active
+</span>            <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:collapsed</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>false</span>
           <span class='kw'>end</span>
+
+          <span class='comment'># use first available controller url
+</span>          <span class='kw'>unless</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:url</span>
+            <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_submenu_item2'>submenu_item2</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>
+          <span class='kw'>end</span>
+          <span class='id identifier rubyid_submenu_items'>submenu_items</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_submenu_item2'>submenu_item2</span>
         <span class='kw'>end</span>
       <span class='kw'>end</span>
 
+      <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:items</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_submenu_items'>submenu_items</span>
       <span class='id identifier rubyid_items'>items</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_item'>item</span> <span class='kw'>if</span> <span class='id identifier rubyid_item'>item</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span> <span class='symbol'>:url</span>
 
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_role'>role</span><span class='period'>.</span><span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_items'>items</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='rparen'>)</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_current_admin_user'>current_admin_user</span><span class='period'>.</span><span class='id identifier rubyid_role'>role</span><span class='period'>.</span><span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+      <span class='id identifier rubyid_item'>item</span> <span class='op'>=</span> <span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_menu_item'>menu_item</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_menu_item'>menu_item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:active</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_items'>items</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_item'>item</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_items'>items</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="current_admin_user-instance_method">
+  
+    - (<tt>Object</tt>) <strong>current_admin_user</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 4</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_current_admin_user'>current_admin_user</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_</span><span class='embexpr_beg'>#{</span><span class='const'>ReleafDeviseHelper</span><span class='period'>.</span><span class='id identifier rubyid_devise_admin_model_name'>devise_admin_model_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -265,22 +339,24 @@
       <pre class="lines">
 
 
-42
-43
-44
-45
-46
-47
-48</pre>
+57
+58
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span> <span class='id identifier rubyid_item'>item</span>
   <span class='lbrace'>{</span>
-    <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='symbol'>:url</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:url_helper</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
-    <span class='symbol'>:active</span> <span class='op'>=&gt;</span> <span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='label'>icon:</span> <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:icon</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>name:</span> <span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>url:</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:url_helper</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>active:</span> <span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:controller</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -293,9 +369,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Jun 25 16:15:01 2013 by
+  Generated on Tue Aug 20 15:28:44 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-2.0.0).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>

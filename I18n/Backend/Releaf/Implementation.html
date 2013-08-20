@@ -119,10 +119,10 @@
 
     <ul class="summary">
       
-        <li class="protected ">
+        <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_cache-instance_method" title="#check_cache (instance method)">- (Object) <strong>check_cache</strong> </a>
+      <a href="#available_locales-instance_method" title="#available_locales (instance method)">- (Object) <strong>available_locales</strong> </a>
     
 
     
@@ -130,7 +130,7 @@
   
   
   
-  <span class="note title protected">protected</span>
+  
   
   
   
@@ -264,20 +264,15 @@
   
   
   
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Base.html" title="I18n::Backend::Base (module)">Base</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Base.html#available_locales-instance_method" title="I18n::Backend::Base#available_locales (method)">#available_locales</a></span></p>
-
-  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="check_cache-instance_method">
+  <h3 class="signature first" id="available_locales-instance_method">
   
-    - (<tt>Object</tt>) <strong>check_cache</strong>  <span class="extras">(protected)</span>
+    - (<tt>Object</tt>) <strong>available_locales</strong> 
   
 
   
@@ -289,17 +284,15 @@
       <pre class="lines">
 
 
-34
-35
-36
-37</pre>
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 16</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_check_cache'>check_cache</span>
-  <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UPDATED_AT</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='const'>Settings</span><span class='period'>.</span><span class='id identifier rubyid_i18n_updated_at'>i18n_updated_at</span>
-  <span class='id identifier rubyid_reload_cache'>reload_cache</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_available_locales'>available_locales</span>
+  <span class='lbracket'>[</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -321,14 +314,14 @@
       <pre class="lines">
 
 
-81
-82
-83
-84
-85</pre>
+91
+92
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_scope'>get_scope</span> <span class='id identifier rubyid_key'>key</span>
   <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -366,6 +359,9 @@
       <pre class="lines">
 
 
+37
+38
+39
 40
 41
 42
@@ -396,40 +392,65 @@
 67
 68
 69
-70</pre>
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_lookup'>lookup</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_check_cache'>check_cache</span>
+  <span class='comment'># reload cache if cache timestamp differs from last translations update
+</span>  <span class='id identifier rubyid_reload_cache'>reload_cache</span> <span class='kw'>if</span> <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UPDATED_AT</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>!=</span> <span class='const'>Settings</span><span class='period'>.</span><span class='id identifier rubyid_i18n_updated_at'>i18n_updated_at</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>!~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\.</span><span class='regexp_end'>/</span></span>
     <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'>DEFAULT_SCOPE</span>
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_flat_keys'>normalize_flat_keys</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:separator</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='comment'># do not process further if key already marked as missing
+</span>  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:missing</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_chain'>chain</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_search_key'>search_key</span> <span class='op'>=</span> <span class='id identifier rubyid_chain'>chain</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_search_key'>search_key</span> <span class='op'>=</span> <span class='id identifier rubyid_chain'>chain</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
   <span class='id identifier rubyid_keys_to_check_for_other_locales'>keys_to_check_for_other_locales</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
-  <span class='kw'>begin</span>
-    <span class='id identifier rubyid_chain'>chain</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
-    <span class='id identifier rubyid_check_key'>check_key</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_chain'>chain</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='id identifier rubyid_search_key'>search_key</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_check_key'>check_key</span><span class='rbracket'>]</span>
+  <span class='kw'>while</span> <span class='lparen'>(</span><span class='id identifier rubyid_chain'>chain</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='comment'># build full translation key with current scope
+</span>    <span class='id identifier rubyid_check_key'>check_key</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_chain'>chain</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='id identifier rubyid_search_key'>search_key</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='comment'># read value from 118N cache
+</span>    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_check_key'>check_key</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='comment'># store key for checking in other locales
+</span>    <span class='id identifier rubyid_keys_to_check_for_other_locales'>keys_to_check_for_other_locales</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_check_key'>check_key</span>
 
-    <span class='id identifier rubyid_keys_to_check_for_other_locales'>keys_to_check_for_other_locales</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_check_key'>check_key</span>
+    <span class='comment'># remove chain last value
+</span>    <span class='id identifier rubyid_chain'>chain</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
 
-    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='comment'># nothing in cache was found
-</span>    <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span> <span class='op'>==</span> <span class='kw'>false</span> <span class='comment'># found nil translaiton in cache
-</span>    <span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span> <span class='kw'>unless</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='comment'># found translation in cache
-</span>  <span class='kw'>end</span> <span class='kw'>while</span> <span class='id identifier rubyid_chain'>chain</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>==</span> <span class='kw'>false</span>
+    <span class='comment'># go to next scope as translation do not exist
+</span>    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='comment'># return only if translation is not blank
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span> <span class='kw'>unless</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+  <span class='kw'>end</span>
 
-  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span> <span class='lbracket'>[</span><span class='symbol'>:missing</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_check_key'>check_key</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-  <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:missing</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_check_key'>check_key</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='const'>Translation</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>releaf_translations.key IN (?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_keys_to_check_for_other_locales'>keys_to_check_for_other_locales</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
+  <span class='comment'># mark translation as missing
+</span>  <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:missing</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_save_missing_translation'>save_missing_translation</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>::</span><span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_create_missing_translations'>create_missing_translations</span>
+    <span class='comment'># do not create new translation if exists in database in any scope
+</span>    <span class='kw'>unless</span> <span class='const'>Translation</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>releaf_translations.key IN (?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_keys_to_check_for_other_locales'>keys_to_check_for_other_locales</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
+      <span class='id identifier rubyid_save_missing_translation'>save_missing_translation</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
   <span class='kw'>return</span> <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -452,30 +473,28 @@
       <pre class="lines">
 
 
-18
-19
-20
-21
-22
 23
 24
 25
 26
 27
-28</pre>
+28
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reload_cache'>reload_cache</span>
   <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_clear'>clear</span>
 
-  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Translation</span><span class='period'>.</span><span class='id identifier rubyid_joins'>joins</span><span class='lparen'>(</span><span class='symbol'>:translation_data</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf_translations.key</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf_translation_data.lang</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf_translation_data.localization</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_find_each'>find_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_translation'>translation</span><span class='op'>|</span>
+  <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf_translations.key</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf_translation_data.lang</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf_translation_data.localization</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='const'>Translation</span><span class='period'>.</span><span class='id identifier rubyid_joins'>joins</span><span class='lparen'>(</span><span class='symbol'>:translation_data</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_translation'>translation</span><span class='op'>|</span>
     <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='lbracket'>[</span><span class='id identifier rubyid_translation'>translation</span><span class='period'>.</span><span class='id identifier rubyid_lang'>lang</span><span class='comma'>,</span> <span class='id identifier rubyid_translation'>translation</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_translation'>translation</span><span class='period'>.</span><span class='id identifier rubyid_localization'>localization</span>
   <span class='kw'>end</span>
+
   <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UPDATED_AT</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'>Settings</span><span class='period'>.</span><span class='id identifier rubyid_i18n_updated_at'>i18n_updated_at</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -498,24 +517,22 @@
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
-78
-79</pre>
+83
+84
+85
+86
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_missing_translation'>save_missing_translation</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_scope_parts'>scope_parts</span> <span class='op'>=</span> <span class='id identifier rubyid_get_scope'>get_scope</span> <span class='id identifier rubyid_key'>key</span>
+  <span class='id identifier rubyid_group'>group</span> <span class='op'>=</span> <span class='const'>TranslationGroup</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by_scope'>find_or_create_by_scope</span><span class='lparen'>(</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_scope_parts'>scope_parts</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_tg'>tg</span> <span class='op'>=</span> <span class='const'>TranslationGroup</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by_scope'>find_or_create_by_scope</span><span class='lparen'>(</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_scope_parts'>scope_parts</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_tg'>tg</span><span class='period'>.</span><span class='id identifier rubyid_translations'>translations</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by_key'>find_or_create_by_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_group'>group</span><span class='period'>.</span><span class='id identifier rubyid_translations'>translations</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by_key'>find_or_create_by_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -538,11 +555,11 @@
       <pre class="lines">
 
 
-15
-16</pre>
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/i18n/backend/releaf.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_translations'>store_translations</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -556,9 +573,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Jun 25 16:15:01 2013 by
+  Generated on Tue Aug 20 15:28:44 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.6.1 (ruby-2.0.0).
+  0.8.7 (ruby-2.0.0).
 </div>
 
   </body>
