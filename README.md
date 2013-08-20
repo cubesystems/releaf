@@ -45,6 +45,6 @@ Note that you should re-start your app here if you've already started it. Otherw
 
 Now open "/admin" on your dev site and login with following credentials:
 ```
-email: admin@examle.com
+email: admin@example.com
 password: password
 ```
