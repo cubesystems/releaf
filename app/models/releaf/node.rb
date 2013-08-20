@@ -165,7 +165,7 @@ module Releaf
 
     def copy_to_node parent_id
       return if parent_id.to_i == id
-      return if self.class.find_by_id(parent_id).nil? && !parent_id.nil?
+      return if self.class.find_by_id(parent_id).nil? && !parent_id.blank?
 
       new_node = self.dup
       new_node.item_position = self.self_and_siblings[-1].item_position + 1
@@ -178,6 +178,9 @@ module Releaf
 
       new_node.parent_id = parent_id
       new_node.maintain_name
+      # To regenerate slug
+      new_node.slug = nil
+
       new_node.save
 
       children.each do |child|
@@ -190,12 +193,14 @@ module Releaf
     def move_to_node parent_id
       return if parent_id.to_i == id
       return if parent_id.to_i == self.parent_id
-      return if self.class.find_by_id(parent_id).nil? && !parent_id.nil?
+      return if self.class.find_by_id(parent_id).nil? && !parent_id.blank?
 
       self.parent_id = parent_id
+      maintain_name
+      # To regenerate slug
+      self.slug = nil
       self.ensure_unique_url
 
-      maintain_name
       self.save
     end
 
@@ -204,8 +209,12 @@ module Releaf
       mod = nil
       total_count = 0
 
-      while self.class.where("parent_id = ? AND name = ?", self.parent_id, "#{name}#{mod}").count.to_i > 0 do
-        count = self.class.where("parent_id = ? AND name = ?", self.parent_id, "#{name}#{mod}").count.to_i
+      query = "parent_id = ? AND name = ?"
+      query = "parent_id IS ? AND name = ?" if self.parent_id.nil?
+
+      while self.class.where( query, self.parent_id, "#{name}#{mod}" ).count.to_i > 0 do
+
+        count = self.class.where( query, self.parent_id, "#{name}#{mod}" ).count.to_i
 
         total_count += count
         mod = "(#{total_count})"
