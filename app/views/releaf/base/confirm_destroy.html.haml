@@ -22,7 +22,7 @@
       %button.button.secondary{:data => {:type => 'cancel'}, :type => 'submit'}
         %i.icon-ban-circle
         %span= t('no', :scope => 'admin.global')
-    = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id ), :as => :resource, :method => :delete do |f|
+    = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id, :list_url => params[:list_url] ), :as => :resource, :method => :delete do |f|
       %button.button.danger{ :type => 'submit' }
         %i.icon-trash
         %span= t('yes', :scope => 'admin.global')
