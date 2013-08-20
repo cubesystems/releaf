@@ -5,6 +5,6 @@
         %i.icon-ok
         %span= t('save', :scope => "admin.global")
     .secondary
-      %a.button.secondary{ :href => url_for( :action => 'index' ) }
+      %a.button.secondary{ :href => (params[:list_url].blank? ? url_for( :action => 'index' ) : params[:list_url] ) }
         %i.icon-caret-left
         = t('back_to_list', :scope => 'admin.global')

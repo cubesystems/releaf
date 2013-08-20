@@ -1,4 +1,6 @@
 = form_for resource, :as => :resource, :url => url_for( :action => resource.new_record? ? 'create' : 'update', :id => resource.id ), :html => {:multipart => true, :data => {'validation-ok-handler' => 'ajax', 'validation-url' => url_for( :action => resource.new_record? ? 'validate' : 'validate', :id => resource.id ) }  } do |f|
+  - unless params[:list_url].blank?
+    = hidden_field_tag 'list_url', params[:list_url]
   = render "edit.header", :resource => resource
   = render "edit.body", :f => f
   = render "edit.footer", :resource => resource
