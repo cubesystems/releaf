@@ -16,10 +16,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
-  ## currenty doesn't work from gems path
-  s.bindir            = 'bin'
-  s.executables       = %w(releaf)
-
   s.add_dependency 'rails', '= 3.2.13'
   s.add_dependency 'sass-rails', '>= 3.2.5'
   s.add_dependency 'jquery-rails', '= 2.3.0'
@@ -57,7 +53,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'yard'
   s.add_development_dependency 'github-markdown', '>= 0.5.3'
   s.add_development_dependency 'redcarpet', '>= 2.2.2'
-  # s.add_development_dependency 'guard-yard'
-  # s.add_development_dependency 'guard-sping'
-
 end
