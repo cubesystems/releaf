@@ -3,6 +3,7 @@ require File.expand_path('../../releaf/install_generator', __FILE__)
 module Dummy
   module Generators
     class InstallGenerator < Releaf::Generators::InstallGenerator
+      @dummy_generator = true
 
       source_root File.expand_path('../templates', __FILE__)
 

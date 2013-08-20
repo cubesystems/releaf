@@ -1,21 +1,30 @@
+require 'rails/generators'
+require 'rails/generators/migration'
+require 'rails/generators/active_record'
+
 module Releaf
   module Generators
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
 
-      class_option :rvm,  :type => :boolean, :aliases => nil, :group => :runtime, :default => true,
-                           :desc => "Install with rvm gemset support"
-
       def self.next_migration_number(path)
         unless @prev_migration_nr
-          @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
+          @prev_migration_nr =  ActiveRecord::Generators::Base.next_migration_number(path).to_i
         else
           @prev_migration_nr += 1
         end
+
         @prev_migration_nr.to_s
       end
 
       source_root File.expand_path('../templates', __FILE__)
+
+      def install_devise
+        # prevent dummy app from installing devise one more time
+        if self.class == Releaf::Generators::InstallGenerator
+          generate "devise:install"
+        end
+      end
 
       def install_initializer
         copy_files 'initializers', 'config/initializers'
@@ -31,7 +40,8 @@ module Releaf
       end
 
       def install_seeds
-        copy_files 'seeds', 'db'
+        seed_path = File.expand_path('../templates', __FILE__) + "/seeds/seeds.rb"
+        append_to_file 'db/seeds.rb', File.read(seed_path)
       end
 
       def install_models
@@ -48,18 +58,6 @@ module Releaf
 
       def install_controllers
         copy_files 'controllers', 'app/controllers'
-      end
-
-      def install_stylesheets
-        copy_files 'stylesheets', 'app/assets/stylesheets'
-      end
-
-      def install_javascripts
-        copy_files 'javascripts', 'app/assets/javascripts'
-      end
-
-      def install_images
-        copy_files 'images', 'app/assets/images'
       end
 
       private
@@ -88,7 +86,6 @@ module Releaf
       def get_current_dir
         File.dirname(__FILE__)
       end
-
     end
   end
 end
