@@ -8,7 +8,7 @@ describe Releaf::RolesController do
 
   it "should test roles custom fields and methods" do
     # index should contain only one role
-    visit admin_roles_path
+    visit releaf_roles_path
     page.should have_css('.main > .table > tbody .row', :count => 1)
 
     # save new item and redirect to show view
@@ -21,7 +21,7 @@ describe Releaf::RolesController do
       click_button 'Save'
     end
     new_role = Releaf::Role.last
-    current_path.should eq(edit_admin_role_path(new_role))
+    current_path.should eq(edit_releaf_role_path(new_role))
 
     # edit view should contain all saved variables
     page.should have_css('.main h2.header', :text => "second role")
@@ -37,7 +37,7 @@ describe Releaf::RolesController do
     end
 
     # index should contain two roles
-    visit admin_roles_path
+    visit releaf_roles_path
     page.should have_css('.main > .table > tbody .row', :count => 2)
     page.should have_css('.main > .table > tbody .row[data-id="' + new_role.id.to_s  + '"] a:last', :text => I18n.t(new_role.default_controller, :scope => 'admin.menu_items'))
 
