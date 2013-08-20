@@ -22,7 +22,7 @@
 %>
 <td>
   <% if @features[:edit] %>
-  <a href="<%= url_for( action: :edit, id: resource.id, list_url: request.original_url ) %>"><span><%= text %></span></a>
+  <a href="<%= url_for( action: :edit, id: resource.id, list_url: current_url ) %>"><span><%= text %></span></a>
   <% else %>
   <span><%= text %></span>
   <% end %>

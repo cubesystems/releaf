@@ -2,6 +2,13 @@
   supports_order_by = resource_class.respond_to? :order_by
   valid_order_by_fields = resource_class.column_names
 
+  # build current path url with params
+  current_url = request.path
+  real_params = params.except(:action, :controller, :ajax)
+  unless real_params.empty?
+    current_url += "?#{real_params.to_query}"
+  end
+
   # Optimizaiton: instead of checkig weather user has custom partial for each cell
   # check once and and store partials name to render in hash
   cell_templates = {}
@@ -33,4 +40,4 @@
               = label
   %tbody.tbody
     - resources.each do |resource|
-      = render 'index.row', :resource => resource, :cell_templates => cell_templates
+      = render 'index.row', resource: resource, cell_templates: cell_templates, current_url: current_url
