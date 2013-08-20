@@ -1,5 +1,5 @@
 require 'spec_helper'
-feature "Base controller index actions", js: true do
+feature "Base controller edit actions", js: true do
   background do
     auth_as_admin
     @good_book = FactoryGirl.create(:book, title: "good book")
