@@ -1,5 +1,6 @@
 jQuery( document ).ready(function()
 {
+    var body = jQuery('body');
 
     jQuery(document).bind('nestedfieldsinit', function( e )
     {
@@ -71,9 +72,8 @@ jQuery( document ).ready(function()
 
                     if (event_params && event_params.no_animation)
                     {
-                        new_item.trigger( 'contentloaded' );
                         new_item.trigger( 'nestedfieldsitemadd', event_params);
-                        new_item.trigger( 'nestedfieldsinit', event_params );
+                        new_item.trigger( 'contentloaded', event_params );
                     }
                     else
                     {
@@ -82,11 +82,9 @@ jQuery( document ).ready(function()
                             new_item.css({ opacity: 1 }).hide();
                             new_item.fadeIn( 'normal', function()
                             {
-                                new_item.trigger( 'contentloaded' );
                                 new_item.trigger( 'nestedfieldsitemadd', event_params);
+                                new_item.trigger( 'contentloaded', event_params );
                             });
-
-                            new_item.trigger( 'nestedfieldsinit', event_params );
                         }
                         else
                         {
@@ -97,8 +95,8 @@ jQuery( document ).ready(function()
                                 new_item.fadeIn( 'fast', function()
                                 {
                                     new_item.trigger( 'nestedfieldsitemadd', event_params );
+                                    new_item.trigger( 'contentloaded', event_params );
                                 });
-                                new_item.trigger( 'nestedfieldsinit', event_params);
                             });
                         }
                     }
@@ -246,7 +244,10 @@ jQuery( document ).ready(function()
 
 	});
 
-    jQuery(document).trigger('nestedfieldsinit');
+    body.on('contentloaded', function(e, event_params)
+    {
+        jQuery(e.target).trigger('nestedfieldsinit', event_params);
+    });
 
 
 });
