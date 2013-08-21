@@ -14,13 +14,6 @@ module I18n
         include Base, Flatten
         DEFAULT_SCOPE = ['global']
 
-        def available_locales
-          []
-        end
-
-        def store_translations(locale, data, options = {})
-        end
-
         def reload_cache
           I18N_CACHE.clear
 
@@ -82,17 +75,11 @@ module I18n
         end
 
         def save_missing_translation(locale, key)
-          scope_parts = get_scope key
+          scope_parts = key.split('.')[0...-1]
           group = TranslationGroup.find_or_create_by_scope(:scope => scope_parts.join('.'))
 
           group.translations.find_or_create_by_key(key)
           I18N_CACHE.write [locale, key], false
-        end
-
-        def get_scope key
-          scope = key.split('.')[0...-1]
-          return scope unless scope.empty?
-          return DEFAULT_SCOPE
         end
       end
 
