@@ -1,4 +1,5 @@
 require 'i18n/backend/base'
+I18N_CACHE = ActiveSupport::Cache::MemoryStore.new
 
 module I18n
   module Backend
