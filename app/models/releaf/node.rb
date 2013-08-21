@@ -6,7 +6,6 @@ module Releaf
 
     acts_as_nested_set
     acts_as_list scope: :parent_id, column: 'item_position'
-    include Slug
 
     serialize :data, Hash
     default_scope order: 'releaf_nodes.item_position'

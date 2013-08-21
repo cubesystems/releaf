@@ -1,4 +1,3 @@
-require "releaf/slug"
 require 'releaf/globalize3/fallbacks'
 require "releaf/engine"
 require "releaf/exceptions"
