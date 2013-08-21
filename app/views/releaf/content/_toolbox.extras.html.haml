@@ -4,10 +4,11 @@
       %i.icon-large.icon-plus
       = t('Add child', :scope => controller_scope_name)
 
-  %li.go-to
-    %a.button.ajaxbox{:href => url_for( :action => :go_to_dialog )}
-      %i.icon-large.icon-external-link
-      = t('Go to', :scope => controller_scope_name)
+  - unless params[:action] == "index"
+    %li
+      %a.button.ajaxbox{:href => url_for( :action => :go_to_dialog )}
+        %i.icon-large.icon-external-link
+        = t('Go to', :scope => controller_scope_name)
 
   %li
     %a.button.ajaxbox{:href => url_for( :action => :copy_dialog, :id => resource.id )}
