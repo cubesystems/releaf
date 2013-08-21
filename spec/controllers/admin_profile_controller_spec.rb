@@ -5,6 +5,12 @@ describe Releaf::AdminProfileController do
   let(:admin){ subject.current_releaf_admin }
   login_as_admin :admin
 
+  describe "#resource_class" do
+    it "return current releaf admin user class" do
+      expect(Releaf::AdminProfileController.new.resource_class).to eq(Releaf::Admin)
+    end
+  end
+
   describe "PUT update" do
     context 'when attributes contain role_id' do
       it "does not update it" do
