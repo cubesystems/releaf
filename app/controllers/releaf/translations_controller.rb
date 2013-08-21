@@ -12,15 +12,6 @@ module Releaf
       valid_locales.uniq
     end
 
-    def fields_to_display
-      cols = super
-      unless %w[index].include? params[:action]
-        cols += (locales || [])
-      end
-
-      return cols
-    end
-
     def create
       Settings.i18n_updated_at = Time.now
       super
@@ -110,11 +101,7 @@ module Releaf
     end
 
     def add_group_to_workbook(group, p)
-      sheet = p.workbook.add_worksheet(name: group.scope)
-
-      if locales.blank?
-        return sheet
-      end
+      sheet = p.workbook.add_worksheet(name: group.scope[0..15])
 
       # title row
       row = [ '' ]
