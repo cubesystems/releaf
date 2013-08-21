@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe I18n::UseKeyForMissing do
+describe I18n::HumanizeMissingTranslations do
   describe ".call" do
     context "when exception is I18n::MissingTranslation" do
       it "humanize missing translations" do

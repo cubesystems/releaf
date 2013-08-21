@@ -1,5 +1,5 @@
 module I18n
-  module UseKeyForMissing
+  module HumanizeMissingTranslations
     def call(exception, locale, key, options)
       if exception.is_a?(I18n::MissingTranslation)
         key.to_s.split('.').last.humanize
