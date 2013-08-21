@@ -3,9 +3,7 @@ require "releaf/engine"
 require "releaf/exceptions"
 require "releaf/resources"
 require "releaf/boolean_at"
-require "releaf/input_locales"
 require "releaf/acts_as_node.rb"
-
 
 module Releaf
   mattr_accessor :menu

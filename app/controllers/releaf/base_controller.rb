@@ -8,7 +8,6 @@ module Releaf
       :get_template_field_attributes,
       :get_template_input_attributes,
       :get_template_label_options,
-      :input_locales,
       :has_template?,
       :render_field_type,
       :render_parent_template,
@@ -562,7 +561,7 @@ module Releaf
       attributes = []
       if args.is_a? Array
         args.each do |attribute|
-          resource_class.available_input_locales.each do|locale|
+          resource_class.globalize_locales.each do|locale|
             attributes << "#{attribute}_#{locale}"
           end
         end
