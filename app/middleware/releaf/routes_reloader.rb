@@ -15,7 +15,7 @@ module Releaf
     end
 
     def self.reload_if_expired
-      if Node.updated_at.blank? || @updated_at < Node.updated_at
+      if !Node.updated_at.blank? && @updated_at < Node.updated_at
         Rails.application.reload_routes!
         routes_loaded
       end
