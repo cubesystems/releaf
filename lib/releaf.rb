@@ -2,7 +2,6 @@ require 'releaf/globalize3/fallbacks'
 require "releaf/engine"
 require "releaf/exceptions"
 require "releaf/resources"
-require "releaf/boolean_at"
 require "releaf/acts_as_node.rb"
 
 module Releaf
