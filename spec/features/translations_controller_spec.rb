@@ -35,7 +35,7 @@ describe Releaf::TranslationsController do
       find('.main > .table tr[data-id="' + @group.id.to_s  + '"] .toolbox button.trigger').click
       click_link 'Export'
 
-      page.response_headers["Content-Type"].should == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
       filename = page.response_headers["Content-Disposition"].split("=")[1].gsub("\"","")
 

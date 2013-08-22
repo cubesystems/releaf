@@ -12,8 +12,8 @@ describe I18n::Backend::Releaf::TranslationGroup do
   end
 
   describe "#to_s" do
-    it "should return scope" do
-      @group.to_s.should eq('test')
+    it "return scope" do
+      expect(@group.to_s).to eq('test')
     end
   end
 
@@ -24,17 +24,17 @@ describe I18n::Backend::Releaf::TranslationGroup do
       FactoryGirl.create(:translation, :key => 'test.orange', :translation_group => @group)
     end
 
-    it "should have relation to translations" do
-      @group.translations.size.should eq(3)
+    it "have relation to translations" do
+      expect(@group.translations.size).to eq(3)
     end
 
-    it "should have translations order by key" do
-      @group.translations[0].key.should eq('test.apple')
-      @group.translations[1].key.should eq('test.orange')
-      @group.translations[2].key.should eq('test.yumberry')
+    it "have translations order by key" do
+      expect(@group.translations[0].key).to eq('test.apple')
+      expect(@group.translations[1].key).to eq('test.orange')
+      expect(@group.translations[2].key).to eq('test.yumberry')
     end
 
-    it "should destroy translations by destroying group itself" do
+    it "destroy translations when destroying group itself" do
       expect { @group.destroy }.to change { I18n::Backend::Releaf::Translation.count }.from(3).to(0)
     end
   end

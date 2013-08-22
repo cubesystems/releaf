@@ -44,40 +44,40 @@ describe Releaf::Role do
     end
 
     context "when arguments that are neither String or class that inherit ActionController::Base given" do
-      it "should raise ArgumentError" do
+      it "raise ArgumentError" do
         expect{ @content_role.authorize!([]) }.to raise_error(ArgumentError)
       end
     end
 
     context "when access to releaf/home controller authorized" do
-      it "should always return true" do
-        @admin_role.authorize!(Releaf::HomeController.new).should be_true
-        @content_role.authorize!(Releaf::HomeController.new).should be_true
-        @role_without_permissions.authorize!(Releaf::HomeController.new).should be_true
+      it "always return true" do
+        expect(@admin_role.authorize!(Releaf::HomeController.new)).to be_true
+        expect(@content_role.authorize!(Releaf::HomeController.new)).to be_true
+        expect(@role_without_permissions.authorize!(Releaf::HomeController.new)).to be_true
       end
     end
 
     context "when access to releaf/tinymce_assets controller authorized" do
-      it "should always return true if role has permissions to access releaf/content controller" do
-        @admin_role.authorize!(Releaf::TinymceAssetsController.new).should be_true
-        @content_role.authorize!(Releaf::TinymceAssetsController.new).should be_true
-        @role_without_permissions.authorize!(Releaf::TinymceAssetsController.new).should be_false
+      it "always return true if role has permissions to access releaf/content controller" do
+        expect(@admin_role.authorize!(Releaf::TinymceAssetsController.new)).to be_true
+        expect(@content_role.authorize!(Releaf::TinymceAssetsController.new)).to be_true
+        expect(@role_without_permissions.authorize!(Releaf::TinymceAssetsController.new)).to be_false
       end
     end
 
     context "when permissions given" do
       it "return true" do
-        @admin_role.authorize!(Releaf::TranslationsController.new).should be_true
-        @admin_role.authorize!(Releaf::ContentController.new).should      be_true
-        @content_role.authorize!(Releaf::ContentController.new).should    be_true
-        @role_without_permissions.authorize!(Releaf::ContentController.new).should    be_false
+        expect(@admin_role.authorize!(Releaf::TranslationsController.new)).to be_true
+        expect(@admin_role.authorize!(Releaf::ContentController.new)).to be_true
+        expect(@content_role.authorize!(Releaf::ContentController.new)).to  be_true
+        expect(@role_without_permissions.authorize!(Releaf::ContentController.new)).to be_false
       end
     end
 
     context "when permissions not given" do
       it "returns false" do
-        @content_role.authorize!(Releaf::TranslationsController.new).should be_false
-        @role_without_permissions.authorize!(Releaf::TranslationsController.new).should be_false
+        expect(@content_role.authorize!(Releaf::TranslationsController.new)).to be_false
+        expect(@role_without_permissions.authorize!(Releaf::TranslationsController.new)).to be_false
       end
     end
   end

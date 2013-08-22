@@ -28,50 +28,48 @@ describe I18n::Backend::Releaf::Translation do
   describe "scope: filter" do
     context "when filtering with 'apfel'" do
       it "returns 1 translation" do
-        I18n::Backend::Releaf::Translation.filter(:search => "apfel").length.should eq(1)
+        expect(I18n::Backend::Releaf::Translation.filter(:search => "apfel").length).to eq(1)
       end
     end
 
     context "when filtering with 'ap' (group by test)" do
       it "returns 1 translation" do
-        I18n::Backend::Releaf::Translation.filter(:search => "ap").length.should eq(1)
+        expect(I18n::Backend::Releaf::Translation.filter(:search => "ap").length).to eq(1)
       end
     end
 
     context "when filtering with 'test.apple'" do
       it "returns 1 translation" do
-        I18n::Backend::Releaf::Translation.filter(:search => "test.apple").length.should eq(1)
+        expect(I18n::Backend::Releaf::Translation.filter(:search => "test.apple").length).to eq(1)
       end
     end
 
     context "when filtering with 'asdsad'" do
       it "returns 0 translation" do
-        I18n::Backend::Releaf::Translation.filter(:search => "asdsad").length.should eq(0)
+        expect(I18n::Backend::Releaf::Translation.filter(:search => "asdsad").length).to eq(0)
       end
     end
   end
 
   describe "#locales" do
-    it "should return translated data values in hash" do
-      @translation.locales.should eq({"en" => "apple", "de" => "apfel", "lv" => nil})
+    it "return translated data values in hash" do
+      expect(@translation.locales).to eq({"en" => "apple", "de" => "apfel", "lv" => nil})
     end
   end
 
   describe "#plain_key" do
-    it "should return plain key without group scope" do
-      @translation.plain_key.should eq('apple')
+    it "return plain key without group scope" do
+      expect(@translation.plain_key).to eq('apple')
     end
   end
 
   describe "translation data model relation" do
-    it "should have relation to translation data" do
-      @translation.translation_data.size.should eq(2)
+    it "have relation to translation data" do
+      expect(@translation.translation_data.size).to eq(2)
     end
 
-    it "should destroy translation data by destroying translation itself" do
-      I18n::Backend::Releaf::TranslationData.all.count.should eq(2)
-      @translation.destroy
-      I18n::Backend::Releaf::TranslationData.all.count.should eq(0)
+    it "destroy translation data when destroying translation itself" do
+      expect{ @translation.destroy }.to change{ I18n::Backend::Releaf::TranslationData.all.count }.from(2).to(0)
     end
   end
 end

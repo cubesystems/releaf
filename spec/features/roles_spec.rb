@@ -20,6 +20,7 @@ describe Releaf::RolesController do
       check(I18n.t("admin/books", :scope => 'admin.menu_items'))
       click_button 'Save'
     end
+
     new_role = Releaf::Role.last
     current_path.should eq(edit_releaf_role_path(new_role))
 
@@ -40,6 +41,5 @@ describe Releaf::RolesController do
     visit releaf_roles_path
     page.should have_css('.main > .table > tbody .row', :count => 2)
     page.should have_css('.main > .table > tbody .row[data-id="' + new_role.id.to_s  + '"] a:last', :text => I18n.t(new_role.default_controller, :scope => 'admin.menu_items'))
-
   end
 end

@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe Releaf::Admin do
-
   it { should have(1).error_on(:name) }
   it { should have(1).error_on(:surname) }
   it { should have(1).error_on(:role_id) }
@@ -14,6 +13,7 @@ describe Releaf::Admin do
     before do
       @admin = FactoryGirl.create(:admin)
     end
+
     it { should validate_uniqueness_of(:email) }
   end
 
@@ -31,17 +31,15 @@ describe Releaf::Admin do
     context "given there is user admin@example.com Billy Withers" do
       context "when filtering with 'admin@example.com bill with'" do
         it "returns 1 admin" do
-          Releaf::Admin.filter(:search => "admin@example.com bill with").should have(1).admin
+          expect(Releaf::Admin.filter(:search => "admin@example.com bill with")).to have(1).admin
         end
       end
 
       context "when filtering with 'user@example.com bill with'" do
         it "returns 0 admins" do
-          Releaf::Admin.filter(:search => "user@example.com bill with").should have(0).admins
+          expect(Releaf::Admin.filter(:search => "user@example.com bill with")).to have(0).admins
         end
       end
     end
-
   end
-
 end
