@@ -28,7 +28,6 @@ module Releaf
       self.content = content_type.constantize.new(params)
     end
 
-
     ##
     # Return node public url
     def url
@@ -39,58 +38,6 @@ module Releaf
       end
 
       url
-    end
-
-    # returns node content object public controller
-    def controller
-      raise "Missing content object" if content_type.blank?
-      return content_type.constantize.controller
-    end
-
-    def self.get_object_from_path path, params = {}
-      request_data = get_request_data_from_path path, params
-      return request_data[:node]
-    end
-
-    def self.get_request_data_from_path path, params = {}
-      raise ArgumentError, 'path must be String or Array' unless path.is_a?(String) || path.is_a?(Array)
-
-      node = nil
-      parent_node = nil
-      matched_parts = 0
-      request_data = {}
-
-      if path.is_a? String
-        path = path.split('?').first.split("/").reject(&:empty?)
-      end
-
-      unless params[:locale].nil?
-        parent_node = Node.roots.find_by_slug(params[:locale])
-      end
-
-      path.each do |part|
-        node = Node.where(parent_id: (parent_node ? parent_node.id : nil), slug: part).first
-        if node
-          parent_node = node
-          matched_parts += 1
-        else
-          node = parent_node
-          break
-        end
-      end
-
-      unless params[:controller].nil?
-        if params[:controller] != node.controller.to_s
-          node = nil
-        end
-      end
-
-      request_data = {
-        node: node,
-        unmatched_parts: path.slice(matched_parts, path.length)
-      }
-
-      return request_data
     end
 
     def to_s
