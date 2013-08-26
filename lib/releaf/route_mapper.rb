@@ -1,44 +1,16 @@
 module Releaf::RouteMapper
+  # Add extra routes for members and collections needed by releaf
   def releaf_resources(*args, &block)
-    add_confirm_destroy = true
-
-    if args.last.is_a? Hash
-      options = args.last
-      if options.has_key? :only
-        add_confirm_destroy = false unless options[:only].include? :destroy
-
-        unless options[:only].include? :show
-          if options[:only].include? :edit
-            options = { :path_names => { :edit => '' } }.deep_merge(options)
-          end
-        end
-      end
-
-      if options.has_key? :except
-        add_confirm_destroy = false if options[:except].include? :destroy
-
-        if options[:except].include? :show
-          unless options[:except].include? :edit
-            options = { :path_names => { :edit => '' } }.deep_merge(options)
-          end
-        end
-      end
-
-      args[-1] = options
-    end
-
     resources *args do
       yield if block_given?
-      get   :confirm_destroy, :on => :member      if add_confirm_destroy
+      get   :confirm_destroy, :on => :member      if include_confirm_destroy?(args.last)
     end
   end
 
   def mount_releaf_at mount_location, options={}, &block
-    allowed_controllers = options.try(:[], :allowed_controllers)
+    controllers = allowed_controllers(options)
 
-    if allowed_controllers.nil? or allowed_controllers.include? :content
-      post '/tinymce_assets' => 'releaf/tinymce_assets#create'
-    end
+    post '/tinymce_assets' => 'releaf/tinymce_assets#create' if controllers.include? :content
 
     devise_for Releaf.devise_for, :path => mount_location, :controllers => { :sessions => "releaf/sessions" }
 
@@ -53,43 +25,74 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, :path => nil do
-        releaf_resources :admins if (allowed_controllers.nil? or allowed_controllers.include? :admins)
-        releaf_resources :roles if (allowed_controllers.nil? or allowed_controllers.include? :roles)
+        releaf_resources :admins if controllers.include? :admins
+        releaf_resources :roles if controllers.include? :roles
 
-        if allowed_controllers.nil? or allowed_controllers.include? :admins
-          get "profile", to: "admin_profile#edit", as: :admin_profile
-          put "profile", to: "admin_profile#update", as: :admin_profile
-          post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
-        end
-
-        if allowed_controllers.nil? or allowed_controllers.include? :content
-          releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
-            get :generate_url, :on => :collection
-
-            get :go_to_dialog, :on => :collection
-
-            member do
-              get :copy_dialog
-              post :copy
-
-              get :move_dialog
-              post :move
-            end
-          end
-        end
-
-        if allowed_controllers.nil? or allowed_controllers.include? :translations
-          releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show] do
-            member do
-              get :export
-              post :import
-            end
-          end
-        end
+        mount_admin_profile_controller if controllers.include? :admin_profile
+        mount_content_controller if controllers.include? :content
+        mount_translations_controller if controllers.include? :translations
 
         root :to => "home#index"
         get '/*path' => 'base_application#page_not_found'
       end
     end
+  end
+
+  private
+
+  # Get list of allowed releaf built-in controllers
+  def allowed_controllers options
+    allowed_controllers = options.try(:[], :allowed_controllers)
+    if allowed_controllers.nil?
+      allowed_controllers = [:roles, :admins, :translations, :admin_profile, :content]
+    end
+  end
+
+  # Mount translations controller
+  def mount_translations_controller
+    releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show] do
+      member do
+        get :export
+        post :import
+      end
+    end
+  end
+
+  # Mount admin profile controller
+  def mount_admin_profile_controller
+    get "profile", to: "admin_profile#edit", as: :admin_profile
+    put "profile", to: "admin_profile#update", as: :admin_profile
+    post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
+  end
+
+  # Mount nodes content controller
+  def mount_content_controller
+    releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
+      collection do
+        get :generate_url
+        get :go_to_dialog
+      end
+
+      member do
+        get :copy_dialog
+        post :copy
+        get :move_dialog
+        post :move
+      end
+    end
+  end
+
+  # Check whether add confirm destroy route
+  def include_confirm_destroy? options
+    add_confirm_destroy = true
+    if options.is_a? Hash
+      if options[:only] && !options[:only].include?(:destroy)
+        add_confirm_destroy = false
+      elsif options[:except].try(:include?, :destroy)
+        add_confirm_destroy = false
+      end
+    end
+
+    return add_confirm_destroy
   end
 end # Releaf::RouteMapper
