@@ -21,27 +21,11 @@ describe Releaf::ApplicationHelper do
       end
     end
 
-    context "when array of objects" do
-      it "returns translated options for given array of objects" do
-        input = [Color.new(1, "red"), Color.new(2, "green"), Color.new(3, "blue")]
-        output = ['<option value="1">Color red</option>', '<option value="2" selected="selected">green</option>', '<option value="3">blue</option>'].join("\n")
-        expect(helper.i18n_options_for_select(input, 2, "colors")).to eq(output)
-      end
-    end
-
-    context "when simple hash" do
+    context "when hash" do
       it "returns translated options" do
-        input = {"r" => "red", "g" => "green", "b" => "blue"}
+        input = {"red" => "r", "green" => "g", "blue" => "b"}
         output = ['<option value="r">Color red</option>', '<option value="g" selected="selected">green</option>', '<option value="b">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "g", "colors")).to eq(output)
-      end
-    end
-
-    context "when hash of objects" do
-      it "returns translated options" do
-        input = {"r" => Color.new(1, "red"), "g" => Color.new(2, "green"), "b" => Color.new(3, "blue")}
-        output = ['<option value="1">Color red</option>', '<option value="2" selected="selected">green</option>', '<option value="3">blue</option>'].join("\n")
-        expect(helper.i18n_options_for_select(input, 2, "colors")).to eq(output)
       end
     end
 
@@ -50,12 +34,6 @@ describe Releaf::ApplicationHelper do
         input = ["red", "green", "blue"]
         output = ['<option value="red">red</option>', '<option value="green" selected="selected">green</option>', '<option value="blue">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "green", "colors", {:scope => "admin.products"})).to eq(output)
-      end
-    end
-
-    context "when invalid arguments" do
-      it "raise ArgumentError" do
-        expect{ helper.i18n_options_for_select("asdasd", 2, "colors")}.to raise_error(ArgumentError, "unsupported container class: String")
       end
     end
   end
