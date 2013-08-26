@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :roles, :class => :'Releaf::Role' do
+  factory :roles, :class => Releaf::Role do
     sequence(:name) {|n| "role #{n}"}
 
     factory :admin_role do

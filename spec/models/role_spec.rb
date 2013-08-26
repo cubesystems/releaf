@@ -3,37 +3,14 @@
 require "spec_helper"
 
 describe Releaf::Role do
-
-  it { should have(1).error_on(:name) }
-  it { should have(1).error_on(:default_controller) }
-
-  describe "uniqueness of name" do
-    before do
-      @role = FactoryGirl.create(:admin_role)
-    end
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:default_controller) }
     it { should validate_uniqueness_of(:name) }
   end
 
-  describe "#destroy" do
-    before do
-      @admin_role = FactoryGirl.create(:admin_role)
-      @content_role = FactoryGirl.create(:content_role)
-      @admin = FactoryGirl.create(:admin)
-      @admin.role = @admin_role
-      @admin.save
-    end
-
-    context "when role is not used" do
-      it "destroys it" do
-        expect { @content_role.destroy }.to change { Releaf::Role.count }.by(-1)
-      end
-    end
-
-    context "when role is use" do
-      it "does not doestry it" do
-        expect { @admin_role.destroy }.to_not change { Releaf::Role.count }
-      end
-    end
+  describe 'associations' do
+    it { should have_many(:admins).dependent(:restrict) }
   end
 
   describe "#authorize!" do

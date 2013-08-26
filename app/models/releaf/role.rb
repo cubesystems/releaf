@@ -6,7 +6,7 @@ module Releaf
     validates_presence_of :default_controller
     validates_uniqueness_of :name, case_sensitive: false
 
-    has_many :admins
+    has_many :admins, dependent: :restrict
 
     serialize :permissions
 
@@ -16,13 +16,6 @@ module Releaf
       :permissions
 
     alias_attribute :to_text, :name
-
-    # Allow destroying of role if no Releaf::Admin object is using it
-    def destroy
-      if Releaf::Admin.where(role_id: id).count == 0
-        super
-      end
-    end
 
     # Return true/false access for given controller and action
     # @param [Controller, String or class that inherit ActionController::Base] controller to check access
