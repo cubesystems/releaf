@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :admins, :class => :'Releaf::Admin' do
+  factory :admins, :class => Releaf::Admin do
     trait :admin_basic do
       email
       name
