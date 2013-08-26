@@ -50,11 +50,12 @@ module Releaf
         when /^(#{COMMON_FIELD_NAME_PREFIX}(.+))=$/ then
           if common_field_names.include? $1
             return common_field_setter($2, args[0])
-          end
+        end
+
         when /^(#{COMMON_FIELD_NAME_PREFIX}(.+))$/ then
           if common_field_names.include? $1
             return common_field_getter($2)
-          end
+        end
         end
       end
 
@@ -81,13 +82,12 @@ module Releaf
     end
 
     def self.load_common_fields_schema
-
       common_fields_schema_file = Rails.root.to_s+ '/config/common_fields.yml'
       cfschema = if File.exists?(common_fields_schema_file)
-        YAML::load_file(common_fields_schema_file)
-      else
-        []
-      end
+                   YAML::load_file(common_fields_schema_file)
+                 else
+                   []
+                 end
 
       raise "common_fields common_fields_schema is not an array" unless cfschema.is_a? Array
       cfschema.each_with_index do |field,i|
@@ -97,6 +97,7 @@ module Releaf
         raise "field_type not defined for #{field['field_type']} field"           unless field.has_key?('field_type')
         raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
       end
+
       return cfschema
     end
 
@@ -150,25 +151,21 @@ module Releaf
       self.save
     end
 
-
+    # Maintain unique name within parent_id scope.
+    # If name is not unique add numeric postfix.
     def maintain_name
-      mod = nil
+      postfix = nil
       total_count = 0
 
-      query = "parent_id = ? AND name = ?"
-      query = "parent_id IS ? AND name = ?" if self.parent_id.nil?
-
-      while self.class.where( query, self.parent_id, "#{name}#{mod}" ).count.to_i > 0 do
-
-        count = self.class.where( query, self.parent_id, "#{name}#{mod}" ).count.to_i
-
-        total_count += count
-        mod = "(#{total_count})"
+      while self.class.where(parent_id: parent_id, name: "#{name}#{postfix}").where("id != ?", id.to_i).count.to_i > 0 do
+        total_count += 1
+        postfix = "(#{total_count})"
       end
 
-      self.name = "#{name}#{mod}"
+      if postfix
+        self.name = "#{name}#{postfix}"
+      end
     end
-
 
     private
 
@@ -177,7 +174,6 @@ module Releaf
     end
 
     def common_fields_schema_for_instance
-
       full_schema =if defined?(COMMON_FIELDS_SCHEMA)
                      COMMON_FIELDS_SCHEMA.dup
                    else
@@ -235,6 +231,5 @@ module Releaf
       raise RuntimeError, 'content_type must be set' unless content_type
       self.content_type.constantize.new(attr)
     end
-
   end
 end
