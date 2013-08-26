@@ -1,12 +1,10 @@
 module Releaf::RouteMapper
   def releaf_resources(*args, &block)
-    add_urls = true
     add_confirm_destroy = true
 
     if args.last.is_a? Hash
       options = args.last
       if options.has_key? :only
-        add_urls            = false unless options[:only].include? :urls
         add_confirm_destroy = false unless options[:only].include? :destroy
 
         unless options[:only].include? :show
@@ -17,7 +15,6 @@ module Releaf::RouteMapper
       end
 
       if options.has_key? :except
-        add_urls            = false if options[:except].include? :urls
         add_confirm_destroy = false if options[:except].include? :destroy
 
         if options[:except].include? :show
@@ -32,11 +29,7 @@ module Releaf::RouteMapper
 
     resources *args do
       yield if block_given?
-
-      match :urls,            :on => :collection  if add_urls
       get   :confirm_destroy, :on => :member      if add_confirm_destroy
-      post  :validate,        :on => :new
-      put   :validate,        :on => :member
     end
   end
 
@@ -66,7 +59,6 @@ module Releaf::RouteMapper
         if allowed_controllers.nil? or allowed_controllers.include? :admins
           get "profile", to: "admin_profile#edit", as: :admin_profile
           put "profile", to: "admin_profile#update", as: :admin_profile
-          put "profile/validate", to: "admin_profile#validate", as: :admin_profile_validate
           post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
         end
 

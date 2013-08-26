@@ -472,7 +472,7 @@ jQuery(function(){
     body.on('contentloaded', function(e)
     {
         var block = jQuery(e.target);
-        var forms = (block.is('form[data-validation-url]')) ? block : block.find('form[data-validation-url]');
+        var forms = (block.is('form[data-validation]')) ? block : block.find('form[data-validation]');
 
         forms.trigger('validationinit');
     });

@@ -80,19 +80,6 @@ module Releaf
       end
     end
 
-    def urls
-      respond_to do |format|
-        format.json do
-          json = {}
-          params[:ids].each do |id|
-            json[id] = url_for( action: params[:to_action], id: id, only_path: true )
-          end
-
-          render json: json, layout: false
-        end
-      end
-    end
-
     def new
       raise FeatureDisabled unless @features[:create]
       # load resource only if is not initialized yet
@@ -109,24 +96,6 @@ module Releaf
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) if @resource.nil?
       add_resource_breadcrumb(@resource)
-    end
-
-    def validate
-      if params[:id].nil?
-        # load resource only if is not loaded yet
-        @resource = resource_class.new
-      else
-        # load resource only if is not loaded yet
-        @resource = resource_class.find(params[:id]) if @resource.nil?
-      end
-
-      @resource.assign_attributes required_params.permit(*resource_params)
-
-      if @resource.valid?
-        render json: {}
-      else
-        render json: build_validation_errors(@resource), status: 422
-      end
     end
 
     def create
@@ -550,7 +519,7 @@ module Releaf
     end
 
     def mass_assigment_actions
-      ['create', 'update', 'validate']
+      ['create', 'update']
     end
 
     # Returns which resource attributes can be updated with mass assignment.
