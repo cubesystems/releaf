@@ -5,10 +5,10 @@ require "spec_helper"
 describe Releaf::Node do
   let(:node) { Releaf::Node.new }
 
-  specify "model validations" do
-    expect(node).to have(1).error_on(:name)
-    expect(node).to have(1).error_on(:slug)
-    expect(node).to have(1).error_on(:content_type)
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:slug) }
+    it { should validate_presence_of(:content_type) }
   end
 
   describe "after save" do
@@ -21,6 +21,12 @@ describe Releaf::Node do
     end
   end
 
+  describe "#to_s" do
+    it "returns name" do
+      expect(node.to_s).to eq(node.name)
+    end
+  end
+
   describe "#destroy" do
     before do
       @node = FactoryGirl.create(:node)
@@ -30,16 +36,6 @@ describe Releaf::Node do
       @time_now = Time.parse("2009-02-23 21:00:00 UTC")
       Time.stub(:now).and_return(@time_now)
       expect{ @node.destroy }.to change{ Settings['nodes.updated_at'] }.to(@time_now)
-    end
-  end
-
-  describe ".updated_at" do
-    it "returns last node update" do
-      time_now = Time.now
-      Time.stub(:now).and_return(time_now)
-      FactoryGirl.create(:node)
-
-      expect(Releaf::Node.updated_at).to eq(time_now)
     end
   end
 
@@ -88,7 +84,6 @@ describe Releaf::Node do
     end
   end
 
-
   describe "#move_to_node" do
     before do
       @text_node = FactoryGirl.create(:text_node)
@@ -127,7 +122,6 @@ describe Releaf::Node do
     end
   end
 
-
   describe "#maintain_name" do
     let(:root) { FactoryGirl.create(:text_node) }
     let(:node) { FactoryGirl.create(:text_node, :parent_id => root.id, :name => "Test node") }
@@ -145,7 +139,15 @@ describe Releaf::Node do
         expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(2)")
       end
     end
-
   end
 
+  describe ".updated_at" do
+    it "returns last node update" do
+      time_now = Time.now
+      Time.stub(:now).and_return(time_now)
+      FactoryGirl.create(:node)
+
+      expect(Releaf::Node.updated_at).to eq(time_now)
+    end
+  end
 end
