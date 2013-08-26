@@ -18,14 +18,14 @@ describe Releaf::Admin do
   end
 
   describe "#display_name" do
-    subject { FactoryGirl.create(:admin).display_name }
+    subject { FactoryGirl.create(:admin, name: "Bill", surname: "Withers").display_name }
 
     it { should == 'Bill Withers' }
   end
 
   describe ".filter" do
     before do
-      FactoryGirl.create(:admin, :name => 'Billy', :surname => 'Withers')
+      FactoryGirl.create(:admin, :name => 'Billy', :surname => 'Withers', email: 'admin@example.com')
     end
 
     context "given there is user admin@example.com Billy Withers" do
