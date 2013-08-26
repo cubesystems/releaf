@@ -1,8 +1,8 @@
 require 'releaf/globalize3/fallbacks'
-require "releaf/engine"
+require "releaf/route_mapper"
 require "releaf/exceptions"
-require "releaf/resources"
 require "releaf/acts_as_node.rb"
+require "releaf/engine"
 
 module Releaf
   mattr_accessor :menu

@@ -25,4 +25,8 @@ module Releaf
       end
     end
   end
+
+  ActiveSupport.on_load :action_controller do
+    ActionDispatch::Routing::Mapper.send(:include, Releaf::RouteMapper)
+  end
 end
