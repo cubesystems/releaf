@@ -131,12 +131,22 @@ module Releaf
 
     def create
       raise FeatureDisabled unless @features[:create]
-      save_and_respond :create
+      # load resource only if is not loaded yet
+      @resource = resource_class.new if @resource.nil?
+      @resource.assign_attributes required_params.permit(*resource_params)
+      result = @resource.save
+
+      respond_after_save(:create, result, "new")
     end
 
     def update
       raise FeatureDisabled unless @features[:edit]
-      save_and_respond :update
+
+      # load resource only if is not loaded yet
+      @resource = resource_class.find(params[:id]) if @resource.nil?
+      result = @resource.update_attributes required_params.permit(*resource_params)
+
+      respond_after_save(:update, result, "edit")
     end
 
     def confirm_destroy
@@ -580,25 +590,6 @@ module Releaf
     end
 
     private
-
-    def save_and_respond request_type
-      if request_type == :create
-        # load resource only if is not loaded yet
-        @resource = resource_class.new if @resource.nil?
-        @resource.assign_attributes required_params.permit(*resource_params)
-        result = @resource.save
-
-        html_render_action = "new"
-      elsif request_type == :update
-        # load resource only if is not loaded yet
-        @resource = resource_class.find(params[:id]) if @resource.nil?
-        result = @resource.update_attributes required_params.permit(*resource_params)
-
-        html_render_action = "edit"
-      end
-
-      respond_after_save request_type, result, html_render_action
-    end
 
     def respond_after_save request_type, result, html_render_action
       if result
