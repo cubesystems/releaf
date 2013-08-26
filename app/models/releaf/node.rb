@@ -226,10 +226,5 @@ module Releaf
     def common_field_default_value(key)
       common_field_options(key)['default']
     end
-
-    def new_content(attr)
-      raise RuntimeError, 'content_type must be set' unless content_type
-      self.content_type.constantize.new(attr)
-    end
   end
 end
