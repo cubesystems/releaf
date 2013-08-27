@@ -46,6 +46,8 @@ module Releaf::RouteMapper
     if allowed_controllers.nil?
       allowed_controllers = [:roles, :admins, :translations, :admin_profile, :content]
     end
+
+    allowed_controllers
   end
 
   # Mount translations controller
