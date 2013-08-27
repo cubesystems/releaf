@@ -72,7 +72,7 @@ module Releaf
     end
 
     def index
-      raise FeatureDisabled unless @features[:index]
+      check_feature(:index)
       @resources = filter_order_and_paginate_collection(get_collection)
 
       unless params[:ajax].blank?
@@ -81,7 +81,7 @@ module Releaf
     end
 
     def new
-      raise FeatureDisabled unless @features[:create]
+      check_feature(:create)
       # load resource only if is not initialized yet
       @resource = resource_class.new if @resource.nil?
       add_resource_breadcrumb(@resource)
@@ -92,14 +92,14 @@ module Releaf
     end
 
     def edit
-      raise FeatureDisabled unless @features[:edit]
+      check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) if @resource.nil?
       add_resource_breadcrumb(@resource)
     end
 
     def create
-      raise FeatureDisabled unless @features[:create]
+      check_feature(:create)
       # load resource only if is not loaded yet
       @resource = resource_class.new if @resource.nil?
       @resource.assign_attributes required_params.permit(*resource_params)
@@ -109,8 +109,7 @@ module Releaf
     end
 
     def update
-      raise FeatureDisabled unless @features[:edit]
-
+      check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) if @resource.nil?
       result = @resource.update_attributes required_params.permit(*resource_params)
@@ -119,13 +118,13 @@ module Releaf
     end
 
     def confirm_destroy
-      raise FeatureDisabled unless @features[:destroy]
+      check_feature(:destroy)
       @resource = resource_class.find(params[:id])
       render layout: false if params.has_key?(:ajax)
     end
 
     def destroy
-      raise FeatureDisabled unless @features[:destroy]
+      check_feature(:destroy)
       @resource = resource_class.find(params[:id])
       result = @resource.destroy
 
@@ -559,6 +558,10 @@ module Releaf
     end
 
     private
+
+    def check_feature feature
+      raise FeatureDisabled, feature.to_s unless @features[feature]
+    end
 
     def respond_after_save request_type, result, html_render_action
       if result
