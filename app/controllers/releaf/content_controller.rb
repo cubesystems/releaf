@@ -20,8 +20,6 @@ module Releaf
     end
 
     def generate_url
-      tmp_resource = nil
-
       if params[:id]
         tmp_resource = Node.find(params[:id])
       elsif params[:parent_id].blank? == false
@@ -64,21 +62,13 @@ module Releaf
         end
       end
 
-      respond_to do |format|
-        format.html do
-          render layout: nil if params.has_key?(:ajax)
-        end
-      end
+      render layout: nil if params.has_key?(:ajax)
     end
 
     def copy_dialog
       @node = Node.find params[:id]
       @resources = Node.roots
-      respond_to do |format|
-        format.html do
-          render layout: nil if params.has_key?(:ajax)
-        end
-      end
+      render layout: nil
     end
 
     def copy
@@ -97,11 +87,7 @@ module Releaf
     def move_dialog
       @node = Node.find params[:id]
       @resources = Node.roots
-      respond_to do |format|
-        format.html do
-          render layout: nil if params.has_key?(:ajax)
-        end
-      end
+      render layout: nil
     end
 
     def move
@@ -118,11 +104,7 @@ module Releaf
 
     def go_to_dialog
       @resources = Node.roots
-      respond_to do |format|
-        format.html do
-          render layout: nil if params.has_key?(:ajax)
-        end
-      end
+      render layout: nil
     end
 
     def edit
