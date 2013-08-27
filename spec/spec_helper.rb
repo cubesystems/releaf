@@ -70,6 +70,9 @@ RSpec.configure do |config|
 
   Capybara.javascript_driver = :webkit
 
+  # disable empty translation creation
+  Releaf.create_missing_translations = false
+
   config.before(:each) do
     if Capybara.current_driver == :rack_test
       DatabaseCleaner.strategy = :transaction

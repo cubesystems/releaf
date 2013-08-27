@@ -1,6 +1,16 @@
 require "spec_helper"
 
 describe I18n::Backend::Releaf do
+  before(:all) do
+    # enable empty translation creation
+    Releaf.create_missing_translations = true
+  end
+
+  after(:all) do
+    # disable empty translation creation
+    Releaf.create_missing_translations = false
+  end
+
   before do
     # isolate each test cases
     I18N_CACHE.clear
