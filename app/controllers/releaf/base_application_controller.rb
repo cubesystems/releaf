@@ -27,24 +27,22 @@ module Releaf
 
     def feature_disabled exception
       @feature = exception.message
-      respond_to do |format|
-        format.html { render 'releaf/error_pages/feature_disabled', status: 403 }
-        format.any  { render text: '', status: 403 }
-      end
+      error_response('feature_disabled', 403)
     end
 
     def access_denied
-      @controller_name = self.class.name.sub(/Controller$/, '').underscore
-      respond_to do |format|
-        format.html { render 'releaf/error_pages/access_denied', status: 403 }
-        format.any  { render text: '', status: 403 }
-      end
+      error_response('access_denied', 403)
     end
 
     def page_not_found
+      error_response('page_not_found', 404)
+    end
+
+    private
+    def error_response error_page, error_status
       respond_to do |format|
-        format.html { render 'releaf/error_pages/page_not_found', status: 404 }
-        format.any  { render text: '', status: 404 }
+        format.html { render "releaf/error_pages/#{error_page}", status: error_status }
+        format.any  { render text: '', status: error_status }
       end
     end
   end
