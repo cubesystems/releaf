@@ -50,12 +50,12 @@ module Releaf
         when /^(#{COMMON_FIELD_NAME_PREFIX}(.+))=$/ then
           if common_field_names.include? $1
             return common_field_setter($2, args[0])
-        end
+          end
 
         when /^(#{COMMON_FIELD_NAME_PREFIX}(.+))$/ then
           if common_field_names.include? $1
             return common_field_getter($2)
-        end
+          end
         end
       end
 

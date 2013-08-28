@@ -153,6 +153,7 @@ module Releaf
       Node
     end
 
+
     private
 
     def content_type_class_names
@@ -164,7 +165,7 @@ module Releaf
     end
 
     def resource_params
-      super + [:content_attributes]
+      super + [:content_attributes] + @resource.common_field_names
     end
   end
 end
