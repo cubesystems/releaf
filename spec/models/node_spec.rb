@@ -65,7 +65,7 @@ describe Releaf::Node do
       end
     end
 
-    context "with unexisting parent_id" do
+    context "with nonexistent parent_id" do
       it "doesn't create new node" do
         expect{ @text_node_2.copy_to_node(99991) }.not_to change{ Releaf::Node.count }
       end
@@ -109,7 +109,7 @@ describe Releaf::Node do
       end
     end
 
-    context "when passing unexisting target node's id" do
+    context "when passing nonexistent target node's id" do
       it "doesn't change parent_id" do
         expect{ @text_node_3.move_to_node(998123) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
       end

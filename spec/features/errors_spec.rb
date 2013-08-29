@@ -4,7 +4,7 @@ describe "Errors feature" do
     auth_as_admin
   end
 
-  it "returns 404 status code and generic error page for unexisting rotues" do
+  it "returns 404 status code and generic error page for nonexistent rotues" do
     visit(releaf_root_path + "/asdassd")
 
     expect(page.status_code).to eq(404)

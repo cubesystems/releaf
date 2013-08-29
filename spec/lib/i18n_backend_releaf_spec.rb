@@ -68,7 +68,7 @@ describe I18n::Backend::Releaf do
 
     context "existing translation" do
       context "in parent scope" do
-        context "unexisting translation in given scope" do
+        context "nonexistent translation in given scope" do
           it "uses parent scope" do
             translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
@@ -118,7 +118,7 @@ describe I18n::Backend::Releaf do
       end
     end
 
-    context "unexisting translation" do
+    context "nonexistent translation" do
       context "loading multiple times" do
         it "queries db only for the first time" do
           I18n.t("save", scope: "admin.global")
@@ -134,7 +134,7 @@ describe I18n::Backend::Releaf do
         end
       end
 
-      context "with unexisting group" do
+      context "with nonexistent group" do
         it "creates group" do
           expect { translation }.to change {  I18n::Backend::Releaf::TranslationGroup.count }.by(1)
         end
