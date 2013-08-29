@@ -1,12 +1,12 @@
 require 'spec_helper'
-feature "Base controller index actions", js: true do
+feature "Base controller index", js: true do
   background do
     auth_as_admin
     @good_book = FactoryGirl.create(:book, title: "good book")
     FactoryGirl.create(:book, title: "bad book")
   end
 
-  scenario "keep search parameters when navigating to edit and back" do
+  scenario "keeps search parameters when navigating to edit and back" do
     visit admin_books_path(search: "good")
     click_link("good book")
     click_link("Back to list")
@@ -15,7 +15,7 @@ feature "Base controller index actions", js: true do
   end
 
 
-  scenario "keep search parameters after delete" do
+  scenario "keeps search parameters after delete" do
     visit admin_books_path(search: "good")
     find('.toolbox button.trigger').click
     find('.toolbox-items li a.ajaxbox', text: "Delete").click

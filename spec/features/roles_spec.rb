@@ -5,7 +5,7 @@ feature "Roles management", js: true do
     @role = Releaf::Role.first
   end
 
-  scenario "create new role" do
+  scenario "User creates a new role" do
     visit releaf_roles_path
     click_link "Create new item"
     within("form.new_resource") do
@@ -16,7 +16,7 @@ feature "Roles management", js: true do
     expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Created")
   end
 
-  scenario "update existing role" do
+  scenario "User updates an existing role" do
     visit releaf_roles_path
     click_link @role.name
     within("form.edit_resource") do
@@ -27,7 +27,7 @@ feature "Roles management", js: true do
     expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Updated")
   end
 
-  scenario "change role default controller" do
+  scenario "User changes the default controller of a role" do
     visit releaf_roles_path
     click_link @role.name
     within("form.edit_resource") do
@@ -38,7 +38,7 @@ feature "Roles management", js: true do
     expect(page).to have_select('Default controller', selected: 'Admin/books')
   end
 
-  scenario "change role controller permissions" do
+  scenario "User changes permissions of a role controller" do
     visit releaf_roles_path
     click_link @role.name
     within("form.edit_resource") do
