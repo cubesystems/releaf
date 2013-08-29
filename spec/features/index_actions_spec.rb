@@ -6,6 +6,19 @@ feature "Base controller index", js: true do
     FactoryGirl.create(:book, title: "bad book")
   end
 
+  scenario "shows resource count" do
+    visit admin_books_path
+    expect(page).to have_content('2 Resources found')
+  end
+
+  scenario "search resources dynamically" do
+    visit admin_books_path
+      within("form.search") do
+        fill_in 'search', :with => "good"
+      end
+    expect(page).to have_content('1 Resources found')
+  end
+
   scenario "keeps search parameters when navigating to edit and back" do
     visit admin_books_path(search: "good")
     click_link("good book")
@@ -13,7 +26,6 @@ feature "Base controller index", js: true do
 
     expect(page).to have_css('.main > .table > tbody .row', :count => 1)
   end
-
 
   scenario "keeps search parameters after delete" do
     visit admin_books_path(search: "good")
