@@ -38,7 +38,6 @@ end
 group :development do
   gem "capistrano"
   gem "capistrano-ext"
-  gem "rvm-capistrano"
   gem "guard-spin"
   gem "brakeman", ">= 1.9.2"
 

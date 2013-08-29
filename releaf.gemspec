@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n', '>= 0.6.0'
   s.add_dependency 'stringex', '>= 1.5.1'
   s.add_dependency 'will_paginate', '>= 3.0.4'
-  s.add_dependency 'rvm'
   s.add_dependency 'font-awesome-rails'
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
