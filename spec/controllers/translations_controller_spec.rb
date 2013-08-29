@@ -9,14 +9,14 @@ describe Releaf::TranslationsController do
   end
 
   describe "#create" do
-    it "update Settings.i18n_updated_at" do
+    it "updates Settings.i18n_updated_at" do
       post :create, resource: FactoryGirl.attributes_for(:translation_group)
       expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
     end
   end
 
   describe "#update" do
-    it "update Settings.i18n_updated_at" do
+    it "updates Settings.i18n_updated_at" do
       @resource = FactoryGirl.create(:translation_group)
       put :update, id: @resource, resource: FactoryGirl.attributes_for(:translation_group)
       expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
@@ -24,7 +24,7 @@ describe Releaf::TranslationsController do
   end
 
   describe "#destroy" do
-    it "update Settings.i18n_updated_at" do
+    it "updates Settings.i18n_updated_at" do
       @resource = FactoryGirl.create(:translation_group)
       delete :destroy, id: @resource
       expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
