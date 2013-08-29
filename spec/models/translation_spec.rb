@@ -25,32 +25,6 @@ describe I18n::Backend::Releaf::Translation do
     Settings.i18n_updated_at = Time.now
   end
 
-  describe "scope: filter" do
-    context "when filtering with 'apfel'" do
-      it "returns 1 translation" do
-        expect(I18n::Backend::Releaf::Translation.filter(:search => "apfel").length).to eq(1)
-      end
-    end
-
-    context "when filtering with 'ap' (group by test)" do
-      it "returns 1 translation" do
-        expect(I18n::Backend::Releaf::Translation.filter(:search => "ap").length).to eq(1)
-      end
-    end
-
-    context "when filtering with 'test.apple'" do
-      it "returns 1 translation" do
-        expect(I18n::Backend::Releaf::Translation.filter(:search => "test.apple").length).to eq(1)
-      end
-    end
-
-    context "when filtering with 'asdsad'" do
-      it "returns 0 translation" do
-        expect(I18n::Backend::Releaf::Translation.filter(:search => "asdsad").length).to eq(0)
-      end
-    end
-  end
-
   describe "#locales" do
     it "returns translated data values in hash" do
       expect(@translation.locales).to eq({"en" => "apple", "de" => "apfel", "lv" => nil})

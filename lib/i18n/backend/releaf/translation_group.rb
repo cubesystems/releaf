@@ -2,6 +2,7 @@ require 'active_record'
 
 module I18n
   module Backend
+
     class Releaf
       class TranslationGroup < ::ActiveRecord::Base
 
@@ -19,16 +20,10 @@ module I18n
           :scope,
           :translations_attributes
 
-        scope :filter, lambda{ |params|
-          where( 'releaf_translation_groups.scope LIKE ?', "%#{params[:search]}%") unless params[:search].blank?
-        }
-
         def to_s
           scope
         end
-
       end
     end
   end
 end
-

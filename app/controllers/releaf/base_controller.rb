@@ -73,7 +73,14 @@ module Releaf
 
     def index
       check_feature(:index)
-      @resources = filter_order_and_paginate_collection(get_collection)
+      # load resource only if they are not loaded yet
+      @resources = resource_class if @resources.nil?
+
+      if @searchable_fields && !params[:search].blank?
+        search(params[:search])
+      end
+
+      @resources = @resources.page( params[:page] ).per_page( @resources_per_page )
 
       unless params[:ajax].blank?
         render layout: false
@@ -452,25 +459,30 @@ module Releaf
     end
 
     # Get resources collection for #index
-    def get_collection
-      resource_class
+    def search text
+      fields = search_fields(resource_class.table_name, @searchable_fields)
+      text.strip.split(" ").each_with_index do|word, i|
+        query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
+        @resources = @resources.where(query, "word#{i}".to_sym =>'%' + word + '%')
+      end
     end
 
-    # filter, order and paginate resources
-    def filter_order_and_paginate_collection resources
-      scoped_resources = resources
-
-      if resource_class.respond_to? :filter
-        scoped_resources = scoped_resources.filter(params)
+    def search_fields table_name, attributes
+      fields = []
+      attributes.each do|attribute|
+        if attribute.is_a? Symbol
+          fields << "#{table_name}.#{attribute.to_s}"
+        elsif attribute.is_a? Hash
+          association = I18n::Backend::Releaf::TranslationGroup.reflect_on_association(attribute.keys.first)
+          fields += search_fields(association.table_name, attribute[association.name])
+          @resources = @resources.includes(association.name)
+          if association.macro == :has_many
+            @resources = @resources.group("#{table_name}.id")
+          end
+        end
       end
 
-      if resource_class.respond_to? :order_by
-        scoped_resources = scoped_resources.order_by(valid_order_by)
-      end
-
-      scoped_resources = scoped_resources.page( params[:page] ).per_page( @resources_per_page )
-
-      return scoped_resources
+      fields
     end
 
     def required_params
@@ -508,10 +520,7 @@ module Releaf
         index:             true,
         # enable toolbox for each table row
         # it can be unnecessary for read only report like indexes
-        index_row_toolbox: true,
-        # enable text search field if class responds to filter scope
-        # some classes may respond to filter but have no textual search
-        index_text_search: true
+        index_row_toolbox: true
       }
       @panel_layout      = true
       @resources_per_page    = 40

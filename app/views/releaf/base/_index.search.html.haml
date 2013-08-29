@@ -1,15 +1,15 @@
-%form.search{:class => (@features[:index_text_search]) ? 'has-text-search' : '', :action => url_for( :controller => controller_name, :action => :index ), :title => "#{ resource_class.respond_to?( :filter ) ? '' : 'Add :filter scope to ' + resource_class.to_s + ' to enable searching' }"}
-  - if @features[:index_text_search]
+%form.search{class: (!@searchable_fields.blank?) ? 'has-text-search' : '', action: url_for( controller: controller_name, action: "index" )}
+  - unless @searchable_fields.blank?
     .text-search
       .wrapper
-        %input{:name => "search", :type => "text", :value => params[:search], :autofocus => true }
-        %button.button.only-icon{:type => "submit", :disabled => !resource_class.respond_to?( :filter ), :title => t('Search', :scope => 'admin.global')}>
+        %input{name: "search", type: "text", value: params[:search], autofocus: true }
+        %button.button.only-icon{type: "submit", title: t('Search', scope: 'admin.global')}>
           %i.icon-search
       .clear
   - if has_template? "_index.search.extras"
     .extras.clearInside
-      = render :partial => "index.search.extras"
-      %button.button{:type => "submit", :disabled => !resource_class.respond_to?( :filter )}>
+      = render partial: "index.search.extras"
+      %button.button{type: "submit"}>
         %i.icon-search
         %span
-          = t('Filter', :scope => 'admin.global')
+          = t('Filter', scope: 'admin.global')

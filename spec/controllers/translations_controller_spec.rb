@@ -8,6 +8,19 @@ describe Releaf::TranslationsController do
     Time.stub(:now).and_return(@time_now)
   end
 
+  describe "GET #index" do
+    before do
+      FactoryGirl.create(:translation_group, scope: 'fest')
+      group = FactoryGirl.create(:translation_group, scope: 'test')
+      FactoryGirl.create(:translation, translation_group: group, key: 'test.save')
+    end
+
+    it "searches by translation group scope and translations key" do
+      get :index, search: "test save"
+      expect(assigns(:resources).total_entries).to eq(1)
+    end
+  end
+
   describe "#create" do
     it "updates Settings.i18n_updated_at" do
       post :create, resource: FactoryGirl.attributes_for(:translation_group)
