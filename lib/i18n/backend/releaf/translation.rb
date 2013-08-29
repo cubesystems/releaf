@@ -35,7 +35,7 @@ module I18n
             values[locale] = nil
           end
 
-          translation_data.find_each do |value|
+          translation_data.each do |value|
             values[value.lang] = value.localization if values.has_key? value.lang
           end
 
