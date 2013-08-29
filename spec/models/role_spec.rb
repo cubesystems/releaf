@@ -21,7 +21,7 @@ describe Releaf::Role do
     end
 
     context "when arguments that are neither String or class that inherit ActionController::Base given" do
-      it "raise ArgumentError" do
+      it "raises ArgumentError" do
         expect{ @content_role.authorize!([]) }.to raise_error(ArgumentError)
       end
     end
@@ -43,7 +43,7 @@ describe Releaf::Role do
     end
 
     context "when permissions given" do
-      it "return true" do
+      it "returns true" do
         expect(@admin_role.authorize!(Releaf::TranslationsController.new)).to be_true
         expect(@admin_role.authorize!(Releaf::ContentController.new)).to be_true
         expect(@content_role.authorize!(Releaf::ContentController.new)).to  be_true

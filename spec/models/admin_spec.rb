@@ -18,7 +18,7 @@ describe Releaf::Admin do
 
   describe "#display_name" do
     let(:admin){ FactoryGirl.create(:admin) }
-    it "return concated name and surname" do
+    it "returns concated name and surname" do
       expect(admin.display_name).to eq(admin.name + " " + admin.surname)
     end
   end

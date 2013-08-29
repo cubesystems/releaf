@@ -12,7 +12,7 @@ describe Releaf::Node do
   end
 
   describe "after save" do
-    it "set node update to current time" do
+    it "sets node update to current time" do
       Settings['nodes.updated_at'] = Time.now
       time_now = Time.parse("2009-02-23 21:00:00 UTC")
       Time.stub(:now).and_return(time_now)
@@ -32,7 +32,7 @@ describe Releaf::Node do
       @node = FactoryGirl.create(:node)
     end
 
-    it "set node update to current time" do
+    it "sets node update to current time" do
       @time_now = Time.parse("2009-02-23 21:00:00 UTC")
       Time.stub(:now).and_return(@time_now)
       expect{ @node.destroy }.to change{ Settings['nodes.updated_at'] }.to(@time_now)
@@ -66,19 +66,19 @@ describe Releaf::Node do
     end
 
     context "with unexisting parent_id" do
-      it "desn't create new node" do
+      it "doesn't create new node" do
         expect{ @text_node_2.copy_to_node(99991) }.not_to change{ Releaf::Node.count }
       end
     end
 
     context "with same parent_id as node.id" do
-      it "desn't create new node" do
+      it "doesn't create new node" do
         expect{ @text_node.copy_to_node(@text_node.id) }.not_to change{ Releaf::Node.count }
       end
     end
 
     context "when passing string as argument" do
-      it "desn't create new node" do
+      it "doesn't create new node" do
         expect{ @text_node.copy_to_node("some_id") }.not_to change{ Releaf::Node.count }
       end
     end
@@ -128,7 +128,7 @@ describe Releaf::Node do
     let(:sibling) { FactoryGirl.create(:text_node, :parent_id => root.id, :name => "Test node(1)") }
 
     context "when node don't have sibling/s with same name" do
-      it "do not changes node's name" do
+      it "does not changes node's name" do
         new_node = Releaf::Node.new(:name => "another name", :parent_id => root.id)
         expect{ new_node.maintain_name }.to_not change{new_node.name}
       end
