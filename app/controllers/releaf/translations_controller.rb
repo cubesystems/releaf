@@ -52,8 +52,6 @@ module Releaf
     def import
       @resource = resource_class.find(params[:id])
 
-      require('roo')
-
       json = { sheets: {} }
 
       xls = Roo::Excelx.new(params[:resource][:import_file].tempfile.path, nil, :ignore)

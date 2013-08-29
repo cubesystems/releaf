@@ -26,6 +26,7 @@ gem 'rails-settings-cached'
 gem 'font-awesome-rails'
 gem 'gravatar_image_tag'
 gem 'jquery-cookie-rails'
+gem 'roo', '~> 1.11.2'
 
 group :development, :test, :demo do
   gem 'capybara'
@@ -41,7 +42,6 @@ group :development, :test, :demo do
 
   gem 'yard'
   gem 'redcarpet'
-  gem 'roo', '~> 1.11.2'
   # gem 'guard-spin'
   # gem 'guard-cucumber'
   # gem 'guard-yard'
