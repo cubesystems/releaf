@@ -22,13 +22,13 @@ describe I18n::Backend::Releaf do
       I18n.backend.reload_cache
     end
 
-    it "write last translations update timestamp to cache" do
+    it "writes last translations update timestamp to cache" do
       Settings.i18n_updated_at = Time.now
       I18n.backend.reload_cache
       expect(I18N_CACHE.read('UPDATED_AT')).to eq(Settings.i18n_updated_at)
     end
 
-    it "load all translated data to cache" do
+    it "loads all translated data to cache" do
       FactoryGirl.create(:translation_data, localization: "saglabāt", lang: "lv")
       FactoryGirl.create(:translation_data, localization: "записывать", lang: "ru")
 
@@ -48,18 +48,18 @@ describe I18n::Backend::Releaf do
           Settings.i18n_updated_at = Time.now
         end
 
-        it "reload cache" do
+        it "reloads cache" do
           I18n.backend.should_receive(:reload_cache)
           I18n.t("cancel", scope: "admin.content")
         end
       end
 
-      context "do not differ from updates timestamp" do
+      context "is same as updates timestamp" do
         before do
           I18N_CACHE.write('UPDATED_AT', Settings.i18n_updated_at)
         end
 
-        it "do not reload cache" do
+        it "does not reload cache" do
           I18n.backend.should_not_receive(:reload_cache)
           I18n.t("cancel", scope: "admin.content")
         end
@@ -69,15 +69,15 @@ describe I18n::Backend::Releaf do
     context "existing translation" do
       context "in parent scope" do
         context "unexisting translation in given scope" do
-          it "use parent scope" do
+          it "uses parent scope" do
             translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
         end
 
-        context "empty translation value in given scope" do
-          it "use parent scope" do
+        context "and empty translation value in given scope" do
+          it "uses parent scope" do
             parent_translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
             FactoryGirl.create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
 
@@ -89,7 +89,7 @@ describe I18n::Backend::Releaf do
         end
 
         context "and existing translation value in given scope" do
-          it "use given scope" do
+          it "uses given scope" do
             parent_translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
             FactoryGirl.create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
 
@@ -102,7 +102,7 @@ describe I18n::Backend::Releaf do
       end
 
       context "with scope" do
-        it "use given scope" do
+        it "uses given scope" do
           translation = FactoryGirl.create(:translation, key: "cancel", translation_group: FactoryGirl.create(:translation_group, scope: "admin.content"))
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Atlikt")
           expect(I18n.t("cancel", scope: "admin.content", locale: "lv")).to eq("Atlikt")
@@ -110,7 +110,7 @@ describe I18n::Backend::Releaf do
       end
 
       context "without scope" do
-        it "add default scope" do
+        it "adds default scope" do
           translation = FactoryGirl.create(:translation, translation_group: FactoryGirl.create(:translation_group, scope: "global"))
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
           expect(I18n.t("save", locale: "lv")).to eq("Saglabāt")
@@ -120,7 +120,7 @@ describe I18n::Backend::Releaf do
 
     context "unexisting translation" do
       context "loading multiple times" do
-        it "query db only for first time" do
+        it "queries db only for the first time" do
           I18n.t("save", scope: "admin.global")
           I18n::Backend::Releaf::Translation.should_not_receive(:where)
           I18n.t("save", scope: "admin.global")
@@ -128,18 +128,18 @@ describe I18n::Backend::Releaf do
       end
 
       context "without scope" do
-        it "add default scope" do
+        it "adds default scope" do
           I18n.t("save")
           expect(I18n::Backend::Releaf::TranslationGroup.last.scope).to eq('global')
         end
       end
 
       context "with unexisting group" do
-        it "create group" do
+        it "creates group" do
           expect { translation }.to change {  I18n::Backend::Releaf::TranslationGroup.count }.by(1)
         end
 
-        it "create empty translation" do
+        it "creates empty translation" do
           expect { translation }.to change {  I18n::Backend::Releaf::Translation.count }.by(1)
         end
       end
@@ -149,11 +149,11 @@ describe I18n::Backend::Releaf do
           FactoryGirl.create(:translation_group, scope: "admin.global")
         end
 
-        it "do not create group" do
+        it "does not create group" do
           expect { translation }.to_not change {  I18n::Backend::Releaf::TranslationGroup.count }
         end
 
-        it "create empty translation" do
+        it "creates empty translation" do
           expect { translation }.to change {  I18n::Backend::Releaf::Translation.count }.by(1)
         end
       end
