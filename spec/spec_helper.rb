@@ -19,7 +19,6 @@ if ENV["COVERAGE"]
   end
 end
 
-
 development = !!ENV['GUARD_NOTIFY'] || !ENV["RAILS_ENV"]
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -28,8 +27,10 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'factory_girl'
 require 'capybara/rspec'
+require 'database_cleaner'
+require 'capybara-webkit'
+require 'shoulda-matchers'
 require 'support/helpers'
-
 
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
@@ -51,6 +52,7 @@ RSpec.configure do |config|
   else
     config.add_formatter(:progress)
   end
+
   config.add_formatter(:html, 'rspec.html')
 
   config.include Helpers
@@ -79,6 +81,7 @@ RSpec.configure do |config|
     else
       DatabaseCleaner.strategy = :truncation
     end
+
     DatabaseCleaner.start
     # set settings
     I18n.locale = Releaf.available_locales.first

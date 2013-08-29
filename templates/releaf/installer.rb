@@ -10,54 +10,6 @@ def ask_wizard(question, default_value)
   return value
 end
 
-file 'Gemfile', <<-GEMFILE
-if RUBY_VERSION =~ /1.9/
-  Encoding.default_external = Encoding::UTF_8
-  Encoding.default_internal = Encoding::UTF_8
-end
-
-source "https://rubygems.org"
-
-gem "rails", "3.2.13"
-
-# gems used by releaf
-gem 'releaf', :git => 'git@github.com:cubesystems/releaf.git'
-gem 'mysql2'
-
-gem "unicorn"
-
-group :assets do
- gem "sass-rails", "~> 3.2.5"
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
-  gem "uglifier", ">= 1.0.3"
-end
-
-group :development do
-  gem "capistrano"
-  gem "capistrano-ext"
-  gem "guard-spin"
-  gem "brakeman", ">= 1.9.2"
-
-  # gem 'debugger'
-  # gem 'ruby-debug19', :require => 'ruby-debug'
-  # gem 'better_errors'
-  ## https://github.com/banister/binding_of_caller/issues/8
-  # gem 'binding_of_caller'
-end
-
-group :development, :test, :demo do
-  gem "rspec-rails"
-  gem "capybara"
-  gem "factory_girl_rails"
-  gem "simplecov", :require => false, :platforms => :mri_19
-  gem "database_cleaner"
-end
-
-GEMFILE
-
 # collect dummy database config
 if ENV['RELEAF_DUMMY_DB_USERNAME'].nil?
   db_username = ask_wizard("Database username? (leave blank to use the 'root')", 'root')
