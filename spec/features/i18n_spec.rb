@@ -15,12 +15,12 @@ describe I18n::Backend::Releaf do
     Settings.i18n_updated_at = Time.now
   end
 
-  it "should humanize missing translation" do
+  it "humanizes missing translation" do
     I18n.t("admin.products.create_new_item").should eq("Create new item")
   end
 
   describe "when missing translation with scope called" do
-    it "should create missing translation and translation group in database" do
+    it "creates missing translation and translation group in database" do
       I18n::Backend::Releaf::Translation.all.count.should eq(0)
       I18n::Backend::Releaf::TranslationGroup.all.count.should eq(0)
       I18n.t("create_new_item", :scope => "admin.products")
@@ -33,7 +33,7 @@ describe I18n::Backend::Releaf do
   end
 
   describe "when missing translation without scope called" do
-    it "should create missing translation and translation group in database with default scope" do
+    it "creates missing translation and translation group in database with default scope" do
       I18n::Backend::Releaf::Translation.all.count.should eq(0)
       I18n::Backend::Releaf::TranslationGroup.all.count.should eq(0)
       I18n.t("create_new_item")

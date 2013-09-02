@@ -40,20 +40,21 @@ describe Releaf::ContentController, js: true do
   end
 
   describe "tree collapsing" do
+
     context "when not opened before" do
-      it "do not show node children" do
+      it "does not show node's children" do
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"].collapsed')
       end
     end
 
-    context "when click to uncollapse node" do
-      it "show node children" do
+    context "when clicked to uncollapse node" do
+      it "shows node children" do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
       end
 
-      it "keep opened node children visibility permanent" do
+      it "keeps opened node children visibility permanent" do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect { @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_nodes_path
@@ -61,7 +62,7 @@ describe Releaf::ContentController, js: true do
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
       end
 
-      it "keep closed node children visibility permanent" do
+      it "keeps closed node children visibility permanent" do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect{ @admin.settings.last.try(:value) == false }.to become_true

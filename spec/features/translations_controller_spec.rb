@@ -11,7 +11,7 @@ describe Releaf::TranslationsController do
       @translation = I18n::Backend::Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
     end
 
-    it "import xsls file for selected translation group", :js => true do
+    it "imports xsls file for selected translation group", :js => true do
       visit edit_releaf_translation_group_path(@group)
       find('.main .toolbox button.trigger').click
       click_button 'Import'
@@ -30,7 +30,7 @@ describe Releaf::TranslationsController do
       end
     end
 
-    it "export xsls file for selected translation group", :js => true do
+    it "exports xsls file for selected translation group", :js => true do
       visit releaf_translation_groups_path
       find('.main > .table tr[data-id="' + @group.id.to_s  + '"] .toolbox button.trigger').click
       click_link 'Export'

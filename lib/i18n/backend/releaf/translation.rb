@@ -2,6 +2,7 @@ require 'active_record'
 
 module I18n
   module Backend
+
     class Releaf
       class Translation < ::ActiveRecord::Base
         before_save :reassign_scope
@@ -19,11 +20,6 @@ module I18n
           :group_id,
           :key,
           :translation_data_attributes
-
-        scope :filter, lambda{ |params|
-          translations_join = 'LEFT OUTER JOIN `releaf_translation_data` ON `releaf_translations`.`id` = `releaf_translation_data`.`translation_id`'
-          where( '(releaf_translations.key LIKE ? OR releaf_translation_data.localization LIKE ?)', "%#{params[:search]}%", "%#{params[:search]}%" ).joins(translations_join).group('releaf_translations.id') unless params[:search].blank?
-        }
 
         def locales
           values = {}
@@ -55,4 +51,3 @@ module I18n
     end
   end
 end
-

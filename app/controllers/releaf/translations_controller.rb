@@ -6,6 +6,11 @@ module Releaf
       I18n::Backend::Releaf::TranslationGroup
     end
 
+    def setup
+      super
+      @searchable_fields = [:scope, {:translations => [:key]}]
+    end
+
     def locales
       valid_locales = Releaf.available_locales || []
       valid_locales += Releaf.available_admin_locales || []

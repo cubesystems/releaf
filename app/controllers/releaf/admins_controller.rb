@@ -1,6 +1,11 @@
 module Releaf
   class AdminsController < BaseController
 
+    def setup
+      super
+      @searchable_fields = [:name, :surname, :email]
+    end
+
     def resource_class
       Releaf::Admin
     end

@@ -6,7 +6,7 @@ describe Releaf::AdminProfileController do
   login_as_admin :admin
 
   describe "#resource_class" do
-    it "return current releaf admin user class" do
+    it "returns current releaf admin user class" do
       expect(Releaf::AdminProfileController.new.resource_class).to eq(Releaf::Admin)
     end
   end
@@ -19,7 +19,7 @@ describe Releaf::AdminProfileController do
     end
 
     context 'with allowed attributes' do
-      it "save new attributes" do
+      it "saves new attributes" do
         attributes = {
           "name" => "new name",
           "surname" => "new surname",
@@ -46,12 +46,12 @@ describe Releaf::AdminProfileController do
         expect(response.status).to eq(200)
       end
 
-      it "save given data within current admin settings" do
+      it "saves given data within current admin settings" do
         put :settings, {settings: {dummy: 'maybe'}}
         expect(admin.settings.dummy).to eq('maybe')
       end
 
-      it "cast bolean values from strings to booleans" do
+      it "casts bolean values from strings to booleans" do
         put :settings, {settings: {be_true: 'true', be_false: 'false'}}
         expect(admin.settings.all).to eq({"be_true" => true, "be_false" => false})
       end

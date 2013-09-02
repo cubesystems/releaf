@@ -5,7 +5,7 @@ describe Releaf::HomeController do
     context "when authorized as admin" do
       login_as_admin :admin
 
-      it "redirect to admins controller" do
+      it "redirects to admins controller" do
         get :index
         expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_admin.role.default_controller, :only_path => true))
       end
@@ -14,7 +14,7 @@ describe Releaf::HomeController do
     context "when authorized as content admin" do
       login_as_admin :admin
 
-      it "redirect to content controller" do
+      it "redirects to content controller" do
         get :index
         expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_admin.role.default_controller, :only_path => true))
       end

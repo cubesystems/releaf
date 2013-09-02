@@ -7,7 +7,7 @@ describe "Side menu visual appearance" do
 
   describe "collapsing functionality" do
     context "when logged first time" do
-      it "have side menu opened", js: true do
+      it "has side menu opened", js: true do
         expect(page).to_not have_css('body.side-compact')
       end
     end
@@ -19,7 +19,7 @@ describe "Side menu visual appearance" do
         expect(page).to have_css('body.side-compact')
       end
 
-      it "have permanent collapsing status", js: true do
+      it "has permanent collapsing status", js: true do
         find('.side .compacter button').click
         expect{ @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_admin_profile_path
@@ -49,13 +49,13 @@ describe "Side menu visual appearance" do
     end
 
     context "when click to inventory item", js: true do
-      it "collapse submenu", js: true do
+      it "collapses submenu", js: true do
         find('.side li[data-name="inventory"] > .trigger').click
 
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end
 
-      it "have permanent collapsed status", js: true do
+      it "has permanent collapsed status", js: true do
         find('.side li[data-name="inventory"] > .trigger').click
         expect{ @admin.settings.last.try(:value) == true }.to become_true
         visit releaf_admin_profile_path
