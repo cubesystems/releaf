@@ -4,7 +4,7 @@ module Releaf
 
     # Return node route params which can be used in Rails route options
     #
-    # @param args [String] string with action and controller for route (Ex. home#index)
+    # @param controller_action [String] optional string with action and controller for route (Ex. home#index)
     # @param args [Hash] options to merge with internally built params. Passed params overrides route params.
     # @return [Hash] route options. Will return at least node "node_id" and "locale" keys.
     def params controller_action, args = {}
@@ -13,6 +13,11 @@ module Releaf
         locale: locale
       }
 
+      if controller_action.is_a? Hash
+        args = controller_action.merge(args)
+        controller_action = nil
+      end
+
       route_params.merge!(args)
 
       # normalize as with locale
@@ -20,7 +25,7 @@ module Releaf
         route_params[:as] = "#{locale}_#{route_params[:as]}"
       end
 
-      route_params[path] = controller_action
+      route_params[path] = controller_action unless controller_action.blank?
 
       route_params
     end
