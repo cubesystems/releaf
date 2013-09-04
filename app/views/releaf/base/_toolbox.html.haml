@@ -4,7 +4,7 @@
   if local_assigns.fetch(:list_url, nil).nil?
     list_url = params[:list_url]
 
-    if list_url.nil?
+    if list_url.nil? && params[:action] == "index"
       list_url = request.path
       real_params = params.except(:action, :controller, :ajax)
       unless real_params.empty?

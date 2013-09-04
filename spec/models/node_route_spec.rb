@@ -26,6 +26,7 @@ describe Releaf::Node::Route do
   end
 
   describe '#params' do
+
     it "returns a hash with node_id" do
       expect(node_route.params("home#index")[:node_id]).to eq(12)
     end
@@ -40,6 +41,18 @@ describe Releaf::Node::Route do
 
     it "merges passed args into the returned hash" do
       expect(node_route.params("home#index", locale: "de")[:locale]).to eq("de")
+    end
+
+    context "when hash given as first argument" do
+
+      it "uses it for args" do
+        expect(node_route.params('en/search' => 'home#search')['en/search']).to eq('home#search')
+      end
+
+      it "does not set default path in hash" do
+        expect(node_route.params('en/search' => 'home#search')).to_not have_key('en/')
+      end
+
     end
 
     context "when :as given in args" do

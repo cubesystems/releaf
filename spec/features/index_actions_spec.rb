@@ -34,4 +34,14 @@ feature "Base controller index", js: true do
     find('.dialog.delete_dialog .footer button.danger', text: "Yes").click
     expect(page).to have_css('.main > .table th .nothing_found', :count => 1, :text => "Nothing found")
   end
+
+  scenario "when deleting item in edit" do
+    visit admin_books_path(search: "good")
+    click_link("good book")
+    find('.toolbox button.trigger').click
+    find('.toolbox-items li a.ajaxbox', text: "Delete").click
+    find('.dialog.delete_dialog .footer button.danger', text: "Yes").click
+
+    expect(page).to have_css('.view-index .main > .table th .nothing_found', :count => 1, :text => "Nothing found")
+  end
 end
