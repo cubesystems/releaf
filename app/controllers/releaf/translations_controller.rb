@@ -59,6 +59,7 @@ module Releaf
 
       json = { sheets: {} }
 
+      require "roo"
       xls = Roo::Excelx.new(params[:resource][:import_file].tempfile.path, nil, :ignore)
 
       xls.each_with_pagename do |name, sheet|
