@@ -74,7 +74,7 @@ module Releaf
     def index
       check_feature(:index)
       # load resource only if they are not loaded yet
-      @resources = resource_class if @resources.nil?
+      @resources = resources_relation if @resources.nil?
 
       if @searchable_fields && !params[:search].blank?
         search(params[:search])
@@ -452,6 +452,10 @@ module Releaf
     end
 
     protected
+
+    def resources_relation
+      resource_class
+    end
 
     def authorize! action=nil
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
