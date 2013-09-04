@@ -80,7 +80,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">app/models/releaf/node.rb<span class="defines">,<br />
-  app/models/releaf/role.rb,<br /> app/models/releaf/admin.rb,<br /> app/models/releaf/tinymce_asset.rb,<br /> app/helpers/releaf/admin_helper.rb,<br /> app/helpers/releaf/javascript_helper.rb,<br /> app/middleware/releaf/routes_reloader.rb,<br /> app/helpers/releaf/application_helper.rb,<br /> app/controllers/releaf/base_controller.rb,<br /> app/controllers/releaf/home_controller.rb,<br /> app/helpers/releaf/pagination_renderer.rb,<br /> app/controllers/releaf/roles_controller.rb,<br /> app/helpers/releaf/releaf_devise_helper.rb,<br /> app/controllers/releaf/admins_controller.rb,<br /> app/controllers/releaf/content_controller.rb,<br /> app/controllers/releaf/sessions_controller.rb,<br /> app/controllers/releaf/translations_controller.rb,<br /> app/controllers/releaf/admin_profile_controller.rb,<br /> app/controllers/releaf/tinymce_assets_controller.rb,<br /> app/controllers/releaf/base_application_controller.rb,<br /> lib/releaf.rb,<br /> lib/releaf/slug.rb,<br /> lib/releaf/engine.rb,<br /> lib/releaf/version.rb,<br /> lib/releaf/boolean_at.rb,<br /> lib/releaf/exceptions.rb,<br /> lib/releaf/input_locales.rb,<br /> lib/releaf/globalize3/fallbacks.rb</span>
+  app/models/releaf/role.rb,<br /> app/models/releaf/admin.rb,<br /> app/models/releaf/node/route.rb,<br /> app/models/releaf/tinymce_asset.rb,<br /> app/helpers/releaf/admin_helper.rb,<br /> app/helpers/releaf/javascript_helper.rb,<br /> app/helpers/releaf/application_helper.rb,<br /> app/middleware/releaf/routes_reloader.rb,<br /> app/helpers/releaf/pagination_renderer.rb,<br /> app/controllers/releaf/base_controller.rb,<br /> app/controllers/releaf/home_controller.rb,<br /> app/controllers/releaf/roles_controller.rb,<br /> app/helpers/releaf/releaf_devise_helper.rb,<br /> app/controllers/releaf/admins_controller.rb,<br /> app/controllers/releaf/content_controller.rb,<br /> app/controllers/releaf/sessions_controller.rb,<br /> app/controllers/releaf/translations_controller.rb,<br /> app/controllers/releaf/admin_profile_controller.rb,<br /> app/controllers/releaf/tinymce_assets_controller.rb,<br /> app/controllers/releaf/base_application_controller.rb,<br /> lib/releaf.rb,<br /> lib/releaf/engine.rb,<br /> lib/releaf/version.rb,<br /> lib/releaf/exceptions.rb,<br /> lib/releaf/globalize3/fallbacks.rb</span>
 </dd>
   
 </dl>
@@ -90,7 +90,7 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Releaf/AdminHelper.html" title="Releaf::AdminHelper (module)">AdminHelper</a></span>, <span class='object_link'><a href="Releaf/ApplicationHelper.html" title="Releaf::ApplicationHelper (module)">ApplicationHelper</a></span>, <span class='object_link'><a href="Releaf/BooleanAt.html" title="Releaf::BooleanAt (module)">BooleanAt</a></span>, <span class='object_link'><a href="Releaf/Globalize3.html" title="Releaf::Globalize3 (module)">Globalize3</a></span>, <span class='object_link'><a href="Releaf/InputLocales.html" title="Releaf::InputLocales (module)">InputLocales</a></span>, <span class='object_link'><a href="Releaf/JavascriptHelper.html" title="Releaf::JavascriptHelper (module)">JavascriptHelper</a></span>, <span class='object_link'><a href="Releaf/PaginationRenderer.html" title="Releaf::PaginationRenderer (module)">PaginationRenderer</a></span>, <span class='object_link'><a href="Releaf/ReleafDeviseHelper.html" title="Releaf::ReleafDeviseHelper (module)">ReleafDeviseHelper</a></span>, <span class='object_link'><a href="Releaf/Slug.html" title="Releaf::Slug (module)">Slug</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Releaf/AdminHelper.html" title="Releaf::AdminHelper (module)">AdminHelper</a></span>, <span class='object_link'><a href="Releaf/ApplicationHelper.html" title="Releaf::ApplicationHelper (module)">ApplicationHelper</a></span>, <span class='object_link'><a href="Releaf/Globalize3.html" title="Releaf::Globalize3 (module)">Globalize3</a></span>, <span class='object_link'><a href="Releaf/JavascriptHelper.html" title="Releaf::JavascriptHelper (module)">JavascriptHelper</a></span>, <span class='object_link'><a href="Releaf/PaginationRenderer.html" title="Releaf::PaginationRenderer (module)">PaginationRenderer</a></span>, <span class='object_link'><a href="Releaf/ReleafDeviseHelper.html" title="Releaf::ReleafDeviseHelper (module)">ReleafDeviseHelper</a></span>, <span class='object_link'><a href="Releaf/RouteMapper.html" title="Releaf::RouteMapper (module)">RouteMapper</a></span>
     
   
     
@@ -273,12 +273,12 @@
       <pre class="lines">
 
 
-90
-91
-92</pre>
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available_admin_controllers'>available_admin_controllers</span>
   <span class='id identifier rubyid_controller_list'>controller_list</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
@@ -314,6 +314,10 @@
       <pre class="lines">
 
 
+65
+66
+67
+68
 69
 70
 71
@@ -329,14 +333,10 @@
 81
 82
 83
-84
-85
-86
-87
-88</pre>
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_controller_list'>build_controller_list</span>
   <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_item_data'>item_data</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
@@ -420,6 +420,10 @@
       <pre class="lines">
 
 
+51
+52
+53
+54
 55
 56
 57
@@ -427,14 +431,10 @@
 59
 60
 61
-62
-63
-64
-65
-66</pre>
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
   <span class='kw'>yield</span> <span class='kw'>self</span>
@@ -458,7 +458,7 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Aug 20 15:28:43 2013 by
+  Generated on Wed Sep  4 22:32:49 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>

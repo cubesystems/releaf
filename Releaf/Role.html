@@ -140,30 +140,6 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#destroy-instance_method" title="#destroy (instance method)">- (Object) <strong>destroy</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Allow destroying of role if no Releaf::Admin object is using it.</p>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -256,6 +232,13 @@
       <pre class="lines">
 
 
+24
+25
+26
+27
+28
+29
+30
 31
 32
 33
@@ -277,17 +260,10 @@
 49
 50
 51
-52
-53
-54
-55
-56
-57
-58
-59</pre>
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
 
@@ -323,57 +299,12 @@
 </table>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="destroy-instance_method">
-  
-    - (<tt>Object</tt>) <strong>destroy</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Allow destroying of role if no Releaf::Admin object is using it</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-21
-22
-23
-24
-25</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/models/releaf/role.rb', line 21</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_destroy'>destroy</span>
-  <span class='kw'>if</span> <span class='const'>Releaf</span><span class='op'>::</span><span class='const'>Admin</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>role_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>==</span> <span class='int'>0</span>
-    <span class='kw'>super</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Tue Aug 20 15:28:44 2013 by
+  Generated on Wed Sep  4 22:32:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>

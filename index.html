@@ -69,73 +69,53 @@
 
 <p>wiki: <a href="https://github.com/cubesystems/releaf/wiki/_pages">https://github.com/cubesystems/releaf/wiki/_pages</a></p>
 
+<p><a href="https://travis-ci.org/cubesystems/releaf"><img src="https://travis-ci.org/cubesystems/releaf.png?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/cubesystems/releaf?branch=master"><img src="https://coveralls.io/repos/cubesystems/releaf/badge.png?branch=master" alt="Coverage Status"></a></p>
+
 <h2>Getting started</h2>
 
-<p>Releaf will work with Rails 3.2.
-You can add it to your Gemfile with:</p>
+<p>Releaf will work with Rails 3.2.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>will_paginate</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 3.0.4</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>acts_as_list</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>awesome_nested_set</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>devise</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 2.1.2</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dragonfly</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 0.9.12</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>globalize3</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>haml</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>haml-rails</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jquery-rails</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>releaf</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:git</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>git@github.com:cubesystems/releaf.git</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mysql2</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rack-cache</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:require</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rack/cache</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rails-settings-cached</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:git</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://github.com/graudeejs/rails-settings-cached</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>stringex</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>strong_parameters</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tinymce-rails</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 3.5.8</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tinymce-rails-imageupload</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>will_paginate</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 3.0.4</span><span class='tstring_end'>&#39;</span></span>
-</code></pre>
+<p>First add Releaf gem to your Gemfile
+<code>ruby
+gem &#39;releaf&#39;, :git =&gt; &#39;git@github.com:cubesystems/releaf.git&#39;
+</code></p>
 
 <p>Run the bundle command to install it.</p>
 
-<p>Now in config/application.rb set</p>
+<p>Releaf is using strong_params, so in your config/application.rb set</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_active_record'>active_record</span><span class='period'>.</span><span class='id identifier rubyid_whitelist_attributes'>whitelist_attributes</span> <span class='op'>=</span> <span class='kw'>false</span>
 </code></pre>
 
-<p>because releaf is expacting strog_params gem to be used</p>
-
-<pre class="code console"><code class="console">rails generate settings settings
+<p>Then install with
+<code>console
+rails generate releaf:install
 rake db:migrate
-</code></pre>
+</code></p>
 
-<p>After you install Releaf, you need to run the generator:</p>
-
-<pre class="code console"><code class="console">rails generate releaf:install
-rails generate i18n:releaf:install
-rake db:migrate
-rails generate devise:install
-</code></pre>
-
-<p>The generator will install an initializer which describes Releaf routes and configuration options (not yet implemented)</p>
+<p>You might want to create default role and user
+<code>console
+rake db:seed
+</code></p>
 
 <p>Now you need to add something like this for releaf itself and standart admin,
 permissions controllers</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mount_releaf_at'>mount_releaf_at</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/admin</span><span class='tstring_end'>&#39;</span></span>
-<span class='id identifier rubyid_namespace'>namespace</span> <span class='symbol'>:admin</span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_releaf_resources'>releaf_resources</span> <span class='symbol'>:admins</span><span class='comma'>,</span> <span class='symbol'>:roles</span>
-<span class='kw'>end</span>
-</code></pre>
-
-<p>Add dragonfly initializer (/config/initializers/dragonfly.rb)</p>
-
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dragonfly/rails/images</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
 <p>Note that you should re-start your app here if you&#39;ve already started it. Otherwise you&#39;ll run into strange errors.</p>
+
+<p>Now open &quot;/admin&quot; on your dev site and login with following credentials:
+<code>
+email: admin@example.com
+password: password
+</code></p>
 </div></div>
 
     <div id="footer">
-  Generated on Tue Aug 20 15:28:43 2013 by
+  Generated on Wed Sep  4 22:32:49 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>

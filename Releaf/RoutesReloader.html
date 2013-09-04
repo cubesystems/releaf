@@ -297,7 +297,7 @@
       <pre class="code"><span class="info file"># File 'app/middleware/releaf/routes_reloader.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_reload_if_expired'>reload_if_expired</span>
-  <span class='kw'>if</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>||</span> <span class='ivar'>@updated_at</span> <span class='op'>&lt;</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@updated_at</span> <span class='op'>&lt;</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span>
     <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_reload_routes!'>reload_routes!</span>
     <span class='id identifier rubyid_routes_loaded'>routes_loaded</span>
   <span class='kw'>end</span>
@@ -380,7 +380,7 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Aug 20 15:28:45 2013 by
+  Generated on Wed Sep  4 22:32:50 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7 (ruby-2.0.0).
 </div>
