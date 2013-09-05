@@ -12,7 +12,7 @@ module Releaf::RouteMapper
 
     post '/tinymce_assets' => 'releaf/tinymce_assets#create' if controllers.include? :content
 
-    devise_for Releaf.devise_for, :path => mount_location, :controllers => { :sessions => "releaf/sessions" }
+    devise_for Releaf.devise_for, path: mount_location, controllers: { sessions: "releaf/sessions" }, skip: [:passwords]
 
     mount_location_namespace = mount_location.gsub("/", "").to_sym
     scope mount_location do
