@@ -453,6 +453,9 @@ module Releaf
 
     protected
 
+    # Return ActiveRecord::Base or ActiveRecord::Relation used in index
+    #
+    # @return ActiveRecord::Base or ActiveRecord::Relation
     def resources_relation
       resource_class
     end
