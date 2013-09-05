@@ -1,5 +1,6 @@
 module Releaf::RouteMapper
-  # Add extra routes for members and collections needed by releaf
+  # Pass given resource to "resources" mount method and
+  # add extra routes for members and collections needed by releaf
   def releaf_resources(*args, &block)
     resources *args do
       yield if block_given?
