@@ -42,6 +42,7 @@ describe Releaf::TranslationsController do
       tmp_file = Dir.tmpdir + '/' + filename
       File.open(tmp_file, "wb") { |f| f.write(page.body) }
 
+      require "roo"
       book = Roo::Excelx.new(tmp_file)
       book.default_sheet = book.sheets.first
       expect( book.cell(2, 'A') ).to eq('default')
