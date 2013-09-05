@@ -477,7 +477,7 @@ module Releaf
         if attribute.is_a? Symbol
           fields << "#{table_name}.#{attribute.to_s}"
         elsif attribute.is_a? Hash
-          association = I18n::Backend::Releaf::TranslationGroup.reflect_on_association(attribute.keys.first)
+          association = resource_class.reflect_on_association(attribute.keys.first)
           fields += search_fields(association.table_name, attribute[association.name])
           @resources = @resources.includes(association.name)
           if association.macro == :has_many
