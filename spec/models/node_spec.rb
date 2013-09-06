@@ -150,11 +150,9 @@ describe Releaf::Node do
 
   describe ".updated_at" do
     it "returns last node update" do
-      time_now = Time.now
-      Time.stub(:now).and_return(time_now)
+      Timecop.freeze
       FactoryGirl.create(:node)
-
-      expect(Releaf::Node.updated_at).to eq(time_now)
+      expect(Releaf::Node.updated_at).to eq(Time.now)
     end
   end
 end

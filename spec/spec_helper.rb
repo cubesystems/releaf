@@ -31,6 +31,7 @@ require 'database_cleaner'
 require 'capybara-webkit'
 require 'shoulda-matchers'
 require 'support/helpers'
+require 'timecop'
 
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
@@ -89,6 +90,7 @@ RSpec.configure do |config|
   end
 
   config.after do
+    Timecop.return
     DatabaseCleaner.clean
   end
 end
