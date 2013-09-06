@@ -152,7 +152,7 @@ describe Releaf::Node do
     it "returns last node update" do
       Timecop.freeze
       FactoryGirl.create(:node)
-      expect(Releaf::Node.updated_at).to eq(Time.now)
+      expect(Releaf::Node.updated_at.to_i).to eq(Time.now.to_i)
     end
   end
 end
