@@ -14,9 +14,10 @@ feature "Base controller index", js: true do
 
   scenario "search resources dynamically" do
     visit admin_books_path
-      within("form.search") do
-        fill_in 'search', :with => "good"
-      end
+    within("form.search") do
+      fill_in 'search', :with => "good"
+    end
+
     expect(page).to have_content('1 Resources found')
   end
 
@@ -53,6 +54,4 @@ feature "Base controller index", js: true do
 
     expect(page).to have_css('.delete_restricted_dialog.dialog .content .restricted_relations li', :count => 2)
   end
-
-  
 end
