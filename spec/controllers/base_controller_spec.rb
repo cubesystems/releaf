@@ -1,7 +1,25 @@
 require 'spec_helper'
 
-# use Admin::BooksController as it inherit Releaf::BaseController and
+# use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::BaseController and
 # have no extra methods or overrides
+describe Admin::AuthorsController do
+  before do
+    sign_in FactoryGirl.create(:admin)
+  end
+  describe "DELETE #destroy" do
+    before do
+       @author = FactoryGirl.create(:author)
+       FactoryGirl.create(:book, title: "The book", author: @author)
+       FactoryGirl.create(:book, title: "Almost the book", author: @author)
+    end
+
+    it "creates flash error with message" do
+      delete :destroy, id: @author
+      expect(flash[:error]).to eq({:id=>:resource_status, :message=>"Cant destroy, because relations exists"})
+    end
+  end
+end
+
 describe Admin::BooksController do
   before do
     sign_in FactoryGirl.create(:admin)

@@ -1,5 +1,5 @@
 :ruby
-  unless params.has_key?(:return_url)
+  unless params.has_key?(:list_url)
     if @features[:show]
       action = url_for( :action => 'show', :id => @resource.id )
     elsif @features[:edit]
@@ -8,11 +8,11 @@
       action = url_for( :action => 'index' )
     end
   else
-    action = params[:return_url]
+    action = params[:list_url]
   end
 
 
-.body.dialog.delete_dialog
+.body.dialog.delete-dialog
   .content
     %i.icon-trash
     .question= t('confirm_destroy', :scope => 'admin.global')

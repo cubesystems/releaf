@@ -1,0 +1,27 @@
+:ruby
+  unless params.has_key?(:list_url)
+    if @features[:show]
+      action = url_for( :action => 'show', :id => @resource.id )
+    elsif @features[:edit]
+      action = url_for( :action => 'edit', :id => @resource.id )
+    else
+      action = url_for( :action => 'index' )
+    end
+  else
+    action = params[:list_url]
+  end
+
+
+.body.dialog.delete-restricted-dialog
+  .content
+    %i.icon-ban-circle
+    .message= t('delete_restricted', :scope => 'admin.global')
+    .description= t("Deletion of %{resource} restricted, due to existing relations:", :scope => "admin.global", :default => "Deletion of %{resource} restricted, due to existing relations:", :resource => resource_to_text(@resource))
+    %ul.block.restricted_relations
+      - @restrict_relations.each do |resource|
+        %li= resource_to_text resource, :to_s
+
+  .footer.clearInside
+    %a.button{ :href => action, data: {type: 'cancel'} }
+      %i.icon-ok
+      %span= t('ok', :scope => 'admin.global')

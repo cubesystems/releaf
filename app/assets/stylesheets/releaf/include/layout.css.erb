@@ -531,19 +531,28 @@ header .sign-out button i
 
 
 
-/* Delete dialog */
+/* Delete dialog and delete restricted dialog */
 .delete_dialog
 {
     width: 390px;
 }
-
+.delete-restricted-dialog
+{
+    width: 490px;
+}
 .delete_dialog .content
 {
     padding: 37px 10px 55px;
     text-align: center;
 }
+.delete-restricted-dialog .content
+{
+    padding: 37px 10px 25px;
+    text-align: center;
+}
 
-.delete_dialog .content i
+.delete_dialog .content i,
+.delete-restricted-dialog .content i
 {
     display: block;
     margin: 0 auto;
@@ -558,7 +567,8 @@ header .sign-out button i
     margin-bottom: 22px;
 }
 
-.delete_dialog .content .question
+.delete_dialog .content .question,
+.delete-restricted-dialog .content .message
 {
     font-size: 2.2857em;
     line-height: 1.25em;
@@ -573,7 +583,16 @@ header .sign-out button i
     line-height: 1.4em;
     font-weight: bold;
 }
-
+.delete-restricted-dialog .content .restricted_relations
+{
+    margin-top: 10px;
+    height: 90px;
+    overflow-y: auto;
+    color: #37b1a7;
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: bold;
+}
 
 /* notifications */
 body > .notifications

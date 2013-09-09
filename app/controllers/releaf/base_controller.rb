@@ -127,7 +127,13 @@ module Releaf
     def confirm_destroy
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
-      render layout: false if params.has_key?(:ajax)
+
+      if destroyable?
+        render layout: false if params.has_key?(:ajax)
+      else
+        @restrict_relations = list_restrict_relations
+        render 'delete_restricted', layout: !params.has_key?(:ajax)
+      end
     end
 
     def destroy
@@ -161,7 +167,18 @@ module Releaf
       end
     end
 
-    
+
+    def list_restrict_relations
+      relations = []
+      resource_class.reflect_on_all_associations.each do |assoc|
+        if assoc.options[:dependent] == :restrict && @resource.send(assoc.name).exists?
+          relations += @resource.send(assoc.name).all
+        end
+      end
+
+      return relations
+    end
+
 
     # Helper methods ##############################################################################
 

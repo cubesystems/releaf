@@ -50,9 +50,8 @@ feature "Base controller index", js: true do
     visit admin_authors_path
     find('.toolbox button.trigger').click
     find('.toolbox-items li a.ajaxbox', text: "Delete").click
-    find('.dialog.delete_dialog .footer button.danger', text: "Yes").click
 
-    expect(page).to have_css('.view-index .notifications .message', :count => 1, :text => "Cant destroy, because relations exists")
+    expect(page).to have_css('.delete_restricted_dialog.dialog .content .restricted_relations li', :count => 2)
   end
 
   
