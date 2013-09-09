@@ -3,9 +3,9 @@
 
 
 - if local_assigns.fetch(:minimal, false)
-  = f.label name, t(translation_name, :scope => controller_scope_name)
+  = f.label name, t(translation_name, :scope => controller_scope_name), attributes
 - else
   .label_wrap><
-    = f.label name, t(translation_name, :scope => controller_scope_name)
+    = f.label name, t(translation_name, :scope => controller_scope_name), attributes
     - if local_assigns.fetch(:description, nil)
       .description= description

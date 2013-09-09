@@ -438,7 +438,8 @@ module Releaf
       raise ArgumentError unless options.is_a? Hash
       default_options = {
         f: local_assigns.fetch(:f, nil),
-        name: local_assigns.fetch(:name, nil)
+        name: local_assigns.fetch(:name, nil),
+        attributes: {}
       }.deep_merge(options)
 
       raise RuntimeError, 'form_builder not passed to partial' if default_options[:f].blank?
