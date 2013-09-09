@@ -133,10 +133,14 @@ module Releaf
     def destroy
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
-      result = @resource.destroy
+      if destroyable?
+        result = @resource.destroy
 
-      if result
-        flash[:success] = { id: :resource_status, message: I18n.t('deleted', scope: 'notices.' + controller_scope_name) }
+        if result
+          flash[:success] = { id: :resource_status, message: I18n.t('deleted', scope: 'notices.' + controller_scope_name) }
+        end
+      else
+        flash[:error] = { id: :resource_status, message: I18n.t('cant destroy, because relations exists', scope: 'notices.' + controller_scope_name) }
       end
 
       respond_to do |format|
@@ -146,6 +150,18 @@ module Releaf
         format.html { redirect_to redirect_url }
       end
     end
+
+    # Check if @resource has existing restrict relation and it can be deleted
+    #
+    # @returns boolean true or false
+    def destroyable?
+      resource_class.reflect_on_all_associations.all? do |assoc|
+        assoc.options[:dependent] != :restrict ||
+          !@resource.send(assoc.name).exists?
+      end
+    end
+
+    
 
     # Helper methods ##############################################################################
 

@@ -2,8 +2,9 @@ require 'spec_helper'
 feature "Base controller index", js: true do
   background do
     auth_as_admin
-    @good_book = FactoryGirl.create(:book, title: "good book")
-    FactoryGirl.create(:book, title: "bad book")
+    @author = FactoryGirl.create(:author)
+    @good_book = FactoryGirl.create(:book, title: "good book", author: @author)
+    FactoryGirl.create(:book, title: "bad book", author: @author)
   end
 
   scenario "shows resource count" do
@@ -44,4 +45,15 @@ feature "Base controller index", js: true do
 
     expect(page).to have_css('.view-index .main > .table th .nothing_found', :count => 1, :text => "Nothing found")
   end
+
+  scenario "when deleting item with restrict relation" do
+    visit admin_authors_path
+    find('.toolbox button.trigger').click
+    find('.toolbox-items li a.ajaxbox', text: "Delete").click
+    find('.dialog.delete_dialog .footer button.danger', text: "Yes").click
+
+    expect(page).to have_css('.view-index .notifications .message', :count => 1, :text => "Cant destroy, because relations exists")
+  end
+
+  
 end
