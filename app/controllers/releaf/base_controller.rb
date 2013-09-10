@@ -175,19 +175,21 @@ module Releaf
       relations = {}
       resource_class.reflect_on_all_associations.each do |assoc|
         if assoc.options[:dependent] == :restrict && @resource.send(assoc.name).exists?
-          controller_name = "#{assoc.name.to_s.pluralize}"
           relations[assoc.name.to_sym] = {}
           relations[assoc.name.to_sym][:objects] = @resource.send(assoc.name)
-
-          relations[assoc.name.to_sym][:controller] = controller_name unless check_controller(controller_name).blank?
+          relations[assoc.name.to_sym][:controller] = association_controller(assoc)
         end
       end
 
       return relations
     end
 
-    def check_controller controller_name
-      return Releaf.controller_list.values.map{ |v| v[:controller] }.grep(/(\/#{controller_name}$|^#{controller_name}$)/)
+    # Attempts to guess associated controllers name
+    #
+    # @returns controller name
+    def association_controller association
+      guessed_name = association.name.to_s.pluralize
+      return guessed_name unless Releaf.controller_list.values.map{ |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).blank?
     end
 
 
