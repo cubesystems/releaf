@@ -168,15 +168,26 @@ module Releaf
     end
 
 
+    # Lists relations for @resource with dependent: :restrict
+    #
+    # @returns hash of all related objects, who have dependancy :restrict
     def list_restrict_relations
-      relations = []
+      relations = {}
       resource_class.reflect_on_all_associations.each do |assoc|
         if assoc.options[:dependent] == :restrict && @resource.send(assoc.name).exists?
-          relations += @resource.send(assoc.name).all
+          controller_name = "#{assoc.name.to_s.pluralize}"
+          relations[assoc.name.to_sym] = {}
+          relations[assoc.name.to_sym][:objects] = @resource.send(assoc.name)
+
+          relations[assoc.name.to_sym][:controller] = controller_name unless check_controller(controller_name).blank?
         end
       end
 
       return relations
+    end
+
+    def check_controller controller_name
+      return Releaf.controller_list.values.map{ |v| v[:controller] }.grep(/(\/#{controller_name}$|^#{controller_name}$)/)
     end
 
 

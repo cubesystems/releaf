@@ -92,11 +92,10 @@ jQuery(document).ready( function()
         links.on('click', function()
         {
             var link = jQuery(this);
-
             var params =
             {
                 url     : new url_builder( link.attr('href') ).add( { ajax: 1 } ).getUrl(),
-                modal   : (link.attr('data-ajaxbox-modal') == '1'),
+                modal   : (link.attr('data-modal') == '1'),
                 trigger : link
             };
 

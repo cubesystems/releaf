@@ -22,6 +22,16 @@ feature "Base controller edit", js: true do
     find('.toolbox button.trigger').click
     find('.toolbox-items li a.ajaxbox', text: "Delete").click
 
-    expect(page).to have_css('.delete_restricted_dialog.dialog .content .restricted_relations li', :count => 2)
+    expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted_relations .relations li', :count => 2)
+  end
+
+  scenario "when clicking on delete restriction relation, it opens edit for related object" do
+    visit edit_admin_author_path @author
+    find('.toolbox button.trigger').click
+    find('.toolbox-items li a.ajaxbox', text: "Delete").click
+
+    find('.delete-restricted-dialog.dialog .content .restricted_relations .relations li', :text => "good book").click
+
+    expect(page).to have_css('.view-edit h2.header', text: "good book")
   end
 end
