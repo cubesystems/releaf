@@ -12,12 +12,12 @@
   end
 
 
-.body.dialog.delete_restricted_dialog
+.body.dialog.delete-restricted-dialog
   .content
     %i.icon-ban-circle
     .message= t('delete_restricted', :scope => 'admin.global')
     .description= t("Deletion of %{resource} restricted, due to existing relations:", :scope => "admin.global", :default => "Deletion of %{resource} restricted, due to existing relations:", :resource => resource_to_text(@resource))
-    %ul.block.restricted_relations
+    %ul.block.restricted-relations
       - @restrict_relations.each_pair do |key, relations|
         %li
           - unless relations[:controller].nil?
