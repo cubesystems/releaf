@@ -62,6 +62,12 @@ module Releaf
       build_controller_list
     end
 
+    def available_controllers
+      controller_list.keys
+    end
+
+    private
+
     # build controller list from menu definition
     def build_controller_list
       Releaf.menu.each_with_index do |item_data, index|
@@ -83,12 +89,6 @@ module Releaf
         Releaf.menu[index] = item
       end
     end
-
-    def available_admin_controllers
-      controller_list.keys
-    end
-
-    private
 
     def build_controller_list_item item_data
       if item_data.is_a? String

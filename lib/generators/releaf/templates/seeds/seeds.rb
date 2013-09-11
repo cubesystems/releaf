@@ -11,7 +11,7 @@ Settings.delete_all
 roles = {
   administrator: {
     name:     'administrator',
-    permissions: Releaf.available_admin_controllers,
+    permissions: Releaf.available_controllers,
     default_controller: 'releaf/admins'
   },
   content_manager: {

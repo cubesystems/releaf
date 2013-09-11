@@ -5,13 +5,13 @@ module Releaf
       Releaf::Role
     end
 
-    def available_admin_controllers
-      available_admin_controllers = {}
-      Releaf.available_admin_controllers.each do |controller|
-        available_admin_controllers[t(controller, scope: 'admin.menu_items')] = controller
+    def available_controllers
+      controller_list = {}
+      Releaf.available_controllers.each do |controller|
+        controller_list[t(controller, scope: 'admin.menu_items')] = controller
       end
 
-      return available_admin_controllers
+      controller_list
     end
 
     def fields_to_display
