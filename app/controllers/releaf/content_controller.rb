@@ -40,29 +40,17 @@ module Releaf
     end
 
     def new
-      @resource = resource_class.new
-      super
-
-      if params[:content_type].blank?
-        @content_types = content_type_classes
-      else
-        unless ActsAsNode.classes.include? params[:content_type]
-          raise ArgumentError, "invalid content_type"
-        end
-
-        @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
-        @item_position = 1
-
-        @resource.content_type = params[:content_type]
-        @resource.parent_id = params[:parent_id]
-
-        content_class = params[:content_type].constantize
-        if content_class < ActiveRecord::Base
-          @resource.content = content_class.new
-        end
+      super do
+        new_common
       end
 
       render layout: nil if params.has_key?(:ajax)
+    end
+
+    def create
+      super do
+        new_common
+      end
     end
 
     def copy_dialog
@@ -108,13 +96,14 @@ module Releaf
     end
 
     def edit
-      super
-      @order_nodes = Node.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
+      super do
+        edit_common
+      end
+    end
 
-      if @resource.higher_item
-        @item_position = @resource.item_position
-      else
-        @item_position = 1
+    def update
+      super do
+        edit_common
       end
     end
 
@@ -155,6 +144,37 @@ module Releaf
 
 
     private
+
+    def edit_common
+      @order_nodes = Node.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
+
+      if @resource.higher_item
+        @item_position = @resource.item_position
+      else
+        @item_position = 1
+      end
+    end
+
+    def new_common
+      if params[:content_type].blank?
+        @content_types = content_type_classes
+      else
+        unless ActsAsNode.classes.include? params[:content_type]
+          raise ArgumentError, "invalid content_type"
+        end
+
+        @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
+        @item_position = 1
+
+        @resource.content_type = params[:content_type]
+        @resource.parent_id = params[:parent_id]
+
+        content_class = params[:content_type].constantize
+        if content_class < ActiveRecord::Base
+          @resource.content = content_class.new
+        end
+      end
+    end
 
     def content_type_class_names
       content_type_classes.map { |nc| nc.name }.sort

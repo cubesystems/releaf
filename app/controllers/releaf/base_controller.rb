@@ -71,7 +71,7 @@ module Releaf
       end
     end
 
-    def index
+    def index &block
       check_feature(:index)
       # load resource only if they are not loaded yet
       @resources = resources_relation if @resources.nil?
@@ -81,47 +81,51 @@ module Releaf
       end
 
       @resources = @resources.page( params[:page] ).per_page( @resources_per_page )
+      yield if block_given?
 
       unless params[:ajax].blank?
         render layout: false
       end
     end
 
-    def new
+    def new &block
       check_feature(:create)
       # load resource only if is not initialized yet
       @resource = resource_class.new if @resource.nil?
       add_resource_breadcrumb(@resource)
+      yield if block_given?
     end
 
-    def show
+    def show &block
+      yield if block_given?
       redirect_to url_for( action: 'edit', id: params[:id])
     end
 
-    def edit
+    def edit &block
       check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) if @resource.nil?
       add_resource_breadcrumb(@resource)
+      yield if block_given?
     end
 
-    def create
+    def create &block
       check_feature(:create)
       # load resource only if is not loaded yet
       @resource = resource_class.new if @resource.nil?
       @resource.assign_attributes required_params.permit(*resource_params)
       result = @resource.save
 
-      respond_after_save(:create, result, "new")
+      respond_after_save(:create, result, "new", &block)
     end
 
-    def update
+    def update &block
       check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) if @resource.nil?
       result = @resource.update_attributes required_params.permit(*resource_params)
 
-      respond_after_save(:update, result, "edit")
+      respond_after_save(:update, result, "edit", &block)
     end
 
     def confirm_destroy
@@ -627,13 +631,15 @@ module Releaf
       raise FeatureDisabled, feature.to_s unless @features[feature]
     end
 
-    def respond_after_save request_type, result, html_render_action
+    def respond_after_save request_type, result, html_render_action, &block
       if result
         if request_type == :create
           flash[:success] = { id: :resource_status, message: I18n.t('created', scope: 'notices.' + controller_scope_name) }
         else
           flash[:success] = { id: :resource_status, message: I18n.t('updated', scope: 'notices.' + controller_scope_name) }
         end
+
+        yield if block_given?
 
         success_url = url_for( action: 'edit', id: @resource.id )
       end
