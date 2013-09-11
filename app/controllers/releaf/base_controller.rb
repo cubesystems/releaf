@@ -672,7 +672,7 @@ module Releaf
           errors[field_id] = []
         end
 
-        errors[field_id] << {error: message, full_message: I18n.t(message, scope: 'validation.' + controller_scope_name)}
+        errors[field_id] << {error_code: message.error_code, full_message: I18n.t(message, scope: 'validation.' + controller_scope_name)}
       end
 
       return errors

@@ -2,6 +2,7 @@ require 'releaf/globalize3/fallbacks'
 require "releaf/route_mapper"
 require "releaf/exceptions"
 require "releaf/acts_as_node.rb"
+require "releaf/validation_error_codes"
 require "releaf/engine"
 
 module Releaf

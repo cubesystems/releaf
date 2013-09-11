@@ -126,7 +126,7 @@ var Validator = function( node_or_selector, options )
                                 errors.push(
                                 {
                                     message   : error.full_message,
-                                    errorCode : error.error,
+                                    errorCode : error.error_code,
                                     fieldName : fieldName
                                 });
                             });
