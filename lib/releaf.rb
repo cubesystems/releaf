@@ -8,7 +8,7 @@ require "releaf/engine"
 module Releaf
   mattr_accessor :menu
   @@menu = [
-   {
+    {
       :controller => 'releaf/content',
       :helper => 'releaf_nodes'
     },
@@ -59,7 +59,8 @@ module Releaf
         require 'i18n/releaf'
       end
 
-      build_controller_list
+      Releaf.menu.map! {|item| normalize_menu_item(item) }
+      build_controller_list(Releaf.menu)
     end
 
     def available_controllers
@@ -68,29 +69,20 @@ module Releaf
 
     private
 
-    # build controller list from menu definition
-    def build_controller_list
-      Releaf.menu.each_with_index do |item_data, index|
-        item = build_controller_list_item(item_data)
-
-        if item.has_key? :items
-          if item.has_key? :name and item.has_key? :items
-            item[:items].each_with_index do |submenu_item_data, submenu_item_index|
-              submenu_item = build_controller_list_item(submenu_item_data)
-
-              submenu_item[:submenu] = item[:name]
-              item[:items][submenu_item_index] = submenu_item
-              controller_list[submenu_item[:controller]] = submenu_item
-            end
-          end
-        end
-
+    # Recursively build list of controllers
+    #
+    # @param [Array] menu config items array
+    def build_controller_list list
+      list.each do |item|
         controller_list[item[:controller]] = item if item.has_key? :controller
-        Releaf.menu[index] = item
+        if item.has_key?(:items)
+          build_controller_list(item[:items])
+        end
       end
     end
 
-    def build_controller_list_item item_data
+    # Recursively normalize menu item and subitems
+    def normalize_menu_item item_data
       if item_data.is_a? String
         item = {:controller => item_data}
       elsif item_data.is_a? Hash
@@ -107,8 +99,11 @@ module Releaf
         item[:url_helper] = item[:controller].gsub('/', '_') + "_path"
       end
 
+      if item.has_key?(:items)
+        item[:items].map! {|subitem| normalize_menu_item(subitem) }
+      end
+
       return item
     end
-
   end
 end
