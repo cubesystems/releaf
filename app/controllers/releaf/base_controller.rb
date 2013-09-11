@@ -175,9 +175,10 @@ module Releaf
       relations = {}
       resource_class.reflect_on_all_associations.each do |assoc|
         if assoc.options[:dependent] == :restrict && @resource.send(assoc.name).exists?
-          relations[assoc.name.to_sym] = {}
-          relations[assoc.name.to_sym][:objects] = @resource.send(assoc.name)
-          relations[assoc.name.to_sym][:controller] = association_controller(assoc)
+          relations[assoc.name.to_sym] = {
+            objects:    @resource.send(assoc.name),
+            controller: association_controller(assoc)
+          }
         end
       end
 
