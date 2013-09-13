@@ -46,7 +46,7 @@ feature "Roles management", js: true do
       click_button 'Save'
     end
 
-    Releaf.available_admin_controllers.each do |controller|
+    Releaf.available_controllers.each do |controller|
       if controller == "admin/books"
         expect(page).to have_unchecked_field(I18n.t(controller, :scope => 'admin.menu_items'))
       else

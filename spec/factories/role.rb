@@ -4,7 +4,7 @@ FactoryGirl.define do
 
     factory :admin_role do
       default_controller "releaf/admins"
-      permissions Releaf.available_admin_controllers
+      permissions Releaf.available_controllers
     end
 
     factory :content_role do
