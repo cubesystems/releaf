@@ -81,3 +81,5 @@
         = javascript_include_tag "releaf/controllers/#{controller_asset}"
       - if File.exists?(Rails.root.to_s + "/app/assets/javascripts/controllers/#{controller_asset}.#{ext}")
         = javascript_include_tag "controllers/#{controller_asset}"
+      - if File.exists?(Rails.root.to_s + "/app/assets/javascripts/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
+        = javascript_include_tag "releaf/#{Rails.application.class.parent_name.downcase}"
