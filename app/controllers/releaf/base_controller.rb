@@ -252,6 +252,12 @@ module Releaf
         cols += resource_class.translates.map { |a| a.to_s }
       end
 
+      if %w[new create edit update].include? params[:action]
+        if resource_has_releaf_attachments?
+          cols.push({'attachments' => ['file_uid']})
+        end
+      end
+
       unless %w[new edit update create].include? params[:action]
         cols -= %w[password password_confirmation]
       end
@@ -600,6 +606,12 @@ module Releaf
         cols = cols + localize_attributes(resource_class.translates)
       end
 
+      if %w[create update].include? params[:action]
+        if resource_has_releaf_attachments?
+          cols.push 'attachments_attributes'
+        end
+      end
+
       return cols
     end
 
@@ -626,6 +638,11 @@ module Releaf
     end
 
     private
+
+    def resource_has_releaf_attachments?
+      return false unless resource_class.new.respond_to?(:attachments)
+      return resource_class.new.attachments.new.is_a? Releaf::Attachment
+    end
 
     def check_feature feature
       raise FeatureDisabled, feature.to_s unless @features[feature]
