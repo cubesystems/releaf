@@ -108,7 +108,7 @@ module Releaf::RouteMapper
   def include_routes? route, options
     include_route = true
     if options.is_a? Hash
-      if options[:only] && !options[:only].include?(route_to_sym)
+      if options[:only] && !options[:only].include?(route.to_sym)
         include_route = false
       elsif options[:except].try(:include?, route.to_sym)
         include_route = false
