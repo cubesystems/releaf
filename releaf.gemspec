@@ -35,6 +35,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
   s.add_dependency 'easy_globalize3_accessors', '~> 1.3.2'
+  s.add_dependency 'nokogiri', '>= 1.6.0'
+
 
   s.add_dependency 'rubyzip', '= 0.9.9' # we can remove this when axlsx and roo will get rubyzip 1.0 compat versions
   s.add_dependency 'axlsx'

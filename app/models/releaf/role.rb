@@ -40,6 +40,8 @@ module Releaf
       # tinymce is checked against content controller access
       if controller_name ==  "releaf/tinymce_assets"
         controller_name = "releaf/content"
+      elsif controller_name ==  "releaf/attachments"
+        controller_name = "releaf/content"
       # always allow access to profile controller
       elsif controller_name == 'releaf/admin_profile'
         return true

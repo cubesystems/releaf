@@ -9,5 +9,9 @@ module Releaf
       :file,
       :retained_file
 
+    def type
+      return 'image' if file_type =~ %r#^image/#
+    end
+
   end
 end

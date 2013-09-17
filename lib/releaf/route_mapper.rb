@@ -11,6 +11,8 @@ module Releaf::RouteMapper
   def mount_releaf_at mount_location, options={}, &block
     controllers = allowed_controllers(options)
 
+
+
     post '/tinymce_assets' => 'releaf/tinymce_assets#create' if controllers.include? :content
 
     devise_for Releaf.devise_for, path: mount_location, controllers: { sessions: "releaf/sessions" }
@@ -26,6 +28,10 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, :path => nil do
+        if controllers.include? :attachments
+          get  '/attachments' => 'attachments#new', :as => 'new_attachment'
+          post '/attachments' => 'attachments#create'
+        end
         releaf_resources :admins if controllers.include? :admins
         releaf_resources :roles if controllers.include? :roles
 
@@ -45,7 +51,7 @@ module Releaf::RouteMapper
   def allowed_controllers options
     allowed_controllers = options.try(:[], :allowed_controllers)
     if allowed_controllers.nil?
-      allowed_controllers = [:roles, :admins, :translations, :admin_profile, :content]
+      allowed_controllers = [:roles, :admins, :translations, :admin_profile, :content, :attachments]
     end
 
     allowed_controllers

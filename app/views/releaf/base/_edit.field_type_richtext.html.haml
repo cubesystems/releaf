@@ -1,6 +1,6 @@
 :ruby
   label_opts  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_html$/, '').to_s }
-  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 50, :class => "richtext" }
+  input_attrs = get_template_input_attributes local_assigns, { :rows => 5, :cols => 50, :class => "richtext", :data => {:attachment_upload_url => releaf_new_attachment_path}}
   field_attrs = get_template_field_attributes local_assigns
 
 .field.type_richtext{field_attrs}

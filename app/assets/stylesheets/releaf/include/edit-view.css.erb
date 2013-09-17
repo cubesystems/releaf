@@ -107,6 +107,7 @@ body.side-compact .main > .edit_resource > footer
     padding-right: 0px;
 }
 
+
 .nested-wrap .list .item:not(tr)
 {
     border: 1px solid #d4d4d4;
@@ -197,3 +198,10 @@ body.side-compact .main > .edit_resource > footer
     background: #242424;
 }
 
+
+.nested-wrap[data-name="attachments"],
+.nested-wrap[data-name="attachments"] .remove-item-box,
+.nested-wrap[data-name="attachments"] .add-nested-item
+{
+    display: none;
+}
