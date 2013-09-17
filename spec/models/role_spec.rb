@@ -34,14 +34,6 @@ describe Releaf::Role do
       end
     end
 
-    context "when access to releaf/tinymce_assets controller authorized" do
-      it "always return true if role has permissions to access releaf/content controller" do
-        expect(@admin_role.authorize!(Releaf::TinymceAssetsController.new)).to be_true
-        expect(@content_role.authorize!(Releaf::TinymceAssetsController.new)).to be_true
-        expect(@role_without_permissions.authorize!(Releaf::TinymceAssetsController.new)).to be_false
-      end
-    end
-
     context "when permissions given" do
       it "returns true" do
         expect(@admin_role.authorize!(Releaf::TranslationsController.new)).to be_true
