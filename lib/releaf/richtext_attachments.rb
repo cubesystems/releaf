@@ -9,16 +9,21 @@ module Releaf
 
       richtext_columns = columns.grep(/_html$/)
 
+      collected_uuids = []
+
       richtext_columns.each do |column|
         wrapped_text = "<root>#{self.send(column)}</root>"
         doc = Nokogiri::XML(wrapped_text)
-        collected_ids = []
-        doc.css('a[data-attachment-id], img[data-attachment-id]').each do |node|
-          collected_ids.push node['data-attachment-id']
+        doc.css('[data-attachment-id]').each do |node|
+          collected_uuids.push node['data-attachment-id']
         end
+      end
 
-        self.attachments.where('id NOT IN (?)', collected_ids).delete_all
-        Attachment.where(:id => collected_ids).update_all ["richtext_attachment_type = :class, richtext_attachment_id = :id", {:class => self.class.name, :id => self.id} ]
+      if collected_uuids.present?
+        self.attachments.where('uuid NOT IN (?)', collected_uuids).delete_all
+        Attachment.where(:uuid => collected_uuids).update_all ["richtext_attachment_type = :class, richtext_attachment_id = :id", {:class => self.class.name, :id => self.id} ]
+      else
+        self.attachments.delete_all
       end
 
     end
