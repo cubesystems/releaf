@@ -38,9 +38,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'nokogiri', '>= 1.6.0'
 
 
-  s.add_dependency 'rubyzip', '= 0.9.9' # we can remove this when axlsx and roo will get rubyzip 1.0 compat versions
-  s.add_dependency 'axlsx'
-  s.add_dependency 'roo', '~> 1.11.2'
+  s.add_dependency 'axlsx', '~> 2.0.1'
+  s.add_dependency 'roo', '~> 1.12.2'
 
   # v0.2.0 is broken currently
   s.add_dependency 'strong_parameters', '= 0.1.6'

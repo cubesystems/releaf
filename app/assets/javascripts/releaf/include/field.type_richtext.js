@@ -98,7 +98,6 @@ jQuery(function()
         {
             config['attachment_upload_url'] = textarea.attr('data-tinymce-attachment-upload-url');
         }
-
         textarea.tinymce(config);
 
     });
