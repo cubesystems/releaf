@@ -2,28 +2,17 @@
 %html
   %head
     %title {#attachment_upload_dlg.title}
-    = csrf_meta_tags
-
     = javascript_include_tag asset_path('tinymce/tiny_mce_popup.js')
     :javascript
       tinyMCEPopup.requireLangPack();
 
       function getFrameByName(name)
       {
-        for (var i = 0; i < frames.length; i++)
-          if (frames[i].name == name)
+        for (var i = 0; i < frames.length; i++) {
+          if (frames[i].name == name) {
             return frames[i];
-
-        return null;
-      }
-
-      function getMetaContents(mn)
-      {
-        var m = (window.opener || window.parent).document.getElementsByTagName('meta');
-
-        for(var i in m)
-          if(m[i].name == mn)
-            return m[i].content;
+          }
+        }
 
         return null;
       }
@@ -42,12 +31,10 @@
       }
 
       var AttachmentUploadDialog = {
-
         init: function() {
           this.f = document.forms[0];
-          this.f.action = tinyMCEPopup.getParam("attachment_upload_url", "/tinymce_assets_wtf");
+          this.f.action = tinyMCEPopup.getParam("attachment_upload_url");
           document.getElementById("hint").value = tinyMCEPopup.getParam("attachment_upload_hint", "");
-          document.getElementById("authenticity_token").value = getMetaContents('csrf-token');
         },
 
         insert: function() {
@@ -59,16 +46,21 @@
 
   %body
 
-    %form( method="post" enctype='multipart/form-data' accept-charset="UTF-8" target="hidden_upload" action='#replaceme' name="attachment_uploadForm")
-      %input#authenticity_token(type="hidden" name="authenticity_token" value="#replaceme")
-      %input#hint(type="hidden" name="hint" value="#replaceme")
+    = form_tag '', :target => 'hidden_upload', :name => 'attachment_uploadForm', :method => :post, :multipart => true do
+      = hidden_field_tag :hint, "#replaceme"
       %iframe#hidden_upload(name="hidden_upload" src='' onload='uploadDone("hidden_upload")' style='width:0;height:0;border:0px solid #fff')
 
       %h1 {#attachment_upload_dlg.header}
-      %p
-        {#attachment_upload_dlg.input}:
-        %input.file_upload(type="file" name='file')
+      .field.type_text
+        .label_wrap=  label_tag :title
+        .value=       text_field_tag :title
+        .clear
+
+      .field.type_file
+        .label_wrap=  label_tag :file
+        .value=       file_field_tag :file, :class => :file_upload
+        .clear
 
       .mceActionPanel
-        %input( type="button" id="insert" name="insert" value="{#attachment_upload_dlg.insert}" onclick="AttachmentUploadDialog.insert();")
-        %input(type="button" id="cancel" name="cancel" value="{#attachment_upload_dlg.cancel}" onclick="tinyMCEPopup.close();")
+        = button_tag "{#attachment_upload_dlg.insert}", :id => 'insert', :name => 'insert', :onclick => "AttachmentUploadDialog.insert();"
+        = button_tag "{#attachment_upload_dlg.cancel}", :id => 'cancel', :name => 'cancel', :onclick => "tinyMCEPopup.close();"

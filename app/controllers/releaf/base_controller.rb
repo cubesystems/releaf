@@ -29,16 +29,21 @@ module Releaf
 
     def create_attachment
       @resource = Attachment.new
-      @resource.file_type = params[:file].content_type
-      @resource.file = params[:file]
-      @resource.save!
+      if params[:file]
+        @resource.file_type = params[:file].content_type
+        @resource.file  = params[:file]
+        @resource.title = params[:title] if params[:title].present?
+        @resource.save!
 
-      partial = case @resource.type
-                when 'image' then 'image'
-                else
-                  'link'
-                end
-      render :partial => "attachment_#{partial}", :layout => nil
+        partial = case @resource.type
+                  when 'image' then 'image'
+                  else
+                    'link'
+                  end
+        render :partial => "attachment_#{partial}", :layout => nil
+      else
+        render :text => ''
+      end
     end
 
 

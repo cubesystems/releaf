@@ -7,6 +7,7 @@ class CreateReleafAttachments < ActiveRecord::Migration
       t.string  :file_type
       t.string  :richtext_attachment_type
       t.integer :richtext_attachment_id
+      t.string  :title
 
       t.timestamps
     end
