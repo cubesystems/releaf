@@ -52,12 +52,12 @@
 
       %h1 {#attachment_upload_dlg.header}
       .field.type_text
-        .label_wrap=  label_tag :title
+        .label_wrap=  label_tag :title, "{#attachment_upload_dlg.file_title}"
         .value=       text_field_tag :title
         .clear
 
       .field.type_file
-        .label_wrap=  label_tag :file
+        .label_wrap=  label_tag :title, "{#attachment_upload_dlg.input}"
         .value=       file_field_tag :file, :class => :file_upload
         .clear
 
