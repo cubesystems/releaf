@@ -13,7 +13,8 @@ module Releaf
       :render_parent_template,
       :resource_class,
       :resource_to_text,
-      :resource_to_text_method
+      :resource_to_text_method,
+      :attachment_upload_url
 
     before_filter do
       authorize!
@@ -21,6 +22,25 @@ module Releaf
       build_breadcrumbs
       setup
     end
+
+    def new_attachment
+      render :layout => nil
+    end
+
+    def create_attachment
+      @resource = Attachment.new
+      @resource.file_type = params[:file].content_type
+      @resource.file = params[:file]
+      @resource.save!
+
+      partial = case @resource.type
+                when 'image' then 'image'
+                else
+                  'link'
+                end
+      render :partial => "attachment_#{partial}", :layout => nil
+    end
+
 
     def autocomplete
       c_obj = resource_class
@@ -257,6 +277,12 @@ module Releaf
       end
 
       return cols
+    end
+
+    def attachment_upload_url
+      url_for(:action => 'new_attachment')
+    rescue
+      ''
     end
 
     # Tries to return resource class.

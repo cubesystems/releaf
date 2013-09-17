@@ -3,7 +3,6 @@ module Releaf
     self.table_name = 'releaf_attachments'
     require 'uuidtools'
 
-    extend ActiveSupport::Concern
     self.primary_key = 'uuid'
     before_create :generate_uuid
 
@@ -23,7 +22,6 @@ module Releaf
     def generate_uuid
       self[:uuid] = UUIDTools::UUID.random_create.to_s if self.uuid.blank?
     end
-
 
   end
 end

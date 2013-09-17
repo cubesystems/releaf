@@ -4,26 +4,29 @@
   tinymce.create('tinymce.plugins.AttachmentUploadPlugin', {
     init: function(ed, url) {
 
-      ed.addCommand('mceAttachmentUpload', function() {
-        return ed.windowManager.open({
-          file: ed.getParam('attachment_upload_url'),
-          width: 320 + parseInt(ed.getLang('attachment_upload.delta_width', 0)),
-          height: 180 + parseInt(ed.getLang('attachment_upload.delta_height', 0)),
-          inline: 1
-        }, {
-          plugin_url: ed.getParam('attachment_upload_url')
+      if (ed.getParam('attachment_upload_url'))
+      {
+        ed.addCommand('mceAttachmentUpload', function() {
+          return ed.windowManager.open({
+            file: ed.getParam('attachment_upload_url'),
+            width: 320 + parseInt(ed.getLang('attachment_upload.delta_width', 0)),
+            height: 180 + parseInt(ed.getLang('attachment_upload.delta_height', 0)),
+            inline: 1
+          }, {
+            plugin_url: ed.getParam('attachment_upload_url')
+          });
         });
-      });
 
-      ed.addButton('attachment_upload', {
-        title: 'attachment_upload.desc',
-        cmd: 'mceAttachmentUpload',
-        image: '<%= asset_path( 'releaf/tinymce/plugins/attachment_upload/attach.png' ) %>',
-      });
+        ed.addButton('attachment_upload', {
+          title: 'attachment_upload.desc',
+          cmd: 'mceAttachmentUpload',
+          image: '<%= asset_path( 'releaf/tinymce/plugins/attachment_upload/attach.png' ) %>',
+        });
 
-      ed.onNodeChange.add(function(ed, cm, n) {
-        return cm.setActive('attachment_upload', n.getAttribute('data-attachment-id'));
-      });
+        ed.onNodeChange.add(function(ed, cm, n) {
+          return cm.setActive('attachment_upload', n.getAttribute('data-attachment-id'));
+        });
+      }
 
       return;
 

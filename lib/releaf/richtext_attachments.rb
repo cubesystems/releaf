@@ -21,7 +21,8 @@ module Releaf
 
       if collected_uuids.present?
         self.attachments.where('uuid NOT IN (?)', collected_uuids).delete_all
-        Attachment.where(:uuid => collected_uuids).update_all ["richtext_attachment_type = :class, richtext_attachment_id = :id", {:class => self.class.name, :id => self.id} ]
+        Attachment.where(:uuid => collected_uuids, :richtext_attachment_type => nil, :richtext_attachment_id => nil).
+          update_all ["richtext_attachment_type = :class, richtext_attachment_id = :id", {:class => self.class.name, :id => self.id} ]
       else
         self.attachments.delete_all
       end
