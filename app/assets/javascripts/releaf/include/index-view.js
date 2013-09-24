@@ -62,7 +62,19 @@ jQuery(function()
             // store previous values for all inputs
             all_inputs.each(function()
             {
-                jQuery(this).data('previous-value', jQuery(this).val());
+                var input = jQuery(this);
+                if (input.is('input[type="checkbox"]:not(:checked)'))
+                {
+                    input.data('previous-value', '');
+                }
+                else if (input.is('input[type="checkbox"]:checked'))
+                {
+                    // XXX: without this checkbox won't work
+                }
+                else
+                {
+                    input.data('previous-value', input.val());
+                }
             });
 
             // cancel previous unfinished request
