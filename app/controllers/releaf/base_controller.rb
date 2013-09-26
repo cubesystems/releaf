@@ -519,29 +519,70 @@ module Releaf
 
     # Get resources collection for #index
     def search text
-      fields = search_fields(resource_class.table_name, @searchable_fields)
+      fields = search_fields(resource_class, @searchable_fields)
+      s_joins = normalized_search_joins( search_joins(resource_class, @searchable_fields) )
+      @resources = @resources.includes(*s_joins)
       text.strip.split(" ").each_with_index do|word, i|
         query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
         @resources = @resources.where(query, "word#{i}".to_sym =>'%' + word + '%')
       end
     end
 
-    def search_fields table_name, attributes
+    # Returns array of fields in which to search for string typed in search form
+    def search_fields klass, attributes
       fields = []
       attributes.each do|attribute|
         if attribute.is_a? Symbol
-          fields << "#{table_name}.#{attribute.to_s}"
+          fields << "#{klass.table_name}.#{attribute.to_s}"
         elsif attribute.is_a? Hash
-          association = resource_class.reflect_on_association(attribute.keys.first)
-          fields += search_fields(association.table_name, attribute[association.name])
-          @resources = @resources.includes(association.name)
-          if association.macro == :has_many
-            @resources = @resources.group("#{table_name}.id")
+          attribute.each_pair do |key, values|
+            association = klass.reflect_on_association(key.to_sym)
+            fields += search_fields(association.klass, values)
+            if association.macro == :has_many
+              @resources = @resources.group("#{association.klass.table_name}.id")
+            end
           end
         end
       end
 
-      fields
+      return fields
+    end
+
+    # Returns data structure for .includes or .joins that represents resource
+    # associations, beased on given structure of attributes
+    #
+    # This helper is mainly intended for #search
+    def search_joins klass, attributes
+      s_joins = {}
+      attributes.each do|attribute|
+        if attribute.is_a? Hash
+          attribute.each_pair do |key, values|
+            association = klass.reflect_on_association(key.to_sym)
+            s_joins[key] = s_joins.fetch(key, {}).deep_merge( search_joins(association.klass, values) )
+          end
+        end
+      end
+
+      return s_joins
+    end
+
+    # Normalizes #search_joins results by removing blank hashes
+    def normalized_search_joins search_joins
+      raise ArgumentError unless search_joins.is_a? Hash
+      assoc = []
+      search_joins.each_pair do |k, v|
+        if v.blank?
+          assoc.push k
+        else
+          normalized_v = normalized_search_joins v
+          if normalized_v.blank?
+            assoc.push k
+          else
+            assoc.push({k => normalized_v})
+          end
+        end
+      end
+      return assoc
     end
 
     def required_params

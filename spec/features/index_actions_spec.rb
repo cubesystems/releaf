@@ -4,6 +4,7 @@ feature "Base controller index", js: true do
     auth_as_admin
     @author = FactoryGirl.create(:author)
     @good_book = FactoryGirl.create(:book, title: "good book", author: @author)
+    @chapter = FactoryGirl.create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: @good_book)
     FactoryGirl.create(:book, title: "bad book", author: @author)
   end
 
@@ -14,10 +15,26 @@ feature "Base controller index", js: true do
 
   scenario "search resources dynamically" do
     visit admin_books_path
-      within("form.search") do
-        fill_in 'search', :with => "good"
-      end
+    within("form.search") do
+      fill_in 'search', :with => "good"
+    end
     expect(page).to have_content('1 Resources found')
+  end
+
+  scenario "search by 2nd level nested fields" do
+    visit admin_authors_path
+    within("form.search") do
+      fill_in 'search', :with => "upon"
+    end
+    expect(page).to have_content('1 Resources found')
+  end
+
+  scenario "search nonexisting stuff" do
+    visit admin_authors_path
+    within("form.search") do
+      fill_in 'search', :with => "bunnyrabit"
+    end
+    expect(page).to have_content('Nothing found')
   end
 
   scenario "keeps search parameters when navigating to edit and back" do
@@ -54,5 +71,5 @@ feature "Base controller index", js: true do
     expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :count => 2)
   end
 
-  
+
 end
