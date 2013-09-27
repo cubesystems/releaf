@@ -1,0 +1,66 @@
+!!!
+%html
+  %head
+    %title {#attachment_upload_dlg.title}
+    = javascript_include_tag asset_path('tinymce/tiny_mce_popup.js')
+    :javascript
+      tinyMCEPopup.requireLangPack();
+
+      function getFrameByName(name)
+      {
+        for (var i = 0; i < frames.length; i++) {
+          if (frames[i].name == name) {
+            return frames[i];
+          }
+        }
+
+        return null;
+      }
+
+      function uploadDone(name)
+      {
+        var frame = getFrameByName(name);
+        if(frame) {
+          ret = frame.document.getElementsByTagName("body")[0].innerHTML;
+
+          if(ret.length) {
+            tinyMCE.execCommand('mceInsertContent', false, ret);
+            tinyMCEPopup.close();
+          }
+        }
+      }
+
+      var AttachmentUploadDialog = {
+        init: function() {
+          this.f = document.forms[0];
+          this.f.action = tinyMCEPopup.getParam("attachment_upload_url");
+          document.getElementById("hint").value = tinyMCEPopup.getParam("attachment_upload_hint", "");
+        },
+
+        insert: function() {
+          this.f.submit();
+        }
+      };
+
+      tinyMCEPopup.onInit.add(AttachmentUploadDialog.init, AttachmentUploadDialog);
+
+  %body
+
+    = form_tag '', :target => 'hidden_upload', :name => 'attachment_uploadForm', :method => :post, :multipart => true do
+      = hidden_field_tag :hint, "#replaceme"
+      %iframe#hidden_upload(name="hidden_upload" src='' onload='uploadDone("hidden_upload")' style='width:0;height:0;border:0px solid #fff')
+
+      %h1 {#attachment_upload_dlg.header}
+      .field.type_text
+        .label_wrap=  label_tag :title, "{#attachment_upload_dlg.file_title}"
+        .value=       text_field_tag :title
+        .clear
+
+      .field.type_file
+        .label_wrap=  label_tag :title, "{#attachment_upload_dlg.input}"
+        .value=       file_field_tag :file, :class => :file_upload
+        .clear
+
+      .mceActionPanel
+        = button_tag "{#attachment_upload_dlg.insert}", :id => 'insert', :name => 'insert', :onclick => "AttachmentUploadDialog.insert();"
+        = button_tag "{#attachment_upload_dlg.cancel}", :id => 'cancel', :name => 'cancel', :onclick => "tinyMCEPopup.close();"

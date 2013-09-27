@@ -5,6 +5,14 @@ module Releaf::RouteMapper
     resources *args do
       yield if block_given?
       get   :confirm_destroy, :on => :member      if include_confirm_destroy?(args.last)
+
+      if include_attachment?(args.last)
+        collection do
+          get  'new_attachment'
+          post 'new_attachment', action: 'create_attachment'
+        end
+      end
+
     end
   end
 
@@ -85,15 +93,24 @@ module Releaf::RouteMapper
 
   # Check whether add confirm destroy route
   def include_confirm_destroy? options
-    add_confirm_destroy = true
+    return include_routes? :destroy, options
+  end
+
+  # Check whether add attachment uploading routes
+  def include_attachment? options
+    return include_routes? :attachment, options
+  end
+
+  def include_routes? route, options
+    include_route = true
     if options.is_a? Hash
-      if options[:only] && !options[:only].include?(:destroy)
-        add_confirm_destroy = false
-      elsif options[:except].try(:include?, :destroy)
-        add_confirm_destroy = false
+      if options[:only] && !options[:only].include?(route.to_sym)
+        include_route = false
+      elsif options[:except].try(:include?, route.to_sym)
+        include_route = false
       end
     end
 
-    return add_confirm_destroy
+    return include_route
   end
 end # Releaf::RouteMapper

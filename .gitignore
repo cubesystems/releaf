@@ -11,3 +11,5 @@ rdoc/
 .sass-cache/
 /rspec.html
 .project
+/.ruby-version
+/.ruby-gemset
