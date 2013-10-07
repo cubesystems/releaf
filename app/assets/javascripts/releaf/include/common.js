@@ -370,7 +370,7 @@ jQuery(function(){
                 if (error_box.length < 1)
                 {
                     error_box = jQuery('<div class="error_box"><div class="error"></div></div>');
-                    error_box.appendTo( wrap.find('.value') );
+                    error_box.appendTo( wrap.find('.value').first() );
                 }
 
 
