@@ -1,6 +1,7 @@
 = render 'toolbox.extras', :resource => resource
 - unless resource.new_record?
-  %li
-    %a.button.danger.ajaxbox{:href => url_for( :action => :confirm_destroy, :id => resource.id, :list_url => list_url), :data => {:modal => 1}}
-      %i.icon-large.icon-trash
-      = t('Delete', :scope => 'admin.global')
+  - if @features[:destroy]
+    %li
+      %a.button.danger.ajaxbox{:href => url_for( :action => :confirm_destroy, :id => resource.id, :list_url => list_url), :data => {:modal => 1}}
+        %i.icon-large.icon-trash
+        = t('Delete', :scope => 'admin.global')
