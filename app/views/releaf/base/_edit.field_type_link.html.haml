@@ -1,6 +1,6 @@
 :ruby
   label_opts  = get_template_label_options    local_assigns
-  input_attrs = get_template_input_attributes local_assigns
+  input_attrs = get_template_input_attributes local_assigns, { :value => f.object.send(name) }
   field_attrs = get_template_field_attributes local_assigns
 
 .field.type_link{field_attrs}

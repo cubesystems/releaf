@@ -8,6 +8,7 @@ class CreateBooks < ActiveRecord::Migration
       t.text    :summary_html
       t.boolean :active
       t.datetime :published_at
+      t.integer :price
 
       t.timestamps
     end
