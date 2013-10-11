@@ -73,7 +73,7 @@ jQuery(function()
 				}
 			);
 		});
-	}
+	};
 
     body.on( 'richtextinit', 'textarea.richtext', function( event, extra_config )
     {
@@ -100,6 +100,25 @@ jQuery(function()
         }
         textarea.tinymce(config);
 
+        textarea.on('richtextsuspend', function(e)
+        {
+            if (textarea.data('richtext-suspended'))
+            {
+                return;
+            }
+            tinyMCE.execCommand( 'mceRemoveControl', false, textarea.attr('id') );
+            textarea.data('richtext-suspended', true);
+        });
+
+        textarea.on('richtextresume', function(e)
+        {
+            if (!textarea.data('richtext-suspended'))
+            {
+                return;
+            }
+            tinyMCE.execCommand( 'mceAddControl', false, textarea.attr('id') );
+            textarea.data('richtext-suspended', false);
+        });
     });
 
     // initialize richtext editor for any new richtext textarea after any content load
@@ -115,22 +134,56 @@ jQuery(function()
 
     });
 
+    body.on('contentbeforeremove', function(e)
+    {
+        // remove tinymce instances when removing fields
+
+        var removable_item = jQuery(e.target);
+        var textareas = removable_item.is('textarea.richtext') ? removable_item : removable_item.find( 'textarea.richtext' );
+
+        textareas.each(function()
+        {
+            jQuery(this).trigger('richtextsuspend');
+        });
+
+    });
+
+
     // to avoid losing content tinymce needs to be disabled and reenabled when used inside a sortable list
     body.on('sortablestart', function( event )
     {
         jQuery(event.target).find('textarea.richtext').each(function()
         {
-            tinyMCE.execCommand( 'mceRemoveControl', false, jQuery(this).attr('id') );
+            jQuery(this).trigger('richtextsuspend');
         });
     });
 
-    body.on('sortablestop', function( event )
+    body.on('sortablestop sortableupdate', function( event )
     {
+        // restore tinymce on either sortablestop or sortableupdate, whichever comes first
+        // (sortable plugin actually calls update before stop)
         jQuery(event.target).find('textarea.richtext').each(function()
         {
-            tinyMCE.execCommand( 'mceAddControl', false, jQuery(this).attr('id') );
+            jQuery(this).trigger('richtextresume');
         });
     });
 
+    // if id of the textarea gets changed, tinymce needs to be reinitialized
+    body.on('beforeattributechange', 'textarea.richtext', function(event, event_params)
+    {
+        if (event_params.attribute != 'id')
+        {
+            return;
+        }
+        jQuery(this).trigger('richtextsuspend');
+    });
 
+    body.on('attributechanged', 'textarea.richtext', function(event, event_params)
+    {
+        if (event_params.attribute != 'id')
+        {
+            return;
+        }
+        jQuery(this).trigger('richtextresume');
+    });
 });

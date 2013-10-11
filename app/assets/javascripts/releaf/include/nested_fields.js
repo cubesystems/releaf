@@ -108,11 +108,15 @@ jQuery( document ).ready(function()
 
                     var removeItem = function( item )
                     {
+                        item.trigger( 'contentbeforeremove', event_params );
+
+                        var parent = item.parent();
+
                         var destroy_inputs = item.find('input.destroy');
 
                         if (destroy_inputs.length > 0)
                         {
-                            // mark as destroyable, hide and move to end of list
+                            // mark as destroyable and hide
                             destroy_inputs.val( true );
 
                             item.hide();
@@ -123,7 +127,8 @@ jQuery( document ).ready(function()
                         }
 
                         target_block.trigger( 'nestedfieldsreindex', event_params );
-                    }
+                        parent.trigger( 'contentremoved', event_params );
+                    };
 
                     item.addClass( 'removed' );
 
@@ -156,10 +161,9 @@ jQuery( document ).ready(function()
             });
 
 
-            // :TODO: trigger nestedfieldsreindex ofter sorting in case of sortable_objects
-
             block.on('nestedfieldsreindex', function( e )
             {
+
                 // update data-index attributes and names/ids for all fields inside a block
 
                 // in case of nested blocks, this bubbles up and gets called for each parent block also
@@ -185,18 +189,17 @@ jQuery( document ).ready(function()
                     {
                         first_available_new_index = index + 1;
                     }
-                })
+                });
 
                 var new_items = block.find(new_item_selector);
 
                 var index = first_available_new_index;
 
-
+                var changeable_attributes = [];
                 new_items.each(function()
                 {
                     var item = jQuery(this);
                     item.attr('data-index', index);
-
 
                     // this matches both of these syntaxes in attribute values:
                     //
@@ -204,10 +207,12 @@ jQuery( document ).ready(function()
                     //  resource_foo_attributes_0_bar     /  resource_foo_attributes__template__bar
                     //
 
-                    var matchPattern  = new RegExp('(\\[|_)' + block_name + '_attributes(\\]\\[|_)(\\d*|_template_)?(\\]|_)')
-                    var searchPattern = new RegExp('((\\[|_)' + block_name + '_attributes(\\]\\[|_))(\\d*|_template_)?(\\]|_)', 'g');
+                    var matchPattern   = new RegExp('(\\[|_)' + block_name + '_attributes(\\]\\[|_)(\\d*|_template_)?(\\]|_)');
+                    var searchPattern  = new RegExp('((\\[|_)' + block_name + '_attributes(\\]\\[|_))(\\d*|_template_)?(\\]|_)', 'g');
+                    var replacePattern = '$1' + index + '$5';
                     var attrs = ['name', 'id', 'for'];
 
+                    // collect changeable attributes
                     item.find('input,select,textarea,button,label').each(function()
                     {
                         for (var i=0; i<attrs.length; i++)
@@ -215,7 +220,17 @@ jQuery( document ).ready(function()
                             var attr = jQuery(this).attr(attrs[i]);
                             if (attr && attr.match(matchPattern))
                             {
-                                jQuery(this).attr(attrs[i], attr.replace(searchPattern, '$1' + index + '$5'));
+                                var params = {
+                                    element:   this,
+                                    attribute: attrs[i],
+                                    old_value: attr,
+                                    new_value: attr.replace(searchPattern, replacePattern),
+                                };
+                                if (params.old_value == params.new_value)
+                                {
+                                    continue;
+                                }
+                                changeable_attributes.push( params );
                             }
                         }
                     });
@@ -223,6 +238,36 @@ jQuery( document ).ready(function()
                     index++;
                 });
 
+                // perform change in two parts:
+                // at first change all changeable attributes to unique temporary strings for ALL affected items
+                // and then change the attributes to actual values
+
+                // this is needed so that any code in external beforeattributechange / attributechange handlers
+                // does not encounter ID collisions during the process (multiple elements temporarily sharing the same ID)
+
+                // change to temporary values
+                var temp_value_prefix = 'nestedfieldsreindex_temporary_value_';
+                jQuery.each(changeable_attributes, function(attribute_index, params)
+                {
+                    var element = jQuery(params.element);
+                    element.trigger('beforeattributechange', params );
+                    element.attr(params.attribute, temp_value_prefix + attribute_index);
+                });
+
+                // change to actual new values
+                jQuery.each(changeable_attributes, function(attribute_index, params)
+                {
+                    var element = jQuery(params.element);
+                    element.attr(params.attribute, params.new_value);
+                    element.trigger('attributechanged', params )
+                });
+
+
+            });
+
+            block.on('sortableupdate', function(e)
+            {
+                block.trigger('nestedfieldsreindex');
             });
 
             block.on('nestedfieldsitemadd', function( e )

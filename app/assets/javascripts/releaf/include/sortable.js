@@ -1,14 +1,8 @@
 jQuery(document).ready(function()
 {
-    jQuery(document.body).on('sortableupdate', '[data-sortable]', function(e) {
-        e.stopPropogation;
-        var sortable_container = jQuery(this);
-        sortable_container.find('> .item > input[type="hidden"].item_position').each(function(i) {
-            jQuery(this).attr('value', i);
-         });
-     });
+    var body = jQuery('body');
 
-    jQuery(document.body).on('initsortable', function(e)
+    body.on('sortableinit', function(e)
     {
         var target = jQuery(e.target);
         if (!target.is('[data-sortable]'))
@@ -16,37 +10,60 @@ jQuery(document).ready(function()
             target = target.find('[data-sortable]');
         }
 
-        target.sortable({
-            axis: "y",
-            containment: "parent",
-            cursor: "move",
-            delay: 150,
-            distance: 5,
-            handle: '> .handle',
-            items: "> .item",
-            scroll: true,
-            start: function(e, ui){
-                ui.item.trigger('sortablestart');
-            },
-            stop: function(e,ui) {
-                ui.item.trigger('sortablestop');
-            },
-            update: function( event, ui )
+        target.each(function()
+        {
+            var list =  jQuery(this);
+            if (list.is('.ui-sortable'))
             {
-                ui.item.trigger('sortableupdate');
-            },
+                return; // already initialized
+            }
+
+            list.sortable({
+                cursor: "move",
+                delay: 150,
+                distance: 5,
+                forcePlaceholderSize : true,
+                handle: '> .handle',
+                items: "> .item",
+                scroll: true,
+                start: function(e, ui){
+                    ui.item.trigger('sortablestart');
+                },
+                stop: function(e,ui) {
+                    ui.item.trigger('sortablestop');
+                },
+                update: function( event, ui )
+                {
+                    ui.item.trigger('sortableupdate');
+                },
+            });
+
+            list.on('sortablereindex', function(e)
+            {
+                list.find('> .item:visible > input[type="hidden"].item_position').each(function(i)
+                {
+                    jQuery(this).attr('value', i);
+                });
+            });
+
+            list.on('sortableupdate contentloaded contentremoved', function(e)
+            {
+                // item dragged to a new position
+                // or
+                // new content loaded or removed somewhere inside the list (possibly item added/removed)
+
+                list.trigger('sortablereindex');
+            });
+
+            list.trigger('sortablereindex');
         });
 
     });
 
-    jQuery(document.body).trigger('initsortable');
-
-    jQuery( document.body ).on('itemadd', function (e) {
-        jQuery(e.target).trigger('initsortable');
+    body.on('contentloaded', function(e, event_params)
+    {
+        jQuery(e.target).trigger('sortableinit', event_params);
     });
 
-    jQuery( document.body ).on('itemadd', '.list[data-sortable]', function (e) {
-        jQuery(e.target).trigger('sortableupdate');
-    });
 
 });
