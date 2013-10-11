@@ -412,7 +412,7 @@ jQuery(function(){
                     {
                         error_node = jQuery(this);
                     }
-                })
+                });
 
                 var new_error_node = !error_node;
 
