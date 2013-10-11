@@ -102,7 +102,6 @@ jQuery(function()
 
     });
 
-
     // initialize richtext editor for any new richtext textarea after any content load
     body.on('contentloaded', function(e)
     {
@@ -114,6 +113,23 @@ jQuery(function()
 
         textareas.trigger('richtextinit');
 
+    });
+
+    // to avoid losing content tinymce needs to be disabled and reenabled when used inside a sortable list
+    body.on('sortablestart', function( event )
+    {
+        jQuery(event.target).find('textarea.richtext').each(function()
+        {
+            tinyMCE.execCommand( 'mceRemoveControl', false, jQuery(this).attr('id') );
+        });
+    });
+
+    body.on('sortablestop', function( event )
+    {
+        jQuery(event.target).find('textarea.richtext').each(function()
+        {
+            tinyMCE.execCommand( 'mceAddControl', false, jQuery(this).attr('id') );
+        });
     });
 
 

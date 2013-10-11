@@ -1,5 +1,5 @@
-jQuery(document).ready(function() {
-
+jQuery(document).ready(function()
+{
     jQuery(document.body).on('sortableupdate', '[data-sortable]', function(e) {
         e.stopPropogation;
         var sortable_container = jQuery(this);
@@ -18,17 +18,23 @@ jQuery(document).ready(function() {
 
         target.sortable({
             axis: "y",
-            ontainment: "parent",
+            containment: "parent",
             cursor: "move",
             delay: 150,
             distance: 5,
             handle: '> .handle',
             items: "> .item",
             scroll: true,
+            start: function(e, ui){
+                ui.item.trigger('sortablestart');
+            },
+            stop: function(e,ui) {
+                ui.item.trigger('sortablestop');
+            },
             update: function( event, ui )
             {
-                jQuery(this).trigger('sortableupdate');
-            }
+                ui.item.trigger('sortableupdate');
+            },
         });
 
     });
