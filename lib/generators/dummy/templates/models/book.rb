@@ -1,15 +1,32 @@
 class Book < ActiveRecord::Base
   include Releaf::RichtextAttachments
 
-  validates_presence_of :title
   belongs_to :author
   has_many :chapters
-  alias_attribute :to_text, :title
+
+  validates_presence_of :title
 
   accepts_nested_attributes_for :chapters, :allow_destroy => true
 
-  attr_accessible :title, :year, :author_id, :year, :author, :genre, :summary_html, :active, :published, :published_at, :chapters_attributes, :price
+  image_accessor :cover_image
 
+  attr_accessible \
+    :active,
+    :author,
+    :author_id,
+    :chapters_attributes,
+    :genre,
+    :price,
+    :published,
+    :published_at,
+    :summary_html,
+    :title,
+    :year,
+    :cover_image,
+    :retained_cover_image,
+    :remove_cover_image
+
+  alias_attribute :to_text, :title
 
   def price
     stored_price = super

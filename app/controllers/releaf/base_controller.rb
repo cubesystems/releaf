@@ -473,11 +473,28 @@ module Releaf
       return unless mass_assigment_actions.include? params[:action]
 
       cols = resource_class.column_names.dup
+
       if resource_class.respond_to?(:translations_table_name)
         cols = cols + localize_attributes(resource_class.translates)
       end
 
-      return cols
+      cols_with_file_fields = []
+
+      cols.each do |col|
+        if col =~ /^(.+)_uid$/
+          file_field = $1
+          if resource_class.new.respond_to? file_field
+            cols_with_file_fields.push file_field
+            cols_with_file_fields.push "retained_#{file_field}"
+            cols_with_file_fields.push "remove_#{file_field}"
+            next
+          end
+        end
+
+        cols_with_file_fields.push col
+      end
+
+      return cols_with_file_fields
     end
 
     def localize_attributes args
