@@ -46,56 +46,6 @@ module Releaf
       end
     end
 
-
-    def autocomplete
-      c_obj = resource_class
-
-      if params[:query_field] && params[:q] && params[:field]
-        obj = c_obj.reflect_on_association(params[:field].sub(/_id\z/, '').to_sym).klass
-        obj_fields = obj.column_names
-
-        sql = []
-        sql_params = {}
-
-        params[:q].split(' ').each_with_index do |part, i|
-          sql.push "#{params[:query_field]} LIKE :part#{i}"
-          sql_params[:"part#{i}"] = "%#{part}%"
-        end
-
-        order_by = nil
-
-        if params[:order]
-          order_by = []
-
-          params[:order].split(',').each do |order_part|
-            if obj_fields.include? order_part.sub(/ (asc|desc)\z/i, '')
-              order_by.push order_part
-            end
-          end
-        end
-
-        order_by = [params[:query_field],'id'] if order_by.blank?
-
-        query = obj.where(sql.join(' AND '), sql_params).order(order_by.join(', '))
-
-        matching_items_count = query.count
-        list = query.limit(20)
-
-        @resources = []
-        list.each do |resource|
-          @resources.push({ id: resource.id, text: resource.to_text })
-        end
-
-        respond_to do |format|
-          format.json { render json: {matching_items_count: matching_items_count, query: params[:q], results: @resources } }
-        end
-      else
-        respond_to do |format|
-          format.json { raise }
-        end
-      end
-    end
-
     def index &block
       check_feature(:index)
       # load resource only if they are not loaded yet
