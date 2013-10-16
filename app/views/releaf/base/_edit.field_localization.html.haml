@@ -10,7 +10,7 @@
   .localization{:'data-locale' => locale, :class => is_default_locale ? "active" : nil}
     = render "edit.field_label", label_opts
     .value
-      = f.send(field_type, translation_name, input_attrs)
+      = f.send(field_type, translation_name, {value: f.object.send(translation_name)}.merge(input_attrs))
     .clear
 
 
