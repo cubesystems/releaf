@@ -51,7 +51,7 @@ module Releaf
       # load resource only if they are not loaded yet
       @resources = collection if @resources.nil?
 
-      if @searchable_fields && !params[:search].blank?
+      if @searchable_fields && params[:search].present?
         search(params[:search])
       end
 
@@ -512,11 +512,8 @@ module Releaf
 
     def respond_after_save request_type, result, html_render_action, &block
       if result
-        if request_type == :create
-          flash[:success] = { id: :resource_status, message: I18n.t('created', scope: 'notices.' + controller_scope_name) }
-        else
-          flash[:success] = { id: :resource_status, message: I18n.t('updated', scope: 'notices.' + controller_scope_name) }
-        end
+        success_key =  request_type == :create ? 'created' : 'updated'
+        flash[:success] = { id: :resource_status, message: I18n.t(success_key, scope: 'notices.' + controller_scope_name) }
 
         yield if block_given?
 
@@ -528,8 +525,6 @@ module Releaf
           if result
             if @features[:edit_ajax_reload] && request_type == :update
               add_resource_breadcrumb(@resource)
-              flash.discard(:success)
-              flash.now[:success] = { id: :resource_status, message: I18n.t('updated', scope: 'notices.' + controller_scope_name) }
               render action: html_render_action, formats: [:html], content_type: "text/html"
             else
               render json: {url: success_url, message: flash[:success][:message]}, status: 303
