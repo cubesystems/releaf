@@ -3,7 +3,7 @@
   input_attributes  = local_assigns.fetch(:input_attributes, {})
   field_attributes  = local_assigns.fetch(:field_attributes, {})
 
-  # if view_prefix is not, most likely we came from custom partial.
+  # if view_prefix is not set, most likely we came from custom partial.
   # To prevent infinit loop, we set view prefix to something that will prevent
   # us from making infinite loop
   view_prefix = local_assigns.fetch(:view_prefix, 'edit.field_custom_')
@@ -31,13 +31,14 @@
     = render "#{view_prefix}.#{name}", opts
   - else
 
-    - render_field_type, use_i18n = render_field_type(f.object, name)
+    - field_type_name = Releaf::TemplateFieldTypeMapper.field_type_name(f.object, name)
+    - use_i18n = Releaf::TemplateFieldTypeMapper.use_i18n?(f.object, name)
 
-    - if use_i18n and has_template?( "_edit.field_type_#{render_field_type}_i18n" )
-      = render "edit.field_type_#{render_field_type}_i18n", opts
+    - if use_i18n and has_template?( "_edit.field_type_#{field_type_name}_i18n" )
+      = render "edit.field_type_#{field_type_name}_i18n", opts
 
-    - elsif has_template? "_edit.field_type_#{render_field_type}"
-      = render "edit.field_type_#{render_field_type}", opts
+    - elsif has_template? "_edit.field_type_#{field_type_name}"
+      = render "edit.field_type_#{field_type_name}", opts
 
     - else
       = render "edit.field_type_text", opts

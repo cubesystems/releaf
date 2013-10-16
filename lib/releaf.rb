@@ -5,6 +5,7 @@ require 'releaf/acts_as_node'
 require 'releaf/validation_error_codes'
 require 'releaf/engine'
 require 'releaf/richtext_attachments'
+require 'releaf/template_field_type_mapper'
 
 module Releaf
   mattr_accessor :menu
