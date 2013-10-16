@@ -44,7 +44,7 @@ module Releaf
         new_common
       end
 
-      render layout: nil if params.has_key?(:ajax)
+      render layout: nil if ajax?
     end
 
     def create

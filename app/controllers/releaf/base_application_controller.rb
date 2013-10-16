@@ -9,7 +9,9 @@ module Releaf
     layout Releaf.layout
     protect_from_forgery
 
-    helper_method :controller_scope_name
+    helper_method \
+      :controller_scope_name,
+      :ajax?
 
     # return contoller translation scope name for using
     # with I18.translation call within hash params
@@ -38,12 +40,21 @@ module Releaf
       error_response('page_not_found', 404)
     end
 
+    def ajax?
+      return @_ajax if @_ajax
+      @_ajax = params.has_key? :ajax
+      params.delete(:ajax)
+      return @_ajax
+    end
+
     private
+
     def error_response error_page, error_status
       respond_to do |format|
         format.html { render "releaf/error_pages/#{error_page}", status: error_status }
         format.any  { render text: '', status: error_status }
       end
     end
+
   end
 end
