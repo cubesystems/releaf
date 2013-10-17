@@ -7,3 +7,5 @@ lib/releaf.rb
 lib/releaf/**/*.rb
 -
 LICENSE
+CONTRIBUTING.md
+CHANGELOG.md
