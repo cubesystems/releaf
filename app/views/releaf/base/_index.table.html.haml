@@ -39,5 +39,5 @@
             - else
               = label
   %tbody.tbody
-    - resources.each do |resource|
+    - collection.each do |resource|
       = render 'index.row', resource: resource, cell_templates: cell_templates, list_url: list_url

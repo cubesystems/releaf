@@ -4,10 +4,10 @@
     = count \
     = t("resources_found", :scope => 'admin.global')
 
-- if resources.empty?
+- if collection.empty?
   %table.table
     %tr
       %th
         .nothing_found= t("nothing_found", :scope => "admin.global")
 - else
-  = render "index.table", :resources => resources, :count => count
+  = render "index.table", :collection => collection, :count => count

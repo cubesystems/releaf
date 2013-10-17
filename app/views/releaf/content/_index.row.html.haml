@@ -13,4 +13,4 @@
       %span
         = resource.name
   - unless resource.children.empty?
-    = render 'index.tree_level', :resources => resource.children, :level => level + 1
+    = render 'index.tree_level', :collection => resource.children, :level => level + 1

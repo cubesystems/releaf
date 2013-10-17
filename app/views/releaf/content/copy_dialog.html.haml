@@ -5,7 +5,7 @@
     = t("Copy node '%{node_name}' to", :scope => controller_scope_name, :default => "Copy node '%{node_name}' to", :node_name => @node.name )
   .content.clearInside
 
-    %div.action-tree.resources
+    %div.action-tree.collection
       %ul.block.clearInside{ :'data-level' => 0 }
         - if action != :edit
           %li.root.row.clearInside
@@ -16,7 +16,7 @@
                   %span= t("Root node", :scope => controller_scope_name)
 
       - unless @collection.size < 1
-        = render 'action_tree.level', :resources => @collection, :level => 1, :action => action
+        = render 'action_tree.level', :collection => @collection, :level => 1, :action => action
 
   .footer.clearInside
     - cancel_url = url_for( :action => 'index' )

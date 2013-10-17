@@ -1,4 +1,4 @@
 %ul.block.clearInside{ :'data-level' => level }
-  - resources.each do |resource|
+  - collection.each do |resource|
     = render 'index.row', :resource => resource, :level => level
 

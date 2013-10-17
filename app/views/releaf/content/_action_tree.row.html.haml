@@ -17,6 +17,6 @@
         %button{:type => :submit}
           %span= resource.name
 
-          
+
   - unless resource.children.empty?
-    = render 'action_tree.level', :resources => resource.children, :level => level + 1, :action => action
+    = render 'action_tree.level', :collection => resource.children, :level => level + 1, :action => action
