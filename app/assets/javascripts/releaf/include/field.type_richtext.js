@@ -81,6 +81,7 @@ jQuery(function()
 
         var config = tinymce_config;
         config.width = textarea.outerWidth();
+        config.height = textarea.outerHeight();
 
         if (extra_config)
         {

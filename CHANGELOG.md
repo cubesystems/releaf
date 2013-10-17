@@ -11,3 +11,4 @@
 * Renamed ```@resources``` to ```@collection```
 * Renamed ```Releaf::BaseController#resources_relation``` to ```Releaf::BaseController#resources```
 * Updated html and css to use collection class instead of resources class
+* Richtext field height will be set to outerHeight() of textarea
