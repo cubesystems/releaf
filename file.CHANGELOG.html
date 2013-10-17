@@ -2,9 +2,9 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>
-  Class: Settings
+  File: CHANGELOG
   
     &mdash; Re:Leaf documentation
   
@@ -31,10 +31,8 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (S)</a> &raquo;
-    
-    
-    <span class="title">Settings</span>
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CHANGELOG</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -63,58 +61,25 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Class: Settings
-  
-  
-  
-</h1>
+    <div id="content"><div id='filecontents'><h2>Changelog</h2>
 
-<dl class="box">
-  
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
-      <span class="inheritName">RailsSettings::CachedSettings</span>
-      
-        <ul class="fullTree">
-          <li>Object</li>
-          
-            <li class="next">RailsSettings::CachedSettings</li>
-          
-            <li class="next">Settings</li>
-          
-        </ul>
-        <a href="#" class="inheritanceTree">show all</a>
-      
-      </dd>
-    
-  
-  
-    
-  
-    
-  
-  
-  
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">app/models/settings.rb</dd>
-  
-</dl>
-<div class="clear"></div>
+<h3>2013.10.17</h3>
 
-
-
-
-
-
-
-
-
-  
-
-</div>
+<ul>
+<li>Moved <code>Releaf::BaseController#resource_class</code> functionality to
+<code>Releaf::BaseController.resource_class</code>.
+<code>Releaf::BaseController#resource_class</code> now calls <code>Releaf::BaseController.resource_class</code>.
+Everywhere, where <code>Releaf::BaseController#resource_class</code> was overriden,
+you must update your code, to override
+<code>Releaf::BaseController.resource_class</code></li>
+<li>Renamed <code>@resources</code> to <code>@collection</code></li>
+<li>Renamed <code>Releaf::BaseController#resources_relation</code> to <code>Releaf::BaseController#resources</code></li>
+<li>Updated html and css to use collection class instead of resources class</li>
+</ul>
+</div></div>
 
     <div id="footer">
-  Generated on Thu Oct 17 15:17:59 2013 by
+  Generated on Thu Oct 17 15:17:58 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.1 (ruby-2.0.0).
 </div>

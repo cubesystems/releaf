@@ -139,7 +139,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Add extra routes for members and collections needed by releaf.</p>
+<p>Pass given resource to “resources” mount method and add extra routes for
+members and collections needed by releaf.</p>
 </div></span>
   
 </li>
@@ -169,15 +170,6 @@
       <pre class="lines">
 
 
-10
-11
-12
-13
-14
-15
-16
-17
-18
 19
 20
 21
@@ -198,17 +190,22 @@
 36
 37
 38
-39</pre>
+39
+40
+41
+42
+43
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/route_mapper.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/route_mapper.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mount_releaf_at'>mount_releaf_at</span> <span class='id identifier rubyid_mount_location'>mount_location</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span>
   <span class='id identifier rubyid_controllers'>controllers</span> <span class='op'>=</span> <span class='id identifier rubyid_allowed_controllers'>allowed_controllers</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/tinymce_assets</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>releaf/tinymce_assets#create</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_controllers'>controllers</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='symbol'>:content</span>
-
-  <span class='id identifier rubyid_devise_for'>devise_for</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_devise_for'>devise_for</span><span class='comma'>,</span> <span class='symbol'>:path</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_mount_location'>mount_location</span><span class='comma'>,</span> <span class='symbol'>:controllers</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:sessions</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf/sessions</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_devise_for'>devise_for</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_devise_for'>devise_for</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='id identifier rubyid_mount_location'>mount_location</span><span class='comma'>,</span> <span class='label'>controllers:</span> <span class='lbrace'>{</span> <span class='label'>sessions:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>releaf/sessions</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
 
   <span class='id identifier rubyid_mount_location_namespace'>mount_location_namespace</span> <span class='op'>=</span> <span class='id identifier rubyid_mount_location'>mount_location</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
   <span class='id identifier rubyid_scope'>scope</span> <span class='id identifier rubyid_mount_location'>mount_location</span> <span class='kw'>do</span>
@@ -250,7 +247,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Add extra routes for members and collections needed by releaf</p>
+<p>Pass given resource to “resources” mount method and add extra routes for
+members and collections needed by releaf</p>
 
 
   </div>
@@ -264,20 +262,36 @@
       <pre class="lines">
 
 
-3
 4
 5
 6
 7
-8</pre>
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/route_mapper.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/route_mapper.rb', line 4</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_releaf_resources'>releaf_resources</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_resources'>resources</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span> <span class='kw'>do</span>
     <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
     <span class='id identifier rubyid_get'>get</span>   <span class='symbol'>:confirm_destroy</span><span class='comma'>,</span> <span class='symbol'>:on</span> <span class='op'>=&gt;</span> <span class='symbol'>:member</span>      <span class='kw'>if</span> <span class='id identifier rubyid_include_confirm_destroy?'>include_confirm_destroy?</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_include_attachment?'>include_attachment?</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_collection'>collection</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_get'>get</span>  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>new_attachment</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>new_attachment</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>create_attachment</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -290,9 +304,9 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Sep  5 16:18:17 2013 by
+  Generated on Thu Oct 17 15:17:58 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7 (ruby-2.0.0).
+  0.8.7.1 (ruby-2.0.0).
 </div>
 
   </body>

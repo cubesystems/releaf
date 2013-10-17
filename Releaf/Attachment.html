@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Class: Releaf::Engine
+  Class: Releaf::Attachment
   
     &mdash; Re:Leaf documentation
   
@@ -31,10 +31,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="../_index.html">Index (E)</a> &raquo;
+    <a href="../_index.html">Index (A)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../Releaf.html" title="Releaf (module)">Releaf</a></span></span>
      &raquo; 
-    <span class="title">Engine</span>
+    <span class="title">Attachment</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -63,7 +63,7 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Class: Releaf::Engine
+    <div id="content"><h1>Class: Releaf::Attachment
   
   
   
@@ -73,14 +73,14 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName">Rails::Engine</span>
+      <span class="inheritName">ActiveRecord::Base</span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">Rails::Engine</li>
+            <li class="next">ActiveRecord::Base</li>
           
-            <li class="next">Releaf::Engine</li>
+            <li class="next">Releaf::Attachment</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -96,7 +96,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/releaf/engine.rb</dd>
+    <dd class="r2 last">app/models/releaf/attachment.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -108,13 +108,82 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#type-instance_method" title="#type (instance method)">- (Object) <strong>type</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
 
   
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="type-instance_method">
+  
+    - (<tt>Object</tt>) <strong>type</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/releaf/attachment.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>image</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_file_type'>file_type</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>%r#</span><span class='tstring_content'>^image/</span><span class='regexp_end'>#</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
     <div id="footer">
-  Generated on Thu Oct 17 15:18:00 2013 by
+  Generated on Thu Oct 17 15:17:59 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.1 (ruby-2.0.0).
 </div>
