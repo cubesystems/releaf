@@ -75,11 +75,24 @@ you must update your code, to override
 <li>Renamed <code>@resources</code> to <code>@collection</code></li>
 <li>Renamed <code>Releaf::BaseController#resources_relation</code> to <code>Releaf::BaseController#resources</code></li>
 <li>Updated html and css to use collection class instead of resources class</li>
+<li>Richtext field height will be set to outerHeight() of textarea</li>
+<li><p><code>Releaf::BaseController#render_field_type</code> was extracted to
+<code>Releaf::TemplateFieldTypeMapper</code> module.
+It&#39;s functionality was split.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_render_field_type'>render_field_type</span><span class='comma'>,</span> <span class='id identifier rubyid_use_i18n'>use_i18n</span> <span class='op'>=</span> <span class='id identifier rubyid_render_field_type'>render_field_type</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>should now be rewriten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_field_type_name'>field_type_name</span> <span class='op'>=</span> <span class='const'>Releaf</span><span class='op'>::</span><span class='const'>TemplateFieldTypeMapper</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name'>field_type_name</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_use_i18n'>use_i18n</span> <span class='op'>=</span> <span class='const'>Releaf</span><span class='op'>::</span><span class='const'>TemplateFieldTypeMapper</span><span class='period'>.</span><span class='id identifier rubyid_use_i18n?'>use_i18n?</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
+</code></pre></li>
 </ul>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Oct 17 15:20:11 2013 by
+  Generated on Thu Oct 17 17:15:24 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.1 (ruby-2.0.0).
 </div>
