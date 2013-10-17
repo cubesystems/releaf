@@ -136,7 +136,7 @@ module Releaf
 
     # Check if @resource has existing restrict relation and it can be deleted
     #
-    # @returns boolean true or false
+    # @return boolean true or false
     def destroyable?
       resource_class.reflect_on_all_associations.all? do |assoc|
         assoc.options[:dependent] != :restrict ||
@@ -147,7 +147,7 @@ module Releaf
 
     # Lists relations for @resource with dependent: :restrict
     #
-    # @returns hash of all related objects, who have dependancy :restrict
+    # @return hash of all related objects, who have dependancy :restrict
     def list_restrict_relations
       relations = {}
       resource_class.reflect_on_all_associations.each do |assoc|
@@ -164,7 +164,7 @@ module Releaf
 
     # Attempts to guess associated controllers name
     #
-    # @returns controller name
+    # @return controller name
     def association_controller association
       guessed_name = association.name.to_s.pluralize
       return guessed_name unless Releaf.controller_list.values.map{ |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).blank?
