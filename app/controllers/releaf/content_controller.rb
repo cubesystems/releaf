@@ -138,7 +138,7 @@ module Releaf
       super resource
     end
 
-    def resource_class
+    def self.resource_class
       Node
     end
 

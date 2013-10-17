@@ -36,7 +36,7 @@ module Releaf
       ]
     end
 
-    def resource_class
+    def self.resource_class
       Releaf.devise_for.classify.constantize
     end
 

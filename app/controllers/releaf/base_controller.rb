@@ -245,8 +245,19 @@ module Releaf
     # override this method to return class that you want.
     #
     # @return class
+    def self.resource_class
+      self.name.split('::').last.sub(/Controller$/, '').classify.constantize
+    end
+
+    # Tries to return resource class.
+    #
+    # If it fails to return proper resource class for your controller, or your
+    # controllers name has no relation to resource class name, then simply
+    # override this method to return class that you want.
+    #
+    # @return class
     def resource_class
-      @resource_class ||= self.class.name.split('::').last.sub(/Controller$/, '').classify.constantize
+      @resource_class ||= self.class.resource_class
     end
 
     # Cheheck if there is a template in lookup_context with given name.

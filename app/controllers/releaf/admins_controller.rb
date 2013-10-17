@@ -6,7 +6,7 @@ module Releaf
       @searchable_fields = [:name, :surname, :email]
     end
 
-    def resource_class
+    def self.resource_class
       Releaf::Admin
     end
 

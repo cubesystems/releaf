@@ -2,7 +2,7 @@ module Releaf
   class TranslationsController < BaseController
     helper_method :locales
 
-    def resource_class
+    def self.resource_class
       I18n::Backend::Releaf::TranslationGroup
     end
 
