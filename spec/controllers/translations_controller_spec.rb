@@ -17,7 +17,7 @@ describe Releaf::TranslationsController do
 
     it "searches by translation group scope and translations key" do
       get :index, search: "test save"
-      expect(assigns(:resources).total_entries).to eq(1)
+      expect(assigns(:collection).total_entries).to eq(1)
     end
   end
 

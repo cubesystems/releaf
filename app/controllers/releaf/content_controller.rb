@@ -16,7 +16,7 @@ module Releaf
     end
 
     def index
-      @resources = Node.roots
+      @collection = Node.roots
     end
 
     def generate_url
@@ -55,7 +55,7 @@ module Releaf
 
     def copy_dialog
       @node = Node.find params[:id]
-      @resources = Node.roots
+      @collection = Node.roots
       render layout: nil
     end
 
@@ -74,7 +74,7 @@ module Releaf
 
     def move_dialog
       @node = Node.find params[:id]
-      @resources = Node.roots
+      @collection = Node.roots
       render layout: nil
     end
 
@@ -91,7 +91,7 @@ module Releaf
     end
 
     def go_to_dialog
-      @resources = Node.roots
+      @collection = Node.roots
       render layout: nil
     end
 

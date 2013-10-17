@@ -22,7 +22,7 @@ describe Releaf::AdminsController do
 
     it "searches by name, surname and email" do
       get :index, search: "bill green another@example"
-      expect(assigns(:resources).count).to eq(1)
+      expect(assigns(:collection).count).to eq(1)
     end
   end
 end

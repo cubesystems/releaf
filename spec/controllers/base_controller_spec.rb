@@ -39,28 +39,28 @@ describe Admin::BooksController do
     context "when empty search string given" do
       it "shows all records" do
         get :index, search: ""
-        expect(assigns(:resources).count).to eq(3)
+        expect(assigns(:collection).count).to eq(3)
       end
     end
 
     context "when search string with multiple words given" do
       it "searches by given string" do
         get :index, search: "one grea"
-        expect(assigns(:resources).count).to eq(1)
+        expect(assigns(:collection).count).to eq(1)
       end
     end
 
     context "when search string given" do
       it "searches by given string" do
         get :index, search: "great"
-        expect(assigns(:resources).count).to eq(1)
+        expect(assigns(:collection).count).to eq(1)
       end
     end
 
     context "when no search given" do
       it "shows all records" do
         get :index
-        expect(assigns(:resources).count).to eq(3)
+        expect(assigns(:collection).count).to eq(3)
       end
     end
   end

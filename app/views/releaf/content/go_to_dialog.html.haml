@@ -4,8 +4,8 @@
   .content.clearInside
 
     %div.action-tree.resources
-      - unless @resources.size < 1
-        = render 'action_tree.level', :resources => @resources, :level => 1, :action => :edit
+      - unless @collection.size < 1
+        = render 'action_tree.level', :resources => @collection, :level => 1, :action => :edit
 
   .footer.clearInside
     - cancel_url = url_for( :action => 'index' )

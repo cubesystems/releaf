@@ -1,3 +1,3 @@
 %div.resources
   - unless resources.size < 1
-    = render 'index.tree_level', :resources => @resources, :level => 1, :ancestry => ''
+    = render 'index.tree_level', :resources => @collection, :level => 1, :ancestry => ''

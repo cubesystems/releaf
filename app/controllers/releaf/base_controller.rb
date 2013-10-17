@@ -49,13 +49,13 @@ module Releaf
     def index &block
       check_feature(:index)
       # load resource only if they are not loaded yet
-      @resources = resources_relation if @resources.nil?
+      @collection = resources if @collection.nil?
 
       if @searchable_fields && params[:search].present?
         search(params[:search])
       end
 
-      @resources = @resources.page( params[:page] ).per_page( @resources_per_page )
+      @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
       yield if block_given?
 
       render layout: false if ajax?
@@ -355,7 +355,7 @@ module Releaf
     # Return ActiveRecord::Base or ActiveRecord::Relation used in index
     #
     # @return ActiveRecord::Base or ActiveRecord::Relation
-    def resources_relation
+    def resources
       resource_class
     end
 
@@ -368,10 +368,10 @@ module Releaf
     def search text
       fields = search_fields(resource_class, @searchable_fields)
       s_joins = normalized_search_joins( search_joins(resource_class, @searchable_fields) )
-      @resources = @resources.includes(*s_joins)
+      @collection = @collection.includes(*s_joins)
       text.strip.split(" ").each_with_index do|word, i|
         query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
-        @resources = @resources.where(query, "word#{i}".to_sym =>'%' + word + '%')
+        @collection = @collection.where(query, "word#{i}".to_sym =>'%' + word + '%')
       end
     end
 
@@ -386,7 +386,7 @@ module Releaf
             association = klass.reflect_on_association(key.to_sym)
             fields += search_fields(association.klass, values)
             if association.macro == :has_many
-              @resources = @resources.group("#{association.klass.table_name}.id")
+              @collection = @collection.group("#{association.klass.table_name}.id")
             end
           end
         end
