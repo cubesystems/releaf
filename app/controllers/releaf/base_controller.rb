@@ -49,7 +49,7 @@ module Releaf
     def index &block
       check_feature(:index)
       # load resource only if they are not loaded yet
-      @resources = collection if @resources.nil?
+      @resources = resources_relation if @resources.nil?
 
       if @searchable_fields && params[:search].present?
         search(params[:search])
@@ -355,7 +355,7 @@ module Releaf
     # Return ActiveRecord::Base or ActiveRecord::Relation used in index
     #
     # @return ActiveRecord::Base or ActiveRecord::Relation
-    def collection
+    def resources_relation
       resource_class
     end
 
