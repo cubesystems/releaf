@@ -39,4 +39,19 @@ feature "Base controller edit", js: true do
     visit admin_book_path(id: @good_book.id)
     expect(page).to have_css('#resource_price[value="12.34"]')
   end
+
+  scenario "editing nested object with :allow_destroy => false" do
+    visit admin_book_path(id: @good_book.id)
+    expect(page).to_not have_css('.remove-nested-item')
+
+    find('.add-nested-item').click
+    expect(page).to have_css('.remove-nested-item')
+
+    fill_in 'resource_chapters_attributes_0_title', :with => 'Chapter 1'
+    fill_in 'resource_chapters_attributes_0_text', :with => 'todo'
+
+    find('button.primary[type="submit"]').click
+    expect(page).to_not have_css('.remove-nested-item')
+    expect(page).to have_css('#resource_chapters_attributes_0_title[value="Chapter 1"]')
+  end
 end

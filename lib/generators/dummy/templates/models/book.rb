@@ -6,7 +6,8 @@ class Book < ActiveRecord::Base
 
   validates_presence_of :title
 
-  accepts_nested_attributes_for :chapters, :allow_destroy => true
+  # chapters may not be destroy
+  accepts_nested_attributes_for :chapters
 
   image_accessor :cover_image
 
