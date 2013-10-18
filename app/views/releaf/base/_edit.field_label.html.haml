@@ -1,5 +1,5 @@
 :ruby
-  translation_name = name.sub(/_uid$/, '') unless local_assigns.key? :translation_name
+  translation_name = name.to_s.sub(/_uid$/, '') unless local_assigns.key? :translation_name
 
 
 - if local_assigns.fetch(:minimal, false)

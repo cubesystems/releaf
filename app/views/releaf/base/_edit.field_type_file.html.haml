@@ -4,7 +4,7 @@
   field_attrs = get_template_field_attributes local_assigns
 
 .field.type_file{field_attrs}
-  - field_name = name.sub(/_uid$/, '')
+  - field_name = name.to_s.sub(/_uid$/, '')
 
   = render "edit.field_label", label_opts
   .value><

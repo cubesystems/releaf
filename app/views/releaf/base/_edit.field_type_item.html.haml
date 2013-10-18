@@ -1,11 +1,11 @@
 :ruby
-  label_opts  = get_template_label_options    local_assigns, { :translation_name => name.sub(/_id$/, '').to_s }
+  label_opts  = get_template_label_options    local_assigns, { :translation_name => name.to_s.sub(/_id$/, '').to_s }
   input_attrs = get_template_input_attributes local_assigns
   field_attrs = get_template_field_attributes local_assigns
 
   select_params = [name]
 
-  relation_name = name.sub(/_id$/, '').to_sym
+  relation_name = name.to_s.sub(/_id$/, '').to_sym
 
   if local_assigns.key? :select_options
     select_params.push select_options

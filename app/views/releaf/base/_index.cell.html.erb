@@ -3,14 +3,14 @@
   if name =~ /_id$/
     if resource.class.respond_to?(:reflect_on_association)
       # FIXME what if association was set with :foreign_key option
-      rel_name = name.sub(/_id$/, '').to_sym
+      rel_name = name.to_s.sub(/_id$/, '').to_sym
       if resource.class.reflect_on_association(rel_name)
         text = resource_to_text(resource.send(rel_name))
       end
     end
   elsif name =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
     unless resource.send(name).blank?
-      text = image_tag resource.send(name.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
+      text = image_tag resource.send(name.to_s.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
     else
       text = ""
     end

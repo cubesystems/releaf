@@ -9,7 +9,7 @@
   view_prefix = local_assigns.fetch(:view_prefix, 'edit.field_custom_')
 
 
-  name_without_id_or_type = name.sub(/_(id|type)$/, '')
+  name_without_id_or_type = name.to_s.sub(/_(id|type)$/, '')
   opts = {
     :f                => f,
     :name             => name,
