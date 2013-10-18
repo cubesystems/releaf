@@ -60,8 +60,7 @@ module Releaf
     end
 
     def copy
-      node = Node.find params[:id]
-      copy_node(node, params[:new_parent_id], false)
+      copy_node(Node.find(params[:id]), params[:new_parent_id], false)
     end
 
     def move_dialog
@@ -71,8 +70,7 @@ module Releaf
     end
 
     def move
-      node = Node.find params[:id]
-      copy_node(node, params[:new_parent_id], true)
+      copy_node(Node.find(params[:id]), params[:new_parent_id], true)
     end
 
     def go_to_dialog
