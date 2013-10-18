@@ -95,7 +95,7 @@ describe Releaf::ContentController, js: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
         click_button("RootNode")
-        expect(page).to have_css('.notifications .notification .message', text: "Copied")
+        expect(page).to have_css('.notifications .notification .message', text: "Copy to node ok")
 
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect(page).to have_css('li > .node-cell a', text: "Main", count: 2)
@@ -107,7 +107,7 @@ describe Releaf::ContentController, js: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
         click_button("Main")
-        expect(page).to have_css('.notifications .notification .message', text: "Copy not possible")
+        expect(page).to have_css('.notifications .notification .message', text: "Copy to node not ok")
       end
     end
   end
@@ -119,7 +119,7 @@ describe Releaf::ContentController, js: true do
         click_link("Move")
         click_button("RootNode")
 
-        expect(page).to have_css('.notifications .notification .message', text: "Moved")
+        expect(page).to have_css('.notifications .notification .message', text: "Move to node ok")
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect(page).to have_css('li > .node-cell a', text: "Main", count: 1)
       end
@@ -131,7 +131,7 @@ describe Releaf::ContentController, js: true do
         click_link("Move")
         click_button("Main")
 
-        expect(page).to have_css('.notifications .notification .message', text: "Move not possible")
+        expect(page).to have_css('.notifications .notification .message', text: "Move to node not ok")
       end
     end
   end
