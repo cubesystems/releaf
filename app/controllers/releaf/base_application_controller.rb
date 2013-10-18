@@ -1,5 +1,6 @@
 module Releaf
   class BaseApplicationController < ActionController::Base
+    before_filter :manage_ajax
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     before_filter :set_locale
 
@@ -41,13 +42,15 @@ module Releaf
     end
 
     def ajax?
-      return @_ajax if @_ajax
-      @_ajax = params.has_key? :ajax
-      params.delete(:ajax)
-      return @_ajax
+      @_ajax || false
     end
 
     private
+
+    def manage_ajax
+      @_ajax = params.has_key? :ajax
+      params.delete(:ajax)
+    end
 
     def error_response error_page, error_status
       respond_to do |format|
