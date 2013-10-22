@@ -28,7 +28,7 @@ describe Releaf::Node::Route do
   describe '#params' do
 
     it "returns a hash with node_id" do
-      expect(node_route.params("home#index")[:node_id]).to eq(12)
+      expect(node_route.params("home#index")[:node_id]).to eq('12')
     end
 
     it "returns a hash with locale" do
