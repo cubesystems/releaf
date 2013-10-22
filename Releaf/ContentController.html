@@ -531,12 +531,12 @@ breadcrumbs.</p>
       <pre class="lines">
 
 
-141
-142
-143</pre>
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resource_class'>resource_class</span>
   <span class='const'>Node</span>
@@ -579,26 +579,26 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139</pre>
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_resource_breadcrumb'>add_resource_breadcrumb</span> <span class='id identifier rubyid_resource'>resource</span>
   <span class='id identifier rubyid_ancestors'>ancestors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -677,31 +677,13 @@ breadcrumbs</p>
 
 62
 63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73</pre>
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_copy'>copy</span>
-  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_success'>success</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_copy_to_node'>copy_to_node</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:new_parent_id</span><span class='rbracket'>]</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_success'>success</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>copy not possible</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>copied</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>index</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_copy_node'>copy_node</span><span class='lparen'>(</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:new_parent_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -791,14 +773,14 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-98
-99
-100
-101
-102</pre>
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_edit'>edit</span>
   <span class='kw'>super</span> <span class='kw'>do</span>
@@ -941,19 +923,19 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119</pre>
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_content_form'>get_content_form</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span> <span class='kw'>unless</span> <span class='id identifier rubyid_content_type_class_names'>content_type_class_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:content_type</span><span class='rbracket'>]</span>
@@ -985,13 +967,13 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-93
-94
-95
-96</pre>
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_go_to_dialog'>go_to_dialog</span>
   <span class='ivar'>@collection</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_roots'>roots</span>
@@ -1047,31 +1029,15 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move'>move</span>
-  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_success'>success</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_move_to_node'>move_to_node</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:new_parent_id</span><span class='rbracket'>]</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_success'>success</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:error</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>move not possible</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_flash'>flash</span><span class='lbracket'>[</span><span class='symbol'>:success</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='symbol'>:resource_status</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_t'>t</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>moved</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notices.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='symbol'>:action</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>index</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_copy_node'>copy_node</span><span class='lparen'>(</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:new_parent_id</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1093,14 +1059,14 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-75
-76
-77
-78
-79</pre>
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_move_dialog'>move_dialog</span>
   <span class='ivar'>@node</span> <span class='op'>=</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
@@ -1165,14 +1131,14 @@ breadcrumbs</p>
       <pre class="lines">
 
 
-104
-105
-106
-107
-108</pre>
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/releaf/content_controller.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='kw'>super</span> <span class='kw'>do</span>
@@ -1189,7 +1155,7 @@ breadcrumbs</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Oct 17 17:15:26 2013 by
+  Generated on Tue Oct 22 13:53:01 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.1 (ruby-2.0.0).
 </div>

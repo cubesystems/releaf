@@ -88,11 +88,17 @@ It&#39;s functionality was split.</p>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_field_type_name'>field_type_name</span> <span class='op'>=</span> <span class='const'>Releaf</span><span class='op'>::</span><span class='const'>TemplateFieldTypeMapper</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name'>field_type_name</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
 <span class='id identifier rubyid_use_i18n'>use_i18n</span> <span class='op'>=</span> <span class='const'>Releaf</span><span class='op'>::</span><span class='const'>TemplateFieldTypeMapper</span><span class='period'>.</span><span class='id identifier rubyid_use_i18n?'>use_i18n?</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
 </code></pre></li>
+<li><p>created new helper method <code>ajax?</code>. If you were checking
+<code>params[:ajax]</code> or <code>params.has_key?(:ajax)</code> etc, then you should
+update your code to use <code>ajax?</code>.</p>
+
+<p><code>:ajax</code> parameter is removed from <code>params</code> has in <code>manage_ajax</code>
+before filter in <code>Releaf::BaseApplicationController</code></p></li>
 </ul>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Oct 17 17:15:24 2013 by
+  Generated on Tue Oct 22 13:52:59 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.1 (ruby-2.0.0).
 </div>

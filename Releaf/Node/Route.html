@@ -682,7 +682,7 @@ route params.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_params'>params</span> <span class='id identifier rubyid_controller_action'>controller_action</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_route_params'>route_params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='label'>node_id:</span> <span class='id identifier rubyid_node_id'>node_id</span><span class='comma'>,</span>
+    <span class='label'>node_id:</span> <span class='id identifier rubyid_node_id'>node_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span>
     <span class='label'>locale:</span> <span class='id identifier rubyid_locale'>locale</span>
   <span class='rbrace'>}</span>
 
@@ -712,7 +712,7 @@ route params.</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Oct 17 17:15:25 2013 by
+  Generated on Tue Oct 22 13:53:00 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.1 (ruby-2.0.0).
 </div>
