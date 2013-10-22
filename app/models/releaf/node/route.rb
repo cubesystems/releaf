@@ -9,7 +9,7 @@ module Releaf
     # @return [Hash] route options. Will return at least node "node_id" and "locale" keys.
     def params controller_action, args = {}
       route_params = {
-        node_id: node_id,
+        node_id: node_id.to_s,
         locale: locale
       }
 
@@ -51,7 +51,7 @@ module Releaf
     # Build Node::Route from Node object
     def self.build_route_object node
       route = Node::Route.new
-      route.node_id = node.id
+      route.node_id = node.id.to_s
       route.path = node.url
       route.locale = node.root.locale
 
