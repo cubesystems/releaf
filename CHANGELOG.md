@@ -26,3 +26,9 @@
     field_type_name = Releaf::TemplateFieldTypeMapper.field_type_name(resource, field_name)
     use_i18n = Releaf::TemplateFieldTypeMapper.use_i18n?(resource, field_name)
   ```
+* created new helper method ```ajax?```. If you were checking
+  ```params[:ajax]``` or ```params.has_key?(:ajax)``` etc, then you should
+  update your code to use ```ajax?```.
+
+  ```:ajax``` parameter is removed from ```params``` has in ```manage_ajax```
+  before filter in ```Releaf::BaseApplicationController```
