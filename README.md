@@ -6,7 +6,7 @@ Documentation: http://cubesystems.github.com/releaf/
 
 wiki: https://github.com/cubesystems/releaf/wiki/_pages
 
-Changelog: http://cubesystems.github.io/releaf/file.CHANGELOG.html
+Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
 [![Build Status](https://travis-ci.org/cubesystems/releaf.png?branch=master)](https://travis-ci.org/cubesystems/releaf)
 [![Coverage Status](https://coveralls.io/repos/cubesystems/releaf/badge.png?branch=master)](https://coveralls.io/r/cubesystems/releaf?branch=master)
