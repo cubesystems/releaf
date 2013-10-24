@@ -585,6 +585,12 @@ module Releaf
       return errors
     end
 
+    def validation_attribute_name resource, attribute
+      return attribute.to_s if resource.attributes.include? attribute.to_s
+      return resource.class.reflections[attribute.to_sym].foreign_key.to_s if resource.class.reflections[attribute.to_sym].present?
+      return nil
+    end
+
     def validation_attribute_field_id resource, attribute
       parts = attribute.to_s.split('.')
       prefix = "resource"
@@ -592,8 +598,10 @@ module Releaf
       if parts.length > 1
         field_name = validation_attribute_nested_field_name(resource, parts)
       else
+        attribute = validation_attribute_name resource, parts[0]
+
         field_name = "["
-        field_name += parts[0]
+        field_name += attribute
         # normalize field id for globalize3 attributes without prefix
         if resource_class.respond_to?(:translations_table_name) && resource_class.translates.include?(attribute.to_sym)
           field_name += "_#{I18n.default_locale}"
@@ -610,19 +618,21 @@ module Releaf
     def validation_attribute_nested_field_name resource, parts
       index = 0
 
-      association_type = resource.class.reflect_on_association(parts[0].to_sym).macro
+      attribute = validation_attribute_name resource, parts[0]
+
+      association_type = resource.class.reflect_on_association(attribute.to_sym).macro
       if association_type == :belongs_to
-        nested_items = [resource.send(parts[0])]
+        nested_items = [resource.send(attribute)]
       else
-        nested_items = resource.send(parts[0])
+        nested_items = resource.send(attribute)
       end
 
       nested_items.each do |item|
         unless item.valid?
           if association_type == :belongs_to
-            field_id = "[" + parts[0] + "_attributes][#{parts[1]}]"
+            field_id = "[" + attribute + "_attributes][#{parts[1]}]"
           else
-            field_id = "[" + parts[0] + "_attributes][#{index}]"
+            field_id = "[" + attribute + "_attributes][#{index}]"
             if parts.length == 2
               field_id += "[" + parts[1] + "]"
             else

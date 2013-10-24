@@ -6,6 +6,7 @@ describe Admin::AuthorsController do
   before do
     sign_in FactoryGirl.create(:admin)
   end
+
   describe "DELETE #destroy" do
     before do
        @author = FactoryGirl.create(:author)
@@ -19,6 +20,38 @@ describe Admin::AuthorsController do
     end
   end
 end
+
+describe Admin::BooksController do
+
+  describe "#validation_attribute_name" do
+
+    before do
+      @controller = Admin::BooksController.new
+      @resource   = Admin::BooksController.resource_class.new
+    end
+
+    context "when an existing attribute name is given" do
+      it "returns the given attribute" do
+        expect(@controller.send(:validation_attribute_name, @resource, :author_id)).to eq 'author_id'
+      end
+    end
+
+    context "when an association name is given" do
+      it "returns the corresponding foreign key attribute" do
+        expect(@controller.send(:validation_attribute_name, @resource, :author)).to eq 'author_id'
+      end
+    end
+
+    context "when an invalid attribute is given" do
+      it "returns nil" do
+        expect(@controller.send(:validation_attribute_name, @resource, :trololo)).to be_nil
+      end
+    end
+
+  end
+
+end
+
 
 describe Admin::BooksController do
   before do
