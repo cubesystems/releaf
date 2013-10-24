@@ -95,7 +95,7 @@ jQuery(document).ready( function()
             var params =
             {
                 url     : new url_builder( link.attr('href') ).add( { ajax: 1 } ).getUrl(),
-                modal   : (link.attr('data-modal') == '1'),
+                modal   : link.is('[data-modal]'),
                 trigger : link
             };
 

@@ -1,5 +1,12 @@
 ## Changelog
 
+
+### 2013.10.24
+
+* Removed long unused lighbox javascript
+* For ajaxbox now checks presence of ```data-modal``` attrubute instead of it's value. Update your views.
+
+
 ### 2013.10.17
 
 * Moved ```Releaf::BaseController#resource_class``` functionality to
