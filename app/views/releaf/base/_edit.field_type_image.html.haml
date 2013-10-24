@@ -3,8 +3,10 @@
   input_attrs = get_template_input_attributes local_assigns, { :accept => 'image/png,image/jpeg,image/bmp,image/gif' }
   field_attrs = get_template_field_attributes local_assigns
 
+  field_name = name.to_s.sub(/_uid$/, '')
+  image = f.object.send(field_name)
+
 .field.type_image{field_attrs}
-  - field_name = name.to_s.sub(/_uid$/, '')
 
   = render "edit.field_label", label_opts
   .value><
@@ -13,8 +15,7 @@
       .value_preview
         .image_wrap
           = f.hidden_field "retained_#{field_name}"
-          - img_object = f.object.send(field_name)
-          = link_to image_tag(img_object.thumb('410x128>').url, :alt => ''), img_object.url, :target => :_blank, :class => :ajaxbox
+          = link_to image_tag(image.thumb('410x128>').url, alt: ''), image.url, target: :_blank, class: :ajaxbox, rel: :image
         .remove_image
           = f.check_box "remove_#{field_name}"
           = f.label "remove_#{field_name}", I18n.t("Remove image", :scope => 'admin.global')

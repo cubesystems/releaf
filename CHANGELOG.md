@@ -5,6 +5,7 @@
 
 * Removed long unused lighbox javascript
 * For ajaxbox now checks presence of ```data-modal``` attrubute instead of it's value. Update your views.
+* If you want to open image in ajaxbox, you need to add ```rel="image"``` html attribute to links.
 
 
 ### 2013.10.17

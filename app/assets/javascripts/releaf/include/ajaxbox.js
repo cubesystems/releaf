@@ -28,8 +28,14 @@ jQuery(document).ready( function()
                 // insert close button if header exists and box is not modal
                 if (!params.modal)
                 {
-                    var header = this.inner.find('.body .header').first();
-                    if (header.length > 0)
+                    var close_container = this.inner.first();
+
+                    if (params.type != 'image')
+                    {
+                        close_container =  this.inner.find('.body .header').first();
+                    }
+
+                    if (close_container.length > 0)
                     {
                         var close_icon   = jQuery('<i />').addClass('icon-remove icon-large');
                         var close_button = jQuery('<button />').attr('type', 'button').addClass('button secondary close only-icon').append(close_icon);
@@ -37,7 +43,7 @@ jQuery(document).ready( function()
                         {
                             close_ajax_box();
                         })
-                        header.append( close_button );
+                        close_container.append( close_button );
                     }
                 }
 
@@ -71,7 +77,15 @@ jQuery(document).ready( function()
             fancybox_params.helpers     = { overlay: { closeClick: false } };
         }
 
-        fancybox_params.content = params.content;
+        if (params['type'] == 'image')
+        {
+            fancybox_params.href = params.url;
+            fancybox_params.type = params.type;
+        }
+        else
+        {
+            fancybox_params.content = params.content;
+        }
         jQuery.fancybox( fancybox_params );
         return;
     }
@@ -98,6 +112,10 @@ jQuery(document).ready( function()
                 modal   : link.is('[data-modal]'),
                 trigger : link
             };
+            if (link.attr('rel') == 'image')
+            {
+                params['type'] = 'image';
+            }
 
             link.trigger('ajaxboxopen', params);
 
