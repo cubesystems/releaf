@@ -7,7 +7,7 @@ module Releaf
     rescue_from Releaf::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
 
-    layout Releaf.layout
+    layout :layout
     protect_from_forgery
 
     helper_method \
@@ -43,6 +43,10 @@ module Releaf
 
     def ajax?
       @_ajax || false
+    end
+
+    def layout
+      ajax? ? false : Releaf.layout
     end
 
     private
