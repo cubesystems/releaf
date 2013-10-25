@@ -70,7 +70,7 @@ module Releaf::RouteMapper
   # Mount admin profile controller
   def mount_admin_profile_controller
     get "profile", to: "admin_profile#edit", as: :admin_profile
-    put "profile", to: "admin_profile#update", as: :admin_profile
+    put "profile", to: "admin_profile#update"
     post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
   end
 
