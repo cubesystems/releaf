@@ -14,7 +14,7 @@ class Admin::BooksController < Releaf::BaseController
   end
 
   def resource_params
-    super + [:chapters_attributes]
+    super + [{chapters_attributes: [:title, :text, :id, :_destroy]}]
   end
 end
 
