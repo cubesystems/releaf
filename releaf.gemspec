@@ -16,7 +16,12 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency 'rails', '= 3.2.13'
+  if ENV["RAILS_VERSION"].to_s =~ /^3/
+    s.add_dependency 'rails', '>= 3.2.13'
+  else
+    s.add_dependency 'rails', '= 4.0.0'
+  end
+
   s.add_dependency 'sass-rails', '>= 3.2.5'
   s.add_dependency 'jquery-rails', '= 2.3.0'
   s.add_dependency 'railties', '>= 3.1'
@@ -27,22 +32,23 @@ Gem::Specification.new do |s|
   s.add_dependency 'tinymce-rails', '~> 3.5.8'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'awesome_nested_set'
-  s.add_dependency 'i18n', '>= 0.6.0'
   s.add_dependency 'stringex', '>= 1.5.1'
   s.add_dependency 'will_paginate', '>= 3.0.4'
   s.add_dependency 'font-awesome-rails', '< 4.0.0.0'
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
-  s.add_dependency 'easy_globalize3_accessors', '~> 1.3.2'
+  s.add_dependency 'easy_globalize3_accessors'
   s.add_dependency 'uuidtools', '>= 2.1.4'
   s.add_dependency 'nokogiri', '>= 1.6.0'
+  s.add_dependency 'rack-cache'
+
 
 
   s.add_dependency 'axlsx', '~> 2.0.1'
   s.add_dependency 'roo', '~> 1.12.2'
 
   # v0.2.0 is broken currently
-  s.add_dependency 'strong_parameters', '= 0.1.6'
+  s.add_dependency 'strong_parameters', '0.2.1'
 
   s.add_development_dependency 'mysql2'
   s.add_development_dependency 'rspec-rails'

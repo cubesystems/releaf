@@ -54,7 +54,24 @@ rake 'db:create'
 generate "releaf:install"
 generate "dummy:install -f"
 
+# strong_params for rails 3.x
 gsub_file 'config/application.rb', 'config.active_record.whitelist_attributes = true', 'config.active_record.whitelist_attributes = false'
+
+append_file '../../Gemfile' do <<-'FILE'
+if ENV["RAILS_VERSION"].to_s =~ /^3/
+  gem 'strong_parameters'
+end
+FILE
+
+end
+create_file 'config/strong_parameters.rb' do <<-'FILE'
+if ENV["RAILS_VERSION"].to_s =~ /^3/
+  ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
+end
+FILE
+end
+
+
 application "config.i18n.fallbacks = true"
 
 # in "test" env "true" cause to fail on install generators, revert to normall

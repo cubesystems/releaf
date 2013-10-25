@@ -2,7 +2,6 @@ require 'gravatar_image_tag'
 require 'jquery-cookie-rails'
 require 'rails-settings-cached'
 require 'stringex'
-require 'strong_parameters'
 require 'tinymce-rails'
 require 'will_paginate'
 require 'font-awesome-rails'
@@ -15,6 +14,7 @@ require 'devise'
 require 'dragonfly'
 require 'globalize3'
 require 'easy_globalize3_accessors'
+
 
 module Releaf
   class Engine < ::Rails::Engine
