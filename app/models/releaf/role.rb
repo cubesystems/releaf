@@ -10,11 +10,6 @@ module Releaf
 
     serialize :permissions
 
-    attr_accessible \
-      :name,
-      :default_controller,
-      :permissions
-
     alias_attribute :to_text, :name
 
     # Return true/false access for given controller and action

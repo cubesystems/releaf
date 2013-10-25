@@ -16,10 +16,6 @@ module I18n
         default_scope order('releaf_translation_groups.scope ASC')
         accepts_nested_attributes_for :translations, :allow_destroy => true
 
-        attr_accessible \
-          :scope,
-          :translations_attributes
-
         def to_s
           scope
         end

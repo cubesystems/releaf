@@ -12,10 +12,6 @@ module I18n
 
         belongs_to :translation, :inverse_of => :translation_data
 
-        attr_accessible \
-          :lang,
-          :localization,
-          :translation_id
       end
     end
   end

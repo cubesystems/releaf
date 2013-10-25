@@ -16,11 +16,6 @@ module I18n
         has_many :translation_data, :dependent => :destroy, :class_name => 'Releaf::TranslationData', :inverse_of => :translation
         accepts_nested_attributes_for :translation_data, :allow_destroy => true
 
-        attr_accessible \
-          :group_id,
-          :key,
-          :translation_data_attributes
-
         def locales
           values = {}
 

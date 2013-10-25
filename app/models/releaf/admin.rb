@@ -14,15 +14,6 @@ module Releaf
 
     belongs_to :role
 
-    attr_accessible \
-      :name,
-      :surname,
-      :role_id,
-      :email,
-      :locale,
-      :password,
-      :password_confirmation
-
     # Concatenate name and surname for object displaying
     def display_name
       [self.name, self.surname].join(' ')

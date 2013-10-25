@@ -11,22 +11,6 @@ class Book < ActiveRecord::Base
 
   image_accessor :cover_image
 
-  attr_accessible \
-    :active,
-    :author,
-    :author_id,
-    :chapters_attributes,
-    :genre,
-    :price,
-    :published,
-    :published_at,
-    :summary_html,
-    :title,
-    :year,
-    :cover_image,
-    :retained_cover_image,
-    :remove_cover_image
-
   alias_attribute :to_text, :title
 
   def price

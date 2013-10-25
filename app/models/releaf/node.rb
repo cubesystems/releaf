@@ -18,8 +18,6 @@ module Releaf
     belongs_to :content, polymorphic: true, dependent: :destroy, class_name: Proc.new{|r| r.content_type.constantize}
     accepts_nested_attributes_for :content
 
-    # FIXME get rid of attr_protected
-    attr_protected :none
     after_save :update_settings_timestamp
 
     acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true

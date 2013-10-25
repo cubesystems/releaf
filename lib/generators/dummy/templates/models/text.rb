@@ -4,7 +4,4 @@ class Text < ActiveRecord::Base
   validates_presence_of :text_html
 
   alias_attribute :to_text, :id
-
-  attr_accessible \
-    :text_html
 end
