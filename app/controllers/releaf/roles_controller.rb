@@ -28,7 +28,7 @@ module Releaf
 
     def resource_params
       return [] unless %w[update create].include? params[:action]
-      return %w[name default_controller permissions]
+      return [:name, :default_controller, permissions: []]
     end
   end
 end
