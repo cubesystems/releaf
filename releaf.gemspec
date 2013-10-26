@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   if ENV["RAILS_VERSION"].to_s =~ /^3/
-    s.add_dependency 'rails', '>= 3.2.13'
+    s.add_dependency 'rails', '= 3.2.13'
   else
     s.add_dependency 'rails', '= 4.0.0'
   end
