@@ -101,7 +101,7 @@ module Releaf
 
     def resource_params
       return [] unless %w[update create].include? params[:action]
-      return super + ['translations_attributes']
+      return super + [{translations_attributes: [:id, :_destroy, :key, {translation_data_attributes: [:id, :lang, :localization]}]}]
     end
 
     def add_group_to_workbook(group, p)
