@@ -25,7 +25,6 @@ module Releaf
     def set_locale
       admin = send("current_" + ReleafDeviseHelper.devise_admin_model_name)
       I18n.locale = admin.locale
-      Releaf::Globalize3::Fallbacks.set
     end
 
     def feature_disabled exception
