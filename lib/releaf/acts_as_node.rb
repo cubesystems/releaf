@@ -8,6 +8,26 @@ module ActsAsNode
     @classes << class_name unless @classes.include? class_name
   end
 
+  module ClassMethods
+    # Load all nodes for class
+    def nodes
+      Releaf::Node.where(content_type: self.name)
+    end
+
+    # There are no configuration options yet.
+    #
+    def acts_as_node(options = {})
+      configuration = {}
+      configuration.update(options) if options.is_a?(Hash)
+
+      ActsAsNode.register_class(self.name)
+
+      # Store acts_as_node configuration
+      cattr_accessor :acts_as_node_configuration
+      self.acts_as_node_configuration = configuration
+    end
+  end
+
   def self.classes
     # eager load in dev env
     Rails.application.eager_load! if Rails.env.development?

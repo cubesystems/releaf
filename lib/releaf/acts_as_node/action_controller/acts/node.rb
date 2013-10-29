@@ -2,6 +2,7 @@ module ActionController
   module Acts #:nodoc:
     module Node #:nodoc:
       def self.included(base)
+        base.extend(::ActsAsNode::ClassMethods)
         base.extend(ClassMethods)
       end
 
@@ -17,19 +18,8 @@ module ActionController
         # There are no configuration options yet.
         #
         def acts_as_node(options = {})
-          configuration = {}
-          configuration.update(options) if options.is_a?(Hash)
-
-          ActsAsNode.register_class(self.name)
-
-          class_eval <<-EOV
-            include ::ActionController::Acts::Node::InstanceMethods
-
-            # Load all nodes for class
-            def self.nodes
-              Releaf::Node.where(content_type: self.name)
-            end
-         EOV
+          super options
+          include ::ActionController::Acts::Node::InstanceMethods
         end
       end
 

@@ -78,6 +78,15 @@ module Releaf
       render layout: nil
     end
 
+    # Override base controller create method
+    # so we can assign content_type before further
+    # processing
+    def create
+      @resource = resource_class.new
+      @resource.content_type = node_content_type.to_s
+      super
+    end
+
     def edit
       super do
         edit_common
@@ -154,21 +163,25 @@ module Releaf
       if params[:content_type].blank?
         @content_types = content_type_classes
       else
-        unless ActsAsNode.classes.include? params[:content_type]
-          raise ArgumentError, "invalid content_type"
-        end
-
         @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
         @item_position = 1
 
-        @resource.content_type = params[:content_type]
+        @resource.content_type = node_content_type.to_s
         @resource.parent_id = params[:parent_id]
 
-        content_class = params[:content_type].constantize
-        if content_class < ActiveRecord::Base
-          @resource.content = content_class.new
+        if node_content_type < ActiveRecord::Base
+          @resource.content = node_content_type.new
         end
       end
+    end
+
+    # Returns valid content type class
+    def node_content_type
+      unless ActsAsNode.classes.include? params[:content_type]
+        raise ArgumentError, "invalid content_type"
+      end
+
+      params[:content_type].constantize
     end
 
     def content_type_class_names
@@ -180,7 +193,7 @@ module Releaf
     end
 
     def resource_params
-      super + [:content_attributes] + @resource.common_field_names
+      super + [{content_attributes: @resource.content_type.constantize.acts_as_node_configuration[:permit_attributes]}] + @resource.common_field_names
     end
   end
 end

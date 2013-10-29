@@ -5,14 +5,10 @@ class ContactFormController < ActionController::Base
 end
 
 class Contact < ActiveRecord::Base
-  acts_as_node
+  acts_as_node permit_attributes: [:text_html]
   def self.columns
     @columns ||= [];
   end
-
-  #def self.column_names
-    #@column_names ||= %w(id created_at updated_at phone)
-  #end
 
   def self.column(name, sql_type = nil, default = nil, null = true)
     columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default,
@@ -24,6 +20,12 @@ describe ActsAsNode do
   describe ".classes" do
     it "returns all registerd classes" do
       expect(ActsAsNode.classes).to include("ContactFormController", "Contact")
+    end
+  end
+
+  describe ".acts_as_node" do
+    it "have configuration options available through acts_as_node_configuration class method" do
+      expect(Contact.acts_as_node_configuration).to eq({:permit_attributes=>[:text_html]})
     end
   end
 

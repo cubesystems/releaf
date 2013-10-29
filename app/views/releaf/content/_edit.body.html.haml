@@ -1,6 +1,7 @@
 .body
   - if f.object.new_record?
     = f.hidden_field :parent_id, :value => params[:parent_id] || f.object.parent_id
+    = hidden_field_tag(:content_type, params[:content_type])
 
 
   .section.node-fields
@@ -10,9 +11,7 @@
       .label_wrap
         = f.label :content_type, 'Veids:', :title => f.object.content_type
       .value
-        %span= (f.object.content_type || params[:content_type])
-      - if f.object.new_record?
-        = hidden_field(:resource, :content_type, {:value => params[:content_type]})
+        %span= f.object.content_type
       .clear
 
 
