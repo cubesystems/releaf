@@ -112,7 +112,15 @@ module Releaf
       return if parent_id.to_i == id
       return if self.class.find_by_id(parent_id).nil? && !parent_id.blank?
 
-      new_node = self.dup
+      new_node = self.class.new
+      new_node.name = name
+      new_node.slug = slug
+      new_node.locale = locale
+      new_node.content_type = content_type
+      new_node.content_string = content_string
+      new_node.active = active
+      new_node.protected = self.protected
+
       new_node.item_position = self.self_and_siblings[-1].item_position + 1
 
       if content_id.present?
