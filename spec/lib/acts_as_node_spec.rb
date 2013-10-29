@@ -4,54 +4,44 @@ class ContactFormController < ActionController::Base
   acts_as_node
 end
 
-class Contact < ActiveRecord::Base
-  acts_as_node permit_attributes: [:text_html]
-  def self.columns
-    @columns ||= [];
-  end
-
-  def self.column(name, sql_type = nil, default = nil, null = true)
-    columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default,
-      sql_type.to_s, null)
-  end
-end
-
 describe ActsAsNode do
+  before do
+    Book.acts_as_node permit_attributes: [:text_html]
+  end
+
   describe ".classes" do
     it "returns all registerd classes" do
-      expect(ActsAsNode.classes).to include("ContactFormController", "Contact")
+      expect(ActsAsNode.classes).to include("ContactFormController", "Book")
     end
   end
 
   describe ".acts_as_node" do
     it "have configuration options available through acts_as_node_configuration class method" do
-      expect(Contact.acts_as_node_configuration).to eq({:permit_attributes=>[:text_html]})
+      expect(Book.acts_as_node_configuration).to eq({:permit_attributes=>[:text_html]})
     end
   end
 
   describe ActiveRecord::Acts::Node do
     context "when model acts as node" do
       it "has name included within ActsAsNode.classes" do
-        expect(ActsAsNode.classes.include?(Contact.to_s)).to be_true
+        expect(ActsAsNode.classes.include?(Book.to_s)).to be_true
       end
     end
 
     context "#node_editable_fields" do
       it "returns model columns" do
-        contact = Contact.new
-        Contact.stub(:column_names).and_return(%w(id created_at updated_at phone))
-        expect(contact.node_editable_fields).to eq(["phone"])
+        expect(Book.new.node_editable_fields).to eq(["title", "year", "author_id", "genre", "summary_html", "active", "published_at", "price", "cover_image_uid"])
       end
     end
 
     context ".nodes" do
       it "loads tree nodes" do
-        Releaf::Node.should_receive(:where).with(content_type: Contact.to_s)
-        Contact.nodes
+        Releaf::Node.should_receive(:where).with(content_type: Book.to_s)
+        Book.nodes
       end
 
-      it "returns array" do
-        expect(Contact.nodes.class).to eq(ActiveRecord::Relation)
+      it "returns relation" do
+        expect(Book.nodes.class).to eq(ActiveRecord::Relation::ActiveRecord_Relation_Releaf_Node)
       end
     end
   end
@@ -76,7 +66,7 @@ describe ActsAsNode do
       end
 
       it "returns array" do
-        expect(ContactFormController.nodes.class).to eq(ActiveRecord::Relation)
+        expect(ContactFormController.nodes.class).to eq(ActiveRecord::Relation::ActiveRecord_Relation_Releaf_Node)
       end
     end
   end
