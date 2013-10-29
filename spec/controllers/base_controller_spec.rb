@@ -16,7 +16,7 @@ describe Admin::AuthorsController do
 
     it "creates flash error with message" do
       delete :destroy, id: @author
-      expect(flash[:error]).to eq({:id=>:resource_status, :message=>"Cant destroy, because relations exists"})
+      expect(flash[:error]).to eq({id: :resource_status, message: "Cant destroy, because relations exists"})
     end
   end
 end
@@ -57,8 +57,8 @@ describe Admin::BooksController do
   before do
     sign_in FactoryGirl.create(:admin)
     @breadcrumbs_base = [
-      {"name" => I18n.t('home', :scope => 'admin.breadcrumbs'), "url" => releaf_root_path},
-      {"name" => I18n.t('admin/books', :scope => "admin.menu_items"), "url" => admin_books_path},
+      {name: I18n.t('home', scope: 'admin.breadcrumbs'), url: releaf_root_path},
+      {name: I18n.t('admin/books', scope: "admin.menu_items"), url: admin_books_path},
     ]
   end
 
@@ -108,7 +108,7 @@ describe Admin::BooksController do
     context "when the requested record responds to #to_text" do
       it "uses the result of #to_text for resource's breadcrumb name" do
         get :new
-        breadcrumbs = @breadcrumbs_base + [{"name" => "New record", "url" => new_admin_book_path}]
+        breadcrumbs = @breadcrumbs_base + [{name: "New record", url: new_admin_book_path}]
 
         expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
       end
@@ -129,7 +129,7 @@ describe Admin::BooksController do
     context "when the requested record responds to #to_text" do
       it "uses the result of #to_text for resource's breadcrumb name" do
         get :edit, id: @resource
-        breadcrumbs = @breadcrumbs_base + [{"name" => @resource.to_text, "url" => edit_admin_book_path(@resource.id)}]
+        breadcrumbs = @breadcrumbs_base + [{name: @resource.to_text, url: edit_admin_book_path(@resource.id)}]
 
         expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
       end
@@ -140,7 +140,7 @@ describe Admin::BooksController do
         pending "Find out way how to stub loaded resource #respond_to?(:to_text)"
         Book.any_instance.stub(:respond_to?).with(:to_text).and_return(false)
         get :edit, id: @resource
-        breadcrumbs = @breadcrumbs_base + [{"name" => "Edit resource", "url" => edit_admin_book_path(@resource.id)}]
+        breadcrumbs = @breadcrumbs_base + [{name: "Edit resource", url: edit_admin_book_path(@resource.id)}]
 
         expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
       end
