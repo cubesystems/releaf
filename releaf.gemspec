@@ -47,8 +47,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'axlsx', '~> 2.0.1'
   s.add_dependency 'roo', '~> 1.12.2'
 
-  # v0.2.0 is broken currently
-  s.add_dependency 'strong_parameters', '0.2.1'
+  if ENV["RAILS_VERSION"].to_s =~ /^3/
+    s.add_dependency 'strong_parameters', '0.2.1'
+  end
 
   s.add_development_dependency 'mysql2'
   s.add_development_dependency 'rspec-rails'
