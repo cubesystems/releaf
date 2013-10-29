@@ -10,7 +10,7 @@ describe Releaf::Role do
   end
 
   describe 'associations' do
-    it { should have_many(:admins).dependent(:restrict) }
+    it { should have_many(:admins).dependent(:restrict_with_exception) }
   end
 
   describe "#authorize!" do
