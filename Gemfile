@@ -5,10 +5,6 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-if ENV["RAILS_VERSION"].to_s =~ /^3/
-  gem 'strong_parameters'
-end
-
 # gems re-listed for correct dummy app working
 
 # Declare any dependencies that are still in development here instead of in
