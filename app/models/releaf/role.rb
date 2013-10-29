@@ -6,7 +6,7 @@ module Releaf
     validates_presence_of :default_controller
     validates_uniqueness_of :name, case_sensitive: false
 
-    has_many :admins, dependent: :restrict
+    has_many :admins, dependent: :restrict_with_exception
 
     serialize :permissions
 

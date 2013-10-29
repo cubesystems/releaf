@@ -11,9 +11,9 @@ module I18n
         validates_presence_of :scope
         validates_uniqueness_of :scope
 
-        has_many :translations, :dependent => :destroy, :foreign_key => :group_id,
-          :order => 'releaf_translations.key', :inverse_of => :translation_group
-        default_scope order('releaf_translation_groups.scope ASC')
+        has_many :translations , -> { order "releaf_translations.key" }, :dependent => :destroy, :foreign_key => :group_id,
+          :inverse_of => :translation_group
+        default_scope { order('releaf_translation_groups.scope ASC') }
         accepts_nested_attributes_for :translations, :allow_destroy => true
 
         def to_s

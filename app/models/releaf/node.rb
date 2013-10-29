@@ -8,7 +8,7 @@ module Releaf
     acts_as_list scope: :parent_id, column: 'item_position'
 
     serialize :data, Hash
-    default_scope order: 'releaf_nodes.item_position'
+    default_scope { order('releaf_nodes.item_position') }
 
     validates_presence_of :name, :slug, :content_type
     validates_uniqueness_of :slug, scope: :parent_id
@@ -22,7 +22,7 @@ module Releaf
 
     acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
 
-    def build_content(params, assignment_options)
+    def build_content(params, assignment_options=nil)
       self.content = content_type.constantize.new(params)
     end
 

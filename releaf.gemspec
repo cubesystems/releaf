@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails-settings-cached', '>= 0.2.4'
   s.add_dependency 'tinymce-rails', '~> 3.5.8'
   s.add_dependency 'acts_as_list'
-  s.add_dependency 'awesome_nested_set'
+  s.add_dependency 'awesome_nested_set', '>= 3.0.0.rc.2'
   s.add_dependency 'stringex', '>= 1.5.1'
   s.add_dependency 'will_paginate', '>= 3.0.4'
   s.add_dependency 'font-awesome-rails', '< 4.0.0.0'
@@ -46,10 +46,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'axlsx', '~> 2.0.1'
   s.add_dependency 'roo', '~> 1.12.2'
-
-  if ENV["RAILS_VERSION"].to_s =~ /^3/
-    s.add_dependency 'strong_parameters', '0.2.1'
-  end
 
   s.add_development_dependency 'mysql2'
   s.add_development_dependency 'rspec-rails'
