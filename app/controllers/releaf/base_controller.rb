@@ -139,19 +139,19 @@ module Releaf
     # @return boolean true or false
     def destroyable?
       resource_class.reflect_on_all_associations.all? do |assoc|
-        assoc.options[:dependent] != :restrict ||
+        assoc.options[:dependent] != :restrict_with_exception ||
           !@resource.send(assoc.name).exists?
       end
     end
 
 
-    # Lists relations for @resource with dependent: :restrict
+    # Lists relations for @resource with dependent: :restrict_with_exception
     #
-    # @return hash of all related objects, who have dependancy :restrict
+    # @return hash of all related objects, who have dependancy :restrict_with_exception
     def list_restrict_relations
       relations = {}
       resource_class.reflect_on_all_associations.each do |assoc|
-        if assoc.options[:dependent] == :restrict && @resource.send(assoc.name).exists?
+        if assoc.options[:dependent] == :restrict_with_exception && @resource.send(assoc.name).exists?
           relations[assoc.name.to_sym] = {
             objects:    @resource.send(assoc.name),
             controller: association_controller(assoc)
