@@ -368,7 +368,7 @@ module Releaf
     def search text
       fields = search_fields(resource_class, @searchable_fields)
       s_joins = normalized_search_joins( search_joins(resource_class, @searchable_fields) )
-      @collection = @collection.includes(*s_joins)
+      @collection = @collection.includes(*s_joins) unless s_joins.empty?
       text.strip.split(" ").each_with_index do|word, i|
         query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
         @collection = @collection.where(query, "word#{i}".to_sym =>'%' + word + '%')
