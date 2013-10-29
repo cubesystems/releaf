@@ -1,6 +1,9 @@
 require 'spec_helper'
 describe Releaf::ContentController, js: true do
   before do
+    # preload ActsAsNode classes
+    Rails.application.eager_load!
+
     @admin = auth_as_admin
     # build little tree
     @root = FactoryGirl.create(:node, name: "RootNode")
