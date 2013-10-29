@@ -76,9 +76,9 @@ module I18n
 
         def save_missing_translation(locale, key)
           scope_parts = key.split('.')[0...-1]
-          group = TranslationGroup.find_or_create_by_scope(:scope => scope_parts.join('.'))
+          group = TranslationGroup.find_or_create_by(scope: scope_parts.join('.'))
 
-          group.translations.find_or_create_by_key(key)
+          group.translations.find_or_create_by(key: key)
           I18N_CACHE.write [locale, key], false
         end
       end
