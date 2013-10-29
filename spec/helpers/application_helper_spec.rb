@@ -16,7 +16,7 @@ describe Releaf::ApplicationHelper do
     context "when array of string" do
       it "returns translated options" do
         input = ["red", "green", "blue"]
-        output = ['<option value="red">Color red</option>', '<option value="green" selected="selected">green</option>', '<option value="blue">blue</option>'].join("\n")
+        output = ['<option value="red">Color red</option>', '<option selected="selected" value="green">green</option>', '<option value="blue">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "green", "colors")).to eq(output)
       end
     end
@@ -24,7 +24,7 @@ describe Releaf::ApplicationHelper do
     context "when hash" do
       it "returns translated options" do
         input = {"red" => "r", "green" => "g", "blue" => "b"}
-        output = ['<option value="r">Color red</option>', '<option value="g" selected="selected">green</option>', '<option value="b">blue</option>'].join("\n")
+        output = ['<option value="r">Color red</option>', '<option selected="selected" value="g">green</option>', '<option value="b">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "g", "colors")).to eq(output)
       end
     end
@@ -32,7 +32,7 @@ describe Releaf::ApplicationHelper do
     context "when array of string for another translation scope" do
       it "returns translated options" do
         input = ["red", "green", "blue"]
-        output = ['<option value="red">red</option>', '<option value="green" selected="selected">green</option>', '<option value="blue">blue</option>'].join("\n")
+        output = ['<option value="red">red</option>', '<option selected="selected" value="green">green</option>', '<option value="blue">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "green", "colors", {:scope => "admin.products"})).to eq(output)
       end
     end
