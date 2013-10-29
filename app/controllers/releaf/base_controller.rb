@@ -58,7 +58,6 @@ module Releaf
       @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
       yield if block_given?
 
-      render layout: false if ajax?
     end
 
     def new &block
@@ -105,11 +104,9 @@ module Releaf
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
 
-      if destroyable?
-        render layout: false if ajax?
-      else
+      unless destroyable?
         @restrict_relations = list_restrict_relations
-        render 'delete_restricted', layout: !ajax?
+        render 'delete_restricted'
       end
     end
 
