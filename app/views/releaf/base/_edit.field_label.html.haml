@@ -1,11 +1,11 @@
 :ruby
   translation_name = name.to_s.sub(/_uid$/, '') unless local_assigns.key? :translation_name
-
+  label_text = t(translation_name, :scope => controller_scope_name) unless local_assigns.key? :label_text
 
 - if local_assigns.fetch(:minimal, false)
-  = f.label name, t(translation_name, :scope => controller_scope_name), attributes
+  = f.label name, label_text, attributes
 - else
   .label_wrap><
-    = f.label name, t(translation_name, :scope => controller_scope_name), attributes
+    = f.label name, label_text, attributes
     - if local_assigns.fetch(:description, nil)
       .description= description
