@@ -1,12 +1,12 @@
-require 'releaf/route_mapper'
-require 'releaf/exceptions'
-require 'releaf/acts_as_node'
-require 'releaf/validation_error_codes'
-require 'releaf/engine'
-require 'releaf/richtext_attachments'
-require 'releaf/template_field_type_mapper'
-
 module Releaf
+  require 'releaf/route_mapper'
+  require 'releaf/exceptions'
+  require 'releaf/acts_as_node'
+  require 'releaf/validation_error_codes'
+  require 'releaf/engine'
+  require 'releaf/richtext_attachments'
+  require 'releaf/template_field_type_mapper'
+
   mattr_accessor :menu
   @@menu = [
     {
