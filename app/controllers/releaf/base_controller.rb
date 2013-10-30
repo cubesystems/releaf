@@ -365,7 +365,9 @@ module Releaf
     def search text
       fields = search_fields(resource_class, @searchable_fields)
       s_joins = normalized_search_joins( search_joins(resource_class, @searchable_fields) )
-      @collection = @collection.includes(*s_joins) unless s_joins.empty?
+      unless s_joins.empty?
+        @collection = @collection.includes(*s_joins).references(*references_for_includes(s_joins))
+      end
       text.strip.split(" ").each_with_index do|word, i|
         query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
         @collection = @collection.where(query, "word#{i}".to_sym =>'%' + word + '%')
@@ -427,6 +429,25 @@ module Releaf
         end
       end
       return assoc
+    end
+
+    # get params for references, given structure that is used for includes
+    def references_for_includes includes
+      normalized = []
+      if includes.is_a? Hash
+        normalized.push references_for_includes(includes.to_a)
+      elsif includes.is_a? Array
+        includes.each do |incl|
+          if incl.is_a?(Array) || incl.is_a?(Hash)
+            normalized.push references_for_includes(incl.to_a)
+          else
+            normalized.push incl
+          end
+        end
+      else
+        normalized.push includes
+      end
+      return normalized.flatten.uniq
     end
 
     def required_params
