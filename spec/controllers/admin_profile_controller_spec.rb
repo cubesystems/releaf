@@ -11,10 +11,10 @@ describe Releaf::AdminProfileController do
     end
   end
 
-  describe "PUT update" do
+  describe "PATCH update" do
     context 'when attributes contain role_id' do
       it "does not update it" do
-        expect{ put :update, {resource: {role_id: another_role.id}} }.to_not change{ admin.role_id }
+        expect{ patch :update, {resource: {role_id: another_role.id}} }.to_not change{ admin.role_id }
       end
     end
 
@@ -27,7 +27,7 @@ describe Releaf::AdminProfileController do
           "locale" => "lv"
         }
         admin.should_receive(:update_attributes).with(attributes)
-        put :update, {resource: attributes}
+        patch :update, {resource: attributes}
       end
     end
   end
