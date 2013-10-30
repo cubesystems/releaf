@@ -16,6 +16,10 @@ describe Releaf::ContentController, js: true do
     visit releaf_nodes_path
   end
 
+  def wait_for_ajax_update key, value = true
+    expect{ @admin.settings.try(:[], key) == value }.to become_true
+  end
+
   describe "new node" do
     context "when creating node under root" do
       it "creates new node in content tree" do
@@ -59,7 +63,7 @@ describe Releaf::ContentController, js: true do
 
       it "keeps opened node children visibility permanent" do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        sleep 3
+        wait_for_ajax_update("content.tree.expanded.#{@root.id}")
         visit releaf_nodes_path
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
@@ -68,7 +72,7 @@ describe Releaf::ContentController, js: true do
       it "keeps closed node children visibility permanent" do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
-        sleep 3
+        wait_for_ajax_update("content.tree.expanded.#{@root.id}", false)
         visit releaf_nodes_path
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"].collapsed')
