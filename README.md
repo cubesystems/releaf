@@ -14,20 +14,14 @@ Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
 ## Getting started
 
-Releaf will work with Rails 3.2.
+Releaf will work with Rails 4.
 
 First add Releaf gem to your Gemfile
 ```ruby
-gem 'releaf', :git => 'git@github.com:cubesystems/releaf.git'
+gem 'releaf', git: 'git@github.com:cubesystems/releaf.git'
 ```
 
 Run the bundle command to install it.
-
-Releaf is using strong_params, so in your config/application.rb set
-
-```ruby
-config.active_record.whitelist_attributes = false
-```
 
 Then install with
 ```console
