@@ -218,8 +218,8 @@ module Releaf
     def fields_to_display
       cols = resource_class.column_names - %w[id created_at updated_at encrypted_password item_position]
 
-      if resource_class.respond_to?(:translations_table_name)
-        cols += resource_class.translates.map { |a| a.to_s }
+      if resource_class.translates?
+        cols += resource_class.translated_attribute_names.map { |a| a.to_s }
       end
 
       unless %w[new edit update create].include? params[:action]
@@ -503,8 +503,8 @@ module Releaf
 
       cols = resource_class.column_names.dup
 
-      if resource_class.respond_to?(:translations_table_name)
-        cols = cols + localize_attributes(resource_class.translates)
+      if resource_class.translates?
+        cols = cols + localize_attributes(resource_class.translated_attribute_names)
       end
 
       cols_with_file_fields = []
@@ -621,7 +621,7 @@ module Releaf
         field_name = "["
         field_name += attribute
         # normalize field id for globalize3 attributes without prefix
-        if resource_class.respond_to?(:translations_table_name) && resource_class.translates.include?(attribute.to_sym)
+        if resource_class.translates? && resource_class.translated_attribute_names.include?(attribute.to_sym)
           field_name += "_#{I18n.default_locale}"
         end
 

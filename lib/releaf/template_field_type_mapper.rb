@@ -44,8 +44,8 @@ module Releaf
 
     # should localized template be preffered?
     def self.use_i18n? obj, attribute_name
-      return false unless obj.class.respond_to?(:translations_table_name)
-      return obj.class.translates.include?(attribute_name.to_sym)
+      return false unless obj.class.translates?
+      return obj.class.translated_attribute_names.include?(attribute_name.to_sym)
     end
 
     protected

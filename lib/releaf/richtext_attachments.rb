@@ -5,7 +5,7 @@ module Releaf
 
     def manage_attachments
       columns = self.class.column_names
-      columns += self.class.translates.map(&:to_s) if self.class.respond_to? :translations_table_name
+      columns += self.class.translated_attribute_names.map(&:to_s) if self.class.translates?
 
       richtext_columns = columns.grep(/_html$/)
 
