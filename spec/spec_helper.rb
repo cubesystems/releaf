@@ -40,6 +40,24 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # for devise testing
 include Warden::Test::Helpers
 
+
+Capybara.register_driver :quiet_webkit do |app|
+  Capybara::Webkit::Driver.new(app, stderr: HushLittleWebkit.new)
+end
+
+class HushLittleWebkit
+  IGNOREABLE = /CoreText performance|userSpaceScaleFactor/
+
+  def write(message)
+    if message =~ IGNOREABLE
+      0
+    else
+      puts(message)
+      1
+    end
+  end
+end
+
 RSpec.configure do |config|
   config.mock_with :rspec
   config.use_transactional_fixtures = false
@@ -71,7 +89,7 @@ RSpec.configure do |config|
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
 
-  Capybara.javascript_driver = :webkit
+  Capybara.javascript_driver = :quiet_webkit
 
   # disable empty translation creation
   Releaf.create_missing_translations = false
