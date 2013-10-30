@@ -47,12 +47,6 @@ module Releaf
       render layout: nil if ajax?
     end
 
-    def create
-      super do
-        new_common
-      end
-    end
-
     def copy_dialog
       @node = Node.find params[:id]
       @collection = Node.roots
@@ -84,7 +78,9 @@ module Releaf
     def create
       @resource = resource_class.new
       @resource.content_type = node_content_type.to_s
-      super
+      super do
+        new_common
+      end
     end
 
     def edit
