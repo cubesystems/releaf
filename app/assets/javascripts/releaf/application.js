@@ -5,8 +5,8 @@
 // the compiled file.
 //
 //= require jquery
+//= require jquery.ui.all
 //= require jquery_ujs
-//= require jquery-ui
 //= require jquery.cookie
 //= require tinymce-jquery
 //= require_tree ./include
