@@ -7,7 +7,13 @@ module Releaf
         params[:settings].each_pair do|key, value|
           value = false if value == "false"
           value = true if value == "true"
-          @resource.settings[key] = value
+          # Sometimes concurrency happens, so lets try until
+          # record get updated
+          begin
+            @resource.settings[key] = value
+          rescue ActiveRecord::RecordNotUnique
+            retry
+          end
         end
         render nothing: true, status: 200
       else
