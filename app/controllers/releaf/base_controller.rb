@@ -113,14 +113,10 @@ module Releaf
     def destroy
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
-      if destroyable?
-        result = @resource.destroy
-
-        if result
-          flash[:success] = { id: :resource_status, message: I18n.t('deleted', scope: 'notices.' + controller_scope_name) }
-        end
+      if destroyable? && @resource.destroy
+        flash[:success] = { id: :resource_status, message: I18n.t('deleted', scope: notice_scope_name) }
       else
-        flash[:error] = { id: :resource_status, message: I18n.t('cant destroy, because relations exists', scope: 'notices.' + controller_scope_name) }
+        flash[:error] = { id: :resource_status, message: I18n.t('cant destroy, because relations exists', scope: notice_scope_name) }
       end
 
       respond_to do |format|
@@ -349,6 +345,12 @@ module Releaf
 
     protected
 
+
+    # Returns notice scope name
+    def notice_scope_name
+      'notices.' + controller_scope_name
+    end
+
     # Return ActiveRecord::Base or ActiveRecord::Relation used in index
     #
     # @return ActiveRecord::Base or ActiveRecord::Relation
@@ -557,7 +559,7 @@ module Releaf
     def respond_after_save request_type, result, html_render_action, &block
       if result
         success_key =  request_type == :create ? 'created' : 'updated'
-        flash[:success] = { id: :resource_status, message: I18n.t(success_key, scope: 'notices.' + controller_scope_name) }
+        flash[:success] = { id: :resource_status, message: I18n.t(success_key, scope: notice_scope_name) }
 
         yield if block_given?
 
@@ -582,7 +584,7 @@ module Releaf
           if result
             redirect_to success_url
           else
-            flash[:error] = { id: :resource_status, message: I18n.t('error', scope: 'notices.' + controller_scope_name) }
+            flash[:error] = { id: :resource_status, message: I18n.t('error', scope: notice_scope_name) }
             render action: html_render_action
           end
         end
