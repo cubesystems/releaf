@@ -18,7 +18,7 @@ module Releaf
 
     before_filter do
       authorize!
-      filter_templates
+      filter_templates_from_params
       build_breadcrumbs
       setup
     end
@@ -665,8 +665,8 @@ module Releaf
       end
     end
 
-    def filter_templates
-      filter_templates_from_hash(params)
+    def filter_templates_from_params
+      filter_templates(params)
     end
 
     def build_breadcrumbs
@@ -697,23 +697,17 @@ module Releaf
       @breadcrumbs << { name: name, url: url }
     end
 
-    def filter_templates_from_array arr
-      return unless arr.is_a? Array
-      arr.each do |item|
-        if item.is_a? Hash
-          filter_templates_from_hash(item)
-        elsif item.is_a? Array
-          filter_templates_from_array(item)
+    def filter_templates params_to_filter
+      if params_to_filter.is_a? Array
+        params_to_filter.each do |item|
+          filter_templates item
         end
+      elsif params_to_filter.is_a? Hash
+        params_to_filter.delete :_template_
+        params_to_filter.delete '_template_'
+        filter_templates params_to_filter.values
       end
     end
 
-    def filter_templates_from_hash hsk
-      return unless hsk.is_a? Hash
-      hsk.delete :_template_
-      hsk.delete '_template_'
-
-      filter_templates_from_array(hsk.values)
-    end
   end
 end
