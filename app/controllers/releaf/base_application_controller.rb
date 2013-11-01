@@ -12,7 +12,12 @@ module Releaf
 
     helper_method \
       :controller_scope_name,
+      :page_title,
       :ajax?
+
+    def page_title
+      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+    end
 
     # return contoller translation scope name for using
     # with I18.translation call within hash params

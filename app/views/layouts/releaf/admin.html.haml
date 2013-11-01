@@ -16,7 +16,7 @@
 !!! 5
 %html
   %head
-    %title= t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+    %title= page_title
     %meta{content: "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
     = stylesheet_link_tag "releaf/application"
     - %w[css.scss.erb scss.erb css.scss scss css.erb css].each do |ext|
