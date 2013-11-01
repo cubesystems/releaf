@@ -4,11 +4,17 @@ module Releaf
     protected
 
     def manage_attachments
-      columns = self.class.column_names
-      columns += self.class.translated_attribute_names.map(&:to_s) if self.class.translates?
+      collected_uuids = richtext_attachment_collected_uuids
+      if collected_uuids.present?
+        self.attachments.where('uuid NOT IN (?)', collected_uuids).delete_all
+        Attachment.where(:uuid => collected_uuids, :richtext_attachment_type => nil, :richtext_attachment_id => nil).
+          update_all ["richtext_attachment_type = :class, richtext_attachment_id = :id", {:class => self.class.name, :id => self.id} ]
+      else
+        self.attachments.delete_all
+      end
+    end
 
-      richtext_columns = columns.grep(/_html$/)
-
+    def richtext_attachment_collected_uuids
       collected_uuids = []
 
       richtext_columns.each do |column|
@@ -19,14 +25,13 @@ module Releaf
         end
       end
 
-      if collected_uuids.present?
-        self.attachments.where('uuid NOT IN (?)', collected_uuids).delete_all
-        Attachment.where(:uuid => collected_uuids, :richtext_attachment_type => nil, :richtext_attachment_id => nil).
-          update_all ["richtext_attachment_type = :class, richtext_attachment_id = :id", {:class => self.class.name, :id => self.id} ]
-      else
-        self.attachments.delete_all
-      end
+      return collected_uuids.uniq
+    end
 
+    def richtext_columns
+      columns = self.class.column_names
+      columns += self.class.translated_attribute_names.map(&:to_s) if self.class.translates?
+      columns.grep(/_html$/)
     end
 
     public
