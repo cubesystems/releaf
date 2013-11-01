@@ -46,13 +46,13 @@ jQuery(function(){
             body.trigger('sidecompactcloseall');
             body.trigger( 'settingssave', [ "releaf.side.compact", false ] );
             body.removeClass('side-compact');
-            icon.addClass('icon-double-angle-left').removeClass('icon-double-angle-right');
+            icon.addClass('fa-angle-double-left').removeClass('fa-angle-double-right');
         }
         else
         {
             body.trigger( 'settingssave', [ "releaf.side.compact", true ] );
             body.addClass('side-compact');
-            icon.addClass('icon-double-angle-right').removeClass('icon-double-angle-left');
+            icon.addClass('fa-angle-double-right').removeClass('fa-angle-double-left');
         }
         body.trigger('sidecompactchange');
     });
@@ -87,12 +87,12 @@ jQuery(function(){
         if (item.hasClass('collapsed'))
         {
             collapsed = true;
-            item.find('.chevron').addClass('icon-chevron-down').removeClass('icon-chevron-up');
+            item.find('.chevron').addClass('fa-chevron-down').removeClass('fa-chevron-up');
         }
         else
         {
             collapsed = false;
-            item.find('.chevron').addClass('icon-chevron-up').removeClass('icon-chevron-down');
+            item.find('.chevron').addClass('fa-chevron-up').removeClass('fa-chevron-down');
         }
 
         var setting_key = 'releaf.menu.collapsed.' + item.data('name');

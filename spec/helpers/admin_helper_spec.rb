@@ -33,7 +33,7 @@ describe Releaf::AdminHelper do
       login_as_admin :admin
       it "returns all available controllers in menu" do
         output = [
-          {:icon=>"file-text-alt", :name=>"releaf/content", :url=>"/admin/content", :active=>false},
+          {:icon=>"file-text-o", :name=>"releaf/content", :url=>"/admin/content", :active=>false},
           {:name=>"inventory", :icon=>"briefcase", :collapsed=>false, :active=>false, :url=>"/admin/books",
            :items=>[
              {:icon=>nil, :name=>"admin/books", :url=>"/admin/books", :active=>false},
@@ -50,7 +50,7 @@ describe Releaf::AdminHelper do
     context "when authorized as :content_admin user" do
       login_as_admin :content_admin
       it "returns only content controller in menu" do
-        output = [{:icon=>"file-text-alt", :name=>"releaf/content", :url=>"/admin/content", :active=>false}]
+        output = [{:icon=>"file-text-o", :name=>"releaf/content", :url=>"/admin/content", :active=>false}]
         expect( helper.admin_menu ).to eq(output)
       end
     end

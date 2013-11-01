@@ -1,10 +1,10 @@
 .body.error
   %h1.error
-    %i.icon-large.icon-warning-sign
+    %i.fa.fa-lg.fa-exclamation-triangle
     = message
   - if defined? description
     %div.description
       = description
   %a.return{ :href => releaf_root_path }
     = t('Go home', :scope => 'admin.global')
-    %i.icon-chevron-right
+    %i.fa.fa-chevron-right

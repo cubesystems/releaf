@@ -8,7 +8,7 @@
   .value><
     = f.text_field name, input_attrs
     %button.button.secondary.only-icon.generate{:type => 'button', :title => t('.suggest_slug') }
-      %i.icon-keyboard
+      %i.fa.fa-keyboard-o
   .link
     %a{:href => "#{f.object.url}"}
       = "#{request.protocol}#{request.host_with_port}#{f.object.parent.try(:url)}/"

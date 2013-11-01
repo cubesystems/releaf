@@ -25,7 +25,7 @@ jQuery(function()
 
             var row = jQuery(e.target);
             row.addClass('collapsed');
-            row.children('.collapser-cell').find('.collapser i').removeClass('icon-chevron-down').addClass('icon-chevron-right');
+            row.children('.collapser-cell').find('.collapser i').removeClass('fa-chevron-down').addClass('fa-chevron-right');
 
         });
 
@@ -35,7 +35,7 @@ jQuery(function()
 
             var row = jQuery(e.target);
             row.removeClass('collapsed');
-            row.children('.collapser-cell').find('.collapser i').removeClass('icon-chevron-right').addClass('icon-chevron-down');
+            row.children('.collapser-cell').find('.collapser i').removeClass('fa-chevron-right').addClass('fa-chevron-down');
 
         });
 

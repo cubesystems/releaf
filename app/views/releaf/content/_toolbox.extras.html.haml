@@ -1,21 +1,21 @@
 - unless resource.new_record?
   %li
     %a.button.ajaxbox{:href => url_for( :action => :new, :parent_id => resource.id )}
-      %i.icon-large.icon-plus
+      %i.fa.fa-lg.fa-plus
       = t('Add child', :scope => controller_scope_name)
 
   - unless params[:action] == "index"
     %li
       %a.button.ajaxbox{:href => url_for( :action => :go_to_dialog )}
-        %i.icon-large.icon-external-link
+        %i.fa.fa-lg.fa-external-link
         = t('Go to', :scope => controller_scope_name)
 
   %li
     %a.button.ajaxbox{:href => url_for( :action => :copy_dialog, :id => resource.id )}
-      %i.icon-large.icon-copy
+      %i.fa.fa-lg.fa-copy
       = t('Copy', :scope => controller_scope_name)
 
   %li
     %a.button.ajaxbox{:href => url_for( :action => :move_dialog, :id => resource.id )}
-      %i.icon-large.icon-move
+      %i.fa.fa-lg.fa-move
       = t('Move', :scope => controller_scope_name)

@@ -16,7 +16,7 @@ jQuery(function()
 
         button.prop('disabled', true);
 
-        var loader = jQuery('<i />').addClass('loader icon-spin icon-spinner');
+        var loader = jQuery('<i />').addClass('loader fa fa-spin fa-spinner');
         button.append( loader );
     });
 

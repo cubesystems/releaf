@@ -40,7 +40,7 @@
                   %input{:type=>"text",   :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][localization]", :value => translation.locales[locale] }
             %td.delete_column
               %button.button.danger.only-icon.remove-nested-item{:type => 'button',  :title => t('Remove item', :scope => 'admin.releaf_translations')}
-                %i.icon-remove
+                %i.fa.fa-times
 
     %table{:style => "display:none;"}
       %tbody
@@ -55,8 +55,8 @@
                 %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][translation_data_attributes][#{locale_index}][localization]" }
           %td.delete_column
             %button.remove-nested-item{:type => 'button', :title => t('Remove item', :scope => 'admin.releaf_translations')}
-              %i.icon-remove
+              %i.fa.fa-times
 
     %button.button.add-nested-item{:type => 'button'}
-      %i.icon-plus
+      %i.fa.fa-plus
       = t('Add item', :scope => 'admin.releaf_translations')

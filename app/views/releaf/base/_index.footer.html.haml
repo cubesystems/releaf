@@ -3,7 +3,7 @@
     .primary
       - if @features[:create]
         %a.button.primary{ :href => url_for(:controller => controller.controller_name, :action => "new") }
-          %i.icon-plus
+          %i.fa.fa-plus
           = t('create_new_item', :scope => 'admin.global')
     - if collection.respond_to?(:page)
       = will_paginate( collection, :class=> "pagination",  :params => params.merge({:ajax => nil}), :renderer => "Releaf::PaginationRenderer::LinkRenderer", :outer_window => 0, :inner_window => 2 )

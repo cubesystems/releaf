@@ -22,6 +22,6 @@
   .footer.clearInside
     - cancel_url = (@resource.parent_id.blank?) ? url_for( :action => 'index' ) : url_for( :action => 'edit', :id => @resource.parent_id )
     %a.button.secondary{ :data => {:type => 'cancel'}, :href => cancel_url }
-      %i.icon-ban-circle
+      %i.fa.fa-ban
       %span= t('cancel', :scope => 'admin.global')
 

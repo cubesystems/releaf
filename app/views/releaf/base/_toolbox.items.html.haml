@@ -3,5 +3,5 @@
   - if @features[:destroy]
     %li
       %a.button.danger.ajaxbox{:href => url_for( :action => :confirm_destroy, :id => resource.id, :list_url => list_url), :data => {:modal => true}}
-        %i.icon-large.icon-trash
+        %i.fa.fa-lg.fa-trash-o
         = t('Delete', :scope => 'admin.global')

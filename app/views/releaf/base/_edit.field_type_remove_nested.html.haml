@@ -1,4 +1,4 @@
 .remove-item-box
   = f.hidden_field :_destroy, :class => :destroy unless f.object.new_record?
   %button.button.danger.only-icon.remove-nested-item{:type => 'button', :title => t('Remove item', :scope => 'admin.global')}
-    %i.icon-large.icon-trash
+    %i.fa.fa-lg.fa-trash-o

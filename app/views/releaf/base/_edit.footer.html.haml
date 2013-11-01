@@ -2,9 +2,9 @@
   .tools
     .primary
       %button.button.primary{:type => "submit", :data => { :type => 'ok' } }
-        %i.icon-ok
+        %i.fa.fa-check
         %span= t('save', :scope => "admin.global")
     .secondary
       %a.button.secondary{ :href => (params[:list_url].blank? ? url_for( :action => 'index' ) : params[:list_url] ) }
-        %i.icon-caret-left
+        %i.fa.fa-caret-left
         = t('back_to_list', :scope => 'admin.global')

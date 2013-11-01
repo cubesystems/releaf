@@ -6,8 +6,8 @@ jQuery(document).ready(function()
     {
         // Set timeout to execute this after datepicker has been initialized
         setTimeout( function() {
-            jQuery(instance.dpDiv[0]).find('.ui-datepicker-prev').html('<i class="icon-chevron-left"></i>');
-            jQuery(instance.dpDiv[0]).find('.ui-datepicker-next').html('<i class="icon-chevron-right"></i>');
+            jQuery(instance.dpDiv[0]).find('.ui-datepicker-prev').html('<i class="fa-chevron-left"></i>');
+            jQuery(instance.dpDiv[0]).find('.ui-datepicker-next').html('<i class="fa-chevron-right"></i>');
         }, 0);
     }
 

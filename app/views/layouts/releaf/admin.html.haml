@@ -40,32 +40,32 @@
           %li.sign-out
             = form_tag(self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), method: :delete) do
               %button{type: "submit"}
-                %i.icon-off.icon-header
+                %i.fa.fa-power-off.icon-header
 
       .side
         .compacter
           %button{type: "button"}
-            %i.toggle-angle-icon{class: "icon-double-angle-" + ( current_admin_user.settings['releaf.side.compact'] ? "right" : "left" )}
+            %i.toggle-angle-icon.fa{class: "fa-angle-double-" + ( current_admin_user.settings['releaf.side.compact'] ? "right" : "left" )}
         %nav
           %ul.block
             - admin_menu.each do |menu_item|
               %li{class: [("active" if menu_item[:active]), ("collapsed" if menu_item[:collapsed]) ], "data-name" => menu_item[:name]}
                 - if menu_item[:items]
                   %span.trigger
-                    %i.icon-large{class: "icon-" + menu_item[:icon]}
+                    %i.fa.fa-lg{class: "fa-" + menu_item[:icon]}
                     %span.name= t(menu_item[:name], scope: "admin.menu_items")
                     %span.collapser
                       %button{type: "button"}
-                        %i.icon-small.chevron.icon-chevron-down
+                        %i.icon-small.chevron.fa.fa-chevron-down
                   %ul.block
                     - menu_item[:items].each do |section_item|
                       %li
                         %a.trigger{href: section_item[:url], class: section_item[:active] ? :active_item : nil}
                           %span.name= t(section_item[:name], scope: "admin.menu_items")
-                          %i.icon-caret-left.active
+                          %i.fa.fa-caret-left.active
                 - else
                   %a.trigger{href: menu_item[:url]}
-                    %i.icon-large{class: "icon-" + menu_item[:icon]}
+                    %i.fa.fa-lg{class: "fa-" + menu_item[:icon]}
                     %span.name= t(menu_item[:name], scope: "admin.menu_items")
         .clear
         %footer

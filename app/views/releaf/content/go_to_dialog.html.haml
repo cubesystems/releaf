@@ -10,7 +10,7 @@
   .footer.clearInside
     - cancel_url = url_for( :action => 'index' )
     %a.button.secondary{ :data => {:type => 'cancel'}, :href => cancel_url }
-      %i.icon-ban-circle
+      %i.fa.fa-ban
       %span= t('cancel', :scope => 'admin.global')
 
 

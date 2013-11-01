@@ -4,19 +4,19 @@ jQuery(function()
 
     var container = body.children('.notifications').first();
 
-    var icon_base_class = 'icon icon-2x';
+    var icon_base_class = 'icon fa fa-2x';
 
     var icons_by_type =
     {
-        info    : 'icon-info',
-        success : 'icon-ok',
-        error   : 'icon-remove-sign'
+        info    : 'fa-info',
+        success : 'fa-check',
+        error   : 'fa-times-circle'
     };
 
 
     var notifications = {};
 
-    var close_icon   = jQuery('<i />').addClass('icon-remove');
+    var close_icon   = jQuery('<i />').addClass('fa-times');
     var close_button = jQuery('<button type="button" />').addClass('close button only-icon').append(close_icon).attr('title', container.attr('data-close-text'));
     close_button.click(function()
     {

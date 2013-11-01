@@ -14,15 +14,15 @@
 
 .body.dialog.delete_dialog
   .content
-    %i.icon-trash
+    %i.fa.fa-trash-o
     .question= t('confirm_destroy', :scope => 'admin.global')
     .description= resource_to_text(@resource)
   .footer.clearInside
     = form_for @resource, :url => action, :as => :resource, :method => :get do |f|
       %button.button.secondary{:data => {:type => 'cancel'}, :type => 'submit'}
-        %i.icon-ban-circle
+        %i.fa.fa-ban
         %span= t('no', :scope => 'admin.global')
     = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id, :list_url => params[:list_url] ), :as => :resource, :method => :delete do |f|
       %button.button.danger{ :type => 'submit' }
-        %i.icon-trash
+        %i.fa.fa-trash-o
         %span= t('yes', :scope => 'admin.global')

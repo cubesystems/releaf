@@ -18,7 +18,7 @@
   %button.trigger{:type => 'button', :title => t('Switch locale', :scope => 'admin.global')}
     %span.label
       = default_locale
-    %i.icon-chevron-down
+    %i.fa.fa-chevron-down
   %menu.block.localization-menu-items{:type => 'toolbar'}
     %ul.block
     - resource.class.globalize_locales.each_with_index do |locale, i|

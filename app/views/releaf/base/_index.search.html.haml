@@ -4,12 +4,12 @@
       .wrapper
         %input{name: "search", type: "text", value: params[:search], autofocus: true }
         %button.button.only-icon{type: "submit", title: t('Search', scope: 'admin.global')}>
-          %i.icon-search
+          %i.fa.fa-search
       .clear
   - if has_template? "_index.search.extras"
     .extras.clearInside
       = render partial: "index.search.extras"
       %button.button{type: "submit"}>
-        %i.icon-search
+        %i.fa.fa-search
         %span
           = t('Filter', scope: 'admin.global')
