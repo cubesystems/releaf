@@ -52,22 +52,20 @@ module Releaf
     protected
 
     def self.image_or_error attribute_name, obj
-      raise ArgumentError, 'attribute_name must end with _uid' unless attribute_name =~ /_uid$/
-      image_method_name = attribute_name.to_s.sub(/_uid$/, '')
-      if obj.respond_to? image_method_name
-        return 'image'
-      else
-        raise "object doesn't respond to `#{image_method_name}` method. Did you forgot to add `image_accessor :#{image_method_name}` to `#{obj.class.name}` model?"
-      end
+      field_type_or_error 'image', attribute_name, obj
     end
 
     def self.file_or_error attribute_name, obj
+      field_type_or_error 'file', attribute_name, obj
+    end
+
+    def self.field_type_or_error type, attribute_name, obj
       raise ArgumentError, 'attribute_name must end with _uid' unless attribute_name =~ /_uid$/
       file_method_name = attribute_name.to_s.sub(/_uid$/, '')
       if obj.respond_to? file_method_name
-        return 'file'
+        return type
       else
-        raise "object doesn't respond to `#{file_method_name}` method. Did you forgot to add `file_accessor :#{file_method_name}` to `#{obj.class.name}` model?"
+        raise "object doesn't respond to `#{file_method_name}` method. Did you forgot to add `#{type}_accessor :#{file_method_name}` to `#{obj.class.name}` model?"
       end
     end
 
