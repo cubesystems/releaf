@@ -1,6 +1,11 @@
 ## Changelog
 
 
+### 2013.11.01
+* Bump font-awesome-rails to >= 4.0.1.0. If you use it, update all
+  html/css/javascript to use new font awesome classes
+
+
 ### 2013.10.24
 
 * Removed long unused lighbox javascript
