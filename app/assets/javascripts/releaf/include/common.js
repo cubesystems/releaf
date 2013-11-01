@@ -78,22 +78,16 @@ jQuery(function(){
     jQuery('body > .side > nav .collapser button').click(function(e)
     {
         var item = jQuery(this).closest('li');
-        var collapsed;
         e.stopPropagation();
 
         item.toggleClass('collapsed');
         jQuery(this).blur();
 
-        if (item.hasClass('collapsed'))
-        {
-            collapsed = true;
-            item.find('.chevron').addClass('fa-chevron-down').removeClass('fa-chevron-up');
-        }
-        else
-        {
-            collapsed = false;
-            item.find('.chevron').addClass('fa-chevron-up').removeClass('fa-chevron-down');
-        }
+        var collapser_icon = item.find('.collapser i');
+        var collapsed = item.hasClass('collapsed');
+
+        collapser_icon.toggleClass('fa-chevron-down', collapsed);
+        collapser_icon.toggleClass('fa-chevron-up',  !collapsed);
 
         var setting_key = 'releaf.menu.collapsed.' + item.data('name');
         body.trigger( 'settingssave', [ setting_key, collapsed ]  );

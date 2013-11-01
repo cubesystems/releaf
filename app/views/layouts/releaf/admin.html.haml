@@ -56,7 +56,7 @@
                     %span.name= t(menu_item[:name], scope: "admin.menu_items")
                     %span.collapser
                       %button{type: "button"}
-                        %i.icon-small.chevron.fa.fa-chevron-down
+                        %i.fa{class: menu_item[:collapsed] ? "fa-chevron-down" : "fa-chevron-up"}
                   %ul.block
                     - menu_item[:items].each do |section_item|
                       %li
