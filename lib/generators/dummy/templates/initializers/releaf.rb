@@ -6,7 +6,7 @@ Releaf.setup do |conf|
     {
       :controller => 'releaf/content',
       :helper => 'releaf_nodes',
-      :icon => 'file-text-alt',
+      :icon => 'file-text-o',
     },
     {
       :name => "inventory",
