@@ -51,13 +51,33 @@ module Releaf
 
     protected
 
+    def self.image_or_error attribute_name, obj
+      raise ArgumentError, 'attribute_name must end with _uid' unless attribute_name =~ /_uid$/
+      image_method_name = attribute_name.to_s.sub(/_uid$/, '')
+      if obj.respond_to? image_method_name
+        return 'image'
+      else
+        raise "object doesn't respond to `#{image_method_name}` method. Did you forgot to add `image_accessor :#{image_method_name}` to `#{obj.class.name}` model?"
+      end
+    end
+
+    def self.file_or_error attribute_name, obj
+      raise ArgumentError, 'attribute_name must end with _uid' unless attribute_name =~ /_uid$/
+      file_method_name = attribute_name.to_s.sub(/_uid$/, '')
+      if obj.respond_to? file_method_name
+        return 'file'
+      else
+        raise "object doesn't respond to `#{file_method_name}` method. Did you forgot to add `file_accessor :#{file_method_name}` to `#{obj.class.name}` model?"
+      end
+    end
+
     def self.field_type_name_for_string attribute_name, obj
       case attribute_name.to_s
       when /(thumbnail|image|photo(graphy)?|picture|avatar|logo|banner|icon)_uid$/
-        return 'image'
+        return image_or_error attribute_name, obj
 
       when /_uid$/
-        return 'file'
+        return file_or_error attribute_name, obj
 
       when /password/, 'pin'
         return 'password'
@@ -109,14 +129,14 @@ module Releaf
     def self.field_type_name_for_virtual attribute_name, obj
       case attribute_name.to_s
       when /(thumbnail|image|photo(graphy)?|picture|avatar|logo|banner|icon)_uid$/
-        return 'image'
+        return image_or_error attribute_name, obj
+
+      when /_uid$/
+        return file_or_error attribute_name, obj
 
       when /_id$/
         return 'item' if obj.class.reflect_on_association(attribute_name[0..-4].to_sym)
         return 'text'
-
-      when /_uid$/
-        return 'file'
 
       when /password/, 'pin'
         return 'password'
