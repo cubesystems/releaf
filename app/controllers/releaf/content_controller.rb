@@ -138,9 +138,9 @@ module Releaf
       method_to_call = :copy_to_node
       method_to_call = :move_to_node if delete_original
       if node.send(method_to_call, new_parent_id).nil?
-        flash[:error] = { id: :resource_status, message: I18n.t("#{method_to_call} not ok", scope: 'notices.' + controller_scope_name) }
+        flash[:error] = { id: :resource_status, message: I18n.t("#{method_to_call} not ok", scope: notice_scope_name) }
       else
-        flash[:success] = { id: :resource_status, message: I18n.t("#{method_to_call} ok", scope: 'notices.' + controller_scope_name) }
+        flash[:success] = { id: :resource_status, message: I18n.t("#{method_to_call} ok", scope: notice_scope_name) }
       end
       redirect_to :action => "index"
     end
