@@ -26,10 +26,8 @@ module Releaf
         column_type = obj.class.columns_hash[attribute_name.to_s].try(:type)
       end
 
-      if column_type.nil?
-        if attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
-          column_type = obj.common_field_field_type(attribute_name)
-        end
+      if column_type.nil? && attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
+        column_type = obj.common_field_field_type(attribute_name)
       end
 
       column_type = column_type.to_s
