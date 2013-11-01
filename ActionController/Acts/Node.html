@@ -168,12 +168,14 @@
 
 4
 5
-6</pre>
+6
+7</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/releaf/acts_as_node/action_controller/acts/node.rb', line 4</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>ActsAsNode</span><span class='op'>::</span><span class='const'>ClassMethods</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'>ClassMethods</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -186,9 +188,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Oct 22 13:53:00 2013 by
+  Generated on Fri Nov  1 14:45:22 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.1 (ruby-2.0.0).
+  0.8.7.2 (ruby-2.0.0).
 </div>
 
   </body>

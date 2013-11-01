@@ -395,9 +395,9 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_missing_translation'>save_missing_translation</span><span class='lparen'>(</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_scope_parts'>scope_parts</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_group'>group</span> <span class='op'>=</span> <span class='const'>TranslationGroup</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by_scope'>find_or_create_by_scope</span><span class='lparen'>(</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_scope_parts'>scope_parts</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_group'>group</span> <span class='op'>=</span> <span class='const'>TranslationGroup</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by'>find_or_create_by</span><span class='lparen'>(</span><span class='label'>scope:</span> <span class='id identifier rubyid_scope_parts'>scope_parts</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_group'>group</span><span class='period'>.</span><span class='id identifier rubyid_translations'>translations</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by_key'>find_or_create_by_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_group'>group</span><span class='period'>.</span><span class='id identifier rubyid_translations'>translations</span><span class='period'>.</span><span class='id identifier rubyid_find_or_create_by'>find_or_create_by</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='const'>I18N_CACHE</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='lbracket'>[</span><span class='id identifier rubyid_locale'>locale</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -410,9 +410,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Oct 22 13:52:59 2013 by
+  Generated on Fri Nov  1 14:45:22 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.1 (ruby-2.0.0).
+  0.8.7.2 (ruby-2.0.0).
 </div>
 
   </body>

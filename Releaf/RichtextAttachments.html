@@ -152,6 +152,50 @@
 </li>
 
       
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#richtext_attachment_collected_uuids-instance_method" title="#richtext_attachment_collected_uuids (instance method)">- (Object) <strong>richtext_attachment_collected_uuids</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#richtext_columns-instance_method" title="#richtext_columns (instance method)">- (Object) <strong>richtext_columns</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -176,23 +220,21 @@
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
 39
 40
-41</pre>
+41
+42
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/richtext_attachments.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/richtext_attachments.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span> <span class='id identifier rubyid_base'>base</span>
   <span class='id identifier rubyid_base'>base</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_has_many'>has_many</span> <span class='symbol'>:attachments</span><span class='comma'>,</span> <span class='symbol'>:as</span> <span class='op'>=&gt;</span> <span class='symbol'>:richtext_attachment</span><span class='comma'>,</span> <span class='symbol'>:dependent</span> <span class='op'>=&gt;</span> <span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='symbol'>:class_name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Releaf::Attachment</span><span class='tstring_end'>&#39;</span></span>
     <span class='id identifier rubyid_accepts_nested_attributes_for'>accepts_nested_attributes_for</span> <span class='symbol'>:attachments</span><span class='comma'>,</span> <span class='symbol'>:allow_destroy</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
-    <span class='id identifier rubyid_attr_accessible'>attr_accessible</span> <span class='symbol'>:attachments_attributes</span>
     <span class='id identifier rubyid_after_save'>after_save</span> <span class='symbol'>:manage_attachments</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -231,8 +273,41 @@
 12
 13
 14
-15
-16
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/releaf/richtext_attachments.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_manage_attachments'>manage_attachments</span>
+  <span class='id identifier rubyid_collected_uuids'>collected_uuids</span> <span class='op'>=</span> <span class='id identifier rubyid_richtext_attachment_collected_uuids'>richtext_attachment_collected_uuids</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_attachments'>attachments</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uuid NOT IN (?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_delete_all'>delete_all</span>
+    <span class='const'>Attachment</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:uuid</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='comma'>,</span> <span class='symbol'>:richtext_attachment_type</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:richtext_attachment_id</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='period'>.</span>
+      <span class='id identifier rubyid_update_all'>update_all</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>richtext_attachment_type = :class, richtext_attachment_id = :id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span> <span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_attachments'>attachments</span><span class='period'>.</span><span class='id identifier rubyid_delete_all'>delete_all</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="richtext_attachment_collected_uuids-instance_method">
+  
+    - (<tt>Object</tt>) <strong>richtext_attachment_collected_uuids</strong>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
 17
 18
 19
@@ -245,18 +320,12 @@
 26
 27
 28
-29
-30</pre>
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/richtext_attachments.rb', line 6</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/richtext_attachments.rb', line 17</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_manage_attachments'>manage_attachments</span>
-  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_column_names'>column_names</span>
-  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>+=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_translates'>translates</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:translations_table_name</span>
-
-  <span class='id identifier rubyid_richtext_columns'>richtext_columns</span> <span class='op'>=</span> <span class='id identifier rubyid_columns'>columns</span><span class='period'>.</span><span class='id identifier rubyid_grep'>grep</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_html$</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
-
+<span class='kw'>def</span> <span class='id identifier rubyid_richtext_attachment_collected_uuids'>richtext_attachment_collected_uuids</span>
   <span class='id identifier rubyid_collected_uuids'>collected_uuids</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
   <span class='id identifier rubyid_richtext_columns'>richtext_columns</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_column'>column</span><span class='op'>|</span>
@@ -267,14 +336,41 @@
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_attachments'>attachments</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uuid NOT IN (?)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_delete_all'>delete_all</span>
-    <span class='const'>Attachment</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='symbol'>:uuid</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='comma'>,</span> <span class='symbol'>:richtext_attachment_type</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:richtext_attachment_id</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='period'>.</span>
-      <span class='id identifier rubyid_update_all'>update_all</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>richtext_attachment_type = :class, richtext_attachment_id = :id</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbrace'>}</span> <span class='rbracket'>]</span>
-  <span class='kw'>else</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_attachments'>attachments</span><span class='period'>.</span><span class='id identifier rubyid_delete_all'>delete_all</span>
-  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_collected_uuids'>collected_uuids</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="richtext_columns-instance_method">
+  
+    - (<tt>Object</tt>) <strong>richtext_columns</strong>  <span class="extras">(protected)</span>
+  
 
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/releaf/richtext_attachments.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_richtext_columns'>richtext_columns</span>
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_column_names'>column_names</span>
+  <span class='id identifier rubyid_columns'>columns</span> <span class='op'>+=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_translated_attribute_names'>translated_attribute_names</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_translates?'>translates?</span>
+  <span class='id identifier rubyid_columns'>columns</span><span class='period'>.</span><span class='id identifier rubyid_grep'>grep</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_html$</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -286,9 +382,9 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Oct 22 13:52:59 2013 by
+  Generated on Fri Nov  1 14:45:22 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.1 (ruby-2.0.0).
+  0.8.7.2 (ruby-2.0.0).
 </div>
 
   </body>

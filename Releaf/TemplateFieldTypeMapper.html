@@ -127,7 +127,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_boolean-class_method" title="field_type_name_for_boolean (class method)">+ (Object) <strong>field_type_name_for_boolean</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_boolean-class_method" title="field_type_name_for_boolean (class method)">+ (Object) <strong>field_type_name_for_boolean</strong>(attribute_name, obj) </a>
     
 
     
@@ -149,7 +149,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_date-class_method" title="field_type_name_for_date (class method)">+ (Object) <strong>field_type_name_for_date</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_date-class_method" title="field_type_name_for_date (class method)">+ (Object) <strong>field_type_name_for_date</strong>(attribute_name, obj) </a>
     
 
     
@@ -171,7 +171,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_datetime-class_method" title="field_type_name_for_datetime (class method)">+ (Object) <strong>field_type_name_for_datetime</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_datetime-class_method" title="field_type_name_for_datetime (class method)">+ (Object) <strong>field_type_name_for_datetime</strong>(attribute_name, obj) </a>
     
 
     
@@ -193,7 +193,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_integer-class_method" title="field_type_name_for_integer (class method)">+ (Object) <strong>field_type_name_for_integer</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_integer-class_method" title="field_type_name_for_integer (class method)">+ (Object) <strong>field_type_name_for_integer</strong>(attribute_name, obj) </a>
     
 
     
@@ -215,7 +215,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_string-class_method" title="field_type_name_for_string (class method)">+ (Object) <strong>field_type_name_for_string</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_string-class_method" title="field_type_name_for_string (class method)">+ (Object) <strong>field_type_name_for_string</strong>(attribute_name, obj) </a>
     
 
     
@@ -237,7 +237,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_text-class_method" title="field_type_name_for_text (class method)">+ (Object) <strong>field_type_name_for_text</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_text-class_method" title="field_type_name_for_text (class method)">+ (Object) <strong>field_type_name_for_text</strong>(attribute_name, obj) </a>
     
 
     
@@ -259,7 +259,7 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_time-class_method" title="field_type_name_for_time (class method)">+ (Object) <strong>field_type_name_for_time</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_time-class_method" title="field_type_name_for_time (class method)">+ (Object) <strong>field_type_name_for_time</strong>(attribute_name, obj) </a>
     
 
     
@@ -281,7 +281,51 @@ objects attribute.</p>
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#field_type_name_for_virtual-class_method" title="field_type_name_for_virtual (class method)">+ (Object) <strong>field_type_name_for_virtual</strong>(obj, attribute_name) </a>
+      <a href="#field_type_name_for_virtual-class_method" title="field_type_name_for_virtual (class method)">+ (Object) <strong>field_type_name_for_virtual</strong>(attribute_name, obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#file_or_error-class_method" title="file_or_error (class method)">+ (Object) <strong>file_or_error</strong>(attribute_name, obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#image_or_error-class_method" title="image_or_error (class method)">+ (Object) <strong>image_or_error</strong>(attribute_name, obj) </a>
     
 
     
@@ -303,7 +347,7 @@ objects attribute.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#use_i18n%3F-class_method" title="use_i18n? (class method)">+ (Boolean) <strong>use_i18n?</strong>(obj, attribute_name) </a>
+      <a href="#use_i18n%3F-class_method" title="use_i18n? (class method)">+ (Boolean) <strong>use_i18n?</strong>(attribute_name, obj) </a>
     
 
     
@@ -428,7 +472,7 @@ features should be used (if exists)</p>
   <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id identifier rubyid_column_type'>column_type</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='comment'># column_type == nil means Virtual column
 </span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_use_i18n?'>use_i18n?</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_use_i18n?'>use_i18n?</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
     <span class='kw'>begin</span>
       <span class='id identifier rubyid_column_type'>column_type</span> <span class='op'>=</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>Translation</span><span class='period'>.</span><span class='id identifier rubyid_columns_hash'>columns_hash</span><span class='lbracket'>[</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:type</span><span class='rparen'>)</span>
     <span class='kw'>rescue</span>
@@ -445,9 +489,9 @@ features should be used (if exists)</p>
 
   <span class='id identifier rubyid_column_type'>column_type</span> <span class='op'>=</span> <span class='id identifier rubyid_column_type'>column_type</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_column_type'>column_type</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>field_type_name_for_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_column_type'>column_type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>field_type_name_for_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_column_type'>column_type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>field_type_name_for_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_column_type'>column_type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_virtual'>field_type_name_for_virtual</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+    <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_virtual'>field_type_name_for_virtual</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='kw'>end</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_field_type'>field_type</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
@@ -460,7 +504,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_boolean-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_boolean</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_boolean</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -472,14 +516,14 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-155
-156
-157</pre>
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 173</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_boolean'>field_type_name_for_boolean</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_boolean'>field_type_name_for_boolean</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>boolean</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -490,7 +534,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_date-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_date</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_date</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -502,14 +546,14 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 116</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_date'>field_type_name_for_date</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_date'>field_type_name_for_date</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>date</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -520,7 +564,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_datetime-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_datetime</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_datetime</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -532,14 +576,14 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-91
-92
-93</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 112</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_datetime'>field_type_name_for_datetime</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_datetime'>field_type_name_for_datetime</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>datetime</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -550,7 +594,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_integer-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_integer</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_integer</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -562,15 +606,15 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-103
-104
-105
-106</pre>
+124
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 124</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_integer'>field_type_name_for_integer</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_integer'>field_type_name_for_integer</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>item</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
@@ -582,7 +626,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_string-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_string</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_string</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -594,38 +638,38 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73</pre>
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 74</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_string'>field_type_name_for_string</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_string'>field_type_name_for_string</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(thumbnail|image|photo(graphy)?|picture|avatar|logo|banner|icon)_uid$</span><span class='regexp_end'>/</span></span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>image</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_image_or_error'>image_or_error</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>file</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_file_or_error'>file_or_error</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>password</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pin</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>password</span><span class='tstring_end'>&#39;</span></span>
@@ -648,7 +692,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_text-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_text</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_text</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -660,26 +704,26 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 96</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_text'>field_type_name_for_text</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_text'>field_type_name_for_text</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_(url|homepage)$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>homepage</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span>
@@ -702,7 +746,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_time-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_time</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_time</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -714,14 +758,14 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-99
-100
-101</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 120</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_time'>field_type_name_for_time</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_time'>field_type_name_for_time</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>time</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -732,7 +776,7 @@ features should be used (if exists)</p>
       <div class="method_details ">
   <h3 class="signature " id="field_type_name_for_virtual-class_method">
   
-    + (<tt>Object</tt>) <strong>field_type_name_for_virtual</strong>(obj, attribute_name)  <span class="extras">(protected)</span>
+    + (<tt>Object</tt>) <strong>field_type_name_for_virtual</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
   
 
   
@@ -744,27 +788,6 @@ features should be used (if exists)</p>
       <pre class="lines">
 
 
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
 129
 130
 131
@@ -789,22 +812,40 @@ features should be used (if exists)</p>
 150
 151
 152
-153</pre>
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 129</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_virtual'>field_type_name_for_virtual</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_field_type_name_for_virtual'>field_type_name_for_virtual</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(thumbnail|image|photo(graphy)?|picture|avatar|logo|banner|icon)_uid$</span><span class='regexp_end'>/</span></span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>image</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_image_or_error'>image_or_error</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
+
+  <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_file_or_error'>file_or_error</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_id$</span><span class='regexp_end'>/</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>item</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_reflect_on_association'>reflect_on_association</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>4</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span>
-
-  <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>file</span><span class='tstring_end'>&#39;</span></span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>password</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pin</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>password</span><span class='tstring_end'>&#39;</span></span>
@@ -813,13 +854,10 @@ features should be used (if exists)</p>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>email</span><span class='tstring_end'>&#39;</span></span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_link$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>link</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>link</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>link_or_url</span><span class='tstring_end'>&#39;</span></span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_(url|homepage)$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>homepage</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span>
-
-  <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_link$</span><span class='regexp_end'>/</span></span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>link_or_url</span><span class='tstring_end'>&#39;</span></span>
 
   <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_(text|description)$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>description</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>textarea</span><span class='tstring_end'>&#39;</span></span>
@@ -846,9 +884,137 @@ features should be used (if exists)</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="file_or_error-class_method">
+  
+    + (<tt>Object</tt>) <strong>file_or_error</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_file_or_error'>file_or_error</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attribute_name must end with _uid</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span>
+  <span class='id identifier rubyid_file_method_name'>file_method_name</span> <span class='op'>=</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='id identifier rubyid_file_method_name'>file_method_name</span>
+    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>file</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>object doesn&#39;t respond to `</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file_method_name'>file_method_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>` method. Did you forgot to add `file_accessor :</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file_method_name'>file_method_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>` to `</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>` model?</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="image_or_error-class_method">
+  
+    + (<tt>Object</tt>) <strong>image_or_error</strong>(attribute_name, obj)  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_image_or_error'>image_or_error</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attribute_name must end with _uid</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span>
+  <span class='id identifier rubyid_image_method_name'>image_method_name</span> <span class='op'>=</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_uid$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='id identifier rubyid_image_method_name'>image_method_name</span>
+    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>image</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>object doesn&#39;t respond to `</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_image_method_name'>image_method_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>` method. Did you forgot to add `image_accessor :</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_image_method_name'>image_method_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>` to `</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>` model?</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="use_i18n?-class_method">
   
-    + (<tt>Boolean</tt>) <strong>use_i18n?</strong>(obj, attribute_name) 
+    + (<tt>Boolean</tt>) <strong>use_i18n?</strong>(attribute_name, obj) 
   
 
   
@@ -887,14 +1053,16 @@ features should be used (if exists)</p>
 46
 47
 48
-49</pre>
+49
+50</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/releaf/template_field_type_mapper.rb', line 46</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_use_i18n?'>use_i18n?</span> <span class='id identifier rubyid_obj'>obj</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:translations_table_name</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_translates'>translates</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_use_i18n?'>use_i18n?</span> <span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='comma'>,</span> <span class='id identifier rubyid_obj'>obj</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span> <span class='symbol'>:translates?</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_translates?'>translates?</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_translated_attribute_names'>translated_attribute_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute_name'>attribute_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -906,9 +1074,9 @@ features should be used (if exists)</p>
 </div>
 
     <div id="footer">
-  Generated on Tue Oct 22 13:52:59 2013 by
+  Generated on Fri Nov  1 14:45:22 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.1 (ruby-2.0.0).
+  0.8.7.2 (ruby-2.0.0).
 </div>
 
   </body>

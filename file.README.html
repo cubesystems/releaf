@@ -77,19 +77,14 @@
 
 <h2>Getting started</h2>
 
-<p>Releaf will work with Rails 3.2.</p>
+<p>Releaf will work with Rails 4.</p>
 
 <p>First add Releaf gem to your Gemfile
 <code>ruby
-gem &#39;releaf&#39;, :git =&gt; &#39;git@github.com:cubesystems/releaf.git&#39;
+gem &#39;releaf&#39;, git: &#39;git@github.com:cubesystems/releaf.git&#39;
 </code></p>
 
 <p>Run the bundle command to install it.</p>
-
-<p>Releaf is using strong_params, so in your config/application.rb set</p>
-
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_active_record'>active_record</span><span class='period'>.</span><span class='id identifier rubyid_whitelist_attributes'>whitelist_attributes</span> <span class='op'>=</span> <span class='kw'>false</span>
-</code></pre>
 
 <p>Then install with
 <code>console
@@ -118,9 +113,9 @@ password: password
 </div></div>
 
     <div id="footer">
-  Generated on Tue Oct 22 13:52:59 2013 by
+  Generated on Fri Nov  1 14:45:21 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.1 (ruby-2.0.0).
+  0.8.7.2 (ruby-2.0.0).
 </div>
 
   </body>
