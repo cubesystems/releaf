@@ -52,7 +52,7 @@
               %li{class: [("active" if menu_item[:active]), ("collapsed" if menu_item[:collapsed]) ], "data-name" => menu_item[:name]}
                 - if menu_item[:items]
                   %span.trigger
-                    %i.fa.fa-lg{class: "fa-" + menu_item[:icon]}
+                    %i.fa{class: "fa-" + menu_item[:icon]}
                     %span.name= t(menu_item[:name], scope: "admin.menu_items")
                     %span.collapser
                       %button{type: "button"}
@@ -65,7 +65,7 @@
                           %i.fa.fa-caret-left
                 - else
                   %a.trigger{href: menu_item[:url]}
-                    %i.fa.fa-lg{class: "fa-" + menu_item[:icon]}
+                    %i.fa{class: "fa-" + menu_item[:icon]}
                     %span.name= t(menu_item[:name], scope: "admin.menu_items")
         .clear
         %footer
