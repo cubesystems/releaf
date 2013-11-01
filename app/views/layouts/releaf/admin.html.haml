@@ -62,7 +62,7 @@
                       %li
                         %a.trigger{href: section_item[:url], class: section_item[:active] ? :active_item : nil}
                           %span.name= t(section_item[:name], scope: "admin.menu_items")
-                          %i.fa.fa-caret-left.active
+                          %i.fa.fa-caret-left
                 - else
                   %a.trigger{href: menu_item[:url]}
                     %i.fa.fa-lg{class: "fa-" + menu_item[:icon]}
