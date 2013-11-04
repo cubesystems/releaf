@@ -5,10 +5,6 @@ describe "Side menu visual appearance", js: true  do
     visit releaf_admin_profile_path
   end
 
-  def wait_for_ajax_update key
-    expect{ @admin.settings.try(:[], key) == true }.to become_true
-  end
-
   describe "collapsing functionality" do
     context "when logged first time" do
       it "has side menu opened" do
@@ -25,7 +21,7 @@ describe "Side menu visual appearance", js: true  do
 
       it "has permanent collapsing status" do
         find('.side .compacter button').click
-        wait_for_ajax_update('releaf.side.compact')
+        wait_for_settings_update('releaf.side.compact')
         visit releaf_admin_profile_path
 
         expect(page).to have_css('body.side-compact')
@@ -48,7 +44,7 @@ describe "Side menu visual appearance", js: true  do
 
       it "does not keep menu group collapsing permanent" do
         find('.side li[data-name="permissions"] > .trigger').click
-        wait_for_ajax_update('releaf.menu.collapsed.permissions')
+        wait_for_settings_update('releaf.menu.collapsed.permissions')
 
         visit releaf_admins_path
         expect(page).to have_css('.side li[data-name="permissions"]:not(.collapsed)')
@@ -64,7 +60,7 @@ describe "Side menu visual appearance", js: true  do
 
       it "keeps menu group collapsing permanent" do
         find('.side li[data-name="inventory"] > .trigger').click
-        wait_for_ajax_update('releaf.menu.collapsed.inventory')
+        wait_for_settings_update('releaf.menu.collapsed.inventory')
         visit releaf_admin_profile_path
 
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')
