@@ -37,7 +37,7 @@ describe "home page" do
         page.should have_select('Locale', :options => Releaf.available_admin_locales)
         select 'en', :from => 'Locale'
       end
-      click_button 'Save'
+      save_and_check_response('Created')
       page.should have_content 'John Appleseed'
       visit '/admin/admins'
       page.should have_content 'john@example.com'

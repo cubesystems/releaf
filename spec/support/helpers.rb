@@ -19,4 +19,9 @@ module Helpers
 
     return admin
   end
+
+  def save_and_check_response status_text
+    click_button 'Save'
+    expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: status_text)
+  end
 end
