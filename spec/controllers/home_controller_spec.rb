@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Releaf::HomeController do
+
   describe "GET index" do
     context "when authorized as admin" do
       login_as_admin :admin

@@ -13,7 +13,8 @@ module Releaf
     helper_method \
       :controller_scope_name,
       :page_title,
-      :ajax?
+      :ajax?,
+      :current_params
 
     def page_title
       I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
@@ -24,6 +25,11 @@ module Releaf
     # ex. t("save", scope: controller_scope_name)
     def controller_scope_name
       'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
+    end
+
+    # returns all params except :controller, :action and :format
+    def current_params
+      params.except(:controller, :action, :format)
     end
 
     # set locale for interface translating from current admin user
