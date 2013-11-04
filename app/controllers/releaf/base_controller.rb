@@ -347,17 +347,16 @@ module Releaf
 
     protected
 
-
     # Returns notice scope name
     def notice_scope_name
       'notices.' + controller_scope_name
     end
 
-    # Return ActiveRecord::Base or ActiveRecord::Relation used in index
+    # Return ActiveRecord::Relation used in index
     #
-    # @return ActiveRecord::Base or ActiveRecord::Relation
+    # @return ActiveRecord::Relation
     def resources
-      resource_class
+      resource_class.all
     end
 
     def authorize! action=nil

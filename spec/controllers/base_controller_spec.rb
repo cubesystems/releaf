@@ -72,6 +72,7 @@ describe Admin::AuthorsController do
     context "when @resources_per_page is nil" do
       it "assigns all resources to @collection" do
         get :index, show_all: 1
+        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be_true
         expect(assigns(:collection)).to have(21).resource
       end
     end
@@ -79,6 +80,7 @@ describe Admin::AuthorsController do
     context "when @resources_per_page is not nil" do
       it "assigns maximum 20 resources to @collection" do
         get :index
+        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be_true
         expect(assigns(:collection)).to have(20).resources
       end
     end
