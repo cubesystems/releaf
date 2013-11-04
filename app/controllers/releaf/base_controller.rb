@@ -55,9 +55,11 @@ module Releaf
         search(params[:search])
       end
 
-      @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
-      yield if block_given?
+      unless @resources_per_page.nil?
+        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
+      end
 
+      yield if block_given?
     end
 
     def new &block
