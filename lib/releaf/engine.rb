@@ -13,8 +13,8 @@ require 'acts_as_list'
 require 'awesome_nested_set'
 require 'devise'
 require 'dragonfly'
-require 'globalize3'
-require 'easy_globalize3_accessors'
+require 'globalize'
+require 'easy_globalize_accessors'
 
 
 module Releaf

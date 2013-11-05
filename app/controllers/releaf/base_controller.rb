@@ -623,7 +623,7 @@ module Releaf
 
         field_name = "["
         field_name += attribute
-        # normalize field id for globalize3 attributes without prefix
+        # normalize field id for globalize attributes without prefix
         if resource_class.translates? && resource_class.translated_attribute_names.include?(attribute.to_sym)
           field_name += "_#{I18n.default_locale}"
         end
