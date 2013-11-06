@@ -6,6 +6,8 @@ class Book < ActiveRecord::Base
 
   validates_presence_of :title
 
+  translates :description
+
   # chapters may not be destroy
   accepts_nested_attributes_for :chapters
 
@@ -23,5 +25,4 @@ class Book < ActiveRecord::Base
     return super if new_val.blank?
     return super(new_val * 100)
   end
-
 end
