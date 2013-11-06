@@ -1,5 +1,6 @@
 :ruby
   default_locale = cookies[:'releaf.i18n.locale']
+  default_locale = default_locale.to_sym unless default_locale.nil?
   default_locale = resource.class.globalize_locales.first unless resource.class.globalize_locales.include? default_locale
 
 
