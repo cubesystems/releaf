@@ -17,7 +17,7 @@ module Releaf
       field_type = nil
       column_type = nil # column_type == nil means Virtual column
 
-      if use_i18n?(attribute_name, obj)
+      if use_i18n?(obj, attribute_name)
         begin
           column_type = obj.class::Translation.columns_hash[attribute_name.to_s].try(:type)
         rescue
@@ -41,7 +41,7 @@ module Releaf
     end
 
     # should localized template be preffered?
-    def self.use_i18n? attribute_name, obj
+    def self.use_i18n? obj, attribute_name
       return false unless obj.class.respond_to? :translates?
       return false unless obj.class.translates?
       return obj.class.translated_attribute_names.include?(attribute_name.to_sym)
