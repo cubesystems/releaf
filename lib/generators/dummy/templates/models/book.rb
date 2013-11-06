@@ -7,6 +7,7 @@ class Book < ActiveRecord::Base
   validates_presence_of :title
 
   translates :description
+  globalize_accessors
 
   # chapters may not be destroy
   accepts_nested_attributes_for :chapters
