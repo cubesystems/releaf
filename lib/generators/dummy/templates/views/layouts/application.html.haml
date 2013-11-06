@@ -3,8 +3,6 @@
   %head
     %meta{:'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
     %title AppName
-    -# = favicon_link_tag('/assets/favicon.ico')
-    = stylesheet_link_tag 'application'
   - %w[.scss .css.scss .css].each do |ext|
     - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{ params[:controller] + ext }")
       = stylesheet_link_tag "controllers/#{params[:controller]}"
@@ -12,7 +10,6 @@
 
     = csrf_meta_tags
   %body(class = "#{params[:controller].tr('/', '-')}-controller #{params[:action]}-view #{I18n.locale}-locale")
-    = javascript_include_tag 'lib/js_check'
     #body_wrap
       #content_wrap
         #header
@@ -21,6 +18,5 @@
       #footer
         Footer
 
-    = javascript_include_tag 'application'
     - if File.exists? Rails.root.to_s + "/app/assets/javascripts/controllers/#{params[:controller]}.js"
       = javascript_include_tag "controllers/#{params[:controller]}"
