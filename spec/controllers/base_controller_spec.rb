@@ -122,6 +122,12 @@ describe Admin::BooksController do
       end
     end
 
+    context "when a translated attribute name is given" do
+      it "returns the given attribute" do
+        expect(@controller.send(:validation_attribute_name, @resource, :description_en)).to eq 'description_en'
+      end
+    end
+
     context "when an invalid attribute is given" do
       it "returns nil" do
         expect(@controller.send(:validation_attribute_name, @resource, :trololo)).to be_nil

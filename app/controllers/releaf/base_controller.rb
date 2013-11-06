@@ -609,6 +609,14 @@ module Releaf
     def validation_attribute_name resource, attribute
       return attribute.to_s if resource.attributes.include? attribute.to_s
       return resource.class.reflections[attribute.to_sym].foreign_key.to_s if resource.class.reflections[attribute.to_sym].present?
+      if resource.class.respond_to?(:translates?) && resource.class.translates? && resource.class.respond_to?(:globalize_locales)
+        parts = attribute.to_s.split('_')
+        if parts.length > 1
+          locale = parts.pop
+          name   = parts.join('_')
+          return attribute.to_s if resource.class.globalize_locales.include?(locale.to_sym) && resource.class.translated_attribute_names.include?(name.to_sym)
+        end
+      end
       return nil
     end
 
