@@ -14,6 +14,11 @@ jQuery(function()
 
         var all_inputs   = jQuery().add(text_inputs).add(other_inputs);
 
+        text_inputs.each(function() {
+            var input = jQuery(this);
+            input.data('previous-value', input.val() || '');
+        });
+
         var submit_buttons = form.find('button[type="submit"]');
 
         var request;
