@@ -504,7 +504,7 @@ module Releaf
     def resource_params
       return unless mass_assigment_actions.include? params[:action]
 
-      cols = resource_class.column_names.dup
+      cols = resource_class.column_names.dup - %w{id created_at updated_at}
 
       if resource_class.translates?
         cols = cols + localize_attributes(resource_class.translated_attribute_names)
