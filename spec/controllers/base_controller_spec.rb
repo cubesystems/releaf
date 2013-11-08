@@ -116,9 +116,9 @@ describe Admin::BooksController do
       end
     end
 
-    context "when an association name is given" do
+    context "when an association name is given and passing check_relations" do
       it "returns the corresponding foreign key attribute" do
-        expect(@controller.send(:validation_attribute_name, @resource, :author)).to eq 'author_id'
+        expect(@controller.send(:validation_attribute_name, @resource, :author, true)).to eq 'author_id'
       end
     end
 

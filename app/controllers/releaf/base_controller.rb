@@ -606,17 +606,10 @@ module Releaf
       return errors
     end
 
-    def validation_attribute_name resource, attribute
+    def validation_attribute_name resource, attribute, check_relations=false
       return attribute.to_s if resource.attributes.include? attribute.to_s
-      return resource.class.reflections[attribute.to_sym].foreign_key.to_s if resource.class.reflections[attribute.to_sym].present?
-      if resource.class.respond_to?(:translates?) && resource.class.translates? && resource.class.respond_to?(:globalize_locales)
-        parts = attribute.to_s.split('_')
-        if parts.length > 1
-          locale = parts.pop
-          name   = parts.join('_')
-          return attribute.to_s if resource.class.globalize_locales.include?(locale.to_sym) && resource.class.translated_attribute_names.include?(name.to_sym)
-        end
-      end
+      return resource.class.reflections[attribute.to_sym].foreign_key.to_s if check_relations && resource.class.reflections[attribute.to_sym].present?
+      return attribute.to_s if resource.respond_to? attribute
       return nil
     end
 
@@ -627,7 +620,7 @@ module Releaf
       if parts.length > 1
         field_name = validation_attribute_nested_field_name(resource, parts)
       else
-        attribute = validation_attribute_name resource, parts[0]
+        attribute = validation_attribute_name resource, parts[0], true
 
         field_name = "["
         field_name += attribute
@@ -645,9 +638,7 @@ module Releaf
     end
 
     def validation_attribute_nested_field_name resource, parts
-      index = 0
-
-      attribute = validation_attribute_name resource, parts[0]
+      attribute = parts[0]
 
       association_type = resource.class.reflect_on_association(attribute.to_sym).macro
       if association_type == :belongs_to
@@ -656,10 +647,10 @@ module Releaf
         nested_items = resource.send(attribute)
       end
 
-      nested_items.each do |item|
+      nested_items.each_with_index do |item, index|
         unless item.valid?
           if association_type == :belongs_to
-            field_id = "[" + attribute + "_attributes][#{parts[1]}]"
+            field_id = "[" + attribute + "_attributes][#{ validation_attribute_name(item, parts[1], true)}]"
           else
             field_id = "[" + attribute + "_attributes][#{index}]"
             if parts.length == 2
@@ -671,8 +662,6 @@ module Releaf
 
           return field_id
         end
-
-        index += 1
       end
     end
 
