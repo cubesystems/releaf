@@ -40,9 +40,9 @@ describe Releaf::TranslationsController do
     end
 
     it "imports xsls file for selected translation group", :js => true do
+      pending("find out how to upload file within capybara-webkit")
       visit edit_releaf_translation_group_path(@group)
       open_toolbox('Import')
-      pending("find out how to upload file within capybara-webkit")
       #Capybara.save_screenshot "shot.png"
       #attach_file "resource_import_file", File.dirname(__FILE__) + '/../fixtures/time.formats.xlsx', :visible => false
     end
