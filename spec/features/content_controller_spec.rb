@@ -82,8 +82,7 @@ describe Releaf::ContentController, js: true do
 
     context "when going to node from toolbox list" do
       it "navigates to targeted node's edit view" do
-        find('.toolbox button').click
-        click_link("Go to")
+        open_toolbox('Go to')
         click_link("RootNode")
 
         expect(page).to have_css('.view-edit .edit_resource h2.header', text: 'RootNode')

@@ -34,4 +34,19 @@ module Helpers
       sleep 0.5
     end
   end
+
+  def open_toolbox_dialog item_name, resource = nil
+    open_toolbox(item_name, resource)
+    expect(page).to have_css('.dialog form[data-validation="true"][data-validation-initialized="true"]')
+  end
+
+  def open_toolbox item_name, resource = nil
+    if resource
+      find('.view-index .table tr[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
+    else
+      find('.main h2.header .toolbox-wrap .toolbox button.trigger').click
+    end
+
+    click_link item_name
+  end
 end

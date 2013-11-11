@@ -18,6 +18,7 @@ feature "Base controller index", js: true do
     within("form.search") do
       fill_in 'search', :with => "good"
     end
+
     expect(page).to have_content('1 Resources found')
   end
 
@@ -26,6 +27,7 @@ feature "Base controller index", js: true do
     within("form.search") do
       fill_in 'search', :with => "upon"
     end
+
     expect(page).to have_content('1 Resources found')
   end
 
@@ -34,6 +36,7 @@ feature "Base controller index", js: true do
     within("form.search") do
       fill_in 'search', :with => "bunnyrabit"
     end
+
     expect(page).to have_content('Nothing found')
   end
 
@@ -47,29 +50,23 @@ feature "Base controller index", js: true do
 
   scenario "keeps search parameters after delete" do
     visit admin_books_path(search: "good")
-    find('.toolbox button.trigger').click
-    find('.toolbox-items li a.ajaxbox', text: "Delete").click
-    find('.dialog.delete_dialog .footer button.danger', text: "Yes").click
+    open_toolbox('Delete', Book.first)
+    click_button("Yes")
     expect(page).to have_css('.main > .table th .nothing_found', :count => 1, :text => "Nothing found")
   end
 
   scenario "when deleting item in edit" do
     visit admin_books_path(search: "good")
     click_link("good book")
-    find('.toolbox button.trigger').click
-    find('.toolbox-items li a.ajaxbox', text: "Delete").click
-    find('.dialog.delete_dialog .footer button.danger', text: "Yes").click
-
+    open_toolbox('Delete')
+    click_button("Yes")
     expect(page).to have_css('.view-index .main > .table th .nothing_found', :count => 1, :text => "Nothing found")
   end
 
   scenario "when deleting item with restrict relation" do
     visit admin_authors_path
-    find('.toolbox button.trigger').click
-    find('.toolbox-items li a.ajaxbox', text: "Delete").click
+    open_toolbox('Delete', Author.first)
 
     expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :count => 2)
   end
-
-
 end

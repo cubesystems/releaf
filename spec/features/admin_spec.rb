@@ -24,7 +24,7 @@ describe "home page" do
     end
 
     it "new user creation", :js => true do
-      visit '/admin/admins'
+      visit (releaf_admins_path)
       click_link 'Create new item'
       page.should have_content 'Create new resource'
       within("form.new_resource") do
@@ -42,10 +42,8 @@ describe "home page" do
       visit '/admin/admins'
       page.should have_content 'john@example.com'
 
-      visit '/admin/admins'
-      find('.main > .table tr[data-id="' + Releaf::Admin.last.id.to_s  + '"] .toolbox button.trigger').click
-      click_link 'Delete'
-      page.should have_content 'Confirm destroy'
+      visit (releaf_admins_path)
+      open_toolbox("Delete", Releaf::Admin.last)
       click_button 'Yes'
       page.should_not have_content 'john@example.com'
     end

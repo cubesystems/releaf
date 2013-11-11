@@ -41,8 +41,7 @@ describe Releaf::TranslationsController do
 
     it "imports xsls file for selected translation group", :js => true do
       visit edit_releaf_translation_group_path(@group)
-      find('.main .toolbox button.trigger').click
-      click_button 'Import'
+      open_toolbox('Import')
       pending("find out how to upload file within capybara-webkit")
       #Capybara.save_screenshot "shot.png"
       #attach_file "resource_import_file", File.dirname(__FILE__) + '/../fixtures/time.formats.xlsx', :visible => false
@@ -60,8 +59,7 @@ describe Releaf::TranslationsController do
 
     it "exports xsls file for selected translation group", :js => true do
       visit releaf_translation_groups_path
-      find('.main > .table tr[data-id="' + @group.id.to_s  + '"] .toolbox button.trigger').click
-      click_link 'Export'
+      open_toolbox('Export', @group)
 
       expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
