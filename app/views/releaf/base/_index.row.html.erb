@@ -5,6 +5,6 @@
   </td>
   <% end %>
   <% fields_to_display.each do |name| %>
-    <%= render cell_templates[name], resource: resource, name: name, list_url: list_url %>
+    <%= render cell_templates[name], resource: resource, name: name, index_url: index_url %>
   <% end %>
 </tr>

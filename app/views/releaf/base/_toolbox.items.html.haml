@@ -2,6 +2,6 @@
 - unless resource.new_record?
   - if @features[:destroy]
     %li
-      %a.button.danger.ajaxbox{:href => url_for( :action => :confirm_destroy, :id => resource.id, :list_url => list_url), :data => {:modal => true}}
+      %a.button.danger.ajaxbox{:href => url_for( :action => :confirm_destroy, :id => resource.id, :index_url => index_url), :data => {:modal => true}}
         %i.fa.fa-lg.fa-trash-o
         = t('Delete', :scope => 'admin.global')

@@ -122,7 +122,7 @@ module Releaf
       end
 
       respond_to do |format|
-        redirect_url = params[:list_url]
+        redirect_url = params[:index_url]
         redirect_url = url_for( action: 'index') if redirect_url.nil?
 
         format.html { redirect_to redirect_url }

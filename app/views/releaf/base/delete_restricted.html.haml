@@ -1,5 +1,5 @@
 :ruby
-  unless params.has_key?(:list_url)
+  unless params.has_key?(:index_url)
     if @features[:show]
       action = url_for( :action => 'show', :id => @resource.id )
     elsif @features[:edit]
@@ -8,7 +8,7 @@
       action = url_for( :action => 'index' )
     end
   else
-    action = params[:list_url]
+    action = params[:index_url]
   end
 
 
