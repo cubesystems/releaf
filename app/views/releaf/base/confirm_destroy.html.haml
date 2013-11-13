@@ -1,28 +1,14 @@
-:ruby
-  unless params.has_key?(:index_url)
-    if @features[:show]
-      action = url_for( :action => 'show', :id => @resource.id )
-    elsif @features[:edit]
-      action = url_for( :action => 'edit', :id => @resource.id )
-    else
-      action = url_for( :action => 'index' )
-    end
-  else
-    action = params[:index_url]
-  end
-
-
 .body.dialog.delete_dialog
   .content
     %i.fa.fa-trash-o
-    .question= t('confirm_destroy', :scope => 'admin.global')
+      .question= t('confirm_destroy', scope: 'admin.global')
     .description= resource_to_text(@resource)
   .footer.clearInside
-    = form_for @resource, :url => action, :as => :resource, :method => :get do |f|
-      %button.button.secondary{:data => {:type => 'cancel'}, :type => 'submit'}
+    = form_for @resource, url: index_url, as: :resource, method: :get do |f|
+      %button.button.secondary{data: {type: 'cancel'}, type: 'submit'}
         %i.fa.fa-ban
-        %span= t('no', :scope => 'admin.global')
-    = form_for @resource, :url => url_for( :action => 'destroy', :id => @resource.id, :index_url => params[:index_url] ), :as => :resource, :method => :delete do |f|
-      %button.button.danger{ :type => 'submit' }
+          %span= t('no', scope: 'admin.global')
+    = form_for @resource, url: url_for( action: 'destroy', id: @resource.id, index_url: index_url), as: :resource, method: :delete do |f|
+      %button.button.danger{ type: 'submit' }
         %i.fa.fa-trash-o
-        %span= t('yes', :scope => 'admin.global')
+          %span= t('yes', scope: 'admin.global')

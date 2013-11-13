@@ -1,22 +1,7 @@
-:ruby
-  # Normaly we get index_url as local variable
-  # If not defined, we get index_url from params
-  if local_assigns.fetch(:index_url, nil).nil?
-    index_url = params[:index_url]
-
-    if index_url.nil? && params[:action] == "index"
-      index_url = request.path
-      real_params = params.except(:action, :controller, :ajax)
-      unless real_params.empty?
-        index_url += "?#{real_params.to_query}"
-      end
-    end
-  end
-
 .toolbox
-  %button.button.trigger.only-icon{:type => 'button', :title => t('Tools', :scope => 'admin.global')}
+  %button.button.trigger.only-icon{type: 'button', title: t('Tools', scope: 'admin.global')}
     %i.fa.fa-lg.fa-cog
-  %menu.block.toolbox-items{:type => 'toolbar'}
+  %menu.block.toolbox-items{type: 'toolbar'}
     %i.fa.fa-lg.fa-caret-up
     %ul.block
-      = render 'toolbox.items', :resource => resource, :index_url => index_url
+      = render 'toolbox.items', resource: resource

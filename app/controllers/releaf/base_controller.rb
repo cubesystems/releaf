@@ -14,6 +14,7 @@ module Releaf
       :resource_class,
       :resource_to_text,
       :resource_to_text_method,
+      :index_url,
       :attachment_upload_url
 
     before_filter do
@@ -122,10 +123,7 @@ module Releaf
       end
 
       respond_to do |format|
-        redirect_url = params[:index_url]
-        redirect_url = url_for( action: 'index') if redirect_url.nil?
-
-        format.html { redirect_to redirect_url }
+        format.html { redirect_to index_url }
       end
     end
 
@@ -225,6 +223,27 @@ module Releaf
       end
 
       return cols
+    end
+
+    def index_url
+      if @index_url.nil?
+        #build current path url with params
+        if action_name == "index"
+          @index_url = request.path
+          real_params = params.except(:action, :controller, :ajax)
+          unless real_params.empty?
+            @index_url += "?#{real_params.to_query}"
+          end
+        # use get from get params
+        elsif !params[:index_url].blank?
+          @index_url = params[:index_url]
+        # fallback to index view
+        else
+          @index_url = url_for(action: 'index')
+        end
+      end
+
+      @index_url
     end
 
     def attachment_upload_url

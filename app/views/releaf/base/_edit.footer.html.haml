@@ -5,6 +5,6 @@
         %i.fa.fa-check
         %span= t('save', :scope => "admin.global")
     .secondary
-      %a.button.secondary{ :href => (params[:index_url].blank? ? url_for( :action => 'index' ) : params[:index_url] ) }
+      %a.button.secondary{ :href => index_url }
         %i.fa.fa-caret-left
         = t('back_to_list', :scope => 'admin.global')
