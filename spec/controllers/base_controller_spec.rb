@@ -62,7 +62,41 @@ describe Admin::AuthorsController do
 
   end
 
-  describe "#index" do
+  describe "#index_url" do
+    context "when action is other than :index" do
+      context "when params have 'index_url' defined" do
+        it "returns params 'index_url'" do
+          url = "/admin/something?a=1&b=2"
+          get :new, index_url: url
+          expect(subject.index_url).to eq(url)
+        end
+      end
+
+      context "when does not have 'index_url' defined" do
+        it "returns index action url" do
+          get :new
+          expect(subject.index_url).to eq("http://test.host/admin/authors")
+        end
+      end
+    end
+
+    context "when action is :index" do
+      it "returns #current_url value" do
+        get :index
+        subject.stub(:current_url).and_return("random_string")
+        expect(subject.index_url).to eq("random_string")
+      end
+    end
+  end
+
+  describe "#current_url" do
+    it "returns current url without internal params" do
+      get :index, ajax: 1, search: "something", page: 1
+      expect(subject.current_url).to eq("/admin/authors?page=1&search=something")
+    end
+  end
+
+  describe "GET index" do
     before do
       21.times do |i|
         FactoryGirl.create(:author)

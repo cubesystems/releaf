@@ -15,6 +15,7 @@ module Releaf
       :resource_to_text,
       :resource_to_text_method,
       :index_url,
+      :current_url,
       :attachment_upload_url
 
     before_filter do
@@ -225,16 +226,30 @@ module Releaf
       return cols
     end
 
+    # Returns current url without internal params
+    #
+    # @return String
+    def current_url
+      if @current_url.nil?
+        @current_url = request.path
+        real_params = params.except(:action, :controller, :ajax)
+        unless real_params.empty?
+          @current_url += "?#{real_params.to_query}"
+        end
+      end
+
+      @current_url
+    end
+
+    # Returns index url for current request
+    #
+    # @return String
     def index_url
       if @index_url.nil?
-        #build current path url with params
+        # use current url
         if action_name == "index"
-          @index_url = request.path
-          real_params = params.except(:action, :controller, :ajax)
-          unless real_params.empty?
-            @index_url += "?#{real_params.to_query}"
-          end
-        # use get from get params
+          @index_url = current_url
+        # use from get params
         elsif !params[:index_url].blank?
           @index_url = params[:index_url]
         # fallback to index view
