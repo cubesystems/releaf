@@ -4,7 +4,8 @@
       %button.button.primary{:type => "submit", :data => { :type => 'ok' } }
         %i.fa.fa-check
         %span= t('save', :scope => "admin.global")
-    .secondary
-      %a.button.secondary{ :href => index_url }
-        %i.fa.fa-caret-left
-        = t('back_to_list', :scope => 'admin.global')
+    - if @features[:index]
+      .secondary
+        %a.button.secondary{ :href => index_url }
+          %i.fa.fa-caret-left
+          = t('back_to_list', :scope => 'admin.global')
