@@ -1,5 +1,19 @@
 ## Changelog
 
+### 2013.12.05
+* #build_validation_errors resource, #validation_attribute_name,
+  #validation_attribute_field_id, and #validation_attribute_nested_field_name
+  were extracted from Releaf::BaseController to Releaf::ResourceValidator module.
+  If you called any of these methods manually, then you'll need to update your
+  controllers. Also Releaf::ResourceValidator.build_validation_errors now
+  accept two arguments: resource and error message scope (check the source from
+  details)
+
+* Extracted functionality of filtering templates from params from
+  Releaf::BaseController to Releaf::TemplateFilter includable module.
+  You can now include this module in your controllers if you want similar
+  functionality.
+
 
 ### 2013.11.01
 * Bump font-awesome-rails to >= 4.0.1.0. If you use it, update all
