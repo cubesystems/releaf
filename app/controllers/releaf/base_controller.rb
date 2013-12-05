@@ -2,6 +2,8 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < BaseApplicationController
+    include Releaf::TemplateFilter
+
     helper_method \
       :fields_to_display,
       :find_parent_template,
@@ -20,7 +22,6 @@ module Releaf
 
     before_filter do
       authorize!
-      filter_templates_from_params
       build_breadcrumbs
       setup
     end
@@ -657,22 +658,6 @@ module Releaf
             render action: html_render_action
           end
         end
-      end
-    end
-
-    def filter_templates_from_params
-      filter_templates(params)
-    end
-
-    def filter_templates params_to_filter
-      if params_to_filter.is_a? Array
-        params_to_filter.each do |item|
-          filter_templates item
-        end
-      elsif params_to_filter.is_a? Hash
-        params_to_filter.delete :_template_
-        params_to_filter.delete '_template_'
-        filter_templates params_to_filter.values
       end
     end
 
