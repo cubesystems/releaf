@@ -20,14 +20,7 @@ module Releaf
     end
 
     def generate_url
-      if params[:id]
-        tmp_resource = Node.find(params[:id])
-      elsif params[:parent_id].blank? == false
-        parent = Node.find(params[:parent_id])
-        tmp_resource = parent.children.new
-      else
-        tmp_resource = Node.new
-      end
+      tmp_resource = prepare_resource
 
       tmp_resource.name = params[:name]
       tmp_resource.slug = nil
@@ -132,6 +125,17 @@ module Releaf
 
 
     private
+
+    def prepare_resource
+      if params[:id]
+        return Node.find(params[:id])
+      elsif params[:parent_id].blank? == false
+        parent = Node.find(params[:parent_id])
+        return parent.children.new
+      else
+        return Node.new
+      end
+    end
 
     def copy_node node, new_parent_id, delete_original = false
       return unless node.instance_of?(Releaf::Node)
