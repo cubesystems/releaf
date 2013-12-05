@@ -6,6 +6,7 @@ module Releaf
   require 'releaf/engine'
   require 'releaf/richtext_attachments'
   require 'releaf/template_field_type_mapper'
+  require 'releaf/resource_validator'
 
   mattr_accessor :menu
   @@menu = [
