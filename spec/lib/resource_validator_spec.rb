@@ -1,10 +1,8 @@
 require 'spec_helper'
 
-# use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::BaseController and
-# have no extra methods or overrides
 describe Releaf::ResourceValidator do
 
-  describe "#validation_attribute_name" do
+  describe ".validation_attribute_name" do
     let(:book) { Book.new }
 
     context "when an existing attribute name is given" do
