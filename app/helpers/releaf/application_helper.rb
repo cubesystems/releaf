@@ -1,5 +1,15 @@
 module Releaf
   module ApplicationHelper
+
+    # Revert https://github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1
+    # otherwise spans everythere ex. '<img alt="#{t("description")} src="..' will become '<img alt="<span class="missing_traslation..'
+    # Missing translations with html get escaped anyway.
+    def translate(key, options = {})
+      options.merge!(rescue_format: :html) unless options.key?(:rescue_format)
+      super(key, options)
+    end
+    alias :t :translate
+
     def i18n_options_for_select container, selected, prefix, i18n_options={}
       i18n_options = { scope: controller_scope_name }.merge(i18n_options)
 
