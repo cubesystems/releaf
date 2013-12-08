@@ -55,6 +55,7 @@ generate "releaf:install"
 generate "dummy:install -f"
 
 application "config.i18n.fallbacks = true"
+application "config.i18n.enforce_available_locales = true"
 
 # in "test" env "true" cause to fail on install generators, revert to normall
 gsub_file 'config/environments/test.rb', 'config.cache_classes = false', 'config.cache_classes = true'
