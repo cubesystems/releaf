@@ -1,8 +1,8 @@
 ## Changelog
 
 ### 2013.12.05
-* #build_validation_errors resource, #validation_attribute_name,
-  #validation_attribute_field_id, and #validation_attribute_nested_field_name
+* \#build_validation_errors, #validation_attribute_name,
+  \#validation_attribute_field_id, and #validation_attribute_nested_field_name
   were extracted from Releaf::BaseController to Releaf::ResourceValidator module.
   If you called any of these methods manually, then you'll need to update your
   controllers. Also Releaf::ResourceValidator.build_validation_errors now
