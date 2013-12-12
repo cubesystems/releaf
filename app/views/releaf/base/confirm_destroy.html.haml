@@ -1,7 +1,7 @@
 .body.dialog.delete_dialog
   .content
     %i.fa.fa-trash-o
-      .question= t('confirm_destroy', scope: 'admin.global')
+    .question= t('confirm_destroy', scope: 'admin.global')
     .description= resource_to_text(@resource)
   .footer.clearInside
     = form_for @resource, url: index_url, as: :resource, method: :get do |f|
