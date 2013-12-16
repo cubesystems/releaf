@@ -36,7 +36,7 @@ function url_builder( params )
 
 				if( variable.length > 0 )
 				{
-					var value = variable.shift();
+					var value = decodeURIComponent( variable.shift() );
 				}
 				else
 				{
