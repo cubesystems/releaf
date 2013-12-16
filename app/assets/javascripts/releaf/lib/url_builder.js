@@ -171,11 +171,11 @@ url_builder.prototype.getUrl = function()
 		}
 		if( this.query[ i ] instanceof Array )
 		{
-			query += i + '[]=' + this.query[ i ].join( '&' + i + '[]=' );
+			query += i + '[]=' + this.query[ i ].map(function(s){ return encodeURIComponent(s); }).join( '&' + i + '[]=' );
 		}
 		else
 		{
-			query += i + '=' + this.query[ i ];
+			query += i + '=' + encodeURIComponent(this.query[ i ]);
 		}
 	}
 
