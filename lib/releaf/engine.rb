@@ -14,7 +14,7 @@ require 'awesome_nested_set'
 require 'devise'
 require 'dragonfly'
 require 'globalize'
-require 'easy_globalize_accessors'
+require 'globalize-accessors'
 
 
 module Releaf
