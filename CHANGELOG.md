@@ -1,5 +1,11 @@
 ## Changelog
 
+### 2014.01.02
+* ```additional_controllers``` Releaf configuration variable introduced. Add
+  controllers that are not accessible via menu, but needs to be accessible by
+  admins to this list.  These controllers will have permission checkbox in
+  roles edit view, just like the rest of controllers in ```Releaf#menu```.
+
 ### 2013.12.05
 * \#build_validation_errors, #validation_attribute_name,
   \#validation_attribute_field_id, and #validation_attribute_nested_field_name

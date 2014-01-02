@@ -25,6 +25,8 @@ Releaf.setup do |conf|
     },
    ]
 
+  conf.additional_controllers = %w[admin/chapters]
+
   conf.available_locales = ["en", "lv"]
   # conf.layout = 'releaf/admin'
   # conf.devise_for 'releaf/admin'

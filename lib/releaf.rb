@@ -46,6 +46,11 @@ module Releaf
   mattr_accessor :available_admin_locales
   @@available_admin_locales = nil
 
+  # controllers that must be accessible by admin, but are not visible in menu
+  # should be added to this list
+  mattr_accessor :additional_controllers
+  @@additional_controllers = []
+
   # controller list
   mattr_accessor :controller_list
   @@controller_list = {}
@@ -62,8 +67,10 @@ module Releaf
         require 'i18n/releaf'
       end
 
-      Releaf.menu.map! {|item| normalize_menu_item(item) }
+      Releaf.menu.map! { |item| normalize_menu_item(item) }
+
       build_controller_list(Releaf.menu)
+      build_controller_list(normalized_additional_controllers)
     end
 
     def available_controllers
@@ -71,6 +78,10 @@ module Releaf
     end
 
     private
+
+    def normalized_additional_controllers
+      Releaf.additional_controllers.map { |c| normalize_controller_item c }
+    end
 
     # Recursively build list of controllers
     #
@@ -84,8 +95,7 @@ module Releaf
       end
     end
 
-    # Recursively normalize menu item and subitems
-    def normalize_menu_item item_data
+    def normalize_controller_item item_data
       if item_data.is_a? String
         item = {:controller => item_data}
       elsif item_data.is_a? Hash
@@ -102,8 +112,15 @@ module Releaf
         item[:url_helper] = item[:controller].gsub('/', '_') + "_path"
       end
 
+      return item
+    end
+
+    # Recursively normalize menu item and subitems
+    def normalize_menu_item item_data
+      item = normalize_controller_item item_data
+
       if item.has_key?(:items)
-        item[:items].map! {|subitem| normalize_menu_item(subitem) }
+        item[:items].map! { |subitem| normalize_menu_item(subitem) }
       end
 
       return item

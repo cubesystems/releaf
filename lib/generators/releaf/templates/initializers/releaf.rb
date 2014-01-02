@@ -20,6 +20,10 @@ Releaf.setup do |conf|
     },
   ]
 
+  # controllers that must be accessible by admin, but are not visible in menu
+  # should be added to this list
+  conf.additional_controllers = []
+
   conf.available_locales = ["en"]
   # conf.layout = 'releaf/admin'
   # conf.devise_for 'releaf/admin'
