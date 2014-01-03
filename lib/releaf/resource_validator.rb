@@ -4,6 +4,7 @@ module Releaf
 
     def self.build_validation_errors resource, error_scope_name
       errors = {}
+
       resource.errors.each do |attribute, message|
         field_id = validation_attribute_field_id resource, attribute
         unless errors.has_key? attribute
@@ -33,15 +34,18 @@ module Releaf
         field_name = validation_attribute_nested_field_name(resource, parts)
       else
         attribute = validation_attribute_name resource, parts[0], true
+        if attribute
+          field_name = "["
+          field_name += attribute
+          # normalize field id for globalize3 attributes without prefix
+          if resource.class.translates? && resource.class.translated_attribute_names.include?(attribute.to_sym)
+            field_name += "_#{I18n.default_locale}"
+          end
 
-        field_name = "["
-        field_name += attribute
-        # normalize field id for globalize3 attributes without prefix
-        if resource.class.translates? && resource.class.translated_attribute_names.include?(attribute.to_sym)
-          field_name += "_#{I18n.default_locale}"
+          field_name += "]"
+        else
+          field_name = ''
         end
-
-        field_name += "]"
       end
 
       field_name = prefix + field_name
@@ -62,7 +66,12 @@ module Releaf
       nested_items.each_with_index do |item, index|
         unless item.valid?
           if association_type == :belongs_to
-            field_id = "[" + attribute + "_attributes][#{ validation_attribute_name(item, parts[1], true)}]"
+            attribute_name = validation_attribute_name(item, parts[1], true)
+            if attribute_name
+              field_id = "[" + attribute + "_attributes][#{ attribute_name }]"
+            else
+              field_id = ''
+            end
           else
             field_id = "[" + attribute + "_attributes][#{index}]"
             if parts.length == 2
