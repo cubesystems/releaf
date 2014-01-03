@@ -5,16 +5,17 @@
     -# = Rails.logger.debug "\n\n\n"
     - reflection = f.object.class.reflections[field.to_sym]
 
-  - if (field.is_a?(String) or field.is_a?(Symbol)) && !reflection
-    - if has_template? "_#{view_prefix}.#{field}"
-      = render "#{view_prefix}.#{field}", :f => f, :name => field, :view_prefix => view_prefix
-    - else
-      = render 'edit.field', :f => f, :name => field, :view_prefix => view_prefix
+  - if has_template? "_#{view_prefix}.#{field}"
+    = render "#{view_prefix}.#{field}", :f => f, :name => field, :view_prefix => view_prefix
+
+  - elsif (field.is_a?(String) or field.is_a?(Symbol)) && !reflection
+    = render 'edit.field', :f => f, :name => field, :view_prefix => view_prefix
 
   - elsif field.is_a? Hash
     - field.each_pair do |field, subfields|
       - reflection = f.object.class.reflections[field.to_sym]
       = render 'edit.fields.association', :f => f, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix
+
   - elsif reflection
     - subfields = reflection.klass.column_names - %w[id created_at updated_at password password_confirmation encrypted_password item_position]
     - subfields = subfields - [reflection.foreign_key]
