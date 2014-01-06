@@ -52,7 +52,7 @@ module Releaf
     def index &block
       check_feature(:index)
       # load resource only if they are not loaded yet
-      @collection = resources if @collection.nil?
+      @collection = resources unless collection_given?
 
       if @searchable_fields && params[:search].present?
         search(params[:search])
@@ -68,7 +68,7 @@ module Releaf
     def new &block
       check_feature(:create)
       # load resource only if is not initialized yet
-      @resource = resource_class.new if @resource.nil?
+      @resource = resource_class.new unless resource_given?
       add_resource_breadcrumb(@resource)
       yield if block_given?
     end
@@ -81,7 +81,7 @@ module Releaf
     def edit &block
       check_feature(:edit)
       # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) if @resource.nil?
+      @resource = resource_class.find(params[:id]) unless resource_given?
       add_resource_breadcrumb(@resource)
       yield if block_given?
     end
@@ -89,7 +89,7 @@ module Releaf
     def create &block
       check_feature(:create)
       # load resource only if is not loaded yet
-      @resource = resource_class.new if @resource.nil?
+      @resource = resource_class.new unless resource_given?
       @resource.assign_attributes required_params.permit(*resource_params)
       result = @resource.save
 
@@ -99,7 +99,7 @@ module Releaf
     def update &block
       check_feature(:edit)
       # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) if @resource.nil?
+      @resource = resource_class.find(params[:id]) unless resource_given?
       result = @resource.update_attributes required_params.permit(*resource_params)
 
       respond_after_save(:update, result, "edit", &block)
@@ -381,6 +381,16 @@ module Releaf
     end
 
     protected
+
+    # Returns true if @resource is assigned (even if it's nil)
+    def resource_given?
+      !!defined? @resource
+    end
+
+    # Returns true if @collection is assigned (even if it's nil)
+    def collection_given?
+      !!defined? @collection
+    end
 
     # Returns notice scope name
     def notice_scope_name
