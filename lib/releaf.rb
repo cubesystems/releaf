@@ -8,6 +8,7 @@ module Releaf
   require 'releaf/template_field_type_mapper'
   require 'releaf/resource_validator'
   require 'releaf/template_filter'
+  require 'releaf/resource_finder'
 
   mattr_accessor :menu
   @@menu = [
