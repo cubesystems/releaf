@@ -28,6 +28,13 @@ describe ActsAsNode do
       end
     end
 
+    describe "#node" do
+      it "returns corresponding node object" do
+        node = FactoryGirl.create(:node, content_type: "Book", content_attributes: {title: "xx"})
+        expect(Book.last.node).to eq(node)
+      end
+    end
+
     context "#node_editable_fields" do
       it "returns model columns" do
         expect(Book.new.node_editable_fields).to eq(["title", "year", "author_id", "genre", "summary_html", "active", "published_at", "price", "cover_image_uid"])
