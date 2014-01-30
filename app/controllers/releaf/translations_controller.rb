@@ -8,7 +8,7 @@ module Releaf
 
     def setup
       super
-      @searchable_fields = [:scope, {:translations => [:key]}]
+      @searchable_fields = [:scope, {:translations => [:key, {:translation_data => [:localization]} ] } ]
     end
 
     def locales
