@@ -9,7 +9,7 @@
 
     .field{ 'data-name' => 'template' }
       .label_wrap
-        = f.label :content_type, 'Veids:', :title => f.object.content_type
+        = f.label :content_type, t('template') + ':', :title => f.object.content_type
       .value
         %span= f.object.content_type
       .clear
@@ -32,6 +32,8 @@
     .clear
     = render 'edit.field', :name => 'active', :f => f, :view_prefix => 'edit.field'
     = render 'edit.field', :name => 'protected', :f => f, :view_prefix => 'edit.field'
+    - if has_template? "_edit.locale"
+      = render 'edit.locale', :name => 'locale', :f => f
     .clear
 
   = render 'edit.content_fields', :f => f
