@@ -16,8 +16,10 @@
     end
   elsif text.is_a? TrueClass or text.is_a? FalseClass
     text = t(text ? 'yes' : 'no', :scope => 'admin.global')
+  elsif text.is_a? Date
+    text = I18n.l(text, :format => :default, default: '%Y-%m-%d')
   elsif text.is_a? Time
-    text = I18n.l(text, :format => :default)
+    text = I18n.l(text, :format => :default, default: '%Y-%m-%d %H:%M:%S %z')
   end
 %>
 <td>
