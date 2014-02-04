@@ -27,6 +27,27 @@ describe Releaf::Node do
     end
   end
 
+  describe "#locale" do
+    before do
+      root = FactoryGirl.create(:node, locale: "lv")
+      parent = FactoryGirl.create(:node, locale: nil, parent_id: root.id)
+      @child1 = FactoryGirl.create(:node, locale: nil, parent_id: parent.id)
+      @child2 = FactoryGirl.create(:node, locale: nil, parent_id: parent.id, locale: "en")
+    end
+
+    context "when node locale is nil" do
+      it "uses closest parent locale" do
+        expect(@child1.locale).to eq("lv")
+      end
+    end
+
+    context "when object node have locale" do
+      it "uses closest parent locale" do
+        expect(@child2.locale).to eq("en")
+      end
+    end
+  end
+
   describe "#destroy" do
     before do
       @node = FactoryGirl.create(:node)

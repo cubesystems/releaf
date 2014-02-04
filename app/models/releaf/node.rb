@@ -173,6 +173,19 @@ module Releaf
       end
     end
 
+    # Returns closest existing locale starting from object itself
+    # @return [String] locale
+    def locale
+      own = super
+      if own
+        own
+      else
+        ancestors.reorder("depth DESC").
+          where("locale IS NOT NULL").
+          first.try(:locale)
+      end
+    end
+
     private
 
     def update_settings_timestamp
