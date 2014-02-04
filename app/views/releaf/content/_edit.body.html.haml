@@ -9,7 +9,7 @@
 
     .field{ 'data-name' => 'template' }
       .label_wrap
-        = f.label :content_type, 'Veids:', :title => f.object.content_type
+        = f.label :content_type, t('template', scope: 'admin.global') + ':', :title => f.object.content_type
       .value
         %span= f.object.content_type
       .clear
@@ -18,13 +18,13 @@
     = render 'edit.slug', :name => 'slug', :f => f
 
     .field{ 'data-name' => 'item_position' }
-      .label_wrap= f.label :item_position, t('position') + ':'
+      .label_wrap= f.label :item_position, t('position', scope: 'admin.global') + ':'
       .value
         :ruby
-          opt_for_select = [[t('first'), 1]]
+          opt_for_select = [[t('first', scope: 'admin.global'), 1]]
           @order_nodes.each do |node|
             # FIXME fix i18n usage
-            opt_for_select.push [ t('after') + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position ]
+            opt_for_select.push [ t('after', scope: 'admin.global') + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position ]
           end
 
         = f.select :item_position, options_for_select(opt_for_select, @item_position)
@@ -32,6 +32,8 @@
     .clear
     = render 'edit.field', :name => 'active', :f => f, :view_prefix => 'edit.field'
     = render 'edit.field', :name => 'protected', :f => f, :view_prefix => 'edit.field'
+    - if has_template? "_edit.locale"
+      = render 'edit.locale', :name => 'locale', :f => f
     .clear
 
   = render 'edit.content_fields', :f => f
