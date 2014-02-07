@@ -186,6 +186,12 @@ module Releaf
       end
     end
 
+    # Check whether object and all its ancestors are active
+    # @return [Boolean] returns true if object is available
+    def available?
+      !(self_and_ancestors.where(active: false).count > 0)
+    end
+
     private
 
     def update_settings_timestamp
