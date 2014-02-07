@@ -18,9 +18,19 @@ describe Releaf::Node::Route do
     end
 
     context "when releaf_nodes table defined and content nodes exist" do
-      it "returns an array of Node::Route objects" do
+      before do
         FactoryGirl.create(:text_node)
+      end
+
+      it "returns an array of Node::Route objects" do
         expect(Releaf::Node::Route.for(Text).first.class).to eq(Releaf::Node::Route)
+      end
+
+      context "when node is not available" do
+        it "does not include it in return" do
+          Releaf::Node.any_instance.stub(:available?).and_return(false)
+          expect(Releaf::Node::Route.for(Text)).to eq([])
+        end
       end
     end
   end
