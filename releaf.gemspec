@@ -58,6 +58,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'pry-nav'
+  s.add_development_dependency 'spring', '~> 1.1.0'
+  s.add_development_dependency 'spring-commands-rspec'
 
   s.add_development_dependency 'yard'
   s.add_development_dependency 'github-markdown', '>= 0.5.3'
