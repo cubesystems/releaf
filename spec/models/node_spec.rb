@@ -182,7 +182,7 @@ describe Releaf::Node do
     let(:subject_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node", active: true) }
     let(:subject) { FactoryGirl.create(:text_node, parent_id: subject_ancestor.id, name:  "Test node", active: true) }
 
-    context "when object and all of object ancestors is active" do
+    context "when object and all its ancestors are active" do
       it "returns true" do
         expect(subject.available?).to be_true
       end
@@ -195,7 +195,7 @@ describe Releaf::Node do
       end
     end
 
-    context "when any of object ancestors is not active" do
+    context "when any of object ancestors are not active" do
       it "returns false" do
         subject_ancestor.update_attribute(:active, false)
         expect(subject.available?).to be_false
