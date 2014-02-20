@@ -64,7 +64,7 @@ describe Releaf::Node do
     before do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
-      @text_node_3 = FactoryGirl.create(:text_node, :parent_id => @text_node.id )
+      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node.id )
     end
 
     context "with corect parent_id" do
@@ -109,7 +109,7 @@ describe Releaf::Node do
     before do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
-      @text_node_3 = FactoryGirl.create(:text_node, :parent_id => @text_node_2.id)
+      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id)
     end
 
     context "when moving existing node to other nodes child's position" do
@@ -145,25 +145,25 @@ describe Releaf::Node do
 
   describe "#maintain_name" do
     let(:root) { FactoryGirl.create(:text_node) }
-    let(:node) { FactoryGirl.create(:text_node, :parent_id => root.id, :name => "Test node") }
-    let(:sibling) { FactoryGirl.create(:text_node, :parent_id => root.id, :name => "Test node(1)") }
+    let(:node) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node") }
+    let(:sibling) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node(1)") }
 
     context "when node don't have sibling/s with same name" do
       it "does not changes node's name" do
-        new_node = Releaf::Node.new(:name => "another name", :parent_id => root.id)
+        new_node = Releaf::Node.new(name:  "another name", parent_id: root.id)
         expect{ new_node.maintain_name }.to_not change{new_node.name}
       end
     end
 
     context "when node have sibling/s with same name" do
       it "changes node's name" do
-        new_node = Releaf::Node.new(:name => node.name, :parent_id => root.id)
+        new_node = Releaf::Node.new(name:  node.name, parent_id: root.id)
         expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(1)")
       end
 
       it "increments node's name number" do
         sibling
-        new_node = Releaf::Node.new(:name => node.name, :parent_id => root.id)
+        new_node = Releaf::Node.new(name:  node.name, parent_id: root.id)
         expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(2)")
       end
     end
@@ -174,6 +174,32 @@ describe Releaf::Node do
       Timecop.freeze
       FactoryGirl.create(:node)
       expect(Releaf::Node.updated_at.to_i).to eq(Time.now.to_i)
+    end
+  end
+
+  describe "#available?" do
+    let(:root) { FactoryGirl.create(:text_node, active: true) }
+    let(:subject_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node", active: true) }
+    let(:subject) { FactoryGirl.create(:text_node, parent_id: subject_ancestor.id, name:  "Test node", active: true) }
+
+    context "when object and all its ancestors are active" do
+      it "returns true" do
+        expect(subject.available?).to be_true
+      end
+    end
+
+    context "when object itself is not active" do
+      it "returns false" do
+        subject.update_attribute(:active, false)
+        expect(subject.available?).to be_false
+      end
+    end
+
+    context "when any of object ancestors are not active" do
+      it "returns false" do
+        subject_ancestor.update_attribute(:active, false)
+        expect(subject.available?).to be_false
+      end
     end
   end
 end

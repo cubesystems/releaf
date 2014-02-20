@@ -35,10 +35,11 @@ module Releaf
     # @param class_name [Class] class name to load related nodes
     # @return [Array] array of Node::Route objects
     def self.for class_name
+      return [] unless nodes_available?
       routes = []
 
-      if nodes_available?
-        Node.where(content_type: class_name).each do|node|
+      Node.where(content_type: class_name).each do|node|
+        if node.available?
           routes << build_route_object(node)
         end
       end
