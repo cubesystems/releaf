@@ -53,7 +53,8 @@ describe Releaf::AdminProfileController do
 
       it "casts bolean values from strings to booleans" do
         put :settings, {settings: {be_true: 'true', be_false: 'false'}}
-        expect(admin.settings.all).to eq({"be_true" => true, "be_false" => false})
+        expect(admin.settings.be_true).to be_true
+        expect(admin.settings.be_false).to be_false
       end
     end
   end
