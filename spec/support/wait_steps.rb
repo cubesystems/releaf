@@ -8,6 +8,7 @@ module WaitSteps
       begin
         Timeout.timeout(Capybara.default_wait_time) do
           sleep(0.1) until value = block.call
+          sleep(0.2)
           value
         end
       rescue TimeoutError
