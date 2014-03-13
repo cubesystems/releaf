@@ -2,10 +2,7 @@
 
 Releaf::Role.delete_all
 Releaf::Admin.delete_all
-
-Settings.all.keys.each do|key|
-  Settings.destroy(key)
-end
+Settings.delete_all
 
 # Role {{{
 
