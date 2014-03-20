@@ -53,11 +53,15 @@ module Releaf
       return field_name
     end
 
+    def self.single_association? association_type
+      [:belongs_to, :has_one].include? association_type
+    end
+
     def self.validation_attribute_nested_field_name resource, parts
       attribute = parts[0]
 
       association_type = resource.class.reflect_on_association(attribute.to_sym).macro
-      if association_type == :belongs_to
+      if single_association? association_type
         nested_items = [resource.send(attribute)]
       else
         nested_items = resource.send(attribute)
@@ -65,7 +69,7 @@ module Releaf
 
       nested_items.each_with_index do |item, index|
         unless item.valid?
-          if association_type == :belongs_to
+          if single_association? association_type
             attribute_name = validation_attribute_name(item, parts[1], true)
             if attribute_name
               field_id = "[" + attribute + "_attributes][#{ attribute_name }]"

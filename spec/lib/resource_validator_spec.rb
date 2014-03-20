@@ -28,7 +28,25 @@ describe Releaf::ResourceValidator do
         expect( subject.send(:validation_attribute_name, book, :trololo)).to be_nil
       end
     end
-
   end
 
+  describe ".single_association?" do
+    context "when :belongs_to given as argument" do
+      it "returns true" do
+        expect(described_class.single_association?(:belongs_to)).to be_true
+      end
+    end
+
+    context "when :has_one given as argument" do
+      it "returns true" do
+        expect(described_class.single_association?(:has_one)).to be_true
+      end
+    end
+
+    context "when any other value given as argument" do
+      it "returns false" do
+        expect(described_class.single_association?(:has_many)).to be_false
+      end
+    end
+  end
 end
