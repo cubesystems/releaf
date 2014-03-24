@@ -18,14 +18,14 @@
   %head
     %title= page_title
     %meta{content: "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
-    = stylesheet_link_tag "releaf/application"
+    = stylesheet_link_tag "releaf/application", media: 'all'
     - %w[css.scss.erb scss.erb css.scss scss css.erb css].each do |ext|
       - if File.exists?(_assets_path + "/stylesheets/releaf/controllers/#{controller_asset}.#{ext}")
-        = stylesheet_link_tag "releaf/controllers/#{controller_asset}"
+        = stylesheet_link_tag "releaf/controllers/#{controller_asset}", media: 'all'
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{controller_asset}.#{ext}")
-        = stylesheet_link_tag "controllers/#{controller_asset}"
+        = stylesheet_link_tag "controllers/#{controller_asset}", media: 'all'
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
-        = stylesheet_link_tag "releaf/#{Rails.application.class.parent_name.downcase}"
+        = stylesheet_link_tag "releaf/#{Rails.application.class.parent_name.downcase}", media: 'all'
 
     = csrf_meta_tags
   %body{class: body_classes}
