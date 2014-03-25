@@ -1,16 +1,25 @@
 <%
-  text = resource.send(name)
+  # TODO: refactor to lib class
+  name_parts = name.split(".")
+  value_resource = resource
+  name_parts[0..-2].each do|part|
+    value_resource = value_resource.send(part)
+  end
+  name = name_parts.last
+  text = value_resource.send(name)
+
+
   if name =~ /_id$/
-    if resource.class.respond_to?(:reflect_on_association)
+    if value_resource.class.respond_to?(:reflect_on_association)
       # FIXME what if association was set with :foreign_key option
       rel_name = name.to_s.sub(/_id$/, '').to_sym
-      if resource.class.reflect_on_association(rel_name)
-        text = resource_to_text(resource.send(rel_name))
+      if value_resource.class.reflect_on_association(rel_name)
+        text = resource_to_text(value_resource.send(rel_name))
       end
     end
   elsif name =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
-    unless resource.send(name).blank?
-      text = image_tag resource.send(name.to_s.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
+    unless value_resource.send(name).blank?
+      text = image_tag value_resource.send(name.to_s.sub(/_uid$/, '')).thumb('x16').url, :alt => ''
     else
       text = ""
     end
