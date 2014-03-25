@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 4.0.0'
   s.add_dependency 'sass-rails', '>= 3.2.5'
-  s.add_dependency 'jquery-rails', '~> 3.0.4'
+  s.add_dependency 'jquery-rails', '~> 3.1.0'
   s.add_dependency 'jquery-ui-rails', '~> 4.1.0'
   s.add_dependency 'railties', '>= 3.1'
   s.add_dependency 'haml-rails', '>= 0.3.4'
