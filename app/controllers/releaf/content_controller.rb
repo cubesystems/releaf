@@ -193,7 +193,15 @@ module Releaf
     end
 
     def resource_params
-      super + [{content_attributes: @resource.content_type.constantize.acts_as_node_configuration[:permit_attributes]}] + @resource.common_field_names
+      res_params = super
+      res_params += [{content_attributes: permitted_content_attributes}]
+      res_params += @resource.common_field_names
+      res_params -= %w[content_type]
+      return res_params
+    end
+
+    def permitted_content_attributes
+      @resource.content_class.acts_as_node_configuration[:permit_attributes]
     end
   end
 end
