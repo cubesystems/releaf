@@ -2,6 +2,7 @@
 
 ### 2014.04.09
 * remove Releaf::Node#content_string field, as it was't used
+* Extend Releaf::Node#data column to 2147483647 characters
 
 ### 2014.01.02
 * ```additional_controllers``` Releaf configuration variable introduced. Add
