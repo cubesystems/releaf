@@ -3,12 +3,45 @@
 require "spec_helper"
 
 describe Releaf::Node do
+  class TestValidation < ActiveModel::Validator
+    def validate record
+    end
+  end
+
+  class TestModel < ActiveRecord::Base
+    acts_as_node validators: [TestValidation]
+  end
+
+  class TestController < ActionController::Base
+    acts_as_node validators: [TestValidation]
+  end
+
   let(:node) { Releaf::Node.new }
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:slug) }
     it { should validate_presence_of(:content_type) }
+
+    context "when content is model" do
+      context "when user suplied custom validations via acts_as_node" do
+        it "runs custom validations during validation" do
+          subject.content_type = 'TestModel'
+          expect_any_instance_of(TestValidation).to receive(:validate).with(subject)
+          subject.valid?
+        end
+      end
+    end
+
+    context "when content is controller" do
+      context "when user suplied custom validations via acts_as_node" do
+        it "runs custom validations during validation" do
+          subject.content_type = 'TestController'
+          expect_any_instance_of(TestValidation).to receive(:validate).with(subject)
+          subject.valid?
+        end
+      end
+    end
   end
 
   describe "after save" do
@@ -199,6 +232,38 @@ describe Releaf::Node do
       it "returns false" do
         subject_ancestor.update_attribute(:active, false)
         expect(subject.available?).to be_false
+      end
+    end
+  end
+
+  describe "#content_class" do
+    context "when #content_type is valid class name" do
+      it "returns constantizes content_class" do
+        subject.content_type = "String"
+        expect( subject.content_class ).to eq String
+      end
+    end
+
+    context "when #content_type is blank" do
+      it "returns nil" do
+        subject.content_type = ""
+        expect( subject.content_class ).to be_nil
+      end
+    end
+  end
+
+  describe "#custom_validators" do
+    context "when content_type is valid model name" do
+      it "returns user suplied validators via acts_as_node" do
+        subject.content_type = 'TestModel'
+        expect( subject.custom_validators ).to match_array [TestValidation]
+      end
+    end
+
+    context "when content_type is blank" do
+      it "returns nil" do
+        subject.content_type = ''
+        expect( subject.custom_validators ).to be_nil
       end
     end
   end

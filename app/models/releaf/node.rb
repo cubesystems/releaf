@@ -15,15 +15,21 @@ module Releaf
 
     alias_attribute :to_text, :name
 
-    belongs_to :content, polymorphic: true, dependent: :destroy, class_name: Proc.new{|r| r.content_type.constantize}
+    belongs_to :content, polymorphic: true, dependent: :destroy, class_name: Proc.new{ |r| r.content_class }
     accepts_nested_attributes_for :content
 
     after_save :update_settings_timestamp
+    after_validation :run_custom_validations
 
     acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
 
     def build_content(params, assignment_options=nil)
-      self.content = content_type.constantize.new(params)
+      self.content = content_class.new(params)
+    end
+
+    def content_class
+      return nil if content_type.blank?
+      content_type.constantize
     end
 
     ##
@@ -192,7 +198,16 @@ module Releaf
       !(self_and_ancestors.where(active: false).count > 0)
     end
 
+    def custom_validators
+      content_class.try(:acts_as_node_configuration).try(:[], :validators)
+    end
+
     private
+
+    def run_custom_validations
+      return if custom_validators.blank?
+      self.validates_with *custom_validators
+    end
 
     def update_settings_timestamp
       Settings['nodes.updated_at'] = Time.now
@@ -251,5 +266,6 @@ module Releaf
     def common_field_default_value(key)
       common_field_options(key)['default']
     end
+
   end
 end

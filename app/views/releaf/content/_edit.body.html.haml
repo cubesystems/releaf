@@ -11,7 +11,7 @@
       .label_wrap
         = f.label :content_type, t('template', scope: 'admin.global') + ':', :title => f.object.content_type
       .value
-        %span= f.object.content_type
+        = f.text_field :content_type, disabled: :disabled
       .clear
 
 
