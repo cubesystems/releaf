@@ -6,6 +6,7 @@ describe I18n::Backend::Releaf::TranslationGroup do
 
   it { should have(1).error_on(:scope) }
   it { should validate_uniqueness_of(:scope) }
+  it { should ensure_length_of(:scope).is_at_most(255) }
 
   before do
     @group = FactoryGirl.create(:translation_group, :scope => 'test')

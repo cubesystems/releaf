@@ -11,6 +11,7 @@ module I18n
 
         validates_presence_of :translation_group, :key
         validates_uniqueness_of :key
+        validates_length_of :key, maximum: 255
 
         belongs_to :translation_group, :foreign_key => :group_id, :inverse_of => :translations
         has_many :translation_data, :dependent => :destroy, :class_name => 'Releaf::TranslationData', :inverse_of => :translation

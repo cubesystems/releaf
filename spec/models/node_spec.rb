@@ -22,6 +22,8 @@ describe Releaf::Node do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:slug) }
     it { should validate_presence_of(:content_type) }
+    it { should ensure_length_of(:name).is_at_most(255) }
+    it { should ensure_length_of(:slug).is_at_most(255) }
 
     context "when content is model" do
       context "when user suplied custom validations via acts_as_node" do

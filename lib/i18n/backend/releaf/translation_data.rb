@@ -9,6 +9,7 @@ module I18n
 
         validates_presence_of :translation, :lang
         validates_uniqueness_of :translation_id, :scope => :lang
+        validates_length_of :lang, maximum: 5
 
         belongs_to :translation, :inverse_of => :translation_data
 

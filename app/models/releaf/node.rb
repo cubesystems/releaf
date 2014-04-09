@@ -12,6 +12,7 @@ module Releaf
 
     validates_presence_of :name, :slug, :content_type
     validates_uniqueness_of :slug, scope: :parent_id
+    validates_length_of :name, :slug, :content_type, maximum: 255
 
     alias_attribute :to_text, :name
 

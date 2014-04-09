@@ -10,6 +10,7 @@ module I18n
 
         validates_presence_of :scope
         validates_uniqueness_of :scope
+        validates_length_of :scope, maximum: 255
 
         has_many :translations , -> { order "releaf_translations.key" }, :dependent => :destroy, :foreign_key => :group_id,
           :inverse_of => :translation_group

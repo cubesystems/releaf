@@ -6,10 +6,15 @@ describe I18n::Backend::Releaf::Translation do
 
   it { should have(1).error_on(:translation_group) }
   it { should have(1).error_on(:key) }
-  it {
+  it do
+    tg = double("TranslationGroup", :marked_for_destruction? => false)
+    subject.stub(:translation_group).and_return(tg)
+    should ensure_length_of(:key).is_at_most(255)
+  end
+  it do
     FactoryGirl.create(:translation)
     should validate_uniqueness_of(:key)
-  }
+  end
   it { should belong_to(:translation_group) }
 
 
