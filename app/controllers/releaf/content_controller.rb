@@ -70,7 +70,7 @@ module Releaf
     # processing
     def create
       @resource = resource_class.new
-      @resource.content_type = node_content_type.to_s
+      @resource.content_type = node_content_type.name
       super do
         new_common
       end
