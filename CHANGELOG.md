@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2014.04.09
+* remove Releaf::Node#content_string field, as it was't used
+
 ### 2014.01.02
 * ```additional_controllers``` Releaf configuration variable introduced. Add
   controllers that are not accessible via menu, but needs to be accessible by
