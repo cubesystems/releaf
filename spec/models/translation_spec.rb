@@ -4,8 +4,8 @@ require "spec_helper"
 
 describe I18n::Backend::Releaf::Translation do
 
-  it { should have(1).error_on(:translation_group) }
-  it { should have(1).error_on(:key) }
+  it { should validate_presence_of(:key) }
+  it { should validate_presence_of(:translation_group) }
   it do
     tg = double("TranslationGroup", :marked_for_destruction? => false)
     subject.stub(:translation_group).and_return(tg)
@@ -16,6 +16,8 @@ describe I18n::Backend::Releaf::Translation do
     should validate_uniqueness_of(:key)
   end
   it { should belong_to(:translation_group) }
+  it { should have_many(:translation_data).dependent(:destroy) }
+  it { should accept_nested_attributes_for(:translation_data).allow_destroy(true) }
 
 
   before do

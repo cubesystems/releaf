@@ -18,10 +18,15 @@ describe Releaf::Node do
 
   let(:node) { Releaf::Node.new }
 
+  it { should serialize(:data).as(Hash) }
+  it { should accept_nested_attributes_for(:content) }
+  it { should belong_to(:content) }
+
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:slug) }
     it { should validate_presence_of(:content_type) }
+    it { should validate_uniqueness_of(:slug).scoped_to(:parent_id) }
     it { should ensure_length_of(:name).is_at_most(255) }
     it { should ensure_length_of(:slug).is_at_most(255) }
 

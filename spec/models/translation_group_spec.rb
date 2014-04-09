@@ -4,9 +4,11 @@ require "spec_helper"
 
 describe I18n::Backend::Releaf::TranslationGroup do
 
-  it { should have(1).error_on(:scope) }
+  it { should validate_presence_of(:scope) }
   it { should validate_uniqueness_of(:scope) }
   it { should ensure_length_of(:scope).is_at_most(255) }
+  it { should have_many(:translations).dependent(:destroy) }
+  it { should accept_nested_attributes_for(:translations).allow_destroy(true) }
 
   before do
     @group = FactoryGirl.create(:translation_group, :scope => 'test')
