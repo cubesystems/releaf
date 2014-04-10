@@ -16,7 +16,7 @@ module Releaf
 
     alias_attribute :to_text, :name
 
-    belongs_to :content, polymorphic: true, dependent: :destroy, class_name: Proc.new{ |r| r.content_class }
+    belongs_to :content, polymorphic: true, dependent: :destroy, class_name: Proc.new { |r| r.content_type }
     accepts_nested_attributes_for :content
 
     after_save :update_settings_timestamp
