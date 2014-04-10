@@ -1,6 +1,7 @@
 module Releaf
   class Node < ActiveRecord::Base
     COMMON_FIELD_NAME_PREFIX = 'data_'
+    COMMON_FIELDS_SCHEMA_FILENAME = Rails.root.to_s + '/config/common_fields.yml'
 
     self.table_name = 'releaf_nodes'
 
@@ -75,11 +76,16 @@ module Releaf
     end
 
     def common_fields_schema
-      @_common_fields_schema ||= common_fields_schema_for_instance
+      full_schema = common_fields_full_schema
+      full_schema.delete_if do |field|
+        common_fields_keep_field?(field) == false
+      end
+      return full_schema
     end
 
+
     def common_field_names
-      @_common_field_names ||= common_fields_schema.map { |f| "#{COMMON_FIELD_NAME_PREFIX}#{f['field_name']}" }
+      common_fields_schema.map { |f| "#{COMMON_FIELD_NAME_PREFIX}#{f['field_name']}" }
     end
 
     def common_field_field_type(field_name)
@@ -87,20 +93,19 @@ module Releaf
     end
 
     def self.load_common_fields_schema
-      common_fields_schema_file = Rails.root.to_s+ '/config/common_fields.yml'
-      cfschema = if File.exists?(common_fields_schema_file)
-                   YAML::load_file(common_fields_schema_file)
+      cfschema = if File.exists?(COMMON_FIELDS_SCHEMA_FILENAME)
+                   YAML::load_file(COMMON_FIELDS_SCHEMA_FILENAME)
                  else
                    []
                  end
 
       raise "common_fields common_fields_schema is not an array" unless cfschema.is_a? Array
-      cfschema.each_with_index do |field,i|
+      cfschema.each_with_index do |field, i|
         raise "common_fields common_fields_schema contains non-hash element in root node"       unless field.is_a? Hash
         raise "field_name not defined for field ##{i}"                            unless field.has_key?('field_name')
         raise "field_name must be string"                                         unless field['field_name'].is_a? String
-        raise "field_type not defined for #{field['field_type']} field"           unless field.has_key?('field_type')
-        raise "apply_to not defined for #{field['apply_to']} field"               unless field.has_key?('apply_to')
+        raise "field_type not defined for #{field['field_name']} field"           unless field.has_key?('field_type')
+        raise "apply_to not defined for #{field['field_name']} field"             unless field.has_key?('apply_to')
       end
 
       return cfschema
@@ -213,40 +218,31 @@ module Releaf
       Settings['nodes.updated_at'] = Time.now
     end
 
-    def common_fields_schema_for_instance
-      full_schema =if defined?(COMMON_FIELDS_SCHEMA)
-                     COMMON_FIELDS_SCHEMA.dup
-                   else
-                     self.class.load_common_fields_schema.dup
-                   end
-
-      full_schema.delete_if do |field|
-        keep = false
-
-        if field['apply_to'].is_a?(String) && (field['apply_to'] == '*' || field['apply_to'] == self.content_type)
-          keep = true
-        elsif field['apply_to'].is_a?(Array) && field['apply_to'].include?(self.content_type)
-          keep = true
-        else
-          keep = false
-        end
-
-        if keep == true && field.has_key?('deny_for')
-          if field['deny_for'].is_a?(String) && (field['deny_for'] == '*' || field['deny_for'] == self.content_type)
-            keep = false
-          elsif field['deny_for'].is_a?(Array) && field['deny_for'].include?(self.content_type)
-            keep = false
-          end
-        end
-
-        if keep == true && field.has_key?('levels')
-          keep = false unless field['levels'].include? level
-        end
-
-        !keep
+    def common_fields_full_schema
+      if defined?(COMMON_FIELDS_SCHEMA)
+        COMMON_FIELDS_SCHEMA.dup
+      else
+        self.class.load_common_fields_schema.dup
       end
+    end
 
-      return full_schema
+    def common_fields_keep_helper field_options, mode, match_value, default_value=false
+      if ['*', content_type].include? field_options[mode]
+        return match_value
+      elsif field_options[mode].is_a?(Array) && field_options[mode].include?(content_type)
+        return match_value
+      else
+        return default_value
+      end
+    end
+
+    def common_fields_keep_field? field_options
+      keep = common_fields_keep_helper(field_options, 'apply_to', true, false)
+      keep = common_fields_keep_helper(field_options, 'deny_for', false, keep) if keep
+      if keep && field_options.has_key?('levels')
+        keep = false unless field_options['levels'].include? depth
+      end
+      return keep
     end
 
     def common_field_setter(key, value)
@@ -254,7 +250,7 @@ module Releaf
     end
 
     def common_field_getter(key)
-      self.data.has_key?(key) ? self.data[key] : common_field_default_value(key)
+      self.data.fetch(key, common_field_default_value(key))
     end
 
     def common_field_options(key)

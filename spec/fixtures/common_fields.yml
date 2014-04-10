@@ -1,0 +1,17 @@
+-
+  field_name: 'meta_description'
+  field_type: 'boolean'
+  apply_to: '*'
+  default: 'common stuff'
+  deny_for: 'Text'
+
+-
+  field_name: 'meta_copyright'
+  field_type: 'text'
+  apply_to: 'Text'
+  levels: [1]
+
+-
+  field_name: 'other_attribute'
+  field_type: 'text'
+  apply_to: 'ContactsController'
