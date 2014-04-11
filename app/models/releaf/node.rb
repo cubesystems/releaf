@@ -185,7 +185,7 @@ module Releaf
       postfix = nil
       total_count = 0
 
-      while self.class.where(parent_id: parent_id, name: "#{name}#{postfix}").where("id != ?", id.to_i).count.to_i > 0 do
+      while self.class.where(parent_id: parent_id, name: "#{name}#{postfix}").where("id != ?", id.to_i).exists? do
         total_count += 1
         postfix = "(#{total_count})"
       end
