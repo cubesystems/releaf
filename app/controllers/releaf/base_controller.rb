@@ -435,7 +435,6 @@ module Releaf
     #     @fetures[:edit] = false
     #     @resources_per_page = 20
     #   end
-
     def setup
       @features = {
         edit:              true,
