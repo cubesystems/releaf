@@ -3,17 +3,17 @@
 require "spec_helper"
 
 describe Releaf::Node do
-  class TestValidation < ActiveModel::Validator
+  class DummyNodeTestValidation < ActiveModel::Validator
     def validate record
     end
   end
 
-  class TestModel < ActiveRecord::Base
-    acts_as_node validators: [TestValidation]
+  class DummyNodeTestModel < ActiveRecord::Base
+    acts_as_node validators: [DummyNodeTestValidation]
   end
 
-  class TestController < ActionController::Base
-    acts_as_node validators: [TestValidation]
+  class DummyNodeTestController < ActionController::Base
+    acts_as_node validators: [DummyNodeTestValidation]
   end
 
   let(:node) { Releaf::Node.new }
@@ -33,8 +33,8 @@ describe Releaf::Node do
     context "when content is model" do
       context "when user suplied custom validations via acts_as_node" do
         it "runs custom validations during validation" do
-          subject.content_type = 'TestModel'
-          expect_any_instance_of(TestValidation).to receive(:validate).with(subject)
+          subject.content_type = 'DummyNodeTestModel'
+          expect_any_instance_of(DummyNodeTestValidation).to receive(:validate).with(subject)
           subject.valid?
         end
       end
@@ -43,8 +43,8 @@ describe Releaf::Node do
     context "when content is controller" do
       context "when user suplied custom validations via acts_as_node" do
         it "runs custom validations during validation" do
-          subject.content_type = 'TestController'
-          expect_any_instance_of(TestValidation).to receive(:validate).with(subject)
+          subject.content_type = 'DummyNodeTestController'
+          expect_any_instance_of(DummyNodeTestValidation).to receive(:validate).with(subject)
           subject.valid?
         end
       end
@@ -91,7 +91,7 @@ describe Releaf::Node do
   describe "#destroy" do
     context "when content object class exists" do
       it "deletes record" do
-        node = FactoryGirl.create(:node, content_type: 'TestModel')
+        node = FactoryGirl.create(:node, content_type: 'DummyNodeTestModel')
         expect { node.destroy }.to change { Releaf::Node.count }.by(-1)
       end
     end
@@ -292,8 +292,8 @@ describe Releaf::Node do
   describe "#custom_validators" do
     context "when content_type is valid model name" do
       it "returns user suplied validators via acts_as_node" do
-        subject.content_type = 'TestModel'
-        expect( subject.custom_validators ).to match_array [TestValidation]
+        subject.content_type = 'DummyNodeTestModel'
+        expect( subject.custom_validators ).to match_array [DummyNodeTestValidation]
       end
     end
 
