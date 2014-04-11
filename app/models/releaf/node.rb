@@ -211,7 +211,7 @@ module Releaf
     # Check whether object and all its ancestors are active
     # @return [Boolean] returns true if object is available
     def available?
-      !(self_and_ancestors.where(active: false).count > 0)
+      self_and_ancestors.where(active: false).exists? == false
     end
 
     def custom_validators
