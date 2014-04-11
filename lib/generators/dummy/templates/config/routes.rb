@@ -7,5 +7,9 @@ Dummy::Application.routes.draw do
     get route.params('texts#show')
   end
 
+  Releaf::Node::Route.for(ContactsController).each do|route|
+    get route.params('contacts#show')
+  end
+
   root :to => 'home#index'
 end
