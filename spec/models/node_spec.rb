@@ -271,8 +271,8 @@ describe Releaf::Node do
 
   describe "#available?" do
     let(:root) { FactoryGirl.create(:text_node, active: true) }
-    let(:node_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node", active: true) }
-    let(:node) { FactoryGirl.create(:text_node, parent_id: node_ancestor.id, name:  "Test node", active: true) }
+    let(:node_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, active: true) }
+    let(:node) { FactoryGirl.create(:text_node, parent_id: node_ancestor.id, active: true) }
 
     context "when object and all its ancestors are active" do
       it "returns true" do
