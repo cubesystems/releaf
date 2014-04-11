@@ -219,11 +219,7 @@ module Releaf
     end
 
     def common_fields_full_schema
-      if defined?(COMMON_FIELDS_SCHEMA)
-        COMMON_FIELDS_SCHEMA.dup
-      else
-        self.class.load_common_fields_schema.dup
-      end
+      self.class.load_common_fields_schema.dup
     end
 
     def common_fields_keep_helper field_options, mode, match_value, default_value=false
