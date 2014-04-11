@@ -276,21 +276,21 @@ describe Releaf::Node do
 
     context "when object and all its ancestors are active" do
       it "returns true" do
-        expect(node.available?).to be_true
+        expect( node ).to be_available
       end
     end
 
     context "when object itself is not active" do
       it "returns false" do
         node.update_attribute(:active, false)
-        expect(node.available?).to be_false
+        expect( node ).to_not be_available
       end
     end
 
     context "when any of object ancestors are not active" do
       it "returns false" do
         node_ancestor.update_attribute(:active, false)
-        expect(node.available?).to be_false
+        expect( node ).to_not be_available
       end
     end
   end
