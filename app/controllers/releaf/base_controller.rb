@@ -252,7 +252,7 @@ module Releaf
         if action_name == "index"
           @index_url = current_url
         # use from get params
-        elsif !params[:index_url].blank?
+        elsif params[:index_url].present?
           @index_url = params[:index_url]
         # fallback to index view
         else
