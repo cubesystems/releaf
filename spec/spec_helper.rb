@@ -1,6 +1,8 @@
 require 'simplecov'
 require 'simplecov-rcov'
 require 'coveralls'
+require 'pry'
+require 'pry-nav'
 SimpleCov.command_name 'rspec'
 
 Coveralls.wear!('rails')
