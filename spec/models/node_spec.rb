@@ -89,14 +89,44 @@ describe Releaf::Node do
   end
 
   describe "#destroy" do
-    before do
-      @node = FactoryGirl.create(:node)
+    context "when content object class exists" do
+      it "deletes record" do
+        node = FactoryGirl.create(:node, content_type: 'TestModel')
+        expect { node.destroy }.to change { Releaf::Node.count }.by(-1)
+      end
+    end
+
+    def stub_content_class &block
+      Releaf::Node.any_instance.stub(:content_class)
+      yield
+      Releaf::Node.any_instance.unstub(:content_class)
+    end
+
+    context "when content object class doesn't exists" do
+      it "deletes record" do
+        stub_content_class do
+          @node = FactoryGirl.create(:node, content_type: 'NonExistingTestModel', content_id: 1)
+        end
+        expect { @node.destroy }.to change { Releaf::Node.count }.by(-1)
+      end
+
+      it "retries to delete record only once" do
+        stub_content_class do
+          @node = FactoryGirl.create(:node, content_type: 'NonExistingTestModel', content_id: 1)
+        end
+        @node.stub(:content_type=)
+        @node.stub(:content_id=)
+
+        expect { @node.destroy }.to raise_error NameError
+        expect( Releaf::Node.count ).to eq 1
+      end
     end
 
     it "sets node update to current time" do
-      @time_now = Time.parse("2009-02-23 21:00:00 UTC")
-      Time.stub(:now).and_return(@time_now)
-      expect{ @node.destroy }.to change{ Settings['nodes.updated_at'] }.to(@time_now)
+      node = FactoryGirl.create(:node)
+      time_now = Time.parse("2009-02-23 21:00:00 UTC")
+      Time.stub(:now).and_return(time_now)
+      expect{ node.destroy }.to change{ Settings['nodes.updated_at'] }.to(time_now)
     end
   end
 

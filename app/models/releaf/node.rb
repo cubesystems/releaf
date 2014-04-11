@@ -112,7 +112,18 @@ module Releaf
     end
 
     def destroy
-      super
+      begin
+        super
+      rescue NameError => e
+        raise if content_id.nil? && content_type.nil?
+        raise unless e.message == "uninitialized constant #{content_type}"
+        # Class was deleted from project.
+        # Lets try one more time, but this time set content_type to nil, so
+        # rails doesn't try to constantize it
+        self.content_id = self.content_type = nil
+        self.save(:validate => false)
+        retry
+      end
       update_settings_timestamp
     end
 
