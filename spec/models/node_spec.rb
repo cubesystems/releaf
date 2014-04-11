@@ -263,10 +263,9 @@ describe Releaf::Node do
   end
 
   describe ".updated_at" do
-    it "returns last node update" do
-      Timecop.freeze
-      FactoryGirl.create(:node)
-      expect(Releaf::Node.updated_at.to_i).to eq(Time.now.to_i)
+    it "returns last node update time" do
+      expect( Settings ).to receive(:[]).with('nodes.updated_at').and_return('test')
+      expect( Releaf::Node.updated_at ).to eq 'test'
     end
   end
 
