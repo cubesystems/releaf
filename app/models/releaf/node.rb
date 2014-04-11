@@ -147,7 +147,7 @@ module Releaf
 
       if content_id.present?
         new_content = content.dup
-        new_content.save
+        new_content.save!
         new_node.content_id = new_content.id
       end
 
@@ -156,7 +156,7 @@ module Releaf
       # To regenerate slug
       new_node.slug = nil
 
-      new_node.save
+      new_node.save!
 
       children.each do |child|
         child.copy_to_node(new_node.id)
@@ -176,7 +176,7 @@ module Releaf
       self.slug = nil
       self.ensure_unique_url
 
-      self.save
+      self.save!
     end
 
     # Maintain unique name within parent_id scope.
