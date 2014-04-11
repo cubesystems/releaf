@@ -137,7 +137,6 @@ module Releaf
 
       new_node = self.class.new
       new_node.name = name
-      new_node.slug = slug
       new_node.locale = locale
       new_node.content_type = content_type
       new_node.active = active
