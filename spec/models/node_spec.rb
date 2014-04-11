@@ -271,26 +271,26 @@ describe Releaf::Node do
 
   describe "#available?" do
     let(:root) { FactoryGirl.create(:text_node, active: true) }
-    let(:subject_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node", active: true) }
-    let(:subject) { FactoryGirl.create(:text_node, parent_id: subject_ancestor.id, name:  "Test node", active: true) }
+    let(:node_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node", active: true) }
+    let(:node) { FactoryGirl.create(:text_node, parent_id: node_ancestor.id, name:  "Test node", active: true) }
 
     context "when object and all its ancestors are active" do
       it "returns true" do
-        expect(subject.available?).to be_true
+        expect(node.available?).to be_true
       end
     end
 
     context "when object itself is not active" do
       it "returns false" do
-        subject.update_attribute(:active, false)
-        expect(subject.available?).to be_false
+        node.update_attribute(:active, false)
+        expect(node.available?).to be_false
       end
     end
 
     context "when any of object ancestors are not active" do
       it "returns false" do
-        subject_ancestor.update_attribute(:active, false)
-        expect(subject.available?).to be_false
+        node_ancestor.update_attribute(:active, false)
+        expect(node.available?).to be_false
       end
     end
   end
