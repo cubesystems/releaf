@@ -21,7 +21,7 @@ module Releaf
       if controller.is_a? String
         controller_name = controller
       elsif controller.class < ActionController::Base
-        controller_name = controller.class.to_s
+        controller_name = controller.class.name
       else
         raise ArgumentError, 'Argument is neither String or class that inherit ActionController::Base'
       end
