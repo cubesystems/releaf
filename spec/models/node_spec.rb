@@ -112,17 +112,23 @@ describe Releaf::Node do
   end
 
   describe "#destroy" do
-    context "when content object class exists" do
-      it "deletes record" do
-        node = FactoryGirl.create(:node, content_type: 'DummyNodeTestModel')
-        expect { node.destroy }.to change { Releaf::Node.count }.by(-1)
-      end
-    end
-
     def stub_content_class &block
       Releaf::Node.any_instance.stub(:content_class)
       yield
       Releaf::Node.any_instance.unstub(:content_class)
+    end
+
+    context "when content object class exists" do
+      let(:text) { FactoryGirl.create(:text) }
+      let!(:node) { FactoryGirl.create(:node, content: text) }
+
+      it "deletes record" do
+        expect { node.destroy }.to change { Releaf::Node.count }.by(-1)
+      end
+
+      it "deletes associated record" do
+        expect { node.destroy }.to change { Text.count }.by(-1)
+      end
     end
 
     context "when content object class doesn't exists" do
