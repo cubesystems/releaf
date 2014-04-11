@@ -301,22 +301,6 @@ describe Releaf::Node do
     end
   end
 
-  describe "#content_class" do
-    context "when #content_type is valid class name" do
-      it "returns constantizes content_class" do
-        subject.content_type = "String"
-        expect( subject.content_class ).to eq String
-      end
-    end
-
-    context "when #content_type is blank" do
-      it "returns nil" do
-        subject.content_type = ""
-        expect( subject.content_class ).to be_nil
-      end
-    end
-  end
-
   describe "#custom_validators" do
     context "when content_type is valid model name" do
       it "returns user suplied validators via acts_as_node" do
