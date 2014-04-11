@@ -61,6 +61,29 @@ describe Releaf::Node do
     end
   end
 
+  describe "#content_class" do
+    context 'when #content_type is nil' do
+      it 'returns nil' do
+        subject.content_type = nil
+        expect( subject.content_class ).to be_nil
+      end
+    end
+
+    context "when #content_type is blank string" do
+      it 'returns nil' do
+        subject.content_type = ""
+        expect( subject.content_class ).to be_nil
+      end
+    end
+
+    context "when #content_type is not blank" do
+      it "constantizes it" do
+        subject.content_type = "Releaf::Node"
+        expect( subject.content_class ).to eq Releaf::Node
+      end
+    end
+  end
+
   describe "#to_s" do
     it "returns name" do
       expect(node.to_s).to eq(node.name)
