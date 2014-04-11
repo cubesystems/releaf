@@ -10,7 +10,7 @@ module Releaf
     # :lockable, :timeoutable and :omniauthable
     # :registerable
     devise :database_authenticatable, :rememberable, :trackable, :validatable
-    validates_presence_of :name, :surname, :role_id, :locale
+    validates_presence_of :name, :surname, :role, :locale
 
     belongs_to :role
 
