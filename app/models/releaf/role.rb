@@ -8,7 +8,7 @@ module Releaf
 
     has_many :admins, dependent: :restrict_with_exception
 
-    serialize :permissions
+    serialize :permissions, Array
 
     alias_attribute :to_text, :name
 
@@ -40,7 +40,7 @@ module Releaf
         return true
       end
 
-      return permissions.try(:include?, controller_name)
+      return permissions.include? controller_name
     end
 
   end
