@@ -4,6 +4,7 @@ require "spec_helper"
 
 describe Releaf::Role do
   it { should serialize(:permissions).as(Array) }
+  it { should have_many(:admins).dependent(:restrict_with_exception) }
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
