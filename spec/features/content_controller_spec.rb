@@ -166,7 +166,9 @@ describe Releaf::ContentController, js: true, with_tree: true do
       visit releaf_nodes_path
       find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
 
-      expect( page ).to have_content 'RootNode e a b d c'
+      within(".collection li[data-level='1'][data-id='#{@root.id}'] ul.block") do
+        expect( page ).to have_content 'e a b d c'
+      end
     end
   end
 end
