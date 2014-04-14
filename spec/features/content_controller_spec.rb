@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe Releaf::ContentController, js: true do
+describe Releaf::ContentController, js: true, with_tree: true do
   before do
     # preload ActsAsNode classes
     Rails.application.eager_load!
@@ -7,6 +7,9 @@ describe Releaf::ContentController, js: true do
     @admin = auth_as_admin
     # build little tree
     @root = FactoryGirl.create(:node, name: "RootNode")
+  end
+
+  before with_tree: true do
     FactoryGirl.create(:node, parent_id: @root.id)
     @sub_root = FactoryGirl.create(:node, parent_id: @root.id)
     FactoryGirl.create(:node, parent_id: @sub_root.id)
@@ -134,6 +137,36 @@ describe Releaf::ContentController, js: true do
 
         expect(page).to have_css('.notifications .notification .message', text: "Move to node not ok")
       end
+    end
+  end
+
+  describe "node order", with_tree: false do
+    def create_child parent, child_text, position=nil
+      visit releaf_nodes_path
+      open_toolbox 'Add child', parent, true
+      click_link("Text")
+
+      fill_in 'Name', with: child_text
+      fill_in "Slug", with: child_text
+      fill_in_richtext 'resource_content_attributes_text_html', child_text
+      if position
+        select position, from: 'Position:'
+      end
+      save_and_check_response "Created"
+    end
+
+    it "creates nodes is correct order" do
+
+      create_child @root, 'a'
+      create_child @root, 'b', 'After a'
+      create_child @root, 'c', 'After b'
+      create_child @root, 'd', 'After b'
+      create_child @root, 'e', 'First'
+
+      visit releaf_nodes_path
+      find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
+
+      expect( page ).to have_content 'RootNode e a b d c'
     end
   end
 end

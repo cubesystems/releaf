@@ -21,10 +21,10 @@
       .label_wrap= f.label :item_position, t('position', scope: 'admin.global') + ':'
       .value
         :ruby
-          opt_for_select = [[t('first', scope: 'admin.global'), 1]]
+          opt_for_select = [[t('first', scope: 'admin.global'), 0]]
           @order_nodes.each do |node|
             # FIXME fix i18n usage
-            opt_for_select.push [ t('after', scope: 'admin.global') + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position ]
+            opt_for_select.push [ t('after', scope: 'admin.global') + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
           end
 
         = f.select :item_position, options_for_select(opt_for_select, @item_position)

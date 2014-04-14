@@ -40,13 +40,22 @@ module Helpers
     expect(page).to have_css('.dialog form[data-validation="true"][data-validation-initialized="true"]')
   end
 
-  def open_toolbox item_name, resource = nil
+  def open_toolbox item_name, resource = nil, content_controller = false
     if resource
-      find('.view-index .table tr[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
+      if content_controller
+        find('.view-index .collection .row[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
+      else
+        find('.view-index .table tr[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
+      end
     else
       find('.main h2.header .toolbox-wrap .toolbox button.trigger').click
     end
 
     click_link item_name
+  end
+
+  def fill_in_richtext html_element_id, content
+    page.execute_script("$('##{html_element_id}').tinymce().setContent(\"#{content}\")")
+    page.execute_script("$('##{html_element_id}').tinymce().save()")
   end
 end
