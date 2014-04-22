@@ -33,9 +33,8 @@ module Releaf
     end
 
     def new
-      super do
-        new_common
-      end
+      new_common
+      super
 
       render layout: nil if ajax?
     end
@@ -69,11 +68,8 @@ module Releaf
     # so we can assign content_type before further
     # processing
     def create
-      @resource = resource_class.new
-      @resource.content_type = node_content_type.name
-      super do
-        new_common
-      end
+      new_common
+      super
     end
 
     def edit
@@ -150,7 +146,7 @@ module Releaf
     end
 
     def edit_common
-      @order_nodes = resource_class.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
+      @order_nodes = resource_class.where(parent_id: @resource.parent_id).where('id != :id', id: params[:id])
 
       if @resource.higher_item
         @item_position = @resource.item_position
@@ -160,23 +156,26 @@ module Releaf
     end
 
     def new_common
+      @resource = resource_class.new
+
       if params[:content_type].blank?
         @content_types = content_type_classes
       else
         @order_nodes = resource_class.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
         @item_position = 1
 
-        @resource.content_type = node_content_type.to_s
+        @resource.content_type = node_content_class.name
         @resource.parent_id = params[:parent_id]
 
-        if node_content_type < ActiveRecord::Base
-          @resource.content = node_content_type.new
+        if node_content_class < ActiveRecord::Base
+          @resource.build_content({})
+          @resource.content_id_will_change!
         end
       end
     end
 
     # Returns valid content type class
-    def node_content_type
+    def node_content_class
       unless ActsAsNode.classes.include? params[:content_type]
         raise ArgumentError, "invalid content_type"
       end

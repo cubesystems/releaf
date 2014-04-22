@@ -1,11 +1,13 @@
 require 'spec_helper'
-describe Releaf::ContentController, js: true, with_tree: true do
+describe Releaf::ContentController, js: true, with_tree: true, with_root: true do
   before do
     # preload ActsAsNode classes
     Rails.application.eager_load!
 
     @admin = auth_as_admin
-    # build little tree
+  end
+
+  before with_root: true do
     @root = FactoryGirl.create(:node, name: "RootNode")
   end
 
@@ -171,4 +173,15 @@ describe Releaf::ContentController, js: true, with_tree: true do
       end
     end
   end
+
+  describe "creating node for placeholder model", with_tree: false, with_root: false, js: false do
+    it "create record in association table" do
+      visit new_releaf_node_path(content_type: 'Bundle')
+      fill_in("resource_name", with: "placeholder model node")
+      expect do
+        click_button 'Save'
+      end.to change { [Node.count, Bundle.count] }.from([0, 0]).to([1, 1])
+    end
+  end
+
 end
