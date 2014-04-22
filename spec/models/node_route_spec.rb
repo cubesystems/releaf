@@ -3,6 +3,12 @@ require "spec_helper"
 describe Releaf::Node::Route do
   let(:node_route) { FactoryGirl.build(:node_route, node_id: 12, locale: "en", path: "/en") }
 
+  describe ".node_class" do
+    it "returns ::Node" do
+      expect( described_class.node_class ).to eq ::Node
+    end
+  end
+
   describe ".for" do
     it "returns an array" do
       expect(Releaf::Node::Route.for(Text).class).to eq(Array)

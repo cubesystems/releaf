@@ -16,7 +16,7 @@ module Releaf
     end
 
     def index
-      @collection = Node.roots
+      @collection = resource_class.roots
     end
 
     def generate_url
@@ -41,27 +41,27 @@ module Releaf
     end
 
     def copy_dialog
-      @node = Node.find params[:id]
-      @collection = Node.roots
+      @node = resource_class.find params[:id]
+      @collection = resource_class.roots
       render layout: nil
     end
 
     def copy
-      copy_node(Node.find(params[:id]), params[:new_parent_id], false)
+      copy_node(resource_class.find(params[:id]), params[:new_parent_id], false)
     end
 
     def move_dialog
-      @node = Node.find params[:id]
-      @collection = Node.roots
+      @node = resource_class.find params[:id]
+      @collection = resource_class.roots
       render layout: nil
     end
 
     def move
-      copy_node(Node.find(params[:id]), params[:new_parent_id], true)
+      copy_node(resource_class.find(params[:id]), params[:new_parent_id], true)
     end
 
     def go_to_dialog
-      @collection = Node.roots
+      @collection = resource_class.roots
       render layout: nil
     end
 
@@ -120,25 +120,25 @@ module Releaf
     end
 
     def self.resource_class
-      Node
+      # TODO class name should be configurable
+      ::Node
     end
-
 
     private
 
     def prepare_resource
       if params[:id]
-        return Node.find(params[:id])
+        return resource_class.find(params[:id])
       elsif params[:parent_id].blank? == false
-        parent = Node.find(params[:parent_id])
+        parent = resource_class.find(params[:parent_id])
         return parent.children.new
       else
-        return Node.new
+        return resource_class.new
       end
     end
 
     def copy_node node, new_parent_id, delete_original = false
-      return unless node.instance_of?(Releaf::Node)
+      return unless node.instance_of?(resource_class)
       method_to_call = :copy_to_node
       method_to_call = :move_to_node if delete_original
       if node.send(method_to_call, new_parent_id).nil?
@@ -150,7 +150,7 @@ module Releaf
     end
 
     def edit_common
-      @order_nodes = Node.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
+      @order_nodes = resource_class.where(parent_id: (@resource.parent_id ? @resource.parent_id : nil)).where('id != :id', id: params[:id])
 
       if @resource.higher_item
         @item_position = @resource.item_position
@@ -163,7 +163,7 @@ module Releaf
       if params[:content_type].blank?
         @content_types = content_type_classes
       else
-        @order_nodes = Node.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
+        @order_nodes = resource_class.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
         @item_position = 1
 
         @resource.content_type = node_content_type.to_s

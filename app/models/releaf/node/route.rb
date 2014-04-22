@@ -2,6 +2,11 @@ module Releaf
   class Node::Route
     attr_accessor :path, :node, :locale, :node_id
 
+    def self.node_class
+      # TODO model should be configurable
+      ::Node
+    end
+
     # Return node route params which can be used in Rails route options
     #
     # @param controller_action [String] optional string with action and controller for route (Ex. home#index)
@@ -38,7 +43,7 @@ module Releaf
       return [] unless nodes_available?
       routes = []
 
-      Node.where(content_type: class_name).each do|node|
+      node_class.where(content_type: class_name).each do|node|
         if node.available?
           routes << build_route_object(node)
         end
@@ -51,7 +56,7 @@ module Releaf
 
     # Build Node::Route from Node object
     def self.build_route_object node
-      route = Node::Route.new
+      route = new
       route.node_id = node.id.to_s
       route.path = node.url
       route.locale = node.root.locale
@@ -61,7 +66,7 @@ module Releaf
 
     # Check for nodes table availability
     def self.nodes_available?
-      ActiveRecord::Base.connection.table_exists? 'releaf_nodes'
+      ActiveRecord::Base.connection.table_exists? node_class.table_name
     end
   end
 end

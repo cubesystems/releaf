@@ -3,7 +3,9 @@ module Releaf
     COMMON_FIELD_NAME_PREFIX = 'data_'
     COMMON_FIELDS_SCHEMA_FILENAME = Rails.root.to_s + '/config/common_fields.yml'
 
-    self.table_name = 'releaf_nodes'
+    ## for some reason many things will fail when Releaf:Node is abstract class
+    ## TODO find out why
+    # self.abstract_class = true
 
     acts_as_nested_set order_column: :item_position
     acts_as_list scope: :parent_id, column: :item_position

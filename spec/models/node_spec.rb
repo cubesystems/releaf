@@ -1,6 +1,14 @@
 require "spec_helper"
 
 describe Releaf::Node do
+  it "is an abstract class" do
+    pending "see comments in Releaf::Node" do
+      expect( Releaf::Node ).to be_abstract_class
+    end
+  end
+end
+
+describe Node do
   class DummyNodeTestValidation < ActiveModel::Validator
     def validate record
     end
@@ -14,7 +22,7 @@ describe Releaf::Node do
     acts_as_node validators: [DummyNodeTestValidation]
   end
 
-  let(:node) { Releaf::Node.new }
+  let(:node) { Node.new }
 
   it { should serialize(:data).as(Hash) }
   it { should accept_nested_attributes_for(:content) }
@@ -76,8 +84,8 @@ describe Releaf::Node do
 
     context "when #content_type is not blank" do
       it "constantizes it" do
-        subject.content_type = "Releaf::Node"
-        expect( subject.content_class ).to eq Releaf::Node
+        subject.content_type = "Node"
+        expect( subject.content_class ).to eq Node
       end
     end
   end
@@ -111,9 +119,9 @@ describe Releaf::Node do
 
   describe "#destroy" do
     def stub_content_class &block
-      Releaf::Node.any_instance.stub(:content_class)
+      Node.any_instance.stub(:content_class)
       yield
-      Releaf::Node.any_instance.unstub(:content_class)
+      Node.any_instance.unstub(:content_class)
     end
 
     context "when content object class exists" do
@@ -121,7 +129,7 @@ describe Releaf::Node do
       let!(:node) { FactoryGirl.create(:node, content: text) }
 
       it "deletes record" do
-        expect { node.destroy }.to change { Releaf::Node.count }.by(-1)
+        expect { node.destroy }.to change { Node.count }.by(-1)
       end
 
       it "deletes associated record" do
@@ -134,7 +142,7 @@ describe Releaf::Node do
         stub_content_class do
           @node = FactoryGirl.create(:node, content_type: 'NonExistingTestModel', content_id: 1)
         end
-        expect { @node.destroy }.to change { Releaf::Node.count }.by(-1)
+        expect { @node.destroy }.to change { Node.count }.by(-1)
       end
 
       it "retries to delete record only once" do
@@ -145,7 +153,7 @@ describe Releaf::Node do
         @node.stub(:content_id=)
 
         expect { @node.destroy }.to raise_error NameError
-        expect( Releaf::Node.count ).to eq 1
+        expect( Node.count ).to eq 1
       end
     end
 
@@ -166,38 +174,38 @@ describe Releaf::Node do
 
     context "with corect parent_id" do
       it "creates new node" do
-        expect{ @text_node_2.copy_to_node(@text_node.id) }.to change{ Releaf::Node.count }.by(1)
+        expect{ @text_node_2.copy_to_node(@text_node.id) }.to change{ Node.count }.by(1)
       end
     end
 
     context "when node have children" do
       it "creates multiple new nodes" do
         @text_node_2.copy_to_node(@text_node.id)
-        expect{ @text_node.copy_to_node(@text_node_2.id) }.to change{ Releaf::Node.count }.by( @text_node.children.size + 1 )
+        expect{ @text_node.copy_to_node(@text_node_2.id) }.to change{ Node.count }.by( @text_node.children.size + 1 )
       end
     end
 
     context "when parent_id is nil" do
       it "creates new node" do
-        expect{ @text_node_3.copy_to_node(nil) }.to change{ Releaf::Node.count }.by(1)
+        expect{ @text_node_3.copy_to_node(nil) }.to change{ Node.count }.by(1)
       end
     end
 
     context "with nonexistent parent_id" do
       it "doesn't create new node" do
-        expect{ @text_node_2.copy_to_node(99991) }.not_to change{ Releaf::Node.count }
+        expect{ @text_node_2.copy_to_node(99991) }.not_to change{ Node.count }
       end
     end
 
     context "with same parent_id as node.id" do
       it "doesn't create new node" do
-        expect{ @text_node.copy_to_node(@text_node.id) }.not_to change{ Releaf::Node.count }
+        expect{ @text_node.copy_to_node(@text_node.id) }.not_to change{ Node.count }
       end
     end
 
     context "when passing string as argument" do
       it "doesn't create new node" do
-        expect{ @text_node.copy_to_node("some_id") }.not_to change{ Releaf::Node.count }
+        expect{ @text_node.copy_to_node("some_id") }.not_to change{ Node.count }
       end
     end
   end
@@ -211,31 +219,31 @@ describe Releaf::Node do
 
     context "when moving existing node to other nodes child's position" do
       it "changes parent_id" do
-        expect{ @text_node_3.move_to_node(@text_node.id) }.to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }.from(@text_node_2.id).to(@text_node.id)
+        expect{ @text_node_3.move_to_node(@text_node.id) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }.from(@text_node_2.id).to(@text_node.id)
       end
     end
 
     context "when moving to self child's position" do
       it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(@text_node_3.id) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
+        expect{ @text_node_3.move_to_node(@text_node_3.id) }.not_to change{ Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
 
     context "when passing nil as target node" do
       it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(nil) }.to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
+        expect{ @text_node_3.move_to_node(nil) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
 
     context "when passing nonexistent target node's id" do
       it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(998123) }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
+        expect{ @text_node_3.move_to_node(998123) }.not_to change{ Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
 
     context "when passing string as argument" do
       it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node("test") }.not_to change{ Releaf::Node.find_by_id(@text_node_3.id).parent_id }
+        expect{ @text_node_3.move_to_node("test") }.not_to change{ Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
   end
@@ -247,20 +255,20 @@ describe Releaf::Node do
 
     context "when node don't have sibling/s with same name" do
       it "does not changes node's name" do
-        new_node = Releaf::Node.new(name:  "another name", parent_id: root.id)
+        new_node = Node.new(name:  "another name", parent_id: root.id)
         expect{ new_node.maintain_name }.to_not change{new_node.name}
       end
     end
 
     context "when node have sibling/s with same name" do
       it "changes node's name" do
-        new_node = Releaf::Node.new(name:  node.name, parent_id: root.id)
+        new_node = Node.new(name:  node.name, parent_id: root.id)
         expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(1)")
       end
 
       it "increments node's name number" do
         sibling
-        new_node = Releaf::Node.new(name:  node.name, parent_id: root.id)
+        new_node = Node.new(name:  node.name, parent_id: root.id)
         expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(2)")
       end
     end
@@ -269,7 +277,7 @@ describe Releaf::Node do
   describe ".updated_at" do
     it "returns last node update time" do
       expect( Settings ).to receive(:[]).with('nodes.updated_at').and_return('test')
-      expect( Releaf::Node.updated_at ).to eq 'test'
+      expect( Node.updated_at ).to eq 'test'
     end
   end
 
@@ -315,9 +323,9 @@ describe Releaf::Node do
     end
   end
 
-  describe "common_fields" do
+  describe "common_fields", pending: 'TODO: remove common fields' do
     before do
-      stub_const('Releaf::Node::COMMON_FIELDS_SCHEMA_FILENAME', File.expand_path('../fixtures/common_fields.yml', __dir__))
+      stub_const('Node::COMMON_FIELDS_SCHEMA_FILENAME', File.expand_path('../fixtures/common_fields.yml', __dir__))
 
       text1 = FactoryGirl.create(:text)
       text2 = FactoryGirl.create(:text)
@@ -397,7 +405,7 @@ describe Releaf::Node do
         @nodes[2].data_other_attribute = 'la la la'
         @nodes[2].save!
 
-        expect( Releaf::Node.find(@nodes[2].id).data_other_attribute ).to eq 'la la la'
+        expect( Node.find(@nodes[2].id).data_other_attribute ).to eq 'la la la'
       end
     end
 

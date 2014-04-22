@@ -9,9 +9,11 @@ module ActsAsNode
   end
 
   module ClassMethods
+
     # Load all nodes for class
     def nodes
-      Releaf::Node.where(content_type: self.name)
+      # TODO class name should be configurable
+      ::Node.where(content_type: self.name)
     end
 
     # There are no configuration options yet.

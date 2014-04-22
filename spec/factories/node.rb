@@ -1,11 +1,11 @@
 FactoryGirl.define do
-  factory :node, class: ::Releaf::Node do
+  factory :node, class: ::Node do
     sequence(:name) {|n| "node #{n}"}
     sequence(:slug) {|n| "node-#{n}"}
     content_type "Text"
   end
 
-  factory :text_node, class: ::Releaf::Node do
+  factory :text_node, class: ::Node do
     sequence(:name) {|n| "node #{n}"}
     sequence(:slug) {|n| "node-#{n}"}
     content_type "Text"

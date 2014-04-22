@@ -14,7 +14,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 ActiveRecord::Base.descendants.each do |descendant|
+  next if descendant.abstract_class?
   next if descendant.name =~ /^ActiveRecord\:\:/
+  next unless descendant.table_exists?
   descendant.unscoped.delete_all
 end
 
@@ -74,26 +76,6 @@ admins.each_value do |value|
   admin.save!
   value[:id] = admin.id
 end
-
-# }}}
-# Settings {{{
-
-puts "Creating settings"
-Settings.email_from = "do_not_reply@example.com"
-
-# }}}
-# Content nodes {{{
-
-puts "Creating content nodes"
-
-nodes = {}
-
-text = Text.create!(text_html: 'Welcome to releaf!')
-nodes[:wellcome] = Releaf::Node.create!(name: 'Wellcome', slug: 'welcome', content: text)
-nodes[:contacts] = Releaf::Node.create!(name: 'Contacts', slug: 'contacts', content_type: 'ContactsController')
-text = Text.create!(text_html: 'nested resource')
-nodes[:nested] = Releaf::Node.create!(name: 'Nested resource', slug: 'nested-resources', content: text, parent_id: nodes[:wellcome].id)
-
 
 # }}}
 

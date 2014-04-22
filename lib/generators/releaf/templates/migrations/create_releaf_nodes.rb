@@ -1,6 +1,6 @@
 class CreateReleafNodes < ActiveRecord::Migration
   def change
-    create_table "releaf_nodes", :force => true do |t|
+    create_table "nodes", :force => true do |t|
       t.string   "name"
       t.string   "slug"
       t.integer  "parent_id"
@@ -17,14 +17,14 @@ class CreateReleafNodes < ActiveRecord::Migration
       t.boolean  'active',          :null => false, :default => true
       t.boolean  'protected',       :null => false, :default => false
     end
-    add_index :releaf_nodes, :parent_id
-    add_index :releaf_nodes, [:content_type, :content_id]
-    add_index :releaf_nodes, :lft
-    add_index :releaf_nodes, :rgt
-    add_index :releaf_nodes, :depth
-    add_index :releaf_nodes, :slug
-    add_index :releaf_nodes, :name
-    add_index :releaf_nodes, :active
-    add_index :releaf_nodes, :locale
+    add_index :nodes, :parent_id
+    add_index :nodes, [:content_type, :content_id]
+    add_index :nodes, :lft
+    add_index :nodes, :rgt
+    add_index :nodes, :depth
+    add_index :nodes, :slug
+    add_index :nodes, :name
+    add_index :nodes, :active
+    add_index :nodes, :locale
   end
 end

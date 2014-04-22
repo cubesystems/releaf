@@ -27,9 +27,10 @@ module ActiveRecord
       module InstanceMethods
 
         # Return object corresponding node object
-        # @return [Releaf::Node]
+        # @return [::Node]
         def node
-          Releaf::Node.find_by(content_type: self.class.name, content_id: id)
+          # TODO class name should be configurable
+          ::Node.find_by(content_type: self.class.name, content_id: id)
         end
 
         # Return list of editable fields

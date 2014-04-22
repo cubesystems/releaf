@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2014.04.22
+* Releaf::Node is in refactoring process. The goal is to make it an abstract
+  model (some day)
+
+  All existing projects that use Releaf::Node should create Node model that inherits
+  from Releaf::Node. You will either need to rename releaf_nodes table to
+  nodes or set table_name in Node model.
+
+  Currently there is no way to specify alternative Node model.
+
 ### 2014.04.09
 * remove Releaf::Node#content_string field, as it was't used
 * Extend Releaf::Node#data column to 2147483647 characters
