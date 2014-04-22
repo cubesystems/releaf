@@ -12,7 +12,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-# encoding: UTF-8
 
 ActiveRecord::Base.descendants.each do |descendant|
   next if descendant.name =~ /^ActiveRecord\:\:/

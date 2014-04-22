@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 require "spec_helper"
 
 describe I18n::Backend::Releaf::Translation do
