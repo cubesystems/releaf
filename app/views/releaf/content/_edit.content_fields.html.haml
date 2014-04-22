@@ -1,11 +1,4 @@
 .section.content-fields
-  - f.object.common_field_names.each do |common_field_name|
-    - if has_template? "_edit.field.#{common_field_name}"
-      = render "edit.field.#{common_field_name}", :name => common_field_name, :f => f
-    - else
-      = render 'edit.field', :name => common_field_name, :f => f, :view_prefix => 'edit.field.content'
-
-
   - if f.object.content
     = f.fields_for :content, f.object.content do |ff|
       = render 'edit.fields', :f => ff, :fields => content_fields_to_display(ff.object.class), :view_prefix => 'edit.field.content'

@@ -195,7 +195,6 @@ module Releaf
     def resource_params
       res_params = super
       res_params += [{content_attributes: permitted_content_attributes}]
-      res_params += @resource.common_field_names
       res_params -= %w[content_type]
       return res_params
     end

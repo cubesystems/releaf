@@ -10,6 +10,11 @@
 
   Currently there is no way to specify alternative Node model.
 
+* Got rid of common fields.
+
+  If you were using common fields, you should migrate your data from common
+  fields seralized hash (in data attribute), to attribute per common field.
+
 ### 2014.04.09
 * remove Releaf::Node#content_string field, as it was't used
 * Extend Releaf::Node#data column to 2147483647 characters

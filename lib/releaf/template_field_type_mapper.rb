@@ -15,7 +15,7 @@ module Releaf
     # @todo document rendering conventions
     def self.field_type_name obj, attribute_name
       field_type = nil
-      column_type = nil # column_type == nil means Virtual column
+      column_type = nil
 
       if use_i18n?(obj, attribute_name)
         begin
@@ -26,15 +26,9 @@ module Releaf
         column_type = obj.class.columns_hash[attribute_name.to_s].try(:type)
       end
 
-      if column_type.nil? && attribute_name.to_s =~ /^#{Releaf::Node::COMMON_FIELD_NAME_PREFIX}/
-        column_type = obj.common_field_field_type(attribute_name)
-      end
-
       column_type = column_type.to_s
       if column_type && self.respond_to?("field_type_name_for_#{column_type}")
         field_type = self.send("field_type_name_for_#{column_type}", attribute_name, obj)
-      else
-        field_type = self.field_type_name_for_virtual attribute_name, obj
       end
 
       return field_type || 'text'
@@ -120,50 +114,6 @@ module Releaf
     def self.field_type_name_for_integer attribute_name, obj
       return 'item' if attribute_name.to_s =~ /_id$/ && obj.class.reflect_on_association(attribute_name[0..-4].to_sym)
       return 'text'
-    end
-
-    def self.field_type_name_for_virtual attribute_name, obj
-      case attribute_name.to_s
-      when /(thumbnail|image|photo(graphy)?|picture|avatar|logo|banner|icon)_uid$/
-        return image_or_error attribute_name, obj
-
-      when /_uid$/
-        return file_or_error attribute_name, obj
-
-      when /_id$/
-        return 'item' if obj.class.reflect_on_association(attribute_name[0..-4].to_sym)
-        return 'text'
-
-      when /password/, 'pin'
-        return 'password'
-
-      when /_email$/, 'email'
-        return 'email'
-
-      when /_link$/, 'link'
-        return 'link_or_url'
-
-      when /_(url|homepage)$/, 'homepage', 'url'
-        return 'url'
-
-      when /_(text|description)$/, 'text', 'description'
-        return 'textarea'
-
-      when /_html$/, 'html'
-        return 'richtext'
-
-      when /_(date|on)$/, 'date'
-        return 'date'
-
-      when /_time$/, 'time'
-        return 'time'
-
-      when /_at$/
-        return 'datetime'
-
-      else
-        return 'text'
-      end
     end
 
     def self.field_type_name_for_boolean attribute_name, obj

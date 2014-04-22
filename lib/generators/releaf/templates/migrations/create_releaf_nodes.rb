@@ -10,7 +10,6 @@ class CreateReleafNodes < ActiveRecord::Migration
       t.string   "locale",          :limit => 6
       t.string   "content_type"
       t.integer  "content_id"
-      t.text     "data",            :limit => 2147483647
       t.datetime "created_at",      :null => false
       t.datetime "updated_at",      :null => false
       t.integer  "item_position"

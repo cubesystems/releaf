@@ -24,7 +24,6 @@ describe Node do
 
   let(:node) { Node.new }
 
-  it { should serialize(:data).as(Hash) }
   it { should accept_nested_attributes_for(:content) }
   it { should belong_to(:content) }
 
@@ -323,91 +322,4 @@ describe Node do
     end
   end
 
-  describe "common_fields", pending: 'TODO: remove common fields' do
-    before do
-      stub_const('Node::COMMON_FIELDS_SCHEMA_FILENAME', File.expand_path('../fixtures/common_fields.yml', __dir__))
-
-      text1 = FactoryGirl.create(:text)
-      text2 = FactoryGirl.create(:text)
-      @nodes = []
-      @nodes << FactoryGirl.create(:node, name: "RootNode", content: text1)
-      @nodes << FactoryGirl.create(:node, name: "subNode", content: text2, parent_id: @nodes[0].id)
-      @nodes << FactoryGirl.create(:node, name: 'contacts', content_type: 'ContactsController')
-
-    end
-
-    describe "#common_field_names" do
-      it "is returns names of available common fields" do
-        expect( @nodes[0].common_field_names ).to match_array []
-        expect( @nodes[1].common_field_names ).to match_array %w[data_meta_copyright]
-        expect( @nodes[2].common_field_names ).to match_array %w[data_meta_description data_other_attribute]
-      end
-    end
-
-    describe "dynamic methods" do
-      it "responds to valid common fields setters and getters" do
-        expect( @nodes[0] ).to_not  respond_to "data_meta_description"
-        expect( @nodes[0] ).to_not  respond_to "data_meta_description="
-        expect( @nodes[0] ).to_not  respond_to "data_meta_copyright"
-        expect( @nodes[0] ).to_not  respond_to "data_meta_copyright="
-        expect( @nodes[0] ).to_not  respond_to "data_other_attribute"
-        expect( @nodes[0] ).to_not  respond_to "data_other_attribute="
-
-        expect( @nodes[1] ).to_not  respond_to "data_meta_description"
-        expect( @nodes[1] ).to_not  respond_to "data_meta_description="
-        expect( @nodes[1] ).to      respond_to "data_meta_copyright"
-        expect( @nodes[1] ).to      respond_to "data_meta_copyright="
-        expect( @nodes[1] ).to_not  respond_to "data_other_attribute"
-        expect( @nodes[1] ).to_not  respond_to "data_other_attribute="
-
-        expect( @nodes[2] ).to      respond_to "data_meta_description"
-        expect( @nodes[2] ).to      respond_to "data_meta_description="
-        expect( @nodes[2] ).to_not  respond_to "data_meta_copyright"
-        expect( @nodes[2] ).to_not  respond_to "data_meta_copyright="
-        expect( @nodes[2] ).to      respond_to "data_other_attribute"
-        expect( @nodes[2] ).to      respond_to "data_other_attribute="
-      end
-    end
-
-    describe "dynamic getter" do
-      context "when value wasn't saved" do
-        it "returns default value" do
-          expect( @nodes[2].data_meta_description ).to eq 'common stuff'
-          expect( @nodes[2].data_other_attribute ).to be_nil
-        end
-      end
-
-      context "when value was saved" do
-        it "returns saved value" do
-          @nodes[2].stub(:data).and_return({'meta_description' => 'test', 'other_attribute' => 'asd'})
-          expect( @nodes[2].data_meta_description ).to eq 'test'
-          expect( @nodes[2].data_other_attribute ).to eq 'asd'
-        end
-      end
-    end
-
-    describe "dynamic setter" do
-      it "stores value in #data attribute as has, using attribute name (without prefix) as key" do
-        data_store = double('Hash')
-
-        expect( @nodes[2] ).to receive(:data).and_return(data_store)
-        expect( data_store ).to receive(:[]=).with('other_attribute', 'test value')
-
-        @nodes[2].data_other_attribute = 'test value'
-
-      end
-
-      it "changes getter return value" do
-        expect { @nodes[2].data_other_attribute = 'test' }.to change { @nodes[2].data_other_attribute }.from(nil).to('test')
-      end
-
-      it "stores value in db record" do
-        @nodes[2].data_other_attribute = 'la la la'
-        @nodes[2].save!
-
-        expect( Node.find(@nodes[2].id).data_other_attribute ).to eq 'la la la'
-      end
-    end
-
-  end
 end
