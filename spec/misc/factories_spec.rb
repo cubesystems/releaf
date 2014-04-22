@@ -34,7 +34,7 @@ describe "FactoryGirl factories" do
 
   describe "node factory" do
     it "creates new content node" do
-      expect { FactoryGirl.create(:node) }.to change { Releaf::Node.count }.by(1)
+      expect { FactoryGirl.create(:node) }.to change { Node.count }.by(1)
     end
 
     it "creates new Text content node" do

@@ -15,10 +15,11 @@ module Releaf
     end
 
     def self.reload_if_expired
-      if !Releaf::Node.updated_at.blank? && @updated_at < Releaf::Node.updated_at
-        Rails.application.reload_routes!
-        routes_loaded
-      end
+      # TODO Node class should be configurable
+      return unless ::Node.updated_at.present? && @updated_at < ::Node.updated_at
+      Rails.application.reload_routes!
+      routes_loaded
     end
+
   end
 end

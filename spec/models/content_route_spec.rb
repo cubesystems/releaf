@@ -32,7 +32,7 @@ describe Releaf::ContentRoute do
 
       context "when node is not available" do
         it "does not include it in return" do
-          Releaf::Node.any_instance.stub(:available?).and_return(false)
+          Node.any_instance.stub(:available?).and_return(false)
           expect(Releaf::ContentRoute.for(Text)).to eq([])
         end
       end

@@ -43,7 +43,7 @@ describe ActsAsNode do
 
     context ".nodes" do
       it "loads tree nodes" do
-        Releaf::Node.should_receive(:where).with(content_type: Book.to_s)
+        Node.should_receive(:where).with(content_type: Book.to_s)
         Book.nodes
       end
 
@@ -68,7 +68,7 @@ describe ActsAsNode do
 
     context ".nodes" do
       it "loads tree nodes" do
-        Releaf::Node.should_receive(:where).with(content_type: ContactFormController.to_s)
+        Node.should_receive(:where).with(content_type: ContactFormController.to_s)
         ContactFormController.nodes
       end
 
