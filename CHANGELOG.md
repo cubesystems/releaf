@@ -8,6 +8,15 @@
   from Releaf::Node. You will either need to rename releaf_nodes table to
   nodes or set table_name in Node model.
 
+  In all of your code you should use Node model now (instead of Releaf::Node).
+  This includes migrations as well.
+
+  If you used Releaf::Node model in migrations, then it might be nessacery to
+  rename releaf_nodes table renaming migration in such a way, that it renames
+  table, before any other migration needs to access Node. Otherwise you'll get
+  chicken and egg situation, when migration tries to access nodes table, while
+  releaf_nodes table will be renamed to nodes much later.
+
   Currently there is no way to specify alternative Node model.
 
 * Got rid of common fields.
