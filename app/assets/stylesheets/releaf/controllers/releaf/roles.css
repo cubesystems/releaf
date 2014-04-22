@@ -1,0 +1,8 @@
+.controller-releaf-roles.view-edit form .body .field.type_boolean
+{
+    min-height: initial;
+}
+.controller-releaf-roles.view-edit form .body .field.type_boolean .value
+{
+    padding-top: initial;
+}
