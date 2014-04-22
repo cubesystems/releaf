@@ -19,9 +19,7 @@ module ActsAsNode
     # There are no configuration options yet.
     #
     def acts_as_node(options = {})
-      configuration = {
-        validators: [],
-      }
+      configuration = {}
       configuration.update(options) if options.is_a?(Hash)
 
       ActsAsNode.register_class(self.name)

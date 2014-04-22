@@ -15,6 +15,10 @@
   If you were using common fields, you should migrate your data from common
   fields seralized hash (in data attribute), to attribute per common field.
 
+* Remove custom validations support from Releaf::Node via acts_as_node.
+
+  Instead you should add custom validations to your Node model
+
 ### 2014.04.09
 * remove Releaf::Node#content_string field, as it was't used
 * Extend Releaf::Node#data column to 2147483647 characters

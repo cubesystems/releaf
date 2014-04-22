@@ -9,18 +9,6 @@ describe Releaf::Node do
 end
 
 describe Node do
-  class DummyNodeTestValidation < ActiveModel::Validator
-    def validate record
-    end
-  end
-
-  class DummyNodeTestModel < ActiveRecord::Base
-    acts_as_node validators: [DummyNodeTestValidation]
-  end
-
-  class DummyNodeTestController < ActionController::Base
-    acts_as_node validators: [DummyNodeTestValidation]
-  end
 
   let(:node) { Node.new }
 
@@ -34,26 +22,6 @@ describe Node do
     it { should validate_uniqueness_of(:slug).scoped_to(:parent_id) }
     it { should ensure_length_of(:name).is_at_most(255) }
     it { should ensure_length_of(:slug).is_at_most(255) }
-
-    context "when content is model" do
-      context "when user suplied custom validations via acts_as_node" do
-        it "runs custom validations during validation" do
-          subject.content_type = 'DummyNodeTestModel'
-          expect_any_instance_of(DummyNodeTestValidation).to receive(:validate).with(subject)
-          subject.valid?
-        end
-      end
-    end
-
-    context "when content is controller" do
-      context "when user suplied custom validations via acts_as_node" do
-        it "runs custom validations during validation" do
-          subject.content_type = 'DummyNodeTestController'
-          expect_any_instance_of(DummyNodeTestValidation).to receive(:validate).with(subject)
-          subject.valid?
-        end
-      end
-    end
   end
 
   describe "after save" do
@@ -302,22 +270,6 @@ describe Node do
       it "returns false" do
         node_ancestor.update_attribute(:active, false)
         expect( node ).to_not be_available
-      end
-    end
-  end
-
-  describe "#custom_validators" do
-    context "when content_type is valid model name" do
-      it "returns user suplied validators via acts_as_node" do
-        subject.content_type = 'DummyNodeTestModel'
-        expect( subject.custom_validators ).to match_array [DummyNodeTestValidation]
-      end
-    end
-
-    context "when content_type is blank" do
-      it "returns nil" do
-        subject.content_type = ''
-        expect( subject.custom_validators ).to be_nil
       end
     end
   end
