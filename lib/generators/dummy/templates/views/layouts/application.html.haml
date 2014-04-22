@@ -3,10 +3,10 @@
   %head
     %meta{:'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
     %title AppName
-  - %w[.scss .css.scss .css].each do |ext|
-    - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{ params[:controller] + ext }")
-      = stylesheet_link_tag "controllers/#{params[:controller]}"
-      - break
+    - %w[.scss .css.scss .css].each do |ext|
+      - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{ params[:controller] + ext }")
+        = stylesheet_link_tag "controllers/#{params[:controller]}"
+        - break
 
     = csrf_meta_tags
   %body(class = "#{params[:controller].tr('/', '-')}-controller #{params[:action]}-view #{I18n.locale}-locale")
