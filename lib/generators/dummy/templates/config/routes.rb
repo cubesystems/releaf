@@ -3,11 +3,11 @@ Dummy::Application.routes.draw do
     releaf_resources :books, :authors, :chapters
   end
 
-  Releaf::Node::Route.for(Text).each do|route|
+  Releaf::ContentRoute.for(Text).each do|route|
     get route.params('texts#show')
   end
 
-  Releaf::Node::Route.for(ContactsController).each do|route|
+  Releaf::ContentRoute.for(ContactsController).each do|route|
     get route.params('contacts#show')
   end
 

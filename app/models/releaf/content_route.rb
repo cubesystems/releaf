@@ -1,5 +1,5 @@
 module Releaf
-  class Node::Route
+  class ContentRoute
     attr_accessor :path, :node, :locale, :node_id
 
     def self.node_class
@@ -38,7 +38,7 @@ module Releaf
     # Return routes for given class that implement ActsAsNode
     #
     # @param class_name [Class] class name to load related nodes
-    # @return [Array] array of Node::Route objects
+    # @return [Array] array of ContentRoute objects
     def self.for class_name
       return [] unless nodes_available?
       routes = []
@@ -54,7 +54,7 @@ module Releaf
 
     private
 
-    # Build Node::Route from Node object
+    # Build ContentRoute from Node object
     def self.build_route_object node
       route = new
       route.node_id = node.id.to_s

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Node::Route do
+describe Releaf::ContentRoute do
   let(:node_route) { FactoryGirl.build(:node_route, node_id: 12, locale: "en", path: "/en") }
 
   describe ".node_class" do
@@ -11,13 +11,13 @@ describe Releaf::Node::Route do
 
   describe ".for" do
     it "returns an array" do
-      expect(Releaf::Node::Route.for(Text).class).to eq(Array)
+      expect(Releaf::ContentRoute.for(Text).class).to eq(Array)
     end
 
     context "when no releaf_nodes table defined" do
       it "returns an empty array" do
-        Releaf::Node::Route.stub(:nodes_available?).and_return(false)
-        expect(Releaf::Node::Route.for(Text)).to eq([])
+        Releaf::ContentRoute.stub(:nodes_available?).and_return(false)
+        expect(Releaf::ContentRoute.for(Text)).to eq([])
       end
     end
 
@@ -27,13 +27,13 @@ describe Releaf::Node::Route do
       end
 
       it "returns an array of Node::Route objects" do
-        expect(Releaf::Node::Route.for(Text).first.class).to eq(Releaf::Node::Route)
+        expect(Releaf::ContentRoute.for(Text).first.class).to eq(Releaf::ContentRoute)
       end
 
       context "when node is not available" do
         it "does not include it in return" do
           Releaf::Node.any_instance.stub(:available?).and_return(false)
-          expect(Releaf::Node::Route.for(Text)).to eq([])
+          expect(Releaf::ContentRoute.for(Text)).to eq([])
         end
       end
     end

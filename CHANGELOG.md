@@ -28,6 +28,8 @@
 
   Instead you should add custom validations to your Node model
 
+* Renamed Releaf::Node::Route to Releaf::ContentRoute
+
 ### 2014.04.09
 * remove Releaf::Node#content_string field, as it was't used
 * Extend Releaf::Node#data column to 2147483647 characters
