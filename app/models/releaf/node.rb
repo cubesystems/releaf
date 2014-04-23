@@ -147,7 +147,9 @@ module Releaf
     # Check whether object and all its ancestors are active
     # @return [Boolean] returns true if object is available
     def available?
-      self_and_ancestors.where(active: false).exists? == false
+      # There seams to be bug in Rails 4.0.0, that prevents us from using exists?
+      # exists? will return nil or 1 in this query, instead of true/false (as it should)
+      self_and_ancestors.where(active: false).any? == false
     end
 
     private
