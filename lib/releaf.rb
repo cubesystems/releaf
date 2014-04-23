@@ -9,6 +9,7 @@ module Releaf
   require 'releaf/resource_validator'
   require 'releaf/template_filter'
   require 'releaf/resource_finder'
+  require 'releaf/content_node'
 
   mattr_accessor :menu
   @@menu = [

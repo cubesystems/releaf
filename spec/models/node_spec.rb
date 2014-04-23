@@ -1,13 +1,5 @@
 require "spec_helper"
 
-describe Releaf::Node do
-  it "is an abstract class" do
-    pending "see comments in Releaf::Node" do
-      expect( Releaf::Node ).to be_abstract_class
-    end
-  end
-end
-
 describe Node do
 
   let(:node) { Node.new }
