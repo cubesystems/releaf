@@ -8,7 +8,11 @@
   relation_name = name.to_s.sub(/_id$/, '').to_sym
 
   if local_assigns.key? :select_options
-    select_params.push select_options
+    if select_options.is_a? Array
+      select_params.push options_for_select(select_options, f.object.send(name))
+    else
+      select_params.push select_options
+    end
   else
     collection = f.object.class.reflect_on_association(relation_name).try(:klass).try(:all)
     select_params.push options_from_collection_for_select(collection, :id, resource_to_text_method(collection.first), f.object.send(name))
