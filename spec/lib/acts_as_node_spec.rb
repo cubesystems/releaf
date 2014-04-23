@@ -35,15 +35,15 @@ describe ActsAsNode do
       end
     end
 
-    context "#node_editable_fields" do
+    context ".releaf_fields_to_display" do
       it "returns model columns" do
-        expect(Book.new.node_editable_fields).to eq(["title", "year", "author_id", "genre", "summary_html", "active", "published_at", "price", "cover_image_uid"])
+        expect( Book.releaf_fields_to_display('edit') ).to eq(["title", "year", "author_id", "genre", "summary_html", "active", "published_at", "price", "cover_image_uid"])
       end
     end
 
     context ".nodes" do
       it "loads tree nodes" do
-        Node.should_receive(:where).with(content_type: Book.to_s)
+        Node.should_receive(:where).with(content_type: Book.name)
         Book.nodes
       end
 
@@ -60,15 +60,9 @@ describe ActsAsNode do
       end
     end
 
-    context "#node_editable_fields" do
-      it "returns empty array" do
-        expect(ContactFormController.new.node_editable_fields).to eq([])
-      end
-    end
-
     context ".nodes" do
       it "loads tree nodes" do
-        Node.should_receive(:where).with(content_type: ContactFormController.to_s)
+        Node.should_receive(:where).with(content_type: ContactFormController.name)
         ContactFormController.nodes
       end
 

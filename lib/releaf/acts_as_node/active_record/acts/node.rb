@@ -21,6 +21,15 @@ module ActiveRecord
           super options
           include ::ActiveRecord::Acts::Node::InstanceMethods
         end
+
+        # Returns fields to display for releaf content controller
+        #
+        # @param [String] action for which fields will be displayed
+        #
+        # @return [Array] list of fields to display
+        def releaf_fields_to_display action
+          column_names - %w[id created_at updated_at]
+        end
       end
 
       # All the methods available to a record that has had <tt>acts_as_node</tt> specified.
@@ -33,10 +42,6 @@ module ActiveRecord
           ::Node.find_by(content_type: self.class.name, content_id: id)
         end
 
-        # Return list of editable fields
-        def node_editable_fields
-          self.class.column_names - %w[id created_at updated_at]
-        end
       end
     end
   end

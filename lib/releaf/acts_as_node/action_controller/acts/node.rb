@@ -19,18 +19,9 @@ module ActionController
         #
         def acts_as_node(options = {})
           super options
-          include ::ActionController::Acts::Node::InstanceMethods
         end
       end
 
-      # All the methods available to a record that has had <tt>acts_as_node</tt> specified.
-      module InstanceMethods
-
-        # Return list of editable fields
-        def node_editable_fields
-          []
-        end
-      end
     end
   end
 end
