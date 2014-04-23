@@ -7,6 +7,10 @@ describe Node do
   it { should accept_nested_attributes_for(:content) }
   it { should belong_to(:content) }
 
+  it "includes Releaf::ContentNode module" do
+    expect( Node.included_modules ).to include Releaf::ContentNode
+  end
+
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:slug) }
