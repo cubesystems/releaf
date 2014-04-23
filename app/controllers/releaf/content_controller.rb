@@ -1,19 +1,5 @@
 module Releaf
   class ContentController < BaseController
-    helper_method :content_fields_to_display
-
-    def content_fields_to_display obj_class
-      if obj_class.respond_to? :releaf_fields_to_display
-        obj_class.releaf_fields_to_display params[:action]
-      else
-        obj_class.column_names - %w[id created_at updated_at item_position]
-      end
-    end
-
-    def fields_to_display
-      return super unless params[:action] == 'show'
-      return %w[name parent_id active protected content]
-    end
 
     def index
       @collection = resource_class.roots
@@ -156,20 +142,20 @@ module Releaf
     end
 
     def new_common
-      @resource = resource_class.new
+      @resource = resource_class.new do |node|
+        if params[:content_type].blank?
+          @content_types = content_type_classes
+        else
+          @order_nodes = resource_class.where(parent_id: params[:parent_id])
+          @item_position = 1
 
-      if params[:content_type].blank?
-        @content_types = content_type_classes
-      else
-        @order_nodes = resource_class.where(parent_id: (params[:parent_id] ? params[:parent_id] : nil))
-        @item_position = 1
+          node.content_type = node_content_class.name
+          node.parent_id = params[:parent_id]
 
-        @resource.content_type = node_content_class.name
-        @resource.parent_id = params[:parent_id]
-
-        if node_content_class < ActiveRecord::Base
-          @resource.build_content({})
-          @resource.content_id_will_change!
+          if node_content_class < ActiveRecord::Base
+            node.build_content({})
+            node.content_id_will_change!
+          end
         end
       end
     end

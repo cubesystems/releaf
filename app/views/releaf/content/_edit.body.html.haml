@@ -35,6 +35,9 @@
     - if has_template? "_edit.locale"
       = render 'edit.locale', :name => 'locale', :f => f
     .clear
+    %hr
+    = render 'edit.fields', :f => f, :fields => f.object.own_fields_to_display, :view_prefix => 'edit.field'
+    .clear
 
   = render 'edit.content_fields', :f => f
 
