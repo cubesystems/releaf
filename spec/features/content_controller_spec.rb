@@ -173,6 +173,19 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         expect( page ).to have_content 'e a b d c'
       end
     end
+
+    it "by default adds new nodes as last" do
+      create_child @root, 'a'
+      create_child @root, 'b'
+      create_child @root, 'c'
+
+      visit releaf_nodes_path
+      find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
+
+      within(".collection li[data-level='1'][data-id='#{@root.id}'] ul.block") do
+        expect( page ).to have_content 'a b c'
+      end
+    end
   end
 
   describe "creating node for placeholder model", with_tree: false, with_root: false, js: false do

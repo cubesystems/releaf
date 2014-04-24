@@ -147,7 +147,7 @@ module Releaf
           @content_types = content_type_classes
         else
           @order_nodes = resource_class.where(parent_id: params[:parent_id])
-          @item_position = 1
+          node.item_position ||= @order_nodes.to_a.inject(0) { |max, node| node.item_position + 1 > max ? node.item_position + 1 : max }
 
           node.content_type = node_content_class.name
           node.parent_id = params[:parent_id]

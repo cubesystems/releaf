@@ -27,7 +27,7 @@
             opt_for_select.push [ t('after', scope: 'admin.global') + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
           end
 
-        = f.select :item_position, options_for_select(opt_for_select, @item_position)
+        = f.select :item_position, options_for_select(opt_for_select, f.object.item_position)
       .clear
     .clear
     = render 'edit.field', :name => 'active', :f => f, :view_prefix => 'edit.field'
