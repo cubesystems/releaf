@@ -17,20 +17,16 @@
           = f.fields_for field, reflection.klass.new, :child_index => '_template_' do |ff|
             = render 'edit.fields.has_many_template', :f => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
             -# for templates always show remove button
-            = render 'edit.field_type_remove_nested', :f => ff
+            = render 'edit.field_type_remove_nested', f: ff, name: "_destroy"
 
         - allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
         - f.object.send(field).each_with_index do |obj, i|
           .item.clearInside{:'data-name' => field, :'data-index' => i}
             = f.fields_for field, obj, :child_index => i do |ff|
               = render 'edit.fields.has_many_template', :f => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
-              = render 'edit.field_type_remove_nested', :f => ff if allow_destroy
+              = render 'edit.field_type_remove_nested', f: ff, name: "_destroy"
 
-
-      %button.button.primary.add-nested-item{:type => 'button'}
-        %i.fa.fa-plus
-        = t('Add item', :scope => 'admin.global')
-
+      = render 'edit.field_type_add_nested', f: f, name: "_add"
 
   - when :belongs_to
     .nested-wrap{:'data-name' => field}
