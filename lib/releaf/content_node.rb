@@ -151,7 +151,7 @@ module Releaf
       end
     end
 
-    def self.prepended base
+    def self.included base
       base.acts_as_nested_set order_column: :item_position
       base.acts_as_list scope: :parent_id, column: :item_position
 
@@ -173,7 +173,7 @@ module Releaf
       base.extend ClassMethods
     end
 
-    prepend InstanceMethods
+    include InstanceMethods
 
   end
 end

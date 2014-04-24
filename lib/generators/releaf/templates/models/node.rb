@@ -1,3 +1,3 @@
 class Node < ActiveRecord::Base
-  prepend Releaf::ContentNode
+  include Releaf::ContentNode
 end
