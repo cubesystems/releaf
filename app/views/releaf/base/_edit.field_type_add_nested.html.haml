@@ -1,0 +1,6 @@
+:ruby
+  input_attrs = get_template_input_attributes local_assigns
+
+%button.button.primary.add-nested-item{input_attrs.merge(type: 'button', title: t('Add item', scope: 'admin.global'))}
+  %i.fa.fa-plus
+  = t('Add item', scope: 'admin.global')
