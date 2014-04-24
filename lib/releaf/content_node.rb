@@ -151,7 +151,7 @@ module Releaf
       end
     end
 
-    def self.included base
+    def self.prepended base
       base.acts_as_nested_set order_column: :item_position
       base.acts_as_list scope: :parent_id, column: :item_position
 
