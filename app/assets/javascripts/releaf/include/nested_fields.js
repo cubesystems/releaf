@@ -43,6 +43,12 @@ jQuery( document ).ready(function()
                     return;
                 }
 
+                // skip click on disabled buttons
+                if(trigger.prop("disabled"))
+                {
+                    return;
+                }
+
                 var target_block = trigger.parents('.nested-wrap').first();
 
                 if (target_block.attr('data-name') != block_name)
