@@ -24,7 +24,7 @@
           .item.clearInside{:'data-name' => field, :'data-index' => i}
             = f.fields_for field, obj, :child_index => i do |ff|
               = render 'edit.fields.has_many_template', :f => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
-              = render 'edit.field_type_remove_nested', f: ff, name: "_destroy"
+              = render 'edit.field_type_remove_nested', f: ff, name: "_destroy" if allow_destroy
 
       = render 'edit.field_type_add_nested', f: f, name: "_add"
 
