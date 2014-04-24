@@ -1,5 +1,6 @@
 :ruby
   expanded = (current_admin_user.settings["content.tree.expanded.#{resource.id}"] == true)
+  resource_title = resource.content_id.present? ? "#{resource.content_type} ##{resource.content_id}" : resource.content_type
 
 %li.row.clearInside{ :class => [(resource.children.empty?) ? nil : 'has-children', ('collapsed' unless expanded)], :data => { :level => level, :id => resource.id } }
   %div.toolbox-cell
@@ -9,7 +10,7 @@
       %button.secondary.button.collapser.only-icon{ :type => :button }
         %i.fa{class: expanded ? 'fa-chevron-down' : 'fa-chevron-right'}
   %div.node-cell
-    %a{:href => url_for(:action => :edit, :id => resource.id)}
+    %a{ :href => url_for(:action => :edit, :id => resource.id), title: resource_title }
       %span
         = resource.name
   - unless resource.children.empty?
