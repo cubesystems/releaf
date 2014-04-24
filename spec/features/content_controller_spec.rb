@@ -146,7 +146,9 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
     def create_child parent, child_text, position=nil
       visit releaf_nodes_path
       open_toolbox 'Add child', parent, true
-      click_link("Text")
+      within ".add-child-dialog" do
+        click_link("Text")
+      end
 
       fill_in 'Name', with: child_text
       fill_in "Slug", with: child_text
@@ -158,7 +160,6 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
     end
 
     it "creates nodes is correct order" do
-
       create_child @root, 'a'
       create_child @root, 'b', 'After a'
       create_child @root, 'c', 'After b'
