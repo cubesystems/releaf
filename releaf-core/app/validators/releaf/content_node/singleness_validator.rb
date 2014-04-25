@@ -57,7 +57,9 @@ module Releaf
       end
 
       def base_relation_for_subtree
-        ancestor_node = @node.parent.self_and_ancestors.where(content_type: ancestor_class_names).reorder(:depth).last
+        parent_node = @node.parent
+        return nil if parent_node.nil?
+        ancestor_node = parent_node.self_and_ancestors.where(content_type: ancestor_class_names).reorder(:depth).last
         if ancestor_node.nil?
           return nil
         else
