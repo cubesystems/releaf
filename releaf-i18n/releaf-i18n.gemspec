@@ -1,6 +1,4 @@
-$:.push File.expand_path("../lib", __FILE__)
-
-require "releaf/version"
+require File.expand_path("../releaf-core/lib/releaf/version.rb", __dir__)
 
 Gem::Specification.new do |s|
   s.name        = "releaf-i18n"
