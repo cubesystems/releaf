@@ -15,9 +15,8 @@ module ActiveRecord
       #   end
       #
       module ClassMethods
-        # There are no configuration options yet.
-        #
         def acts_as_node(options = {})
+          options[:permit_attributes].unshift :id if options.has_key? :permit_attributes
           super options
           include ::ActiveRecord::Acts::Node::InstanceMethods
         end

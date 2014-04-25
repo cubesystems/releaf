@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2014.04.25
+* It is no longer required to add :id to permit_attributes options for
+  ActiveRecord models, when using acts_as_node. It'll be added automatically,
+  when permit_attributes option is used.
+
 ### 2014.04.23
 * Converted Releaf::Node to Releaf::ContnetNode module.
 

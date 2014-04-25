@@ -1,5 +1,5 @@
 class Text < ActiveRecord::Base
-  acts_as_node permit_attributes: [:id, :text_html]
+  acts_as_node permit_attributes: [:text_html]
 
   validates_presence_of :text_html
 

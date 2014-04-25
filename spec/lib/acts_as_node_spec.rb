@@ -17,7 +17,7 @@ describe ActsAsNode do
 
   describe ".acts_as_node" do
     it "have configuration options available through acts_as_node_configuration class method" do
-      expect(Book.acts_as_node_configuration).to eq({permit_attributes: [:text_html]})
+      expect(Book.acts_as_node_configuration).to eq({permit_attributes: [:id, :text_html]})
     end
   end
 
