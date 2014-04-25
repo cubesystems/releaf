@@ -1,10 +1,17 @@
 --title "Re:Leaf documentation"
 --protected
 --output-dir ../releaf.pages
-app/**/*.rb
-lib/i18n/**/*.rb
-lib/releaf.rb
-lib/releaf/**/*.rb
+
+releaf-core/app
+releaf-core/lib/releaf-core.rb
+releaf-core/lib/releaf/
+
+releaf-core/app/**/*.rb
+releaf-core/lib/releaf-core.rb
+releaf-core/lib/releaf/**/*.rb
+
+releaf-i18n/lib/**/*.rb
+
 -
 LICENSE
 CONTRIBUTING.md
