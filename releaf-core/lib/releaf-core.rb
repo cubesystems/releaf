@@ -1,4 +1,5 @@
 module Releaf
+  require 'releaf/assets_resolver'
   require 'releaf/route_mapper'
   require 'releaf/exceptions'
   require 'releaf/acts_as_node'
