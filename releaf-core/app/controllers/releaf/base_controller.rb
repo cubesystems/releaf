@@ -64,6 +64,10 @@ module Releaf
       end
 
       yield if block_given?
+
+      respond_to do |format|
+        format.html
+      end
     end
 
     def new &block
@@ -110,9 +114,13 @@ module Releaf
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
 
-      unless destroyable?
-        @restrict_relations = list_restrict_relations
-        render 'delete_restricted'
+      respond_to do |format|
+        format.html do
+          unless destroyable?
+            @restrict_relations = list_restrict_relations
+            render 'delete_restricted'
+          end
+        end
       end
     end
 

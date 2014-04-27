@@ -22,13 +22,22 @@ module Releaf
       new_common
       super
 
-      render layout: nil if ajax?
+      respond_to do |format|
+        format.html do
+          render layout: nil if ajax?
+        end
+      end
     end
 
     def copy_dialog
       @node = resource_class.find params[:id]
       @collection = resource_class.roots
-      render layout: nil
+
+      respond_to do |format|
+        format.html do
+          render layout: nil
+        end
+      end
     end
 
     def copy
@@ -38,7 +47,12 @@ module Releaf
     def move_dialog
       @node = resource_class.find params[:id]
       @collection = resource_class.roots
-      render layout: nil
+
+      respond_to do |format|
+        format.html do
+          render layout: nil
+        end
+      end
     end
 
     def move
@@ -47,7 +61,12 @@ module Releaf
 
     def go_to_dialog
       @collection = resource_class.roots
-      render layout: nil
+
+      respond_to do |format|
+        format.html do
+          render layout: nil
+        end
+      end
     end
 
     # Override base controller create method
