@@ -75,17 +75,6 @@ module Releaf
       end
     end
 
-    def get_content_form
-      raise ArgumentError unless content_type_class_names.include? params[:content_type]
-      @node = resource_class.find(params[:id])
-
-      @resource = params[:content_type].constantize.new
-
-      respond_to do |format|
-        format.html { render partial: 'get_content_form', layout: false }
-      end
-    end
-
     # override base_controller method for adding content tree ancestors
     # to breadcrumbs
     def add_resource_breadcrumb resource
