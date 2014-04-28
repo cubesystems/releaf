@@ -139,11 +139,20 @@ module Releaf
       return unless node.instance_of?(resource_class)
       method_to_call = :copy_to_node
       method_to_call = :move_to_node if delete_original
-      if node.send(method_to_call, new_parent_id).nil?
+
+      error = nil
+      begin
+        error = node.send(method_to_call, new_parent_id).nil?
+      rescue ActiveRecord::RecordInvalid
+        error = true
+      end
+
+      if error
         flash[:error] = { id: :resource_status, message: I18n.t("#{method_to_call} not ok", scope: notice_scope_name) }
       else
         flash[:success] = { id: :resource_status, message: I18n.t("#{method_to_call} ok", scope: notice_scope_name) }
       end
+
       redirect_to :action => "index"
     end
 
