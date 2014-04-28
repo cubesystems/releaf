@@ -121,8 +121,25 @@ describe Releaf::ContentNode::SinglenessValidator do
         expect( node ).to be_valid
       end
     end
+  end
 
+  context "regression tests" do
+    context "@node.parent.self_and_ancestors bug" do
+      it "works correctly / is worked around" do
+        # for details see Releaf::ContentNode::SinglenessValidator#base_relation_for_subtree
+        @node1 = create_node(content_type: 'Text', locale: 'en')
+        @node2 = create_node(content_type: 'Text', locale: 'lv')
+        @node3 = create_node(content_type: 'Text', locale: 'ru')
+        @node4 = create_node(content_type: 'Text', locale: 'sp')
 
+        @node1_1 = create_node(content_type: 'DummySinglenessValidator2Controller',  parent: @node1)
+        expect do
+          @node1_2 = create_node(content_type: 'DummySinglenessValidator2Controller',  parent: @node2)
+          @node1_3 = create_node(content_type: 'DummySinglenessValidator2Controller',  parent: @node3)
+          @node1_4 = create_node(content_type: 'DummySinglenessValidator2Controller',  parent: @node4)
+        end.to_not raise_error
+      end
+    end
   end
 
 end
