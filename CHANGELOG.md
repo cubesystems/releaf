@@ -1,5 +1,13 @@
 ## Changelog
 
+### 2014.04.28
+* Refactored notification rendering (introduced
+  Releaf::BaseController#render_notification) method.
+
+  Now notifications by default will consist of action name and "succeeded" or
+  "failed" word. For example flash notice "Updated" will now be
+  "Update succeeded".
+
 ### 2014.04.25
 * It is no longer required to add :id to permit_attributes options for
   ActiveRecord models, when using acts_as_node. It'll be added automatically,

@@ -25,7 +25,7 @@ describe Releaf::TranslationsController do
       find(:css, 'tr.item.new .translationCell[data-locale="en"] input[type="text"]').set('back to back2')
       click_button 'Save'
       # wait for save complete
-      expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Updated")
+      expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Update succeeded")
       # reopen group
       visit edit_releaf_translation_group_path(@group)
       expect(page).to have_css('.body table tr:last-child td.codeColumn input[type="text"][value="back_to_list2"]')

@@ -9,21 +9,21 @@ feature "Roles management", js: true do
     visit releaf_roles_path
     click_link "Create new item"
     fill_in("Name", with: "second role")
-    save_and_check_response('Created')
+    save_and_check_response('Create succeeded')
   end
 
   scenario "User updates an existing role" do
     visit releaf_roles_path
     click_link @role.name
     fill_in("Name", with: "new name")
-    save_and_check_response('Updated')
+    save_and_check_response('Update succeeded')
   end
 
   scenario "User changes the default controller of a role" do
     visit releaf_roles_path
     click_link @role.name
     select('Admin/books', from: 'Default controller')
-    save_and_check_response('Updated')
+    save_and_check_response('Update succeeded')
 
     expect(page).to have_select('Default controller', selected: 'Admin/books')
   end
@@ -32,7 +32,7 @@ feature "Roles management", js: true do
     visit releaf_roles_path
     click_link @role.name
     uncheck('Admin/books')
-    save_and_check_response('Updated')
+    save_and_check_response('Update succeeded')
 
     Releaf.available_controllers.each do |controller|
       if controller == "admin/books"

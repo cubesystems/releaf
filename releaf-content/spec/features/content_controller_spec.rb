@@ -27,7 +27,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         click_link("Create new item")
         click_link("ContactsController")
         fill_in("resource_name", with: "RootNode2")
-        save_and_check_response('Created')
+        save_and_check_response('Create succeeded')
 
         expect(page).to have_content('Releaf/content RootNode2')
       end
@@ -39,7 +39,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         click_link("Add child")
         click_link("ContactsController")
         fill_in("resource_name", with: "Contacts")
-        save_and_check_response('Created')
+        save_and_check_response('Create succeeded')
 
         expect(page).to have_content('Releaf/content RootNode Contacts')
       end
@@ -101,7 +101,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
         click_button("RootNode")
-        expect(page).to have_css('.notifications .notification .message', text: "Copy to node ok")
+        expect(page).to have_css('.notifications .notification .message', text: "Copy succeeded")
 
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect(page).to have_css('li > .node-cell a', text: "Main", count: 2)
@@ -113,7 +113,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
         click_button("Main")
-        expect(page).to have_css('.notifications .notification .message', text: "Copy to node not ok")
+        expect(page).to have_css('.notifications .notification .message', text: "Copy failed")
       end
     end
   end
@@ -125,7 +125,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         click_link("Move")
         click_button("RootNode")
 
-        expect(page).to have_css('.notifications .notification .message', text: "Move to node ok")
+        expect(page).to have_css('.notifications .notification .message', text: "Move succeeded")
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect(page).to have_css('li > .node-cell a', text: "Main", count: 1)
       end
@@ -137,7 +137,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         click_link("Move")
         click_button("Main")
 
-        expect(page).to have_css('.notifications .notification .message', text: "Move to node not ok")
+        expect(page).to have_css('.notifications .notification .message', text: "Move failed")
       end
     end
   end
@@ -156,7 +156,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       if position
         select position, from: 'Position:'
       end
-      save_and_check_response "Created"
+      save_and_check_response "Create succeeded"
     end
 
     it "creates nodes is correct order" do

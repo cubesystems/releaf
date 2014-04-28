@@ -127,11 +127,9 @@ module Releaf
     def destroy
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
-      if destroyable? && @resource.destroy
-        flash[:success] = { id: :resource_status, message: I18n.t('deleted', scope: notice_scope_name) }
-      else
-        flash[:error] = { id: :resource_status, message: I18n.t('cant destroy, because relations exists', scope: notice_scope_name) }
-      end
+
+      action_success = destroyable? && @resource.destroy
+      render_notification(action_success, failure_message_key: 'cant destroy, because relations exists')
 
       respond_to do |format|
         format.html { redirect_to index_url }
@@ -391,6 +389,14 @@ module Releaf
 
     protected
 
+    def render_notification status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed"
+      if status
+        flash[:success] = { id: :resource_status, message: I18n.t(success_message_key, scope: notice_scope_name) }
+      else
+        flash[:error] = { id: :resource_status, message: I18n.t(failure_message_key, scope: notice_scope_name) }
+      end
+    end
+
     # Returns true if @resource is assigned (even if it's nil)
     def resource_given?
       !!defined? @resource
@@ -559,9 +565,7 @@ module Releaf
 
     def respond_after_save request_type, result, html_render_action, &block
       if result
-        success_key =  request_type == :create ? 'created' : 'updated'
-        flash[:success] = { id: :resource_status, message: I18n.t(success_key, scope: notice_scope_name) }
-
+        render_notification true
         yield if block_given?
       end
 
@@ -584,7 +588,7 @@ module Releaf
           if result
             redirect_to success_url
           else
-            flash[:error] = { id: :resource_status, message: I18n.t('error', scope: notice_scope_name) }
+            render_notification false
             render action: html_render_action
           end
         end

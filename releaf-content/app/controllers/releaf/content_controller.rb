@@ -136,11 +136,7 @@ module Releaf
         error = true
       end
 
-      if error
-        flash[:error] = { id: :resource_status, message: I18n.t("#{method_to_call} not ok", scope: notice_scope_name) }
-      else
-        flash[:success] = { id: :resource_status, message: I18n.t("#{method_to_call} ok", scope: notice_scope_name) }
-      end
+      render_notification !error
 
       redirect_to :action => "index"
     end
