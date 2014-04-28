@@ -58,32 +58,35 @@ module Releaf
         return if parent_id.to_i == id
         return if self.class.find_by_id(parent_id).nil? && parent_id.present?
 
-        new_node = self.class.new
-        new_node.name = name
-        new_node.locale = locale
-        new_node.content_type = content_type
-        new_node.active = active
-        new_node.protected = self.protected
+        new_node = nil
+        self.class.transaction do
+          new_node = self.class.new
+          new_node.name = name
+          new_node.locale = locale
+          new_node.content_type = content_type
+          new_node.active = active
+          new_node.protected = self.protected
 
-        new_node.item_position = self.self_and_siblings[-1].item_position + 1
+          new_node.item_position = self.self_and_siblings[-1].item_position + 1
 
-        if content_id.present?
-          new_content = content.dup
-          new_content.save!
-          new_node.content_id = new_content.id
+          if content_id.present?
+            new_content = content.dup
+            new_content.save!
+            new_node.content_id = new_content.id
+          end
+
+          new_node.parent_id = parent_id
+          new_node.maintain_name
+          # To regenerate slug
+          new_node.slug = nil
+
+          new_node.save!
+
+          children.each do |child|
+            child.copy_to_node(new_node.id)
+          end
+
         end
-
-        new_node.parent_id = parent_id
-        new_node.maintain_name
-        # To regenerate slug
-        new_node.slug = nil
-
-        new_node.save!
-
-        children.each do |child|
-          child.copy_to_node(new_node.id)
-        end
-
         return new_node
       end
 
@@ -92,13 +95,16 @@ module Releaf
         return if parent_id.to_i == self.parent_id
         return if self.class.find_by_id(parent_id).nil? && parent_id.present?
 
-        self.parent_id = parent_id
-        maintain_name
-        # To regenerate slug
-        self.slug = nil
-        self.ensure_unique_url
-
-        self.save!
+        result = nil
+        self.class.transaction do
+          self.parent_id = parent_id
+          maintain_name
+          # To regenerate slug
+          self.slug = nil
+          self.ensure_unique_url
+          result = self.save!
+        end
+        result
       end
 
       # Maintain unique name within parent_id scope.
