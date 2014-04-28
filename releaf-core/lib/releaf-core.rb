@@ -2,7 +2,6 @@ module Releaf
   require 'releaf/assets_resolver'
   require 'releaf/route_mapper'
   require 'releaf/exceptions'
-  require 'releaf/acts_as_node'
   require 'releaf/validation_error_codes'
   require 'releaf/engine'
   require 'releaf/richtext_attachments'
@@ -10,7 +9,6 @@ module Releaf
   require 'releaf/resource_validator'
   require 'releaf/template_filter'
   require 'releaf/resource_finder'
-  require 'releaf/content_node'
 
   mattr_accessor :menu
   @@menu = [
