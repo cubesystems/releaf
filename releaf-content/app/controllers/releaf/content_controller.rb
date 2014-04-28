@@ -195,11 +195,11 @@ module Releaf
     end
 
     def content_type_class_names
-      content_type_classes.map(&:name).sort
+      ActsAsNode.classes.sort
     end
 
     def content_type_classes
-      ActsAsNode.classes.map(&:constantize)
+      content_type_class_names.map(&:constantize)
     end
 
     def resource_params
