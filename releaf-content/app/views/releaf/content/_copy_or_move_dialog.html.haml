@@ -1,0 +1,27 @@
+:ruby
+  title_template = action == :copy ? "Copy node '%{node_name}' to" : "Move node '%{node_name}' to"
+
+.body.dialog{class: "#{action}-node-dialog"}
+  .header
+    = t(title_template, :scope => controller_scope_name, :default => title_template, :node_name => @node.name )
+  .content.clearInside
+
+    .action-tree.collection
+      %ul.block.clearInside{ :'data-level' => 0 }
+        %li.root.row.clearInside
+          %div.node-cell
+            = form_tag url_for(:action => action, :id => @node.id), :method => :post do
+              %input{:type => :hidden, :name => :new_parent_id, :value => nil}
+              %button{:type => :submit}
+                %span= t("Root node", :scope => controller_scope_name)
+
+      - unless @collection.size < 1
+        = render 'action_tree.level', :collection => @collection, :level => 1, :action => action
+
+  .footer.clearInside
+    - cancel_url = url_for( :action => 'index' )
+    %a.button.secondary{ :data => {:type => 'cancel'}, :href => cancel_url }
+      %i.fa.fa-ban
+      %span= t('cancel', :scope => 'admin.global')
+
+
