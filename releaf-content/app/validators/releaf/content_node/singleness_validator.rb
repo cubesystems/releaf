@@ -19,6 +19,10 @@ module Releaf
     #     validates_with Releaf::ContentNode::ParentValidator, for: [Text, Book], under: Store
     #   end
     #
+    # In the example above, Text node or book node can be added in any leve
+    # under Store node, but only once.
+    # However they can be added to any other node as many times as needed, as
+    # long as none of ancestors are Store node.
     class SinglenessValidator < ActiveModel::Validator
 
       def validate node
@@ -57,6 +61,8 @@ module Releaf
       end
 
       def base_relation_for_subtree
+        return nil if @node.parent.nil?
+
         # need to find parent node again, because Node.roots[n].ancestors can
         # return some other parent, than @node.parent.ancestors, even though
         # both return same node.
