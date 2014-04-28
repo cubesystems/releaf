@@ -30,14 +30,7 @@ module Releaf
     end
 
     def copy_dialog
-      @node = resource_class.find params[:id]
-      @collection = resource_class.roots
-
-      respond_to do |format|
-        format.html do
-          render layout: nil
-        end
-      end
+      copy_move_dialog_common
     end
 
     def copy
@@ -45,14 +38,7 @@ module Releaf
     end
 
     def move_dialog
-      @node = resource_class.find params[:id]
-      @collection = resource_class.roots
-
-      respond_to do |format|
-        format.html do
-          render layout: nil
-        end
-      end
+      copy_move_dialog_common
     end
 
     def move
@@ -126,6 +112,17 @@ module Releaf
     end
 
     private
+
+    def copy_move_dialog_common
+      @node = resource_class.find params[:id]
+      @collection = resource_class.roots
+
+      respond_to do |format|
+        format.html do
+          render layout: nil
+        end
+      end
+    end
 
     def prepare_resource
       if params[:id]
