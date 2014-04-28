@@ -24,6 +24,8 @@ module Releaf
         else
           node.errors.add(:content_type, "can't be root node") if @node.parent.nil?
         end
+
+        remove_instance_variable(:@node)
       end
 
       private

@@ -27,8 +27,8 @@ module Releaf
 
       def validate node
         @node = node
-        return if node_valid?
-        node.errors.add(:content_type, 'node exists')
+        node.errors.add(:content_type, 'node exists') unless node_valid?
+        remove_instance_variable(:@node)
       end
 
       private

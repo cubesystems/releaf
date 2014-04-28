@@ -20,8 +20,8 @@ module Releaf
 
       def validate node
         @node = node
-        return if node_parent_valid?
-        node.errors.add(:content_type, 'invalid parent node')
+        node.errors.add(:content_type, 'invalid parent node') unless node_parent_valid?
+        remove_instance_variable(:@node)
       end
 
       private
