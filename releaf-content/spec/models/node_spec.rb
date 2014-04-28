@@ -300,4 +300,31 @@ describe Node do
     end
   end
 
+  describe ".valid_node_content_classes" do
+    it "returns array of constantized .valid_node_content_class_names" do
+      expect( Node ).to receive(:valid_node_content_class_names).with(42).and_return(['Text', 'HomeController'])
+      expect( Node.valid_node_content_classes(42) ).to eq [Text, HomeController]
+    end
+  end
+
+  describe ".valid_node_content_class_names" do
+    it "returns class names for Node#content_type that can be used to create valid node" do
+      expect( ActsAsNode ).to receive(:classes).and_return(%w[BadNode GoodNode])
+
+      node1 = double('BadNode')
+      node1.stub(:valid?)
+      node1.stub_chain(:errors, :[]).with(:content_type).and_return(['some error'])
+
+      node2 = double('GoodNode')
+      node2.stub(:valid?)
+      node2.stub_chain(:errors, :[]).with(:content_type).and_return(nil)
+
+      expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'BadNode')).and_return(node1)
+      expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'GoodNode')).and_return(node2)
+
+      expect( Node.valid_node_content_class_names(52) ).to eq %w[GoodNode]
+    end
+
+  end
+
 end

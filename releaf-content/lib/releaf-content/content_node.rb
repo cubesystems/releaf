@@ -149,6 +149,20 @@ module Releaf
       def updated_at
         Settings['nodes.updated_at']
       end
+
+      def valid_node_content_class_names parent_id=nil
+        class_names = []
+        ActsAsNode.classes.each do |class_name|
+          test_node = Node.new(content_type: class_name, parent_id: parent_id)
+          test_node.valid?
+          class_names.push class_name unless test_node.errors[:content_type].present?
+        end
+        return class_names
+      end
+
+      def valid_node_content_classes parent_id=nil
+        return valid_node_content_class_names(parent_id).map(&:constantize)
+      end
     end
 
     def self.included base

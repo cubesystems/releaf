@@ -158,7 +158,7 @@ module Releaf
     def new_common
       @resource = resource_class.new do |node|
         if params[:content_type].blank?
-          @content_types = content_type_classes
+          @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort { |a, b| a.name <=> b.name }
         else
           @order_nodes = resource_class.where(parent_id: params[:parent_id])
           node.item_position ||= @order_nodes.to_a.inject(0) { |max, node| node.item_position + 1 > max ? node.item_position + 1 : max }
@@ -181,14 +181,6 @@ module Releaf
       end
 
       params[:content_type].constantize
-    end
-
-    def content_type_class_names
-      ActsAsNode.classes.sort
-    end
-
-    def content_type_classes
-      content_type_class_names.map(&:constantize)
     end
 
     def resource_params
