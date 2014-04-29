@@ -179,10 +179,10 @@ module Releaf
           @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort { |a, b| a.name <=> b.name }
         else
           @order_nodes = resource_class.where(parent_id: params[:parent_id])
-          node.item_position ||= @order_nodes.to_a.inject(0) { |max, node| node.item_position + 1 > max ? node.item_position + 1 : max }
 
           node.content_type = node_content_class.name
           node.parent_id = params[:parent_id]
+          node.item_position ||= Node.children_max_item_position(node.parent) + 1
 
           if node_content_class < ActiveRecord::Base
             node.build_content({})
