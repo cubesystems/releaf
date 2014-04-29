@@ -40,7 +40,7 @@ module Releaf::RouteMapper
         mount_translations_controller if controllers.include? :translations
 
         root :to => "home#index"
-        get '/*path' => 'base_application#page_not_found'
+        get '/*path' => 'home#page_not_found'
       end
     end
   end
