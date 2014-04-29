@@ -127,12 +127,12 @@ jQuery(function()
 
             notification.children('i').removeClass().addClass(icon_base_class + ' ' + params.icon);
 
-
-            if (params.closable)
+            // check whether notification already have close button added
+            if (params.closable && notification.find('.close').length == 0)
             {
                 notification.append( close_button.clone(true) );
             }
-            else
+            else if(!params.closable)
             {
                 notification.find('.close').remove();
             }
