@@ -12,7 +12,7 @@
         %span
           = resource.name
     - else
-      = form_tag url_for(:action => action, :id => @node.id), :method => :post do
+      = form_tag url_for(:action => action, :id => @node.id), :method => :post, 'data-validation' => true, 'data-validation-ok-handler' => 'ajax' do
         %input{:type => :hidden, :name => :new_parent_id, :value => resource.id}
         %button{:type => :submit}
           %span= resource.name

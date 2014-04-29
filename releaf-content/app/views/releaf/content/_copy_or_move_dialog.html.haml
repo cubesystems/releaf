@@ -10,7 +10,7 @@
       %ul.block.clearInside{ :'data-level' => 0 }
         %li.root.row.clearInside
           %div.node-cell
-            = form_tag url_for(:action => action, :id => @node.id), :method => :post do
+            = form_tag url_for(:action => action, :id => @node.id), :method => :post, 'data-validation' => true, 'data-validation-ok-handler' => 'ajax' do
               %input{:type => :hidden, :name => :new_parent_id, :value => nil}
               %button{:type => :submit}
                 %span= t("Root node", :scope => controller_scope_name)

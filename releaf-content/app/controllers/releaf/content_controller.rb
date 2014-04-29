@@ -33,16 +33,33 @@ module Releaf
       copy_move_dialog_common
     end
 
-    def copy
-      copy_node(resource_class.find(params[:id]), params[:new_parent_id], false)
-    end
-
     def move_dialog
       copy_move_dialog_common
     end
 
+    def copy
+      source_node = resource_class.find(params[:id])
+
+      begin
+        @resource = source_node.copy_to_node! params[:new_parent_id]
+      rescue ActiveRecord::RecordInvalid => e
+        @resource = e.record
+        copy_move_common false
+      else
+        copy_move_common true
+      end
+    end
+
     def move
-      copy_node(resource_class.find(params[:id]), params[:new_parent_id], true)
+      @resource = resource_class.find(params[:id])
+
+      begin
+        @resource.move_to_node! params[:new_parent_id]
+      rescue ActiveRecord::RecordInvalid => e
+        copy_move_common false
+      else
+        copy_move_common true
+      end
     end
 
     def go_to_dialog
@@ -101,6 +118,28 @@ module Releaf
     end
 
     private
+
+    def copy_move_common result
+      if result
+        @resource.update_settings_timestamp
+        render_notification true
+      end
+
+      respond_to do |format|
+        format.json do
+          if result
+            render json: {url: url_for( action: :index ), message: flash[:success][:message]}, status: 303
+          else
+            render json: Releaf::ResourceValidator.build_validation_errors(@resource, controller_scope_name), status: 422
+          end
+        end
+
+        format.html do
+          render_notification false unless result
+          redirect_to url_for( action: :index )
+        end
+      end
+    end
 
     def copy_move_dialog_common
       @node = resource_class.find params[:id]
