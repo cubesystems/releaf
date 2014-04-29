@@ -203,6 +203,34 @@ describe Node do
     end
   end
 
+  describe ".children_max_item_position" do
+    before do
+      @text_node   = FactoryGirl.create(:text_node, item_position: 1)
+      @text_node_2 = FactoryGirl.create(:text_node, item_position: 2)
+      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id, item_position: 1)
+      @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id, item_position: 2)
+      @text_node_5 = FactoryGirl.create(:text_node, item_position: 3)
+    end
+
+    context "when passing nil" do
+      it "returns max item_position of root nodes" do
+        expect( Node.children_max_item_position(nil) ).to eq 3
+      end
+    end
+
+    context "when passing node with children" do
+      it "returns max item_position of node children" do
+        expect( Node.children_max_item_position(@text_node_2) ).to eq 2
+      end
+    end
+
+    context "when passing node without children" do
+      it "returns 0" do
+        expect( Node.children_max_item_position(@text_node_5) ).to eq 0
+      end
+    end
+  end
+
   describe "#move_to_node!" do
     before do
       @text_node = FactoryGirl.create(:text_node)

@@ -1,5 +1,7 @@
 module Releaf
   module ContentNode
+    # TODO Node should be configurable
+
     module InstanceMethods
       def build_content(params, assignment_options=nil)
         self.content = content_class.new(params)
@@ -68,8 +70,6 @@ module Releaf
             new_node.active = active
             new_node.protected = self.protected
 
-            new_node.item_position = self.self_and_siblings[-1].item_position + 1
-
             if content_id.present?
               new_content = content.dup
               new_content.save!
@@ -77,6 +77,7 @@ module Releaf
             end
 
             new_node.parent_id = parent_id
+            new_node.item_position = Node.children_max_item_position(new_node.parent) + 1
             new_node.maintain_name
             # To regenerate slug
             new_node.slug = nil
@@ -110,6 +111,7 @@ module Releaf
         self.class.transaction do
           dont_update_settings_timestamp do
             self.parent_id = parent_id
+            self.item_position = Node.children_max_item_position(self.parent) + 1
             maintain_name
             # To regenerate slug
             self.slug = nil
@@ -190,6 +192,14 @@ module Releaf
     module ClassMethods
       def updated_at
         Settings['nodes.updated_at']
+      end
+
+      def children_max_item_position node
+        if node.nil?
+          Node.roots.maximum(:item_position) || 0
+        else
+          node.children.maximum(:item_position) || 0
+        end
       end
 
       def valid_node_content_class_names parent_id=nil
