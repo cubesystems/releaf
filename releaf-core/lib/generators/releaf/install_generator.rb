@@ -23,6 +23,7 @@ module Releaf
         # prevent dummy app from installing devise one more time
         if self.class == Releaf::Generators::InstallGenerator
           generate "devise:install"
+          generate "dragonfly"
         end
       end
 

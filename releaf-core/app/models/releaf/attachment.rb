@@ -6,7 +6,7 @@ module Releaf
     self.primary_key = 'uuid'
     before_create :generate_uuid
     belongs_to :richtext_attachment, :polymorphic => true
-    file_accessor :file
+    dragonfly_accessor :file
 
     def type
       return 'image' if file_type =~ %r#^image/#

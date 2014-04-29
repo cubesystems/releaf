@@ -12,7 +12,7 @@ class Book < ActiveRecord::Base
   # chapters may not be destroy
   accepts_nested_attributes_for :chapters
 
-  image_accessor :cover_image
+  dragonfly_accessor :cover_image
 
   alias_attribute :to_text, :title
 
