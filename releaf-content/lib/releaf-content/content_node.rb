@@ -54,57 +54,75 @@ module Releaf
         update_settings_timestamp
       end
 
-      def copy_to_node parent_id
-        return if parent_id.to_i == id
-        return if self.class.find_by_id(parent_id).nil? && parent_id.present?
+      def copy_to_node! parent_id
+        new_node = self.class.new
 
-        new_node = nil
-        self.class.transaction do
-          new_node = self.class.new
-          new_node.name = name
-          new_node.locale = locale
-          new_node.content_type = content_type
-          new_node.active = active
-          new_node.protected = self.protected
+        new_node.add_error_and_raise 'cant be parent to itself' if parent_id.to_i == id
+        new_node.add_error_and_raise 'parent node doesnt exist' if parent_id.present? && self.class.find_by_id(parent_id).nil?
 
-          new_node.item_position = self.self_and_siblings[-1].item_position + 1
+        self.dont_update_settings_timestamp do
+          self.class.transaction do
+            new_node.name = name
+            new_node.locale = locale
+            new_node.content_type = content_type
+            new_node.active = active
+            new_node.protected = self.protected
 
-          if content_id.present?
-            new_content = content.dup
-            new_content.save!
-            new_node.content_id = new_content.id
+            new_node.item_position = self.self_and_siblings[-1].item_position + 1
+
+            if content_id.present?
+              new_content = content.dup
+              new_content.save!
+              new_node.content_id = new_content.id
+            end
+
+            new_node.parent_id = parent_id
+            new_node.maintain_name
+            # To regenerate slug
+            new_node.slug = nil
+
+            new_node.save!
+
+            begin
+              children.each do |child|
+                child.copy_to_node!(new_node.id)
+              end
+            rescue ActiveRecord::RecordInvalid
+              new_node.add_error_and_raise 'descendant invalid'
+            end
           end
-
-          new_node.parent_id = parent_id
-          new_node.maintain_name
-          # To regenerate slug
-          new_node.slug = nil
-
-          new_node.save!
-
-          children.each do |child|
-            child.copy_to_node(new_node.id)
-          end
-
         end
+
+        new_node.update_settings_timestamp
         return new_node
       end
 
-      def move_to_node parent_id
-        return if parent_id.to_i == id
+      def move_to_node! parent_id
         return if parent_id.to_i == self.parent_id
-        return if self.class.find_by_id(parent_id).nil? && parent_id.present?
+
+        add_error_and_raise 'node cant be parent to itself'   if parent_id.to_i == id
+        if parent_id.present?
+          add_error_and_raise 'parent node doesnt exist'        if self.class.find_by_id(parent_id).nil?
+          add_error_and_raise 'cant move node under descendant' unless self.descendants.find_by_id(parent_id).nil?
+        end
 
         result = nil
         self.class.transaction do
-          self.parent_id = parent_id
-          maintain_name
-          # To regenerate slug
-          self.slug = nil
-          self.ensure_unique_url
-          result = self.save!
+          dont_update_settings_timestamp do
+            self.parent_id = parent_id
+            maintain_name
+            # To regenerate slug
+            self.slug = nil
+            self.ensure_unique_url
+            self.save!
+            descendants.each do |node|
+              next if node.valid?
+              add_error_and_raise 'descendant invalid'
+            end
+          end
         end
-        result
+
+        update_settings_timestamp
       end
 
       # Maintain unique name within parent_id scope.
@@ -144,11 +162,29 @@ module Releaf
         self_and_ancestors.where(active: false).any? == false
       end
 
-      private
+      def dont_update_settings_timestamp &block
+        @dont_update_settings_timestamp = true
+        yield
+      ensure
+        @dont_update_settings_timestamp = false
+      end
 
       def update_settings_timestamp
         Settings['nodes.updated_at'] = Time.now
       end
+
+      def add_error_and_raise error
+        errors.add(:base, error)
+        raise ActiveRecord::RecordInvalid.new(self)
+      end
+
+      private
+
+      def auto_update_settings_timestamp
+        return if @dont_update_settings_timestamp
+        update_settings_timestamp
+      end
+
     end
 
     module ClassMethods
@@ -186,7 +222,7 @@ module Releaf
       base.belongs_to :content, polymorphic: true, dependent: :destroy
       base.accepts_nested_attributes_for :content
 
-      base.after_save :update_settings_timestamp
+      base.after_save :auto_update_settings_timestamp
 
       base.acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
 

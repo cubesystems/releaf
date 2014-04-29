@@ -158,7 +158,7 @@ describe Node do
     end
   end
 
-  describe "#copy_to_node" do
+  describe "#copy_to_node!" do
     before do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
@@ -167,43 +167,43 @@ describe Node do
 
     context "with corect parent_id" do
       it "creates new node" do
-        expect{ @text_node_2.copy_to_node(@text_node.id) }.to change{ Node.count }.by(1)
+        expect{ @text_node_2.copy_to_node!(@text_node.id) }.to change{ Node.count }.by(1)
       end
     end
 
     context "when node have children" do
       it "creates multiple new nodes" do
-        @text_node_2.copy_to_node(@text_node.id)
-        expect{ @text_node.copy_to_node(@text_node_2.id) }.to change{ Node.count }.by( @text_node.children.size + 1 )
+        @text_node_2.copy_to_node!(@text_node.id)
+        expect{ @text_node.copy_to_node!(@text_node_2.id) }.to change{ Node.count }.by( @text_node.children.size + 1 )
       end
     end
 
     context "when parent_id is nil" do
       it "creates new node" do
-        expect{ @text_node_3.copy_to_node(nil) }.to change{ Node.count }.by(1)
+        expect{ @text_node_3.copy_to_node!(nil) }.to change{ Node.count }.by(1)
       end
     end
 
     context "with nonexistent parent_id" do
-      it "doesn't create new node" do
-        expect{ @text_node_2.copy_to_node(99991) }.not_to change{ Node.count }
+      it "raises ActiveRecord::RecordInvalid" do
+        expect { @text_node_2.copy_to_node!(99991) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "with same parent_id as node.id" do
-      it "doesn't create new node" do
-        expect{ @text_node.copy_to_node(@text_node.id) }.not_to change{ Node.count }
+      it "raises ActiveRecord::RecordInvalid" do
+        expect{ @text_node.copy_to_node!(@text_node.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "when passing string as argument" do
-      it "doesn't create new node" do
-        expect{ @text_node.copy_to_node("some_id") }.not_to change{ Node.count }
+      it "raises ActiveRecord::RecordInvalid" do
+        expect{ @text_node.copy_to_node!("some_id") }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
   end
 
-  describe "#move_to_node" do
+  describe "#move_to_node!" do
     before do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
@@ -212,31 +212,31 @@ describe Node do
 
     context "when moving existing node to other nodes child's position" do
       it "changes parent_id" do
-        expect{ @text_node_3.move_to_node(@text_node.id) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }.from(@text_node_2.id).to(@text_node.id)
+        expect{ @text_node_3.move_to_node!(@text_node.id) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }.from(@text_node_2.id).to(@text_node.id)
       end
     end
 
     context "when moving to self child's position" do
-      it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(@text_node_3.id) }.not_to change{ Node.find_by_id(@text_node_3.id).parent_id }
+      it "raises ActiveRecord::RecordInvalid" do
+        expect{ @text_node_3.move_to_node!(@text_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "when passing nil as target node" do
       it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(nil) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }
+        expect{ @text_node_3.move_to_node!(nil) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }
       end
     end
 
     context "when passing nonexistent target node's id" do
-      it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node(998123) }.not_to change{ Node.find_by_id(@text_node_3.id).parent_id }
+      it "raises ActiveRecord::RecordInvalid" do
+        expect{ @text_node_3.move_to_node!(998123) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "when passing string as argument" do
-      it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node("test") }.not_to change{ Node.find_by_id(@text_node_3.id).parent_id }
+      it "raises ActiveRecord::RecordInvalid" do
+        expect{ @text_node_3.move_to_node!("test") }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
   end
