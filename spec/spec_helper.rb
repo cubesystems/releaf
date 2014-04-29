@@ -32,7 +32,6 @@ require 'capybara/rspec'
 require 'database_cleaner'
 require 'capybara-webkit'
 require 'shoulda-matchers'
-require 'support/helpers'
 require 'timecop'
 
 Rails.backtrace_cleaner.remove_silencers!
