@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2014.04.29
+* Dragonfly updated from 0.9 to 1.0
+  Update instructions there: https://github.com/markevans/dragonfly/wiki/Upgrading-from-0.9-to-1.0
+
 ### 2014.04.28
 * Refactored notification rendering (introduced
   Releaf::BaseController#render_notification) method.
