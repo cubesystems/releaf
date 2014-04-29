@@ -81,4 +81,9 @@ jQuery(function()
 
     });
 
+    body.on('click', '.copy-or-move-node-dialog .node-cell label', function() {
+        jQuery('.copy-or-move-node-dialog .node-cell label').removeClass('selected');
+        jQuery(this).addClass('selected');
+    });
+
 });

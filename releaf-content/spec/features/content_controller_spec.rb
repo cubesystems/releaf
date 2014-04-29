@@ -100,7 +100,13 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       it "shows copied node in tree" do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
-        click_button("RootNode")
+
+        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
+        within '.copy-or-move-node-dialog' do
+          find('label > span', text: "RootNode").click
+          click_button "Copy"
+        end
+
         expect(page).to have_css('.notifications .notification .message', text: "Copy succeeded")
 
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
@@ -112,18 +118,30 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       it "displays flash error message" do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
-        click_button("Main")
-        expect(page).to have_css('.notifications .notification .message', text: "Copy failed")
+
+        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
+        within '.copy-or-move-node-dialog' do
+          find('label > span', text: "Main").click
+          click_button "Copy"
+        end
+
+        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Cant be parent to itself")
+        # expect(page).to have_css('.notifications .notification .message', text: "Copy failed")
       end
     end
   end
 
-  describe "move node to" do
+  describe "move node to", js: true do
     context "when moving node to another parent" do
       it "moves selected node to new position" do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Move")
-        click_button("RootNode")
+
+        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
+        within '.copy-or-move-node-dialog' do
+          find('label > span', text: "RootNode").click
+          click_button "Move"
+        end
 
         expect(page).to have_css('.notifications .notification .message', text: "Move succeeded")
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
@@ -135,11 +153,18 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       it "displays flash error message" do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Move")
-        click_button("Main")
 
-        expect(page).to have_css('.notifications .notification .message', text: "Move failed")
+        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
+        within '.copy-or-move-node-dialog' do
+          find('label > span', text: "Main").click
+          click_button "Move"
+        end
+
+        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Cant be parent to itself")
+        # expect(page).to have_css('.notifications .notification .message', text: "Move failed")
       end
     end
+
   end
 
   describe "node order", with_tree: false do

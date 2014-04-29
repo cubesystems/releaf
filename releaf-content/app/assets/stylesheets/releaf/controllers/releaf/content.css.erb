@@ -54,6 +54,7 @@
     text-align: left;
     z-index: 1;
 }
+.controller-releaf-content .copy-or-move-node-dialog .collection .node-cell label,
 .controller-releaf-content .collection .node-cell a
 {
     display: block;
@@ -61,26 +62,22 @@
     text-decoration: none;
     padding: 5px 10px 5px 10px;
     font-weight: bold;
+    cursor: pointer;
 }
+.controller-releaf-content .copy-or-move-node-dialog .content .node-cell label.selected,
+.controller-releaf-content .copy-or-move-node-dialog .content .node-cell label:hover,
 .controller-releaf-content .collection .node-cell button:hover,
 .controller-releaf-content .collection .node-cell a:hover
 {
     background: #d0eeec;
 }
 
-.controller-releaf-content .move-node-dialog .content .form_error_box,
-.controller-releaf-content .copy-node-dialog .content .form_error_box
+.controller-releaf-content .copy-or-move-node-dialog .content .node-cell input[type="radio"]
 {
     display: none;
 }
-.controller-releaf-content .move-node-dialog .content .node-cell form.has_error button,
-.controller-releaf-content .copy-node-dialog .content .node-cell form.has_error button,
-.controller-releaf-content .move-node-dialog .content .node-cell form.has_error button:hover,
-.controller-releaf-content .copy-node-dialog .content .node-cell form.has_error button:hover
-{
-    background-color: #ffaaaa;
-}
 
+.controller-releaf-content .copy-or-move-node-dialog .content .node-cell label span,
 .controller-releaf-content .collection .node-cell button span,
 .controller-releaf-content .collection .node-cell a span
 {
@@ -102,6 +99,7 @@
 {
     display: inline-block;
 }
+.controller-releaf-content .collection.action-tree li:not(.has-children) > .node-cell label,
 .controller-releaf-content .collection.action-tree li:not(.has-children) > .node-cell button,
 .controller-releaf-content .collection.action-tree li:not(.has-children) > .node-cell a
 {
@@ -194,9 +192,8 @@
     display: none;
 }
 
-.controller-releaf-content .move-node-dialog,
+.controller-releaf-content .copy-or-move-node-dialog,
 .controller-releaf-content .goto-node-dialog,
-.controller-releaf-content .copy-node-dialog,
 .controller-releaf-content .add-child-dialog
 {
     width: 500px;
@@ -226,8 +223,7 @@
 }
 
 .controller-releaf-content .goto-node-dialog .content,
-.controller-releaf-content .move-node-dialog .content,
-.controller-releaf-content .copy-node-dialog .content
+.controller-releaf-content .dialog.copy-or-move-node-dialog .content
 {
   height: 25em;
   overflow-y: auto;
@@ -296,3 +292,17 @@
     border-top: none;
 }
 
+/*
+ * TODO this style should be removed and applied automatically.
+ * For this to work correclty styles in edit-view.css should be refactored.
+ */
+.controller-releaf-content .copy-or-move-node-dialog .form_error_box
+{
+  border: 1px solid #D4D4D4;
+  padding: 15px 25px;
+  margin: 0px;
+  color: #f00a0a;
+  background-color: #FAF0F0;
+  border-top: none;
+  border-bottom: none;
+}

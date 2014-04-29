@@ -101,8 +101,8 @@ module Releaf
       def move_to_node! parent_id
         return if parent_id.to_i == self.parent_id
 
-        add_error_and_raise 'node cant be parent to itself'   if parent_id.to_i == id
         if parent_id.present?
+          add_error_and_raise 'cant be parent to itself'        if parent_id.to_i == id
           add_error_and_raise 'parent node doesnt exist'        if self.class.find_by_id(parent_id).nil?
           add_error_and_raise 'cant move node under descendant' unless self.descendants.find_by_id(parent_id).nil?
         end

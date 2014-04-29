@@ -12,10 +12,10 @@
         %span
           = resource.name
     - else
-      = form_tag url_for(:action => action, :id => @node.id), :method => :post, 'data-validation' => true, 'data-validation-ok-handler' => 'ajax' do
-        %input{:type => :hidden, :name => :new_parent_id, :value => resource.id}
-        %button{:type => :submit}
-          %span= resource.name
+      - field_id = "new_parent_id_#{resource.id}"
+      = radio_button_tag :new_parent_id, resource.id, false, id: field_id
+      %label{for: field_id}
+        %span= resource.name
 
 
   - unless resource.children.empty?
