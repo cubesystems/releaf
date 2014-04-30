@@ -3,7 +3,7 @@
 ### 2014.04.30
 * removed #protected attribute from releaf node
 * To render locale selection for content node override
-  #locale_selection_enabled? method to return true for nodes that need locale
+  \#locale_selection_enabled? method to return true for nodes that need locale
   selector.
 
   This means that Releaf no longer check for releaf/content/_edit.locale
