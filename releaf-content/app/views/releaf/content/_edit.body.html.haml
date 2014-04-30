@@ -9,7 +9,7 @@
 
     .field{ 'data-name' => 'template' }
       .label_wrap
-        = f.label :content_type, t('template', scope: 'admin.global') + ':', :title => f.object.content_type
+        = f.label :content_type, t('template', scope: 'admin.global'), :title => f.object.content_type
       .value
         = f.text_field :content_type, disabled: :disabled, value: I18n.t(f.object.content_type.underscore, scope: 'admin.content_types')
       .clear
@@ -18,7 +18,7 @@
     = render 'edit.slug', :name => 'slug', :f => f
 
     .field{ 'data-name' => 'item_position' }
-      .label_wrap= f.label :item_position, t('position', scope: 'admin.global') + ':'
+      .label_wrap= f.label :item_position, t('position', scope: 'admin.global')
       .value
         :ruby
           opt_for_select = [[t('first', scope: 'admin.global'), 0]]
