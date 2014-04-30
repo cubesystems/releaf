@@ -25,7 +25,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
     context "when creating node under root" do
       it "creates new node in content tree" do
         click_link("Create new item")
-        click_link("ContactsController")
+        click_link("Contacts controller")
         fill_in("resource_name", with: "RootNode2")
         save_and_check_response('Create succeeded')
 
@@ -37,7 +37,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       it "creates new node" do
         find('li[data-id="' + @root.id.to_s + '"] > .toolbox-cell button').click
         click_link("Add child")
-        click_link("ContactsController")
+        click_link("Contacts controller")
         fill_in("resource_name", with: "Contacts")
         save_and_check_response('Create succeeded')
 

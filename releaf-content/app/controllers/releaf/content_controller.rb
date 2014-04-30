@@ -170,7 +170,7 @@ module Releaf
     def new_common
       @resource = resource_class.new do |node|
         if params[:content_type].blank?
-          @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort { |a, b| a.name <=> b.name }
+          load_content_types
         else
           @order_nodes = resource_class.where(parent_id: params[:parent_id])
 
@@ -183,6 +183,12 @@ module Releaf
             node.content_id_will_change!
           end
         end
+      end
+    end
+
+    def load_content_types
+      @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort do |a, b|
+        I18n.t(a.name.underscore, scope: 'admin.content_types') <=> I18n.t(b.name.underscore, scope: 'admin.content_types')
       end
     end
 
