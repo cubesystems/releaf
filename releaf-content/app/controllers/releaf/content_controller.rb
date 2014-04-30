@@ -110,15 +110,21 @@ module Releaf
       @resource = resource_class.find(params[:id])
 
       result = nil
-      begin
-        @resource = yield(@resource)
-      rescue ActiveRecord::RecordInvalid => e
-        @resource = e.record
+
+      if params[:new_parent_id].nil?
         result = false
+        @resource.errors.add(:base, 'parent not selected')
       else
-        result = true
-        @resource.update_settings_timestamp
-        render_notification true
+        begin
+          @resource = yield(@resource)
+        rescue ActiveRecord::RecordInvalid => e
+          @resource = e.record
+          result = false
+        else
+          result = true
+          @resource.update_settings_timestamp
+          render_notification true
+        end
       end
 
       respond_to do |format|
