@@ -81,7 +81,7 @@ module Releaf
 
             new_node.parent_id = parent_id
 
-            unless new_node.root?
+            if new_node.validate_root_locale_uniqueness?
               # When copying root nodes it is important to reset locale to nil.
               # Later user should fill in locale. This is needed to prevent
               # Rails errors about conflicting routes.
