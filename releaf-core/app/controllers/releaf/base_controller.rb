@@ -12,31 +12,28 @@ module Releaf
     layout :layout
     protect_from_forgery
 
-    helper_method \
-      :controller_scope_name,
-      :page_title,
-      :ajax?,
-      :current_params
-
-
     include Releaf::TemplateFilter
     include Releaf::ResourceFinder::ActionController
 
     helper_method \
+      :ajax?,
+      :attachment_upload_url,
+      :controller_scope_name,
+      :current_params,
+      :current_url,
       :fields_to_display,
       :find_parent_template,
       :get_template_field_attributes,
       :get_template_input_attributes,
       :get_template_label_options,
       :has_template?,
+      :index_url,
+      :page_title,
       :render_field_type,
       :render_parent_template,
       :resource_class,
       :resource_to_text,
-      :resource_to_text_method,
-      :index_url,
-      :current_url,
-      :attachment_upload_url
+      :resource_to_text_method
 
     before_filter do
       authorize!
