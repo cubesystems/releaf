@@ -68,7 +68,6 @@ module Releaf
             new_node.locale = locale
             new_node.content_type = content_type
             new_node.active = active
-            new_node.protected = self.protected
 
             if content_id.present?
               new_content = content.dup

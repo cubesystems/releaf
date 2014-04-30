@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2014.04.30
+* removed #protected attribute from releaf node
+
 ### 2014.04.28
 * Refactored notification rendering (introduced
   Releaf::BaseController#render_notification) method.
