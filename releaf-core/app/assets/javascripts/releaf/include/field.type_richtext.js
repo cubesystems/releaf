@@ -31,7 +31,7 @@ jQuery(function()
 		plugins : plugins.join(','),
 		paste_auto_cleanup_on_paste : true,
 		theme_advanced_buttons1 : 'bold,italic,formatselect,justifyleft,justifycenter,justifyright,justifyfull,|,sub,sup,|,bullist,numlist,|,link,unlink,attachment_upload,image,embed,|,code,cleanup,removeformat|,fullscreen',
-		theme_advanced_blockformats : 'p,address,pre,h2,h3,h4,h5,h6',
+		theme_advanced_blockformats : 'p,h2,h3,h4,h5,h6',
 		theme_advanced_buttons2 : '',
 		theme_advanced_buttons3 : '',
 		theme_advanced_toolbar_location : 'top',
