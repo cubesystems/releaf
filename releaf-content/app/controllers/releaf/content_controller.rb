@@ -38,27 +38,14 @@ module Releaf
     end
 
     def copy
-      source_node = resource_class.find(params[:id])
-
-      begin
-        @resource = source_node.copy_to_node! params[:new_parent_id]
-      rescue ActiveRecord::RecordInvalid => e
-        @resource = e.record
-        copy_move_common false
-      else
-        copy_move_common true
+      copy_move_common do |resource|
+        resource.copy_to_node! params[:new_parent_id]
       end
     end
 
     def move
-      @resource = resource_class.find(params[:id])
-
-      begin
-        @resource.move_to_node! params[:new_parent_id]
-      rescue ActiveRecord::RecordInvalid => e
-        copy_move_common false
-      else
-        copy_move_common true
+      copy_move_common do |resource|
+        resource.move_to_node! params[:new_parent_id]
       end
     end
 
@@ -119,8 +106,17 @@ module Releaf
 
     private
 
-    def copy_move_common result
-      if result
+    def copy_move_common &block
+      @resource = resource_class.find(params[:id])
+
+      result = nil
+      begin
+        @resource = yield(@resource)
+      rescue ActiveRecord::RecordInvalid => e
+        @resource = e.record
+        result = false
+      else
+        result = true
         @resource.update_settings_timestamp
         render_notification true
       end

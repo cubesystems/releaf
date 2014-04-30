@@ -135,6 +135,7 @@ module Releaf
         end
 
         update_settings_timestamp
+        self
       end
 
       # Maintain unique name within parent_id scope.
