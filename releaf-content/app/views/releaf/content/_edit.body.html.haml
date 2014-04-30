@@ -1,3 +1,5 @@
+:ruby
+
 .body
   - if f.object.new_record?
     = f.hidden_field :parent_id, :value => params[:parent_id] || f.object.parent_id
@@ -31,8 +33,8 @@
       .clear
     .clear
     = render 'edit.field', :name => 'active', :f => f, :view_prefix => 'edit.field'
-    - if has_template? "_edit.locale"
-      = render 'edit.locale', :name => 'locale', :f => f
+    - if f.object.locale_selection_enabled?
+      = render 'edit.field_type_item', name: 'locale', f: f, :view_prefix => 'edit.field', select_options: I18n.available_locales, include_blank: f.object.locale.blank?
     .clear
     - own_fields_to_display = f.object.own_fields_to_display
     - if own_fields_to_display.present?

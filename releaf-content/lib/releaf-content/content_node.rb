@@ -3,6 +3,10 @@ module Releaf
     # TODO Node should be configurable
 
     module InstanceMethods
+      def locale_selection_enabled?
+        false
+      end
+
       def build_content(params, assignment_options=nil)
         self.content = content_class.new(params)
       end
