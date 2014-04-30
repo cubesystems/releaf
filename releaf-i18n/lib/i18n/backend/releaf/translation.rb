@@ -22,8 +22,9 @@ module I18n
 
           valid_locales = ::Releaf.available_locales || []
           valid_locales += ::Releaf.available_admin_locales || []
+          valid_locales += ::I18n.available_locales || []
 
-          valid_locales.uniq.each do |locale|
+          valid_locales.map(&:to_s).uniq.each do |locale|
             values[locale] = nil
           end
 
