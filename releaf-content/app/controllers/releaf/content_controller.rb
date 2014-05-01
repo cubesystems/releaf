@@ -38,27 +38,14 @@ module Releaf
     end
 
     def copy
-      source_node = resource_class.find(params[:id])
-
-      begin
-        @resource = source_node.copy_to_node! params[:new_parent_id]
-      rescue ActiveRecord::RecordInvalid => e
-        @resource = e.record
-        copy_move_common false
-      else
-        copy_move_common true
+      copy_move_common do |resource|
+        resource.copy_to_node! params[:new_parent_id]
       end
     end
 
     def move
-      @resource = resource_class.find(params[:id])
-
-      begin
-        @resource.move_to_node! params[:new_parent_id]
-      rescue ActiveRecord::RecordInvalid => e
-        copy_move_common false
-      else
-        copy_move_common true
+      copy_move_common do |resource|
+        resource.move_to_node! params[:new_parent_id]
       end
     end
 
@@ -119,10 +106,25 @@ module Releaf
 
     private
 
-    def copy_move_common result
-      if result
-        @resource.update_settings_timestamp
-        render_notification true
+    def copy_move_common &block
+      @resource = resource_class.find(params[:id])
+
+      result = nil
+
+      if params[:new_parent_id].nil?
+        result = false
+        @resource.errors.add(:base, 'parent not selected')
+      else
+        begin
+          @resource = yield(@resource)
+        rescue ActiveRecord::RecordInvalid => e
+          @resource = e.record
+          result = false
+        else
+          result = true
+          @resource.update_settings_timestamp
+          render_notification true
+        end
       end
 
       respond_to do |format|
@@ -170,7 +172,7 @@ module Releaf
     def new_common
       @resource = resource_class.new do |node|
         if params[:content_type].blank?
-          @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort { |a, b| a.name <=> b.name }
+          load_content_types
         else
           @order_nodes = resource_class.where(parent_id: params[:parent_id])
 
@@ -183,6 +185,12 @@ module Releaf
             node.content_id_will_change!
           end
         end
+      end
+    end
+
+    def load_content_types
+      @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort do |a, b|
+        I18n.t(a.name.underscore, scope: 'admin.content_types') <=> I18n.t(b.name.underscore, scope: 'admin.content_types')
       end
     end
 

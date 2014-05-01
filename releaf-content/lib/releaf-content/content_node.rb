@@ -3,6 +3,10 @@ module Releaf
     # TODO Node should be configurable
 
     module InstanceMethods
+      def locale_selection_enabled?
+        false
+      end
+
       def build_content(params, assignment_options=nil)
         self.content = content_class.new(params)
       end
@@ -65,10 +69,9 @@ module Releaf
         self.dont_update_settings_timestamp do
           self.class.transaction do
             new_node.name = name
-            new_node.locale = locale
+
             new_node.content_type = content_type
             new_node.active = active
-            new_node.protected = self.protected
 
             if content_id.present?
               new_content = content.dup
@@ -77,6 +80,13 @@ module Releaf
             end
 
             new_node.parent_id = parent_id
+
+            unless new_node.validate_root_locale_uniqueness?
+              # When copying root nodes it is important to reset locale to nil.
+              # Later user should fill in locale. This is needed to prevent
+              # Rails errors about conflicting routes.
+              new_node.locale = locale
+            end
             new_node.item_position = Node.children_max_item_position(new_node.parent) + 1
             new_node.maintain_name
             # To regenerate slug
@@ -125,6 +135,7 @@ module Releaf
         end
 
         update_settings_timestamp
+        self
       end
 
       # Maintain unique name within parent_id scope.
@@ -180,6 +191,12 @@ module Releaf
         raise ActiveRecord::RecordInvalid.new(self)
       end
 
+      protected
+
+      def validate_root_locale_uniqueness?
+        locale_selection_enabled? && root?
+      end
+
       private
 
       def auto_update_settings_timestamp
@@ -226,6 +243,7 @@ module Releaf
       base.validates_presence_of :name, :slug, :content_type
       base.validates_uniqueness_of :slug, scope: :parent_id
       base.validates_length_of :name, :slug, :content_type, maximum: 255
+      base.validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?
 
       base.alias_attribute :to_text, :name
 

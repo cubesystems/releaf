@@ -14,7 +14,6 @@ class CreateReleafNodes < ActiveRecord::Migration
       t.datetime "updated_at",      :null => false
       t.integer  "item_position"
       t.boolean  'active',          :null => false, :default => true
-      t.boolean  'protected',       :null => false, :default => false
     end
     add_index :nodes, :parent_id
     add_index :nodes, [:content_type, :content_id]

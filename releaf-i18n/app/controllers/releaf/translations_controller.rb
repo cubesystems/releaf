@@ -12,9 +12,11 @@ module Releaf
     end
 
     def locales
+      # TODO refactor
       valid_locales = Releaf.available_locales || []
       valid_locales += Releaf.available_admin_locales || []
-      valid_locales.uniq
+      valid_locales += I18n.available_locales || []
+      valid_locales.map(&:to_s).uniq
     end
 
     def create

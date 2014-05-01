@@ -1,8 +1,17 @@
 ## Changelog
 
-### 2014.04.29
+### 2014.05.01
 * Dragonfly updated from 0.9 to 1.0
   Update instructions there: https://github.com/markevans/dragonfly/wiki/Upgrading-from-0.9-to-1.0
+
+### 2014.04.30
+* removed #protected attribute from releaf node
+* To render locale selection for content node override
+  \#locale_selection_enabled? method to return true for nodes that need locale
+  selector.
+
+  This means that Releaf no longer check for releaf/content/_edit.locale
+  partial. This partial will be ignored.
 
 ### 2014.04.28
 * Refactored notification rendering (introduced

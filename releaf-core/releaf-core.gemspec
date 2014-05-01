@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'tinymce-rails', '~> 3.5.8'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'awesome_nested_set', '>= 3.0.0.rc.2'
-  s.add_dependency 'stringex', '~> 2.5.2'
   s.add_dependency 'will_paginate', '>= 3.0.4'
   s.add_dependency 'font-awesome-rails', '>= 4.0.1.0'
   s.add_dependency 'gravatar_image_tag'
@@ -40,5 +39,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'axlsx', '~> 2.0.1'
   s.add_dependency 'roo', '~> 1.12.2'
 
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.1.0'
 end

@@ -1,25 +1,39 @@
 module Releaf
   class FeatureDisabled < StandardError; end
 
-  class BaseController < BaseApplicationController
+  class BaseController < ActionController::Base
+    before_filter :manage_ajax
+    before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
+    before_filter :set_locale
+
+    rescue_from Releaf::AccessDenied, with: :access_denied
+    rescue_from Releaf::FeatureDisabled, with: :feature_disabled
+
+    layout :layout
+    protect_from_forgery
+
     include Releaf::TemplateFilter
     include Releaf::ResourceFinder::ActionController
 
     helper_method \
+      :ajax?,
+      :attachment_upload_url,
+      :controller_scope_name,
+      :current_params,
+      :current_url,
       :fields_to_display,
       :find_parent_template,
       :get_template_field_attributes,
       :get_template_input_attributes,
       :get_template_label_options,
       :has_template?,
+      :index_url,
+      :page_title,
       :render_field_type,
       :render_parent_template,
       :resource_class,
       :resource_to_text,
-      :resource_to_text_method,
-      :index_url,
-      :current_url,
-      :attachment_upload_url
+      :resource_to_text_method
 
     before_filter do
       authorize!
@@ -557,7 +571,58 @@ module Releaf
       @breadcrumbs << { name: name, url: url }
     end
 
+    def page_title
+      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+    end
+
+    # return contoller translation scope name for using
+    # with I18.translation call within hash params
+    # ex. t("save", scope: controller_scope_name)
+    def controller_scope_name
+      'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
+    end
+
+    # returns all params except :controller, :action and :format
+    def current_params
+      params.except(:controller, :action, :format)
+    end
+
+    # set locale for interface translating from current admin user
+    def set_locale
+      admin = send("current_" + ReleafDeviseHelper.devise_admin_model_name)
+      I18n.locale = admin.locale
+    end
+
+    def feature_disabled exception
+      @feature = exception.message
+      error_response('feature_disabled', 403)
+    end
+
+    def access_denied
+      error_response('access_denied', 403)
+    end
+
+    def ajax?
+      @_ajax || false
+    end
+
+    def layout
+      ajax? ? false : Releaf.layout
+    end
+
     private
+
+    def manage_ajax
+      @_ajax = params.has_key? :ajax
+      params.delete(:ajax)
+    end
+
+    def error_response error_page, error_status
+      respond_to do |format|
+        format.html { render "releaf/error_pages/#{error_page}", status: error_status }
+        format.any  { render text: '', status: error_status }
+      end
+    end
 
     def check_feature feature
       raise FeatureDisabled, feature.to_s unless @features[feature]
