@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
 
   s.files             = `git ls-files`.split("\n")
   s.test_files = Dir["spec/**/*"]
+
+  s.required_ruby_version = '>= 2.1.0'
 end

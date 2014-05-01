@@ -40,5 +40,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'axlsx', '~> 2.0.1'
   s.add_dependency 'roo', '~> 1.12.2'
 
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.1.0'
 end
