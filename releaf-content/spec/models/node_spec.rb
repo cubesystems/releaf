@@ -158,29 +158,69 @@ describe Node do
     end
   end
 
-  describe "#copy_to_node!" do
-    before do
+  describe "#copy_to_node!", create_nodes: true do
+    before create_nodes: true do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
-      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node.id )
+      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id)
+      @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_3.id)
+    end
+
+    context "when one of children becomes invalid" do
+      before do
+        @text_node_4.name = nil
+        @text_node_4.save(:validate => false)
+      end
+
+      it "raises ActiveRecord::RecordInvalid" do
+        expect { @text_node_2.copy_to_node!(@text_node.id) }.to raise_error ActiveRecord::RecordInvalid
+      end
+
+      it "raises error on node being moved, even tought descendant has error" do
+        begin
+        rescue => e
+          expect( e.record ).to eq @text_node_2
+        end
+      end
     end
 
     context "with corect parent_id" do
       it "creates new node" do
-        expect{ @text_node_2.copy_to_node!(@text_node.id) }.to change{ Node.count }.by(1)
+        expect{ @text_node_2.copy_to_node!(@text_node.id) }.to change{ Node.count }.by(3)
       end
     end
 
     context "when node have children" do
       it "creates multiple new nodes" do
         @text_node_2.copy_to_node!(@text_node.id)
-        expect{ @text_node.copy_to_node!(@text_node_2.id) }.to change{ Node.count }.by( @text_node.children.size + 1 )
+        @text_node.reload
+        expect{ @text_node.copy_to_node!(@text_node_2.id) }.to change{ Node.count }.by( @text_node.descendants.size + 1 )
       end
     end
 
     context "when parent_id is nil" do
       it "creates new node" do
-        expect{ @text_node_3.copy_to_node!(nil) }.to change{ Node.count }.by(1)
+        expect{ @text_node_3.copy_to_node!(nil) }.to change{ Node.count }.by(2)
+      end
+    end
+
+    context "when copying root nodes", create_nodes: false do
+      context "when root locale uniqueness is validated" do
+        it "resets locale to nil" do
+          @text_node = FactoryGirl.create(:text_node, locale: 'en')
+          Node.any_instance.stub(:validate_root_locale_uniqueness?).and_return(true)
+          @text_node.copy_to_node!(nil)
+          expect( Node.last.locale ).to eq nil
+        end
+      end
+
+      context "when root locale uniqueness is not validated" do
+        it "doesn't reset locale to nil" do
+          @text_node = FactoryGirl.create(:text_node, locale: 'en')
+          Node.any_instance.stub(:validate_root_locale_uniqueness?).and_return(false)
+          @text_node.copy_to_node!(nil)
+          expect( Node.last.locale ).to eq 'en'
+        end
       end
     end
 
@@ -236,6 +276,25 @@ describe Node do
       @text_node = FactoryGirl.create(:text_node)
       @text_node_2 = FactoryGirl.create(:text_node)
       @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id)
+      @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_3.id)
+    end
+
+    context "when one of children becomes invalid" do
+      before do
+        @text_node_4.name = nil
+        @text_node_4.save(:validate => false)
+      end
+
+      it "raises ActiveRecord::RecordInvalid" do
+        expect { @text_node_2.move_to_node!(@text_node.id) }.to raise_error ActiveRecord::RecordInvalid
+      end
+
+      it "raises error on node being moved, even tought descendant has error" do
+        begin
+        rescue => e
+          expect( e.record ).to eq @text_node_2
+        end
+      end
     end
 
     context "when moving existing node to other nodes child's position" do
@@ -251,8 +310,8 @@ describe Node do
     end
 
     context "when passing nil as target node" do
-      it "doesn't change parent_id" do
-        expect{ @text_node_3.move_to_node!(nil) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }
+      it "updates parent_id" do
+        expect{ @text_node_3.move_to_node!(nil) }.to change { Node.find_by_id(@text_node_3.id).parent_id }.to(nil)
       end
     end
 
