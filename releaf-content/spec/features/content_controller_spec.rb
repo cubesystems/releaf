@@ -126,7 +126,6 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         end
 
         expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Cant be parent to itself")
-        # expect(page).to have_css('.notifications .notification .message', text: "Copy failed")
       end
     end
   end
@@ -161,7 +160,6 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         end
 
         expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Cant be parent to itself")
-        # expect(page).to have_css('.notifications .notification .message', text: "Move failed")
       end
     end
 
