@@ -4,8 +4,7 @@ describe Releaf::ApplicationHelper do
   Color = Struct.new(:id, :to_s)
 
   before do
-    group = FactoryGirl.create(:translation_group, :scope => "admin.global")
-    translation = FactoryGirl.create(:translation, :key => "admin.global.colors-red", :translation_group => group)
+    translation = FactoryGirl.create(:translation, :key => "admin.global.colors-red")
     FactoryGirl.create(:translation_data, :lang => "en", :localization => "Color red", :translation => translation)
     Settings.i18n_updated_at = Time.now
 

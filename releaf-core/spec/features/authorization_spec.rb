@@ -4,7 +4,7 @@ describe "Releaf authorization" do
 
   context "when unauthorized user open restricted url" do
     it "redirects to it after authorization" do
-      current_unauthorized_url = new_releaf_translation_group_url(test: "yes")
+      current_unauthorized_url = new_admin_book_url
       visit current_unauthorized_url
 
       within("form.login") do

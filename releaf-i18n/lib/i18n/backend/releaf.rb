@@ -7,7 +7,6 @@ module I18n
     class Releaf
       autoload :Translation,      'i18n/backend/releaf/translation'
       autoload :TranslationData,  'i18n/backend/releaf/translation_data'
-      autoload :TranslationGroup, 'i18n/backend/releaf/translation_group'
 
 
       module Implementation
@@ -75,10 +74,7 @@ module I18n
         end
 
         def save_missing_translation(locale, key)
-          scope_parts = key.split('.')[0...-1]
-          group = TranslationGroup.find_or_create_by(scope: scope_parts.join('.'))
-
-          group.translations.find_or_create_by(key: key)
+          Translation.find_or_create_by(key: key)
           I18N_CACHE.write [locale, key], false
         end
       end

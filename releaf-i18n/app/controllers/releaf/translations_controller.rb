@@ -3,7 +3,7 @@ module Releaf
     helper_method :locales
 
     def self.resource_class
-      I18n::Backend::Releaf::TranslationGroup
+      I18n::Backend::Releaf::Translation
     end
 
     def setup

@@ -14,12 +14,6 @@ describe "FactoryGirl factories" do
     end
   end
 
-  describe "translation group factory" do
-    it "creates new translation group" do
-      expect { FactoryGirl.create(:translation_group) }.to change { I18n::Backend::Releaf::TranslationGroup.count }.by(1)
-    end
-  end
-
   describe "translation factory" do
     it "creates new translation" do
       expect { FactoryGirl.create(:translation) }.to change { I18n::Backend::Releaf::Translation.count }.by(1)

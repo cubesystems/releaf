@@ -70,7 +70,7 @@ describe I18n::Backend::Releaf do
       context "in parent scope" do
         context "nonexistent translation in given scope" do
           it "uses parent scope" do
-            translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
+            translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
@@ -78,10 +78,10 @@ describe I18n::Backend::Releaf do
 
         context "and empty translation value in given scope" do
           it "uses parent scope" do
-            parent_translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
+            parent_translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
             FactoryGirl.create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
 
-            translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin.roles"))
+            translation = FactoryGirl.create(:translation, key: "validation.admin.roles.blank")
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "")
 
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
@@ -90,10 +90,10 @@ describe I18n::Backend::Releaf do
 
         context "and existing translation value in given scope" do
           it "uses given scope" do
-            parent_translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin"))
+            parent_translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
             FactoryGirl.create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
 
-            translation = FactoryGirl.create(:translation, key: "blank", translation_group: FactoryGirl.create(:translation_group, scope: "validation.admin.roles"))
+            translation = FactoryGirl.create(:translation, key: "validation.admin.roles.blank")
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukša vērtība")
 
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukša vērtība")
@@ -103,7 +103,7 @@ describe I18n::Backend::Releaf do
 
       context "with scope" do
         it "uses given scope" do
-          translation = FactoryGirl.create(:translation, key: "cancel", translation_group: FactoryGirl.create(:translation_group, scope: "admin.content"))
+          translation = FactoryGirl.create(:translation, key: "admin.content.cancel")
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Atlikt")
           expect(I18n.t("cancel", scope: "admin.content", locale: "lv")).to eq("Atlikt")
         end
@@ -111,7 +111,7 @@ describe I18n::Backend::Releaf do
 
       context "without scope" do
         it "adds default scope" do
-          translation = FactoryGirl.create(:translation, translation_group: FactoryGirl.create(:translation_group, scope: "global"))
+          translation = FactoryGirl.create(:translation, key: "global.save")
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
           expect(I18n.t("save", locale: "lv")).to eq("Saglabāt")
         end
@@ -127,34 +127,9 @@ describe I18n::Backend::Releaf do
         end
       end
 
-      context "without scope" do
-        it "adds default scope" do
-          I18n.t("save")
-          expect(I18n::Backend::Releaf::TranslationGroup.last.scope).to eq('global')
-        end
-      end
-
-      context "with nonexistent group" do
-        it "creates group" do
-          expect { translation }.to change {  I18n::Backend::Releaf::TranslationGroup.count }.by(1)
-        end
-
+      context "with nonexistent translation" do
         it "creates empty translation" do
-          expect { translation }.to change {  I18n::Backend::Releaf::Translation.count }.by(1)
-        end
-      end
-
-      context "with existing group" do
-        before do
-          FactoryGirl.create(:translation_group, scope: "admin.global")
-        end
-
-        it "does not create group" do
-          expect { translation }.to_not change {  I18n::Backend::Releaf::TranslationGroup.count }
-        end
-
-        it "creates empty translation" do
-          expect { translation }.to change {  I18n::Backend::Releaf::Translation.count }.by(1)
+          expect { I18n.t("save") }.to change {  I18n::Backend::Releaf::Translation.where(key: "global.save").count }.by(1)
         end
       end
     end
