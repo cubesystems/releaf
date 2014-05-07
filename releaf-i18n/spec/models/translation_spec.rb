@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe I18n::Backend::Releaf::Translation do
+describe Releaf::Translation do
 
   it { should validate_presence_of(:key) }
   it { should ensure_length_of(:key).is_at_most(255) }
@@ -35,7 +35,7 @@ describe I18n::Backend::Releaf::Translation do
     end
 
     it "destroys translation data when destroying translation itself" do
-      expect{ @translation.destroy }.to change{ I18n::Backend::Releaf::TranslationData.all.count }.from(2).to(0)
+      expect{ @translation.destroy }.to change{ Releaf::TranslationData.all.count }.from(2).to(0)
     end
   end
 end

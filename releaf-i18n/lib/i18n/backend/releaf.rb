@@ -5,9 +5,6 @@ module I18n
   module Backend
 
     class Releaf
-      autoload :Translation,      'i18n/backend/releaf/translation'
-      autoload :TranslationData,  'i18n/backend/releaf/translation_data'
-
 
       module Implementation
         include Base, Flatten
@@ -17,7 +14,7 @@ module I18n
           I18N_CACHE.clear
 
           keys = ["releaf_translations.key", "releaf_translation_data.lang", "releaf_translation_data.localization"]
-          Translation.joins(:translation_data).select(keys).each do |translation|
+          ::Releaf::Translation.joins(:translation_data).select(keys).each do |translation|
             I18N_CACHE.write [translation.lang, translation.key], translation.localization
           end
 
@@ -65,7 +62,7 @@ module I18n
 
           if ::Releaf.create_missing_translations
             # do not create new translation if exists in database in any scope
-            unless Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
+            unless ::Releaf::Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
               save_missing_translation(locale, key)
             end
           end
@@ -74,7 +71,7 @@ module I18n
         end
 
         def save_missing_translation(locale, key)
-          Translation.find_or_create_by(key: key)
+          ::Releaf::Translation.find_or_create_by(key: key)
           I18N_CACHE.write [locale, key], false
         end
       end

@@ -7,8 +7,8 @@ describe Releaf::TranslationsController do
 
   describe "#edit", js: true do
     before do
-      @group = I18n::Backend::Releaf::TranslationGroup.create(:scope => "admin.global")
-      @translation = I18n::Backend::Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.back_to_list")
+      @group = Releaf::TranslationGroup.create(:scope => "admin.global")
+      @translation = Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.back_to_list")
     end
 
     it "saves translations with no content" do
@@ -35,8 +35,8 @@ describe Releaf::TranslationsController do
 
   describe "#import" do
     before do
-      @group = I18n::Backend::Releaf::TranslationGroup.create(:scope => "time.formats")
-      @translation = I18n::Backend::Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
+      @group = Releaf::TranslationGroup.create(:scope => "time.formats")
+      @translation = Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
     end
 
     it "imports xsls file for selected translation group", :js => true do
@@ -50,10 +50,10 @@ describe Releaf::TranslationsController do
 
   describe "#export" do
     before do
-      @group = I18n::Backend::Releaf::TranslationGroup.create(:scope => "time.formats")
-      @translation = I18n::Backend::Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
+      @group = Releaf::TranslationGroup.create(:scope => "time.formats")
+      @translation = Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
       (Releaf.available_locales + ["en"]).each do |locale|
-        I18n::Backend::Releaf::TranslationData.create(:translation_id => @translation.id, :lang => locale, :localization => "%Y.%m.%d %H:%M")
+        Releaf::TranslationData.create(:translation_id => @translation.id, :lang => locale, :localization => "%Y.%m.%d %H:%M")
       end
     end
 

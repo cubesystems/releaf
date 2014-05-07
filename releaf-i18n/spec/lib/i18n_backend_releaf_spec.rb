@@ -122,14 +122,14 @@ describe I18n::Backend::Releaf do
       context "loading multiple times" do
         it "queries db only for the first time" do
           I18n.t("save", scope: "admin.global")
-          I18n::Backend::Releaf::Translation.should_not_receive(:where)
+          Releaf::Translation.should_not_receive(:where)
           I18n.t("save", scope: "admin.global")
         end
       end
 
       context "with nonexistent translation" do
         it "creates empty translation" do
-          expect { I18n.t("save") }.to change {  I18n::Backend::Releaf::Translation.where(key: "global.save").count }.by(1)
+          expect { I18n.t("save") }.to change { Releaf::Translation.where(key: "global.save").count }.by(1)
         end
       end
     end

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe I18n::Backend::Releaf::TranslationData do
+describe Releaf::TranslationData do
 
   it { should validate_presence_of(:translation) }
   it { should validate_presence_of(:lang) }
