@@ -59,12 +59,15 @@ module Releaf::RouteMapper
 
   # Mount translations controller
   def mount_translations_controller
-    releaf_resources :translation_groups, :controller => "translations", :path => "translations", :except => [:show] do
-      member do
+    resources :translations, only: [:index] do
+      collection do
+        get :edit
+        post :update
         get :export
         post :import
       end
     end
+
   end
 
   # Mount admin profile controller

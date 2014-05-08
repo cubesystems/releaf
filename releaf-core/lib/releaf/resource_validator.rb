@@ -2,11 +2,11 @@ module Releaf
   module ResourceValidator
 
 
-    def self.build_validation_errors resource, error_scope_name
+    def self.build_validation_errors resource, error_scope_name, field_name_prefix="resource"
       errors = {}
 
       resource.errors.each do |attribute, message|
-        field_id = validation_attribute_field_id resource, attribute
+        field_id = validation_attribute_field_id resource, attribute, field_name_prefix
         unless errors.has_key? attribute
           errors[field_id] = []
         end
@@ -26,9 +26,8 @@ module Releaf
       return nil
     end
 
-    def self.validation_attribute_field_id resource, attribute
+    def self.validation_attribute_field_id resource, attribute, field_name_prefix
       parts = attribute.to_s.split('.')
-      prefix = "resource"
 
       if parts.length > 1
         field_name = validation_attribute_nested_field_name(resource, parts)
@@ -48,7 +47,7 @@ module Releaf
         end
       end
 
-      field_name = prefix + field_name
+      field_name = field_name_prefix + field_name
 
       return field_name
     end

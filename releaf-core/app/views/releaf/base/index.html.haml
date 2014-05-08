@@ -1,4 +1,3 @@
-:ruby
 = render 'index.header',  :collection => @collection
 = render 'index.body',    :collection => @collection, :count => (@collection.total_entries if @collection.respond_to? :total_entries)
 = render 'index.footer',  :collection => @collection

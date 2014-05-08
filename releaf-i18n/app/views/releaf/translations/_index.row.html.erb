@@ -1,0 +1,15 @@
+<tr class="row" data-id="<%= resource.id %>">
+  <td>
+    <span>
+      <%= resource.key %>
+    </span>
+  </td>
+
+  <% locales.each do |locale| %>
+    <td>
+      <span>
+        <%= resource.localizations[locale] %>
+      </span>
+    </td>
+  <% end %>
+</tr>

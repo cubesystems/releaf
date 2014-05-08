@@ -1,18 +1,12 @@
-%h2.header
-  .scope-field.field
-    %label{:for => "scope"}= t('scope', :scope => 'admin.releaf_translations') + ":"
-    %span.value
-      %input#scope{:name => "resource[scope]", :size => "50", :type => "text", :value => @resource.scope}
-  .toolbox-wrap
-    = render 'toolbox', :resource => @resource
-
+- if @import
+  = hidden_field_tag :import, 'true'
 .body
-  -if f.object.errors.any?
-    #error_explanation
-      %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"
-      %ul
-        - f.object.errors.full_messages.each do |msg|
-          %li= msg
+  -# -if f.object.errors.any?
+  -#   #error_explanation
+  -#     %strong= "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:"
+  -#     %ul
+  -#       - f.object.errors.full_messages.each do |msg|
+  -#         %li= msg
 
   .nested-wrap{:'data-name' => 'translations'}
     %table.table{:cellpadding => "0", :cellspacing => "0"}
@@ -24,39 +18,16 @@
               %span.name= locale
           %th.delete_header  
       %tbody#variables.list
-        - f.object.translations.each_with_index do |translation, index|
-          %tr.item{ :id => "translation_#{translation.id}", :'data-name' => 'translations', :'data-index' => index }
-            %td.translation_name.codeColumn{:title => translation.plain_key}
+        - @collection.each_with_index do |translation, index|
+          %tr.item{ id: "translation_#{translation.id}", data: { name: :translations, index: index } }
+            %td.translation_name.codeColumn{title: translation.key}
               .wrap
-                %input.destroy{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][_destroy]" }
-                %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][id]",  :value => translation.id }
-                %input{:type=>"text",   :name=>"resource[translations_attributes][#{index}][key]", :value => translation.plain_key }
-            - locales.each_with_index do |locale, locale_index|
-              - translation_data_id = translation.translation_data.find_by_lang(locale).try(:id)
-              %td.translationCell{"data-locale" => locale, :title => translation.locales[locale]}
-                .wrap
-                  %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][id]",  :value => translation_data_id }
-                  %input{:type=>"hidden", :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][lang]",  :value => locale }
-                  %input{:type=>"text",   :name=>"resource[translations_attributes][#{index}][translation_data_attributes][#{locale_index}][localization]", :value => translation.locales[locale] }
+                %input.destroy{:type=>"hidden", :name=>"translations[][_destroy]" }
+                %input{:type=>"text",   :name=>"translations[][key]", :value => translation.key }
+
+            - locales.each_with_index do |locale, j|
+              %td.translationCell{data: {locale: locale}}
+                %input{:type=>"text", :name=>"translations[][localizations][#{locale}]", :value => translation.localizations[locale] }
             %td.delete_column
               %button.button.danger.only-icon.remove-nested-item{:type => 'button',  :title => t('Remove item', :scope => 'admin.releaf_translations')}
                 %i.fa.fa-times
-
-    %table{:style => "display:none;"}
-      %tbody
-        %tr.template.item{:id => "translation__template_", :'data-name' => 'translations' }
-          %td.translation_name.codeColumn
-            .wrap
-              %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][key]", :value=>""}
-          - locales.each_with_index do |locale, locale_index|
-            %td.translationCell{"data-locale" => locale}
-              .wrap
-                %input{:type=>"hidden", :name=>"resource[translations_attributes][_template_][translation_data_attributes][#{locale_index}][lang]",  :value => locale }
-                %input{:type=>"text",   :name=>"resource[translations_attributes][_template_][translation_data_attributes][#{locale_index}][localization]" }
-          %td.delete_column
-            %button.remove-nested-item{:type => 'button', :title => t('Remove item', :scope => 'admin.releaf_translations')}
-              %i.fa.fa-times
-
-    %button.button.add-nested-item{:type => 'button'}
-      %i.fa.fa-plus
-      = t('Add item', :scope => 'admin.releaf_translations')

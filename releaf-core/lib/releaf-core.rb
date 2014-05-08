@@ -56,6 +56,12 @@ module Releaf
   mattr_accessor :controller_list
   @@controller_list = {}
 
+  def self.all_locales
+    valid_locales = Releaf.available_locales || []
+    valid_locales += Releaf.available_admin_locales || []
+    valid_locales += I18n.available_locales || []
+    valid_locales.map(&:to_s).uniq
+  end
 
   class << self
     def setup

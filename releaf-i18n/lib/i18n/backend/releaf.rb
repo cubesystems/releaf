@@ -5,7 +5,6 @@ module I18n
   module Backend
 
     class Releaf
-
       module Implementation
         include Base, Flatten
         DEFAULT_SCOPE = ['global']

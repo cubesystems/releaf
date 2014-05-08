@@ -1,3 +1,0 @@
-= form_for @resource, :as => :resource, :url => url_for( :action => 'import', :id => @resource.id, :format => :json ), :html => { :multipart => true, :id => nil, :class => 'import', :style => 'display:none', :method => :post } do |f|
-  = f.file_field :import_file
-= render_parent_template 'edit'
