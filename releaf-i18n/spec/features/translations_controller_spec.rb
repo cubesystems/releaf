@@ -3,79 +3,65 @@ describe Releaf::TranslationsController do
   before do
     auth_as_admin
     @role = Releaf::Role.first
+
+    @t1 = FactoryGirl.create(:translation, key: 'test.key1')
+    @t2 = FactoryGirl.create(:translation, key: 'great.stuff')
+    @t3 = FactoryGirl.create(:translation, key: 'geek.stuff')
+
+    @t1_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'testa atslēga', translation_id: @t1.id)
+
+    @t2_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'awesome stuff', translation_id: @t2.id)
+    @t2_lv = FactoryGirl.create(:translation_data, lang: 'lv', localization: 'lieliska manta', translation_id: @t2.id)
+
+    @t3_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'geek stuff', translation_id: @t3.id)
+    @t3_lv = FactoryGirl.create(:translation_data, lang: 'lv', localization: 'nūģu lieta', translation_id: @t3.id)
   end
 
-  describe "#edit", js: true do
-    before do
-      @group = Releaf::TranslationGroup.create(:scope => "admin.global")
-      @translation = Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.back_to_list")
-    end
 
-    it "saves translations with no content" do
-      visit edit_releaf_translation_group_path(@group)
-      find(:css, 'tr[id="translation_' + @translation.id.to_s + '"] .translationCell[data-locale="en"] input[type="text"]').set('back to back')
-      click_button 'Save'
-      expect(page).to have_css('footer a.secondary', text: "back to back")
-    end
+  describe "listing" do
+    it "renders all translations", js: false do
+      visit releaf_translations_path
+      expect( page ).to have_content 'test.key1'
+      expect( page ).to have_content 'great.stuff'
+      expect( page ).to have_content 'geek.stuff'
 
-    it "saves new translations" do
-      visit edit_releaf_translation_group_path(@group)
-      click_button 'Add item'
-      find(:css, 'tr.item.new td.codeColumn input[type="text"]').set('back_to_list2')
-      find(:css, 'tr.item.new .translationCell[data-locale="en"] input[type="text"]').set('back to back2')
-      click_button 'Save'
-      # wait for save complete
-      expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Update succeeded")
-      # reopen group
-      visit edit_releaf_translation_group_path(@group)
-      expect(page).to have_css('.body table tr:last-child td.codeColumn input[type="text"][value="back_to_list2"]')
-      expect(page).to have_css('.body table tr:last-child td[data-locale="en"] input[type="text"][value="back to back2"]')
-    end
-  end
-
-  describe "#import" do
-    before do
-      @group = Releaf::TranslationGroup.create(:scope => "time.formats")
-      @translation = Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
-    end
-
-    it "imports xsls file for selected translation group", :js => true do
-      pending("find out how to upload file within capybara-webkit")
-      visit edit_releaf_translation_group_path(@group)
-      open_toolbox('Import')
-      #Capybara.save_screenshot "shot.png"
-      #attach_file "resource_import_file", File.dirname(__FILE__) + '/../fixtures/time.formats.xlsx', :visible => false
+      expect( page ).to have_content 'testa atslēga'
+      expect( page ).to have_content 'awesome stuff'
+      expect( page ).to have_content 'lieliska manta'
+      expect( page ).to have_content 'geek stuff'
+      expect( page ).to have_content 'nūģu lieta'
     end
   end
 
-  describe "#export" do
-    before do
-      @group = Releaf::TranslationGroup.create(:scope => "time.formats")
-      @translation = Releaf::Translation.create(:group_id => @group.id, :key => "#{@group.scope}.default")
-      (Releaf.available_locales + ["en"]).each do |locale|
-        Releaf::TranslationData.create(:translation_id => @translation.id, :lang => locale, :localization => "%Y.%m.%d %H:%M")
-      end
+  it "editing", pending: 'todo' do
+    visit edit_releaf_translations_path
+    within "tr.translation_#{@t1.id}" do
+      find(:css, 'input[name="translations[][localizations][en]"][value="testa atslēga"]')
+      find(:css, 'input[name="translations[][localizations][lv]"]').fill_in('was ist das')
     end
+    click_button "Save"
+  end
 
-    it "exports xsls file for selected translation group", :js => true do
-      visit releaf_translation_groups_path
-      open_toolbox('Export', @group)
+  describe "importing" do
+    it "needs tests"
+  end
+
+  describe "exporting" do
+    it "exports translations" do
+      visit releaf_translations_path
+      click_link "Export"
 
       expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
       filename = page.response_headers["Content-Disposition"].split("=")[1].gsub("\"","")
-
       tmp_file = Dir.tmpdir + '/' + filename
       File.open(tmp_file, "wb") { |f| f.write(page.body) }
 
-      require "roo"
-      book = Roo::Excelx.new(tmp_file)
-      book.default_sheet = book.sheets.first
-      expect( book.cell(2, 'A') ).to eq('default')
-      expect( book.cell(1, 'B') ).to eq('en')
-      expect( book.cell(2, 'B') ).to eq('%Y.%m.%d %H:%M')
+      fixture_path = File.expand_path('../fixtures/all_translations_exported.xlsx', __dir__)
+      expect(tmp_file).to match_excel(fixture_path)
 
       File.delete(tmp_file)
     end
   end
+
 end

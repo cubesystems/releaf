@@ -77,6 +77,7 @@ RSpec.configure do |config|
 
   config.include Helpers
   config.include WaitSteps
+  config.include ExcelHelpers
 
   config.include Rails.application.routes.url_helpers
 
