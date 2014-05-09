@@ -66,13 +66,53 @@ describe Releaf::TranslationsController do
   end
 
   describe "#update" do
-    it "updates Settings.i18n_updated_at" do
-      expect( Settings ).to receive(:i18n_updated_at=).and_call_original
-      put :update, id: @resource, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
-      expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
+    context "when save successful" do
+      it "updates Settings.i18n_updated_at" do
+        expect(Settings).to receive(:i18n_updated_at=).and_call_original
+        put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
+        expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
+      end
+
+      context "when save with import" do
+        before do
+          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], import: "true"
+        end
+
+        it "redirects to index view" do
+          expect(subject).to redirect_to(action: :index)
+        end
+
+        it "flash success notification with updated count" do
+          expect(flash[:success]).to eq(id: :resource_status, message: "successfuly imported 1 translations")
+        end
+      end
+
+      context "when save without import" do
+        before do
+          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], search: "apple and pear"
+        end
+
+        it "redirects to edit view keeping current search params" do
+          expect(subject).to redirect_to(action: :edit, search: "apple and pear")
+        end
+
+        it "flash success notification" do
+          expect(flash[:success]).to eq(id: :resource_status, message: "Update succeeded")
+        end
+      end
     end
 
-    it "updates translations"
+    context "when save failed" do
+      it "renders edit view" do
+        put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
+        expect(response).to render_template(:edit)
+      end
+
+      it "flash error notification" do
+        put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
+        expect(flash[:error]).to eq(id: :resource_status, message: "Update failed")
+      end
+    end
   end
 
   describe "#import" do

@@ -66,9 +66,8 @@ module Releaf
             process_updatables
             update_response_success
           else
-            render_notification false
+            render_notification false, now: true
             render action: :edit
-            flash.delete(:error)
           end
         end
       end
@@ -190,9 +189,8 @@ module Releaf
 
     def update_response_success
       if @import
-        render_notification true, success_message_key: 'successfuly imported translations'
         msg = 'successfuly imported %{count} translations'
-        flash[:success] = { id: :resource_status, message: I18n.t(msg, default: msg, count: @collection.size , scope: notice_scope_name) }
+        flash[:success] = { id: :resource_status, message: I18n.t(msg, default: msg, count: @translations_to_save.size , scope: notice_scope_name) }
         redirect_to action: :index
       else
         render_notification true
