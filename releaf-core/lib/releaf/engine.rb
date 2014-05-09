@@ -13,6 +13,7 @@ require 'acts_as_list'
 require 'awesome_nested_set'
 require 'devise'
 require 'dragonfly'
+require 'axlsx_rails'
 require 'globalize'
 require 'globalize-accessors'
 

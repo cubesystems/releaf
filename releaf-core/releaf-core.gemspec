@@ -35,8 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'nokogiri', '>= 1.6.0'
   s.add_dependency 'rack-cache'
 
-
-  s.add_dependency 'axlsx', '~> 2.0.1'
+  s.add_dependency 'axlsx_rails', '~> 0.2.0'
   s.add_dependency 'roo', '~> 1.12.2'
 
   s.required_ruby_version = '>= 2.1.0'

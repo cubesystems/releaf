@@ -29,9 +29,6 @@ module Releaf
 
       def install_initializer
         copy_files 'initializers', 'config/initializers'
-        append_to_file 'config/initializers/mime_types.rb' do
-          "\nMime::Type.register( 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', :xlsx )"
-        end
       end
 
       def install_migrations
