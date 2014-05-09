@@ -30,15 +30,41 @@ module Releaf
       end
     end
 
+    def load_translation key, localizations
+      translation = Releaf::Translation.where(key: key).first_or_initialize
+      translation.key = key
+
+      localizations.each_pair do |locale, localization|
+        load_translation_data(translation, locale, localization)
+      end
+
+      translation
+    end
+
+    def load_translation_data translation, locale, localization
+      translation_data = translation.translation_data.find{ |x| x.lang == locale }
+      # replace existing locale value only if new one is not blank
+      if translation_data
+        translation_data.localization = localization
+      # always assign value for new locale
+      elsif translation_data.nil?
+        translation_data = translation.translation_data.build(lang: locale, localization: localization)
+      end
+    end
+
     def update
-      @translation_collection = Releaf::TranslationCollection.update params[:translations]
-      @collection = @translation_collection.collection
-      # detect import mode
+      success = update_collection(params[:translations])
       @import = params.has_key?(:import)
 
       respond_to do |format|
         format.html do
-          update_response(@translation_collection.valid?)
+          if success
+            update_response_success
+          else
+            render_notification false
+            render action: :edit
+            flash.delete(:error)
+          end
         end
       end
     end
@@ -110,6 +136,36 @@ module Releaf
 
     private
 
+    def update_collection translations_params
+      @collection = []
+
+      valid = true
+      items_to_delete = []
+      items_to_update = []
+
+      translations_params.each do |values|
+        translation = load_translation(values["key"], values["localizations"])
+
+        if !values["_destroy"].blank?
+          items_to_delete << translation
+        elsif translation.valid?
+          items_to_update << translation
+        else
+          valid = false
+        end
+
+        @collection << translation
+      end
+
+      if valid
+        items_to_delete.map(&:destroy)
+        items_to_update.map(&:save!)
+        Settings.i18n_updated_at = Time.now
+      end
+
+      valid
+    end
+
     def search_column_names
       ['releaf_translations.key'] + Releaf.all_locales.map { |l| "%s_data.localization" % l }
     end
@@ -127,19 +183,15 @@ module Releaf
       end.flatten
     end
 
-    def update_response success
-      if success && @import
+    def update_response_success
+      if @import
         render_notification true, success_message_key: 'successfuly imported translations'
         msg = 'successfuly imported %{count} translations'
         flash[:success] = { id: :resource_status, message: I18n.t(msg, default: msg, count: @collection.size , scope: notice_scope_name) }
         redirect_to action: :index
-      elsif success
+      else
         render_notification true
         redirect_to action: :edit, search: params[:search]
-      else
-        render_notification false
-        render action: :edit
-        flash.delete(:error)
       end
     end
 
