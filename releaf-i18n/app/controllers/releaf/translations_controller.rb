@@ -27,27 +27,12 @@ module Releaf
     def update
       @translation_collection = Releaf::TranslationCollection.update params[:translations]
       @collection = @translation_collection.collection
-      success = @translation_collection.valid?
-
+      # detect import mode
       @import = params.has_key?(:import)
 
       respond_to do |format|
         format.html do
-          if success
-            if @import
-              render_notification true, success_message_key: 'successfuly imported translations'
-              msg = 'successfuly imported %{count} translations'
-              flash[:success] = { id: :resource_status, message: I18n.t(msg, default: msg, count: @collection.size , scope: notice_scope_name) }
-              redirect_to action: :index
-            else
-              render_notification true
-              redirect_to action: :edit, search: params[:search]
-            end
-          else
-            render_notification false
-            render action: :edit
-            flash.delete(:error)
-          end
+          update_response(@translation_collection.valid?)
         end
       end
     end
@@ -101,6 +86,22 @@ module Releaf
     end
 
     private
+
+    def update_response success
+      if success && @import
+        render_notification true, success_message_key: 'successfuly imported translations'
+        msg = 'successfuly imported %{count} translations'
+        flash[:success] = { id: :resource_status, message: I18n.t(msg, default: msg, count: @collection.size , scope: notice_scope_name) }
+        redirect_to action: :index
+      elsif success
+        render_notification true
+        redirect_to action: :edit, search: params[:search]
+      else
+        render_notification false
+        render action: :edit
+        flash.delete(:error)
+      end
+    end
 
     def import_file_path
       params[:import_file].try(:tempfile).try(:path).to_s
