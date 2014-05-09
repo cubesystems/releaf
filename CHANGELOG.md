@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2014.05.09
+* Translation group removed
+* Translations refactored
+
 ### 2014.05.01
 * Dragonfly updated from 0.9 to 1.0
   Update instructions there: https://github.com/markevans/dragonfly/wiki/Upgrading-from-0.9-to-1.0
