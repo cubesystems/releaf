@@ -58,6 +58,7 @@ module Releaf
       @translations_to_save = []
 
       valid = build_updatables(params[:translations])
+      import_view if params.has_key?(:import)
 
       respond_to do |format|
         format.html do
@@ -65,7 +66,6 @@ module Releaf
             process_updatables
             update_response_success
           else
-            import_view if params.has_key?(:import)
             render_notification false
             render action: :edit
             flash.delete(:error)
