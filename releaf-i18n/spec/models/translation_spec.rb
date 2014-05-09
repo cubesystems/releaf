@@ -23,12 +23,6 @@ describe Releaf::Translation do
     Settings.i18n_updated_at = Time.now
   end
 
-  describe "#locales" do
-    it "returns translated data values in hash" do
-      expect(@translation.locales).to eq({"en" => "apple", "de" => "apfel", "lv" => nil})
-    end
-  end
-
   describe "translation" do
     it "has relation to translation data" do
       expect(@translation.translation_data.size).to eq(2)
