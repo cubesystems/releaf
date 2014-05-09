@@ -26,24 +26,36 @@ module Releaf
     end
 
     def parse_sheet sheet
-      # iterate over data
       (2..sheet.last_row).each do |row_no|
-        item = {}
-        key = nil
-        sheet.row(row_no).each_with_index do |cell, i|
-          if i == 0
-            key = cell
-          else
-            item[ @locales[ i - 1 ] ] = cell.nil? ? '' : cell
-          end
-        end
-
+        key = sheet.row(row_no)[0]
+        localizations = sheet.row(row_no)[1..-1]
         if key.present?
-          translation = Releaf::TranslationProxy.new
-          translation.key = key
-          translation.localizations = item
-          @data << translation
+          @data << load_translation(key, localizations)
         end
+      end
+    end
+
+    def load_translation key, localizations
+      translation = Releaf::Translation.where(key: key).first_or_initialize
+      translation.key = key
+
+      localizations.each_with_index do |localization, i|
+        load_translation_data(translation, @locales[i], localization)
+      end
+
+      translation
+    end
+
+    def load_translation_data translation, locale, localization
+      translation_data = translation.translation_data.find{ |x| x.lang == locale }
+      value = localization.nil? ? '' : localization
+
+      # replace existing locale value only if new one is not blank
+      if translation_data && !value.blank?
+        translation_data.localization = value
+      # always assign value for new locale
+      elsif translation_data.nil?
+        translation_data = translation.translation_data.build(lang: locale, localization: value)
       end
     end
   end

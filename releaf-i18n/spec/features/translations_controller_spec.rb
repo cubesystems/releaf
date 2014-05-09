@@ -74,7 +74,7 @@ feature Releaf::TranslationsController do
     visit releaf_translations_path
     click_link "Export"
 
-    expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8')
 
     filename = page.response_headers["Content-Disposition"].split("=")[1].gsub("\"","")
     tmp_file = Dir.tmpdir + '/' + filename

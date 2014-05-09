@@ -8,7 +8,7 @@
   <% locales.each do |locale| %>
     <td>
       <span>
-        <%= resource.localizations[locale] %>
+        <%= localization(resource, locale) %>
       </span>
     </td>
   <% end %>

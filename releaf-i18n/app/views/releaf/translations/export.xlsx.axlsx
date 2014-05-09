@@ -1,0 +1,23 @@
+wb = xlsx_package.workbook
+wb.use_autowidth = true
+header = wb.styles.add_style b: true
+wb.add_worksheet(name: "localization") do |sheet|
+
+  sheet.add_row [''] + locales, style: header
+
+  cell_styles = [nil] * (locales.size + 1)
+  cell_types =  [:string] * (locales.size + 1)
+
+  if @collection.present?
+    @collection.each do |translation|
+      columns = [translation.key]
+      locales.each do|locale|
+        columns << localization(translation, locale)
+      end
+
+      sheet.add_row columns, style: cell_styles, types: cell_types
+    end
+  end
+end
+
+# vim: set ft=ruby:
