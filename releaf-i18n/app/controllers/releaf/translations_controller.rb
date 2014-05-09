@@ -97,47 +97,15 @@ module Releaf
       end
     end
 
-    # TODO: perhaps change this into a collection method
     def import
       @collection = []
 
       file_path = params[:import_file].try(:tempfile).try(:path).to_s
 
       if File.exists? file_path
-
-        require "roo"
-        xls = Roo::Excelx.new(file_path, file_warning: :ignore)
-
-        xls.each_with_pagename do |name, sheet|
-          locales = []
-          sheet.row(1).each_with_index do |cell, i|
-            if i > 0
-              locales.push(cell)
-            end
-          end
-
-          # iterate over data
-          (2..sheet.last_row).each do |row_no|
-            item = {}
-            key = nil
-            sheet.row(row_no).each_with_index do |cell, i|
-              if i == 0
-                key = cell
-              else
-                item[ locales[ i - 1 ] ] = cell.nil? ? '' : cell
-              end
-            end
-
-            if key.present?
-              translation = Releaf::TranslationProxy.new
-              translation.key = key
-              translation.localizations = item
-              @collection.push translation
-            end
-          end
-        end
-
+        assign_imported_data(file_path)
         @import = true
+        @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
         render 'edit'
       else
         render_notification false
@@ -146,6 +114,40 @@ module Releaf
     end
 
     private
+
+    def assign_imported_data file_path
+      require "roo"
+      xls = Roo::Excelx.new(file_path, file_warning: :ignore)
+
+      xls.each_with_pagename do |name, sheet|
+        locales = []
+        sheet.row(1).each_with_index do |cell, i|
+          if i > 0
+            locales.push(cell)
+          end
+        end
+
+        # iterate over data
+        (2..sheet.last_row).each do |row_no|
+          item = {}
+          key = nil
+          sheet.row(row_no).each_with_index do |cell, i|
+            if i == 0
+              key = cell
+            else
+              item[ locales[ i - 1 ] ] = cell.nil? ? '' : cell
+            end
+          end
+
+          if key.present?
+            translation = Releaf::TranslationProxy.new
+            translation.key = key
+            translation.localizations = item
+            @collection.push translation
+          end
+        end
+      end
+    end
 
     def add_group_to_workbook(p)
       sheet = p.workbook.add_worksheet(name: 'localization')

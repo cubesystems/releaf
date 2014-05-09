@@ -1,6 +1,6 @@
 require 'spec_helper'
-describe Releaf::TranslationsController do
-  before do
+feature Releaf::TranslationsController do
+  background do
     auth_as_admin
     @role = Releaf::Role.first
 
@@ -42,26 +42,47 @@ describe Releaf::TranslationsController do
     click_button "Save"
   end
 
-  describe "importing" do
-    it "needs tests"
-  end
+  scenario "Import excel file with translations", js: true do
+    visit releaf_translations_path
+    expect(page).to have_no_css(".table td span", text: "Eksports")
+    expect(page).to have_no_css(".table td span", text: "Export")
+    expect(page).to have_no_css(".table td span", text: "jauns")
 
-  describe "exporting" do
-    it "exports translations" do
-      visit releaf_translations_path
-      click_link "Export"
+    script = "$('form.import').css({display: 'block'});"
+    page.driver.browser.execute_script(script)
 
-      expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    fixture_path = File.expand_path('../fixtures/translations_import.xlsx', __dir__)
 
-      filename = page.response_headers["Content-Disposition"].split("=")[1].gsub("\"","")
-      tmp_file = Dir.tmpdir + '/' + filename
-      File.open(tmp_file, "wb") { |f| f.write(page.body) }
-
-      fixture_path = File.expand_path('../fixtures/all_translations_exported.xlsx', __dir__)
-      expect(tmp_file).to match_excel(fixture_path)
-
-      File.delete(tmp_file)
+    within('form.import') do
+      attach_file(:import_file, fixture_path)
     end
+
+    expect(page).to have_css(".breadcrumbs li:last-child", text: "Import")
+    find(:css, 'input[name="translations[][localizations][lv]"][value="Eksports"]')
+    find(:css, 'input[name="translations[][localizations][en]"][value="Export"]')
+
+    click_button "Import"
+    expect(page).to have_notification("successfuly imported 4 translations")
+
+    visit releaf_translations_path
+    expect(page).to have_css(".table td span", text: "Eksports")
+    expect(page).to have_css(".table td span", text: "Export")
+    expect(page).to have_css(".table td span", text: "jauns")
   end
 
+  scenario "Export translations" do
+    visit releaf_translations_path
+    click_link "Export"
+
+    expect(page.response_headers["Content-Type"]).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    filename = page.response_headers["Content-Disposition"].split("=")[1].gsub("\"","")
+    tmp_file = Dir.tmpdir + '/' + filename
+    File.open(tmp_file, "wb") { |f| f.write(page.body) }
+
+    fixture_path = File.expand_path('../fixtures/all_translations_exported.xlsx', __dir__)
+    expect(tmp_file).to match_excel(fixture_path)
+
+    File.delete(tmp_file)
+  end
 end
