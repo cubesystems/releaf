@@ -53,14 +53,19 @@ module Releaf
     end
 
     def update
-      success = update_collection(params[:translations])
-      @import = params.has_key?(:import)
+      @collection = []
+      @translations_to_destroy = []
+      @translations_to_save = []
+
+      valid = build_updatables(params[:translations])
 
       respond_to do |format|
         format.html do
-          if success
+          if valid
+            process_updatables
             update_response_success
           else
+            import_view if params.has_key?(:import)
             render_notification false
             render action: :edit
             flash.delete(:error)
@@ -101,8 +106,7 @@ module Releaf
     def import
       if File.exists? import_file_path
         @collection = Releaf::TranslationsImporter.new(import_file_path).parsed_output
-        @import = true
-        @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
+        import_view
         render :edit
       else
         redirect_to action: :index
@@ -110,6 +114,11 @@ module Releaf
     end
 
     protected
+
+    def import_view
+      @import = true
+      @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
+    end
 
     def setup
       super
@@ -136,31 +145,27 @@ module Releaf
 
     private
 
-    def update_collection translations_params
-      @collection = []
+    def process_updatables
+      @translations_to_destroy.map(&:destroy)
+      @translations_to_save.map(&:save!)
+      Settings.i18n_updated_at = Time.now
+    end
 
+    def build_updatables translations_params
       valid = true
-      items_to_delete = []
-      items_to_update = []
 
       translations_params.each do |values|
         translation = load_translation(values["key"], values["localizations"])
 
         if !values["_destroy"].blank?
-          items_to_delete << translation
+          @translations_to_destroy << translation
         elsif translation.valid?
-          items_to_update << translation
+          @translations_to_save << translation
         else
           valid = false
         end
 
         @collection << translation
-      end
-
-      if valid
-        items_to_delete.map(&:destroy)
-        items_to_update.map(&:save!)
-        Settings.i18n_updated_at = Time.now
       end
 
       valid
