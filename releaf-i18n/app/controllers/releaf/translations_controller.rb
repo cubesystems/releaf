@@ -75,12 +75,10 @@ module Releaf
     def import
       if File.exists? import_file_path
         @collection = Releaf::TranslationsImporter.new(import_file_path).parsed_output
-
         @import = true
         @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
-        render 'edit'
+        render :edit
       else
-        render_notification false
         redirect_to action: :index
       end
     end

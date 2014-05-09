@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Releaf::TranslationsController do
+  def file_attachment
+    test_document = File.expand_path('../fixtures/translations_import.xlsx', __dir__)
+    Rack::Test::UploadedFile.new(test_document)
+  end
+
   login_as_admin :admin
 
   before do
@@ -71,21 +76,31 @@ describe Releaf::TranslationsController do
   end
 
   describe "#import" do
-    it "needs test"
+    context "when file uploaded" do
+      before do
+        file = fixture_file_upload(File.expand_path('../fixtures/translations_import.xlsx', __dir__), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', true)
+        file.stub(:tempfile).and_return(file)
+        post :import, import_file: file
+      end
+
+      it "parses uploaded file and assigns content to collection" do
+        expect( assigns(:collection) ).to have(4).item
+      end
+
+      it "assigns @import to true" do
+        expect( assigns(:import) ).to be_true
+      end
+
+      it "appends breadcrumb with 'import' part" do
+        expect( assigns(:breadcrumbs).last ).to eq({name: "Import"})
+      end
+    end
+
+    context "when no file uploaded" do
+      it "redirects to index" do
+        post :import
+        expect(subject).to redirect_to(action: :index)
+      end
+    end
   end
-
-  # describe "#import" do
-  #   render_views
-
-  #   it "returns uploaded excel data as json" do
-  #     @resource = FactoryGirl.create(:translation_group)
-  #     @request.env['CONTENT_TYPE'] = 'multipart/form-data'
-  #     excel = Rack::Test::UploadedFile.new(File.dirname(__FILE__) + '/../fixtures/time.formats.xlsx', "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-  #     # fix nonexistent :tempfile in rack-test
-  #     excel.stub(:tempfile) { excel }
-  #     post :import, id: @resource, :resource => { import_file: excel }, :format => :json
-
-  #     expect(JSON.parse(response.body)).to eq({"sheets"=>{"time.formats"=>{"default"=>{"en"=>"%Y.%m.%d %H:%M"}}}})
-  #   end
-  # end
 end
