@@ -77,22 +77,12 @@ module Releaf
 
 
     def export
-      load_collection
-
-      require( 'axlsx' )
-
-      # construct xlsx file
-      p = Axlsx::Package.new
-      # Numbers requires this
-      p.use_shared_strings = true
-
-      add_group_to_workbook(p)
-
       respond_to do |format|
         format.xlsx do
-          outstrio = StringIO.new
-          outstrio.write(p.to_stream.read)
-          send_data(outstrio.string, filename: 'translations.xlsx')
+          load_collection
+
+          exporter = TranslationsExporter.new(@collection)
+          send_data(exporter.output_as_string, filename: 'translations.xlsx')
         end
       end
     end
@@ -114,29 +104,6 @@ module Releaf
 
     def import_file_path
       params[:import_file].try(:tempfile).try(:path).to_s
-    end
-
-    def add_group_to_workbook(p)
-      sheet = p.workbook.add_worksheet(name: 'localization')
-
-      # title row
-      row = [ '' ]
-      locales.each do |locale|
-        row.push(locale)
-      end
-
-      xls_row = sheet.add_row(row)
-
-      @collection.each do |translation|
-        row = [ translation.key ]
-        locales.each do |locale|
-          row.push(translation.localizations[locale])
-        end
-
-        xls_row = sheet.add_row(row)
-      end
-
-      return sheet
     end
   end
 end
