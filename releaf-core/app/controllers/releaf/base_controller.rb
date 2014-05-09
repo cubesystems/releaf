@@ -403,7 +403,7 @@ module Releaf
 
     protected
 
-    def render_notification status, success_key: "#{params[:action]} succeeded", failure_key: "#{params[:action]} failed", now: false
+    def render_notification status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed", now: false
       if now == true
         flash_target = flash.now
       else
@@ -411,9 +411,9 @@ module Releaf
       end
 
       if status
-        flash_target[:success] = { id: :resource_status, message: I18n.t(success_key, scope: notice_scope_name) }
+        flash_target[:success] = { id: :resource_status, message: I18n.t(success_message_key, scope: notice_scope_name) }
       else
-        flash_target[:error] = { id: :resource_status, message: I18n.t(failure_key, scope: notice_scope_name) }
+        flash_target[:error] = { id: :resource_status, message: I18n.t(failure_message_key, scope: notice_scope_name) }
       end
     end
 
