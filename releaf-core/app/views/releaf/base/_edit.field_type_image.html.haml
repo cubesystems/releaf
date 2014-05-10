@@ -8,7 +8,7 @@
 
 .field.type_image{field_attrs}
 
-  = render "edit.field_label", label_opts
+  = render "edit.field_label", label_opts.merge(name: field_name)
   .value><
     = f.file_field field_name, input_attrs
     - unless f.object.send(name).blank?

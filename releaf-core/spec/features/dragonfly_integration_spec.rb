@@ -7,7 +7,7 @@ feature "Dragonfly integration", js: true do
   scenario "Upload, view and remove image" do
     visit new_admin_book_path
     fill_in "Title", with: "xx"
-    attach_file "resource_cover_image", File.expand_path('../fixtures/cs.png', __dir__)
+    attach_file "Cover image", File.expand_path('../fixtures/cs.png', __dir__)
     click_button "Save"
     expect(page).to have_notification("Create succeeded")
 
