@@ -1,4 +1,4 @@
 .field.type_select{ 'data-name' => name }
-  .label_wrap><= f.label name, t(name, :scope => controller_scope_name) + ':'
+  = render "edit.field_label", f: f, name: name
   .value><= f.select name, controller.available_controllers
   .clear
