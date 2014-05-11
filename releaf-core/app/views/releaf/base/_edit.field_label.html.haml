@@ -1,6 +1,7 @@
 :ruby
   translation_name = name.to_s.sub(/_uid$/, '') unless local_assigns.key? :translation_name
   label_text = t(translation_name, :scope => "activerecord.attributes.#{f.object.class.name.underscore}") unless local_assigns.key? :label_text
+  attributes = {} if attributes.nil?
 
 - if local_assigns.fetch(:minimal, false)
   = f.label name, label_text, attributes
