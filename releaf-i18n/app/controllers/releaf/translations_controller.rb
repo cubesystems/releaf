@@ -54,7 +54,6 @@ module Releaf
 
     def update
       @collection = []
-      @translations_to_destroy = []
       @translations_to_save = []
 
       valid = build_updatables(params[:translations])
@@ -145,21 +144,21 @@ module Releaf
     private
 
     def process_updatables
-      @translations_to_destroy.map(&:destroy)
+      resource_class.where(id: @translation_ids_to_destroy).destroy_all unless @translation_ids_to_destroy.empty?
       @translations_to_save.map(&:save!)
       Settings.i18n_updated_at = Time.now
     end
 
     def build_updatables translations_params
       valid = true
+      @translation_ids_to_destroy = params[:existing_translations].split(",")
 
       translations_params.each do |values|
         translation = load_translation(values["key"], values["localizations"])
 
-        if !values["_destroy"].blank?
-          @translations_to_destroy << translation
-        elsif translation.valid?
+        if translation.valid?
           @translations_to_save << translation
+          @translation_ids_to_destroy.delete(translation.id.to_s)
         else
           valid = false
         end
