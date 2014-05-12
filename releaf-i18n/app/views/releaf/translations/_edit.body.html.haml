@@ -1,15 +1,16 @@
 - if @import
-  = hidden_field_tag :import, 'true'
+  = hidden_field_tag :import, "true"
 .body
+  - attributes_scope = "activerecord.attributes.#{resource_class.name.underscore}"
   - ids = []
-  .nested-wrap{:'data-name' => 'translations'}
-    %table.table{:cellpadding => "0", :cellspacing => "0"}
+  .nested-wrap{"data-name" => "translations"}
+    %table.table
       %thead
         %tr
-          %th.code_header= t('key', :scope => 'admin.releaf_translations')
+          %th.code_header= t("key", scope: attributes_scope)
           - locales.each do |locale|
             %th.language_header{"data-locale" => locale}
-              %span.name= locale
+              %span.name= t(locale, scope: attributes_scope)
           %th.delete_header  
       %tbody#variables.list
         - @collection.each_with_index do |translation, index|
@@ -17,11 +18,11 @@
           %tr.item{ id: "translation_#{translation.id}", data: { name: :translations, index: index } }
             %td.translation_name.codeColumn{title: translation.key}
               .wrap
-                %input{:type=>"text",   :name=>"translations[][key]", :value => translation.key }
+                %input{type: "text", name: "translations[][key]", value: translation.key }
             - locales.each_with_index do |locale, j|
               %td.translationCell{data: {locale: locale}}
-                %input{:type=>"text", :name=>"translations[][localizations][#{locale}]", :value => localization(translation, locale) }
+                %input{type: "text", name: "translations[][localizations][#{locale}]", value: localization(translation, locale) }
             %td.delete_column
-              %button.button.danger.only-icon.remove-nested-item{:type => 'button',  :title => t('Remove item', :scope => 'admin.releaf_translations')}
+              %button.button.danger.only-icon.remove-nested-item{type: "button", title: t("Remove item", scope: controller_scope_name)}
                 %i.fa.fa-times
   = hidden_field_tag :existing_translations, ids.join(",")
