@@ -1,21 +1,19 @@
 %footer
   .tools
     .primary
-      %button.button.primary{:type => "submit", :data => { :type => 'ok' } }
+      %button.button.primary{type: "submit", data: { type: 'ok' } }
         %i.fa.fa-check
         %span
           - if @import
-            = t('import', :scope => controller_scope_name)
+            = t('import', scope: controller_scope_name)
           - else
-            = t('save', :scope => "admin.global")
+            = t('save', scope: "admin.global")
 
     .secondary
-      %a.button.secondary{ :href => url_for( action: :index, search: params[:search] ) }
+      %a.button.secondary{href: url_for( action: :index, search: params[:search] ) }
         %i.fa.fa-caret-left
-        = t('back_to_list', :scope => 'admin.global')
-
-
+        = t('back_to_list', scope: 'admin.global')
       - unless @import
-        %a.button.secondary{ :href => url_for(:action => :export, search: params[:search], format: :xlsx) }
+        %a.button.secondary{ href: url_for(action: :export, search: params[:search], format: :xlsx) }
           %i.fa.fa-download
-          = t('export', :scope => 'admin.global')
+          = t('export', scope: controller_scope_name)
