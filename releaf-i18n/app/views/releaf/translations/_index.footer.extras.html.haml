@@ -1,9 +1,9 @@
 .extras
   .secondary
-    %a.button.secondary{ :href => url_for(:action => :export, search: params[:search], format: :xlsx) }
+    %a.button.secondary{href: url_for(action: :export, search: params[:search], format: :xlsx)}
       %i.fa.fa-download
-      = t('export', :scope => 'admin.global')
-    %button.button.secondary{ :type => :button, :name => :import, 'data-loading' => t('import_loading', :scope => 'admin.releaf_translations') }
+      = t("export", scope: controller_scope_name)
+    %button.button.secondary{type: :button, name: :import, "data-loading" => t("import_loading", scope: controller_scope_name)}
       %i.fa.fa-upload
-      = t('import', :scope => 'admin.releaf_translations')
-  = render 'import_form'
+      = t("import", scope: controller_scope_name)
+  = render "import_form"
