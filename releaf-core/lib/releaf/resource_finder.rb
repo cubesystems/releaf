@@ -3,6 +3,7 @@ module Releaf
 
     module ActionController
       def search text
+        return unless @searchable_fields && params[:search].present?
         @collection = Releaf::ResourceFinder.search(resource_class, @searchable_fields, text, @collection)
       end
     end

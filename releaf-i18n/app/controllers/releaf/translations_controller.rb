@@ -90,16 +90,8 @@ module Releaf
 
     # overwrite leaf base class
     def search lookup_string
-      unless lookup_string.blank?
-        sql = search_column_names.map do |column|
-          column_query = lookup_string.split(' ').map do |part|
-            "#{column} LIKE '%#{part}%'"
-          end.join(' AND ')
-          "(#{column_query})"
-        end.join(' OR ')
-
-        @collection = @collection.where(sql)
-      end
+      search_by_lookup_string lookup_string if lookup_string.present?
+      find_blank_translations if params[:only_blank] == 'true'
     end
 
     def import
@@ -113,6 +105,25 @@ module Releaf
     end
 
     protected
+
+    def find_blank_translations
+      sql = search_column_names.map do |column|
+        "#{column} IS NULL OR #{column} = ''"
+      end.join(' OR ')
+      @collection = @collection.where(sql)
+    end
+
+    def search_by_lookup_string lookup_string
+      sql = search_column_names.map do |column|
+        column_query = lookup_string.split(' ').map do |part|
+          "#{column} LIKE '%#{part}%'"
+        end.join(' AND ')
+        "(#{column_query})"
+      end.join(' OR ')
+
+      @collection = @collection.where(sql)
+    end
+
 
     def import_view
       @import = true

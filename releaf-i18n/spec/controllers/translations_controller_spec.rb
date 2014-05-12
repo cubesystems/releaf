@@ -47,6 +47,13 @@ describe Releaf::TranslationsController do
         expect( assigns(:collection) ).to have(1).item
       end
     end
+
+    context "when searching blank translations" do
+      it "returns translations that has blank translation in any localization" do
+        get :index, only_blank: 'true'
+        expect( assigns(:collection).map(&:id) ).to match_array [@t1.id]
+      end
+    end
   end
 
   describe "GET #edit", build_translations: true do

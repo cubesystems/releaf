@@ -69,9 +69,7 @@ module Releaf
       # load resource only if they are not loaded yet
       @collection = resources unless collection_given?
 
-      if @searchable_fields && params[:search].present?
-        search(params[:search])
-      end
+      search(params[:search])
 
       unless @resources_per_page.nil?
         @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
