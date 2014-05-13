@@ -84,7 +84,7 @@ module Releaf
         relation = relation.joins(sql % ([locale] * 4))
       end
 
-      relation.select(columns_for_select)
+      relation.select(columns_for_select).order(:key)
     end
 
     # overwrite leaf base class
