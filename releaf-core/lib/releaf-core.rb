@@ -22,7 +22,6 @@ module Releaf
     },
     {
       :controller => 'releaf/translations',
-      :helper => 'releaf_translation_groups'
     },
   ]
 

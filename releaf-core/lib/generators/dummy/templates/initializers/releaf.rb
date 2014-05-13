@@ -20,7 +20,6 @@ Releaf.setup do |conf|
     },
     {
       :controller => 'releaf/translations',
-      :helper => 'releaf_translations',
       :icon => 'group',
     },
    ]
