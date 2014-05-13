@@ -15,9 +15,10 @@ module Releaf
       @collection = resources
       search(params[:search])
 
+
       respond_to do |format|
         format.xlsx do
-          response.headers['Content-Disposition'] = "attachment; filename=\"translations.xlsx\""
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{Rails.application.class.parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx\""
         end
       end
     end
