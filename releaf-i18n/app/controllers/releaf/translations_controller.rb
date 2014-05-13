@@ -164,6 +164,7 @@ module Releaf
       valid = true
       @translation_ids_to_destroy = params.fetch(:existing_translations, "").split(",")
 
+      translations_params ||= []
       translations_params.each do |values|
         translation = load_translation(values["key"], values["localizations"])
 
