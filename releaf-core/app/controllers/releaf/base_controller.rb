@@ -136,6 +136,16 @@ module Releaf
       end
     end
 
+    def toolbox
+      @resource = resource_class.find(params[:id])
+
+      respond_to do |format|
+        format.html do
+          render partial: 'toolbox.items', locals: { resource: @resource }
+        end
+      end
+    end
+
     def destroy
       check_feature(:destroy)
       @resource = resource_class.find(params[:id])
