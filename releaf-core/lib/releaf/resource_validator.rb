@@ -1,94 +1,79 @@
 module Releaf
-  module ResourceValidator
-
+  class ResourceValidator
+    attr_reader :errors
 
     def self.build_validation_errors resource, error_scope_name, field_name_prefix="resource"
-      errors = {}
-
-      resource.errors.each do |attribute, message|
-        field_id = validation_attribute_field_id resource, attribute, field_name_prefix
-        unless errors.has_key? attribute
-          errors[field_id] = []
-        end
-
-        errors[field_id] << {error_code: message.error_code, full_message: I18n.t(message, scope: 'validation.' + error_scope_name)}
-      end
-
-      return errors
+      validator = new(resource, error_scope_name, field_name_prefix)
+      validator.errors
     end
 
-    protected
-
-    def self.validation_attribute_name resource, attribute, check_relations=false
-      return attribute.to_s if resource.attributes.include? attribute.to_s
-      return resource.class.reflections[attribute.to_sym].foreign_key.to_s if check_relations && resource.class.reflections[attribute.to_sym].present?
-      return attribute.to_s if resource.respond_to? attribute
-      return nil
+    def initialize resource, error_scope_name, field_name_prefix
+      @resource = resource
+      @klass = @resource.class
+      @error_scope_name = error_scope_name
+      @field_name_prefix = field_name_prefix
+      @errors = {}
+      build_errors
     end
 
-    def self.validation_attribute_field_id resource, attribute, field_name_prefix
-      parts = attribute.to_s.split('.')
+    private
 
-      if parts.length > 1
-        field_name = validation_attribute_nested_field_name(resource, parts)
-      else
-        attribute = validation_attribute_name resource, parts[0], true
-        if attribute
-          field_name = "["
-          field_name += attribute
-          # normalize field id for globalize3 attributes without prefix
-          if resource.class.translates? && resource.class.translated_attribute_names.include?(attribute.to_sym)
-            field_name += "_#{I18n.default_locale}"
-          end
-
-          field_name += "]"
+    def build_errors
+      @resource.errors.each do |attribute, message|
+        if models_attribute? attribute
+          add_error attribute, message
         else
-          field_name = ''
+          process_nested_resource_errors attribute
         end
       end
-
-      field_name = field_name_prefix + field_name
-
-      return field_name
     end
 
-    def self.single_association? association_type
-      [:belongs_to, :has_one].include? association_type
-    end
-
-    def self.validation_attribute_nested_field_name resource, parts
-      attribute = parts[0]
-
-      association_type = resource.class.reflect_on_association(attribute.to_sym).macro
-      if single_association? association_type
-        nested_items = [resource.send(attribute)]
+    def process_nested_resource_errors attribute
+      association_name = attribute.to_s.split('.', 2).first
+      if single_association? association_name
+        prefix_template = "#{@field_name_prefix}[#{association_name}_attributes]"
+        nested_resources = [@resource.send(association_name)]
       else
-        nested_items = resource.send(attribute)
+        prefix_template = "#{@field_name_prefix}[#{association_name}_attributes][%d]"
+        nested_resources = @resource.send(association_name)
       end
 
-      nested_items.each_with_index do |item, index|
-        unless item.valid?
-          if single_association? association_type
-            attribute_name = validation_attribute_name(item, parts[1], true)
-            if attribute_name
-              field_id = "[" + attribute + "_attributes][#{ attribute_name }]"
-            else
-              field_id = ''
-            end
-          else
-            field_id = "[" + attribute + "_attributes][#{index}]"
-            if parts.length == 2
-              field_id += "[" + parts[1] + "]"
-            else
-              field_id += validation_attribute_nested_field_name(item, parts[1..-1])
-            end
-          end
-
-          return field_id
-        end
+      nested_resources.each_with_index do |resource, i|
+        prefix = prefix_template % i
+        resource_errors = ResourceValidator.build_validation_errors(resource, @error_scope_name, prefix)
+        @errors.merge!(resource_errors)
       end
     end
 
+    def models_attribute? attribute
+      attribute !~ /\./
+    end
+
+    def add_error attribute, message
+      @errors[field_id(attribute)] ||= []
+      @errors[field_id(attribute)] << {error_code: message.error_code, full_message: I18n.t(message, scope: "validation.#{@error_scope_name}")}
+    end
+
+    def field_id attribute
+      field = attribute
+      if association(attribute).present?
+        field = association(attribute).foreign_key.to_s
+      end
+
+      "#{@field_name_prefix}[#{field}]"
+    end
+
+    def single_association? association_name
+      [:belongs_to, :has_one].include? association_type(association_name)
+    end
+
+    def association_type association_name
+      association(association_name).macro
+    end
+
+    def association association_name
+      @klass.reflect_on_association(association_name.to_sym)
+    end
 
   end
 end
