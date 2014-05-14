@@ -2,5 +2,6 @@
 = render :partial => "flash_notices"
 %h2.header
   = resource.new_record? ? t('create_new_resource', :scope => 'admin.global') : resource_to_text(resource)
-  .toolbox-wrap
-    = render 'toolbox', :resource => resource
+  - if @features[:toolbox]
+    .toolbox-wrap
+      = toolbox(resource, index_url: index_url)

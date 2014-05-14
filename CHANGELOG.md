@@ -5,7 +5,7 @@
   .build_validation_errors now only needs one argument - resource to validate.
 
   It will now use "activerecord.errors.messages.[model_name]" as I18n scope for errors
-
+* BaseController 'index_row_toolbox' feature renamed to 'toolbox'
 
 ### 2014.05.09
 * Translation group removed

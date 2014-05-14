@@ -1,6 +1,7 @@
 jQuery(function()
 {
     var body = jQuery('body');
+    var xhr;
 
     var overlay = jQuery('<div />').addClass('toolbox-overlay').appendTo(body);
     overlay.bind('click', function()
@@ -32,20 +33,38 @@ jQuery(function()
         toolboxes.bind('toolboxopen', function()
         {
             var toolbox   = jQuery(this);
+            var button = toolbox.find('.button');
 
             // close all other open toolboxes
             body.trigger('toolboxcloseall');
 
             var menu = toolbox.data('toolbox-menu');
+            var items_container = toolbox.find('.toolbox-items ul');
 
-            toolbox.attr('data-toolbox-open', true);
+            if (xhr)
+            {
+                xhr.abort();
+            }
 
-            menu.appendTo( body );
-            toolbox.trigger('toolboxposition');
+            var url = new url_builder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl()
+            xhr = jQuery.ajax(
+            {
+                url: url,
+                type: 'get',
+                success: function( data )
+                {
+                    toolbox.attr('data-toolbox-open', true);
+                    menu.appendTo( body );
+                    toolbox.trigger('toolboxposition');
 
-            overlay.show();
+                    overlay.show();
 
-            menu.show();
+                    menu.show();
+
+                    items_container.html(data);
+                    items_container.trigger('contentloaded');
+                }
+            });
 
             return;
         });
@@ -125,19 +144,12 @@ jQuery(function()
         });
 
 
-        toolboxes.each(function()
-        {
-            var toolbox = jQuery(this);
-
-            var menu = toolbox.find('menu').first();
-            toolbox.data('toolbox-menu', menu);
-
+        toolboxes.find('.toolbox-items ul').on('contentloaded', function(e){
+            var container = jQuery(e.target);
+            var toolbox = container.data("toolbox");
             var trigger = toolbox.find('.trigger');
 
-            var items = menu.find('li');
-
-            toolbox.toggleClass('empty', (items.length < 1));
-
+            var items = container.find('li');
             var buttons = items.find('.button');
 
             buttons.click(function()
@@ -155,8 +167,18 @@ jQuery(function()
             {
                 trigger.trigger('loadingend');
             });
+        });
 
 
+        toolboxes.each(function()
+        {
+            var toolbox = jQuery(this);
+
+            var menu = toolbox.find('menu').first();
+            toolbox.data('toolbox-menu', menu);
+
+            var items_container = toolbox.find('.toolbox-items ul');
+            items_container.data('toolbox', toolbox);
         });
 
     });

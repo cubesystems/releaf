@@ -12,7 +12,7 @@
 %table.table{"data-items_per_page" => @resources_per_page, "data-loading" => t("loading", :scope => 'admin.global'), "data-total" => count}
   %thead
     %tr
-      - if @features[:index_row_toolbox]
+      - if @features[:toolbox]
         %th
       - label_scope = "activerecord.attributes.#{(@collection.first.try(:class) || resourece_class).name.underscore}"
       - fields_to_display.each do |name|

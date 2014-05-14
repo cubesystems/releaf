@@ -26,6 +26,14 @@ describe Releaf::RouteMapper do
       end
     end
 
+    it "mounts resource toolbox route" do
+      expect(get: "/admin/books/1/toolbox").to route_to(
+        "action"=>"toolbox",
+        "controller"=>"admin/books",
+        "id"=>"1"
+      )
+    end
+
     it "mounts resource destroy confirm route" do
       expect(get: "/admin/books/1/confirm_destroy").to route_to(
         "action"=>"confirm_destroy",
@@ -87,17 +95,17 @@ describe Releaf::RouteMapper do
       )
     end
 
-    context "when destroy route is disabled with except: option" do
+    context "when toolbox route is disabled with except: option" do
       before do
         routes.draw do
           mount_releaf_at '/admin' do
-            releaf_resources :books, except: [:destroy]
+            releaf_resources :books, except: [:toolbox]
           end
         end
       end
 
-      it "does not mount destroy confirm route" do
-        expect(:delete => "/admin/books/1/confirm_destroy").not_to be_routable
+      it "route to page not found" do
+        expect(get: "/admin/books/1/toolbox").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/toolbox")
       end
     end
 
@@ -110,8 +118,36 @@ describe Releaf::RouteMapper do
         end
       end
 
+      it "route to page not found" do
+        expect(get: "/admin/books/1/toolbox").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/toolbox")
+      end
+    end
+
+    context "when confirm destroy route is disabled with except: option" do
+      before do
+        routes.draw do
+          mount_releaf_at '/admin' do
+            releaf_resources :books, except: [:destroy]
+          end
+        end
+      end
+
       it "does not mount destroy confirm route" do
-        expect(:delete => "/admin/books/1/confirm_destroy").not_to be_routable
+        expect(get: "/admin/books/1/confirm_destroy").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/confirm_destroy")
+      end
+    end
+
+    context "when confirm destroy route is skiped within with only: option" do
+      before do
+        routes.draw do
+          mount_releaf_at '/admin' do
+            releaf_resources :books, only: [:index]
+          end
+        end
+      end
+
+      it "does not mount destroy confirm route" do
+        expect(get: "/admin/books/1/confirm_destroy").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/confirm_destroy")
       end
     end
 
