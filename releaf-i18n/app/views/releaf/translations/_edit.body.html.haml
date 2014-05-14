@@ -2,7 +2,7 @@
   = hidden_field_tag :import, "true"
 .body
   - attributes_scope = "activerecord.attributes.#{resource_class.name.underscore}"
-  - ids = []
+  - @translation_ids_to_destroy ||= []
   .nested-wrap{"data-name" => "translations"}
     %table.table
       %thead
@@ -14,7 +14,7 @@
           %th.delete_header  
       %tbody#variables.list
         - @collection.each_with_index do |translation, index|
-          - ids << translation.id
+          - @translation_ids_to_destroy << translation.id
           %tr.item{ id: "translation_#{translation.id}", data: { name: :translations, index: index } }
             %td.translation_name.codeColumn{title: translation.key}
               .wrap
@@ -25,4 +25,4 @@
             %td.delete_column
               %button.button.danger.only-icon.remove-nested-item{type: "button", title: t("Remove item", scope: controller_scope_name)}
                 %i.fa.fa-times
-  = hidden_field_tag :existing_translations, ids.join(",")
+  = hidden_field_tag :existing_translations, @translation_ids_to_destroy.join(",")

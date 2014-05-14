@@ -35,7 +35,7 @@ feature "Translations" do
     click_link "Edit"
 
     within ".table tr.item:first-child" do
-      expect(find_field("translations[][key]").value).to eq("great.stuff")
+      expect(find_field("translations[][key]").value).to eq("geek.stuff")
       fill_in "translations[][key]", with: ""
       fill_in "translations[][localizations][lv]", with: "lv tulkojums"
       fill_in "translations[][localizations][en]", with: "en translation"
@@ -58,15 +58,15 @@ feature "Translations" do
 
     # rename key
     within ".table tr.item:first-child" do
-        fill_in "translations[][key]", with: "another.great.stuff"
+      fill_in "translations[][key]", with: "another.great.stuff"
     end
     click_button "Save"
     expect(page).to have_notification("Update succeeded")
 
     click_link "Back to list"
     expect(page).to have_number_of_resources(1)
-    expect( page ).to have_content 'lv tulkojums'
-    expect( page ).to have_content 'en translation'
+    expect(page).to have_content 'lv tulkojums'
+    expect(page).to have_content 'en translation'
   end
 
   scenario "Import excel file with translations", js: true do
