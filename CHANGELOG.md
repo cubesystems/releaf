@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2014.05.14
+* BaseController 'index_row_toolbox' feature renamed to 'toolbox'
+
 ### 2014.05.09
 * Translation group removed
 * Translations refactored
