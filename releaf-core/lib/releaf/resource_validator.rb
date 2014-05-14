@@ -19,6 +19,7 @@ module Releaf
     private
 
     def build_errors
+      @resource.valid?
       @resource.errors.each do |attribute, message|
         if models_attribute? attribute
           add_error attribute, message
