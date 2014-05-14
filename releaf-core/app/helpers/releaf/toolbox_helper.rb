@@ -1,10 +1,10 @@
 module Releaf
   module ToolboxHelper
 
-    def toolbox resource, params = {}
+    def toolbox resource, extra_params = {}
       return '' if resource.new_record?
 
-      url = url_for(params.merge(action: "toolbox", id: resource.id, context: action_name))
+      url = url_for(extra_params.merge(action: "toolbox", id: resource.id, context: action_name))
 
       %Q{
       <div class="toolbox" data-url="#{url}">
