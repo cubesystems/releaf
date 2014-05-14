@@ -4,4 +4,4 @@
   = resource.new_record? ? t('create_new_resource', :scope => 'admin.global') : resource_to_text(resource)
   - if @features[:toolbox]
     .toolbox-wrap
-      = toolbox(resource)
+      = toolbox(resource, index_url: index_url)
