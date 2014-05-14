@@ -132,7 +132,7 @@ module Releaf
           if result
             render json: {url: url_for( action: :index ), message: flash[:success][:message]}, status: 303
           else
-            render json: Releaf::ResourceValidator.build_validation_errors(@resource, controller_scope_name), status: 422
+            render json: Releaf::ResourceValidator.build_validation_errors(@resource), status: 422
           end
         end
 

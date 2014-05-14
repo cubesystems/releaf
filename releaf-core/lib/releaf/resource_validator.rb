@@ -2,17 +2,17 @@ module Releaf
   class ResourceValidator
     attr_reader :errors
 
-    def self.build_validation_errors resource, error_scope_name, field_name_prefix="resource"
-      validator = new(resource, error_scope_name, field_name_prefix)
+    def self.build_validation_errors resource, field_name_prefix="resource"
+      validator = new(resource, field_name_prefix)
       validator.errors
     end
 
-    def initialize resource, error_scope_name, field_name_prefix
+    def initialize resource, field_name_prefix
       @resource = resource
       @klass = @resource.class
-      @error_scope_name = error_scope_name
       @field_name_prefix = field_name_prefix
       @errors = {}
+      @error_message_i18n_scope = "activerecord.errors.messages.#{@klass.name.underscore}"
       build_errors
     end
 
@@ -41,7 +41,7 @@ module Releaf
 
       nested_resources.each_with_index do |resource, i|
         prefix = prefix_template % i
-        resource_errors = ResourceValidator.build_validation_errors(resource, @error_scope_name, prefix)
+        resource_errors = ResourceValidator.build_validation_errors(resource, prefix)
         @errors.merge!(resource_errors)
       end
     end
@@ -52,7 +52,7 @@ module Releaf
 
     def add_error attribute, message
       @errors[field_id(attribute)] ||= []
-      @errors[field_id(attribute)] << {error_code: message.error_code, full_message: I18n.t(message, scope: "validation.#{@error_scope_name}")}
+      @errors[field_id(attribute)] << {error_code: message.error_code, full_message: I18n.t(message, scope: @error_message_i18n_scope)}
     end
 
     def field_id attribute

@@ -1,5 +1,12 @@
 ## Changelog
 
+### 2014.05.14
+* Releaf::ResourceValidator was rewriten.
+  .build_validation_errors now only needs one argument - resource to validate.
+
+  It will now use "activerecord.errors.messages.[model_name]" as I18n scope for errors
+
+
 ### 2014.05.09
 * Translation group removed
 * Translations refactored

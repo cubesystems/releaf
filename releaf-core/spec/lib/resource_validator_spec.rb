@@ -18,7 +18,7 @@ describe Releaf::ResourceValidator do
   let(:book) { Book.new }
 
   subject do
-    Releaf::ResourceValidator.new(book, 'test', 'resource')
+    Releaf::ResourceValidator.new(book, 'resource')
   end
 
   describe "#errors" do
@@ -33,12 +33,12 @@ describe Releaf::ResourceValidator do
     let(:blank_error) { {:error_code=>:blank, :full_message=>"Blank"} }
 
     subject do
-      Releaf::ResourceValidator.new(book, 'test', 'resource')
+      Releaf::ResourceValidator.new(book, 'resource')
     end
 
     it "is called after initialization" do
       expect_any_instance_of( Releaf::ResourceValidator ).to receive(:build_errors)
-      Releaf::ResourceValidator.new(Book.new, 'test', 'resource')
+      Releaf::ResourceValidator.new(Book.new, 'resource')
     end
 
     it "validates resource" do
@@ -166,7 +166,7 @@ describe Releaf::ResourceValidator do
       message = "error message"
       message.stub(:error_code).and_return('test error')
 
-      expect( I18n ).to receive(:t).with(message,  scope: "validation.test").and_call_original
+      expect( I18n ).to receive(:t).with(message, scope: "activerecord.errors.messages.book").and_call_original
       subject.send(:add_error, 'title', message)
     end
   end
