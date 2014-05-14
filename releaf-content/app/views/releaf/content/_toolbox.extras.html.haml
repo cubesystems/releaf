@@ -4,7 +4,7 @@
       %i.fa.fa-lg.fa-plus
       = t('Add child', :scope => controller_scope_name)
 
-  - unless params[:action] == "index"
+  - unless params[:context] == "index"
     %li
       %a.button.ajaxbox{:href => url_for( :action => :go_to_dialog )}
         %i.fa.fa-lg.fa-external-link
