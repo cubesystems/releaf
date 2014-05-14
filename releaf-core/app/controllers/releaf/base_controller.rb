@@ -484,9 +484,7 @@ module Releaf
         create:            true,
         destroy:           true,
         index:             true,
-        # enable toolbox for each table row
-        # it can be unnecessary for read only report like indexes
-        index_row_toolbox: true
+        toolbox:           true
       }
       @panel_layout      = true
       @resources_per_page    = 40
