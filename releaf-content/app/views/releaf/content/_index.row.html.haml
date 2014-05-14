@@ -4,7 +4,7 @@
 
 %li.row.clearInside{ :class => [(resource.children.empty?) ? nil : 'has-children', ('collapsed' unless expanded)], :data => { :level => level, :id => resource.id } }
   %div.toolbox-cell
-    = toolbox(resource)
+    = toolbox(resource, index_url: index_url)
   - unless resource.children.empty?
     %div.collapser-cell
       %button.secondary.button.collapser.only-icon{ :type => :button }
