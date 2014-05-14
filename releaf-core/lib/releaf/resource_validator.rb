@@ -56,6 +56,7 @@ module Releaf
     end
 
     def field_id attribute
+      return @field_name_prefix if attribute.to_sym == :base
       field = attribute
       if association(attribute).present?
         field = association(attribute).foreign_key.to_s

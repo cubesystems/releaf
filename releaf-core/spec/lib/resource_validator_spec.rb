@@ -12,7 +12,15 @@ describe Releaf::ResourceValidator do
     belongs_to :author, inverse_of: :books, class_name: :DummyResourceValidatorAuthor
 
     validates_presence_of :author
+    validate :base_validation
     accepts_nested_attributes_for :author
+
+    attr_accessor :add_error_on_base
+
+    def base_validation
+      return unless add_error_on_base
+      self.errors.add(:base, 'error on base')
+    end
   end
 
   let(:book) { Book.new }
@@ -30,7 +38,7 @@ describe Releaf::ResourceValidator do
 
   describe "#build_errors" do
     let(:book) { DummyResourceValidatorBook.new }
-    let(:blank_error) { {:error_code=>:blank, :full_message=>"Blank"} }
+    let(:blank_error) { {error_code: :blank, full_message: "Blank"} }
 
     subject do
       Releaf::ResourceValidator.new(book, 'resource')
@@ -67,6 +75,11 @@ describe Releaf::ResourceValidator do
 
       expect( subject.errors["resource[chapters_attributes][0][text]"] ).to eq [blank_error]
       expect( subject.errors["resource[chapters_attributes][1][text]"] ).to eq [blank_error]
+    end
+
+    it "handles errors on base" do
+      book.add_error_on_base = true
+      expect( subject.errors["resource"] ).to eq [{error_code: :invalid, full_message: "Error on base"}]
     end
   end
 
@@ -118,6 +131,12 @@ describe Releaf::ResourceValidator do
   end
 
   describe "#field_id" do
+    context "when error is on base" do
+      it "returns resource field_id" do
+        expect( subject.send(:field_id, 'base') ).to eq 'resource'
+      end
+    end
+
     context "when attribute is association" do
       it "returns field_id for associations foreign key" do
         expect( subject.send(:field_id, 'author') ).to eq 'resource[author_id]'
