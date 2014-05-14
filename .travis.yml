@@ -4,4 +4,4 @@ rvm:
 env:
 - RELEAF_DUMMY_DB_USERNAME=travis RELEAF_DUMMY_DB_PASSWORD="" RELEAF_DUMMY_DB_NAME=myapp
 before_script: bundle exec rake dummy:setup
-script: xvfb-run rspec
+script: xvfb-run rake rspec
