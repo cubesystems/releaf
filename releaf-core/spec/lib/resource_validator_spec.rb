@@ -23,7 +23,11 @@ describe Releaf::ResourceValidator do
     end
   end
 
-  let(:book) { Book.new }
+  let(:book) {
+    b = Book.new
+    b.valid?
+    b
+  }
 
   subject do
     Releaf::ResourceValidator.new(book, 'resource')
@@ -37,7 +41,11 @@ describe Releaf::ResourceValidator do
   end
 
   describe "#build_errors" do
-    let(:book) { DummyResourceValidatorBook.new }
+    let(:book) {
+      b = DummyResourceValidatorBook.new
+      b.valid?
+      b
+    }
     let(:blank_error) { {error_code: :blank, full_message: "Blank"} }
 
     subject do
@@ -49,8 +57,9 @@ describe Releaf::ResourceValidator do
       Releaf::ResourceValidator.new(Book.new, 'resource')
     end
 
-    it "validates resource" do
-      expect( book ).to receive(:valid?).and_call_original
+    it "doesn't validates resource" do
+      expect( book ).to_not receive(:valid?)
+      expect( book ).to_not receive(:invalid?)
       subject
     end
 
@@ -64,12 +73,14 @@ describe Releaf::ResourceValidator do
 
     it "correctly adds error for missing associated object attributes (belongs_to)" do
       book.build_author
+      book.valid?
       expect( subject.errors["resource[author_attributes][name]"] ).to eq [blank_error]
     end
 
     it "correctly adds error for missing associated object attributes (has_many)" do
       book.chapters.new
       book.chapters.new(:title => 'test')
+      book.valid?
       expect( subject.errors["resource[chapters_attributes][0][title]"] ).to eq [blank_error]
       expect( subject.errors["resource[chapters_attributes][1][title]"] ).to be_nil
 
@@ -79,6 +90,7 @@ describe Releaf::ResourceValidator do
 
     it "handles errors on base" do
       book.add_error_on_base = true
+      book.valid?
       expect( subject.errors["resource"] ).to eq [{error_code: :invalid, full_message: "Error on base"}]
     end
   end
