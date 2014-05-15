@@ -116,7 +116,7 @@ module Releaf
     def search_by_lookup_string lookup_string
       sql = search_column_names.map do |column|
         column_query = lookup_string.split(' ').map do |part|
-          "#{column} LIKE '%#{part}%'"
+          ActiveRecord::Base.send(:sanitize_sql_array, ["#{column} LIKE ?", "%#{escape_lookup_string(part)}%" ])
         end.join(' AND ')
         "(#{column_query})"
       end.join(' OR ')
@@ -124,6 +124,16 @@ module Releaf
       @collection = @collection.where(sql)
     end
 
+    def escape_lookup_string string
+      escapable_chars = %w{% _}
+      result = string.dup
+
+      escapable_chars.each do |char|
+        result.gsub! char, '\\' + char
+      end
+
+      result
+    end
 
     def import_view
       @import = true
