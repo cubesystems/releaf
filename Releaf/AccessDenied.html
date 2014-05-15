@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!Releaf/AccessDenied.html";
 </script>
 
 
@@ -98,7 +98,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/releaf/exceptions.rb</dd>
+    <dd class="r2 last">releaf-core/lib/releaf/exceptions.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -115,18 +115,18 @@ ControllerAdditions#authorize! but can be raised manually.</p>
 <p>The passed message, action, and subject are optional and can later be
 retrieved when rescuing from the exception.</p>
 
-<pre class="ruby"><span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span> <span class="ruby-comment"># =&gt; &quot;Not authorized!&quot;</span>
-<span class="ruby-identifier">exception</span>.<span class="ruby-identifier">action</span> <span class="ruby-comment"># =&gt; :read</span>
-<span class="ruby-identifier">exception</span>.<span class="ruby-identifier">subject</span> <span class="ruby-comment"># =&gt; Article</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span> <span class='comment'># =&gt; &quot;Not authorized!&quot;
+</span><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span> <span class='comment'># =&gt; :read
+</span><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_subject'>subject</span> <span class='comment'># =&gt; Article
+</span></code></pre>
 
 <p>If the message is not specified (or is nil) it will default to “You are not
 authorized to access this page.” This default can be overridden by setting
 default_message.</p>
 
-<pre class="ruby"><span class="ruby-identifier">exception</span>.<span class="ruby-identifier">default_message</span> = <span class="ruby-string">&quot;Default error message&quot;</span>
-<span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span> <span class="ruby-comment"># =&gt; &quot;Default error message&quot;</span>
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_default_message'>default_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Default error message</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_exception'>exception</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span> <span class='comment'># =&gt; &quot;Default error message&quot;
+</span></code></pre>
 
 <p>See ControllerAdditions#authorized! for more information on rescuing from
 this exception and customizing the message using I18n.</p>
@@ -317,7 +317,7 @@ this exception and customizing the message using I18n.</p>
 35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/exceptions.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf/exceptions.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@message</span> <span class='op'>=</span> <span class='id identifier rubyid_message'>message</span>
@@ -368,7 +368,7 @@ this exception and customizing the message using I18n.</p>
 29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/exceptions.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf/exceptions.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span>
   <span class='ivar'>@action</span>
@@ -431,7 +431,7 @@ this exception and customizing the message using I18n.</p>
 30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/exceptions.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf/exceptions.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_message='>default_message=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@default_message</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -474,7 +474,7 @@ this exception and customizing the message using I18n.</p>
 29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/exceptions.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf/exceptions.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_subject'>subject</span>
   <span class='ivar'>@subject</span>
@@ -490,9 +490,9 @@ this exception and customizing the message using I18n.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:47:00 2013 by
+  Generated on Thu May 15 09:59:35 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

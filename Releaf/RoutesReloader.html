@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!Releaf/RoutesReloader.html";
 </script>
 
 
@@ -94,7 +94,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">app/middleware/releaf/routes_reloader.rb</dd>
+    <dd class="r2 last">releaf-core/app/middleware/releaf/routes_reloader.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -253,7 +253,7 @@
 6</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/middleware/releaf/routes_reloader.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/middleware/releaf/routes_reloader.rb', line 3</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='rparen'>)</span>
   <span class='ivar'>@app</span> <span class='op'>=</span> <span class='id identifier rubyid_app'>app</span>
@@ -294,13 +294,13 @@
 22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/middleware/releaf/routes_reloader.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/middleware/releaf/routes_reloader.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_reload_if_expired'>reload_if_expired</span>
-  <span class='kw'>if</span> <span class='op'>!</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@updated_at</span> <span class='op'>&lt;</span> <span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span>
-    <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_reload_routes!'>reload_routes!</span>
-    <span class='id identifier rubyid_routes_loaded'>routes_loaded</span>
-  <span class='kw'>end</span>
+  <span class='comment'># TODO Node class should be configurable
+</span>  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='op'>::</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@updated_at</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@updated_at</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_updated_at'>updated_at</span>
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_reload_routes!'>reload_routes!</span>
+  <span class='id identifier rubyid_routes_loaded'>routes_loaded</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -327,7 +327,7 @@
 15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/middleware/releaf/routes_reloader.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/middleware/releaf/routes_reloader.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_routes_loaded'>routes_loaded</span>
   <span class='ivar'>@updated_at</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -364,7 +364,7 @@
 11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/middleware/releaf/routes_reloader.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/middleware/releaf/routes_reloader.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_reload_if_expired'>reload_if_expired</span>
@@ -380,9 +380,9 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:58 2013 by
+  Generated on Thu May 15 09:59:34 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

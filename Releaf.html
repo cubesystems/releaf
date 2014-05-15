@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  framesUrl = "frames.html#!" + escape(window.location.href);
+  framesUrl = "frames.html#!Releaf.html";
 </script>
 
 
@@ -79,8 +79,8 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">app/models/releaf/role.rb<span class="defines">,<br />
-  app/models/releaf/node.rb,<br /> app/models/releaf/admin.rb,<br /> app/models/releaf/node/route.rb,<br /> app/models/releaf/attachment.rb,<br /> app/helpers/releaf/admin_helper.rb,<br /> app/helpers/releaf/javascript_helper.rb,<br /> app/middleware/releaf/routes_reloader.rb,<br /> app/helpers/releaf/application_helper.rb,<br /> app/controllers/releaf/home_controller.rb,<br /> app/helpers/releaf/pagination_renderer.rb,<br /> app/controllers/releaf/base_controller.rb,<br /> app/helpers/releaf/releaf_devise_helper.rb,<br /> app/controllers/releaf/roles_controller.rb,<br /> app/controllers/releaf/admins_controller.rb,<br /> app/controllers/releaf/content_controller.rb,<br /> app/controllers/releaf/sessions_controller.rb,<br /> app/controllers/releaf/translations_controller.rb,<br /> app/controllers/releaf/admin_profile_controller.rb,<br /> app/controllers/releaf/base_application_controller.rb,<br /> lib/releaf.rb,<br /> lib/releaf/engine.rb,<br /> lib/releaf/version.rb,<br /> lib/releaf/exceptions.rb,<br /> lib/releaf/richtext_attachments.rb,<br /> lib/releaf/template_field_type_mapper.rb</span>
+    <dd class="r1 last">releaf-core/app/models/releaf/attachment.rb<span class="defines">,<br />
+  releaf-core/app/lib/releaf/assets_resolver.rb,<br /> releaf-core/app/lib/releaf/template_filter.rb,<br /> releaf-core/app/lib/releaf/error_formatter.rb,<br /> releaf-core/app/lib/releaf/resource_finder.rb,<br /> releaf-core/app/helpers/releaf/admin_helper.rb,<br /> releaf-core/app/helpers/releaf/toolbox_helper.rb,<br /> releaf-core/app/lib/releaf/richtext_attachments.rb,<br /> releaf-core/app/helpers/releaf/javascript_helper.rb,<br /> releaf-core/app/helpers/releaf/application_helper.rb,<br /> releaf-core/app/middleware/releaf/routes_reloader.rb,<br /> releaf-core/app/controllers/releaf/base_controller.rb,<br /> releaf-core/app/controllers/releaf/home_controller.rb,<br /> releaf-core/app/helpers/releaf/pagination_renderer.rb,<br /> releaf-core/app/helpers/releaf/releaf_devise_helper.rb,<br /> releaf-core/app/lib/releaf/template_field_type_mapper.rb,<br /> releaf-core/app/controllers/releaf/sessions_controller.rb,<br /> releaf-core/lib/releaf-core.rb,<br /> releaf-core/lib/releaf/engine.rb,<br /> releaf-core/lib/releaf/version.rb,<br /> releaf-core/lib/releaf/exceptions.rb,<br /> releaf-i18n/lib/i18n/translations_importer.rb</span>
 </dd>
   
 </dl>
@@ -90,11 +90,11 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Releaf/AdminHelper.html" title="Releaf::AdminHelper (module)">AdminHelper</a></span>, <span class='object_link'><a href="Releaf/ApplicationHelper.html" title="Releaf::ApplicationHelper (module)">ApplicationHelper</a></span>, <span class='object_link'><a href="Releaf/JavascriptHelper.html" title="Releaf::JavascriptHelper (module)">JavascriptHelper</a></span>, <span class='object_link'><a href="Releaf/PaginationRenderer.html" title="Releaf::PaginationRenderer (module)">PaginationRenderer</a></span>, <span class='object_link'><a href="Releaf/ReleafDeviseHelper.html" title="Releaf::ReleafDeviseHelper (module)">ReleafDeviseHelper</a></span>, <span class='object_link'><a href="Releaf/RichtextAttachments.html" title="Releaf::RichtextAttachments (module)">RichtextAttachments</a></span>, <span class='object_link'><a href="Releaf/RouteMapper.html" title="Releaf::RouteMapper (module)">RouteMapper</a></span>, <span class='object_link'><a href="Releaf/TemplateFieldTypeMapper.html" title="Releaf::TemplateFieldTypeMapper (module)">TemplateFieldTypeMapper</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Releaf/AdminHelper.html" title="Releaf::AdminHelper (module)">AdminHelper</a></span>, <span class='object_link'><a href="Releaf/ApplicationHelper.html" title="Releaf::ApplicationHelper (module)">ApplicationHelper</a></span>, <span class='object_link'><a href="Releaf/JavascriptHelper.html" title="Releaf::JavascriptHelper (module)">JavascriptHelper</a></span>, <span class='object_link'><a href="Releaf/PaginationRenderer.html" title="Releaf::PaginationRenderer (module)">PaginationRenderer</a></span>, <span class='object_link'><a href="Releaf/ReleafDeviseHelper.html" title="Releaf::ReleafDeviseHelper (module)">ReleafDeviseHelper</a></span>, <span class='object_link'><a href="Releaf/ResourceFinder.html" title="Releaf::ResourceFinder (module)">ResourceFinder</a></span>, <span class='object_link'><a href="Releaf/RichtextAttachments.html" title="Releaf::RichtextAttachments (module)">RichtextAttachments</a></span>, <span class='object_link'><a href="Releaf/RouteMapper.html" title="Releaf::RouteMapper (module)">RouteMapper</a></span>, <span class='object_link'><a href="Releaf/TemplateFieldTypeMapper.html" title="Releaf::TemplateFieldTypeMapper (module)">TemplateFieldTypeMapper</a></span>, <span class='object_link'><a href="Releaf/TemplateFilter.html" title="Releaf::TemplateFilter (module)">TemplateFilter</a></span>, <span class='object_link'><a href="Releaf/ToolboxHelper.html" title="Releaf::ToolboxHelper (module)">ToolboxHelper</a></span>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Releaf/AccessDenied.html" title="Releaf::AccessDenied (class)">AccessDenied</a></span>, <span class='object_link'><a href="Releaf/Admin.html" title="Releaf::Admin (class)">Admin</a></span>, <span class='object_link'><a href="Releaf/AdminProfileController.html" title="Releaf::AdminProfileController (class)">AdminProfileController</a></span>, <span class='object_link'><a href="Releaf/AdminsController.html" title="Releaf::AdminsController (class)">AdminsController</a></span>, <span class='object_link'><a href="Releaf/Attachment.html" title="Releaf::Attachment (class)">Attachment</a></span>, <span class='object_link'><a href="Releaf/BaseApplicationController.html" title="Releaf::BaseApplicationController (class)">BaseApplicationController</a></span>, <span class='object_link'><a href="Releaf/BaseController.html" title="Releaf::BaseController (class)">BaseController</a></span>, <span class='object_link'><a href="Releaf/ContentController.html" title="Releaf::ContentController (class)">ContentController</a></span>, <span class='object_link'><a href="Releaf/Engine.html" title="Releaf::Engine (class)">Engine</a></span>, <span class='object_link'><a href="Releaf/Error.html" title="Releaf::Error (class)">Error</a></span>, <span class='object_link'><a href="Releaf/FeatureDisabled.html" title="Releaf::FeatureDisabled (class)">FeatureDisabled</a></span>, <span class='object_link'><a href="Releaf/HomeController.html" title="Releaf::HomeController (class)">HomeController</a></span>, <span class='object_link'><a href="Releaf/Node.html" title="Releaf::Node (class)">Node</a></span>, <span class='object_link'><a href="Releaf/Role.html" title="Releaf::Role (class)">Role</a></span>, <span class='object_link'><a href="Releaf/RolesController.html" title="Releaf::RolesController (class)">RolesController</a></span>, <span class='object_link'><a href="Releaf/RoutesReloader.html" title="Releaf::RoutesReloader (class)">RoutesReloader</a></span>, <span class='object_link'><a href="Releaf/SessionsController.html" title="Releaf::SessionsController (class)">SessionsController</a></span>, <span class='object_link'><a href="Releaf/TranslationsController.html" title="Releaf::TranslationsController (class)">TranslationsController</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Releaf/AccessDenied.html" title="Releaf::AccessDenied (class)">AccessDenied</a></span>, <span class='object_link'><a href="Releaf/AssetsResolver.html" title="Releaf::AssetsResolver (class)">AssetsResolver</a></span>, <span class='object_link'><a href="Releaf/Attachment.html" title="Releaf::Attachment (class)">Attachment</a></span>, <span class='object_link'><a href="Releaf/BaseController.html" title="Releaf::BaseController (class)">BaseController</a></span>, <span class='object_link'><a href="Releaf/Engine.html" title="Releaf::Engine (class)">Engine</a></span>, <span class='object_link'><a href="Releaf/Error.html" title="Releaf::Error (class)">Error</a></span>, <span class='object_link'><a href="Releaf/ErrorFormatter.html" title="Releaf::ErrorFormatter (class)">ErrorFormatter</a></span>, <span class='object_link'><a href="Releaf/FeatureDisabled.html" title="Releaf::FeatureDisabled (class)">FeatureDisabled</a></span>, <span class='object_link'><a href="Releaf/HomeController.html" title="Releaf::HomeController (class)">HomeController</a></span>, <span class='object_link'><a href="Releaf/RoutesReloader.html" title="Releaf::RoutesReloader (class)">RoutesReloader</a></span>, <span class='object_link'><a href="Releaf/SessionsController.html" title="Releaf::SessionsController (class)">SessionsController</a></span>, <span class='object_link'><a href="Releaf/TranslationsImporter.html" title="Releaf::TranslationsImporter (class)">TranslationsImporter</a></span>
     
   
 </p>
@@ -121,7 +121,6 @@
 },
 {
   :controller =&gt; &#39;releaf/translations&#39;,
-  :helper =&gt; &#39;releaf_translation_groups&#39;
 }</pre></dd>
       
         <dt id="devise_for-classvariable" class="">@@devise_for =
@@ -159,6 +158,11 @@
         </dt>
         <dd><pre class="code"><span class='kw'>nil</span></pre></dd>
       
+        <dt id="additional_controllers-classvariable" class="">@@additional_controllers =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='rbracket'>]</span></pre></dd>
+      
         <dt id="controller_list-classvariable" class="">@@controller_list =
           
         </dt>
@@ -180,6 +184,28 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_locales-class_method" title="all_locales (class method)">+ (Object) <strong>all_locales</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -227,37 +253,6 @@
       
     </ul>
   
-    <h2>
-      Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="protected ">
-  <span class="summary_signature">
-    
-      <a href="#after_sign_in_path_for-instance_method" title="#after_sign_in_path_for (instance method)">- (Object) <strong>after_sign_in_path_for</strong>(resource) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title protected">protected</span>
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-    </ul>
-  
 
 
 
@@ -266,7 +261,43 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="available_controllers-class_method">
+  <h3 class="signature first" id="all_locales-class_method">
+  
+    + (<tt>Object</tt>) <strong>all_locales</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf-core.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_locales'>all_locales</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>=</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>+=</span> <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_available_admin_locales'>available_admin_locales</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span> <span class='op'>+=</span> <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_valid_locales'>valid_locales</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="available_controllers-class_method">
   
     + (<tt>Object</tt>) <strong>available_controllers</strong> 
   
@@ -280,12 +311,12 @@
       <pre class="lines">
 
 
-67
-68
-69</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf-core.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_available_controllers'>available_controllers</span>
   <span class='id identifier rubyid_controller_list'>controller_list</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
@@ -352,22 +383,24 @@
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
-58
-59
 60
 61
 62
 63
 64
-65</pre>
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf-core.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
   <span class='kw'>yield</span> <span class='kw'>self</span>
@@ -379,44 +412,10 @@
     <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>i18n/releaf</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 
-  <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span> <span class='id identifier rubyid_normalize_menu_item'>normalize_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span> <span class='id identifier rubyid_normalize_menu_item'>normalize_menu_item</span><span class='lparen'>(</span><span class='id identifier rubyid_item'>item</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
   <span class='id identifier rubyid_build_controller_list'>build_controller_list</span><span class='lparen'>(</span><span class='const'>Releaf</span><span class='period'>.</span><span class='id identifier rubyid_menu'>menu</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="after_sign_in_path_for-instance_method">
-  
-    - (<tt>Object</tt>) <strong>after_sign_in_path_for</strong>(resource)  <span class="extras">(protected)</span>
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-8
-9
-10</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/releaf/sessions_controller.rb', line 8</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_after_sign_in_path_for'>after_sign_in_path_for</span> <span class='id identifier rubyid_resource'>resource</span>
-  <span class='id identifier rubyid_releaf_root_path'>releaf_root_path</span>
+  <span class='id identifier rubyid_build_controller_list'>build_controller_list</span><span class='lparen'>(</span><span class='id identifier rubyid_normalized_additional_controllers'>normalized_additional_controllers</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -428,9 +427,9 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:57 2013 by
+  Generated on Thu May 15 09:59:33 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

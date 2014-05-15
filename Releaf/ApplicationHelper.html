@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!Releaf/ApplicationHelper.html";
 </script>
 
 
@@ -79,7 +79,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">app/helpers/releaf/application_helper.rb</dd>
+    <dd class="r1 last">releaf-core/app/helpers/releaf/application_helper.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -121,6 +121,34 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#translate-instance_method" title="#translate (instance method)">- (Object) <strong>translate</strong>(key, options = {}) </a>
+    
+
+    
+      (also: #t)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Revert <a
+href="https://github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1">github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1</a>
+otherwise spans everythere ex.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -145,22 +173,22 @@
       <pre class="lines">
 
 
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
 13
 14
-15</pre>
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/application_helper.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/helpers/releaf/application_helper.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_i18n_options_for_select'>i18n_options_for_select</span> <span class='id identifier rubyid_container'>container</span><span class='comma'>,</span> <span class='id identifier rubyid_selected'>selected</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_i18n_options'>i18n_options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_i18n_options'>i18n_options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>scope:</span> <span class='id identifier rubyid_controller_scope_name'>controller_scope_name</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_i18n_options'>i18n_options</span><span class='rparen'>)</span>
@@ -180,14 +208,66 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="translate-instance_method">
+  
+    - (<tt>Object</tt>) <strong>translate</strong>(key, options = {}) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='t-instance_method'>t</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Revert <a
+href="https://github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1">github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1</a>
+otherwise spans everythere ex. &#39;&lt;img alt=“#t(”description“)
+src=”..&#39; will become &#39;&lt;img alt=“&lt;span
+class=”missing_traslation..&#39; Missing translations with html get escaped
+anyway.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/helpers/releaf/application_helper.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_translate'>translate</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>rescue_format:</span> <span class='symbol'>:html</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:rescue_format</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:57 2013 by
+  Generated on Thu May 15 09:59:34 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

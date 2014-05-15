@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!Releaf/RouteMapper.html";
 </script>
 
 
@@ -79,7 +79,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/releaf/route_mapper.rb</dd>
+    <dd class="r1 last">releaf-core/lib/releaf/route_mapper.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -170,7 +170,6 @@ members and collections needed by releaf.</p>
       <pre class="lines">
 
 
-19
 20
 21
 22
@@ -197,10 +196,11 @@ members and collections needed by releaf.</p>
 43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/route_mapper.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf/route_mapper.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mount_releaf_at'>mount_releaf_at</span> <span class='id identifier rubyid_mount_location'>mount_location</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span>
   <span class='id identifier rubyid_controllers'>controllers</span> <span class='op'>=</span> <span class='id identifier rubyid_allowed_controllers'>allowed_controllers</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -226,7 +226,7 @@ members and collections needed by releaf.</p>
       <span class='id identifier rubyid_mount_translations_controller'>mount_translations_controller</span> <span class='kw'>if</span> <span class='id identifier rubyid_controllers'>controllers</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='symbol'>:translations</span>
 
       <span class='id identifier rubyid_root'>root</span> <span class='symbol'>:to</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>home#index</span><span class='tstring_end'>&quot;</span></span>
-      <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/*path</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>base_application#page_not_found</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/*path</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>home#page_not_found</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -275,15 +275,17 @@ members and collections needed by releaf</p>
 14
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/releaf/route_mapper.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/lib/releaf/route_mapper.rb', line 4</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_releaf_resources'>releaf_resources</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_resources'>resources</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span> <span class='kw'>do</span>
     <span class='kw'>yield</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
     <span class='id identifier rubyid_get'>get</span>   <span class='symbol'>:confirm_destroy</span><span class='comma'>,</span> <span class='symbol'>:on</span> <span class='op'>=&gt;</span> <span class='symbol'>:member</span>      <span class='kw'>if</span> <span class='id identifier rubyid_include_confirm_destroy?'>include_confirm_destroy?</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_get'>get</span>   <span class='symbol'>:toolbox</span><span class='comma'>,</span> <span class='symbol'>:on</span> <span class='op'>=&gt;</span> <span class='symbol'>:member</span>              <span class='kw'>if</span> <span class='id identifier rubyid_include_toolbox?'>include_toolbox?</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
 
     <span class='kw'>if</span> <span class='id identifier rubyid_include_attachment?'>include_attachment?</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_collection'>collection</span> <span class='kw'>do</span>
@@ -304,9 +306,9 @@ members and collections needed by releaf</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:58 2013 by
+  Generated on Thu May 15 09:59:34 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '';
-  framesUrl = "frames.html#!" + escape(window.location.href);
+  framesUrl = "frames.html#!file.CONTRIBUTING.html";
 </script>
 
 
@@ -68,7 +68,8 @@
 <ul>
 <li>Two spaces, no tabs (for indentation).</li>
 <li>No trailing whitespace. Blank lines should not have any spaces.</li>
-<li>Indent after private/protected.</li>
+<li>Unix file format (NL at the end of line)</li>
+<li>No indent after private/protected/public.</li>
 <li>Use Ruby &gt;= 1.9 syntax for hashes. Prefer <code>{ a: :b }</code> over <code>{ :a =&gt; :b }</code>.</li>
 <li>Prefer <code>&amp;&amp;</code>/<code>||</code> over <code>and</code>/<code>or</code>.</li>
 <li>Use <code>MyClass.my_method(my_arg)</code> not <code>my_method( my_arg )</code> or <code>my_method my_arg</code>.</li>
@@ -78,9 +79,9 @@
 </div></div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:57 2013 by
+  Generated on Thu May 15 09:59:33 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

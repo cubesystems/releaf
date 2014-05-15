@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!Releaf/SessionsController.html";
 </script>
 
 
@@ -96,7 +96,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">app/controllers/releaf/sessions_controller.rb</dd>
+    <dd class="r2 last">releaf-core/app/controllers/releaf/sessions_controller.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -108,15 +108,146 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#after_sign_in_path_for-instance_method" title="#after_sign_in_path_for (instance method)">- (Object) <strong>after_sign_in_path_for</strong>(resource) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
 
   
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#page_title-instance_method" title="#page_title (instance method)">- (Object) <strong>page_title</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="after_sign_in_path_for-instance_method">
+  
+    - (<tt>Object</tt>) <strong>after_sign_in_path_for</strong>(resource)  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15
+16
+17
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/controllers/releaf/sessions_controller.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_after_sign_in_path_for'>after_sign_in_path_for</span> <span class='id identifier rubyid_resource'>resource</span>
+  <span class='id identifier rubyid_sign_in_url'>sign_in_url</span> <span class='op'>=</span> <span class='id identifier rubyid_url_for'>url_for</span><span class='lparen'>(</span><span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>new</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>only_path:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_referer'>referer</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>&amp;&amp;</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_referer'>referer</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span> <span class='op'>==</span> <span class='id identifier rubyid_sign_in_url'>sign_in_url</span>
+    <span class='kw'>super</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_stored_location_for'>stored_location_for</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_releaf_root_path'>releaf_root_path</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="page_title-instance_method">
+  
+    - (<tt>Object</tt>) <strong>page_title</strong> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/controllers/releaf/sessions_controller.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_page_title'>page_title</span>
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_parent_name'>parent_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:59 2013 by
+  Generated on Thu May 15 09:59:35 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>

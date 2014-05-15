@@ -17,7 +17,7 @@
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!Releaf/AdminHelper.html";
 </script>
 
 
@@ -79,7 +79,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">app/helpers/releaf/admin_helper.rb</dd>
+    <dd class="r1 last">releaf-core/app/helpers/releaf/admin_helper.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -239,7 +239,7 @@
 55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/helpers/releaf/admin_helper.rb', line 8</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_admin_menu'>admin_menu</span>
   <span class='id identifier rubyid_items'>items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -314,7 +314,7 @@
 6</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/helpers/releaf/admin_helper.rb', line 4</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current_admin_user'>current_admin_user</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_</span><span class='embexpr_beg'>#{</span><span class='const'>ReleafDeviseHelper</span><span class='period'>.</span><span class='id identifier rubyid_devise_admin_model_name'>devise_admin_model_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -349,7 +349,7 @@
 64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/releaf/admin_helper.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'releaf-core/app/helpers/releaf/admin_helper.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_releaf_menu_item'>get_releaf_menu_item</span> <span class='id identifier rubyid_item'>item</span>
   <span class='lbrace'>{</span>
@@ -369,9 +369,9 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Nov  1 14:46:57 2013 by
+  Generated on Thu May 15 09:59:34 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.2 (ruby-2.0.0).
+  0.8.7.4 (ruby-2.1.1).
 </div>
 
   </body>
