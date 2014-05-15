@@ -657,7 +657,7 @@ module Releaf
               render json: {url: success_url, message: flash[:success][:message]}, status: 303
             end
           else
-            render json: Releaf::ResourceValidator.build_validation_errors(@resource), status: 422
+            render json: Releaf::ErrorFormatter.format_errors(@resource), status: 422
           end
         end
 

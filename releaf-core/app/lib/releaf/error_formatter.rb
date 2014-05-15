@@ -1,8 +1,8 @@
 module Releaf
-  class ResourceValidator
+  class ErrorFormatter
     attr_reader :errors
 
-    def self.build_validation_errors resource, field_name_prefix="resource"
+    def self.format_errors resource, field_name_prefix="resource"
       validator = new(resource, field_name_prefix)
       validator.errors
     end
@@ -13,12 +13,12 @@ module Releaf
       @field_name_prefix = field_name_prefix
       @errors = {}
       @error_message_i18n_scope = "activerecord.errors.messages.#{@klass.name.underscore}"
-      build_errors
+      format_errors
     end
 
     private
 
-    def build_errors
+    def format_errors
       @resource.errors.each do |attribute, message|
         if models_attribute? attribute
           add_error attribute, message
@@ -40,7 +40,7 @@ module Releaf
 
       nested_resources.each_with_index do |resource, i|
         prefix = prefix_template % i
-        resource_errors = ResourceValidator.build_validation_errors(resource, prefix)
+        resource_errors = ErrorFormatter.format_errors(resource, prefix)
         @errors.merge!(resource_errors)
       end
     end

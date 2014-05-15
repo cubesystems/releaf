@@ -1,5 +1,12 @@
 ## Changelog
 
+### 2014.05.15
+* Releaf::ResourceValidator was renamed to Releaf::ErrorFormatter.
+  Releaf::ErrorFormatter.build_validation_errors was renamed to .format_errors.
+
+  If you used Releaf::ResourceValidator.build_validation_errors, update your
+  code to use Releaf::ErrorFormatter.format_errors
+
 ### 2014.05.14
 * Releaf::ResourceValidator was rewriten.
   .build_validation_errors now only needs one argument - resource to validate.

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Releaf::ResourceValidator do
+describe Releaf::ErrorFormatter do
 
   class DummyResourceValidatorAuthor < Author
     self.table_name = 'authors'
@@ -30,17 +30,17 @@ describe Releaf::ResourceValidator do
   }
 
   subject do
-    Releaf::ResourceValidator.new(book, 'resource')
+    described_class.new(book, 'resource')
   end
 
   describe "#errors" do
     it "is a hash" do
-      described_class.any_instance.stub(:build_errors)
+      described_class.any_instance.stub(:format_errors)
       expect( subject.errors ).to be_an_instance_of Hash
     end
   end
 
-  describe "#build_errors" do
+  describe "#format_errors" do
     let(:book) {
       b = DummyResourceValidatorBook.new
       b.valid?
@@ -48,13 +48,9 @@ describe Releaf::ResourceValidator do
     }
     let(:blank_error) { {error_code: :blank, full_message: "Blank"} }
 
-    subject do
-      Releaf::ResourceValidator.new(book, 'resource')
-    end
-
     it "is called after initialization" do
-      expect_any_instance_of( Releaf::ResourceValidator ).to receive(:build_errors)
-      Releaf::ResourceValidator.new(Book.new, 'resource')
+      expect_any_instance_of( described_class ).to receive(:format_errors)
+      described_class.new(Book.new, 'resource')
     end
 
     it "doesn't validates resource" do
@@ -164,8 +160,8 @@ describe Releaf::ResourceValidator do
 
   describe "#add_error" do
     before do
-      # prevent building errors when class is initialized
-      described_class.any_instance.stub(:build_errors)
+      # prevent formatting errors when class is initialized
+      described_class.any_instance.stub(:format_errors)
     end
 
     it "adds error to errors" do
