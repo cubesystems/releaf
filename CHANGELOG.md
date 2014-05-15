@@ -3,9 +3,12 @@
 ### 2014.05.15
 * Releaf::ResourceValidator was renamed to Releaf::ErrorFormatter.
   Releaf::ErrorFormatter.build_validation_errors was renamed to .format_errors.
+  Second argument for .format_errors now is for field_name_prefix (default
+  "resource") as errors will be generated within activerecord model
+  errors scope.
 
   If you used Releaf::ResourceValidator.build_validation_errors, update your
-  code to use Releaf::ErrorFormatter.format_errors
+  code to use Releaf::ErrorFormatter.format_errors.
 
 ### 2014.05.14
 * Releaf::ResourceValidator was rewriten.
