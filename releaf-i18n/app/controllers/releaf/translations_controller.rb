@@ -18,7 +18,7 @@ module Releaf
 
       respond_to do |format|
         format.xlsx do
-          response.headers['Content-Disposition'] = "attachment; filename=\"#{Rails.application.class.parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx\""
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{export_file_name}\""
         end
       end
     end
@@ -208,6 +208,10 @@ module Releaf
         render_notification true
         redirect_to action: :edit, search: params[:search]
       end
+    end
+
+    def export_file_name
+      "#{Rails.application.class.parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx"
     end
 
     def import_file_path
