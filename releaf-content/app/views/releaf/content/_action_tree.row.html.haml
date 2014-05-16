@@ -6,7 +6,7 @@
     %div.collapser-cell
       %button.secondary.button.collapser.only-icon{ :type => :button }
         %i.fa{class: expanded ? 'fa-chevron-down' : 'fa-chevron-right'}
-  %div.node-cell
+  %div.node-cell{ class: resource.active? ? :active : nil }
     - if action == :edit
       %a{:href => url_for(:action => action, :id => resource.id)}
         %span
