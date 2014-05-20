@@ -25,4 +25,20 @@
             %td.delete_column
               %button.button.danger.only-icon.remove-nested-item{type: "button", title: t("Remove item", scope: controller_scope_name)}
                 %i.fa.fa-times
+
+        %tr.template.item{ data: { name: :translations }, style: 'display:none' }
+          %td.translation_name.codeColumn
+            .wrap
+              %input{type: "text", name: "translations[][key]"}
+          - locales.each_with_index do |locale, j|
+            %td.translationCell{data: {locale: locale}}
+              %input{type: "text", name: "translations[][localizations][#{locale}]"}
+          %td.delete_column
+            %button.button.danger.only-icon.remove-nested-item{type: "button", title: t("Remove item", scope: controller_scope_name)}
+              %i.fa.fa-times
+
+    %button.button.add-nested-item{:type => 'button'}
+      %i.fa.fa-plus
+      = t('Add item', :scope => 'admin.releaf_translations')
+
   = hidden_field_tag :existing_translations, @translation_ids_to_destroy.join(",")
