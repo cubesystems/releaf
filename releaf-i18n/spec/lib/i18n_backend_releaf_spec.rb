@@ -42,8 +42,8 @@ describe I18n::Backend::Releaf do
 
       expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:translations].blank? }.from(true).to(false)
 
-      expect(described_class::CACHE[:translations]["lv"]["admin"]["global"]["save"]).to eq("saglabāt")
-      expect(described_class::CACHE[:translations]["en"]["admin"]["global"]["save"]).to eq("save")
+      expect(described_class::CACHE[:translations][:lv][:admin][:global][:save]).to eq("saglabāt")
+      expect(described_class::CACHE[:translations][:en][:admin][:global][:save]).to eq("save")
     end
   end
 
@@ -136,6 +136,14 @@ describe I18n::Backend::Releaf do
         it "creates empty translation" do
           expect { I18n.t("save") }.to change { Releaf::Translation.where(key: "global.save").count }.by(1)
         end
+
+        context "when count option passed" do
+          it "supports pluralized translation creation for all Releaf locales" do
+            Releaf.stub(:all_locales).and_return(["ru", "lv"])
+            result = ["animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
+            expect{ I18n.t("animals.horse", count: 1) }.to change{ Releaf::Translation.pluck(:key) }.from([]).to(result)
+          end
+        end
       end
     end
 
@@ -146,8 +154,8 @@ describe I18n::Backend::Releaf do
         translation2 = FactoryGirl.create(:translation, key: "admin.content.save")
         FactoryGirl.create(:translation_data, translation: translation2, lang: "lv", localization: "Saglabāt")
 
-        expect(I18n.t("admin.content", locale: "lv")).to eq({"cancel" => "Atlikt", "save" => "Saglabāt"})
-        expect(I18n.t("admin.content", locale: "en")).to eq({"cancel" => nil, "save" => nil})
+        expect(I18n.t("admin.content", locale: "lv")).to eq({cancel: "Atlikt", save: "Saglabāt"})
+        expect(I18n.t("admin.content", locale: "en")).to eq({cancel: nil, save: nil})
       end
     end
   end

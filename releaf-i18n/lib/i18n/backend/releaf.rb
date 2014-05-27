@@ -39,7 +39,7 @@ module I18n
             ::Releaf.available_locales.each do|locale|
               localized_key = "#{locale}.#{translation_key}"
               locale_hash = localized_key.to_s.split(".").reverse.inject(data_cache[localized_key]) do |value, key|
-                {key => value}
+                {key.to_sym => value}
               end
 
               translation_hash.merge!(locale_hash)
@@ -50,7 +50,7 @@ module I18n
         end
 
         def cache_lookup keys
-          keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_s) }
+          keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_sym) }
         end
 
         # Lookup translation from database
@@ -85,9 +85,28 @@ module I18n
           return nil
         end
 
+        def get_all_pluralizations
+          keys = []
+
+          ::Releaf.all_locales.each do|locale|
+            if TwitterCldr.supported_locale? locale
+              keys += TwitterCldr::Formatters::Plurals::Rules.all_for(locale)
+            end
+          end
+
+          keys.uniq
+        end
+
         def create_missing_translation(locale, key, options)
           return unless ::Releaf.create_missing_translations
-          ::Releaf::Translation.find_or_create_by(key: key)
+
+          if options.has_key? :count
+            get_all_pluralizations.each do|pluralization|
+              ::Releaf::Translation.find_or_create_by(key: "#{key}.#{pluralization}")
+            end
+          else
+            ::Releaf::Translation.find_or_create_by(key: key)
+          end
         end
       end
 
