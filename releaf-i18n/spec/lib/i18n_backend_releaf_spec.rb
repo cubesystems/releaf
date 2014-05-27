@@ -13,55 +13,60 @@ describe I18n::Backend::Releaf do
 
   before do
     # isolate each test cases
-    I18N_CACHE.clear
+    I18n.backend.reload_cache
+    described_class::CACHE[:updated_at] = nil
+  end
+
+  describe "#translations_updated_at" do
+    it "returns Settings.i18n_updated_at" do
+      Settings.i18n_updated_at = Time.now
+      expect(I18n.backend.translations_updated_at).to eq(Settings.i18n_updated_at)
+    end
   end
 
   describe "#reload_cache" do
-    it "clears translations cache" do
-      I18N_CACHE.should_receive(:clear)
-      I18n.backend.reload_cache
+    it "resets missing array" do
+      I18n.t("something")
+      expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:missing].blank? }.from(false).to(true)
     end
 
     it "writes last translations update timestamp to cache" do
-      Settings.i18n_updated_at = Time.now
-      I18n.backend.reload_cache
-      expect(I18N_CACHE.read('UPDATED_AT')).to eq(Settings.i18n_updated_at)
+      I18n.backend.stub(:translations_updated_at).and_return("x")
+      expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:updated_at] }.to("x")
     end
 
-    it "loads all translated data to cache" do
-      FactoryGirl.create(:translation_data, localization: "saglabāt", lang: "lv")
-      FactoryGirl.create(:translation_data, localization: "записывать", lang: "ru")
+    it "loads all translated data to cache as hash" do
+      translation = FactoryGirl.create(:translation, key: "admin.global.save")
+      FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
+      FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
 
-      I18n.backend.reload_cache
+      expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:translations].blank? }.from(true).to(false)
 
-      expect(I18N_CACHE.read(["lv", "admin.global.save"])).to eq("saglabāt")
-      expect(I18N_CACHE.read(["ru", "admin.global.save"])).to eq("записывать")
+      expect(described_class::CACHE[:translations]["lv"]["admin"]["global"]["save"]).to eq("saglabāt")
+      expect(described_class::CACHE[:translations]["en"]["admin"]["global"]["save"]).to eq("save")
     end
   end
 
   describe "#lookup" do
-    subject(:translation) { I18n.t("save", scope: "admin.global") }
+    describe "cache reload" do
+      let(:timestamp){ Time.now }
 
-    context "when cache timestamp" do
-      context "differs from updates timestamp" do
-        before do
-          Settings.i18n_updated_at = Time.now
-        end
-
+      context "when cache timestamp differs from translations update timestamp" do
         it "reloads cache" do
-          I18n.backend.should_receive(:reload_cache)
-          I18n.t("cancel", scope: "admin.content")
+          described_class::CACHE[:updated_at] = timestamp
+          I18n.backend.stub(:translations_updated_at).and_return(timestamp + 1.day)
+          expect(I18n.backend).to receive(:reload_cache)
+          I18n.t("cancel")
         end
       end
 
-      context "is same as updates timestamp" do
-        before do
-          I18N_CACHE.write('UPDATED_AT', Settings.i18n_updated_at)
-        end
-
+      context "when cache timestamp is same as translations update timestamp" do
         it "does not reload cache" do
-          I18n.backend.should_not_receive(:reload_cache)
-          I18n.t("cancel", scope: "admin.content")
+          described_class::CACHE[:updated_at] = timestamp
+          I18n.backend.stub(:translations_updated_at).and_return(timestamp)
+
+          expect(I18n.backend).to_not receive(:reload_cache)
+          I18n.t("cancel")
         end
       end
     end
@@ -131,6 +136,18 @@ describe I18n::Backend::Releaf do
         it "creates empty translation" do
           expect { I18n.t("save") }.to change { Releaf::Translation.where(key: "global.save").count }.by(1)
         end
+      end
+    end
+
+    context "when scope requested" do
+      it "returns all scope translations" do
+        translation1 = FactoryGirl.create(:translation, key: "admin.content.cancel")
+        FactoryGirl.create(:translation_data, translation: translation1, lang: "lv", localization: "Atlikt")
+        translation2 = FactoryGirl.create(:translation, key: "admin.content.save")
+        FactoryGirl.create(:translation_data, translation: translation2, lang: "lv", localization: "Saglabāt")
+
+        expect(I18n.t("admin.content", locale: "lv")).to eq({"cancel" => "Atlikt", "save" => "Saglabāt"})
+        expect(I18n.t("admin.content", locale: "en")).to eq({"cancel" => nil, "save" => nil})
       end
     end
   end

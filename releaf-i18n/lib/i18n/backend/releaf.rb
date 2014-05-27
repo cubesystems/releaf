@@ -1,5 +1,4 @@
 require 'i18n/backend/base'
-I18N_CACHE = ActiveSupport::Cache::MemoryStore.new
 
 module I18n
   module Backend
@@ -8,70 +7,87 @@ module I18n
       module Implementation
         include Base, Flatten
         DEFAULT_SCOPE = ['global']
+        CACHE = {updated_at: nil, translations: {}, missing: {}}
 
         def reload_cache
-          I18N_CACHE.clear
-
-          keys = ["releaf_translations.key", "releaf_translation_data.lang", "releaf_translation_data.localization"]
-          ::Releaf::Translation.joins(:translation_data).select(keys).each do |translation|
-            I18N_CACHE.write [translation.lang, translation.key], translation.localization
-          end
-
-          I18N_CACHE.write('UPDATED_AT', Settings.i18n_updated_at)
+          CACHE[:translations] = translations
+          CACHE[:missing] = {}
+          CACHE[:updated_at] = translations_updated_at
         end
 
+        def translations_updated_at
+          Settings.i18n_updated_at
+        end
+
+
         protected
+
+        def translation_data
+          data_collection = ::Releaf::TranslationData.where("localization != ''").
+            joins("LEFT JOIN releaf_translations ON releaf_translations.id=translation_id").
+            pluck("CONCAT(lang, '.', releaf_translations.key) As translation_key", "localization")
+
+          Hash[data_collection]
+        end
+
+        def translations
+          data_cache = translation_data
+
+          ::Releaf::Translation.order(:key).pluck("releaf_translations.key").map do |translation_key|
+            translation_hash = {}
+
+            ::Releaf.available_locales.each do|locale|
+              localized_key = "#{locale}.#{translation_key}"
+              locale_hash = localized_key.to_s.split(".").reverse.inject(data_cache[localized_key]) do |value, key|
+                {key => value}
+              end
+
+              translation_hash.merge!(locale_hash)
+            end
+
+            translation_hash
+          end.inject(&:deep_merge)
+        end
+
+        def cache_lookup keys
+          keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_s) }
+        end
 
         # Lookup translation from database
         def lookup(locale, key, scope = [], options = {})
           # reload cache if cache timestamp differs from last translations update
-          reload_cache if I18N_CACHE.read('UPDATED_AT') != Settings.i18n_updated_at
+          reload_cache if CACHE[:updated_at] != translations_updated_at
 
           if scope.blank? && key !~ /\./
             scope = DEFAULT_SCOPE
           end
 
           key = normalize_flat_keys(locale, key, scope, options[:separator])
+          locale_key = "#{locale}.#{key}"
+
           # do not process further if key already marked as missing
-          return nil if I18N_CACHE.read([:missing, [locale, key]])
+          return nil if CACHE[:missing].has_key? locale_key
 
-          chain = key.split('.')
-          search_key = chain.pop
-          keys_to_check_for_other_locales = []
+          chain = locale_key.split('.')
 
-          while (chain.length > 0) do
-            # build full translation key with current scope
-            check_key = (chain + [search_key]).join('.')
-            # read value from 118N cache
-            result = I18N_CACHE.read([locale, check_key])
-            # store key for checking in other locales
-            keys_to_check_for_other_locales.push check_key
-
-            # remove chain last value
-            chain.pop
-
-            # go to next scope as translation do not exist
-            next if result.nil?
-            # return only if translation is not blank
+          while (chain.length > 1) do
+            result = cache_lookup(chain)
             return result unless result.blank?
+
+            # remove second last value
+            chain.delete_at(chain.length - 2)
           end
 
           # mark translation as missing
-          I18N_CACHE.write([:missing, [locale, key]], true)
-
-          if ::Releaf.create_missing_translations
-            # do not create new translation if exists in database in any scope
-            unless ::Releaf::Translation.where('releaf_translations.key IN (?)', keys_to_check_for_other_locales).exists?
-              save_missing_translation(locale, key)
-            end
-          end
+          CACHE[:missing][locale_key] = true
+          create_missing_translation(locale, key, options)
 
           return nil
         end
 
-        def save_missing_translation(locale, key)
+        def create_missing_translation(locale, key, options)
+          return unless ::Releaf.create_missing_translations
           ::Releaf::Translation.find_or_create_by(key: key)
-          I18N_CACHE.write [locale, key], false
         end
       end
 
