@@ -44,7 +44,9 @@ feature "Translations" do
     click_button "Save"
     expect(page).to have_notification("Update failed", :error)
 
-    within ".table tr.item:last-child" do
+    File.open(Rails.root.to_s + '/tmp/test.html', 'wb') { |f| f.write page.body }
+
+    within ".table tr.item:nth-child(2)" do
       click_button "Remove item"
     end
     expect(page).to have_css(".table tr.item", count: 1) # wait for fade out to complete
