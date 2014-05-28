@@ -8,17 +8,17 @@
   - case reflection.macro
   - when :has_many
     - sortable_objects = reflection.klass.column_names.include?('item_position')
-    .nested-wrap{:'data-name' => field}
+
+    - template_html = capture do
+      .item.clearInside{ :'data-name' => field}
+        = f.fields_for field, reflection.klass.new, :child_index => '_template_' do |ff|
+          = render 'edit.fields.has_many_template', :f => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
+          -# for templates always show remove button
+          = render 'edit.field_type_remove_nested', f: ff, name: "_destroy"
+
+    .nested-wrap{data: { name: field, releaf: { template: html_escape(template_html) }}}
       %h3.subheader.nested-title= t(field, :scope => controller_scope_name)
       .list{:'data-sortable' => sortable_objects ? '' : nil}
-
-
-        .item.clearInside.template{ :'data-name' => field}
-          = f.fields_for field, reflection.klass.new, :child_index => '_template_' do |ff|
-            = render 'edit.fields.has_many_template', :f => ff, :sortable_objects => sortable_objects, :subfields => subfields, :view_prefix => new_view_prefix, :field => field
-            -# for templates always show remove button
-            = render 'edit.field_type_remove_nested', f: ff, name: "_destroy"
-
         - allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
         - f.object.send(field).each_with_index do |obj, i|
           .item.clearInside{:'data-name' => field, :'data-index' => i}

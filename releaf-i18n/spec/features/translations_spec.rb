@@ -44,7 +44,7 @@ feature "Translations" do
     click_button "Save"
     expect(page).to have_notification("Update failed", :error)
 
-    within ".table tr.item:nth-child(2)" do
+    within ".table tr.item:last-child" do
       click_button "Remove item"
     end
     expect(page).to have_css(".table tr.item", count: 1) # wait for fade out to complete

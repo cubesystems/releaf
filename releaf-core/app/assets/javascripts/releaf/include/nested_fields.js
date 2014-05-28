@@ -16,20 +16,11 @@ jQuery( document ).ready(function()
             var list   = block.find('.list').first();
 
             var block_name               = block.attr('data-name');
-            var template_selector        = '.item[data-name="' + block_name + '"].template';
-            var item_selector            = '.item[data-name="' + block_name + '"]:not(.template)';
+            var template_holder_selector = '[data-releaf-template]';
+            var item_selector            = '.item[data-name="' + block_name + '"]';
 
             var new_item_selector        = '.item[data-name="' + block_name + '"].new';
-            var existing_item_selector   = '.item[data-name="' + block_name + '"]:not(.template,.new)';
-
-            target.find(template_selector).find('button, input, select, textarea').each(function() {
-                var input = jQuery(this);
-                if (!input.is('[disabled="disabled"]'))
-                {
-                    input.addClass('releaf-template-field-disabled');
-                    input.attr('disabled', 'disabled');
-                }
-            });
+            var existing_item_selector   = '.item[data-name="' + block_name + '"]:not(.new)';
 
 
             block.click( function( event, event_params )
@@ -67,7 +58,7 @@ jQuery( document ).ready(function()
 
                 if (trigger.is('.add-nested-item'))
                 {
-                    var template = target_block.find( template_selector ).first();
+                    var template = jQuery(target_block.data('releaf-template'));
                     if (template.length != 1)
                     {
                         if (typeof console != 'undefined' && 'log' in console)
@@ -77,20 +68,10 @@ jQuery( document ).ready(function()
                         return null;
                     }
 
-                    var new_item = template.clone( false );
 
-                    new_item.removeClass( 'template' ).addClass('new');
-                    new_item.find('.releaf-template-field-disabled[disabled="disabled"]').each(function() {
-                        var input = jQuery(this);
-                        if (input.parents('.template').length == 0)
-                        {
-                            // Only enable fields for inputs that are not part of template
-                            // This is needed for nested fields with nested fields, to prevent
-                            // enabling inputs of nested template
-                            input.removeAttr('disabled');
-                            input.removeClass('releaf-template-field-disabled');
-                        }
-                    });
+                    var new_item = template;
+
+                    new_item.addClass('new');
 
                     new_item.appendTo( list );
 
@@ -189,7 +170,6 @@ jQuery( document ).ready(function()
 
             block.on('nestedfieldsreindex', function( e )
             {
-
                 // update data-index attributes and names/ids for all fields inside a block
 
                 // in case of nested blocks, this bubbles up and gets called for each parent block also
