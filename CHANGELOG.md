@@ -2,6 +2,8 @@
 
 ### 2014.05.28
 * Removed Releaf::TemplateFilter includable module.
+* Refactored how releaf stores form templates.
+  Form templates are now stored in containers data-releaf-template html attribute.
 
 ### 2014.05.15
 * Releaf::ResourceValidator was renamed to Releaf::ErrorFormatter.
