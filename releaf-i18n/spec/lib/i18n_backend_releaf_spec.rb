@@ -71,6 +71,24 @@ describe I18n::Backend::Releaf do
       end
     end
 
+    context "when pluralized translation requested" do
+      context "when valid pluralized data matched" do
+        it "returns pluralized translation" do
+          translation = FactoryGirl.create(:translation, key: "dog.other")
+          FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+          expect(I18n.t("dog", locale: "lv", count: 2)).to eq("suņi")
+        end
+      end
+
+      context "when invalid pluralized data matched" do
+        it "returns nil (Humanize key)" do
+          translation = FactoryGirl.create(:translation, key: "dog.food")
+          FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+          expect(I18n.t("dog", locale: "lv", count: 2)).to eq("Dog")
+        end
+      end
+    end
+
     context "existing translation" do
       context "in parent scope" do
         context "nonexistent translation in given scope" do

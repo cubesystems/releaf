@@ -39,8 +39,26 @@ module I18n
           end.inject(&:deep_merge)
         end
 
-        def cache_lookup keys
-          keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_sym) }
+        def cache_lookup keys, locale, options
+          result = keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_sym) }
+
+          # return nil as we don't have valid pluralized translation
+          if result && options.has_key?(:count) && !valid_pluralized_result?(result, locale, options[:count])
+            result = nil
+          end
+
+          result
+        end
+
+        def valid_pluralized_result? result, locale, count
+          valid = false
+
+          if TwitterCldr.supported_locale?(locale)
+            rule = TwitterCldr::Formatters::Plurals::Rules.rule_for(count, locale)
+            valid = result.has_key? rule
+          end
+
+          valid
         end
 
         # Lookup translation from database
@@ -57,7 +75,7 @@ module I18n
           chain = locale_key.split('.')
 
           while (chain.length > 1) do
-            result = cache_lookup(chain)
+            result = cache_lookup(chain, locale, options)
             return result unless result.blank?
 
             # remove second last value
