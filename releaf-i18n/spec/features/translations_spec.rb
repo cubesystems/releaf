@@ -44,8 +44,6 @@ feature "Translations" do
     click_button "Save"
     expect(page).to have_notification("Update failed", :error)
 
-    File.open(Rails.root.to_s + '/tmp/test.html', 'wb') { |f| f.write page.body }
-
     within ".table tr.item:nth-child(2)" do
       click_button "Remove item"
     end
