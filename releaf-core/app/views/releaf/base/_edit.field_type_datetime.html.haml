@@ -1,17 +1,14 @@
 :ruby
   label_opts  = get_template_label_options    local_assigns
   input_attrs = get_template_input_attributes local_assigns, {
-    :value => f.object.send(name),
-    :class => 'datetime_picker',
-    :data => {
-      :date_format => I18n.t("format.jquery.datepicker.date", :default => 'yy-mm-dd'),
-      :time_format => I18n.t("format.jquery.datepicker.time", :default => 'HH:mm:ss')
+    value: f.object.send(name),
+    class: 'datetime_picker',
+    data: {
+      date_format: jquery_date_format(I18n.t("date.formats.default"))
     },
-    :value => f.object.send(name).try(:strftime, I18n.t("format.datepicker.datetime", :default => '%Y-%m-%d %H:%M'))
+    value: (I18n.l(f.object.send(name)) if f.object.send(name))
   }
   field_attrs = get_template_field_attributes local_assigns
-
-
 
 .field.type_datetime{field_attrs}
   = render "edit.field_label", label_opts
