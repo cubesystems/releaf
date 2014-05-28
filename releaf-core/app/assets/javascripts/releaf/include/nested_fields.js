@@ -82,8 +82,14 @@ jQuery( document ).ready(function()
                     new_item.removeClass( 'template' ).addClass('new');
                     new_item.find('.releaf-template-field-disabled[disabled="disabled"]').each(function() {
                         var input = jQuery(this);
-                        input.removeAttr('disabled');
-                        input.removeClass('releaf-template-field-disabled');
+                        if (input.parents('.template').length == 0)
+                        {
+                            // Only enable fields for inputs that are not part of template
+                            // This is needed for nested fields with nested fields, to prevent
+                            // enabling inputs of nested template
+                            input.removeAttr('disabled');
+                            input.removeClass('releaf-template-field-disabled');
+                        }
                     });
 
                     new_item.appendTo( list );
