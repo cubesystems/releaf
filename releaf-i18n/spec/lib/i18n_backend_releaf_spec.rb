@@ -90,6 +90,25 @@ describe I18n::Backend::Releaf do
     end
 
     context "existing translation" do
+      context "when translations hash exists in parent scope" do
+        before do
+          translation = FactoryGirl.create(:translation, key: "dog.other")
+          FactoryGirl.create(:translation_data, translation: translation, lang: "en", localization: "dogs")
+        end
+
+        context "when pluralized translation requested" do
+          it "returns pluralized translation" do
+            expect(I18n.t("admin.controller.dog", count: 2)).to eq("dogs")
+          end
+        end
+
+        context "when non pluralized translation requested" do
+          it "returns nil" do
+            expect(I18n.t("admin.controller.dog")).to eq("Dog")
+          end
+        end
+      end
+
       context "in parent scope" do
         context "nonexistent translation in given scope" do
           it "uses parent scope" do

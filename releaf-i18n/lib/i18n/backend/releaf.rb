@@ -39,11 +39,14 @@ module I18n
           end.inject(&:deep_merge)
         end
 
-        def cache_lookup keys, locale, options
+        def cache_lookup keys, locale, options, first_lookup
           result = keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_sym) }
 
+          # when non-first match, non-pluralized and hash - return nil
+          if !first_lookup && result.is_a?(Hash) && !options.has_key?(:count)
+            result = nil
           # return nil as we don't have valid pluralized translation
-          if result && options.has_key?(:count) && !valid_pluralized_result?(result, locale, options[:count])
+          elsif result.is_a?(Hash) && options.has_key?(:count) && !valid_pluralized_result?(result, locale, options[:count])
             result = nil
           end
 
@@ -73,9 +76,10 @@ module I18n
           return nil if CACHE[:missing].has_key? locale_key
 
           chain = locale_key.split('.')
+          chain_initial_length = chain.length
 
           while (chain.length > 1) do
-            result = cache_lookup(chain, locale, options)
+            result = cache_lookup(chain, locale, options, chain_initial_length == chain.length)
             return result unless result.blank?
 
             # remove second last value
