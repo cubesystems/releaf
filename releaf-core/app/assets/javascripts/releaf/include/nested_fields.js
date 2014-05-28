@@ -22,6 +22,15 @@ jQuery( document ).ready(function()
             var new_item_selector        = '.item[data-name="' + block_name + '"].new';
             var existing_item_selector   = '.item[data-name="' + block_name + '"]:not(.template,.new)';
 
+            target.find(template_selector).find('button, input, select, textarea').each(function() {
+                var input = jQuery(this);
+                if (!input.is('[disabled="disabled"]'))
+                {
+                    input.addClass('releaf-template-field-disabled');
+                    input.attr('disabled', 'disabled');
+                }
+            });
+
 
             block.click( function( event, event_params )
             {
@@ -71,6 +80,11 @@ jQuery( document ).ready(function()
                     var new_item = template.clone( false );
 
                     new_item.removeClass( 'template' ).addClass('new');
+                    new_item.find('.releaf-template-field-disabled[disabled="disabled"]').each(function() {
+                        var input = jQuery(this);
+                        input.removeAttr('disabled');
+                        input.removeClass('releaf-template-field-disabled');
+                    });
 
                     new_item.appendTo( list );
 

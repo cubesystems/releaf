@@ -177,9 +177,6 @@ module Releaf
 
       translations_params ||= []
       translations_params.each do |values|
-        # if all localizations and key is blank skip translation
-        next unless [values["key"], values.fetch("localizations", {}).values].flatten.map(&:present?).include?(true)
-
         translation = load_translation(values["key"], values["localizations"])
 
         if translation.valid?

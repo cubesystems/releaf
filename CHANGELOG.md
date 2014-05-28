@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2014.05.28
+* Removed Releaf::TemplateFilter includable module.
+
 ### 2014.05.15
 * Releaf::ResourceValidator was renamed to Releaf::ErrorFormatter.
   Releaf::ErrorFormatter.build_validation_errors was renamed to .format_errors.
