@@ -9,7 +9,7 @@ module I18n
         CACHE = {updated_at: nil, translations: {}, missing: {}}
 
         def reload_cache
-          CACHE[:translations] = translations
+          CACHE[:translations] = translations || {}
           CACHE[:missing] = {}
           CACHE[:updated_at] = translations_updated_at
         end
@@ -18,6 +18,13 @@ module I18n
           Settings.i18n_updated_at
         end
 
+        def store_translations locale, data, options = {}
+          new_hash = {}
+          new_hash[locale] = data
+
+          CACHE[:translations].deep_merge!(new_hash)
+          CACHE[:missing] = {}
+        end
 
         protected
 

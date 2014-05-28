@@ -17,6 +17,19 @@ describe I18n::Backend::Releaf do
     described_class::CACHE[:updated_at] = nil
   end
 
+  describe "#store_translations" do
+    it "merges given translations to cache" do
+      translation = FactoryGirl.create(:translation, key: "admin.content.save")
+      FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
+      FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
+
+      expect{ I18n.backend.store_translations(:en, {admin: {profile: "profils"}}) }.to change{ I18n.t("admin.profile") }.
+        from("Profile").to("profils")
+
+      expect(I18n.t("admin.content.save", locale: "lv")).to eq("saglabāt")
+    end
+  end
+
   describe "#translations_updated_at" do
     it "returns Settings.i18n_updated_at" do
       Settings.i18n_updated_at = Time.now
