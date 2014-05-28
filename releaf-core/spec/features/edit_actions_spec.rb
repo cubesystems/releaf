@@ -64,4 +64,56 @@ feature "Base controller edit", js: true do
     expect(page).to_not have_css('.remove-nested-item')
     expect(page).to have_css('#resource_chapters_attributes_0_title[value="Chapter 1"]')
   end
+
+  scenario "nested fields tempalte is not submitted" do
+    visit new_admin_book_path
+    within "form.new_resource" do
+      fill_in "Title", with: "Master and Margarita"
+      within "[data-name='chapters']" do
+        # make sure template fields are properly disabled
+        expect( page ).to have_selector('.template input[disabled="disabled"].releaf-template-field-disabled', visible: false)
+        expect( page ).to have_selector('.template textarea[disabled="disabled"].releaf-template-field-disabled', visible: false)
+
+        # verify that there are no visible inputs
+        expect( page ).to have_no_selector('input', visible: true)
+        expect( page ).to have_no_selector('textarea', visible: true)
+        expect( page ).to have_button "Add item"
+      end
+    end
+    save_and_check_response "Create succeeded"
+
+    new_book = Book.where(title: "Master and Margarita").first
+    expect( new_book.chapters.count ).to eq 0
+  end
+
+  scenario "new nested objects are submitted" do
+    visit new_admin_book_path
+    within "form.new_resource" do
+      fill_in "Title", with: "Master and Margarita"
+      within "[data-name='chapters']" do
+        # make sure template fields are properly disabled
+        expect( page ).to have_selector('.template input[disabled="disabled"].releaf-template-field-disabled', visible: false)
+        expect( page ).to have_selector('.template textarea[disabled="disabled"].releaf-template-field-disabled', visible: false)
+
+        # verify that there are no visible inputs
+        expect( page ).to have_no_selector('input', visible: true)
+        expect( page ).to have_no_selector('textarea', visible: true)
+
+        click_button "Add item"
+        # check that releaf-template-field-disabled class is removed from inputs
+        expect( page ).to have_no_selector('input.releaf-template-field-disabled', visible: true)
+        expect( page ).to have_no_selector('textarea.releaf-template-field-disabled', visible: true)
+        # check that inputs are enabled
+        expect( page ).to have_no_selector('input[disabled="disabled"]', visible: true)
+        expect( page ).to have_no_selector('textarea[disabled="disabled"]', visible: true)
+        fill_in "Title", with: "Chapter 1"
+        fill_in "Text", with: "some text"
+      end
+    end
+    save_and_check_response "Create succeeded"
+
+    new_book = Book.where(title: "Master and Margarita").first
+    expect( new_book.chapters.count ).to eq 1
+    expect( new_book.chapters.first.title ).to eq "Chapter 1"
+  end
 end
