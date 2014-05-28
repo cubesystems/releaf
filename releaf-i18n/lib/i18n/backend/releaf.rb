@@ -21,7 +21,8 @@ module I18n
 
         protected
 
-        def translation_data
+        # Return all non-empty localizations
+        def localization_data
           data_collection = ::Releaf::TranslationData.where("localization != ''").
             joins("LEFT JOIN releaf_translations ON releaf_translations.id=translation_id").
             pluck("CONCAT(lang, '.', releaf_translations.key) As translation_key", "localization")
@@ -29,22 +30,12 @@ module I18n
           Hash[data_collection]
         end
 
+        # Return translation hash for each releaf locales
         def translations
-          data_cache = translation_data
+          localization_cache = localization_data
 
           ::Releaf::Translation.order(:key).pluck("releaf_translations.key").map do |translation_key|
-            translation_hash = {}
-
-            ::Releaf.available_locales.each do|locale|
-              localized_key = "#{locale}.#{translation_key}"
-              locale_hash = localized_key.to_s.split(".").reverse.inject(data_cache[localized_key]) do |value, key|
-                {key.to_sym => value}
-              end
-
-              translation_hash.merge!(locale_hash)
-            end
-
-            translation_hash
+            key_hash(translation_key, localization_cache)
           end.inject(&:deep_merge)
         end
 
@@ -101,6 +92,26 @@ module I18n
             end
           else
             ::Releaf::Translation.find_or_create_by(key: key)
+          end
+        end
+
+        private
+
+        def key_hash key, localization_cache
+          hash = {}
+
+          ::Releaf.available_locales.each do |locale|
+            localized_key = "#{locale}.#{key}"
+            locale_hash = locale_hash(localized_key, localization_cache[localized_key])
+            hash.merge! locale_hash
+          end
+
+          hash
+        end
+
+        def locale_hash localized_key, localization
+          localized_key.to_s.split(".").reverse.inject(localization) do |value, key|
+            {key.to_sym => value}
           end
         end
       end
