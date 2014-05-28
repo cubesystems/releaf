@@ -106,19 +106,11 @@ describe I18n::Backend::Releaf do
         end
       end
 
-      context "with scope" do
+      context "when scope defined" do
         it "uses given scope" do
           translation = FactoryGirl.create(:translation, key: "admin.content.cancel")
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Atlikt")
           expect(I18n.t("cancel", scope: "admin.content", locale: "lv")).to eq("Atlikt")
-        end
-      end
-
-      context "without scope" do
-        it "adds default scope" do
-          translation = FactoryGirl.create(:translation, key: "global.save")
-          FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
-          expect(I18n.t("save", locale: "lv")).to eq("Saglabāt")
         end
       end
     end
@@ -134,7 +126,7 @@ describe I18n::Backend::Releaf do
 
       context "with nonexistent translation" do
         it "creates empty translation" do
-          expect { I18n.t("save") }.to change { Releaf::Translation.where(key: "global.save").count }.by(1)
+          expect { I18n.t("save") }.to change { Releaf::Translation.where(key: "save").count }.by(1)
         end
 
         context "when count option passed" do

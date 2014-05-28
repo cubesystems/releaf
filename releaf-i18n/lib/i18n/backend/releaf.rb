@@ -6,7 +6,6 @@ module I18n
     class Releaf
       module Implementation
         include Base, Flatten
-        DEFAULT_SCOPE = ['global']
         CACHE = {updated_at: nil, translations: {}, missing: {}}
 
         def reload_cache
@@ -57,10 +56,6 @@ module I18n
         def lookup(locale, key, scope = [], options = {})
           # reload cache if cache timestamp differs from last translations update
           reload_cache if CACHE[:updated_at] != translations_updated_at
-
-          if scope.blank? && key !~ /\./
-            scope = DEFAULT_SCOPE
-          end
 
           key = normalize_flat_keys(locale, key, scope, options[:separator])
           locale_key = "#{locale}.#{key}"
