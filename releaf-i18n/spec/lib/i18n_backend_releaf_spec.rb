@@ -103,6 +103,17 @@ describe I18n::Backend::Releaf do
     end
 
     context "existing translation" do
+      context "when translation exists with different case" do
+        it "returns existing translation" do
+          translation = FactoryGirl.create(:translation, key: "Save")
+          FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
+          I18n.backend.reload_cache
+
+          expect(I18n.t("save", locale: "lv")).to eq("Saglabāt")
+          expect(I18n.t("Save", locale: "lv")).to eq("Saglabāt")
+        end
+      end
+
       context "when translations hash exists in parent scope" do
         before do
           translation = FactoryGirl.create(:translation, key: "dog.other")

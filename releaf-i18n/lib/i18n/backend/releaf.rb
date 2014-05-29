@@ -32,7 +32,7 @@ module I18n
         def localization_data
           data_collection = ::Releaf::TranslationData.where("localization != ''").
             joins("LEFT JOIN releaf_translations ON releaf_translations.id=translation_id").
-            pluck("CONCAT(lang, '.', releaf_translations.key) As translation_key", "localization")
+            pluck("LOWER(CONCAT(lang, '.', releaf_translations.key)) AS translation_key", "localization")
 
           Hash[data_collection]
         end
@@ -41,13 +41,13 @@ module I18n
         def translations
           localization_cache = localization_data
 
-          ::Releaf::Translation.order(:key).pluck("releaf_translations.key").map do |translation_key|
+          ::Releaf::Translation.order(:key).pluck("LOWER(releaf_translations.key)").map do |translation_key|
             key_hash(translation_key, localization_cache)
           end.inject(&:deep_merge)
         end
 
         def cache_lookup keys, locale, options, first_lookup
-          result = keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.to_sym) }
+          result = keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.downcase.to_sym) }
 
           # when non-first match, non-pluralized and hash - return nil
           if !first_lookup && result.is_a?(Hash) && !options.has_key?(:count)
