@@ -115,7 +115,7 @@ module I18n
         def create_missing_translation(locale, key, options)
           return unless ::Releaf.create_missing_translations
 
-          if options.has_key? :count
+          if options.has_key?(:count) && options[:create_plurals] == true
             get_all_pluralizations.each do|pluralization|
               ::Releaf::Translation.find_or_create_by(key: "#{key}.#{pluralization}")
             end

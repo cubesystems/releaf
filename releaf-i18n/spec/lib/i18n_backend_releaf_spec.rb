@@ -186,15 +186,33 @@ describe I18n::Backend::Releaf do
       end
 
       context "with nonexistent translation" do
+        before do
+          Releaf.stub(:all_locales).and_return(["ru", "lv"])
+        end
+
         it "creates empty translation" do
           expect { I18n.t("save") }.to change { Releaf::Translation.where(key: "save").count }.by(1)
         end
 
         context "when count option passed" do
-          it "supports pluralized translation creation for all Releaf locales" do
-            Releaf.stub(:all_locales).and_return(["ru", "lv"])
-            result = ["animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
-            expect{ I18n.t("animals.horse", count: 1) }.to change{ Releaf::Translation.pluck(:key) }.from([]).to(result)
+          context "when create_plurals option not passed" do
+            it "creates empty translation" do
+              expect { I18n.t("animals.horse", count: 1) }.to change { Releaf::Translation.where(key: "animals.horse").count }.by(1)
+            end
+          end
+
+          context "when negative create_plurals option passed" do
+            it "creates empty translation" do
+              expect { I18n.t("animals.horse", create_plurals: false, count: 1) }.to change { Releaf::Translation.where(key: "animals.horse").count }.by(1)
+            end
+          end
+
+          context "when positive create_plurals option passed" do
+            it "creates pluralized translations for all Releaf locales" do
+              result = ["animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
+              expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::Translation.pluck(:key) }.
+                from([]).to(result)
+            end
           end
         end
       end
