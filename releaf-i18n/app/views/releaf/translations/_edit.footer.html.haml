@@ -5,15 +5,15 @@
         %i.fa.fa-check
         %span
           - if @import
-            = t('import', scope: controller_scope_name)
+            = t('Import', scope: controller_scope_name)
           - else
-            = t('save', scope: "admin.global")
+            = t('Save', scope: "admin.global")
 
     .secondary
       %a.button.secondary{href: url_for( action: :index, search: params[:search] ) }
         %i.fa.fa-caret-left
-        = t('back_to_list', scope: 'admin.global')
+        = t('Back to list', scope: 'admin.global')
       - unless @import
         %a.button.secondary{ href: url_for(action: :export, search: params[:search], format: :xlsx) }
           %i.fa.fa-download
-          = t('export', scope: controller_scope_name)
+          = t('Export', scope: controller_scope_name)

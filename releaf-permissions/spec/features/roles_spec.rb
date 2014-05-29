@@ -7,7 +7,7 @@ feature "Roles management", js: true do
 
   scenario "User creates a new role" do
     visit releaf_roles_path
-    click_link "Create new item"
+    click_link "Create new resource"
     fill_in("Name", with: "second role")
     save_and_check_response('Create succeeded')
   end

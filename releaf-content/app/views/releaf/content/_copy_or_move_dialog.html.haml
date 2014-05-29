@@ -3,8 +3,8 @@
 
 .body.dialog.copy-or-move-node-dialog{class: "#{action}-node-dialog"}
   .header
-    = t(title_template, :scope => controller_scope_name, :default => title_template, :node_name => @node.name )
-  = form_tag url_for(:action => action, :id => @node.id), :method => :post, 'data-validation' => true, 'data-validation-ok-handler' => 'ajax' do
+    = t(title_template, scope: controller_scope_name, default: title_template, node_name: @node.name )
+  = form_tag url_for(action: action, id: @node.id), method: :post, 'data-validation' => true, 'data-validation-ok-handler' => 'ajax' do
     .content.clearInside
 
       .action-tree.collection
@@ -14,17 +14,17 @@
               - field_id = 'new_parent_id_0'
               = radio_button_tag :new_parent_id, '', false, id: 'new_parent_id_0'
               %label{for: field_id}
-                %span= t("Root node", :scope => controller_scope_name)
+                %span= t("Root node", scope: controller_scope_name)
 
         - if @collection.size > 0
-          = render 'action_tree.level', :collection => @collection, :level => 1, :action => action
+          = render 'action_tree.level', collection: @collection, level: 1, action: action
 
     .footer.clearInside
-      - cancel_url = url_for( :action => 'index' )
-      %a.button.secondary{ :data => {:type => 'cancel'}, :href => cancel_url }
+      - cancel_url = url_for( action: 'index' )
+      %a.button.secondary{ data: {type: 'cancel'}, href: cancel_url }
         %i.fa.fa-ban
-        %span= t('cancel', :scope => 'admin.global')
-      %button.primary.button(type="submit")
+        %span= t('Cancel', scope: 'admin.global')
+      %button.primary.button{type: "submit"}
         %i.fa.fa-check
-        %span= t(action, :scope => controller_scope_name)
+        %span= t(action.to_s.capitalize, scope: controller_scope_name)
 

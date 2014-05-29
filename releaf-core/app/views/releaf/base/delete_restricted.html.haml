@@ -1,7 +1,7 @@
 .body.dialog.delete-restricted-dialog
   .content
     %i.fa.fa-ban
-    .message= t('delete_restricted', scope: 'admin.global')
+    .message= t('Delete restricted', scope: 'admin.global')
     .description= t("Deletion of %{resource} restricted, due to existing relations:", scope: "admin.global", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(@resource))
     %ul.block.restricted-relations
       - @restrict_relations.each_pair do |key, relations|
@@ -26,4 +26,4 @@
   .footer.clearInside
     %a.button{ href: index_url, data: {type: 'cancel'} }
       %i.fa.fa-check
-      %span= t('ok', scope: 'admin.global')
+      %span= t('Ok', scope: 'admin.global')

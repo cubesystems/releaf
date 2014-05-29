@@ -1,7 +1,7 @@
-= render :partial => "breadcrumbs"
-= render :partial => "flash_notices"
+= render partial: "breadcrumbs"
+= render partial: "flash_notices"
 %h2.header
-  = resource.new_record? ? t('create_new_resource', :scope => 'admin.global') : resource_to_text(resource)
+  = resource.new_record? ? t('Create new resource', scope: 'admin.global') : resource_to_text(resource)
   - if @features[:toolbox]
     .toolbox-wrap
       = toolbox(resource, index_url: index_url)

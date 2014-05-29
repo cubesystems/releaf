@@ -1,19 +1,10 @@
 %footer
   .tools
     .primary
-      %a.button.primary{ :href => url_for(:action => :edit, search: params[:search]) }
+      %a.button.primary{ href: url_for(action: :edit, search: params[:search]) }
         %i.fa.fa-edit
-        = t('edit', :scope => 'admin.global')
-
-
-      - if @features[:create]
-        -# TODO
-        %a.button.primary{ :href => url_for(:controller => controller.controller_name, :action => "new") }
-          %i.fa.fa-plus
-          = t('create_new_item', :scope => 'admin.global')
-
-
+        = t('Edit', scope: 'admin.global')
     - if collection.respond_to?(:page)
-      = will_paginate( collection, :class=> "pagination",  :params => params.merge({:ajax => nil}), :renderer => "Releaf::PaginationRenderer::LinkRenderer", :outer_window => 0, :inner_window => 2 )
+      = will_paginate( collection, class: "pagination",  params: params.merge({ajax: nil}), renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2 )
     .secondary
-      = render :partial => "index.footer.extras"
+      = render partial: "index.footer.extras"

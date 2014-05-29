@@ -25,8 +25,7 @@ describe "home page" do
 
     it "new user creation", :js => true do
       visit (releaf_admins_path)
-      click_link 'Create new item'
-      page.should have_content 'Create new resource'
+      click_link 'Create new resource'
       within("form.new_resource") do
         fill_in 'Name',    :with => "John"
         fill_in 'Surname', :with => "Appleseed"

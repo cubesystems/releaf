@@ -15,18 +15,18 @@
 
 .body.dialog.add-child-dialog{ :'data-columns' => content_types_slices.size }
   .header
-    = t("add new node", :scope => controller_scope_name)
+    = t("Add new node", scope: controller_scope_name)
   .content.clearInside
     .description
-      = t("select content type of new node", :scope => controller_scope_name)
+      = t("Select content type of new node", scope: controller_scope_name)
     .content_types.clearInside
       - content_types_slices.each do |slice|
         %ul.block
           - slice.each do |content_type|
-            %li= link_to I18n.t(content_type.name.underscore, scope: 'admin.content_types'), new_releaf_node_path(:parent_id => params[:parent_id], :content_type => content_type.name)
+            %li= link_to I18n.t(content_type.name.underscore, scope: 'admin.content_types'), new_releaf_node_path(parent_id: params[:parent_id], content_type: content_type.name)
   .footer.clearInside
-    - cancel_url = (@resource.parent_id.blank?) ? url_for( :action => 'index' ) : url_for( :action => 'edit', :id => @resource.parent_id )
-    %a.button.secondary{ :data => {:type => 'cancel'}, :href => cancel_url }
+    - cancel_url = (@resource.parent_id.blank?) ? url_for( action: 'index' ) : url_for( action: 'edit', id: @resource.parent_id )
+    %a.button.secondary{ data: {type: 'cancel'}, href: cancel_url }
       %i.fa.fa-ban
-      %span= t('cancel', :scope => 'admin.global')
+      %span= t('Cancel', scope: 'admin.global')
 

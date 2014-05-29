@@ -24,7 +24,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
   describe "new node" do
     context "when creating node under root" do
       it "creates new node in content tree" do
-        click_link("Create new item")
+        click_link("Create new resource")
         click_link("Contacts controller")
         fill_in("resource_name", with: "RootNode2")
         save_and_check_response('Create succeeded')
