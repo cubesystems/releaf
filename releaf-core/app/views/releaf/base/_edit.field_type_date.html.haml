@@ -4,9 +4,9 @@
     value: f.object.send(name),
     class: 'date_picker',
     data: {
-      date_format: jquery_date_format(I18n.t("date.formats.default"))
+      date_format: jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
     },
-    value: (I18n.l(f.object.send(name)) if f.object.send(name))
+    value: (I18n.l(f.object.send(name), default: "%Y-%m-%d") if f.object.send(name))
   }
   field_attrs = get_template_field_attributes local_assigns
 
