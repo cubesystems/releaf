@@ -1,21 +1,21 @@
 require "spec_helper"
 
-describe Releaf::RoutesReloader do
+describe Releaf::Content::RoutesReloader do
   let(:app) { ->(env) { [200, env, "app"] } }
 
   let :request do
-    Releaf::RoutesReloader.new(app).call(Rack::MockRequest.env_for('http://example.com'))
+    described_class.new(app).call(Rack::MockRequest.env_for('http://example.com'))
   end
 
   describe "on application startup" do
     it "sets routes loading time" do
-      expect(Releaf::RoutesReloader.routes_loaded).to_not be_nil
+      expect(described_class.routes_loaded).to_not be_nil
     end
   end
 
   describe "on each request" do
     it "compares latest updates" do
-      expect(Releaf::RoutesReloader).to receive(:reload_if_expired)
+      expect(described_class).to receive(:reload_if_expired)
       request
     end
   end
@@ -25,7 +25,7 @@ describe Releaf::RoutesReloader do
       it "does not reload routes" do
         Node.stub(:updated_at).and_return(nil)
         expect(Rails.application).to_not receive(:reload_routes!)
-        Releaf::RoutesReloader.reload_if_expired
+        described_class.reload_if_expired
       end
     end
 
@@ -33,7 +33,7 @@ describe Releaf::RoutesReloader do
       it "does not reload routes" do
         Node.stub(:updated_at).and_return(Time.parse("1991-01-01"))
         expect(Rails.application).to_not receive(:reload_routes!)
-        Releaf::RoutesReloader.reload_if_expired
+        described_class.reload_if_expired
       end
     end
 
@@ -41,7 +41,7 @@ describe Releaf::RoutesReloader do
       it "reloads routes" do
         Node.stub(:updated_at).and_return(Time.now)
         expect(Rails.application).to receive(:reload_routes!)
-        Releaf::RoutesReloader.reload_if_expired
+        described_class.reload_if_expired
       end
     end
   end

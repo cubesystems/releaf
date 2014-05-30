@@ -25,9 +25,6 @@ module Releaf
   mattr_accessor :layout
   @@layout = "releaf/admin"
 
-  mattr_accessor :load_routes_middleware
-  @@load_routes_middleware = true
-
   mattr_accessor :available_locales
   @@available_locales = nil
 

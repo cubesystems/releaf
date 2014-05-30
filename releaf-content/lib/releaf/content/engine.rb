@@ -2,6 +2,10 @@ module Releaf::Content
   class Engine < ::Rails::Engine
   end
 
+  def self.initialize_component
+    Rails.application.config.middleware.use Releaf::Content::RoutesReloader
+  end
+
   def self.draw_component_routes router
     router.namespace :content, path: nil do
       router.releaf_resources :nodes, :except => [:show] do

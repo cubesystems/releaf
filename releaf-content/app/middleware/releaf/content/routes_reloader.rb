@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Content
   class RoutesReloader
     def initialize(app)
       @app = app
