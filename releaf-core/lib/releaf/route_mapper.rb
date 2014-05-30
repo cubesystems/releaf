@@ -41,15 +41,7 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, :path => nil do
-
         initialize_releaf_components
-
-        namespace :permissions, :path => nil do
-          releaf_resources :users if controllers.include? :users
-          releaf_resources :roles if controllers.include? :roles
-        end
-
-        mount_profile_controller if controllers.include? :profile
         mount_content_controller if controllers.include? :content
 
         root :to => "home#index"
@@ -68,13 +60,6 @@ module Releaf::RouteMapper
     end
 
     allowed_controllers
-  end
-
-  # Mount profile controller
-  def mount_profile_controller
-    get "profile", to: "permissions/profile#edit", as: :permissions_user_profile
-    patch "profile", to: "permissions/profile#update"
-    post "profile/settings", to: "permissions/profile#settings", as: :permissions_user_profile_settings
   end
 
   # Mount nodes content controller
