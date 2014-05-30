@@ -26,8 +26,6 @@ module Releaf::RouteMapper
   end
 
   def mount_releaf_at mount_location, options={}, &block
-    controllers = allowed_controllers(options)
-
     devise_for Releaf.devise_for, path: mount_location, controllers: { sessions: "releaf/sessions" }
 
     mount_location_namespace = mount_location.gsub("/", "").to_sym
@@ -42,7 +40,6 @@ module Releaf::RouteMapper
 
       namespace :releaf, :path => nil do
         initialize_releaf_components
-        mount_content_controller if controllers.include? :content
 
         root :to => "home#index"
         get '/*path' => 'home#page_not_found'
@@ -51,35 +48,6 @@ module Releaf::RouteMapper
   end
 
   private
-
-  # Get list of allowed releaf built-in controllers
-  def allowed_controllers options
-    allowed_controllers = options.try(:[], :allowed_controllers)
-    if allowed_controllers.nil?
-      allowed_controllers = [:roles, :users, :translations, :profile, :content]
-    end
-
-    allowed_controllers
-  end
-
-  # Mount nodes content controller
-  def mount_content_controller
-    namespace :content, path: nil do
-      releaf_resources :nodes, :except => [:show] do
-        collection do
-          get :generate_url
-          get :go_to_dialog
-        end
-
-        member do
-          get :copy_dialog
-          post :copy
-          get :move_dialog
-          post :move
-        end
-      end
-    end
-  end
 
   # Check whether add confirm destroy route
   def include_confirm_destroy? options
