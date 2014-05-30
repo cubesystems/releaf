@@ -1,8 +1,8 @@
-module Releaf
-  class RolesController < BaseController
+module Releaf::Permissions
+  class RolesController < Releaf::BaseController
 
     def self.resource_class
-      Releaf::Role
+      Releaf::Permissions::Role
     end
 
     def available_controllers

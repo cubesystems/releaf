@@ -1,6 +1,6 @@
 module Helpers
   def auth_as_admin full_login = false, factory = :admin
-    if factory.is_a? Releaf::Admin
+    if factory.is_a? Releaf::Permissions::Admin
       admin = factory
     else
       admin = FactoryGirl.create(factory)

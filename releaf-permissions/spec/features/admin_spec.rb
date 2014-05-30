@@ -24,7 +24,7 @@ describe "home page" do
     end
 
     it "new user creation", :js => true do
-      visit (releaf_admins_path)
+      visit (releaf_permissions_admins_path)
       click_link 'Create new resource'
       within("form.new_resource") do
         fill_in 'Name',    :with => "John"
@@ -41,8 +41,8 @@ describe "home page" do
       visit '/admin/admins'
       page.should have_content 'john@example.com'
 
-      visit (releaf_admins_path)
-      open_toolbox("Delete", Releaf::Admin.last)
+      visit (releaf_permissions_admins_path)
+      open_toolbox("Delete", Releaf::Permissions::Admin.last)
       click_button 'Yes'
       page.should_not have_content 'john@example.com'
     end

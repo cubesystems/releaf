@@ -1,5 +1,5 @@
-module Releaf
-  class AdminProfileController < BaseController
+module Releaf::Permissions
+  class AdminProfileController < Releaf::BaseController
 
     # Store settings for menu collapsing and others
     def settings
@@ -27,7 +27,7 @@ module Releaf
 
       # reload resource as password has been changed
       if @resource.password != old_password
-        sign_in(self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}"), bypass: true)
+        sign_in(self.send("current_#{::Releaf::ReleafDeviseHelper.devise_admin_model_name}"), bypass: true)
       end
     end
 
@@ -55,7 +55,7 @@ module Releaf
       }
 
       # use already loaded admin user instance
-      @resource = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+      @resource = self.send("current_#{::Releaf::ReleafDeviseHelper.devise_admin_model_name}")
     end
 
     def resource_params

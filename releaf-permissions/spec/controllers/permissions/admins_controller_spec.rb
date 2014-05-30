@@ -2,7 +2,7 @@ require 'spec_helper'
 
 # use Admin::BooksController as it inherit Releaf::BaseController and
 # have no extra methods or overrides
-describe Releaf::AdminsController do
+describe Releaf::Permissions::AdminsController do
   before do
     sign_in FactoryGirl.create(:admin)
   end
@@ -10,7 +10,7 @@ describe Releaf::AdminsController do
   describe "GET #new" do
     it "assigns default role" do
       get :new
-      expect(assigns(:resource).role).to eq(Releaf::Role.first)
+      expect(assigns(:resource).role).to eq(Releaf::Permissions::Role.first)
     end
   end
 

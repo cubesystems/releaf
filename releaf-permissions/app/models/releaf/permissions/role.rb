@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Permissions
   class Role < ActiveRecord::Base
     self.table_name = 'releaf_roles'
 
@@ -33,7 +33,7 @@ module Releaf
       controller_name = controller_name.underscore
 
       # always allow access to profile controller
-      if controller_name == 'releaf/admin_profile'
+      if controller_name == 'releaf/permissions/admin_profile'
         return true
       # always allow access to home controller, so we can route user to default controller
       elsif controller_name == 'releaf/home'

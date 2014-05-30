@@ -12,7 +12,7 @@ module Releaf
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/admins releaf/roles]
+      :items =>   %w[releaf/permissions/admins releaf/permissions/roles]
     },
     {
       :controller => 'releaf/translations',
@@ -20,7 +20,7 @@ module Releaf
   ]
 
   mattr_accessor :devise_for
-  @@devise_for = 'releaf/admin'
+  @@devise_for = 'releaf/permissions/admin'
 
   mattr_accessor :layout
   @@layout = "releaf/admin"

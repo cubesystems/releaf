@@ -30,7 +30,7 @@ describe Releaf::TemplateFieldTypeMapper do
 
     context "when object does not translates" do
       it "returns false" do
-        expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Releaf::Admin.new, :password)).to be_false
+        expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Releaf::Permissions::Admin.new, :password)).to be_false
       end
     end
   end

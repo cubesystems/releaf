@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Admin do
+describe Releaf::Permissions::Admin do
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:surname) }

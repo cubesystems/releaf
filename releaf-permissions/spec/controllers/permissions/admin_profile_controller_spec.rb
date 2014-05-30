@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Releaf::AdminProfileController do
+describe Releaf::Permissions::AdminProfileController do
   let(:another_role){ FactoryGirl.create(:content_role) }
-  let(:admin){ subject.current_releaf_admin }
+  let(:admin){ subject.current_releaf_permissions_admin }
   login_as_admin :admin
 
   describe "#resource_class" do
     it "returns current releaf admin user class" do
-      expect(Releaf::AdminProfileController.new.resource_class).to eq(Releaf::Admin)
+      expect(Releaf::Permissions::AdminProfileController.new.resource_class).to eq(Releaf::Permissions::Admin)
     end
   end
 

@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Permissions
   class Admin < ActiveRecord::Base
     self.table_name = 'releaf_admins'
 

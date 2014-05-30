@@ -5,7 +5,7 @@ describe Releaf::AdminHelper do
   describe "#current_admin_user" do
     login_as_admin :admin
     it "returns current admin user" do
-      expect( helper.current_admin_user ).to eq(Releaf::Admin.last)
+      expect( helper.current_admin_user ).to eq(Releaf::Permissions::Admin.last)
     end
   end
 
@@ -40,8 +40,8 @@ describe Releaf::AdminHelper do
              {:icon=>nil, :name=>"admin/authors", :url=>"/admin/authors", :active=>false}]},
           {:name=>"permissions", :icon=>"user", :collapsed=>false, :active=>false, :url=>"/admin/admins",
            :items=>[
-             {:icon=>nil, :name=>"releaf/admins", :url=>"/admin/admins", :active=>false},
-             {:icon=>nil, :name=>"releaf/roles", :url=>"/admin/roles", :active=>false}]},
+             {:icon=>nil, :name=>"releaf/permissions/admins", :url=>"/admin/admins", :active=>false},
+             {:icon=>nil, :name=>"releaf/permissions/roles", :url=>"/admin/roles", :active=>false}]},
           {:icon=>"group", :name=>"releaf/translations", :url=>"/admin/translations", :active=>false}]
         expect( helper.admin_menu ).to eq(output)
       end

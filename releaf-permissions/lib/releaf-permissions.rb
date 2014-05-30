@@ -1,1 +1,1 @@
-require 'releaf-permissions/engine'
+require 'releaf/permissions/engine'

@@ -1,5 +1,5 @@
-module Releaf
-  class AdminsController < BaseController
+module Releaf::Permissions
+  class AdminsController < Releaf::BaseController
 
     def setup
       super
@@ -7,7 +7,7 @@ module Releaf
     end
 
     def self.resource_class
-      Releaf::Admin
+      Releaf::Permissions::Admin
     end
 
     def fields_to_display
@@ -40,7 +40,7 @@ module Releaf
 
     def new
       super
-      @resource.role = Releaf::Role.first
+      @resource.role = Releaf::Permissions::Role.first
     end
 
     protected

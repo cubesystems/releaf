@@ -7,7 +7,7 @@ feature "Controller title" do
 
   scenario "shows only controller and application title" do
     auth_as_admin
-    visit releaf_admin_profile_path
-    expect(page.title).to eq("Releaf/admin profile - Dummy")
+    visit releaf_permissions_admin_profile_path
+    expect(page.title).to eq("Releaf/permissions/admin profile - Dummy")
   end
 end

@@ -8,7 +8,7 @@ describe Releaf::HomeController do
 
       it "redirects to admins controller" do
         get :index
-        expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_admin.role.default_controller, :only_path => true))
+        expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_permissions_admin.role.default_controller, :only_path => true))
       end
     end
 
@@ -17,7 +17,7 @@ describe Releaf::HomeController do
 
       it "redirects to content controller" do
         get :index
-        expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_admin.role.default_controller, :only_path => true))
+        expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_permissions_admin.role.default_controller, :only_path => true))
       end
     end
   end

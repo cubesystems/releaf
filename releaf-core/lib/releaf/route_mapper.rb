@@ -33,8 +33,10 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, :path => nil do
-        releaf_resources :admins if controllers.include? :admins
-        releaf_resources :roles if controllers.include? :roles
+        namespace :permissions, :path => nil do
+          releaf_resources :admins if controllers.include? :admins
+          releaf_resources :roles if controllers.include? :roles
+        end
 
         mount_admin_profile_controller if controllers.include? :admin_profile
         mount_content_controller if controllers.include? :content
@@ -73,9 +75,9 @@ module Releaf::RouteMapper
 
   # Mount admin profile controller
   def mount_admin_profile_controller
-    get "profile", to: "admin_profile#edit", as: :admin_profile
-    patch "profile", to: "admin_profile#update"
-    post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
+    get "profile", to: "permissions/admin_profile#edit", as: :permissions_admin_profile
+    patch "profile", to: "permissions/admin_profile#update"
+    post "profile/settings", to: "permissions/admin_profile#settings", as: :permissions_admin_profile_settings
   end
 
   # Mount nodes content controller

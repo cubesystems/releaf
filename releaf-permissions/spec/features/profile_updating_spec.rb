@@ -2,7 +2,7 @@ require 'spec_helper'
 feature "Admin user update profile" do
   background do
     auth_as_admin(false, FactoryGirl.create(:admin, email: "email@example.com"))
-    visit releaf_admin_profile_path
+    visit releaf_permissions_admin_profile_path
   end
 
   scenario "name, surname and locale" do

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Role do
+describe Releaf::Permissions::Role do
   it { should serialize(:permissions).as(Array) }
   it { should have_many(:admins).dependent(:restrict_with_exception) }
 

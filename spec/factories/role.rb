@@ -1,9 +1,9 @@
 FactoryGirl.define do
-  factory :roles, :class => Releaf::Role do
+  factory :roles, :class => Releaf::Permissions::Role do
     sequence(:name) {|n| "role #{n}"}
 
     factory :admin_role do
-      default_controller "releaf/admins"
+      default_controller "releaf/permissions/admins"
       permissions Releaf.available_controllers
     end
 
