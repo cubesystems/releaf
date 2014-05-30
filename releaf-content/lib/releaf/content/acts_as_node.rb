@@ -1,5 +1,5 @@
-require 'releaf-content/acts_as_node/active_record/acts/node'
-require 'releaf-content/acts_as_node/action_controller/acts/node'
+require 'releaf/content/acts_as_node/active_record/acts/node'
+require 'releaf/content/acts_as_node/action_controller/acts/node'
 
 module ActsAsNode
   @classes = []

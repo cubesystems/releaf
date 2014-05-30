@@ -1,5 +1,5 @@
-module Releaf
-  module ContentNode
+module Releaf::Content
+  module Node
     # TODO Node should be configurable
 
     module InstanceMethods
@@ -87,7 +87,7 @@ module Releaf
               # Rails errors about conflicting routes.
               new_node.locale = locale
             end
-            new_node.item_position = Node.children_max_item_position(new_node.parent) + 1
+            new_node.item_position = self.class.children_max_item_position(new_node.parent) + 1
             new_node.maintain_name
             # To regenerate slug
             new_node.slug = nil
@@ -121,7 +121,7 @@ module Releaf
         self.class.transaction do
           dont_update_settings_timestamp do
             self.parent_id = parent_id
-            self.item_position = Node.children_max_item_position(self.parent) + 1
+            self.item_position = self.class.children_max_item_position(self.parent) + 1
             maintain_name
             # To regenerate slug
             self.slug = nil
@@ -213,7 +213,7 @@ module Releaf
 
       def children_max_item_position node
         if node.nil?
-          Node.roots.maximum(:item_position) || 0
+          self.roots.maximum(:item_position) || 0
         else
           node.children.maximum(:item_position) || 0
         end
@@ -222,7 +222,7 @@ module Releaf
       def valid_node_content_class_names parent_id=nil
         class_names = []
         ActsAsNode.classes.each do |class_name|
-          test_node = Node.new(content_type: class_name, parent_id: parent_id)
+          test_node = self.new(content_type: class_name, parent_id: parent_id)
           test_node.valid?
           class_names.push class_name unless test_node.errors[:content_type].present?
         end

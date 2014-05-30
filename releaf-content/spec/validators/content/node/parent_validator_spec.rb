@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Releaf::ContentNode::ParentValidator do
+describe Releaf::Content::Node::ParentValidator do
   let!(:root_node) { FactoryGirl.create(:node, content_type: 'HomePage') }
 
   class DummyNodeParentValidatorModel < ActiveRecord::Base
@@ -19,8 +19,8 @@ describe Releaf::ContentNode::ParentValidator do
 
   class DummyNodeParentValidatorNode < ActiveRecord::Base
     self.table_name = 'nodes'
-    include Releaf::ContentNode
-    validates_with Releaf::ContentNode::ParentValidator, for: DummyNodeParentValidatorModel, under: DummyNodeParentValidator1Controller
+    include Releaf::Content::Node
+    validates_with Releaf::Content::Node::ParentValidator, for: DummyNodeParentValidatorModel, under: DummyNodeParentValidator1Controller
   end
 
   context "when parent is valid" do

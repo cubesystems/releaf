@@ -1,5 +1,5 @@
-module Releaf
-  class ContentController < BaseController
+module Releaf::Content
+  class NodesController < Releaf::BaseController
 
     def index
       @collection = resource_class.roots
@@ -178,7 +178,7 @@ module Releaf
 
           node.content_type = node_content_class.name
           node.parent_id = params[:parent_id]
-          node.item_position ||= Node.children_max_item_position(node.parent) + 1
+          node.item_position ||= resource_class.children_max_item_position(node.parent) + 1
 
           if node_content_class < ActiveRecord::Base
             node.build_content({})

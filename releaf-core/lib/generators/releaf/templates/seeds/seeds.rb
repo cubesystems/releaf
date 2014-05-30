@@ -27,14 +27,14 @@ roles = {
   administrator: {
     name:     'administrator',
     permissions: Releaf.available_controllers,
-    default_controller: 'releaf/admins'
+    default_controller: 'releaf/permissions/admins'
   },
   content_manager: {
     name:     'content manager',
     permissions: [
       'releaf/content'
     ],
-    default_controller: 'releaf/content'
+    default_controller: 'releaf/content/nodes'
   }
 }
 

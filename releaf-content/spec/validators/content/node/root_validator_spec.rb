@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Releaf::ContentNode::RootValidator do
+describe Releaf::Content::Node::RootValidator do
 
 
   class DummyRootValidatorController < ActionController::Base
@@ -13,8 +13,8 @@ describe Releaf::ContentNode::RootValidator do
 
   class DummyRootValidatorNode < ActiveRecord::Base
     self.table_name = 'nodes'
-    include Releaf::ContentNode
-    validates_with Releaf::ContentNode::RootValidator, allow: DummyRootValidatorController
+    include Releaf::Content::Node
+    validates_with Releaf::Content::Node::RootValidator, allow: DummyRootValidatorController
   end
 
 

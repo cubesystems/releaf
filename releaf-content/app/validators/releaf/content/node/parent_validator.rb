@@ -1,5 +1,5 @@
 module Releaf
-  module ContentNode
+  module Content::Node
     # Validator to test if node is valid, when created under given parrent node
     #
     # validator needs :for and :under options, both can be either array of classes
@@ -12,8 +12,8 @@ module Releaf
     # @example
     #
     #   class Node < ActiveRecord::Base
-    #     includes Releaf::ContentNode
-    #     validates_with Releaf::ContentNode::ParentValidator, for: [Text, Book], under: Store
+    #     includes Releaf::Content::Node
+    #     validates_with Releaf::Content::Node::ParentValidator, for: [Text, Book], under: Store
     #   end
     #
     class ParentValidator < ActiveModel::Validator

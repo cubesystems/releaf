@@ -1,5 +1,5 @@
 module Releaf
-  module ContentNode
+  module Content::Node
     # Validator to test if node is valid root node
     #
     # Validator needs :allow option.
@@ -9,8 +9,8 @@ module Releaf
     # @example
     #
     #   class Node < ActiveRecord::Base
-    #     includes Releaf::ContentNode
-    #     validates_with Releaf::ContentNode::RootValidator, allow: [Text, Store]
+    #     includes Releaf::Content::Node
+    #     validates_with Releaf::Content::Node::RootValidator, allow: [Text, Store]
     #   end
     #
     # In example above only Text and Book nodes can be created as root nodes

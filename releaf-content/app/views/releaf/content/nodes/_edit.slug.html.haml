@@ -1,6 +1,6 @@
 :ruby
   label_opts  = get_template_label_options    local_assigns
-  input_attrs = get_template_input_attributes local_assigns, :'data-generator-url' => generate_url_releaf_nodes_path(parent_id: f.object.parent_id, id: f.object.id)
+  input_attrs = get_template_input_attributes local_assigns, :'data-generator-url' => generate_url_releaf_content_nodes_path(parent_id: f.object.parent_id, id: f.object.id)
   field_attrs = get_template_field_attributes local_assigns
 
 .field.type_text{ field_attrs }

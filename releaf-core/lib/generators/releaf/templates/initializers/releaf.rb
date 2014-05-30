@@ -4,13 +4,12 @@ Releaf.setup do |conf|
   ### setup menu items and therefore available controllers
   conf.menu = [
     {
-      :controller => 'releaf/content',
-      :helper => 'releaf_nodes',
+      :controller => 'releaf/content/nodes',
       :icon => 'sitemap',
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/admins releaf/roles],
+      :items =>   %w[releaf/permissions/admins releaf/permissions/roles],
       :icon => 'user',
     },
     {

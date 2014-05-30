@@ -8,8 +8,8 @@ FactoryGirl.define do
     end
 
     factory :content_role do
-      default_controller "releaf/content"
-      permissions ['releaf/content']
+      default_controller "releaf/content/nodes"
+      permissions ['releaf/content/nodes']
     end
   end
 end

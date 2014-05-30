@@ -53,7 +53,7 @@
 * Converted Releaf::Node to Releaf::ContnetNode module.
 
   Instread of inheriting from Releaf::Node, inherit from ActiveRecord::Base and
-  include Releaf::ContentNode
+  include Releaf::Content::Node
 
 ### 2014.04.22
 * Releaf::Node is in refactoring process. The goal is to make it an abstract

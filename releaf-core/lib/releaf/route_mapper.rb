@@ -82,17 +82,19 @@ module Releaf::RouteMapper
 
   # Mount nodes content controller
   def mount_content_controller
-    releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
-      collection do
-        get :generate_url
-        get :go_to_dialog
-      end
+    namespace :content, path: nil do
+      releaf_resources :nodes, :except => [:show] do
+        collection do
+          get :generate_url
+          get :go_to_dialog
+        end
 
-      member do
-        get :copy_dialog
-        post :copy
-        get :move_dialog
-        post :move
+        member do
+          get :copy_dialog
+          post :copy
+          get :move_dialog
+          post :move
+        end
       end
     end
   end

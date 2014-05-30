@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Releaf::ContentNode::SinglenessValidator do
+describe Releaf::Content::Node::SinglenessValidator do
 
 
   class DummySinglenessValidatorModel < ActiveRecord::Base
@@ -23,9 +23,9 @@ describe Releaf::ContentNode::SinglenessValidator do
 
   class DummySinglenessValidatorNode < ActiveRecord::Base
     self.table_name = 'nodes'
-    include Releaf::ContentNode
-    validates_with Releaf::ContentNode::SinglenessValidator, for: DummySinglenessValidatorModel
-    validates_with Releaf::ContentNode::SinglenessValidator, for: DummySinglenessValidator2Controller, under: Text
+    include Releaf::Content::Node
+    validates_with Releaf::Content::Node::SinglenessValidator, for: DummySinglenessValidatorModel
+    validates_with Releaf::Content::Node::SinglenessValidator, for: DummySinglenessValidator2Controller, under: Text
   end
 
 
@@ -126,7 +126,7 @@ describe Releaf::ContentNode::SinglenessValidator do
   context "regression tests" do
     context "@node.parent.self_and_ancestors bug" do
       it "works correctly / is worked around" do
-        # for details see Releaf::ContentNode::SinglenessValidator#base_relation_for_subtree
+        # for details see Releaf::Content::Node::SinglenessValidator#base_relation_for_subtree
         @node1 = create_node(content_type: 'Text', locale: 'en')
         @node2 = create_node(content_type: 'Text', locale: 'lv')
         @node3 = create_node(content_type: 'Text', locale: 'ru')

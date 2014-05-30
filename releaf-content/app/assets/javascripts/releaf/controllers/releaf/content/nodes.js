@@ -1,6 +1,6 @@
 jQuery(function()
 {
-    var body = jQuery('body.controller-releaf-content');
+    var body = jQuery('body.controller-releaf-content-nodes');
 
     body.on('contentloaded', function(e)
     {
