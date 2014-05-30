@@ -4,24 +4,25 @@ Releaf.setup do |conf|
   ### setup menu items and therefore available controllers
   conf.menu = [
     {
-      :controller => 'releaf/content',
-      :helper => 'releaf_nodes',
+      :controller => 'releaf/content/nodes',
       :icon => 'sitemap',
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/admins releaf/roles],
+      :items =>   %w[releaf/permissions/users releaf/permissions/roles],
       :icon => 'user',
     },
     {
-      :controller => 'releaf/translations',
+      :controller => 'releaf/i18n_database/translations',
       :icon => 'group',
     },
   ]
 
-  # controllers that must be accessible by admin, but are not visible in menu
+  # controllers that must be accessible by user, but are not visible in menu
   # should be added to this list
   conf.additional_controllers = []
+
+  conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
 
   conf.available_locales = ["en"]
   # conf.layout = 'releaf/admin'

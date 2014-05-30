@@ -20,11 +20,6 @@ require 'globalize-accessors'
 
 module Releaf
   class Engine < ::Rails::Engine
-    initializer "releaf.insert_middleware" do |app|
-      if Releaf.load_routes_middleware
-        app.middleware.use Releaf::RoutesReloader
-      end
-    end
   end
 
   ActiveSupport.on_load :action_controller do

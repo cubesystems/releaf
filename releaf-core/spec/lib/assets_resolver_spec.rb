@@ -4,7 +4,7 @@ describe Releaf::AssetsResolver do
   describe ".stylesheet_exists?" do
     context "when stylesheet exists for given releaf controller" do
       it "returns true" do
-        expect(Releaf::AssetsResolver.stylesheet_exists?("releaf/translations")).to be_true
+        expect(Releaf::AssetsResolver.stylesheet_exists?("releaf/i18n_database/translations")).to be_true
       end
     end
 
@@ -18,7 +18,7 @@ describe Releaf::AssetsResolver do
   describe ".javascript_exists?" do
     context "when javascript exists for given releaf controller" do
       it "returns true" do
-        expect(Releaf::AssetsResolver.javascript_exists?("releaf/translations")).to be_true
+        expect(Releaf::AssetsResolver.javascript_exists?("releaf/i18n_database/translations")).to be_true
       end
     end
 

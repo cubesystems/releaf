@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Releaf::ToolboxHelper do
-  let(:resource){ Releaf::Admin.new }
+  let(:resource){ Releaf::Permissions::User.new }
 
   describe "#toolbox" do
     context "when passed object is new record" do

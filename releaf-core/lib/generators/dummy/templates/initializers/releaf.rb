@@ -2,10 +2,9 @@ Releaf.setup do |conf|
   # Default settings are commented out
 
   ### setup menu items and therefore available controllers
-   conf.menu = [
+  conf.menu = [
     {
-      :controller => 'releaf/content',
-      :helper => 'releaf_nodes',
+      :controller => 'releaf/content/nodes',
       :icon => 'sitemap',
     },
     {
@@ -15,16 +14,17 @@ Releaf.setup do |conf|
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/admins releaf/roles],
+      :items =>   %w[releaf/permissions/users releaf/permissions/roles],
       :icon => 'user',
     },
     {
-      :controller => 'releaf/translations',
+      :controller => 'releaf/i18n_database/translations',
       :icon => 'group',
     },
    ]
 
   conf.additional_controllers = %w[admin/chapters]
+  conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
 
   conf.available_locales = ["en", "lv"]
   # conf.layout = 'releaf/admin'

@@ -1,14 +1,14 @@
 .body.dialog.delete_dialog
   .content
     %i.fa.fa-trash-o
-    .question= t('confirm_destroy', scope: 'admin.global')
+    .question= t('Confirm destroy', scope: 'admin.global')
     .description= resource_to_text(@resource)
   .footer.clearInside
     = form_for @resource, url: index_url, as: :resource, method: :get do |f|
       %button.button.secondary{data: {type: 'cancel'}, type: 'submit'}
         %i.fa.fa-ban
-          %span= t('no', scope: 'admin.global')
+          %span= t('No', scope: 'admin.global')
     = form_for @resource, url: url_for( action: 'destroy', id: @resource.id, index_url: index_url), as: :resource, method: :delete do |f|
       %button.button.danger{ type: 'submit' }
         %i.fa.fa-trash-o
-          %span= t('yes', scope: 'admin.global')
+          %span= t('Yes', scope: 'admin.global')

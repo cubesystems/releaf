@@ -4,7 +4,7 @@ require 'spec_helper'
 # have no extra methods or overrides
 describe Admin::AuthorsController do
   before do
-    sign_in FactoryGirl.create(:admin)
+    sign_in FactoryGirl.create(:user)
   end
 
   describe "GET #new_attachment" do
@@ -138,7 +138,7 @@ end
 
 describe Admin::BooksController do
   before do
-    sign_in FactoryGirl.create(:admin)
+    sign_in FactoryGirl.create(:user)
     @breadcrumbs_base = [
       {name: I18n.t('home', scope: 'admin.breadcrumbs'), url: releaf_root_path},
       {name: I18n.t('admin/books', scope: "admin.menu_items"), url: admin_books_path},

@@ -17,9 +17,15 @@ module Releaf::RouteMapper
     end
   end
 
-  def mount_releaf_at mount_location, options={}, &block
-    controllers = allowed_controllers(options)
+  def initialize_releaf_components
+    Releaf.components.each do|component_class|
+      if component_class.respond_to? :draw_component_routes
+        component_class.draw_component_routes(self)
+      end
+    end
+  end
 
+  def mount_releaf_at mount_location, options={}, &block
     devise_for Releaf.devise_for, path: mount_location, controllers: { sessions: "releaf/sessions" }
 
     mount_location_namespace = mount_location.gsub("/", "").to_sym
@@ -33,12 +39,7 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, :path => nil do
-        releaf_resources :admins if controllers.include? :admins
-        releaf_resources :roles if controllers.include? :roles
-
-        mount_admin_profile_controller if controllers.include? :admin_profile
-        mount_content_controller if controllers.include? :content
-        mount_translations_controller if controllers.include? :translations
+        initialize_releaf_components
 
         root :to => "home#index"
         get '/*path' => 'home#page_not_found'
@@ -47,53 +48,6 @@ module Releaf::RouteMapper
   end
 
   private
-
-  # Get list of allowed releaf built-in controllers
-  def allowed_controllers options
-    allowed_controllers = options.try(:[], :allowed_controllers)
-    if allowed_controllers.nil?
-      allowed_controllers = [:roles, :admins, :translations, :admin_profile, :content]
-    end
-
-    allowed_controllers
-  end
-
-  # Mount translations controller
-  def mount_translations_controller
-    resources :translations, only: [:index] do
-      collection do
-        get :edit
-        post :update
-        get :export
-        post :import
-      end
-    end
-
-  end
-
-  # Mount admin profile controller
-  def mount_admin_profile_controller
-    get "profile", to: "admin_profile#edit", as: :admin_profile
-    patch "profile", to: "admin_profile#update"
-    post "profile/settings", to: "admin_profile#settings", as: :admin_profile_settings
-  end
-
-  # Mount nodes content controller
-  def mount_content_controller
-    releaf_resources :nodes, :controller => "content", :path => "content", :except => [:show] do
-      collection do
-        get :generate_url
-        get :go_to_dialog
-      end
-
-      member do
-        get :copy_dialog
-        post :copy
-        get :move_dialog
-        post :move
-      end
-    end
-  end
 
   # Check whether add confirm destroy route
   def include_confirm_destroy? options

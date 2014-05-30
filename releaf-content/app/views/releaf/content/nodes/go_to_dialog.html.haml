@@ -1,0 +1,16 @@
+.body.dialog.goto-node-dialog
+  .header
+    = t("Go to node", scope: controller_scope_name)
+  .content.clearInside
+
+    %div.action-tree.collection
+      - unless @collection.size < 1
+        = render 'action_tree.level', collection: @collection, level: 1, action: :edit
+
+  .footer.clearInside
+    - cancel_url = url_for( action: 'index' )
+    %a.button.secondary{ data: {type: 'cancel'}, href: cancel_url }
+      %i.fa.fa-ban
+      %span= t('Cancel', scope: 'admin.global')
+
+

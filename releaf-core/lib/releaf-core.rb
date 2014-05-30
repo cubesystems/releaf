@@ -12,7 +12,7 @@ module Releaf
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/admins releaf/roles]
+      :items =>   %w[releaf/permissions/users releaf/permissions/roles]
     },
     {
       :controller => 'releaf/translations',
@@ -20,19 +20,10 @@ module Releaf
   ]
 
   mattr_accessor :devise_for
-  @@devise_for = 'releaf/admin'
+  @@devise_for = 'releaf/permissions/user'
 
   mattr_accessor :layout
   @@layout = "releaf/admin"
-
-  mattr_accessor :use_releaf_i18n
-  @@use_releaf_i18n = true
-
-  mattr_accessor :load_routes_middleware
-  @@load_routes_middleware = true
-
-  mattr_accessor :create_missing_translations
-  @@create_missing_translations = true
 
   mattr_accessor :available_locales
   @@available_locales = nil
@@ -40,7 +31,7 @@ module Releaf
   mattr_accessor :available_admin_locales
   @@available_admin_locales = nil
 
-  # controllers that must be accessible by admin, but are not visible in menu
+  # controllers that must be accessible by user, but are not visible in menu
   # should be added to this list
   mattr_accessor :additional_controllers
   @@additional_controllers = []
@@ -49,10 +40,14 @@ module Releaf
   mattr_accessor :controller_list
   @@controller_list = {}
 
+  # components
+  mattr_accessor :components
+  @@components = []
+
   def self.all_locales
     valid_locales = Releaf.available_locales || []
     valid_locales += Releaf.available_admin_locales || []
-    valid_locales += I18n.available_locales || []
+    valid_locales += ::I18n.available_locales || []
     valid_locales.map(&:to_s).uniq
   end
 
@@ -60,21 +55,39 @@ module Releaf
     def setup
       yield self
 
-      I18n.available_locales = Releaf.available_locales
+      ::I18n.available_locales = Releaf.available_locales
       Releaf.available_admin_locales = Releaf.available_locales if Releaf.available_admin_locales.nil?
-
-      if Releaf.use_releaf_i18n == true
-        require 'i18n/releaf'
-      end
-
       Releaf.menu.map! { |item| normalize_menu_item(item) }
 
       build_controller_list(Releaf.menu)
       build_controller_list(normalized_additional_controllers)
+
+      self.components = normalize_components(components)
+      initialize_components
     end
 
     def available_controllers
       controller_list.keys
+    end
+
+    def initialize_components
+      components.each do|component_class|
+        if component_class.respond_to? :initialize_component
+          component_class.initialize_component
+        end
+      end
+    end
+
+    def normalize_components denormalized_components
+      list = []
+      denormalized_components.map do |component_class|
+        list << component_class
+        if component_class.respond_to? :components
+          list += normalize_components(component_class.components)
+        end
+      end
+
+      list
     end
 
     private

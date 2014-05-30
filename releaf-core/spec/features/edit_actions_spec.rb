@@ -1,7 +1,7 @@
 require 'spec_helper'
 feature "Base controller edit", js: true do
   background do
-    auth_as_admin
+    auth_as_user
     @author = FactoryGirl.create(:author)
     @good_book = FactoryGirl.create(:book, title: "good book", author: @author, price: 12.34, description_lv: "in lv", description_en: "in en")
     FactoryGirl.create(:book, title: "bad book", author: @author)
@@ -63,5 +63,28 @@ feature "Base controller edit", js: true do
     find('button.primary[type="submit"]').click
     expect(page).to_not have_css('.remove-nested-item')
     expect(page).to have_css('#resource_chapters_attributes_0_title[value="Chapter 1"]')
+  end
+
+  scenario "adding newsted objects" do
+    visit new_admin_book_path
+    within "form.new_resource" do
+      fill_in "Title", with: "Master and Margarita"
+      within "[data-name='chapters']" do
+
+        # verify that there are no visible inputs
+        expect( page ).to have_no_selector('input', visible: true)
+        expect( page ).to have_no_selector('textarea', visible: true)
+
+        click_button "Add item"
+
+        fill_in "Title", with: "Chapter 1"
+        fill_in "Text", with: "some text"
+      end
+    end
+    save_and_check_response "Create succeeded"
+
+    new_book = Book.where(title: "Master and Margarita").first
+    expect( new_book.chapters.count ).to eq 1
+    expect( new_book.chapters.first.title ).to eq "Chapter 1"
   end
 end

@@ -1,0 +1,5 @@
+%li.profile{"data-settings-url" => self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_settings_path")}
+  %a{href: self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_path")}
+    %span.name= current_admin_user.to_text
+    = gravatar_image_tag(current_admin_user.email, alt: current_admin_user.to_text, gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
+

@@ -1,3 +1,3 @@
 class Node < ActiveRecord::Base
-  include Releaf::ContentNode
+  include Releaf::Content::Node
 end

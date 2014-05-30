@@ -27,30 +27,30 @@ roles = {
   administrator: {
     name:     'administrator',
     permissions: Releaf.available_controllers,
-    default_controller: 'releaf/admins'
+    default_controller: 'releaf/permissions/users'
   },
   content_manager: {
     name:     'content manager',
     permissions: [
       'releaf/content'
     ],
-    default_controller: 'releaf/content'
+    default_controller: 'releaf/content/nodes'
   }
 }
 
 roles.each_value do |value|
-  role = Releaf::Role.new value
+  role = Releaf::Permissions::Role.new value
   puts role.errors.inspect unless role.valid?
   role.save!
   value[:id] = role.id
 end
 
 # }}}
-# Admin {{{
+# User {{{
 
-puts "Creating admins"
-admins = {
-  admin: {
+puts "Creating users"
+users = {
+  user: {
     name: 'Admin',
     surname: 'User',
     password: 'password',
@@ -59,7 +59,7 @@ admins = {
     email: 'admin@example.com',
     role_id: roles[:administrator][:id],
   },
-  content_admin: {
+  simple_user: {
     name: 'Simple',
     surname: 'User',
     password: 'password',
@@ -70,11 +70,8 @@ admins = {
   }
 }
 
-admins.each_value do |value|
-  admin = Releaf::Admin.new(value)
-  puts admin.errors.inspect unless admin.valid?
-  admin.save!
-  value[:id] = admin.id
+users.each_value do |attributes|
+  Releaf::Permissions::User.create!(attributes)
 end
 
 # }}}

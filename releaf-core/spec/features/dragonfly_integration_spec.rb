@@ -1,7 +1,7 @@
 require 'spec_helper'
 feature "Dragonfly integration", js: true do
   background do
-    auth_as_admin
+    auth_as_user
   end
 
   scenario "Upload, view and remove image" do

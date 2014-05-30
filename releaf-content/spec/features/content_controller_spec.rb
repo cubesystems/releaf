@@ -1,10 +1,10 @@
 require 'spec_helper'
-describe Releaf::ContentController, js: true, with_tree: true, with_root: true do
+describe Releaf::Content::NodesController, js: true, with_tree: true, with_root: true do
   before do
     # preload ActsAsNode classes
     Rails.application.eager_load!
 
-    @admin = auth_as_admin
+    @user = auth_as_user
   end
 
   before with_root: true do
@@ -18,18 +18,18 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
 
     @node = FactoryGirl.create(:node, name: "Main")
 
-    visit releaf_nodes_path
+    visit releaf_content_nodes_path
   end
 
   describe "new node" do
     context "when creating node under root" do
       it "creates new node in content tree" do
-        click_link("Create new item")
+        click_link("Create new resource")
         click_link("Contacts controller")
         fill_in("resource_name", with: "RootNode2")
         save_and_check_response('Create succeeded')
 
-        expect(page).to have_content('Releaf/content RootNode2')
+        expect(page).to have_content('Releaf/content/nodes RootNode2')
       end
     end
 
@@ -41,7 +41,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         fill_in("resource_name", with: "Contacts")
         save_and_check_response('Create succeeded')
 
-        expect(page).to have_content('Releaf/content RootNode Contacts')
+        expect(page).to have_content('Releaf/content/nodes RootNode Contacts')
       end
     end
   end
@@ -64,7 +64,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       it "keeps opened node children visibility permanent" do
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         wait_for_settings_update("content.tree.expanded.#{@root.id}")
-        visit releaf_nodes_path
+        visit releaf_content_nodes_path
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"]:not(.collapsed)')
       end
@@ -73,7 +73,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         wait_for_settings_update("content.tree.expanded.#{@root.id}", false)
-        visit releaf_nodes_path
+        visit releaf_content_nodes_path
 
         expect(page).to have_css('li[data-id="' + @root.id.to_s + '"].collapsed')
       end
@@ -82,7 +82,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
 
   describe "go_to node" do
     before do
-      visit edit_releaf_node_path @node
+      visit edit_releaf_content_node_path @node
     end
 
     context "when going to node from toolbox list" do
@@ -167,7 +167,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
 
   describe "node order", with_tree: false do
     def create_child parent, child_text, position=nil
-      visit releaf_nodes_path
+      visit releaf_content_nodes_path
       open_toolbox 'Add child', parent, true
       within ".add-child-dialog" do
         click_link("Text")
@@ -189,7 +189,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       create_child @root, 'd', 'After b'
       create_child @root, 'e', 'First'
 
-      visit releaf_nodes_path
+      visit releaf_content_nodes_path
       find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
 
       within(".collection li[data-level='1'][data-id='#{@root.id}'] ul.block") do
@@ -202,7 +202,7 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
       create_child @root, 'b'
       create_child @root, 'c'
 
-      visit releaf_nodes_path
+      visit releaf_content_nodes_path
       find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
 
       within(".collection li[data-level='1'][data-id='#{@root.id}'] ul.block") do
@@ -213,12 +213,11 @@ describe Releaf::ContentController, js: true, with_tree: true, with_root: true d
 
   describe "creating node for placeholder model", with_tree: false, with_root: false, js: false do
     it "create record in association table" do
-      visit new_releaf_node_path(content_type: 'Bundle')
+      visit new_releaf_content_node_path(content_type: 'Bundle')
       fill_in("resource_name", with: "placeholder model node")
       expect do
         click_button 'Save'
       end.to change { [Node.count, Bundle.count] }.from([0, 0]).to([1, 1])
     end
   end
-
 end

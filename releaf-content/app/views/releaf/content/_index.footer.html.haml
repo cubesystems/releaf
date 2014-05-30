@@ -1,9 +1,0 @@
-%footer
-  .tools
-    .primary
-      - if @features[:create]
-        %a.button.primary.ajaxbox{ :href => url_for(:controller => controller.controller_name, :action => "new") }
-          %i.fa.fa-plus
-          %span= t('create_new_item', :scope => 'admin.global')
-    .secondary
-      = render :partial => "index.footer.extras"

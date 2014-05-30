@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2014.05.28
+* Removed Releaf::TemplateFilter includable module.
+* Refactored how releaf stores form templates.
+  Form templates are now stored in containers data-releaf-template html attribute.
+
 ### 2014.05.15
 * Releaf::ResourceValidator was renamed to Releaf::ErrorFormatter.
   Releaf::ErrorFormatter.build_validation_errors was renamed to .format_errors.
@@ -48,7 +53,7 @@
 * Converted Releaf::Node to Releaf::ContnetNode module.
 
   Instread of inheriting from Releaf::Node, inherit from ActiveRecord::Base and
-  include Releaf::ContentNode
+  include Releaf::Content::Node
 
 ### 2014.04.22
 * Releaf::Node is in refactoring process. The goal is to make it an abstract

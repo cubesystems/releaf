@@ -1,7 +1,7 @@
 require 'spec_helper'
 feature "Base controller index", js: true do
   background do
-    auth_as_admin
+    auth_as_user
     @author = FactoryGirl.create(:author)
     @good_book = FactoryGirl.create(:book, title: "good book", author: @author)
     @chapter = FactoryGirl.create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: @good_book)

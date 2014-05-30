@@ -1,0 +1,19 @@
+%footer
+  .tools
+    .primary
+      %button.button.primary{type: "submit", data: { type: 'ok' } }
+        %i.fa.fa-check
+        %span
+          - if @import
+            = t('Import', scope: controller_scope_name)
+          - else
+            = t('Save', scope: "admin.global")
+
+    .secondary
+      %a.button.secondary{href: url_for( action: :index, search: params[:search] ) }
+        %i.fa.fa-caret-left
+        = t('Back to list', scope: 'admin.global')
+      - unless @import
+        %a.button.secondary{ href: url_for(action: :export, search: params[:search], format: :xlsx) }
+          %i.fa.fa-download
+          = t('Export', scope: controller_scope_name)

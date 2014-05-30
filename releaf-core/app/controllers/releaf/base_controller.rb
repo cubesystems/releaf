@@ -12,7 +12,6 @@ module Releaf
     layout :layout
     protect_from_forgery
 
-    include Releaf::TemplateFilter
     include Releaf::ResourceFinder::ActionController
 
     helper_method \

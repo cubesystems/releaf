@@ -1,0 +1,48 @@
+:ruby
+  object = f.object
+  opts = { f: f, view_prefix: 'edit.field' }
+  own_fields_to_display = object.own_fields_to_display
+
+.body
+  - if object.new_record?
+    = f.hidden_field :parent_id, value: params[:parent_id] || object.parent_id
+    = hidden_field_tag(:content_type, params[:content_type])
+
+
+  .section.node-fields
+    = render 'edit.field', opts.merge( name: 'name' )
+
+    .field{ 'data-name' => 'template' }
+      .label_wrap
+        = f.label :content_type, t('Template', scope: "activerecord.attributes.#{object.class.name.underscore}"), title: object.content_type
+      .value
+        = f.text_field :content_type, disabled: :disabled, value: I18n.t(object.content_type.underscore, scope: 'admin.content_types')
+      .clear
+
+
+    = render 'edit.slug', opts.merge( name: 'slug' )
+
+    .field{ 'data-name' => 'item_position' }
+      .label_wrap= f.label :item_position, t('Position', scope: "activerecord.attributes.#{object.class.name.underscore}")
+      .value
+        :ruby
+          opt_for_select = [[t('First', scope: 'admin.global'), 0]]
+          @order_nodes.each do |node|
+            # FIXME fix i18n usage
+            opt_for_select.push [ t('After', scope: 'admin.global') + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
+          end
+
+        = f.select :item_position, options_for_select(opt_for_select, object.item_position)
+      .clear
+    .clear
+    = render 'edit.field', opts.merge( name: 'active' )
+    - if object.locale_selection_enabled?
+      = render 'edit.field_type_item', opts.merge( name: 'locale', select_options: I18n.available_locales, include_blank: object.locale.blank? )
+    .clear
+    - if own_fields_to_display.present?
+      %hr
+      = render 'edit.fields', opts.merge( fields: own_fields_to_display )
+      .clear
+
+  = render 'edit.content_fields', opts
+
