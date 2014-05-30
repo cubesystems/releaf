@@ -75,7 +75,7 @@ describe "home page" do
       page.should have_css('header > ul > li.sign-out > form > button')
       page.should have_content 'Releaf/content'
       page.should have_content 'Permissions'
-      page.should have_content 'Releaf/translations'
+      page.should have_content 'Releaf/i18n database/translations'
       # admin/admins index view
       page.should have_content 'admin@example.com'
       page.should have_content 'simple@example.com'

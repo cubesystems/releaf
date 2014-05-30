@@ -37,7 +37,7 @@ describe Releaf::Permissions::Role do
 
     context "when permissions given" do
       it "returns true" do
-        expect(@admin_role.authorize!(Releaf::TranslationsController.new)).to be_true
+        expect(@admin_role.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be_true
         expect(@admin_role.authorize!(Releaf::Content::NodesController.new)).to be_true
         expect(@content_role.authorize!(Releaf::Content::NodesController.new)).to  be_true
         expect(@role_without_permissions.authorize!(Releaf::Content::NodesController.new)).to be_false
@@ -46,8 +46,8 @@ describe Releaf::Permissions::Role do
 
     context "when permissions not given" do
       it "returns false" do
-        expect(@content_role.authorize!(Releaf::TranslationsController.new)).to be_false
-        expect(@role_without_permissions.authorize!(Releaf::TranslationsController.new)).to be_false
+        expect(@content_role.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be_false
+        expect(@role_without_permissions.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be_false
       end
     end
   end

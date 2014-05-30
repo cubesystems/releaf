@@ -25,9 +25,6 @@ module Releaf
   mattr_accessor :layout
   @@layout = "releaf/admin"
 
-  mattr_accessor :use_releaf_i18n
-  @@use_releaf_i18n = true
-
   mattr_accessor :load_routes_middleware
   @@load_routes_middleware = true
 
@@ -52,7 +49,7 @@ module Releaf
   def self.all_locales
     valid_locales = Releaf.available_locales || []
     valid_locales += Releaf.available_admin_locales || []
-    valid_locales += I18n.available_locales || []
+    valid_locales += ::I18n.available_locales || []
     valid_locales.map(&:to_s).uniq
   end
 
@@ -60,13 +57,8 @@ module Releaf
     def setup
       yield self
 
-      I18n.available_locales = Releaf.available_locales
+      ::I18n.available_locales = Releaf.available_locales
       Releaf.available_admin_locales = Releaf.available_locales if Releaf.available_admin_locales.nil?
-
-      if Releaf.use_releaf_i18n == true
-        require 'i18n/releaf'
-      end
-
       Releaf.menu.map! { |item| normalize_menu_item(item) }
 
       build_controller_list(Releaf.menu)

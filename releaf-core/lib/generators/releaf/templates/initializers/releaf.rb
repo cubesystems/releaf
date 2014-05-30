@@ -13,7 +13,7 @@ Releaf.setup do |conf|
       :icon => 'user',
     },
     {
-      :controller => 'releaf/translations',
+      :controller => 'releaf/i18n_database/translations',
       :icon => 'group',
     },
   ]

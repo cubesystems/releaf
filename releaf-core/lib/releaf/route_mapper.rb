@@ -62,15 +62,16 @@ module Releaf::RouteMapper
 
   # Mount translations controller
   def mount_translations_controller
-    resources :translations, only: [:index] do
-      collection do
-        get :edit
-        post :update
-        get :export
-        post :import
+    namespace :i18n_database, path: nil do
+      resources :translations, only: [:index] do
+        collection do
+          get :edit
+          post :update
+          get :export
+          post :import
+        end
       end
     end
-
   end
 
   # Mount admin profile controller

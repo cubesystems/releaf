@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency    'releaf-core'
-  s.add_dependency    'releaf-i18n'
+  s.add_dependency    'releaf-i18n_database'
   s.add_dependency    'releaf-permissions'
   s.add_dependency    'releaf-content'
 

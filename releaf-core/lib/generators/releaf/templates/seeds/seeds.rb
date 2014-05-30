@@ -39,7 +39,7 @@ roles = {
 }
 
 roles.each_value do |value|
-  role = Releaf::Role.new value
+  role = Releaf::Permissions::Role.new value
   puts role.errors.inspect unless role.valid?
   role.save!
   value[:id] = role.id
@@ -71,7 +71,7 @@ admins = {
 }
 
 admins.each_value do |value|
-  admin = Releaf::Admin.new(value)
+  admin = Releaf::Permissions::Admin.new(value)
   puts admin.errors.inspect unless admin.valid?
   admin.save!
   value[:id] = admin.id
