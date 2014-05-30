@@ -2,7 +2,6 @@ require "spec_helper"
 
 describe Releaf::Permissions::Role do
   it { should serialize(:permissions).as(Array) }
-  it { should have_many(:admins).dependent(:restrict_with_exception) }
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
@@ -11,7 +10,7 @@ describe Releaf::Permissions::Role do
   end
 
   describe 'associations' do
-    it { should have_many(:admins).dependent(:restrict_with_exception) }
+    it { should have_many(:users).dependent(:restrict_with_exception) }
   end
 
   describe "#authorize!" do

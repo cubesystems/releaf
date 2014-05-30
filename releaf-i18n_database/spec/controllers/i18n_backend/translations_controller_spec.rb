@@ -6,7 +6,7 @@ describe Releaf::I18nDatabase::TranslationsController do
     Rack::Test::UploadedFile.new(test_document)
   end
 
-  login_as_admin :admin
+  login_as_user :user
 
   before do
     @time_now = Time.parse("1981-02-23 21:00:00 UTC")

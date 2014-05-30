@@ -1,7 +1,7 @@
 require 'spec_helper'
 feature "Roles management", js: true do
   background do
-    auth_as_admin
+    auth_as_user
     @role = Releaf::Permissions::Role.first
   end
 

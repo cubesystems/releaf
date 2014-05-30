@@ -6,7 +6,7 @@ module Releaf::Permissions
     validates_presence_of :default_controller
     validates_uniqueness_of :name, case_sensitive: false
 
-    has_many :admins, dependent: :restrict_with_exception
+    has_many :users, dependent: :restrict_with_exception
 
     serialize :permissions, Array
 
@@ -33,7 +33,7 @@ module Releaf::Permissions
       controller_name = controller_name.underscore
 
       # always allow access to profile controller
-      if controller_name == 'releaf/permissions/admin_profile'
+      if controller_name == 'releaf/permissions/profile'
         return true
       # always allow access to home controller, so we can route user to default controller
       elsif controller_name == 'releaf/home'

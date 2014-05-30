@@ -3,8 +3,8 @@ require "spec_helper"
 describe "FactoryGirl factories" do
 
   describe "admin factory" do
-    it "creates new admin" do
-      expect { FactoryGirl.create(:admin) }.to change { Releaf::Permissions::Admin.count }.by(1)
+    it "creates new user" do
+      expect { FactoryGirl.create(:user) }.to change { Releaf::Permissions::User.count }.by(1)
     end
   end
 

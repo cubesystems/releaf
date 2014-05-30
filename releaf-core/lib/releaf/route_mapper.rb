@@ -34,11 +34,11 @@ module Releaf::RouteMapper
 
       namespace :releaf, :path => nil do
         namespace :permissions, :path => nil do
-          releaf_resources :admins if controllers.include? :admins
+          releaf_resources :users if controllers.include? :users
           releaf_resources :roles if controllers.include? :roles
         end
 
-        mount_admin_profile_controller if controllers.include? :admin_profile
+        mount_profile_controller if controllers.include? :profile
         mount_content_controller if controllers.include? :content
         mount_translations_controller if controllers.include? :translations
 
@@ -54,7 +54,7 @@ module Releaf::RouteMapper
   def allowed_controllers options
     allowed_controllers = options.try(:[], :allowed_controllers)
     if allowed_controllers.nil?
-      allowed_controllers = [:roles, :admins, :translations, :admin_profile, :content]
+      allowed_controllers = [:roles, :users, :translations, :profile, :content]
     end
 
     allowed_controllers
@@ -74,11 +74,11 @@ module Releaf::RouteMapper
     end
   end
 
-  # Mount admin profile controller
-  def mount_admin_profile_controller
-    get "profile", to: "permissions/admin_profile#edit", as: :permissions_admin_profile
-    patch "profile", to: "permissions/admin_profile#update"
-    post "profile/settings", to: "permissions/admin_profile#settings", as: :permissions_admin_profile_settings
+  # Mount profile controller
+  def mount_profile_controller
+    get "profile", to: "permissions/profile#edit", as: :permissions_user_profile
+    patch "profile", to: "permissions/profile#update"
+    post "profile/settings", to: "permissions/profile#settings", as: :permissions_user_profile_settings
   end
 
   # Mount nodes content controller

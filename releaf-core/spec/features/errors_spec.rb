@@ -1,7 +1,7 @@
 require 'spec_helper'
 describe "Errors feature" do
   before do
-    auth_as_admin
+    auth_as_user
   end
 
   it "returns 404 status code and generic error page for nonexistent rotues" do

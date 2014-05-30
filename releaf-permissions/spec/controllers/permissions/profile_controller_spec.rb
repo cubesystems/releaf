@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-describe Releaf::Permissions::AdminProfileController do
+describe Releaf::Permissions::ProfileController do
   let(:another_role){ FactoryGirl.create(:content_role) }
-  let(:admin){ subject.current_releaf_permissions_admin }
-  login_as_admin :admin
+  let(:user){ subject.current_releaf_permissions_user }
+  login_as_user :user
 
   describe "#resource_class" do
-    it "returns current releaf admin user class" do
-      expect(Releaf::Permissions::AdminProfileController.new.resource_class).to eq(Releaf::Permissions::Admin)
+    it "returns current releaf user user class" do
+      expect(described_class.new.resource_class).to eq(Releaf::Permissions::User)
     end
   end
 
   describe "PATCH update" do
     context 'when attributes contain role_id' do
       it "does not update it" do
-        expect{ patch :update, {resource: {role_id: another_role.id}} }.to_not change{ admin.role_id }
+        expect{ patch :update, {resource: {role_id: another_role.id}} }.to_not change{ user.role_id }
       end
     end
 
@@ -26,7 +26,7 @@ describe Releaf::Permissions::AdminProfileController do
           "email" => "new.email@example.com",
           "locale" => "lv"
         }
-        admin.should_receive(:update_attributes).with(attributes)
+        user.should_receive(:update_attributes).with(attributes)
         patch :update, {resource: attributes}
       end
     end
@@ -46,15 +46,15 @@ describe Releaf::Permissions::AdminProfileController do
         expect(response.status).to eq(200)
       end
 
-      it "saves given data within current admin settings" do
+      it "saves given data within current user settings" do
         put :settings, {settings: {dummy: 'maybe'}}
-        expect(admin.settings.dummy).to eq('maybe')
+        expect(user.settings.dummy).to eq('maybe')
       end
 
       it "casts bolean values from strings to booleans" do
         put :settings, {settings: {be_true: 'true', be_false: 'false'}}
-        expect(admin.settings.be_true).to be_true
-        expect(admin.settings.be_false).to be_false
+        expect(user.settings.be_true).to be_true
+        expect(user.settings.be_false).to be_false
       end
     end
   end

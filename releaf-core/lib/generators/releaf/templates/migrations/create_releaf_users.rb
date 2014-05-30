@@ -1,6 +1,6 @@
-class CreateReleafAdmins < ActiveRecord::Migration
+class CreateReleafUsers < ActiveRecord::Migration
   def change
-    create_table :releaf_admins do |t|
+    create_table :releaf_users do |t|
       t.string  :name,                :null => false
       t.string  :surname,             :null => false
       t.string  :locale
@@ -42,11 +42,11 @@ class CreateReleafAdmins < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :releaf_admins, :role_id
-    add_index :releaf_admins, :email,                :unique => true
-    add_index :releaf_admins, :reset_password_token, :unique => true
-    # add_index :releaf_admins, :confirmation_token,   :unique => true
-    # add_index :releaf_admins, :unlock_token,         :unique => true
-    # add_index :releaf_admins, :authentication_token, :unique => true
+    add_index :releaf_users, :role_id
+    add_index :releaf_users, :email,                :unique => true
+    add_index :releaf_users, :reset_password_token, :unique => true
+    # add_index :releaf_users, :confirmation_token,   :unique => true
+    # add_index :releaf_users, :unlock_token,         :unique => true
+    # add_index :releaf_users, :authentication_token, :unique => true
   end
 end

@@ -9,7 +9,7 @@ Releaf.setup do |conf|
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/permissions/admins releaf/permissions/roles],
+      :items =>   %w[releaf/permissions/users releaf/permissions/roles],
       :icon => 'user',
     },
     {
@@ -18,7 +18,7 @@ Releaf.setup do |conf|
     },
   ]
 
-  # controllers that must be accessible by admin, but are not visible in menu
+  # controllers that must be accessible by user, but are not visible in menu
   # should be added to this list
   conf.additional_controllers = []
 

@@ -1,5 +1,5 @@
 module Releaf::Permissions
-  class AdminProfileController < Releaf::BaseController
+  class ProfileController < Releaf::BaseController
 
     # Store settings for menu collapsing and others
     def settings

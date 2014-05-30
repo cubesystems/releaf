@@ -1,8 +1,8 @@
 require 'spec_helper'
 describe "Side menu visual appearance", js: true  do
   before do
-    @admin = auth_as_admin
-    visit releaf_permissions_admin_profile_path
+    @user = auth_as_user
+    visit releaf_permissions_user_profile_path
   end
 
   describe "collapsing functionality" do
@@ -22,7 +22,7 @@ describe "Side menu visual appearance", js: true  do
       it "has permanent collapsing status" do
         find('.side .compacter button').click
         wait_for_settings_update('releaf.side.compact')
-        visit releaf_permissions_admin_profile_path
+        visit releaf_permissions_user_profile_path
 
         expect(page).to have_css('body.side-compact')
       end
@@ -46,7 +46,7 @@ describe "Side menu visual appearance", js: true  do
         find('.side li[data-name="permissions"] > .trigger').click
         wait_for_settings_update('releaf.menu.collapsed.permissions')
 
-        visit releaf_permissions_admins_path
+        visit releaf_permissions_users_path
         expect(page).to have_css('.side li[data-name="permissions"]:not(.collapsed)')
       end
     end
@@ -61,7 +61,7 @@ describe "Side menu visual appearance", js: true  do
       it "keeps menu group collapsing permanent" do
         find('.side li[data-name="inventory"] > .trigger').click
         wait_for_settings_update('releaf.menu.collapsed.inventory')
-        visit releaf_permissions_admin_profile_path
+        visit releaf_permissions_user_profile_path
 
         expect(page).to have_css('.side li[data-name="inventory"].collapsed')
       end

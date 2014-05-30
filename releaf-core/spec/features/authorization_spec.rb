@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe "Releaf authorization" do
-  let(:admin){ FactoryGirl.create(:admin) }
+  let(:user){ FactoryGirl.create(:user) }
 
   context "when unauthorized user open restricted url" do
     it "redirects to it after authorization" do
@@ -8,8 +8,8 @@ describe "Releaf authorization" do
       visit current_unauthorized_url
 
       within("form.login") do
-        fill_in 'Email', with: admin.email
-        fill_in 'Password', with: admin.password
+        fill_in 'Email', with: user.email
+        fill_in 'Password', with: user.password
         click_button 'Sign in'
       end
 
@@ -21,12 +21,12 @@ describe "Releaf authorization" do
     it "redirects to role default controller after authorization" do
       visit releaf_root_url
       within("form.login") do
-        fill_in 'Email', with: admin.email
-        fill_in 'Password', with: admin.password
+        fill_in 'Email', with: user.email
+        fill_in 'Password', with: user.password
         click_button 'Sign in'
       end
 
-      expect(current_url).to eq url_for(action: 'index', controller: '/' + admin.role.default_controller)
+      expect(current_url).to eq url_for(action: 'index', controller: '/' + user.role.default_controller)
     end
   end
 end

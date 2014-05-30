@@ -3,28 +3,28 @@ describe "home page" do
   before do
     module Leaf
     end
-    @admin = build(:admin)
-    @admin.email = "admin@example.com"
-    @admin.save
+    @user = build(:user)
+    @user.email = "admin@example.com"
+    @user.save
 
-    @simple_user = build(:content_admin)
+    @simple_user = build(:content_user)
     @simple_user.email = "simple@example.com"
     @simple_user.save
   end
 
-  describe "admin users CRUD" do
+  describe "users CRUD" do
     before do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email',    :with => @admin.email
-        fill_in 'Password', :with => @admin.password
+        fill_in 'Email',    :with => @user.email
+        fill_in 'Password', :with => @user.password
       end
       click_button 'Sign in'
       page.should have_css('header > ul > li.sign-out > form > button')
     end
 
     it "new user creation", :js => true do
-      visit (releaf_permissions_admins_path)
+      visit (releaf_permissions_users_path)
       click_link 'Create new resource'
       within("form.new_resource") do
         fill_in 'Name',    :with => "John"
@@ -38,17 +38,17 @@ describe "home page" do
       end
       save_and_check_response('Create succeeded')
       page.should have_content 'John Appleseed'
-      visit '/admin/admins'
+      visit '/admin/users'
       page.should have_content 'john@example.com'
 
-      visit (releaf_permissions_admins_path)
-      open_toolbox("Delete", Releaf::Permissions::Admin.last)
+      visit (releaf_permissions_users_path)
+      open_toolbox("Delete", Releaf::Permissions::User.last)
       click_button 'Yes'
       page.should_not have_content 'john@example.com'
     end
 
     it "user search" do
-      visit '/admin/admins'
+      visit '/admin/users'
       page.should have_content 'simple@example.com'
       within("form.search") do
         fill_in 'search',    :with => "admin@example.com"
@@ -61,22 +61,22 @@ describe "home page" do
     end
   end
 
-  describe "login as admin procedure" do
+  describe "login as user procedure" do
     before do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email',    :with => @admin.email
-        fill_in 'Password', :with => @admin.password
+        fill_in 'Email',    :with => @user.email
+        fill_in 'Password', :with => @user.password
       end
       click_button 'Sign in'
     end
 
-    it "admin page content" do
+    it "user page content" do
       page.should have_css('header > ul > li.sign-out > form > button')
       page.should have_content 'Releaf/content'
       page.should have_content 'Permissions'
       page.should have_content 'Releaf/i18n database/translations'
-      # admin/admins index view
+      # admin/users index view
       page.should have_content 'admin@example.com'
       page.should have_content 'simple@example.com'
     end
@@ -101,7 +101,7 @@ describe "home page" do
       click_button 'Sign in'
     end
 
-    it "admin page content" do
+    it "user page content" do
       page.should have_css('header > ul > li.sign-out > form > button')
       page.should have_content 'Releaf/content'
     end

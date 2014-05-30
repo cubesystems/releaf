@@ -12,7 +12,7 @@ module Releaf
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/permissions/admins releaf/permissions/roles]
+      :items =>   %w[releaf/permissions/users releaf/permissions/roles]
     },
     {
       :controller => 'releaf/translations',
@@ -20,7 +20,7 @@ module Releaf
   ]
 
   mattr_accessor :devise_for
-  @@devise_for = 'releaf/permissions/admin'
+  @@devise_for = 'releaf/permissions/user'
 
   mattr_accessor :layout
   @@layout = "releaf/admin"
@@ -37,7 +37,7 @@ module Releaf
   mattr_accessor :available_admin_locales
   @@available_admin_locales = nil
 
-  # controllers that must be accessible by admin, but are not visible in menu
+  # controllers that must be accessible by user, but are not visible in menu
   # should be added to this list
   mattr_accessor :additional_controllers
   @@additional_controllers = []

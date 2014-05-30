@@ -4,7 +4,7 @@ describe Releaf::Content::NodesController, js: true, with_tree: true, with_root:
     # preload ActsAsNode classes
     Rails.application.eager_load!
 
-    @admin = auth_as_admin
+    @user = auth_as_user
   end
 
   before with_root: true do

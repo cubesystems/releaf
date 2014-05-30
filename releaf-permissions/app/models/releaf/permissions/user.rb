@@ -1,6 +1,6 @@
 module Releaf::Permissions
-  class Admin < ActiveRecord::Base
-    self.table_name = 'releaf_admins'
+  class User < ActiveRecord::Base
+    self.table_name = 'releaf_users'
 
     # store UI settings with RailsSettings
     include RailsSettings::Extend

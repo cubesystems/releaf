@@ -1,7 +1,7 @@
 require 'spec_helper'
 feature "Base controller edit", js: true do
   background do
-    auth_as_admin
+    auth_as_user
     @author = FactoryGirl.create(:author)
     @good_book = FactoryGirl.create(:book, title: "good book", author: @author, price: 12.34, description_lv: "in lv", description_en: "in en")
     FactoryGirl.create(:book, title: "bad book", author: @author)

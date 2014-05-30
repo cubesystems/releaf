@@ -1,7 +1,7 @@
 require 'spec_helper'
 feature "Translations" do
   background do
-    auth_as_admin
+    auth_as_user
 
     @t1 = FactoryGirl.create(:translation, key: 'test.key1')
     @t2 = FactoryGirl.create(:translation, key: 'great.stuff')

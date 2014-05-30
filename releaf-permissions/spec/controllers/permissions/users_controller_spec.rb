@@ -2,9 +2,9 @@ require 'spec_helper'
 
 # use Admin::BooksController as it inherit Releaf::BaseController and
 # have no extra methods or overrides
-describe Releaf::Permissions::AdminsController do
+describe Releaf::Permissions::UsersController do
   before do
-    sign_in FactoryGirl.create(:admin)
+    sign_in FactoryGirl.create(:user)
   end
 
   describe "GET #new" do
@@ -16,8 +16,8 @@ describe Releaf::Permissions::AdminsController do
 
   describe "GET #index" do
     before do
-      FactoryGirl.create(:content_admin, name: "John")
-      FactoryGirl.create(:content_admin, name: "Bill", surname: "Green", email: "another@example.com")
+      FactoryGirl.create(:content_user, name: "John")
+      FactoryGirl.create(:content_user, name: "Bill", surname: "Green", email: "another@example.com")
     end
 
     it "searches by name, surname and email" do

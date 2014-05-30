@@ -14,7 +14,7 @@ Releaf.setup do |conf|
     },
     {
       :name => "permissions",
-      :items =>   %w[releaf/permissions/admins releaf/permissions/roles],
+      :items =>   %w[releaf/permissions/users releaf/permissions/roles],
       :icon => 'user',
     },
     {
