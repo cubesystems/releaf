@@ -7,5 +7,9 @@ module Releaf::I18nDatabase
         super
       end
     end
+
+    def self.initialize_component
+      I18n.exception_handler.extend(self)
+    end
   end
 end

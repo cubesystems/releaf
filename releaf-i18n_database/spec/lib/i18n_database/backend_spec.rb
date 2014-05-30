@@ -3,12 +3,12 @@ require "spec_helper"
 describe Releaf::I18nDatabase::Backend do
   before(:all) do
     # enable empty translation creation
-    Releaf.create_missing_translations = true
+    Releaf::I18nDatabase.create_missing_translations = true
   end
 
   after(:all) do
     # disable empty translation creation
-    Releaf.create_missing_translations = false
+    Releaf::I18nDatabase.create_missing_translations = false
   end
 
   before do

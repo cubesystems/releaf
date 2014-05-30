@@ -22,6 +22,8 @@ Releaf.setup do |conf|
   # should be added to this list
   conf.additional_controllers = []
 
+  conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
+
   conf.available_locales = ["en"]
   # conf.layout = 'releaf/admin'
   # conf.devise_for 'releaf/admin'

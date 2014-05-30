@@ -28,9 +28,6 @@ module Releaf
   mattr_accessor :load_routes_middleware
   @@load_routes_middleware = true
 
-  mattr_accessor :create_missing_translations
-  @@create_missing_translations = true
-
   mattr_accessor :available_locales
   @@available_locales = nil
 
@@ -45,6 +42,10 @@ module Releaf
   # controller list
   mattr_accessor :controller_list
   @@controller_list = {}
+
+  # components
+  mattr_accessor :components
+  @@components = []
 
   def self.all_locales
     valid_locales = Releaf.available_locales || []
@@ -63,10 +64,33 @@ module Releaf
 
       build_controller_list(Releaf.menu)
       build_controller_list(normalized_additional_controllers)
+
+      self.components = normalize_components(components)
+      initialize_components
     end
 
     def available_controllers
       controller_list.keys
+    end
+
+    def initialize_components
+      components.each do|component_class|
+        if component_class.respond_to? :initialize_component
+          component_class.initialize_component
+        end
+      end
+    end
+
+    def normalize_components denormalized_components
+      list = []
+      denormalized_components.map do |component_class|
+        list << component_class
+        if component_class.respond_to? :components
+          list += normalize_components(component_class.components)
+        end
+      end
+
+      list
     end
 
     private

@@ -17,6 +17,14 @@ module Releaf::RouteMapper
     end
   end
 
+  def initialize_releaf_components
+    Releaf.components.each do|component_class|
+      if component_class.respond_to? :draw_component_routes
+        component_class.draw_component_routes(self)
+      end
+    end
+  end
+
   def mount_releaf_at mount_location, options={}, &block
     controllers = allowed_controllers(options)
 
@@ -33,6 +41,9 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, :path => nil do
+
+        initialize_releaf_components
+
         namespace :permissions, :path => nil do
           releaf_resources :users if controllers.include? :users
           releaf_resources :roles if controllers.include? :roles
@@ -40,7 +51,6 @@ module Releaf::RouteMapper
 
         mount_profile_controller if controllers.include? :profile
         mount_content_controller if controllers.include? :content
-        mount_translations_controller if controllers.include? :translations
 
         root :to => "home#index"
         get '/*path' => 'home#page_not_found'
@@ -58,20 +68,6 @@ module Releaf::RouteMapper
     end
 
     allowed_controllers
-  end
-
-  # Mount translations controller
-  def mount_translations_controller
-    namespace :i18n_database, path: nil do
-      resources :translations, only: [:index] do
-        collection do
-          get :edit
-          post :update
-          get :export
-          post :import
-        end
-      end
-    end
   end
 
   # Mount profile controller

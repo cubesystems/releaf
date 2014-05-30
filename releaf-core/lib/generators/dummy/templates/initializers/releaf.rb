@@ -24,6 +24,7 @@ Releaf.setup do |conf|
    ]
 
   conf.additional_controllers = %w[admin/chapters]
+  conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
 
   conf.available_locales = ["en", "lv"]
   # conf.layout = 'releaf/admin'
