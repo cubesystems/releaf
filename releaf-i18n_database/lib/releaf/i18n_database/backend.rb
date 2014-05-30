@@ -127,7 +127,7 @@ module Releaf
       def key_hash key, localization_cache
         hash = {}
 
-        ::Releaf.available_locales.each do |locale|
+        ::Releaf.all_locales.each do |locale|
           localized_key = "#{locale}.#{key}"
           locale_hash = locale_hash(localized_key, localization_cache[localized_key])
           hash.merge! locale_hash
