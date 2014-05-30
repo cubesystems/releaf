@@ -97,6 +97,21 @@ feature "Translations" do
     expect(page).to have_css(".table td span", text: "jauns")
   end
 
+  scenario "Import unsupported file", js: true do
+    visit releaf_translations_path
+
+    script = "$('form.import').css({display: 'block'});"
+    page.driver.browser.execute_script(script)
+
+    fixture_path = File.expand_path('../fixtures/unsupported_import_file.png', __dir__)
+
+    within('form.import') do
+      attach_file(:import_file, fixture_path)
+    end
+
+    expect(page).to have_notification("Unsupported file format", "error")
+  end
+
   scenario "Export translations" do
     visit releaf_translations_path
     click_link "Export"

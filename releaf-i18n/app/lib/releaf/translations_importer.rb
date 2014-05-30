@@ -1,11 +1,21 @@
 module Releaf
   class TranslationsImporter
+    class UnsupportedFileFormatError < StandardError; end
 
-    def initialize file_path
+    def initialize file_path, file_extension
       require "roo"
-      @excel = Roo::Excelx.new(file_path, file_warning: :ignore)
-      @data = []
-      @locales = []
+      begin
+        @excel = Roo::Spreadsheet.open(file_path, file_warning: :ignore, extension: file_extension)
+        @data = []
+        @locales = []
+      rescue ArgumentError => e
+        error_string = "Don't know how to open file"
+        if e.message.match(error_string)
+          raise UnsupportedFileFormatError
+        else
+          raise
+        end
+      end
     end
 
     def parsed_output

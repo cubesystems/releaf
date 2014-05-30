@@ -95,10 +95,15 @@ module Releaf
     end
 
     def import
-      if File.exists? import_file_path
-        @collection = Releaf::TranslationsImporter.new(import_file_path).parsed_output
-        import_view
-        render :edit
+      if File.exists?(import_file_path) && !import_file_extension.blank?
+        begin
+          @collection = Releaf::TranslationsImporter.new(import_file_path, import_file_extension).parsed_output
+          import_view
+          render :edit
+        rescue Releaf::TranslationsImporter::UnsupportedFileFormatError
+          flash[:error] = { id: :resource_status, message: I18n.t("Unsupported file format", scope: notice_scope_name) }
+          redirect_to action: :index
+        end
       else
         redirect_to action: :index
       end
@@ -226,6 +231,10 @@ module Releaf
 
     def import_file_path
       params[:import_file].try(:tempfile).try(:path).to_s
+    end
+
+    def import_file_extension
+      File.extname(params[:import_file].original_filename).gsub(".", "")
     end
   end
 end
