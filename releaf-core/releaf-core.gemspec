@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'dragonfly', '~> 1.0.4'
   s.add_dependency 'devise', '>= 2.1.0'
   s.add_dependency 'rails-settings-cached', '~> 0.3.1'
-  s.add_dependency 'tinymce-rails', '~> 3.5.8'
+  s.add_dependency 'ckeditor_rails'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'awesome_nested_set', '>= 3.0.0.rc.2'
   s.add_dependency 'will_paginate', '>= 3.0.4'

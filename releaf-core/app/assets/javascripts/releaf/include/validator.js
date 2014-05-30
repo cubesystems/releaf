@@ -229,6 +229,7 @@ Validator.prototype.validate_form = function()
         validation_id : 'v' + new Date().getTime() + Math.random()
     };
 
+    v.form.trigger( 'beforevalidation', [ v, event_params ]);
     v.form.trigger( 'validationstart', [ v, event_params ]);
 }
 

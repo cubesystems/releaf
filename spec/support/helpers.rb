@@ -55,8 +55,7 @@ module Helpers
   end
 
   def fill_in_richtext html_element_id, content
-    expect(page).to have_css("##{html_element_id}_parent") # wait for tinymce appearance
-    page.execute_script("$('##{html_element_id}').tinymce().setContent(\"#{content}\")")
-    page.execute_script("$('##{html_element_id}').tinymce().save()")
+    expect(page).to have_css("#cke_#{html_element_id}") # wait for tinymce appearance
+    page.execute_script("$('##{html_element_id}').val(\"#{content}\")")
   end
 end

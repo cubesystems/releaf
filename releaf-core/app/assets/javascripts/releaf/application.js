@@ -8,7 +8,7 @@
 //= require jquery.ui.all
 //= require jquery_ujs
 //= require jquery.cookie
-//= require tinymce-jquery
+//= require ckeditor-jquery
 //= require_tree ./include
 //= require ./3rd_party/jquery-ui-timepicker-addon
 

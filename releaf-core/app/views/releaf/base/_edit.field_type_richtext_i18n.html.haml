@@ -2,7 +2,7 @@
   field_attrs                 = get_template_field_attributes local_assigns
 
   local_assigns[:label_opts]  = get_template_label_options    local_assigns, :translation_name => name.to_s.sub(/_html$/, '').to_s
-  local_assigns[:input_attrs] = get_template_input_attributes local_assigns, :rows => 5, :cols => 75, :class => "richtext", :data => { :tinymce_attachment_upload_url => attachment_upload_url }
+  local_assigns[:input_attrs] = get_template_input_attributes local_assigns, :rows => 5, :cols => 75, :class => "richtext", :data => { attachment_upload_url: attachment_upload_url }
 
   local_assigns[:resource]    = @resource
   local_assigns[:field_type]  = 'text_area'
