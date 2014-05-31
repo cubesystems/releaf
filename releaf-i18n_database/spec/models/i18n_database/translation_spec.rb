@@ -20,7 +20,7 @@ describe Releaf::I18nDatabase::Translation do
     FactoryGirl.create(:translation_data, :localization => 'apple', :translation => @translation, :lang => "en")
     FactoryGirl.create(:translation_data, :localization => 'apfel', :translation => @translation, :lang => "de")
 
-    Settings.i18n_updated_at = Time.now
+    Settings['releaf.i18n_database.translations.updated_at'] = Time.now
   end
 
   describe "translation" do

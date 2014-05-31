@@ -74,10 +74,10 @@ describe Releaf::I18nDatabase::TranslationsController do
 
   describe "#update" do
     context "when save successful" do
-      it "updates Settings.i18n_updated_at" do
-        expect(Settings).to receive(:i18n_updated_at=).and_call_original
+      it "updates translations updated_at" do
+        Settings['releaf.i18n_database.translations.updated_at'] = nil
         put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
-        expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
+        expect(Settings['releaf.i18n_database.translations.updated_at']).to eq("1981-02-23 21:00:00 UTC")
       end
 
       context "when save with import" do

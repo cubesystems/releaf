@@ -13,7 +13,7 @@ module Releaf
       end
 
       def translations_updated_at
-        Settings.i18n_updated_at
+        Settings['releaf.i18n_database.translations.updated_at']
       end
 
       def store_translations locale, data, options = {}

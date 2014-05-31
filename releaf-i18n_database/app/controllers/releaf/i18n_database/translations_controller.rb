@@ -173,7 +173,7 @@ module Releaf::I18nDatabase
     def process_updatables
       resource_class.where(id: @translation_ids_to_destroy).destroy_all unless @translation_ids_to_destroy.empty?
       @translations_to_save.map(&:save!)
-      Settings.i18n_updated_at = Time.now
+      Settings['releaf.i18n_database.translations.updated_at'] = Time.now
     end
 
     def build_updatables translations_params

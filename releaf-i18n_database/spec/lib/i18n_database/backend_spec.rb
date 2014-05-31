@@ -31,9 +31,9 @@ describe Releaf::I18nDatabase::Backend do
   end
 
   describe "#translations_updated_at" do
-    it "returns Settings.i18n_updated_at" do
-      Settings.i18n_updated_at = Time.now
-      expect(I18n.backend.translations_updated_at).to eq(Settings.i18n_updated_at)
+    it "returns translations updated_at" do
+      Settings['releaf.i18n_database.translations.updated_at'] = Time.now
+      expect(I18n.backend.translations_updated_at).to eq(Settings['releaf.i18n_database.translations.updated_at'])
     end
   end
 

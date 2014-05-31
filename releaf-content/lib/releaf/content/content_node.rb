@@ -183,7 +183,7 @@ module Releaf::Content
       end
 
       def update_settings_timestamp
-        Settings['nodes.updated_at'] = Time.now
+        Settings['releaf.content.nodes.updated_at'] = Time.now
       end
 
       def add_error_and_raise error
@@ -208,7 +208,7 @@ module Releaf::Content
 
     module ClassMethods
       def updated_at
-        Settings['nodes.updated_at']
+        Settings['releaf.content.nodes.updated_at']
       end
 
       def children_max_item_position node
