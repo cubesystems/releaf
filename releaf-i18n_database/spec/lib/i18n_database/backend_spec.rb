@@ -30,10 +30,17 @@ describe Releaf::I18nDatabase::Backend do
     end
   end
 
-  describe "#translations_updated_at" do
+  describe ".translations_updated_at" do
     it "returns translations updated_at" do
       Settings['releaf.i18n_database.translations.updated_at'] = Time.now
-      expect(I18n.backend.translations_updated_at).to eq(Settings['releaf.i18n_database.translations.updated_at'])
+      expect(described_class.translations_updated_at).to eq(Settings['releaf.i18n_database.translations.updated_at'])
+    end
+  end
+
+  describe ".translations_updated_at=" do
+    it "stores translations updated_at" do
+      expect{ described_class.translations_updated_at = "xx" }.to change{ Settings['releaf.i18n_database.translations.updated_at'] }.
+        to("xx")
     end
   end
 
@@ -44,7 +51,7 @@ describe Releaf::I18nDatabase::Backend do
     end
 
     it "writes last translations update timestamp to cache" do
-      I18n.backend.stub(:translations_updated_at).and_return("x")
+      described_class.stub(:translations_updated_at).and_return("x")
       expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:updated_at] }.to("x")
     end
 
@@ -67,7 +74,7 @@ describe Releaf::I18nDatabase::Backend do
       context "when cache timestamp differs from translations update timestamp" do
         it "reloads cache" do
           described_class::CACHE[:updated_at] = timestamp
-          I18n.backend.stub(:translations_updated_at).and_return(timestamp + 1.day)
+          described_class.stub(:translations_updated_at).and_return(timestamp + 1.day)
           expect(I18n.backend).to receive(:reload_cache)
           I18n.t("cancel")
         end
@@ -76,7 +83,7 @@ describe Releaf::I18nDatabase::Backend do
       context "when cache timestamp is same as translations update timestamp" do
         it "does not reload cache" do
           described_class::CACHE[:updated_at] = timestamp
-          I18n.backend.stub(:translations_updated_at).and_return(timestamp)
+         described_class.stub(:translations_updated_at).and_return(timestamp)
 
           expect(I18n.backend).to_not receive(:reload_cache)
           I18n.t("cancel")
