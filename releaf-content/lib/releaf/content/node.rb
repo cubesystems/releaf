@@ -57,7 +57,7 @@ module Releaf::Content
           self.save(:validate => false)
           retry
         end
-        update_settings_timestamp
+        self.class.updated
       end
 
       def copy_to_node! parent_id
@@ -104,7 +104,7 @@ module Releaf::Content
           end
         end
 
-        new_node.update_settings_timestamp
+        self.class.updated
         return new_node
       end
 
@@ -134,7 +134,7 @@ module Releaf::Content
           end
         end
 
-        update_settings_timestamp
+        self.class.updated
         self
       end
 
@@ -182,10 +182,6 @@ module Releaf::Content
         @dont_update_settings_timestamp = false
       end
 
-      def update_settings_timestamp
-        Settings['releaf.content.nodes.updated_at'] = Time.now
-      end
-
       def add_error_and_raise error
         errors.add(:base, error)
         raise ActiveRecord::RecordInvalid.new(self)
@@ -201,14 +197,17 @@ module Releaf::Content
 
       def auto_update_settings_timestamp
         return if @dont_update_settings_timestamp
-        update_settings_timestamp
+        self.class.updated
       end
-
     end
 
     module ClassMethods
       def updated_at
         Settings['releaf.content.nodes.updated_at']
+      end
+
+      def updated
+        Settings['releaf.content.nodes.updated_at'] = Time.now
       end
 
       def children_max_item_position node

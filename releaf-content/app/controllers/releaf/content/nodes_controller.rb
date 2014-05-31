@@ -122,7 +122,7 @@ module Releaf::Content
           result = false
         else
           result = true
-          @resource.update_settings_timestamp
+          resource_class.updated
           render_notification true
         end
       end
