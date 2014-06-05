@@ -39,7 +39,7 @@ describe Releaf::Content::Node::ParentValidator do
 
       expect( child ).to be_invalid
       expect( child.errors[:content_type].size ).to eq(1)
-      expect( child.errors_on(:content_type) ).to include("invalid parent node")
+      expect( child.errors[:content_type] ).to include("invalid parent node")
     end
 
   end
