@@ -53,8 +53,8 @@ describe Releaf::Permissions::ProfileController do
 
       it "casts bolean values from strings to booleans" do
         put :settings, {settings: {be_true: 'true', be_false: 'false'}}
-        expect(user.settings.be_true).to be_true
-        expect(user.settings.be_false).to be_false
+        expect(user.settings.be_true).to be true
+        expect(user.settings.be_false).to be false
       end
     end
   end

@@ -106,16 +106,16 @@ describe Admin::AuthorsController do
     context "when @resources_per_page is nil" do
       it "assigns all resources to @collection" do
         get :index, show_all: 1
-        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be_true
-        expect(assigns(:collection)).to have(21).resource
+        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
+        expect(assigns(:collection).size).to eq(21)
       end
     end
 
     context "when @resources_per_page is not nil" do
       it "assigns maximum 20 resources to @collection" do
         get :index
-        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be_true
-        expect(assigns(:collection)).to have(20).resources
+        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
+        expect(assigns(:collection).size).to eq(20)
       end
     end
   end
@@ -185,7 +185,7 @@ describe Admin::BooksController do
     it "assigns the requested record to @resource" do
       get :new
 
-      expect(assigns(:resource).new_record?).to be_true
+      expect(assigns(:resource).new_record?).to be true
     end
 
     context "when the requested record responds to #to_text" do
@@ -220,7 +220,7 @@ describe Admin::BooksController do
 
     context "when the requested record does not respond to #to_text" do
       it "uses default translation for resource's breadcrumb name" do
-        pending "Find out way how to stub loaded resource #respond_to?(:to_text)"
+        skip "Find out way how to stub loaded resource #respond_to?(:to_text)"
         Book.any_instance.stub(:respond_to?).with(:to_text).and_return(false)
         get :edit, id: @resource
         breadcrumbs = @breadcrumbs_base + [{name: "Edit resource", url: edit_admin_book_path(@resource.id)}]

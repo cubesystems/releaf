@@ -32,19 +32,19 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when not searching" do
       it "renders all translations" do
         get :index
-        expect( assigns(:collection) ).to have(3).item
+        expect( assigns(:collection).size ).to eq(3)
       end
     end
 
     context "when searching" do
       it "searches by translation key" do
         get :index, search: 'great'
-        expect( assigns(:collection) ).to have(1).item
+        expect( assigns(:collection).size ).to eq(1)
       end
 
       it "searched by localized values" do
         get :index, search: 'manta'
-        expect( assigns(:collection) ).to have(1).item
+        expect( assigns(:collection).size ).to eq(1)
       end
     end
 
@@ -60,14 +60,14 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when search scope is not given" do
       it "renders all translations" do
         get :edit
-        expect( assigns(:collection) ).to have(3).item
+        expect( assigns(:collection).size ).to eq(3)
       end
     end
 
     context "when search scope is given" do
       it "renders translations matching search pattern" do
         get :index, search: 'stuff'
-        expect( assigns(:collection) ).to have(2).item
+        expect( assigns(:collection).size ).to eq(2)
       end
     end
   end
@@ -130,11 +130,11 @@ describe Releaf::I18nDatabase::TranslationsController do
       end
 
       it "parses uploaded file and assigns content to collection" do
-        expect( assigns(:collection) ).to have(4).item
+        expect( assigns(:collection).size ).to eq(4)
       end
 
       it "assigns @import to true" do
-        expect( assigns(:import) ).to be_true
+        expect( assigns(:import) ).to be true
       end
 
       it "appends breadcrumb with 'import' part" do

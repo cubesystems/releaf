@@ -38,7 +38,7 @@ describe Releaf::Content::Node::ParentValidator do
       child  = DummyNodeParentValidatorNode.new( FactoryGirl.attributes_for(:node, content_type: 'DummyNodeParentValidatorModel', parent_id: parent.id) )
 
       expect( child ).to be_invalid
-      expect( child ).to have(1).error_on(:content_type)
+      expect( child.errors[:content_type].size ).to eq(1)
       expect( child.errors_on(:content_type) ).to include("invalid parent node")
     end
 

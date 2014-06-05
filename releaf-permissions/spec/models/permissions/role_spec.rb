@@ -28,25 +28,25 @@ describe Releaf::Permissions::Role do
 
     context "when access to releaf/home controller authorized" do
       it "always return true" do
-        expect(@admin_role.authorize!(Releaf::HomeController.new)).to be_true
-        expect(@content_role.authorize!(Releaf::HomeController.new)).to be_true
-        expect(@role_without_permissions.authorize!(Releaf::HomeController.new)).to be_true
+        expect(@admin_role.authorize!(Releaf::HomeController.new)).to be true
+        expect(@content_role.authorize!(Releaf::HomeController.new)).to be true
+        expect(@role_without_permissions.authorize!(Releaf::HomeController.new)).to be true
       end
     end
 
     context "when permissions given" do
       it "returns true" do
-        expect(@admin_role.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be_true
-        expect(@admin_role.authorize!(Releaf::Content::NodesController.new)).to be_true
-        expect(@content_role.authorize!(Releaf::Content::NodesController.new)).to  be_true
-        expect(@role_without_permissions.authorize!(Releaf::Content::NodesController.new)).to be_false
+        expect(@admin_role.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be true
+        expect(@admin_role.authorize!(Releaf::Content::NodesController.new)).to be true
+        expect(@content_role.authorize!(Releaf::Content::NodesController.new)).to  be true
+        expect(@role_without_permissions.authorize!(Releaf::Content::NodesController.new)).to be false
       end
     end
 
     context "when permissions not given" do
       it "returns false" do
-        expect(@content_role.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be_false
-        expect(@role_without_permissions.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be_false
+        expect(@content_role.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be false
+        expect(@role_without_permissions.authorize!(Releaf::I18nDatabase::TranslationsController.new)).to be false
       end
     end
   end

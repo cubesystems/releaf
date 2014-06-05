@@ -106,20 +106,20 @@ describe Releaf::ErrorFormatter do
   describe "#single_association?" do
     context "for :belongs_to association" do
       it "returns true" do
-        expect( subject.send(:single_association?, 'author') ).to be_true
+        expect( subject.send(:single_association?, 'author') ).to be true
       end
     end
 
     context "for :has_many association" do
       it "returns false" do
-        expect( subject.send(:single_association?, 'chapters') ).to be_false
+        expect( subject.send(:single_association?, 'chapters') ).to be false
       end
     end
 
     context "for :has_one association" do
       it "returns true" do
         subject.stub(:association_type).with('author').and_return(:has_one)
-        expect( subject.send(:single_association?, 'author') ).to be_true
+        expect( subject.send(:single_association?, 'author') ).to be true
       end
     end
   end
@@ -127,13 +127,13 @@ describe Releaf::ErrorFormatter do
   describe "#models_attribute?" do
     context "when attribute name contains dot" do
       it "returns false" do
-        expect( subject.send(:models_attribute?, 'test.attribute') ).to be_false
+        expect( subject.send(:models_attribute?, 'test.attribute') ).to be false
       end
     end
 
     context "when attribute name doesn't contain dot" do
       it "returns true" do
-        expect( subject.send(:models_attribute?, 'test') ).to be_true
+        expect( subject.send(:models_attribute?, 'test') ).to be true
       end
     end
   end

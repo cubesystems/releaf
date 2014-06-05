@@ -39,6 +39,7 @@ describe Releaf::I18nDatabase::Backend do
 
   describe ".translations_updated_at=" do
     it "stores translations updated_at" do
+      Settings['releaf.i18n_database.translations.updated_at'] = nil # always reset before testing
       expect{ described_class.translations_updated_at = "xx" }.to change{ Settings['releaf.i18n_database.translations.updated_at'] }.
         to("xx")
     end
@@ -49,7 +50,7 @@ describe Releaf::I18nDatabase::Backend do
       it "returns true" do
         described_class.stub(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 2
-        expect(subject.reload_cache?).to be_true
+        expect(subject.reload_cache?).to be true
       end
     end
 
@@ -57,7 +58,7 @@ describe Releaf::I18nDatabase::Backend do
       it "returns false" do
         described_class.stub(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 1
-        expect(subject.reload_cache?).to be_false
+        expect(subject.reload_cache?).to be false
       end
     end
   end
