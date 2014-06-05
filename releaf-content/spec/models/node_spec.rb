@@ -398,13 +398,17 @@ describe Node do
     it "returns class names for Node#content_type that can be used to create valid node" do
       expect( ActsAsNode ).to receive(:classes).and_return(%w[BadNode GoodNode])
 
-      node1 = double('BadNode')
-      allow(node1).to receive(:valid?)
-      node1.stub_chain(:errors, :[]).with(:content_type).and_return(['some error'])
+      node_1 = double('BadNode')
+      allow(node_1).to receive(:valid?)
+      node_1_errors = double("Node 1 Errors object")
+      expect( node_1_errors ).to receive(:[]).with(:content_type).and_return(['some error'])
+      allow(node_1).to receive(:errors).and_return(node_1_errors)
 
-      node2 = double('GoodNode')
-      allow(node2).to receive(:valid?)
-      node2.stub_chain(:errors, :[]).with(:content_type).and_return(nil)
+      node_2 = double('GoodNode')
+      allow(node_2).to receive(:valid?)
+      node_2_errors = double("Node 2 Errors object")
+      expect( node_2_errors ).to receive(:[]).with(:content_type).and_return(nil)
+      allow(node_2).to receive(:errors).and_return(node_2_errors)
 
       expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'BadNode')).and_return(node1)
       expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'GoodNode')).and_return(node2)
