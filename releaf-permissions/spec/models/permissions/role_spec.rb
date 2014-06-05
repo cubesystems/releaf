@@ -1,16 +1,16 @@
 require "spec_helper"
 
 describe Releaf::Permissions::Role do
-  it { should serialize(:permissions).as(Array) }
+  it { is_expected.to serialize(:permissions).as(Array) }
 
   describe 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:default_controller) }
-    it { should validate_uniqueness_of(:name) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:default_controller) }
+    it { is_expected.to validate_uniqueness_of(:name) }
   end
 
   describe 'associations' do
-    it { should have_many(:users).dependent(:restrict_with_exception) }
+    it { is_expected.to have_many(:users).dependent(:restrict_with_exception) }
   end
 
   describe "#authorize!" do

@@ -2,19 +2,19 @@ require "spec_helper"
 
 describe Releaf::I18nDatabase::Translation do
 
-  it { should validate_presence_of(:key) }
-  it { should ensure_length_of(:key).is_at_most(255) }
+  it { is_expected.to validate_presence_of(:key) }
+  it { is_expected.to ensure_length_of(:key).is_at_most(255) }
   it do
     FactoryGirl.create(:translation)
-    should validate_uniqueness_of(:key)
+    is_expected.to validate_uniqueness_of(:key)
   end
-  it { should have_many(:translation_data).dependent(:destroy) }
-  it { should accept_nested_attributes_for(:translation_data).allow_destroy(true) }
+  it { is_expected.to have_many(:translation_data).dependent(:destroy) }
+  it { is_expected.to accept_nested_attributes_for(:translation_data).allow_destroy(true) }
 
 
   before do
-    Releaf.stub(:available_locales) { ["de", "en"] }
-    Releaf.stub(:available_admin_locales) { ["lv"] }
+    allow(Releaf).to receive(:available_locales) { ["de", "en"] }
+    allow(Releaf).to receive(:available_admin_locales) { ["lv"] }
 
     @translation = FactoryGirl.create(:translation, :key => 'test.apple')
     FactoryGirl.create(:translation_data, :localization => 'apple', :translation => @translation, :lang => "en")

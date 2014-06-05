@@ -83,7 +83,7 @@ describe Admin::AuthorsController do
     context "when action is :index" do
       it "returns #current_url value" do
         get :index
-        subject.stub(:current_url).and_return("random_string")
+        allow(subject).to receive(:current_url).and_return("random_string")
         expect(subject.index_url).to eq("random_string")
       end
     end
@@ -221,7 +221,7 @@ describe Admin::BooksController do
     context "when the requested record does not respond to #to_text" do
       it "uses default translation for resource's breadcrumb name" do
         skip "Find out way how to stub loaded resource #respond_to?(:to_text)"
-        Book.any_instance.stub(:respond_to?).with(:to_text).and_return(false)
+        allow_any_instance_of(Book).to receive(:respond_to?).with(:to_text).and_return(false)
         get :edit, id: @resource
         breadcrumbs = @breadcrumbs_base + [{name: "Edit resource", url: edit_admin_book_path(@resource.id)}]
 

@@ -43,7 +43,7 @@ describe ActsAsNode do
 
     context ".nodes" do
       it "loads tree nodes" do
-        Node.should_receive(:where).with(content_type: Book.name)
+        expect(Node).to receive(:where).with(content_type: Book.name)
         Book.nodes
       end
 
@@ -62,7 +62,7 @@ describe ActsAsNode do
 
     context ".nodes" do
       it "loads tree nodes" do
-        Node.should_receive(:where).with(content_type: ContactFormController.name)
+        expect(Node).to receive(:where).with(content_type: ContactFormController.name)
         ContactFormController.nodes
       end
 

@@ -16,7 +16,7 @@ describe Releaf::Content::Route do
 
     context "when no releaf_nodes table defined" do
       it "returns an empty array" do
-        described_class.stub(:nodes_available?).and_return(false)
+        allow(described_class).to receive(:nodes_available?).and_return(false)
         expect(described_class.for(Text)).to eq([])
       end
     end
@@ -32,7 +32,7 @@ describe Releaf::Content::Route do
 
       context "when node is not available" do
         it "does not include it in return" do
-          Node.any_instance.stub(:available?).and_return(false)
+          allow_any_instance_of(Node).to receive(:available?).and_return(false)
           expect(described_class.for(Text)).to eq([])
         end
       end

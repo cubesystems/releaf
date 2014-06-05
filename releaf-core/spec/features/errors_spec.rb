@@ -12,7 +12,7 @@ describe "Errors feature" do
   end
 
   it "returns 403 status code and generic error page for disabled feature" do
-    Releaf::Permissions::RolesController.any_instance.stub(:check_feature).and_raise(Releaf::FeatureDisabled, "edit")
+    allow_any_instance_of(Releaf::Permissions::RolesController).to receive(:check_feature).and_raise(Releaf::FeatureDisabled, "edit")
     visit releaf_permissions_roles_path
 
     expect(page.status_code).to eq(403)
@@ -20,7 +20,7 @@ describe "Errors feature" do
   end
 
   it "returns 403 status code and generic error page for restricted content" do
-    Releaf::Permissions::Role.any_instance.stub(:authorize!).and_return(false)
+    allow_any_instance_of(Releaf::Permissions::Role).to receive(:authorize!).and_return(false)
     visit releaf_permissions_roles_path
 
     expect(page.status_code).to eq(403)

@@ -2,12 +2,12 @@ require "spec_helper"
 
 describe Releaf::I18nDatabase::TranslationData do
 
-  it { should validate_presence_of(:translation) }
-  it { should validate_presence_of(:lang) }
-  it { should ensure_length_of(:lang).is_at_most(5) }
+  it { is_expected.to validate_presence_of(:translation) }
+  it { is_expected.to validate_presence_of(:lang) }
+  it { is_expected.to ensure_length_of(:lang).is_at_most(5) }
   it {
     FactoryGirl.create(:translation_data)
-    should validate_uniqueness_of(:translation_id).scoped_to([:lang])
+    is_expected.to validate_uniqueness_of(:translation_id).scoped_to([:lang])
   }
-  it { should belong_to(:translation) }
+  it { is_expected.to belong_to(:translation) }
 end

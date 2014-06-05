@@ -8,7 +8,7 @@ describe Releaf::RouteMapper do
 
   describe "#mount_releaf_at" do
     it "calls #devise_for routing mapper method" do
-      ActionDispatch::Routing::Mapper.any_instance.should_receive(:devise_for).
+      expect_any_instance_of(ActionDispatch::Routing::Mapper).to receive(:devise_for).
         with("releaf/permissions/user", {path: "/my-admin", controllers: {sessions: "releaf/sessions"}})
 
       routes.draw do

@@ -35,7 +35,7 @@ describe Releaf::ErrorFormatter do
 
   describe "#errors" do
     it "is a hash" do
-      described_class.any_instance.stub(:format_errors)
+      allow_any_instance_of(described_class).to receive(:format_errors)
       expect( subject.errors ).to be_an_instance_of Hash
     end
   end
@@ -118,7 +118,7 @@ describe Releaf::ErrorFormatter do
 
     context "for :has_one association" do
       it "returns true" do
-        subject.stub(:association_type).with('author').and_return(:has_one)
+        allow(subject).to receive(:association_type).with('author').and_return(:has_one)
         expect( subject.send(:single_association?, 'author') ).to be true
       end
     end
@@ -161,18 +161,18 @@ describe Releaf::ErrorFormatter do
   describe "#add_error" do
     before do
       # prevent formatting errors when class is initialized
-      described_class.any_instance.stub(:format_errors)
+      allow_any_instance_of(described_class).to receive(:format_errors)
     end
 
     it "adds error to errors" do
       message = "error message"
-      message.stub(:error_code).and_return('test error')
+      allow(message).to receive(:error_code).and_return('test error')
 
       other_message = "invalid author"
-      other_message.stub(:error_code).and_return('invalid')
+      allow(other_message).to receive(:error_code).and_return('invalid')
 
       jet_another_message = "jet another error message"
-      jet_another_message.stub(:error_code).and_return('test error')
+      allow(jet_another_message).to receive(:error_code).and_return('test error')
 
       expect do
         subject.send(:add_error, 'title', message)
@@ -191,7 +191,7 @@ describe Releaf::ErrorFormatter do
 
     it "localizes error messages" do
       message = "error message"
-      message.stub(:error_code).and_return('test error')
+      allow(message).to receive(:error_code).and_return('test error')
 
       expect( I18n ).to receive(:t).with(message, scope: "activerecord.errors.messages.book").and_call_original
       subject.send(:add_error, 'title', message)

@@ -23,7 +23,7 @@ describe Releaf::Content::RoutesReloader do
   describe ".reload_if_expired" do
     context "when no nodes exists" do
       it "does not reload routes" do
-        Node.stub(:updated_at).and_return(nil)
+        allow(Node).to receive(:updated_at).and_return(nil)
         expect(Rails.application).to_not receive(:reload_routes!)
         described_class.reload_if_expired
       end
@@ -31,7 +31,7 @@ describe Releaf::Content::RoutesReloader do
 
     context "when routes is up to date" do
       it "does not reload routes" do
-        Node.stub(:updated_at).and_return(Time.parse("1991-01-01"))
+        allow(Node).to receive(:updated_at).and_return(Time.parse("1991-01-01"))
         expect(Rails.application).to_not receive(:reload_routes!)
         described_class.reload_if_expired
       end
@@ -39,7 +39,7 @@ describe Releaf::Content::RoutesReloader do
 
     context "when routes is outdated" do
       it "reloads routes" do
-        Node.stub(:updated_at).and_return(Time.now)
+        allow(Node).to receive(:updated_at).and_return(Time.now)
         expect(Rails.application).to receive(:reload_routes!)
         described_class.reload_if_expired
       end

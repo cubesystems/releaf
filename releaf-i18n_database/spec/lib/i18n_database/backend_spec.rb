@@ -48,7 +48,7 @@ describe Releaf::I18nDatabase::Backend do
   describe "#reload_cache?" do
     context "when last translation update differs from last cache load" do
       it "returns true" do
-        described_class.stub(:translations_updated_at).and_return(1)
+        allow(described_class).to receive(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 2
         expect(subject.reload_cache?).to be true
       end
@@ -56,7 +56,7 @@ describe Releaf::I18nDatabase::Backend do
 
     context "when last translation update differs from last cache load" do
       it "returns false" do
-        described_class.stub(:translations_updated_at).and_return(1)
+        allow(described_class).to receive(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 1
         expect(subject.reload_cache?).to be false
       end
@@ -70,7 +70,7 @@ describe Releaf::I18nDatabase::Backend do
     end
 
     it "writes last translations update timestamp to cache" do
-      described_class.stub(:translations_updated_at).and_return("x")
+      allow(described_class).to receive(:translations_updated_at).and_return("x")
       expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:updated_at] }.to("x")
     end
 
@@ -93,7 +93,7 @@ describe Releaf::I18nDatabase::Backend do
       context "when cache timestamp differs from translations update timestamp" do
         it "reloads cache" do
           described_class::CACHE[:updated_at] = timestamp
-          described_class.stub(:translations_updated_at).and_return(timestamp + 1.day)
+          allow(described_class).to receive(:translations_updated_at).and_return(timestamp + 1.day)
           expect(I18n.backend).to receive(:reload_cache)
           I18n.t("cancel")
         end
@@ -102,7 +102,7 @@ describe Releaf::I18nDatabase::Backend do
       context "when cache timestamp is same as translations update timestamp" do
         it "does not reload cache" do
           described_class::CACHE[:updated_at] = timestamp
-         described_class.stub(:translations_updated_at).and_return(timestamp)
+         allow(described_class).to receive(:translations_updated_at).and_return(timestamp)
 
           expect(I18n.backend).to_not receive(:reload_cache)
           I18n.t("cancel")
@@ -206,14 +206,14 @@ describe Releaf::I18nDatabase::Backend do
       context "loading multiple times" do
         it "queries db only for the first time" do
           I18n.t("save", scope: "admin.global")
-          Releaf::I18nDatabase::Translation.should_not_receive(:where)
+          expect(Releaf::I18nDatabase::Translation).not_to receive(:where)
           I18n.t("save", scope: "admin.global")
         end
       end
 
       context "with nonexistent translation" do
         before do
-          Releaf.stub(:all_locales).and_return(["ru", "lv"])
+          allow(Releaf).to receive(:all_locales).and_return(["ru", "lv"])
         end
 
         it "creates empty translation" do

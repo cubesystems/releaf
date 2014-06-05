@@ -4,27 +4,27 @@ describe Node do
 
   let(:node) { Node.new }
 
-  it { should accept_nested_attributes_for(:content) }
-  it { should belong_to(:content) }
+  it { is_expected.to accept_nested_attributes_for(:content) }
+  it { is_expected.to belong_to(:content) }
 
   it "includes Releaf::Content::Node module" do
     expect( Node.included_modules ).to include Releaf::Content::Node
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:slug) }
-    it { should validate_presence_of(:content_type) }
-    it { should validate_uniqueness_of(:slug).scoped_to(:parent_id) }
-    it { should ensure_length_of(:name).is_at_most(255) }
-    it { should ensure_length_of(:slug).is_at_most(255) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:slug) }
+    it { is_expected.to validate_presence_of(:content_type) }
+    it { is_expected.to validate_uniqueness_of(:slug).scoped_to(:parent_id) }
+    it { is_expected.to ensure_length_of(:name).is_at_most(255) }
+    it { is_expected.to ensure_length_of(:slug).is_at_most(255) }
   end
 
   describe "after save" do
     it "sets node update to current time" do
       Settings['releaf.content.nodes.updated_at'] = Time.now
       time_now = Time.parse("2009-02-23 21:00:00 UTC")
-      Time.stub(:now).and_return(time_now)
+      allow(Time).to receive(:now).and_return(time_now)
 
       expect{ FactoryGirl.create(:node) }.to change{ Settings['releaf.content.nodes.updated_at'] }.to(time_now)
     end
@@ -112,9 +112,9 @@ describe Node do
 
   describe "#destroy" do
     def stub_content_class &block
-      Node.any_instance.stub(:content_class)
+      allow_any_instance_of(Node).to receive(:content_class)
       yield
-      Node.any_instance.unstub(:content_class)
+      allow_any_instance_of(Node).to receive(:content_class).and_call_original
     end
 
     context "when content object class exists" do
@@ -142,8 +142,8 @@ describe Node do
         stub_content_class do
           @node = FactoryGirl.create(:node, content_type: 'NonExistingTestModel', content_id: 1)
         end
-        @node.stub(:content_type=)
-        @node.stub(:content_id=)
+        allow(@node).to receive(:content_type=)
+        allow(@node).to receive(:content_id=)
 
         expect { @node.destroy }.to raise_error NameError
         expect( Node.count ).to eq 1
@@ -153,7 +153,7 @@ describe Node do
     it "sets node update to current time" do
       node = FactoryGirl.create(:node)
       time_now = Time.parse("2009-02-23 21:00:00 UTC")
-      Time.stub(:now).and_return(time_now)
+      allow(Time).to receive(:now).and_return(time_now)
       expect{ node.destroy }.to change{ Settings['releaf.content.nodes.updated_at'] }.to(time_now)
     end
   end
@@ -208,7 +208,7 @@ describe Node do
       context "when root locale uniqueness is validated" do
         it "resets locale to nil" do
           @text_node = FactoryGirl.create(:text_node, locale: 'en')
-          Node.any_instance.stub(:validate_root_locale_uniqueness?).and_return(true)
+          allow_any_instance_of(Node).to receive(:validate_root_locale_uniqueness?).and_return(true)
           @text_node.copy_to_node!(nil)
           expect( Node.last.locale ).to eq nil
         end
@@ -217,7 +217,7 @@ describe Node do
       context "when root locale uniqueness is not validated" do
         it "doesn't reset locale to nil" do
           @text_node = FactoryGirl.create(:text_node, locale: 'en')
-          Node.any_instance.stub(:validate_root_locale_uniqueness?).and_return(false)
+          allow_any_instance_of(Node).to receive(:validate_root_locale_uniqueness?).and_return(false)
           @text_node.copy_to_node!(nil)
           expect( Node.last.locale ).to eq 'en'
         end
@@ -399,11 +399,11 @@ describe Node do
       expect( ActsAsNode ).to receive(:classes).and_return(%w[BadNode GoodNode])
 
       node1 = double('BadNode')
-      node1.stub(:valid?)
+      allow(node1).to receive(:valid?)
       node1.stub_chain(:errors, :[]).with(:content_type).and_return(['some error'])
 
       node2 = double('GoodNode')
-      node2.stub(:valid?)
+      allow(node2).to receive(:valid?)
       node2.stub_chain(:errors, :[]).with(:content_type).and_return(nil)
 
       expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'BadNode')).and_return(node1)

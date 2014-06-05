@@ -10,7 +10,7 @@ describe Releaf::I18nDatabase::HumanizeMissingTranslations do
 
     context "when exception is not I18n::MissingTranslation" do
       it "does not intercept it" do
-        I18n::Backend::Transliterator.stub(:get).and_raise(I18n::ArgumentError)
+        allow(I18n::Backend::Transliterator).to receive(:get).and_raise(I18n::ArgumentError)
         expect{I18n.transliterate("error?")}.to raise_error(I18n::ArgumentError)
       end
     end

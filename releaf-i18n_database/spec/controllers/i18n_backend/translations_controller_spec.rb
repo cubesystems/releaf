@@ -10,7 +10,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
   before do
     @time_now = Time.parse("1981-02-23 21:00:00 UTC")
-    Time.stub(:now).and_return(@time_now)
+    allow(Time).to receive(:now).and_return(@time_now)
   end
 
   before build_translations: true do
@@ -125,7 +125,7 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when file uploaded" do
       before do
         file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', true)
-        file.stub(:tempfile).and_return(file)
+        allow(file).to receive(:tempfile).and_return(file)
         post :import, import_file: file
       end
 

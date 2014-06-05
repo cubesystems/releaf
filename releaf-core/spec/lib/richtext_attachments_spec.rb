@@ -55,7 +55,7 @@ describe Releaf::RichtextAttachments do
 
     it "calls #richtext_columns" do
       book = Book.new
-      book.should_receive(:richtext_columns).once.and_return([])
+      expect(book).to receive(:richtext_columns).once.and_return([])
       book.send(:richtext_attachment_collected_uuids)
     end
   end
@@ -73,12 +73,12 @@ describe Releaf::RichtextAttachments do
     end
 
     it "is called after save" do
-      book.should_receive(:manage_attachments).once
+      expect(book).to receive(:manage_attachments).once
       book.save!
     end
 
     it "calls #richtext_attachment_collected_uuids" do
-      book.should_receive(:richtext_attachment_collected_uuids).once
+      expect(book).to receive(:richtext_attachment_collected_uuids).once
       book.send(:manage_attachments)
     end
 

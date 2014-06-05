@@ -26,7 +26,7 @@ describe Releaf::Permissions::ProfileController do
           "email" => "new.email@example.com",
           "locale" => "lv"
         }
-        user.should_receive(:update_attributes).with(attributes)
+        expect(user).to receive(:update_attributes).with(attributes)
         patch :update, {resource: attributes}
       end
     end
