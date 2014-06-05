@@ -64,8 +64,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  config.infer_spec_type_from_file_location!
 
-  config.color_enabled = true
+  config.color = true
 
   if development
     config.add_formatter(:documentation)
