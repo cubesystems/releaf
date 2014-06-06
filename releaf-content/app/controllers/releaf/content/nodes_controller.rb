@@ -141,21 +141,24 @@ module Releaf::Content
     end
 
     def new_common
-      @resource = resource_class.new do |node|
-        if params[:content_type].blank?
-          load_content_types
-        else
-          @order_nodes = resource_class.where(parent_id: params[:parent_id])
+      @resource = resource_class.new
 
-          node.content_type = node_content_class.name
-          node.parent_id = params[:parent_id]
-          node.item_position ||= resource_class.children_max_item_position(node.parent) + 1
+      if params[:content_type].blank?
+        load_content_types
+      else
+        @order_nodes = resource_class.where(parent_id: params[:parent_id])
+        prepare_node
+      end
+    end
 
-          if node_content_class < ActiveRecord::Base
-            node.build_content({})
-            node.content_id_will_change!
-          end
-        end
+    def prepare_node
+      @resource.content_type = node_content_class.name
+      @resource.parent_id = params[:parent_id]
+      @resource.item_position ||= resource_class.children_max_item_position(@resource.parent) + 1
+
+      if node_content_class < ActiveRecord::Base
+        @resource.build_content({})
+        @resource.content_id_will_change!
       end
     end
 
