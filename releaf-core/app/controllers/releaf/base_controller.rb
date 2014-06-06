@@ -12,8 +12,6 @@ module Releaf
     layout :layout
     protect_from_forgery
 
-    include Releaf::ResourceFinder::ActionController
-
     helper_method \
       :ajax?,
       :attachment_upload_url,
@@ -38,6 +36,11 @@ module Releaf
       authorize!
       build_breadcrumbs
       setup
+    end
+
+    def search text
+      return unless @searchable_fields && params[:search].present?
+      @collection = Releaf::ResourceFinder.search(resource_class, @searchable_fields, text, @collection)
     end
 
     def new_attachment

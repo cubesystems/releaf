@@ -1,13 +1,5 @@
 module Releaf
-  module ResourceFinder
-
-    module ActionController
-      def search text
-        return unless @searchable_fields && params[:search].present?
-        @collection = Releaf::ResourceFinder.search(resource_class, @searchable_fields, text, @collection)
-      end
-    end
-
+  class ResourceFinder
     # Get resources collection for #index
     def self.search resource_class, searchable_fields, text, collection=resource_class.all
       fields, collection = search_fields(collection, resource_class, searchable_fields)
@@ -101,6 +93,5 @@ module Releaf
       end
       return normalized.flatten.uniq
     end
-
   end
 end
