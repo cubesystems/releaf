@@ -410,8 +410,8 @@ describe Node do
       expect( node_2_errors ).to receive(:[]).with(:content_type).and_return(nil)
       allow(node_2).to receive(:errors).and_return(node_2_errors)
 
-      expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'BadNode')).and_return(node1)
-      expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'GoodNode')).and_return(node2)
+      expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'BadNode')).and_return(node_1)
+      expect( Node ).to receive(:new).with(hash_including(parent_id: 52, content_type: 'GoodNode')).and_return(node_2)
 
       expect( Node.valid_node_content_class_names(52) ).to eq %w[GoodNode]
     end
