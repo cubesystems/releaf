@@ -2,6 +2,8 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < ActionController::Base
+    include Releaf::BeforeRender
+
     before_filter :manage_ajax
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     before_filter :set_locale
@@ -47,6 +49,12 @@ module Releaf
       render :layout => nil
     end
 
+    def self.before_response *args
+      @before_response =
+      raise args.inspect
+
+    end
+
     def create_attachment
       @resource = Attachment.new
       if params[:file]
@@ -66,7 +74,7 @@ module Releaf
       end
     end
 
-    def index &block
+    def index
       check_feature(:index)
       # load resource only if they are not loaded yet
       @collection = resources unless collection_given?
@@ -77,51 +85,46 @@ module Releaf
         @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
       end
 
-      yield if block_given?
-
       respond_to do |format|
         format.html
       end
     end
 
-    def new &block
+    def new
       check_feature(:create)
       # load resource only if is not initialized yet
       @resource = resource_class.new unless resource_given?
       add_resource_breadcrumb(@resource)
-      yield if block_given?
     end
 
-    def show &block
-      yield if block_given?
+    def show
       redirect_to url_for( action: 'edit', id: params[:id])
     end
 
-    def edit &block
+    def edit
       check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) unless resource_given?
       add_resource_breadcrumb(@resource)
-      yield if block_given?
     end
 
-    def create &block
+    def create
       check_feature(:create)
       # load resource only if is not loaded yet
       @resource = resource_class.new unless resource_given?
       @resource.assign_attributes required_params.permit(*resource_params)
       result = @resource.save
 
-      respond_after_save(:create, result, "new", &block)
+      respond_after_save(:create, result, "new")
     end
 
-    def update &block
+    def update
       check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) unless resource_given?
       result = @resource.update_attributes required_params.permit(*resource_params)
 
-      respond_after_save(:update, result, "edit", &block)
+      respond_after_save(:update, result, "edit")
     end
 
     def confirm_destroy
@@ -642,10 +645,9 @@ module Releaf
       raise FeatureDisabled, feature.to_s unless @features[feature]
     end
 
-    def respond_after_save request_type, result, html_render_action, &block
+    def respond_after_save request_type, result, html_render_action
       if result
         render_notification true
-        yield if block_given?
       end
 
       respond_to do |format|

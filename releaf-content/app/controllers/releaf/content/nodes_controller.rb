@@ -1,5 +1,7 @@
 module Releaf::Content
   class NodesController < Releaf::BaseController
+    before_render :edit_common, only: [:edit, :update]
+    before_filter :new_common, only: [:new, :create]
 
     def index
       @collection = resource_class.roots
@@ -15,17 +17,6 @@ module Releaf::Content
 
       respond_to do |format|
         format.js { render text: tmp_resource.slug }
-      end
-    end
-
-    def new
-      new_common
-      super
-
-      respond_to do |format|
-        format.html do
-          render layout: nil if ajax?
-        end
       end
     end
 
@@ -56,26 +47,6 @@ module Releaf::Content
         format.html do
           render layout: nil
         end
-      end
-    end
-
-    # Override base controller create method
-    # so we can assign content_type before further
-    # processing
-    def create
-      new_common
-      super
-    end
-
-    def edit
-      super do
-        edit_common
-      end
-    end
-
-    def update
-      super do
-        edit_common
       end
     end
 
