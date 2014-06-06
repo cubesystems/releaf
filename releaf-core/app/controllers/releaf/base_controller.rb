@@ -40,7 +40,7 @@ module Releaf
 
     def search text
       return unless @searchable_fields && params[:search].present?
-      @collection = Releaf::ResourceFinder.search(resource_class, @searchable_fields, text, @collection)
+      @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
     end
 
     def new_attachment
