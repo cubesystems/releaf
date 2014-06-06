@@ -4,9 +4,17 @@ module Releaf
   class BaseController < ActionController::Base
     include Releaf::BeforeRender
 
-    before_filter :manage_ajax
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
+    before_filter :manage_ajax
     before_filter :set_locale
+
+    before_filter do
+      authorize!
+      build_breadcrumbs
+      setup
+    end
+
+    before_filter :verify_feature_availability
 
     rescue_from Releaf::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
@@ -33,12 +41,6 @@ module Releaf
       :resource_class,
       :resource_to_text,
       :resource_to_text_method
-
-    before_filter do
-      authorize!
-      build_breadcrumbs
-      setup
-    end
 
     def search text
       return unless @searchable_fields && params[:search].present?
@@ -75,7 +77,6 @@ module Releaf
     end
 
     def index
-      check_feature(:index)
       # load resource only if they are not loaded yet
       @collection = resources unless collection_given?
 
@@ -91,7 +92,6 @@ module Releaf
     end
 
     def new
-      check_feature(:create)
       # load resource only if is not initialized yet
       @resource = resource_class.new unless resource_given?
       add_resource_breadcrumb(@resource)
@@ -102,14 +102,12 @@ module Releaf
     end
 
     def edit
-      check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) unless resource_given?
       add_resource_breadcrumb(@resource)
     end
 
     def create
-      check_feature(:create)
       # load resource only if is not loaded yet
       @resource = resource_class.new unless resource_given?
       @resource.assign_attributes required_params.permit(*resource_params)
@@ -119,7 +117,6 @@ module Releaf
     end
 
     def update
-      check_feature(:edit)
       # load resource only if is not loaded yet
       @resource = resource_class.find(params[:id]) unless resource_given?
       result = @resource.update_attributes required_params.permit(*resource_params)
@@ -128,7 +125,6 @@ module Releaf
     end
 
     def confirm_destroy
-      check_feature(:destroy)
       @resource = resource_class.find(params[:id])
 
       respond_to do |format|
@@ -152,7 +148,6 @@ module Releaf
     end
 
     def destroy
-      check_feature(:destroy)
       @resource = resource_class.find(params[:id])
 
       action_success = destroyable? && @resource.destroy
@@ -416,6 +411,31 @@ module Releaf
 
     protected
 
+    def verify_feature_availability
+      feature = action_feature(params[:action])
+      raise FeatureDisabled, feature.to_s unless (feature.blank? || feature_available?(feature))
+    end
+
+    def action_feature action
+      action_features[action]
+    end
+
+    def action_features
+      {
+        index: :index,
+        new: :create,
+        create: :create,
+        edit: :edit,
+        update: :edit,
+        confirm_destroy: :destroy,
+        destroy: :destroy
+      }.with_indifferent_access
+    end
+
+    def feature_available? feature
+      @features[feature].present?
+    end
+
     def render_notification status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed", now: false
       if now == true
         flash_target = flash.now
@@ -639,10 +659,6 @@ module Releaf
         format.html { render "releaf/error_pages/#{error_page}", status: error_status }
         format.any  { render text: '', status: error_status }
       end
-    end
-
-    def check_feature feature
-      raise FeatureDisabled, feature.to_s unless @features[feature]
     end
 
     def respond_after_save request_type, result, html_render_action

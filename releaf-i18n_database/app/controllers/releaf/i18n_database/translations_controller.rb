@@ -147,8 +147,16 @@ module Releaf::I18nDatabase
 
     def setup
       super
-      @features = {:index => true}
+      @features = {
+        index: true
+      }
       @searchable_fields = true
+    end
+
+    def action_features
+      {
+        index: :index,
+      }.with_indifferent_access
     end
 
     def fields_to_display

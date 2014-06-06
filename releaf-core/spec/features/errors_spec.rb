@@ -12,7 +12,7 @@ describe "Errors feature" do
   end
 
   it "returns 403 status code and generic error page for disabled feature" do
-    allow_any_instance_of(Releaf::Permissions::RolesController).to receive(:check_feature).and_raise(Releaf::FeatureDisabled, "edit")
+    allow_any_instance_of(Releaf::Permissions::RolesController).to receive(:verify_feature_availability).and_raise(Releaf::FeatureDisabled, "edit")
     visit releaf_permissions_roles_path
 
     expect(page.status_code).to eq(403)
