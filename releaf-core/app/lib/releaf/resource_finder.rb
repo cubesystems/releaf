@@ -1,6 +1,6 @@
 module Releaf
   class ResourceFinder
-    attr_accessor :resource_class, :collection
+    attr_accessor :resource_class, :collection, :searchable_fields
 
     def initialize resource_class
       self.resource_class = resource_class
@@ -9,18 +9,10 @@ module Releaf
     # Get resources collection for #index
     def search text, searchable_fields, base_collection = resource_class.all
       self.collection = base_collection
+      self.searchable_fields = searchable_fields
 
-      fields = normalize_fields(resource_class, searchable_fields)
-      joins_list = normalized_joins( joins(resource_class, searchable_fields) )
-
-      unless joins_list.empty?
-        self.collection = collection.includes(*joins_list).references(*join_references(joins_list))
-      end
-
-      text.strip.split(" ").each_with_index do|word, i|
-        query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
-        self.collection = collection.where(query, "word#{i}".to_sym =>'%' + word + '%')
-      end
+      add_includes_to_collection
+      add_search_to_collection(text)
 
       collection
     end
@@ -33,14 +25,7 @@ module Releaf
         if attribute.is_a?(Symbol) || attribute.is_a?(String)
           fields << "#{klass.table_name}.#{attribute.to_s}"
         elsif attribute.is_a? Hash
-          attribute.each_pair do |association_name, association_attributes|
-            association = klass.reflect_on_association(association_name.to_sym)
-            association_fields = normalize_fields(association.klass, association_attributes)
-            fields += association_fields
-            if association.macro == :has_many
-              self.collection = collection.uniq
-            end
-          end
+          fields += normalize_fields_hash(klass, attribute)
         end
       end
 
@@ -94,6 +79,38 @@ module Releaf
       end
 
       includes.flatten.uniq
+    end
+
+    private
+
+    def normalize_fields_hash klass, hash_attribute
+      fields = []
+
+      hash_attribute.each_pair do |association_name, association_attributes|
+        association = klass.reflect_on_association(association_name.to_sym)
+        fields += normalize_fields(association.klass, association_attributes)
+        if association.macro == :has_many
+          self.collection = collection.uniq
+        end
+      end
+
+      fields
+    end
+
+    def add_search_to_collection(text)
+      fields = normalize_fields(resource_class, searchable_fields)
+      text.strip.split(" ").each_with_index do|word, i|
+        query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
+        self.collection = collection.where(query, "word#{i}".to_sym =>'%' + word + '%')
+      end
+    end
+
+    def add_includes_to_collection
+      joins_list = normalized_joins( joins(resource_class, searchable_fields) )
+
+      unless joins_list.empty?
+        self.collection = collection.includes(*joins_list).references(*join_references(joins_list))
+      end
     end
   end
 end
