@@ -31,6 +31,7 @@ require 'capybara/rspec'
 require 'database_cleaner'
 require 'capybara-webkit'
 require 'shoulda-matchers'
+require 'with_model'
 require 'timecop'
 
 Rails.backtrace_cleaner.remove_silencers!
@@ -78,6 +79,7 @@ RSpec.configure do |config|
   config.include Helpers
   config.include WaitSteps
   config.include ExcelHelpers
+  config.extend WithModel
 
   config.include Rails.application.routes.url_helpers
 
