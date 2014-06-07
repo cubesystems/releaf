@@ -3,6 +3,7 @@ module Releaf
 
   class BaseController < ActionController::Base
     include Releaf::BeforeRender
+    include Releaf::Attachments
 
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     before_filter :manage_ajax
@@ -24,7 +25,6 @@ module Releaf
 
     helper_method \
       :ajax?,
-      :attachment_upload_url,
       :controller_scope_name,
       :current_params,
       :current_url,
@@ -47,33 +47,10 @@ module Releaf
       @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
     end
 
-    def new_attachment
-      render :layout => nil
-    end
-
     def self.before_response *args
       @before_response =
       raise args.inspect
 
-    end
-
-    def create_attachment
-      @resource = Attachment.new
-      if params[:file]
-        @resource.file_type = params[:file].content_type
-        @resource.file  = params[:file]
-        @resource.title = params[:title] if params[:title].present?
-        @resource.save!
-
-        partial = case @resource.type
-                  when 'image' then 'image'
-                  else
-                    'link'
-                  end
-        render :partial => "attachment_#{partial}", :layout => nil
-      else
-        render :text => ''
-      end
     end
 
     def index
@@ -289,12 +266,6 @@ module Releaf
       end
 
       @index_url
-    end
-
-    def attachment_upload_url
-      url_for(:action => 'new_attachment')
-    rescue
-      ''
     end
 
     # Tries to return resource class.
