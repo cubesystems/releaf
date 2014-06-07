@@ -47,12 +47,6 @@ module Releaf
       @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
     end
 
-    def self.before_response *args
-      @before_response =
-      raise args.inspect
-
-    end
-
     def index
       # load resource only if they are not loaded yet
       @collection = resources unless collection_given?
