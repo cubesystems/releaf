@@ -17,6 +17,9 @@ require 'axlsx_rails'
 require 'globalize'
 require 'globalize-accessors'
 
+module Releaf::Core
+  require 'releaf/core/attachments_component'
+end
 
 module Releaf
   class Engine < ::Rails::Engine

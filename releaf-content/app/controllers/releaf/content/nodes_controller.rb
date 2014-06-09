@@ -1,5 +1,7 @@
 module Releaf::Content
   class NodesController < Releaf::BaseController
+    include Releaf::Attachments
+
     before_render :edit_common, only: [:edit, :update]
     before_filter :new_common, only: [:new, :create]
 

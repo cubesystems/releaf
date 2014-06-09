@@ -6,14 +6,6 @@ module Releaf::RouteMapper
       yield if block_given?
       get   :confirm_destroy, :on => :member      if include_confirm_destroy?(args.last)
       get   :toolbox, :on => :member              if include_toolbox?(args.last)
-
-      if include_attachment?(args.last)
-        collection do
-          get  'new_attachment'
-          post 'new_attachment', action: 'create_attachment'
-        end
-      end
-
     end
   end
 
@@ -56,11 +48,6 @@ module Releaf::RouteMapper
 
   def include_toolbox? options
     return include_routes? :toolbox, options
-  end
-
-  # Check whether add attachment uploading routes
-  def include_attachment? options
-    return include_routes? :attachment, options
   end
 
   def include_routes? route, options

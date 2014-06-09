@@ -4,22 +4,7 @@ jQuery(function()
     var body = jQuery('body');
 
 	// richtext config
-	var plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari', 'fullscreen', 'paste', 'attachment_upload' ];
-
-	// remove inlinepopups plugin for Opera 10
-	if( typeof BrowserDetect != 'undefined' )
-	{
-		if( BrowserDetect.browser == 'Opera' && BrowserDetect.version == 9.8 )
-		{
-			for( var i = 0; i < plugins.length; i++ )
-			{
-				if( plugins[i] == 'inlinepopups' )
-				{
-					delete plugins[i];
-				}
-			}
-		}
-	}
+	var tinymce_plugins = [ 'inlinepopups', 'iespell', 'insertdatetime', 'preview', 'searchreplace', 'contextmenu', 'safari', 'fullscreen', 'paste', 'attachment_upload' ];
 
 	var tinymce_config =
 	{
@@ -28,7 +13,6 @@ jQuery(function()
 		theme : 'advanced',
 		entities : '160,nbsp,38,amp,60,lt,62,gt',
 		body_class : 'content',
-		plugins : plugins.join(','),
 		paste_auto_cleanup_on_paste : true,
 		theme_advanced_buttons1 : 'bold,italic,formatselect,justifyleft,justifycenter,justifyright,justifyfull,|,sub,sup,|,bullist,numlist,|,link,unlink,attachment_upload,image,embed,|,code,cleanup,removeformat|,fullscreen',
 		theme_advanced_blockformats : 'p,h2,h3,h4,h5,h6',
@@ -99,6 +83,13 @@ jQuery(function()
         {
             config['attachment_upload_url'] = textarea.attr('data-tinymce-attachment-upload-url');
         }
+        else
+        {
+            tinymce_plugins.splice( $.inArray("attachment_upload", tinymce_plugins), 1 );
+        }
+
+        config["plugins"] = tinymce_plugins.join(', ')
+
         textarea.tinymce(config);
 
         textarea.on('richtextsuspend', function(e)
