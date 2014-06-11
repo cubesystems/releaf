@@ -17,20 +17,20 @@ describe Releaf::TemplateFieldTypeMapper do
     context "when object translates" do
       context "when given attribute  translatable" do
         it "returns true" do
-          expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :description)).to be_true
+          expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :description)).to be true
         end
       end
 
       context "when attribute does not translatable" do
         it "returns false" do
-          expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :title)).to be_false
+          expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :title)).to be false
         end
       end
     end
 
     context "when object does not translates" do
       it "returns false" do
-        expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Releaf::Permissions::User.new, :password)).to be_false
+        expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Releaf::Permissions::User.new, :password)).to be false
       end
     end
   end
@@ -47,7 +47,7 @@ describe Releaf::TemplateFieldTypeMapper do
       context 'when object responds to `image` method' do
         it "returns 'image'" do
           obj = Object.new
-          obj.stub(:image)
+          allow(obj).to receive(:image)
           expect( subject.send(:image_or_error, 'image_uid', obj) ).to eq 'image'
         end
       end
@@ -73,7 +73,7 @@ describe Releaf::TemplateFieldTypeMapper do
       context 'when object responds to `file` method' do
         it "returns 'file'" do
           obj = Object.new
-          obj.stub(:file)
+          allow(obj).to receive(:file)
           expect( subject.send(:file_or_error, 'file_uid', obj) ).to eq 'file'
         end
       end
@@ -93,7 +93,7 @@ describe Releaf::TemplateFieldTypeMapper do
         context "when object responds to '#{field_name.sub(/_uid$/, '')}'" do
           it "returns 'image'" do
             obj = Object.new
-            obj.stub(field_name.sub(/_uid$/, '').to_sym)
+            allow(obj).to receive(field_name.sub(/_uid$/, '').to_sym)
             expect( subject.send(:field_type_name_for_string, field_name, obj) ).to eq 'image'
           end
         end
@@ -125,7 +125,7 @@ describe Releaf::TemplateFieldTypeMapper do
         context "when object responds to '#{field_name.sub(/_uid$/, '')}'" do
           it "returns 'file'" do
             obj = Object.new
-            obj.stub(field_name.sub(/_uid$/, '').to_sym)
+            allow(obj).to receive(field_name.sub(/_uid$/, '').to_sym)
             expect( subject.send(:field_type_name_for_string, field_name, obj) ).to eq 'file'
           end
         end

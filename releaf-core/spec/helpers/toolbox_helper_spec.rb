@@ -13,9 +13,9 @@ describe Releaf::ToolboxHelper do
     context "when passed object is existing record" do
       it "returns empty string" do
         resource.id = 212
-        resource.stub(:new_record?).and_return(false)
-        helper.stub(:action_name).and_return("edit")
-        helper.stub(:url_for).with({action: "toolbox", id: 212, context: "edit", some_param: 89}).and_return("/toolbox_action")
+        allow(resource).to receive(:new_record?).and_return(false)
+        allow(helper).to receive(:action_name).and_return("edit")
+        allow(helper).to receive(:url_for).with({action: "toolbox", id: 212, context: "edit", some_param: 89}).and_return("/toolbox_action")
 
         expect(helper.toolbox(resource, some_param: 89).gsub(/\s/,'')).to eq(%Q{
         <div class="toolbox" data-url="/toolbox_action">

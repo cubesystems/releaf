@@ -25,6 +25,12 @@ jQuery(document).ready( function()
             {
                 this.inner.addClass('ajaxbox-inner');
 
+                // enable drag with header
+                if( this.wrap.draggable !== undefined )
+                {
+                    this.wrap.draggable({ handle: this.inner.find('.body .header').first() });
+                }
+
                 // insert close button if header exists and box is not modal
                 if (!params.modal)
                 {

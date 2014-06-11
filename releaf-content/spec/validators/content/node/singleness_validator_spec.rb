@@ -65,8 +65,8 @@ describe Releaf::Content::Node::SinglenessValidator do
       it "adds error to #content_type" do
         node = build_node(content_type: 'DummySinglenessValidatorModel', parent_id: root_node.id)
         expect( node ).to be_invalid
-        expect( node ).to have(1).error_on(:content_type)
-        expect( node.errors_on(:content_type) ).to include("node exists")
+        expect( node.errors[:content_type].size ).to eq(1)
+        expect( node.errors[:content_type] ).to include("node exists")
       end
 
     end
@@ -99,8 +99,8 @@ describe Releaf::Content::Node::SinglenessValidator do
         it "adds error to #content_type" do
           node = build_node(content_type: 'DummySinglenessValidator2Controller', parent_id: parent_node.id)
           expect( node ).to be_invalid
-          expect( node ).to have(1).error_on(:content_type)
-          expect( node.errors_on(:content_type) ).to include("node exists")
+          expect( node.errors[:content_type].size ).to eq(1)
+          expect( node.errors[:content_type] ).to include("node exists")
         end
 
       end

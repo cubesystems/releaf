@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'brakeman'
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'timecop'
+  s.add_development_dependency 'with_model'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'pry-nav'
   s.add_development_dependency 'spring', '~> 1.1.0'

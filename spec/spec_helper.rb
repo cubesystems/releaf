@@ -26,12 +26,12 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'factory_girl'
 require 'capybara/rspec'
 require 'database_cleaner'
 require 'capybara-webkit'
 require 'shoulda-matchers'
+require 'with_model'
 require 'timecop'
 
 Rails.backtrace_cleaner.remove_silencers!
@@ -64,8 +64,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  config.infer_spec_type_from_file_location!
 
-  config.color_enabled = true
+  config.color = true
 
   if development
     config.add_formatter(:documentation)
@@ -78,6 +79,7 @@ RSpec.configure do |config|
   config.include Helpers
   config.include WaitSteps
   config.include ExcelHelpers
+  config.extend WithModel
 
   config.include Rails.application.routes.url_helpers
 

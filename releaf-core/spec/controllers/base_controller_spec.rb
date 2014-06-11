@@ -7,61 +7,6 @@ describe Admin::AuthorsController do
     sign_in FactoryGirl.create(:user)
   end
 
-  describe "GET #new_attachment" do
-    it "renders 'new_attachment' view" do
-      get :new_attachment
-      expect( response ).to be_successful
-      expect( response ).to render_template('new_attachment')
-    end
-  end
-
-  describe "#create_attachment" do
-    let(:image) { Rack::Test::UploadedFile.new(File.expand_path('../fixtures/cs.png', __dir__), "image/png") }
-    let(:file) { Rack::Test::UploadedFile.new(File.expand_path('../fixtures/time.formats.xlsx', __dir__), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
-
-    context "when image is uploaded" do
-      it "renders '_attachment_image'" do
-        post :create_attachment, :file => image
-        expect( response ).to be_successful
-        expect( response ).to render_template('_attachment_image')
-      end
-
-      it "creates attachment" do
-        expect do
-          post :create_attachment, :file => image
-        end.to change { Releaf::Attachment.count }.by(1)
-      end
-    end
-
-    context "when file is uploaded" do
-      it "renders '_attachment_link'" do
-        post :create_attachment, :file => file
-        expect( response ).to be_successful
-        expect( response ).to render_template('_attachment_link')
-      end
-
-      it "creates attachment" do
-        expect do
-          post :create_attachment, :file => file
-        end.to change { Releaf::Attachment.count }.by(1)
-      end
-    end
-
-    context "when no file is uploaded" do
-      it "responds with success" do
-        post :create_attachment
-        expect( response ).to be_successful
-      end
-
-      it "doesn't create attachment" do
-        expect do
-          post :create_attachment
-        end.to_not change { Releaf::Attachment.count }
-      end
-    end
-
-  end
-
   describe "#index_url" do
     context "when action is other than :index" do
       context "when params have 'index_url' defined" do
@@ -83,7 +28,7 @@ describe Admin::AuthorsController do
     context "when action is :index" do
       it "returns #current_url value" do
         get :index
-        subject.stub(:current_url).and_return("random_string")
+        allow(subject).to receive(:current_url).and_return("random_string")
         expect(subject.index_url).to eq("random_string")
       end
     end
@@ -106,16 +51,16 @@ describe Admin::AuthorsController do
     context "when @resources_per_page is nil" do
       it "assigns all resources to @collection" do
         get :index, show_all: 1
-        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be_true
-        expect(assigns(:collection)).to have(21).resource
+        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
+        expect(assigns(:collection).size).to eq(21)
       end
     end
 
     context "when @resources_per_page is not nil" do
       it "assigns maximum 20 resources to @collection" do
         get :index
-        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be_true
-        expect(assigns(:collection)).to have(20).resources
+        expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
+        expect(assigns(:collection).size).to eq(20)
       end
     end
   end
@@ -185,7 +130,7 @@ describe Admin::BooksController do
     it "assigns the requested record to @resource" do
       get :new
 
-      expect(assigns(:resource).new_record?).to be_true
+      expect(assigns(:resource).new_record?).to be true
     end
 
     context "when the requested record responds to #to_text" do
@@ -220,8 +165,8 @@ describe Admin::BooksController do
 
     context "when the requested record does not respond to #to_text" do
       it "uses default translation for resource's breadcrumb name" do
-        pending "Find out way how to stub loaded resource #respond_to?(:to_text)"
-        Book.any_instance.stub(:respond_to?).with(:to_text).and_return(false)
+        skip "Find out way how to stub loaded resource #respond_to?(:to_text)"
+        allow_any_instance_of(Book).to receive(:respond_to?).with(:to_text).and_return(false)
         get :edit, id: @resource
         breadcrumbs = @breadcrumbs_base + [{name: "Edit resource", url: edit_admin_book_path(@resource.id)}]
 

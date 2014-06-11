@@ -24,7 +24,7 @@ describe ActsAsNode do
   describe ActiveRecord::Acts::Node do
     context "when model acts as node" do
       it "has name included within ActsAsNode.classes" do
-        expect(ActsAsNode.classes.include?(Book.to_s)).to be_true
+        expect(ActsAsNode.classes.include?(Book.to_s)).to be true
       end
     end
 
@@ -43,7 +43,7 @@ describe ActsAsNode do
 
     context ".nodes" do
       it "loads tree nodes" do
-        Node.should_receive(:where).with(content_type: Book.name)
+        expect(Node).to receive(:where).with(content_type: Book.name)
         Book.nodes
       end
 
@@ -56,13 +56,13 @@ describe ActsAsNode do
   describe ActionController::Acts::Node do
     context "when controller acts as node" do
       it "has name included within ActsAsNode.classes" do
-        expect(ActsAsNode.classes.include?(ContactFormController.to_s)).to be_true
+        expect(ActsAsNode.classes.include?(ContactFormController.to_s)).to be true
       end
     end
 
     context ".nodes" do
       it "loads tree nodes" do
-        Node.should_receive(:where).with(content_type: ContactFormController.name)
+        expect(Node).to receive(:where).with(content_type: ContactFormController.name)
         ContactFormController.nodes
       end
 

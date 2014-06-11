@@ -23,7 +23,7 @@ describe Releaf::RichtextAttachments do
   end
 
   it "creates attachments relation" do
-    expect( Book.reflect_on_association :attachments ).to_not be_nil
+    expect( Book.reflect_on_association :attachments ).to_not be nil
   end
 
   describe "#richtext_columns" do
@@ -49,13 +49,13 @@ describe Releaf::RichtextAttachments do
         b.summary_html = html_snippet_with_2_attachments % [uuid_1, uuid_2]
       end
 
-      expect( book.send(:richtext_attachment_collected_uuids) ).to have(2).uuids
+      expect( book.send(:richtext_attachment_collected_uuids).size ).to eq(2)
       expect( book.send(:richtext_attachment_collected_uuids) ).to include(uuid_1, uuid_2)
     end
 
     it "calls #richtext_columns" do
       book = Book.new
-      book.should_receive(:richtext_columns).once.and_return([])
+      expect(book).to receive(:richtext_columns).once.and_return([])
       book.send(:richtext_attachment_collected_uuids)
     end
   end
@@ -73,12 +73,12 @@ describe Releaf::RichtextAttachments do
     end
 
     it "is called after save" do
-      book.should_receive(:manage_attachments).once
+      expect(book).to receive(:manage_attachments).once
       book.save!
     end
-    
+
     it "calls #richtext_attachment_collected_uuids" do
-      book.should_receive(:richtext_attachment_collected_uuids).once
+      expect(book).to receive(:richtext_attachment_collected_uuids).once
       book.send(:manage_attachments)
     end
 
@@ -128,7 +128,7 @@ describe Releaf::RichtextAttachments do
         expect( attachment_1.richtext_attachment_type ).to eq 'Book'
         expect( attachment_1.richtext_attachment_id ).to eq book.id
 
-        expect( Releaf::Attachment.where(:uuid => attachment_2.uuid).exists? ).to be_false
+        expect( Releaf::Attachment.where(:uuid => attachment_2.uuid).exists? ).to be false
       end
     end
 

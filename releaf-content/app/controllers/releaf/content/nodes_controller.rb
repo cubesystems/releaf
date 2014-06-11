@@ -1,5 +1,9 @@
 module Releaf::Content
   class NodesController < Releaf::BaseController
+    include Releaf::Attachments
+
+    before_render :edit_common, only: [:edit, :update]
+    before_filter :new_common, only: [:new, :create]
 
     def index
       @collection = resource_class.roots
@@ -15,17 +19,6 @@ module Releaf::Content
 
       respond_to do |format|
         format.js { render text: tmp_resource.slug }
-      end
-    end
-
-    def new
-      new_common
-      super
-
-      respond_to do |format|
-        format.html do
-          render layout: nil if ajax?
-        end
       end
     end
 
@@ -56,26 +49,6 @@ module Releaf::Content
         format.html do
           render layout: nil
         end
-      end
-    end
-
-    # Override base controller create method
-    # so we can assign content_type before further
-    # processing
-    def create
-      new_common
-      super
-    end
-
-    def edit
-      super do
-        edit_common
-      end
-    end
-
-    def update
-      super do
-        edit_common
       end
     end
 
@@ -122,7 +95,7 @@ module Releaf::Content
           result = false
         else
           result = true
-          @resource.update_settings_timestamp
+          resource_class.updated
           render_notification true
         end
       end
@@ -170,21 +143,24 @@ module Releaf::Content
     end
 
     def new_common
-      @resource = resource_class.new do |node|
-        if params[:content_type].blank?
-          load_content_types
-        else
-          @order_nodes = resource_class.where(parent_id: params[:parent_id])
+      @resource = resource_class.new
 
-          node.content_type = node_content_class.name
-          node.parent_id = params[:parent_id]
-          node.item_position ||= resource_class.children_max_item_position(node.parent) + 1
+      if params[:content_type].blank?
+        load_content_types
+      else
+        @order_nodes = resource_class.where(parent_id: params[:parent_id])
+        prepare_node
+      end
+    end
 
-          if node_content_class < ActiveRecord::Base
-            node.build_content({})
-            node.content_id_will_change!
-          end
-        end
+    def prepare_node
+      @resource.content_type = node_content_class.name
+      @resource.parent_id = params[:parent_id]
+      @resource.item_position ||= resource_class.children_max_item_position(@resource.parent) + 1
+
+      if node_content_class < ActiveRecord::Base
+        @resource.build_content({})
+        @resource.content_id_will_change!
       end
     end
 

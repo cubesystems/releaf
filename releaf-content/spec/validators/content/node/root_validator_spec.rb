@@ -39,8 +39,8 @@ describe Releaf::Content::Node::RootValidator do
         root_node = create_node(content_type: 'DummyRootValidatorController')
         subnode = build_node(content_type: 'DummyRootValidatorController', parent: root_node)
         expect( subnode ).to be_invalid
-        expect( subnode ).to have(1).error_on(:content_type)
-        expect( subnode.errors_on(:content_type) ).to include("can't be subnode")
+        expect( subnode.errors[:content_type].size ).to eq(1)
+        expect( subnode.errors[:content_type] ).to include("can't be subnode")
       end
     end
   end
@@ -50,8 +50,8 @@ describe Releaf::Content::Node::RootValidator do
       it "adds an error" do
         root_node = build_node(content_type: 'DummyRootValidator2Controller')
         expect( root_node ).to be_invalid
-        expect( root_node ).to have(1).error_on(:content_type)
-        expect( root_node.errors_on(:content_type) ).to include("can't be root node")
+        expect( root_node.errors[:content_type].size ).to eq(1)
+        expect( root_node.errors[:content_type] ).to include("can't be root node")
       end
     end
 

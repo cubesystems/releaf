@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe Releaf::Content::NodesController, js: true, with_tree: true, with_root: true do
+describe "Nodes", js: true, with_tree: true, with_root: true do
   before do
     # preload ActsAsNode classes
     Rails.application.eager_load!

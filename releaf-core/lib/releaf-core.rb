@@ -81,10 +81,11 @@ module Releaf
     def normalize_components denormalized_components
       list = []
       denormalized_components.map do |component_class|
-        list << component_class
         if component_class.respond_to? :components
           list += normalize_components(component_class.components)
         end
+        # add component itself latter as there can be dependancy to be loadable first
+        list << component_class
       end
 
       list

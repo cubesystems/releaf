@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2014.06.09
+* Richtext attachments moved to releaf component/controller concern.
+  More there: https://github.com/cubesystems/releaf/wiki/Richtext-editor
+
 ### 2014.05.28
 * Removed Releaf::TemplateFilter includable module.
 * Refactored how releaf stores form templates.

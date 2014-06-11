@@ -13,7 +13,7 @@ module ExcelHelpers
       @errors.empty?
     end
 
-    def failure_message_for_should
+    def failure_message
       "Following cells differ from expected: #{error_messages}"
     end
 

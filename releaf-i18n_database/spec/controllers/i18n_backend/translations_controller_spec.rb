@@ -10,7 +10,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
   before do
     @time_now = Time.parse("1981-02-23 21:00:00 UTC")
-    Time.stub(:now).and_return(@time_now)
+    allow(Time).to receive(:now).and_return(@time_now)
   end
 
   before build_translations: true do
@@ -32,19 +32,19 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when not searching" do
       it "renders all translations" do
         get :index
-        expect( assigns(:collection) ).to have(3).item
+        expect( assigns(:collection).size ).to eq(3)
       end
     end
 
     context "when searching" do
       it "searches by translation key" do
         get :index, search: 'great'
-        expect( assigns(:collection) ).to have(1).item
+        expect( assigns(:collection).size ).to eq(1)
       end
 
       it "searched by localized values" do
         get :index, search: 'manta'
-        expect( assigns(:collection) ).to have(1).item
+        expect( assigns(:collection).size ).to eq(1)
       end
     end
 
@@ -60,24 +60,23 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when search scope is not given" do
       it "renders all translations" do
         get :edit
-        expect( assigns(:collection) ).to have(3).item
+        expect( assigns(:collection).size ).to eq(3)
       end
     end
 
     context "when search scope is given" do
       it "renders translations matching search pattern" do
         get :index, search: 'stuff'
-        expect( assigns(:collection) ).to have(2).item
+        expect( assigns(:collection).size ).to eq(2)
       end
     end
   end
 
   describe "#update" do
     context "when save successful" do
-      it "updates Settings.i18n_updated_at" do
-        expect(Settings).to receive(:i18n_updated_at=).and_call_original
+      it "updates translations updated_at" do
+        expect(Releaf::I18nDatabase::Backend).to receive("translations_updated_at=").with(@time_now)
         put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
-        expect(Settings.i18n_updated_at).to eq("1981-02-23 21:00:00 UTC")
       end
 
       context "when save with import" do
@@ -126,16 +125,16 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when file uploaded" do
       before do
         file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', true)
-        file.stub(:tempfile).and_return(file)
+        allow(file).to receive(:tempfile).and_return(file)
         post :import, import_file: file
       end
 
       it "parses uploaded file and assigns content to collection" do
-        expect( assigns(:collection) ).to have(4).item
+        expect( assigns(:collection).size ).to eq(4)
       end
 
       it "assigns @import to true" do
-        expect( assigns(:import) ).to be_true
+        expect( assigns(:import) ).to be true
       end
 
       it "appends breadcrumb with 'import' part" do

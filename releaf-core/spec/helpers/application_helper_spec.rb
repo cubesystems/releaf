@@ -6,9 +6,9 @@ describe Releaf::ApplicationHelper do
   before do
     translation = FactoryGirl.create(:translation, :key => "admin.global.colors-red")
     FactoryGirl.create(:translation_data, :lang => "en", :localization => "Color red", :translation => translation)
-    Settings.i18n_updated_at = Time.now
+    I18n.backend.reload_cache
 
-    helper.stub(:controller_scope_name).and_return("admin.global")
+    allow(helper).to receive(:controller_scope_name).and_return("admin.global")
   end
 
   describe "#i18n_options_for_select" do

@@ -147,8 +147,16 @@ module Releaf::I18nDatabase
 
     def setup
       super
-      @features = {:index => true}
+      @features = {
+        index: true
+      }
       @searchable_fields = true
+    end
+
+    def action_features
+      {
+        index: :index,
+      }.with_indifferent_access
     end
 
     def fields_to_display
@@ -173,7 +181,7 @@ module Releaf::I18nDatabase
     def process_updatables
       resource_class.where(id: @translation_ids_to_destroy).destroy_all unless @translation_ids_to_destroy.empty?
       @translations_to_save.map(&:save!)
-      Settings.i18n_updated_at = Time.now
+      Releaf::I18nDatabase::Backend.translations_updated_at = Time.now
     end
 
     def build_updatables translations_params
