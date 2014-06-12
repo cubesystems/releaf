@@ -8,7 +8,7 @@ jQuery(function()
         forcePasteAsPlainText: true,
         height: '400px',
         format_tags: 'p;h2;h3',
-        toolbar: [['Bold', 'Italic'], ['Format'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Subscript', 'Superscript'], ['NumberedList', 'BulletedList'], ['Link', 'Unlink'], ['Source', 'Maximize', 'ShowBlocks']]
+        toolbar: [['Bold', 'Italic'], ['Format'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Subscript', 'Superscript'], ['NumberedList', 'BulletedList'], ['Image', 'Link', 'Unlink'], ['Source', 'Maximize', 'ShowBlocks']]
     };
 
 
@@ -44,8 +44,9 @@ jQuery(function()
 
         if (textarea.data('attachment-upload-url'))
         {
-            config['attachment_upload_url'] = textarea.data('attachment-upload-url');
+            config.filebrowserUploadUrl = textarea.data('attachment-upload-url');
         }
+
         textarea.ckeditor(config);
 
         textarea.on('richtextsuspend', function(e)

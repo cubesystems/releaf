@@ -4,34 +4,21 @@ module Releaf
 
     included do
       helper_method :attachment_upload_url
-    end
-
-    def new_attachment
-      render :layout => nil
+      skip_before_action :verify_authenticity_token, only: [:create_attachment]
     end
 
     def attachment_upload_url
-      url_for(:action => 'new_attachment')
+      url_for(action: 'create_attachment')
     rescue
       ''
     end
 
     def create_attachment
       @resource = Attachment.new
-      if params[:file]
-        @resource.file_type = params[:file].content_type
-        @resource.file  = params[:file]
-        @resource.title = params[:title] if params[:title].present?
+      if params[:upload]
+        @resource.file_type = params[:upload].content_type
+        @resource.file  = params[:upload]
         @resource.save!
-
-        partial = case @resource.type
-                  when 'image' then 'image'
-                  else
-                    'link'
-                  end
-        render :partial => "attachment_#{partial}", :layout => nil
-      else
-        render :text => ''
       end
     end
   end

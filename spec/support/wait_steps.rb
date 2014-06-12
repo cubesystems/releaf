@@ -15,5 +15,9 @@ module WaitSteps
         false
       end
     end
+
+    def supports_block_expectations?
+      true
+    end
   end
 end
