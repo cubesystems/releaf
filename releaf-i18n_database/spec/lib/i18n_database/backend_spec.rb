@@ -32,15 +32,15 @@ describe Releaf::I18nDatabase::Backend do
 
   describe ".translations_updated_at" do
     it "returns translations updated_at" do
-      Settings['releaf.i18n_database.translations.updated_at'] = Time.now
-      expect(described_class.translations_updated_at).to eq(Settings['releaf.i18n_database.translations.updated_at'])
+      Releaf::Settings['releaf.i18n_database.translations.updated_at'] = Time.now
+      expect(described_class.translations_updated_at).to eq(Releaf::Settings['releaf.i18n_database.translations.updated_at'])
     end
   end
 
   describe ".translations_updated_at=" do
     it "stores translations updated_at" do
-      Settings['releaf.i18n_database.translations.updated_at'] = nil # always reset before testing
-      expect{ described_class.translations_updated_at = "xx" }.to change{ Settings['releaf.i18n_database.translations.updated_at'] }.
+      Releaf::Settings['releaf.i18n_database.translations.updated_at'] = nil # always reset before testing
+      expect{ described_class.translations_updated_at = "xx" }.to change{ Releaf::Settings['releaf.i18n_database.translations.updated_at'] }.
         to("xx")
     end
   end

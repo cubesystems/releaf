@@ -203,11 +203,11 @@ module Releaf::Content
 
     module ClassMethods
       def updated_at
-        Settings['releaf.content.nodes.updated_at']
+        Releaf::Settings['releaf.content.nodes.updated_at']
       end
 
       def updated
-        Settings['releaf.content.nodes.updated_at'] = Time.now
+        Releaf::Settings['releaf.content.nodes.updated_at'] = Time.now
       end
 
       def children_max_item_position node

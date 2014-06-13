@@ -22,11 +22,11 @@ describe Node do
 
   describe "after save" do
     it "sets node update to current time" do
-      Settings['releaf.content.nodes.updated_at'] = Time.now
+      Releaf::Settings['releaf.content.nodes.updated_at'] = Time.now
       time_now = Time.parse("2009-02-23 21:00:00 UTC")
       allow(Time).to receive(:now).and_return(time_now)
 
-      expect{ FactoryGirl.create(:node) }.to change{ Settings['releaf.content.nodes.updated_at'] }.to(time_now)
+      expect{ FactoryGirl.create(:node) }.to change{ Releaf::Settings['releaf.content.nodes.updated_at'] }.to(time_now)
     end
   end
 
@@ -154,7 +154,7 @@ describe Node do
       node = FactoryGirl.create(:node)
       time_now = Time.parse("2009-02-23 21:00:00 UTC")
       allow(Time).to receive(:now).and_return(time_now)
-      expect{ node.destroy }.to change{ Settings['releaf.content.nodes.updated_at'] }.to(time_now)
+      expect{ node.destroy }.to change{ Releaf::Settings['releaf.content.nodes.updated_at'] }.to(time_now)
     end
   end
 
@@ -356,7 +356,7 @@ describe Node do
 
   describe ".updated_at" do
     it "returns last node update time" do
-      expect( Settings ).to receive(:[]).with('releaf.content.nodes.updated_at').and_return('test')
+      expect( Releaf::Settings ).to receive(:[]).with('releaf.content.nodes.updated_at').and_return('test')
       expect( Node.updated_at ).to eq 'test'
     end
   end
