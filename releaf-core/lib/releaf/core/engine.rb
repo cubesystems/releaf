@@ -19,13 +19,11 @@ require 'globalize-accessors'
 
 module Releaf::Core
   require 'releaf/core/attachments_component'
-end
 
-module Releaf
   class Engine < ::Rails::Engine
   end
 
   ActiveSupport.on_load :action_controller do
-    ActionDispatch::Routing::Mapper.send(:include, Releaf::RouteMapper)
+    ActionDispatch::Routing::Mapper.send(:include, Releaf::Core::RouteMapper)
   end
 end

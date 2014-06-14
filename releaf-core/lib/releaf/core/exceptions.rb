@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   # A general Releaf exception
   class Error < StandardError; end
 

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::RouteMapper do
+describe Releaf::Core::RouteMapper do
   after(:all) do
     # reset dummy app routes
     Dummy::Application.reload_routes!
