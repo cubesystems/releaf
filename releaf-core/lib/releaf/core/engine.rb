@@ -19,10 +19,10 @@ require 'globalize-accessors'
 
 module Releaf::Core
   require 'releaf/core/attachments_component'
-  require 'releaf/core/settings_component'
+  require 'releaf/core/settings_ui_component'
 
   def self.components
-    [Releaf::Core::SettingsComponent]
+    [Releaf::Core::SettingsUIComponent]
   end
 
   class Engine < ::Rails::Engine

@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2014.07.01
+* Settings module renamed to Releaf::Settings.
+* Releaf::Core::SettingsUIComponent component added.
+  More there: https://github.com/cubesystems/releaf/wiki/Settings
+
 ### 2014.06.09
 * Richtext attachments moved to releaf component/controller concern.
   More there: https://github.com/cubesystems/releaf/wiki/Richtext-editor
