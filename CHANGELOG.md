@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2014.07.02
+* TinyMCE replaced by CKEditor as built-in WYSIWYG field editor
+
 ### 2014.07.01
 * Settings module renamed to Releaf::Settings.
 * Releaf::Core::SettingsUIComponent component added.
