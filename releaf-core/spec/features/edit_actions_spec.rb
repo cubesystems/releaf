@@ -22,6 +22,10 @@ feature "Base controller edit", js: true do
     expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :count => 2)
   end
 
+  scenario "drag and drop nested items with ckeditors" do
+      skip "implement drag and drop test"
+  end
+
   scenario "when clicking on delete restriction relation, it opens edit for related object" do
     visit edit_admin_author_path @author
     open_toolbox("Delete")
@@ -59,13 +63,14 @@ feature "Base controller edit", js: true do
 
     fill_in 'resource_chapters_attributes_0_title', :with => 'Chapter 1'
     fill_in 'resource_chapters_attributes_0_text', :with => 'todo'
+    fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
 
-    find('button.primary[type="submit"]').click
+    save_and_check_response "Update succeeded"
     expect(page).to_not have_css('.remove-nested-item')
     expect(page).to have_css('#resource_chapters_attributes_0_title[value="Chapter 1"]')
   end
 
-  scenario "adding newsted objects" do
+  scenario "adding nested objects" do
     visit new_admin_book_path
     within "form.new_resource" do
       fill_in "Title", with: "Master and Margarita"
@@ -79,6 +84,7 @@ feature "Base controller edit", js: true do
 
         fill_in "Title", with: "Chapter 1"
         fill_in "Text", with: "some text"
+        fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
       end
     end
     save_and_check_response "Create succeeded"

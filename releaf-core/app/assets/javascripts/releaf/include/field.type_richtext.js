@@ -55,7 +55,9 @@ jQuery(function()
             {
                 return;
             }
-            tinyMCE.execCommand( 'mceRemoveControl', false, textarea.attr('id') );
+
+            CKEDITOR.instances[ textarea.attr('id') ].destroy();
+            textarea.hide();
             textarea.data('richtext-suspended', true);
         });
 
@@ -65,7 +67,9 @@ jQuery(function()
             {
                 return;
             }
-            tinyMCE.execCommand( 'mceAddControl', false, textarea.attr('id') );
+
+            textarea.show();
+            textarea.trigger('richtextinit');
             textarea.data('richtext-suspended', false);
         });
     });
@@ -85,7 +89,7 @@ jQuery(function()
 
     body.on('contentbeforeremove', function(e)
     {
-        // remove tinymce instances when removing fields
+        // remove ckeditor instances when removing fields
 
         var removable_item = jQuery(e.target);
         var textareas = removable_item.is('textarea.richtext') ? removable_item : removable_item.find( 'textarea.richtext' );
@@ -98,7 +102,7 @@ jQuery(function()
     });
 
 
-    // to avoid losing content tinymce needs to be disabled and reenabled when used inside a sortable list
+    // to avoid losing content ckeditor needs to be disabled and reenabled when used inside a sortable list
     body.on('sortablestart', function( event )
     {
         jQuery(event.target).find('textarea.richtext').each(function()
@@ -109,7 +113,7 @@ jQuery(function()
 
     body.on('sortablestop sortableupdate', function( event )
     {
-        // restore tinymce on either sortablestop or sortableupdate, whichever comes first
+        // restore ckeditor on either sortablestop or sortableupdate, whichever comes first
         // (sortable plugin actually calls update before stop)
         jQuery(event.target).find('textarea.richtext').each(function()
         {
@@ -117,7 +121,7 @@ jQuery(function()
         });
     });
 
-    // if id of the textarea gets changed, tinymce needs to be reinitialized
+    // if id of the textarea gets changed, ckeditor needs to be reinitialized
     body.on('beforeattributechange', 'textarea.richtext', function(event, event_params)
     {
         if (event_params.attribute != 'id')
