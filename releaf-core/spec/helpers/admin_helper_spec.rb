@@ -42,6 +42,7 @@ describe Releaf::AdminHelper do
            :items=>[
              {:icon=>nil, :name=>"releaf/permissions/users", :url=>"/admin/users", :active=>false},
              {:icon=>nil, :name=>"releaf/permissions/roles", :url=>"/admin/roles", :active=>false}]},
+          {:icon=>"cog", :name=>"releaf/core/settings",:url=>"/admin/settings", :active=>false},
           {:icon=>"group", :name=>"releaf/i18n_database/translations", :url=>"/admin/translations", :active=>false}]
         expect( helper.admin_menu ).to eq(output)
       end

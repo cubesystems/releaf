@@ -16,7 +16,7 @@ module Releaf
 
     before_filter :verify_feature_availability
 
-    rescue_from Releaf::AccessDenied, with: :access_denied
+    rescue_from Releaf::Core::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
 
     layout :layout
@@ -438,7 +438,7 @@ module Releaf
 
     def authorize! action=nil
       user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
-      raise Releaf::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
+      raise Releaf::Core::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
     end
 
     def required_params

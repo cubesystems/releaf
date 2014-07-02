@@ -17,11 +17,11 @@ module Releaf
       end
 
       def self.translations_updated_at
-        Settings['releaf.i18n_database.translations.updated_at']
+        Releaf::Settings['releaf.i18n_database.translations.updated_at']
       end
 
       def self.translations_updated_at= value
-        Settings['releaf.i18n_database.translations.updated_at'] = value
+        Releaf::Settings['releaf.i18n_database.translations.updated_at'] = value
       end
 
       def store_translations locale, data, options = {}
