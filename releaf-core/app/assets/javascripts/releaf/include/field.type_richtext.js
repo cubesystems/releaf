@@ -12,6 +12,9 @@ jQuery(function()
         toolbar: [['Bold', 'Italic'], ['Format'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Subscript', 'Superscript'], ['NumberedList', 'BulletedList'], ['Image', 'Link', 'Unlink'], ['Source', 'Maximize', 'ShowBlocks']]
     };
 
+    CKEDITOR.on('instanceReady', function(e) {
+      jQuery(e.editor.element.$).addClass("ckeditor-initialized");
+    });
 
     body.on( 'richtextinit', 'textarea.richtext', function( event, extra_config )
     {

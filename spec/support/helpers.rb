@@ -55,7 +55,7 @@ module Helpers
   end
 
   def fill_in_richtext html_element_id, content
-    expect(page).to have_css("#cke_#{html_element_id}") # wait for ckeditor appearance
+    expect(page).to have_css("##{html_element_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
     page.execute_script("$('##{html_element_id}').val(\"#{content}\")")
   end
 end
