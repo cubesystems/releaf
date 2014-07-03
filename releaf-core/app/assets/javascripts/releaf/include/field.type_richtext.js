@@ -48,6 +48,11 @@ jQuery(function()
             config.filebrowserUploadUrl = textarea.data('attachment-upload-url');
         }
 
+        if (textarea.data('external-stylesheet'))
+        {
+            config.contentsCss = textarea.data('external-stylesheet');
+        }
+
         textarea.ckeditor(config);
 
         textarea.on('richtextsuspend', function(e)
