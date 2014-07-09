@@ -527,15 +527,6 @@ module Releaf
       return attributes
     end
 
-    # Returns valid order sql statement.
-    #
-    # This function is used if resource class supports .order_by scope.
-    def valid_order_by
-      return nil if params[:order_by].blank?
-      return nil unless resource_class.column_names.include?(params[:order_by].sub(/-reverse$/, ''))
-      return resource_class.table_name + '.' + params[:order_by].sub(/-reverse$/, ' DESC')
-    end
-
     # Returns url to redirect after successul resource create/update actions
     #
     # @return [String] url

@@ -1,7 +1,4 @@
 :ruby
-  supports_order_by = resource_class.respond_to? :order_by
-  valid_order_by_fields = resource_class.column_names
-
   # Optimizaiton: instead of checkig weather user has custom partial for each cell
   # check once and and store partials name to render in hash
   cell_templates = {}
@@ -18,20 +15,7 @@
       - fields_to_display.each do |name|
         - label = t(name.to_s, :scope => label_scope)
         %th
-          %span
-            - if supports_order_by && valid_order_by_fields.include?(name)
-
-              - if params[:order_by].blank? || params[:order_by].sub(/-reverse$/, '') != name
-                = link_to label, url_for(:order_by => name)
-
-              - else
-                - if params[:order_by] == name
-                  = link_to label + ' ↑', url_for(:order_by => name + '-reverse'), :class => :order_by
-                - else
-                  = link_to label + ' ↓', url_for(:order_by => name), :class => :order_by
-
-            - else
-              = label
+          %span= label
   %tbody.tbody
     - collection.each do |resource|
       = render 'index.row', resource: resource, cell_templates: cell_templates
