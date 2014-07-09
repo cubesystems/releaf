@@ -1,4 +1,4 @@
-= form_for resource, as: :resource, url: self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_profile_path"), html: {multipart: true, data: {'validation-ok-handler' => 'ajax', 'validation' => 'tru' } } do |f|
+= form_for resource, as: :resource, url: url_for(action: :update), html: {multipart: true, data: {'validation-ok-handler' => 'ajax', 'validation' => 'true' } } do |f|
   = render "edit.header", :resource => resource
   = render "edit.body", :f => f
   = render "edit.footer", :resource => resource
