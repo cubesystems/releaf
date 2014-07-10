@@ -42,7 +42,8 @@ module Releaf
       :resource_to_text_method
 
     def search text
-      return unless @searchable_fields && params[:search].present?
+      return if text.blank?
+      return if @searchable_fields.blank?
       @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
     end
 
