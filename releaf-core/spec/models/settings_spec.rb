@@ -26,5 +26,12 @@ describe Releaf::Settings do
       expect(described_class["key.a"]).to eq("1")
       expect(described_class["key.b"]).to eq(3)
     end
+
+    context "when database table does not exists" do
+      it "does nothing" do
+        allow(described_class).to receive(:table_exists?).and_return(false)
+        expect{ described_class.register_defaults("key.a" => "1", "key.b" => 2) }.to_not change{ described_class.count  }
+      end
+    end
   end
 end
