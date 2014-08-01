@@ -93,7 +93,8 @@ jQuery(function()
                 submit_buttons.trigger('loadingstart');
 
                 // construct url
-                var url = new url_builder( false );
+                var form_url = form.attr( 'action' );
+                var url = new url_builder( {baseUrl: form_url} );
                 url.add( form.serializeArray() );
 
                 if ('replaceState' in window.history)
