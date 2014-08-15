@@ -97,6 +97,11 @@
   If you were using common fields, you should migrate your data from common
   fields seralized hash (in data attribute), to attribute per common field.
 
+* To use new common field attributes, crete method 'own_fields_to_display' in your node model, that returns common attributes, for example:
+  def own_fields_to_display
+    [:page_title, :meta_description]
+  end
+
 * Remove custom validations support from Releaf::Node via acts_as_node.
 
   Instead you should add custom validations to your Node model
