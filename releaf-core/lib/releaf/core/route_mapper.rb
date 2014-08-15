@@ -22,6 +22,7 @@ module Releaf::Core::RouteMapper
 
     mount_location_namespace = mount_location.gsub("/", "").to_sym
     scope mount_location do
+      initialize_releaf_components
       if mount_location_namespace.empty?
         yield if block_given?
       else
@@ -31,7 +32,6 @@ module Releaf::Core::RouteMapper
       end
 
       namespace :releaf, :path => nil do
-        initialize_releaf_components
 
         root :to => "home#index"
         get '/*path' => 'home#page_not_found'
