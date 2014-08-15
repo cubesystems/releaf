@@ -52,6 +52,7 @@
   change table name from releaf_admins to releaf_users
 * Modify releaf_roles.permisions to match changed naming for releaf/content/nodes, releaf/permissions/users,   releaf/permissions/roles, releaf/i18n_database/translations
 * Modify releaf_roles.default_controller to be an existing one (for example from releaf/content to releaf/content/nodes)
+* Modify config/initializers/releaf.rb to use releaf/content/nodes, releaf/permissions/users, releaf/permissions/roles, releaf/i18n_database/translations
 
 ### 2014.04.28
 * Refactored notification rendering (introduced
