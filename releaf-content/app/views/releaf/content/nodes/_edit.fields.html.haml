@@ -13,5 +13,5 @@
       - reflection = f.object.class.reflections[field.to_sym]
       = render 'edit.fields.association', :f => f, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix
   - elsif reflection
-    - subfields = content_fields_to_display(reflection.klass)
+    - subfields = reflection.klass.column_names - %w[id created_at updated_at]
     = render 'edit.fields.association', :f => f, :field => field, :subfields => subfields, :reflection => reflection, :view_prefix => view_prefix
