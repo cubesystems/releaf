@@ -54,6 +54,15 @@ feature "Base controller edit", js: true do
     expect(page).to have_css('#resource_price[value="12.34"]')
   end
 
+  scenario "do not show 'Back to list' url when no index url passed" do
+    visit admin_books_path(search: "good")
+    click_link("good book")
+    expect(page).to have_link("Back to list")
+
+    visit admin_book_path(Book.first)
+    expect(page).to_not have_link("Back to list")
+  end
+
   scenario "editing nested object with :allow_destroy => false" do
     visit admin_book_path(id: @good_book.id)
     expect(page).to_not have_css('.remove-nested-item')

@@ -4,7 +4,7 @@
       %button.button.primary{type:  "submit", data: { type: 'ok' } }
         %i.fa.fa-check
         %span= t('Save', scope: "admin.global")
-    - if @features[:index]
+    - if @features[:index] && params[:index_url].present?
       .secondary
         %a.button.secondary{ href: index_url }
           %i.fa.fa-caret-left
