@@ -21,7 +21,7 @@
     = stylesheet_link_tag "releaf/application", media: 'all'
     - if Releaf::AssetsResolver.stylesheet_exists? controller_asset
       = stylesheet_link_tag "releaf/controllers/#{controller_asset}", media: 'all'
-    - %w[sass css.scss.erb scss.erb css.scss scss css.erb css].each do |ext|
+    - %w[css.scss.erb scss.erb css.scss scss css.erb css sass.erb sass].each do |ext|
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{controller_asset}.#{ext}")
         = stylesheet_link_tag "controllers/#{controller_asset}", media: 'all'
       - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
