@@ -30,11 +30,13 @@
   elsif text.is_a? Time
     text = I18n.l(text, :format => :default, default: '%Y-%m-%d %H:%M:%S %z')
   end
+
+  edit_url = resource_edit_url(resource)
 %>
 <td>
-  <% if @features[:edit] %>
-    <a href="<%= resource_edit_url(resource) %>"><span><%= text %></span></a>
-  <% else %>
+  <% if edit_url.nil? %>
     <span><%= text %></span>
+  <% else %>
+    <a href="<%= edit_url %>"><span><%= text %></span></a>
   <% end %>
 </td>

@@ -7,6 +7,28 @@ describe Admin::AuthorsController do
     sign_in FactoryGirl.create(:user)
   end
 
+  describe "#resource_edit_url" do
+    let(:resource){ create(:author) }
+    before do
+      get :index
+    end
+
+    context "when edit feature available" do
+      it "returns resource edit url with index_url within params" do
+        url = "http://test.host/admin/authors/#{resource.id}/edit?index_url=%2Fadmin%2Fauthors"
+        allow(subject).to receive(:feature_available?).with(:edit).and_return(true)
+        expect(subject.resource_edit_url(resource)).to eq url
+      end
+    end
+
+    context "when edit feature not available" do
+      it "returns nil" do
+        allow(subject).to receive(:feature_available?).with(:edit).and_return(false)
+        expect(subject.resource_edit_url(Author.new)).to be nil
+      end
+    end
+  end
+
   describe "#index_url" do
     context "when action is other than :index" do
       context "when params have 'index_url' defined" do

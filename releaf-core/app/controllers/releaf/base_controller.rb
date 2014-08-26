@@ -323,7 +323,9 @@ module Releaf
     end
 
     def resource_edit_url(resource)
-      url_for( action: :edit, id: resource.try(:id), index_url: index_url )
+      if feature_available?( :edit )
+        url_for( action: :edit, id: resource.try(:id), index_url: index_url )
+      end
     end
 
     # This helper will return options passed to render 'edit_label'.

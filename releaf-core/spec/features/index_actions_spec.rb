@@ -40,6 +40,15 @@ feature "Base controller index", js: true do
     expect(page).to have_content('Nothing found')
   end
 
+  scenario "no row urls when edit url is empty" do
+    visit admin_books_path
+    expect(page).to have_link("good book")
+
+    allow_any_instance_of(Admin::BooksController).to receive(:resource_edit_url).and_return(nil)
+    visit admin_books_path
+    expect(page).to_not have_link("good book")
+  end
+
   scenario "keeps search parameters when navigating to edit and back" do
     visit admin_books_path(search: "good")
     click_link("good book")
