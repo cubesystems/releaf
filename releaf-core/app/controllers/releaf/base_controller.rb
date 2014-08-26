@@ -39,7 +39,8 @@ module Releaf
       :render_parent_template,
       :resource_class,
       :resource_to_text,
-      :resource_to_text_method
+      :resource_to_text_method,
+      :resource_edit_url
 
     def search text
       return if text.blank?
@@ -319,6 +320,10 @@ module Releaf
         Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
         return fallback
       end
+    end
+
+    def resource_edit_url(resource)
+      url_for( action: :edit, id: resource.try(:id), index_url: index_url )
     end
 
     # This helper will return options passed to render 'edit_label'.

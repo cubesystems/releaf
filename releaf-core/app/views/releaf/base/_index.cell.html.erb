@@ -33,8 +33,8 @@
 %>
 <td>
   <% if @features[:edit] %>
-  <a href="<%= url_for( action: :edit, id: resource.id, index_url: index_url ) %>"><span><%= text %></span></a>
+    <a href="<%= resource_edit_url(resource) %>"><span><%= text %></span></a>
   <% else %>
-  <span><%= text %></span>
+    <span><%= text %></span>
   <% end %>
 </td>
