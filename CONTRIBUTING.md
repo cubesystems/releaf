@@ -1,14 +1,3 @@
 ## Contributing
 
-Syntax:
-
-* Two spaces, no tabs (for indentation).
-* No trailing whitespace. Blank lines should not have any spaces.
-* Unix file format (NL at the end of line)
-* No indent after private/protected/public.
-* Use Ruby >= 1.9 syntax for hashes. Prefer ```{ a: :b }``` over ```{ :a => :b }```.
-* Prefer ```&&```/```||``` over ```and```/```or```.
-* Use ```a = b``` and not ```a=b```.
-* Prefer ```method { |x| do_stuff }``` instead of ```method{|x| do_stuff}``` for single-line blocks.
-
-+ [https://github.com/bbatsov/ruby-style-guide](https://github.com/bbatsov/ruby-style-guide)
+Read here [https://github.com/bbatsov/ruby-style-guide](https://github.com/bbatsov/ruby-style-guide)
