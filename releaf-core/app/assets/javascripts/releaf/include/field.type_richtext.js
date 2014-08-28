@@ -16,6 +16,15 @@ jQuery(function()
       jQuery(e.editor.element.$).addClass("ckeditor-initialized");
     });
 
+    var remove_toolbar_item = function(config, removable_item) {
+        for( var k in config.toolbar )
+        {
+            config.toolbar[k] = jQuery.grep(config.toolbar[k], function(value) {
+              return value != removable_item;
+            });
+        }
+    }
+
     body.on( 'richtextinit', 'textarea.richtext', function( event, extra_config )
     {
         var textarea = jQuery(this);
@@ -42,6 +51,10 @@ jQuery(function()
         if (textarea.data('attachment-upload-url'))
         {
             config.filebrowserUploadUrl = textarea.data('attachment-upload-url');
+        }
+        else
+        {
+            remove_toolbar_item(config, 'Image')
         }
 
         if (textarea.data('external-stylesheet'))
