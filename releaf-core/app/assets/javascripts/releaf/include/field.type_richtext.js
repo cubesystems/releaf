@@ -34,13 +34,6 @@ jQuery(function()
         config.width = textarea.outerWidth();
         config.height = textarea.outerHeight();
 
-        if (extra_config)
-        {
-            jQuery.each(extra_config, function(index, value){
-                config[index] = value;
-            });
-        }
-
         if( !textarea.attr( 'id' ) )
         {
             textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
@@ -54,6 +47,13 @@ jQuery(function()
         if (textarea.data('external-stylesheet'))
         {
             config.contentsCss = textarea.data('external-stylesheet');
+        }
+
+        if (extra_config)
+        {
+            jQuery.each(extra_config, function(index, value){
+                config[index] = value;
+            });
         }
 
         textarea.ckeditor(config);
