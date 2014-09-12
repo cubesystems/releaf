@@ -68,14 +68,6 @@ RSpec.configure do |config|
 
   config.color = true
 
-  if development
-    config.add_formatter(:documentation)
-  else
-    config.add_formatter(:progress)
-  end
-
-  config.add_formatter(:html, 'rspec.html')
-
   config.include Helpers
   config.include WaitSteps
   config.include ExcelHelpers
