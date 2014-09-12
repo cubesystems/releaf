@@ -60,5 +60,8 @@ application "config.i18n.enforce_available_locales = true"
 # in "test" env "true" cause to fail on install generators, revert to normall
 gsub_file 'config/environments/test.rb', 'config.cache_classes = false', 'config.cache_classes = true'
 rake 'db:migrate'
-rake 'db:test:prepare'
 rake 'db:seed'
+
+ENV['RAILS_ENV'] = 'test'
+rake 'db:create'
+rake 'db:migrate'
