@@ -48,7 +48,7 @@ describe ActsAsNode do
       end
 
       it "returns relation" do
-        expect(Book.nodes.class).to eq(ActiveRecord::Relation::ActiveRecord_Relation_Node)
+        expect(Book.nodes.class).to eq(Node::ActiveRecord_Relation)
       end
     end
   end
@@ -67,7 +67,7 @@ describe ActsAsNode do
       end
 
       it "returns array" do
-        expect(ContactFormController.nodes.class).to eq(ActiveRecord::Relation::ActiveRecord_Relation_Node)
+        expect(ContactFormController.nodes.class).to eq(Node::ActiveRecord_Relation)
       end
     end
   end
