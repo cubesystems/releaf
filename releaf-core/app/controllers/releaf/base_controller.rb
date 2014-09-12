@@ -416,9 +416,9 @@ module Releaf
       end
 
       if status
-        flash_target[:success] = { id: :resource_status, message: I18n.t(success_message_key, scope: notice_scope_name) }
+        flash_target["success"] = { "id" => "resource_status", "message" => I18n.t(success_message_key, scope: notice_scope_name) }
       else
-        flash_target[:error] = { id: :resource_status, message: I18n.t(failure_message_key, scope: notice_scope_name) }
+        flash_target["error"] = { "id" => "resource_status", "message" => I18n.t(failure_message_key, scope: notice_scope_name) }
       end
     end
 
@@ -635,9 +635,9 @@ module Releaf
             if @features[:edit_ajax_reload] && request_type == :update
               add_resource_breadcrumb(@resource)
               render action: html_render_action, formats: [:html], content_type: "text/html"
-              flash.delete(:success) # prevent flash on next full page reload
+              flash.delete("success") # prevent flash on next full page reload
             else
-              render json: {url: success_url, message: flash[:success][:message]}, status: 303
+              render json: {url: success_url, message: flash["success"]["message"]}, status: 303
             end
           else
             render json: Releaf::ErrorFormatter.format_errors(@resource), status: 422

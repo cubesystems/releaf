@@ -101,7 +101,7 @@ module Releaf::I18nDatabase
           import_view
           render :edit
         rescue Releaf::I18nDatabase::TranslationsImporter::UnsupportedFileFormatError
-          flash[:error] = { id: :resource_status, message: I18n.t("Unsupported file format", scope: notice_scope_name) }
+          flash["error"] = { "id" => "resource_status", "message" => I18n.t("Unsupported file format", scope: notice_scope_name) }
           redirect_to action: :index
         end
       else
@@ -225,7 +225,7 @@ module Releaf::I18nDatabase
     def update_response_success
       if @import
         msg = 'successfuly imported %{count} translations'
-        flash[:success] = { id: :resource_status, message: I18n.t(msg, default: msg, count: @translations_to_save.size , scope: notice_scope_name) }
+        flash["success"] = { "id" => "resource_status", "message" => I18n.t(msg, default: msg, count: @translations_to_save.size , scope: notice_scope_name) }
         redirect_to action: :index
       else
         render_notification true
