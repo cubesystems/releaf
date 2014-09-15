@@ -271,7 +271,7 @@ module Releaf
     #
     # @return class
     def self.resource_class
-      self.name.split('::').last.sub(/Controller$/, '').classify.constantize
+      self.name.split('::', 2).last.sub(/Controller$/, '').classify.constantize
     end
 
     # Tries to return resource class.
