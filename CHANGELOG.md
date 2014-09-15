@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2014.09.15
+* Releaf controllers now properly resolves namespaced classes
+  For example Admin::Foo::BarsController previously would resolve to Bar class,
+  now it will resolve to Foo::Bar class
+
 ### 2014.07.02
 * TinyMCE replaced by CKEditor as built-in WYSIWYG field editor
 
@@ -47,8 +52,8 @@
 
   This means that Releaf no longer check for releaf/content/_edit.locale
   partial. This partial will be ignored.
-  
-  Rename Releaf::Permissions::Admin to Releaf::Permissions::User, 
+
+  Rename Releaf::Permissions::Admin to Releaf::Permissions::User,
   change table name from releaf_admins to releaf_users
 * Modify releaf_roles.permisions to match changed naming for releaf/content/nodes, releaf/permissions/users,   releaf/permissions/roles, releaf/i18n_database/translations
 * Modify releaf_roles.default_controller to be an existing one (for example from releaf/content to releaf/content/nodes)
