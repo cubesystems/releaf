@@ -1,5 +1,5 @@
-%li.profile{"data-settings-url" => url_for(action: 'settings', controller: 'releaf/permissions/profile')}
-  %a{href: url_for(action: 'edit', controller: 'releaf/permissions/profile')}
+%li.profile{"data-settings-url" => url_for(action: 'settings', controller: '/releaf/permissions/profile')}
+  %a{href: url_for(action: 'edit', controller: '/releaf/permissions/profile')}
     %span.name= current_admin_user.to_text
     = gravatar_image_tag(current_admin_user.email, alt: current_admin_user.to_text, gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
 
