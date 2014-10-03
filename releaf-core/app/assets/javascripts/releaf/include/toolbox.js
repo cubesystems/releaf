@@ -46,25 +46,38 @@ jQuery(function()
                 xhr.abort();
             }
 
-            var url = new url_builder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl()
-            xhr = jQuery.ajax(
-            {
-                url: url,
-                type: 'get',
-                success: function( data )
+            if (toolbox.data("url")) {
+                var url = new url_builder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl()
+                xhr = jQuery.ajax(
                 {
-                    toolbox.attr('data-toolbox-open', true);
-                    menu.appendTo( body );
-                    toolbox.trigger('toolboxposition');
+                    url: url,
+                    type: 'get',
+                    success: function( data )
+                    {
+                        toolbox.attr('data-toolbox-open', true);
+                        menu.appendTo( body );
+                        toolbox.trigger('toolboxposition');
 
-                    overlay.show();
+                        overlay.show();
 
-                    menu.show();
+                        menu.show();
 
-                    items_container.html(data);
-                    items_container.trigger('contentloaded');
-                }
-            });
+                        items_container.html(data);
+                        items_container.trigger('contentloaded');
+                    }
+                });
+            }
+            else
+            {
+                toolbox.attr('data-toolbox-open', true);
+                menu.appendTo( body );
+                toolbox.trigger('toolboxposition');
+
+                overlay.show();
+
+                menu.show();
+                items_container.trigger('contentloaded');
+            }
 
             return;
         });
