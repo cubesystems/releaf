@@ -2,6 +2,8 @@
   .box
     .logo
     = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login" } ) do |f|
+      - if params[:redirect_to]
+        = hidden_field_tag :redirect_to, params[:redirect_to]
       .control-group
         %label.control-label{:for => :email}= t("email", :scope => 'admin.sessions')
         = f.email_field :email, :autofocus => "autofocus", :id => :email

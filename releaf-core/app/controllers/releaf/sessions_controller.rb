@@ -11,12 +11,17 @@ module Releaf
     protected
 
     def after_sign_in_path_for resource
-      sign_in_url = url_for(action: 'new', only_path: true)
-      if !request.referer.blank? && URI(request.referer).path == sign_in_url
-        super
+      if custom_redirect_path
+        custom_redirect_path
       else
         stored_location_for(resource) || releaf_root_path
       end
+    end
+
+    def custom_redirect_path
+      return nil if params[:redirect_to].blank?
+      return nil if params[:redirect_to][0] != '/'
+      return params[:redirect_to]
     end
   end
 end
