@@ -41,6 +41,24 @@ jQuery(function()
             var menu = toolbox.data('toolbox-menu');
             var items_container = toolbox.find('.toolbox-items ul');
 
+            var open = function(data)
+            {
+                toolbox.attr('data-toolbox-open', true);
+                menu.appendTo( body );
+                toolbox.trigger('toolboxposition');
+
+                overlay.show();
+
+                menu.show();
+
+                if( data != undefined)
+                {
+                    items_container.html(data);
+                }
+                items_container.trigger('contentloaded');
+            }
+
+
             if (xhr)
             {
                 xhr.abort();
@@ -54,29 +72,13 @@ jQuery(function()
                     type: 'get',
                     success: function( data )
                     {
-                        toolbox.attr('data-toolbox-open', true);
-                        menu.appendTo( body );
-                        toolbox.trigger('toolboxposition');
-
-                        overlay.show();
-
-                        menu.show();
-
-                        items_container.html(data);
-                        items_container.trigger('contentloaded');
+                        open(data);
                     }
                 });
             }
             else
             {
-                toolbox.attr('data-toolbox-open', true);
-                menu.appendTo( body );
-                toolbox.trigger('toolboxposition');
-
-                overlay.show();
-
-                menu.show();
-                items_container.trigger('contentloaded');
+                open();
             }
 
             return;
