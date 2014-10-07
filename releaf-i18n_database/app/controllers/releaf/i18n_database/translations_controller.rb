@@ -76,10 +76,10 @@ module Releaf::I18nDatabase
     def resources
       relation = super
 
-      sql = '
+      sql = "
       LEFT OUTER JOIN
-        releaf_translation_data AS %s_data ON %s_data.translation_id = releaf_translations.id AND %s_data.lang = "%s"
-      '
+        releaf_translation_data AS %s_data ON %s_data.translation_id = releaf_translations.id AND %s_data.lang = '%s'
+      "
 
       Releaf.all_locales.each do |locale|
         relation = relation.joins(sql % ([locale] * 4))
