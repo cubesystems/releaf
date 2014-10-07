@@ -33,31 +33,9 @@ jQuery(function()
         toolboxes.bind('toolboxopen', function()
         {
             var toolbox   = jQuery(this);
-            var button = toolbox.find('.button');
 
             // close all other open toolboxes
             body.trigger('toolboxcloseall');
-
-            var menu = toolbox.data('toolbox-menu');
-            var items_container = toolbox.find('.toolbox-items ul');
-
-            var open = function(data)
-            {
-                toolbox.attr('data-toolbox-open', true);
-                menu.appendTo( body );
-                toolbox.trigger('toolboxposition');
-
-                overlay.show();
-
-                menu.show();
-
-                if( data != undefined)
-                {
-                    items_container.html(data);
-                }
-                items_container.trigger('contentloaded');
-            }
-
 
             if (xhr)
             {
@@ -72,16 +50,37 @@ jQuery(function()
                     type: 'get',
                     success: function( data )
                     {
-                        open(data);
+                        toolbox.trigger('toolboxbuild', data);
                     }
                 });
             }
             else
             {
-                open();
+                toolbox.trigger('toolboxbuild');
             }
 
             return;
+        });
+
+        toolboxes.bind('toolboxbuild', function(e, data)
+        {
+            var toolbox = jQuery( this );
+            var menu = toolbox.data('toolbox-menu');
+            var items_container = toolbox.find('.toolbox-items ul');
+
+            toolbox.attr('data-toolbox-open', true);
+            menu.appendTo( body );
+            toolbox.trigger('toolboxposition');
+
+            overlay.show();
+
+            menu.show();
+
+            if( data != undefined)
+            {
+                items_container.html(data);
+            }
+            items_container.trigger('contentloaded');
         });
 
         toolboxes.bind('toolboxclose', function()
