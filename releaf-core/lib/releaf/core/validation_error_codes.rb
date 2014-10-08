@@ -1,10 +1,11 @@
 module ActiveModel
   class ErrorMessage < String
-    attr_accessor :error_code
+    attr_accessor :error_code, :data
 
-    def initialize(message, error_code = nil)
+    def initialize(message, error_code = nil, data = nil)
       super message
       @error_code = error_code
+      @data = data
     end
   end
 
@@ -19,7 +20,7 @@ module ActiveModel
       end
 
       # use customized String subclass with "error_code" attribute
-      self[attribute] << ErrorMessage.new(message, error_code)
+      self[attribute] << ErrorMessage.new(message, error_code, options[:data])
     end
 
     def normalize_error_code(attribute, message, options)

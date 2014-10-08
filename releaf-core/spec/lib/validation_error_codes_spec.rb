@@ -46,4 +46,11 @@ describe "Extend ActiveModel validation error with error_code attribute" do
       expect { item.errors.add(:age, :invalid, strict: true) }.to raise_error(ActiveModel::StrictValidationFailed)
     end
   end
+
+  context "when error with :data option is added" do
+    it "stores data" do
+      item.errors.add(:age, :invalid, data: {foo: :bar})
+      expect( item.errors.get(:age).first.data ).to eq(foo: :bar)
+    end
+  end
 end
