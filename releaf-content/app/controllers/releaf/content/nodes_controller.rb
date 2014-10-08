@@ -135,7 +135,7 @@ module Releaf::Content
     end
 
     def edit_common
-      @order_nodes = resource_class.where(parent_id: @resource.parent_id).where('id != :id', id: params[:id])
+      @order_nodes = resource_class.where(parent_id: @resource.parent_id).where('id <> :id', id: params[:id])
 
       if @resource.higher_item
         @item_position = @resource.item_position

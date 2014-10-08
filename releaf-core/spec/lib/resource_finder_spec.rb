@@ -42,7 +42,11 @@ describe Releaf::ResourceFinder do
 
   describe "#search" do
     it "escapes search text" do
-      expect( subject.search("SQL'injection", [:title]).to_sql ).to match(/LIKE '%SQL\\\'injection%'/)
+      mysql_expected_result = /LIKE LOWER\('%SQL\\\'injection%'\)/
+      postgresql_expected_result = /LIKE LOWER\('%SQL''injection%'\)/
+      expected_results = ENV['RELEAF_DB'] == 'postgresql' ? postgresql_expected_result : mysql_expected_result
+
+      expect( subject.search("SQL'injection", [:title]).to_sql ).to match(expected_results)
     end
 
     it "supports searches by multiple words" do
