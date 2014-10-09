@@ -69,21 +69,18 @@ module Releaf
 
     def create
       prepare_create
-
       result = @resource.save
-
       respond_after_save(:create, result, "new")
     end
 
     def update
       prepare_update
       result = @resource.update_attributes required_params.permit(*resource_params)
-
       respond_after_save(:update, result, "edit")
     end
 
     def confirm_destroy
-      @resource = resource_class.find(params[:id])
+      prepare_destroy
 
       respond_to do |format|
         format.html do
@@ -96,7 +93,7 @@ module Releaf
     end
 
     def toolbox
-      @resource = resource_class.find(params[:id])
+      prepare_toolbox
 
       respond_to do |format|
         format.html do
@@ -106,7 +103,7 @@ module Releaf
     end
 
     def destroy
-      @resource = resource_class.find(params[:id])
+      prepare_destroy
 
       action_success = destroyable? && @resource.destroy
       render_notification(action_success, failure_message_key: 'cant destroy, because relations exists')
@@ -392,21 +389,33 @@ module Releaf
       add_resource_breadcrumb(@resource)
     end
 
-    def prepare_edit
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
-      add_resource_breadcrumb(@resource)
-    end
-
     def prepare_create
       # load resource only if is not loaded yet
       @resource = resource_class.new unless resource_given?
       @resource.assign_attributes required_params.permit(*resource_params)
     end
 
+    def prepare_edit
+      # load resource only if is not loaded yet
+      load_resource unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
     def prepare_update
       # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
+      load_resource unless resource_given?
+    end
+
+    def prepare_destroy
+      load_resource
+    end
+
+    def prepare_toolbox
+      load_resource
+    end
+
+    def load_resource
+      @resource = resource_class.find(params[:id])
     end
 
     def verify_feature_availability
