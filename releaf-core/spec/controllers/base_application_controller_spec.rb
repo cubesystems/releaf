@@ -5,9 +5,9 @@ describe Admin::BooksController do
     it "returns all but action, controller and format params" do
       get :index, :test => 'true'
       expect(controller.params).to include(:controller => 'admin/books', :action => 'index', :test => 'true')
-      expect(controller.current_params).to include(:test => 'true')
-      expect(controller.current_params).to_not include(:controller => 'admin/books', :action => 'index')
-      expect(controller.current_params.keys.size).to eq(1)
+      expect(controller.send(:current_params)).to include(:test => 'true')
+      expect(controller.send(:current_params)).to_not include(:controller => 'admin/books', :action => 'index')
+      expect(controller.send(:current_params).keys.size).to eq(1)
     end
   end
 end
@@ -17,9 +17,9 @@ describe Admin::AuthorsController do
     it "returns all but action, controller and format params" do
       get :index, :test => 'true', :format => :json
       expect(controller.params).to include(:controller => 'admin/authors', :action => 'index', :test => 'true', :format => 'json')
-      expect(controller.current_params).to include(:test => 'true')
-      expect(controller.current_params).to_not include(:controller => 'admin/authors', :action => 'index', :format => 'json')
-      expect(controller.current_params.keys.size).to eq(1)
+      expect(controller.send(:current_params)).to include(:test => 'true')
+      expect(controller.send(:current_params)).to_not include(:controller => 'admin/authors', :action => 'index', :format => 'json')
+      expect(controller.send(:current_params).keys.size).to eq(1)
     end
   end
 end

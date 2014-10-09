@@ -49,24 +49,13 @@ module Releaf
     end
 
     def index
-      # load resource only if they are not loaded yet
-      @collection = resources unless collection_given?
-
-      search(params[:search])
-
-      unless @resources_per_page.nil?
-        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
-      end
-
-      respond_to do |format|
-        format.html
-      end
+      prepare_index
+      respond
     end
 
     def new
-      # load resource only if is not initialized yet
-      @resource = resource_class.new unless resource_given?
-      add_resource_breadcrumb(@resource)
+      prepare_new
+      respond
     end
 
     def show
@@ -74,30 +63,24 @@ module Releaf
     end
 
     def edit
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
-      add_resource_breadcrumb(@resource)
+      prepare_edit
+      respond
     end
 
     def create
-      # load resource only if is not loaded yet
-      @resource = resource_class.new unless resource_given?
-      @resource.assign_attributes required_params.permit(*resource_params)
+      prepare_create
       result = @resource.save
-
       respond_after_save(:create, result, "new")
     end
 
     def update
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
+      prepare_update
       result = @resource.update_attributes required_params.permit(*resource_params)
-
       respond_after_save(:update, result, "edit")
     end
 
     def confirm_destroy
-      @resource = resource_class.find(params[:id])
+      prepare_destroy
 
       respond_to do |format|
         format.html do
@@ -110,7 +93,7 @@ module Releaf
     end
 
     def toolbox
-      @resource = resource_class.find(params[:id])
+      prepare_toolbox
 
       respond_to do |format|
         format.html do
@@ -120,7 +103,7 @@ module Releaf
     end
 
     def destroy
-      @resource = resource_class.find(params[:id])
+      prepare_destroy
 
       action_success = destroyable? && @resource.destroy
       render_notification(action_success, failure_message_key: 'cant destroy, because relations exists')
@@ -382,6 +365,58 @@ module Releaf
     end
 
     protected
+
+    def respond
+      respond_to do |format|
+        format.html
+      end
+    end
+
+    def prepare_index
+      # load resource only if they are not loaded yet
+      @collection = resources unless collection_given?
+
+      search(params[:search])
+
+      unless @resources_per_page.nil?
+        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
+      end
+    end
+
+    def prepare_new
+      # load resource only if is not initialized yet
+      @resource = resource_class.new unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
+    def prepare_create
+      # load resource only if is not loaded yet
+      @resource = resource_class.new unless resource_given?
+      @resource.assign_attributes required_params.permit(*resource_params)
+    end
+
+    def prepare_edit
+      # load resource only if is not loaded yet
+      load_resource unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
+    def prepare_update
+      # load resource only if is not loaded yet
+      load_resource unless resource_given?
+    end
+
+    def prepare_destroy
+      load_resource
+    end
+
+    def prepare_toolbox
+      load_resource
+    end
+
+    def load_resource
+      @resource = resource_class.find(params[:id])
+    end
 
     def verify_feature_availability
       feature = action_feature(params[:action])

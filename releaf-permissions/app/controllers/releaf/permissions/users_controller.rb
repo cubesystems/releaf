@@ -38,12 +38,12 @@ module Releaf::Permissions
       return fields
     end
 
-    def new
+    protected
+
+    def prepare_new
       super
       @resource.role = Releaf::Permissions::Role.first
     end
-
-    protected
 
     def resource_params
       return [] unless %w[create update].include? params[:action]
