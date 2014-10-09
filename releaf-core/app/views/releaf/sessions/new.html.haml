@@ -1,14 +1,14 @@
 .container
   .box
     .logo
-    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "login" } ) do |f|
+    = form_for resource, as: resource_name, builder: Releaf::Core::FormBuilder, url: session_path(resource_name), html: {class: "login"} do |f|
       - if params[:redirect_to]
         = hidden_field_tag :redirect_to, params[:redirect_to]
       .control-group
-        %label.control-label{:for => :email}= t("email", :scope => 'admin.sessions')
-        = f.email_field :email, :autofocus => "autofocus", :id => :email
+        %label.control-label{for: :email}= t("email", scope: 'admin.sessions')
+        = f.email_field :email, autofocus: "autofocus", id: :email
       .control-group
-        %label.control-label{:for => :password}= t("password", :scope => 'admin.sessions')
-        = f.password_field :password, :id => :password
+        %label.control-label{for: :password}= t("password", scope: 'admin.sessions')
+        = f.password_field :password, id: :password
       .control-group
-        %button{:type => "submit"}= t("sign in", :scope => 'admin.sessions')
+        %button{type: "submit"}= t("sign in", scope: 'admin.sessions')

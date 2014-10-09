@@ -1,4 +1,4 @@
-= form_for resource, as: :resource, url: url_for(action: :update), html: {multipart: true, data: {'validation-ok-handler' => 'ajax', 'validation' => 'true' } } do |f|
+= form_for resource, builder: Releaf::Core::FormBuilder, as: :resource, url: url_for(action: :update), html: {multipart: true, data: {'validation-ok-handler' => 'ajax', 'validation' => 'true' } } do |f|
   = render "edit.header", :resource => resource
   = render "edit.body", :f => f
   = render "edit.footer", :resource => resource
