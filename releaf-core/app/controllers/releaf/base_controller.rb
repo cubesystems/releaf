@@ -50,14 +50,12 @@ module Releaf
 
     def index
       prepare_index
-
-      respond_to do |format|
-        format.html
-      end
+      respond
     end
 
     def new
       prepare_new
+      respond
     end
 
     def show
@@ -66,6 +64,7 @@ module Releaf
 
     def edit
       prepare_edit
+      respond
     end
 
     def create
@@ -369,6 +368,12 @@ module Releaf
     end
 
     protected
+
+    def respond
+      respond_to do |format|
+        format.html
+      end
+    end
 
     def prepare_index
       # load resource only if they are not loaded yet
