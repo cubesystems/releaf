@@ -49,14 +49,7 @@ module Releaf
     end
 
     def index
-      # load resource only if they are not loaded yet
-      @collection = resources unless collection_given?
-
-      search(params[:search])
-
-      unless @resources_per_page.nil?
-        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
-      end
+      prepare_index
 
       respond_to do |format|
         format.html
@@ -64,9 +57,7 @@ module Releaf
     end
 
     def new
-      # load resource only if is not initialized yet
-      @resource = resource_class.new unless resource_given?
-      add_resource_breadcrumb(@resource)
+      prepare_new
     end
 
     def show
@@ -74,23 +65,19 @@ module Releaf
     end
 
     def edit
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
-      add_resource_breadcrumb(@resource)
+      prepare_edit
     end
 
     def create
-      # load resource only if is not loaded yet
-      @resource = resource_class.new unless resource_given?
-      @resource.assign_attributes required_params.permit(*resource_params)
+      prepare_create
+
       result = @resource.save
 
       respond_after_save(:create, result, "new")
     end
 
     def update
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
+      prepare_update
       result = @resource.update_attributes required_params.permit(*resource_params)
 
       respond_after_save(:update, result, "edit")
@@ -382,6 +369,40 @@ module Releaf
     end
 
     protected
+
+    def prepare_index
+      # load resource only if they are not loaded yet
+      @collection = resources unless collection_given?
+
+      search(params[:search])
+
+      unless @resources_per_page.nil?
+        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
+      end
+    end
+
+    def prepare_new
+      # load resource only if is not initialized yet
+      @resource = resource_class.new unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
+    def prepare_edit
+      # load resource only if is not loaded yet
+      @resource = resource_class.find(params[:id]) unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
+    def prepare_create
+      # load resource only if is not loaded yet
+      @resource = resource_class.new unless resource_given?
+      @resource.assign_attributes required_params.permit(*resource_params)
+    end
+
+    def prepare_update
+      # load resource only if is not loaded yet
+      @resource = resource_class.find(params[:id]) unless resource_given?
+    end
 
     def verify_feature_availability
       feature = action_feature(params[:action])
