@@ -57,10 +57,6 @@ module Releaf
       unless @resources_per_page.nil?
         @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
       end
-
-      respond_to do |format|
-        format.html
-      end
     end
 
     def new
