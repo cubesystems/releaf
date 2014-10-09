@@ -13,12 +13,6 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
     return %w[value]
   end
 
-  def update
-    @resource = resource_class.find(params[:id]) unless resource_given?
-    maintain_value_type
-    super
-  end
-
   def maintain_value_type
     if @resource.value.class == Time
       params[:resource][:value] = Time.parse(params[:resource][:value])
@@ -26,6 +20,11 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
   end
 
   protected
+
+  def prepare_update
+    @resource = resource_class.find(params[:id]) unless resource_given?
+    maintain_value_type
+  end
 
   def setup
     super

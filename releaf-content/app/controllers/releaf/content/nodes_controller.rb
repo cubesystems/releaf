@@ -5,10 +5,6 @@ module Releaf::Content
     before_render :edit_common, only: [:edit, :update]
     before_filter :new_common, only: [:new, :create]
 
-    def index
-      @collection = resource_class.roots
-    end
-
     def generate_url
       tmp_resource = prepare_resource
 
@@ -75,6 +71,12 @@ module Releaf::Content
     def self.resource_class
       # TODO class name should be configurable
       ::Node
+    end
+
+    protected
+
+    def prepare_index
+      @collection = resource_class.roots
     end
 
     private
