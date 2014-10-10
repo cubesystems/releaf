@@ -1,7 +1,14 @@
 language: ruby
+
 rvm:
   - 2.1.1
+
 env:
-- RELEAF_DUMMY_DB_USERNAME=travis RELEAF_DUMMY_DB_PASSWORD="" RELEAF_DUMMY_DB_NAME=myapp
-before_script: bundle exec rake dummy:setup
+  - RELEAF_DB=mysql RELEAF_DUMMY_DB_USERNAME=travis RELEAF_DUMMY_DB_PASSWORD="" RELEAF_DUMMY_DB_NAME=myapp
+  - RELEAF_DB=postgresql RELEAF_DUMMY_DB_USERNAME=postgres RELEAF_DUMMY_DB_PASSWORD="" RELEAF_DUMMY_DB_NAME=myapp
+
+before_script:
+  - 'if [ "$RELEAF_DB" = "postgresql" ]; then psql -c "create database myapp;" -U postgres; fi'
+  - bundle exec rake dummy:setup
+
 script: xvfb-run rake ci

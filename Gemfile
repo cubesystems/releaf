@@ -14,3 +14,10 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+case ENV.fetch('RELEAF_DB', 'mysql')
+when 'mysql'
+  gem 'mysql2'
+when 'postgresql'
+  gem 'pg'
+end

@@ -236,8 +236,8 @@ describe Releaf::I18nDatabase::Backend do
           context "when positive create_plurals option passed" do
             it "creates pluralized translations for all Releaf locales" do
               result = ["animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
-              expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }.
-                from([]).to(result)
+              expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key).sort }.
+                from([]).to(result.sort)
             end
           end
         end

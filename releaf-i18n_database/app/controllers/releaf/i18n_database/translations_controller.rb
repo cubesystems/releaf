@@ -1,3 +1,4 @@
+# TODO convert to arel
 module Releaf::I18nDatabase
   class TranslationsController < ::Releaf::BaseController
     helper_method :locales, :localization
@@ -76,10 +77,10 @@ module Releaf::I18nDatabase
     def resources
       relation = super
 
-      sql = '
+      sql = "
       LEFT OUTER JOIN
-        releaf_translation_data AS %s_data ON %s_data.translation_id = releaf_translations.id AND %s_data.lang = "%s"
-      '
+        releaf_translation_data AS %s_data ON %s_data.translation_id = releaf_translations.id AND %s_data.lang = '%s'
+      "
 
       Releaf.all_locales.each do |locale|
         relation = relation.joins(sql % ([locale] * 4))
@@ -113,7 +114,7 @@ module Releaf::I18nDatabase
 
     def find_blank_translations
       sql = search_column_names.map do |column|
-        "#{column} IS NULL OR #{column} = ''"
+        %[#{column} IS NULL OR #{column} = '']
       end.join(' OR ')
       @collection = @collection.where(sql)
     end
