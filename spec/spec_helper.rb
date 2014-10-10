@@ -21,7 +21,6 @@ if ENV["COVERAGE"]
   end
 end
 
-development = !!ENV['GUARD_NOTIFY'] || !ENV["RAILS_ENV"]
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
@@ -68,9 +67,7 @@ RSpec.configure do |config|
 
   config.color = true
 
-  if development
-    config.add_formatter(:documentation)
-  else
+  if ENV['COVERAGE']
     config.add_formatter(:progress)
   end
 
