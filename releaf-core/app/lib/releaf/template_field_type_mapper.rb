@@ -31,7 +31,7 @@ module Releaf
         field_type = self.send("field_type_name_for_#{column_type}", attribute_name, obj)
       end
 
-      return field_type || 'text'
+      return field_type || fallback(attribute_name, obj)
     end
 
     # should localized template be preffered?
@@ -42,6 +42,15 @@ module Releaf
     end
 
     protected
+
+    def self.fallback attribute_name, obj
+      case attribute_name.to_s
+      when /password/, 'pin'
+        return 'password'
+      else
+        return 'text'
+      end
+    end
 
     def self.image_or_error attribute_name, obj
       field_type_or_error 'image', attribute_name, obj

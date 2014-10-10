@@ -87,6 +87,26 @@ describe Releaf::TemplateFieldTypeMapper do
     end
   end
 
+  describe ".fallback" do
+    %w[password password_confirmation pin].each do |field_name|
+      context "when attribute name is '#{field_name}'" do
+        it "returns 'password'" do
+          obj = Object.new
+          expect( subject.send(:fallback, field_name, obj) ).to eq 'password'
+        end
+      end
+    end
+
+    %w[foo bar].each do |field_name|
+      context "when attribute name is '#{field_name}'" do
+        it "returns 'text'" do
+          obj = Object.new
+          expect( subject.send(:fallback, field_name, obj) ).to eq 'text'
+        end
+      end
+    end
+  end
+
   describe ".field_type_name_for_string" do
     %w[thumbnail_uid image_uid photo_uid photography_uid picture_uid avatar_uid logo_uid banner_uid icon_uid].each do |field_name|
       context "when attribute name is '#{field_name}'" do
