@@ -23,6 +23,7 @@ module Releaf
     protect_from_forgery
 
     helper_method \
+      :form_options,
       :ajax?,
       :controller_scope_name,
       :current_params,
@@ -362,6 +363,33 @@ module Releaf
       custom_attributes = local_assigns[:field_attributes]
       raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
       return default_attributes.deep_merge(custom_attributes)
+    end
+
+    def form_url(form_type, object)
+      url_for(action: object.new_record? ? 'create' : 'update', id: object.id)
+    end
+
+    def form_attributes(form_type, object)
+      {
+         multipart: true,
+         data: {
+           'validation-ok-handler' => 'ajax',
+           'validation' => 'true'
+         }
+      }
+    end
+
+    def form_builder(form_type, object)
+      Releaf::Core::FormBuilder
+    end
+
+    def form_options(form_type, object, object_name)
+      {
+        builder: form_builder(form_type, object),
+        as: object_name,
+        url: form_url(form_type, object),
+        html: form_attributes(form_type, object)
+      }
     end
 
     protected

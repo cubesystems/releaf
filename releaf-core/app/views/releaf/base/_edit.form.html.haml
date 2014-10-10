@@ -1,4 +1,4 @@
-= form_for resource, builder: Releaf::Core::FormBuilder, as: :resource, url: url_for(action: resource.new_record? ? 'create' : 'update', id: resource.id ), html: {multipart: true, data: {'validation-ok-handler' => 'ajax', 'validation' => 'true' }  } do |f|
+= form_for resource, form_options(action_name, resource, :resource) do |f|
   - unless params[:index_url].blank?
     = hidden_field_tag 'index_url', params[:index_url]
   = render "edit.header", resource: resource
