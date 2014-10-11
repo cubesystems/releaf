@@ -14,24 +14,7 @@ module Releaf
     #
     # @todo document rendering conventions
     def self.field_type_name obj, attribute_name
-      field_type = nil
-      column_type = nil
-
-      if use_i18n?(obj, attribute_name)
-        begin
-          column_type = obj.class::Translation.columns_hash[attribute_name.to_s].try(:type)
-        rescue
-        end
-      else
-        column_type = obj.class.columns_hash[attribute_name.to_s].try(:type)
-      end
-
-      column_type = column_type.to_s
-      if column_type && self.respond_to?("field_type_name_for_#{column_type}")
-        field_type = self.send("field_type_name_for_#{column_type}", attribute_name, obj)
-      end
-
-      return field_type || fallback(attribute_name, obj)
+      return column_type(obj, attribute_name) || fallback(obj, attribute_name)
     end
 
     # should localized template be preffered?
@@ -41,9 +24,28 @@ module Releaf
       return obj.class.translated_attribute_names.include?(attribute_name.to_sym)
     end
 
+    def self.column_type obj, attribute_name
+      column_type = nil
+
+      if use_i18n?(obj, attribute_name)
+        begin
+          column_type = obj.class::Translation.columns_hash[attribute_name.to_s].try(:type).try(:to_s)
+        rescue
+        end
+      else
+        column_type = obj.class.columns_hash[attribute_name.to_s].try(:type).try(:to_s)
+      end
+
+      if column_type.present? && self.respond_to?("field_type_name_for_#{column_type}")
+        return self.send("field_type_name_for_#{column_type}", obj, attribute_name)
+      else
+        return nil
+      end
+    end
+
     protected
 
-    def self.fallback attribute_name, obj
+    def self.fallback obj, attribute_name
       case attribute_name.to_s
       when /password/, 'pin'
         return 'password'
@@ -52,15 +54,15 @@ module Releaf
       end
     end
 
-    def self.image_or_error attribute_name, obj
-      field_type_or_error 'image', attribute_name, obj
+    def self.image_or_error obj, attribute_name
+      field_type_or_error 'image', obj, attribute_name
     end
 
-    def self.file_or_error attribute_name, obj
-      field_type_or_error 'file', attribute_name, obj
+    def self.file_or_error obj, attribute_name
+      field_type_or_error 'file', obj, attribute_name
     end
 
-    def self.field_type_or_error type, attribute_name, obj
+    def self.field_type_or_error type, obj, attribute_name
       raise ArgumentError, 'attribute_name must end with _uid' unless attribute_name =~ /_uid$/
       file_method_name = attribute_name.to_s.sub(/_uid$/, '')
       if obj.respond_to? file_method_name
@@ -70,13 +72,13 @@ module Releaf
       end
     end
 
-    def self.field_type_name_for_string attribute_name, obj
+    def self.field_type_name_for_string obj, attribute_name
       case attribute_name.to_s
       when /(thumbnail|image|photo(graphy)?|picture|avatar|logo|banner|icon)_uid$/
-        return image_or_error attribute_name, obj
+        return image_or_error obj, attribute_name
 
       when /_uid$/
-        return file_or_error attribute_name, obj
+        return file_or_error obj, attribute_name
 
       when /password/, 'pin'
         return 'password'
@@ -92,7 +94,7 @@ module Releaf
       end
     end
 
-    def self.field_type_name_for_text attribute_name, obj
+    def self.field_type_name_for_text obj, attribute_name
       case attribute_name.to_s
       when /_(url|homepage)$/, 'homepage', 'url'
         return 'url'
@@ -108,24 +110,24 @@ module Releaf
       end
     end
 
-    def self.field_type_name_for_datetime attribute_name, obj
+    def self.field_type_name_for_datetime obj, attribute_name
       'datetime'
     end
 
-    def self.field_type_name_for_date attribute_name, obj
+    def self.field_type_name_for_date obj, attribute_name
       'date'
     end
 
-    def self.field_type_name_for_time attribute_name, obj
+    def self.field_type_name_for_time obj, attribute_name
       'time'
     end
 
-    def self.field_type_name_for_integer attribute_name, obj
+    def self.field_type_name_for_integer obj, attribute_name
       return 'item' if attribute_name.to_s =~ /_id$/ && obj.class.reflect_on_association(attribute_name[0..-4].to_sym)
       return 'text'
     end
 
-    def self.field_type_name_for_boolean attribute_name, obj
+    def self.field_type_name_for_boolean obj, attribute_name
       return 'boolean'
     end
 
