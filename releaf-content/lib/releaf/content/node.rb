@@ -60,47 +60,53 @@ module Releaf::Content
         self.class.updated
       end
 
+      def attributes_to_not_copy
+        %w[content_id depth id item_position lft locale rgt slug created_at updated_at]
+      end
+
+      def attributes_to_copy
+        @attributes_to_copy ||= self.class.column_names - attributes_to_not_copy
+      end
+
       def copy_to_node! parent_id
         new_node = self.class.new
 
         new_node.add_error_and_raise 'cant be parent to itself' if parent_id.to_i == id
         new_node.add_error_and_raise 'parent node doesnt exist' if parent_id.present? && self.class.find_by_id(parent_id).nil?
 
-        self.dont_update_settings_timestamp do
-          self.class.transaction do
-            new_node.name = name
+        securely_without_updating_timestamp do
 
-            new_node.content_type = content_type
-            new_node.active = active
+          attributes_to_copy.each do |attribute|
+            new_node.send("#{attribute}=", send(attribute))
+          end
 
-            if content_id.present?
-              new_content = content.dup
-              new_content.save!
-              new_node.content_id = new_content.id
+          if content_id.present?
+            new_content = content.dup
+            new_content.save!
+            new_node.content_id = new_content.id
+          end
+
+          new_node.parent_id = parent_id
+
+          unless new_node.validate_root_locale_uniqueness?
+            # When copying root nodes it is important to reset locale to nil.
+            # Later user should fill in locale. This is needed to prevent
+            # Rails errors about conflicting routes.
+            new_node.locale = locale
+          end
+          new_node.item_position = self.class.children_max_item_position(new_node.parent) + 1
+          new_node.maintain_name
+          # To regenerate slug
+          new_node.slug = nil
+
+          new_node.save!
+
+          begin
+            children.each do |child|
+              child.copy_to_node!(new_node.id)
             end
-
-            new_node.parent_id = parent_id
-
-            unless new_node.validate_root_locale_uniqueness?
-              # When copying root nodes it is important to reset locale to nil.
-              # Later user should fill in locale. This is needed to prevent
-              # Rails errors about conflicting routes.
-              new_node.locale = locale
-            end
-            new_node.item_position = self.class.children_max_item_position(new_node.parent) + 1
-            new_node.maintain_name
-            # To regenerate slug
-            new_node.slug = nil
-
-            new_node.save!
-
-            begin
-              children.each do |child|
-                child.copy_to_node!(new_node.id)
-              end
-            rescue ActiveRecord::RecordInvalid
-              new_node.add_error_and_raise 'descendant invalid'
-            end
+          rescue ActiveRecord::RecordInvalid
+            new_node.add_error_and_raise 'descendant invalid'
           end
         end
 
@@ -118,25 +124,24 @@ module Releaf::Content
         end
 
         result = nil
-        self.class.transaction do
-          dont_update_settings_timestamp do
-            self.parent_id = parent_id
-            self.item_position = self.class.children_max_item_position(self.parent) + 1
-            maintain_name
-            # To regenerate slug
-            self.slug = nil
-            self.ensure_unique_url
-            self.save!
-            descendants.each do |node|
-              next if node.valid?
-              add_error_and_raise 'descendant invalid'
-            end
+        securely_without_updating_timestamp do
+          self.parent_id = parent_id
+          self.item_position = self.class.children_max_item_position(self.parent) + 1
+          maintain_name
+          # To regenerate slug
+          self.slug = nil
+          self.ensure_unique_url
+          self.save!
+          descendants.each do |node|
+            next if node.valid?
+            add_error_and_raise 'descendant invalid'
           end
         end
 
         self.class.updated
         self
       end
+
 
       # Maintain unique name within parent_id scope.
       # If name is not unique add numeric postfix.
@@ -173,6 +178,12 @@ module Releaf::Content
         # There seams to be bug in Rails 4.0.0, that prevents us from using exists?
         # exists? will return nil or 1 in this query, instead of true/false (as it should)
         self_and_ancestors.where(active: false).any? == false
+      end
+
+      def securely_without_updating_timestamp &block
+        self.class.transaction do
+          dont_update_settings_timestamp &block
+        end
       end
 
       def dont_update_settings_timestamp &block

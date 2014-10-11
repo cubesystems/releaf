@@ -158,6 +158,20 @@ describe Node do
     end
   end
 
+  describe "#attributes_to_not_copy" do
+    it "returns array with attributes" do
+      expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft locale rgt slug created_at updated_at]
+    end
+  end
+
+  describe "#attributes_to_copy" do
+    it "returns object attributes excluding #attributes_to_not_copy" do
+      node = Node.new
+      allow( node ).to receive(:attributes_to_not_copy).and_return(%w[lft rgt])
+      expect( node.attributes_to_copy ).to eq(Node.column_names - %w[lft rgt])
+    end
+  end
+
   describe "#copy_to_node!", create_nodes: true do
     before create_nodes: true do
       @text_node = FactoryGirl.create(:text_node)
@@ -165,6 +179,8 @@ describe Node do
       @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id)
       @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_3.id)
     end
+
+    # TODO write test to verify which attributes are copied to new node
 
     context "when one of children becomes invalid" do
       before do
