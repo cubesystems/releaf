@@ -125,7 +125,7 @@ module Releaf::Content
     def prepare_resource
       if params[:id]
         return resource_class.find(params[:id])
-      elsif params[:parent_id].blank? == false
+      elsif params[:parent_id].present?
         parent = resource_class.find(params[:parent_id])
         return parent.children.new
       else
