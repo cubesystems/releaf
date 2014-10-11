@@ -251,12 +251,6 @@ describe Node do
         expect{ @text_node.copy_to_node!(@text_node.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
-
-    context "when passing string as argument" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_node.copy_to_node!("some_id") }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
   end
 
   describe ".children_max_item_position" do
@@ -337,11 +331,6 @@ describe Node do
       end
     end
 
-    context "when passing string as argument" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_node_3.move_to_node!("test") }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
   end
 
   describe "#maintain_name" do

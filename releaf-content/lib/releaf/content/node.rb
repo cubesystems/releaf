@@ -69,37 +69,12 @@ module Releaf::Content
       end
 
       def copy_to_node! parent_id
-        new_node = self.class.new
+        prevent_infinite_copy_loop(parent_id)
 
-        new_node.add_error_and_raise 'cant be parent to itself' if parent_id.to_i == id
-        new_node.add_error_and_raise 'parent node doesnt exist' if parent_id.present? && self.class.find_by_id(parent_id).nil?
-
+        new_node = nil
         securely_without_updating_timestamp do
-
-          attributes_to_copy.each do |attribute|
-            new_node.send("#{attribute}=", send(attribute))
-          end
-
-          if content_id.present?
-            new_content = content.dup
-            new_content.save!
-            new_node.content_id = new_content.id
-          end
-
-          new_node.parent_id = parent_id
-
-          unless new_node.validate_root_locale_uniqueness?
-            # When copying root nodes it is important to reset locale to nil.
-            # Later user should fill in locale. This is needed to prevent
-            # Rails errors about conflicting routes.
-            new_node.locale = locale
-          end
-          new_node.item_position = self.class.children_max_item_position(new_node.parent) + 1
-          new_node.maintain_name
-          # To regenerate slug
-          new_node.slug = nil
-
-          new_node.save!
+          new_node = duplicate_node
+          save_under_node(new_node, parent_id)
 
           begin
             children.each do |child|
@@ -117,21 +92,8 @@ module Releaf::Content
       def move_to_node! parent_id
         return if parent_id.to_i == self.parent_id
 
-        if parent_id.present?
-          add_error_and_raise 'cant be parent to itself'        if parent_id.to_i == id
-          add_error_and_raise 'parent node doesnt exist'        if self.class.find_by_id(parent_id).nil?
-          add_error_and_raise 'cant move node under descendant' unless self.descendants.find_by_id(parent_id).nil?
-        end
-
-        result = nil
         securely_without_updating_timestamp do
-          self.parent_id = parent_id
-          self.item_position = self.class.children_max_item_position(self.parent) + 1
-          maintain_name
-          # To regenerate slug
-          self.slug = nil
-          self.ensure_unique_url
-          self.save!
+          save_under_node(self, parent_id)
           descendants.each do |node|
             next if node.valid?
             add_error_and_raise 'descendant invalid'
@@ -141,7 +103,6 @@ module Releaf::Content
         self.class.updated
         self
       end
-
 
       # Maintain unique name within parent_id scope.
       # If name is not unique add numeric postfix.
@@ -200,8 +161,57 @@ module Releaf::Content
 
       protected
 
+      def prevent_infinite_copy_loop(parent_id)
+        return if self.self_and_descendants.find_by_id(parent_id).blank?
+        add_error_and_raise("source or descendant node can't be parent of new node")
+      end
+
+      def duplicate_node
+        self.class.new do |new_node|
+          attributes_to_copy.each do |attribute|
+            new_node.send("#{attribute}=", send(attribute))
+          end
+
+          if content_id.present?
+            new_content = content.dup
+            new_content.save!
+            new_node.content_id = new_content.id
+          end
+
+          unless new_node.validate_root_locale_uniqueness?
+            # When copying root nodes it is important to reset locale to nil.
+            # Later user should fill in locale. This is needed to prevent
+            # Rails errors about conflicting routes.
+            new_node.locale = locale
+          end
+        end
+      end
+
+      def save_under_node node, target_parent_node_id
+        node.parent_id = target_parent_node_id
+        node.item_position = self.class.children_max_item_position(node.parent) + 1
+        node.maintain_name
+        self.slug = nil
+        self.ensure_unique_url
+        node.save!
+      end
+
       def validate_root_locale_uniqueness?
         locale_selection_enabled? && root?
+      end
+
+      def validate_parent_node_is_not_self
+        return if parent_id.nil?
+        if parent_id.to_i == id
+          self.errors.add(:parent_id, "can't be parent to itself")
+        end
+      end
+
+      def validate_parent_is_not_descendant
+        return if parent_id.nil?
+        if self.descendants.find_by_id(parent_id).present?
+          self.errors.add(:parent_id, "descendant can't be parent")
+        end
       end
 
       private
@@ -254,6 +264,9 @@ module Releaf::Content
       base.validates_uniqueness_of :slug, scope: :parent_id
       base.validates_length_of :name, :slug, :content_type, maximum: 255
       base.validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?
+      base.validates_presence_of :parent, if: :parent_id?
+      base.validate :validate_parent_node_is_not_self
+      base.validate :validate_parent_is_not_descendant
 
       base.alias_attribute :to_text, :name
 
