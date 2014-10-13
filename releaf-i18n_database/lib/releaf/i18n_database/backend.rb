@@ -36,7 +36,7 @@ module Releaf
 
       # Return all non-empty localizations
       def localization_data
-        data_collection = TranslationData.where("localization <> ''").
+        TranslationData.where("localization <> ''").
           joins("LEFT JOIN releaf_translations ON releaf_translations.id = translation_id").
           pluck("LOWER(CONCAT(lang, '.', releaf_translations.key)) AS translation_key", "localization").
           to_h
