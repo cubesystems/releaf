@@ -1,9 +1,5 @@
 .extras
   .secondary
-    %a.button.secondary{href: url_for(action: :export, search: params[:search], format: :xlsx)}
-      %i.fa.fa-download
-      = t("export", scope: controller_scope_name)
-    %button.button.secondary{type: :button, name: :import}
-      %i.fa.fa-upload
-      = t("import", scope: controller_scope_name)
+    = releaf_button(t("export", scope: controller_scope_name), "download", class: "secondary", href: url_for(action: :export, search: params[:search], format: :xlsx))
+    = releaf_button(t("import", scope: controller_scope_name), "upload", name: "import", class: "secondary")
   = render "import_form"

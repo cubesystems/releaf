@@ -2,11 +2,7 @@
   .tools
     .primary
       - if @features[:create]
-        %a.button.primary{ href: url_for(controller: controller.controller_name, action: "new") }
-          %i.fa.fa-plus
-          = t('Create new resource', scope: 'admin.global')
-
-
+        = releaf_button(t('Create new resource', scope: 'admin.global'), "plus", class: "primary", href: url_for(controller: controller.controller_name, action: "new"))
     - if collection.respond_to?(:page)
       = will_paginate( collection, class: "pagination", params: params.merge({ajax: nil}), renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2 )
     .secondary
