@@ -17,10 +17,10 @@ describe Releaf::ButtonHelper do
       expect(helper.releaf_button("x", "plus", class: ["primary", "danger"])).to eq(output)
     end
 
-    context "when url exists within given attributes" do
+    context "when href exists within given attributes" do
       it "returns link" do
-        output = '<a class="button" title="x" url="http://example.com"><i class="fa fa-plus"></i>x</a>'
-        expect(helper.releaf_button("x", "plus", url: "http://example.com")).to eq(output)
+        output = '<a class="button" href="http://example.com" title="x"><i class="fa fa-plus"></i>x</a>'
+        expect(helper.releaf_button("x", "plus", href: "http://example.com")).to eq(output)
       end
     end
   end

@@ -6,7 +6,7 @@ module Releaf
         title: text
       }
 
-      if attributes.key? :url
+      if attributes.key? :href
         tag = :a
       else
         default_attributes[:type] = "button"
