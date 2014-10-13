@@ -1,5 +1,14 @@
 module Releaf
   module ApplicationHelper
+    def merge_attributes(a, b)
+      if a.key?(:class) || b.key?(:class)
+        classes = {class: [a[:class], b[:class]].flatten.reject(&:blank?)}
+      else
+        classes = {}
+      end
+
+      a.deep_merge(b).merge(classes)
+    end
 
     # Revert https://github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1
     # otherwise spans everythere ex. '<img alt="#{t("description")} src="..' will become '<img alt="<span class="missing_traslation..'
