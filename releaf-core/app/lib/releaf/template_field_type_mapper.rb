@@ -46,12 +46,7 @@ module Releaf
     protected
 
     def self.fallback obj, attribute_name
-      case attribute_name.to_s
-      when /password/, 'pin'
-        return 'password'
-      else
-        return 'text'
-      end
+      field_type_name_for_string obj, attribute_name
     end
 
     def self.image_or_error obj, attribute_name
