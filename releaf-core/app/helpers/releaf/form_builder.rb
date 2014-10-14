@@ -1,6 +1,6 @@
 class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::JavascriptHelper
-  IGNORABLE_FIELDS = %w[id created_at updated_at password password_confirmation encrypted_password item_position]
+  include Releaf::BuilderCommons
 
   def field_render_method_name(name)
     parts = [name]
@@ -50,21 +50,8 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     object.class.reflections[reflection_name.to_sym]
   end
 
-  def association_ignorable_fields(association_name)
-    IGNORABLE_FIELDS + [reflection(reflection.association_name).foreign_key]
-  end
-
-  def association_i18n_fields(association_name)
-    reflection = reflection(reflection.association_name)
-    if reflection.klass.translates?
-      reflection.klass.translated_attribute_names.map { |a| a.to_s }
-    else
-      []
-    end
-  end
-
   def association_fields(association_name)
-    reflection[association_name].klass.column_names + association_i18n_fields(association_name) - association_ignorable_fields(association_name)
+    resource_class_attributes(reflection[association_name].klass) - [reflection(reflection.association_name).foreign_key]
   end
 
   def releaf_association_fields(association_name, fields)

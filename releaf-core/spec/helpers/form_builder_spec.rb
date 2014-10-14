@@ -31,6 +31,10 @@ describe Releaf::FormBuilder, type: :class, pending: true do
     ]
   }
 
+  it "includes Releaf::BuilderCommons" do
+    expect(Releaf::FormBuilder.ancestors).to include(Releaf::BuilderCommons)
+  end
+
   describe "#field_render_method_name" do
     it "returns method name for given field" do
       expect(subject.field_render_method_name(:title)).to eq("render_title")
