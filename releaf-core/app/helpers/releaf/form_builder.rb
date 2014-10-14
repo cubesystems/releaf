@@ -1,5 +1,4 @@
 class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
-  include Releaf::JavascriptHelper
   include Releaf::BuilderCommons
 
   def field_render_method_name(name)
@@ -67,7 +66,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_belongs_to_association(association_name, fields)
     wrapper(class: "nested-wrap", data: { name: association_name}) do
-      tag(:div, I18n.t(association_name, scope: @template.controller_scope_name), class: "nested-title") <<
+      tag(:div, I18n.t(association_name, scope: template.controller_scope_name), class: "nested-title") <<
       wrapper(class: "item") do
         fields_for(association_name, object.send(association_name)) do |builder|
           builder.releaf_fields_or_field(association_name, fields)
@@ -85,7 +84,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     item_template = @template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
     wrapper(class: "nested-wrap", data: { name: association_name, "releaf-template" => item_template}) do
-      tag(:h3, I18n.t(association_name, scope: @template.controller_scope_name), class: "subheader nested-title") <<
+      tag(:h3, I18n.t(association_name, scope: template.controller_scope_name), class: "subheader nested-title") <<
       wrapper(class: "list", data: {sortable: sortable_objects ? '' : nil}) do
         allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
         content = ''
@@ -124,12 +123,12 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def field_type_remove_nested
     button_attributes = {title: I18n.t('Remove item', scope: 'admin.global'), class: "danger only-icon remove-nested-item"}
     wrapper(class: "remove-item-box") do
-      @template.releaf_button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
+      template.releaf_button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
     end
   end
 
   def field_type_add_nested
-    @template.releaf_button(I18n.t('Add item', scope: 'admin.global'), "plus", class: "primary add-nested-item")
+    template.releaf_button(I18n.t('Add item', scope: 'admin.global'), "plus", class: "primary add-nested-item")
   end
 
   def field_type_method(name)
@@ -153,14 +152,14 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
     if options.key? :select_options
       if options[:select_options].is_a? Array
-        choices = @template.options_for_select(options[:select_options], object.send(name))
+        choices = template.options_for_select(options[:select_options], object.send(name))
       else
         choices = options[:select_options]
       end
     else
       collection = object.class.reflect_on_association(relation_name).try(:klass).try(:all)
-      choices = @template.options_from_collection_for_select(collection, :id,
-                                                   @template.controller.resource_to_text_method(collection.first), object.send(name))
+      choices = template.options_from_collection_for_select(collection, :id,
+                                                   controller.resource_to_text_method(collection.first), object.send(name))
     end
 
     # add empty value when validation exists, so user is forced to choose something
@@ -193,9 +192,9 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     unless object.send(name).blank?
       content += tag(:div, class: "value_preview") do
         inner_content = tag(:div, class: "image_wrap") do
-          thumbnail = @template.image_tag(object.send(name).thumb('410x128>').url, alt: '')
+          thumbnail = template.image_tag(object.send(name).thumb('410x128>').url, alt: '')
           hidden_field("retained_#{name}") +
-            @template.link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
+            template.link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
         end
         inner_content += tag(:div, class: "remove_image") do
           check_box("remove_#{name}") +
@@ -215,7 +214,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     content = file_field(name, attributes)
     unless object.send(name).blank?
       content << hidden_field("retained_#{name}")
-      content << @template.link_to(I18n.t("Download"), object.send(name).url, target: "_blank")
+      content << template.link_to(I18n.t("Download"), object.send(name).url, target: "_blank")
       content << tag(:div, class: "remove_file") do
         check_box("remove_#{name}") +
           label("remove_#{name}", I18n.t("Remove file", scope: 'admin.global'))
@@ -240,7 +239,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     input = {
       class: 'datetime_picker',
       data: {
-        date_format: jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
+        date_format: template.jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
       },
       value: (I18n.l(object.send(name), default: "%Y-%m-%d %H:%M") if object.send(name))
     }.merge(input)
@@ -255,7 +254,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       class: 'time_picker',
       format: 'HH:mm',
       data: {
-        date_format: jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
+        date_format: template.jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
       },
       value: object.send(name).try(:strftime, '%H:%M')
     }.merge(input)
@@ -277,7 +276,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     input = {
       class: 'date_picker',
       data: {
-        date_format: jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
+        date_format: template.jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
       },
       value: (I18n.l(object.send(name), default: "%Y-%m-%d") if object.send(name))
     }.deep_merge(input)
@@ -293,7 +292,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       class: "richtext",
       value: object.send(name),
       data: {
-        "attachment-upload-url" => (@template.controller.respond_to?(:attachment_upload_url) ? @template.controller.attachment_upload_url : '')
+        "attachment-upload-url" => (controller.respond_to?(:attachment_upload_url) ? controller.attachment_upload_url : '')
       },
     }.merge(input)
 
@@ -363,7 +362,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       cols: 50,
       class: "richtext",
       data: {
-        "attachment-upload-url" => (@template.controller.respond_to?(:attachment_upload_url) ? attachment_upload_url : '')
+        "attachment-upload-url" => (controller.respond_to?(:attachment_upload_url) ? attachment_upload_url : '')
       },
     }.merge(input)
 
@@ -383,7 +382,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def localized_field(name, field_type, input: {}, label: {}, field: {}, options: {})
     options = {i18n: true, label: {translation_key: name}}.deep_merge(options)
 
-    default_locale = @template.cookies[:'releaf.i18n.locale']
+    default_locale = template.cookies[:'releaf.i18n.locale']
     default_locale = default_locale.to_sym unless default_locale.nil?
     default_locale = object.class.globalize_locales.first unless object.class.globalize_locales.include? default_locale
 
@@ -409,7 +408,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def localization_switch(default_locale)
     tag(:div, class: "localization-switch") do
-      @template.button_tag(type: 'button', title: I18n.t('Switch locale', scope: 'admin.global'), class: "trigger") do
+      template.button_tag(type: 'button', title: I18n.t('Switch locale', scope: 'admin.global'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])
       end <<
       tag(:menu, class: ["block", "localization-menu-items"], type: 'toolbar') do
@@ -440,7 +439,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     classes = ["field", "type_#{type}"]
     classes << "i18n" if options.key? :i18n
 
-    @template.merge_attributes({class: classes, data: {name: name}}, attributes)
+    template.merge_attributes({class: classes, data: {name: name}}, attributes)
   end
 
   def label_attributes(name, attributes, options)
@@ -490,6 +489,14 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   # shortcut helper methods
   def tag(*args, &block)
-    @template.content_tag(*args, &block)
+    template.content_tag(*args, &block)
+  end
+
+  def controller
+    template.controller
+  end
+
+  def template
+    @template
   end
 end
