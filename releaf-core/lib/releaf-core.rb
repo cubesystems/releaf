@@ -3,7 +3,6 @@ module Releaf
   require 'releaf/core/route_mapper'
   require 'releaf/core/exceptions'
   require 'releaf/core/validation_error_codes'
-  require 'releaf/core/form_builder'
 
   mattr_accessor :menu
   @@menu = [

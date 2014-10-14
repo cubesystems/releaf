@@ -5,15 +5,6 @@ module Releaf::Permissions
       Releaf::Permissions::Role
     end
 
-    def available_controllers
-      controller_list = {}
-      Releaf.available_controllers.each do |controller|
-        controller_list[t(controller, scope: 'admin.menu_items')] = controller
-      end
-
-      controller_list
-    end
-
     def fields_to_display
       return %w[name default_controller] if params[:action] == 'index'
       return %w[name default_controller permissions]

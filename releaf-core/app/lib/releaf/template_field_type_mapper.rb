@@ -26,9 +26,10 @@ module Releaf
         column_type = obj.class.columns_hash[attribute_name.to_s].try(:type)
       end
 
-      column_type = column_type.to_s
-      if column_type && self.respond_to?("field_type_name_for_#{column_type}")
-        field_type = self.send("field_type_name_for_#{column_type}", attribute_name, obj)
+      column_type ||= 'string'
+
+      if respond_to?("field_type_name_for_#{column_type}")
+        field_type = send("field_type_name_for_#{column_type}", attribute_name, obj)
       end
 
       return field_type || 'text'

@@ -5,6 +5,12 @@ describe Releaf::Permissions::ProfileController do
   let(:user){ subject.current_releaf_permissions_user }
   login_as_user :user
 
+  describe "#form_builder" do
+    it "returns Releaf::Content::NodeFormBuilder" do
+      expect(subject.form_builder(:edit, Node.new)).to eq(Releaf::Permissions::UserFormBuilder)
+    end
+  end
+
   describe "#resource_class" do
     it "returns current releaf user user class" do
       expect(described_class.new.resource_class).to eq(Releaf::Permissions::User)

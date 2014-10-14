@@ -312,59 +312,6 @@ module Releaf
       end
     end
 
-    # This helper will return options passed to render 'edit_label'.
-    # It will merge in label_options when present
-    def get_template_label_options local_assigns, options={}
-      raise ArgumentError unless options.is_a? Hash
-      default_options = {
-        f: local_assigns.fetch(:f, nil),
-        name: local_assigns.fetch(:name, nil),
-        attributes: {}
-      }.deep_merge(options)
-
-      raise RuntimeError, 'form_builder not passed to partial' if default_options[:f].blank?
-      raise RuntimeError, 'name not passed to partial'         if default_options[:name].blank?
-
-      return default_options unless local_assigns.key? :label_options
-
-      custom_options = local_assigns[:label_options]
-      raise RuntimeError, 'label_options must be a Hash' unless custom_options.is_a? Hash
-      return default_options.deep_merge(custom_options)
-    end
-
-    # This helper will return attributes for input fields (input, select,
-    # textarea). It will merge in input_attributes when present. You can pass
-    # any valid html attributes to input_attributes
-    def get_template_input_attributes local_assigns, attributes={}
-      raise ArgumentError unless attributes.is_a? Hash
-      default_attributes = attributes
-      return default_attributes unless local_assigns.key? :input_attributes
-
-      custom_attributes = local_assigns[:input_attributes]
-      raise RuntimeError, 'input_attributes must be a Hash' unless custom_attributes.is_a? Hash
-      return default_attributes.deep_merge(custom_attributes)
-    end
-
-    # This helper will return attributes for fields.  It will merge in
-    # field_attributes when present. You can pass any valid html attributes to
-    # field_attributes
-    def get_template_field_attributes local_assigns, attributes={}
-      raise ArgumentError unless attributes.is_a? Hash
-      default_attributes = {
-        data: {
-          name: local_assigns.fetch(:name, nil)
-        }
-      }.deep_merge(attributes)
-
-      raise RuntimeError, 'name not passed to partial' if default_attributes[:data].try('[]', :name).blank?
-
-      return default_attributes unless local_assigns.key? :field_attributes
-
-      custom_attributes = local_assigns[:field_attributes]
-      raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
-      return default_attributes.deep_merge(custom_attributes)
-    end
-
     def form_url(form_type, object)
       url_for(action: object.new_record? ? 'create' : 'update', id: object.id)
     end
@@ -380,7 +327,12 @@ module Releaf
     end
 
     def form_builder(form_type, object)
-      Releaf::Core::FormBuilder
+      custom_form_builder = "::#{resource_class}FormBuilder"
+      if (Object.const_get(custom_form_builder).is_a?(Class) rescue false)
+        custom_form_builder.constantize
+      else
+        Releaf::FormBuilder
+      end
     end
 
     def form_options(form_type, object, object_name)

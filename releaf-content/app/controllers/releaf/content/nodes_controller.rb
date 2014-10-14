@@ -18,6 +18,10 @@ module Releaf::Content
       end
     end
 
+    def form_builder(form_type, object)
+      Releaf::Content::NodeFormBuilder
+    end
+
     def copy_dialog
       copy_move_dialog_common
     end

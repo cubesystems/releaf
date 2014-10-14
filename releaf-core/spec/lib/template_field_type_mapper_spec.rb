@@ -9,7 +9,7 @@ describe Releaf::TemplateFieldTypeMapper do
     "object doesn't respond to `%s` method. Did you forgot to add `image_accessor :%s` to `%s` model?" % [field_name, field_name, obj.class.name]
   end
 
-  describe ".field_type_name" do
+  describe ".field_type_name", pending: true do
     it "needs tests"
   end
 

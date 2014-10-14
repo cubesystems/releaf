@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Releaf::BaseController do
   let(:new_resource){ Author.new }
   let(:resource){ create(:author) }
+  class FooFormBuilder; end
 
   describe "#form_url" do
     context "when given resource is new record" do
@@ -34,8 +35,18 @@ describe Releaf::BaseController do
   end
 
   describe "#form_builder" do
-    it "returns Releaf::Core::FormBuilder class" do
-      expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::Core::FormBuilder)
+    context "when resource class form builder exists" do
+      it "returns resource class form builder" do
+        allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
+        expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::Permissions::UserFormBuilder)
+      end
+    end
+
+    context "when resource class form builder does not exists" do
+      it "returns Releaf::FormBuilder class" do
+        allow(subject).to receive(:resource_class).and_return(Text)
+        expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::FormBuilder)
+      end
     end
   end
 
