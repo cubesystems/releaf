@@ -24,6 +24,7 @@ module Releaf
 
     helper_method \
       :form_options,
+      :table_options,
       :ajax?,
       :controller_scope_name,
       :current_params,
@@ -341,6 +342,22 @@ module Releaf
         as: object_name,
         url: form_url(form_type, object),
         html: form_attributes(form_type, object)
+      }
+    end
+
+    def table_builder
+      custom_form_builder = "::#{resource_class}TableBuilder"
+      if (Object.const_get(custom_form_builder).is_a?(Class) rescue false)
+        custom_form_builder.constantize
+      else
+        Releaf::TableBuilder
+      end
+    end
+
+    def table_options
+      {
+        builder: table_builder,
+        toolbox: feature_available?(:toolbox)
       }
     end
 

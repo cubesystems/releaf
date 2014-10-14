@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 describe Releaf::ApplicationHelper do
+  describe "#releaf_table" do
+    it "returns table builder output for collection and resource class with given options" do
+      builder = Releaf::Permissions::UserTableBuilder
+      collection = "collection"
+
+      allow(builder).to receive(:new).with(collection, Text, subject, toolbox: false).and_call_original
+      allow_any_instance_of(builder).to receive(:output).and_return("table")
+
+      expect(releaf_table(collection, Text, builder: builder, toolbox: false)).to eq("table")
+    end
+  end
+
   describe "#merge_attributes" do
     it "makes deep merge second over first hash" do
       expect(helper.merge_attributes({a: {b: "c"}, d: "e"}, {a: {b: "č"}, f: "x"})).to eq(a: {b: "č"}, d: "e", f: "x")

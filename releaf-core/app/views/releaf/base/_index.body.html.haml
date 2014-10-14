@@ -1,13 +1,6 @@
 %h2.header
-  = t("all_title", :scope => 'admin.global')
+  = t("all_title", scope: 'admin.global')
   %span.totals
     = count \
-    = t("resources_found", :scope => 'admin.global')
-
-- if collection.empty?
-  %table.table
-    %tr
-      %th
-        .nothing_found= t("nothing_found", :scope => "admin.global")
-- else
-  = render "index.table", :collection => collection, :count => count
+    = t("resources_found", scope: 'admin.global')
+= releaf_table(collection, resource_class, table_options)

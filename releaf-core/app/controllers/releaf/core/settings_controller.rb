@@ -29,7 +29,10 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
   def setup
     super
     @searchable_fields = [:var]
-    @features[:create]  = false
-    @features[:destroy] = false
+    @features = {
+      edit: true,
+      index: true,
+      edit_ajax_reload: true
+    }
   end
 end

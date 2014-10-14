@@ -50,6 +50,35 @@ describe Releaf::BaseController do
     end
   end
 
+  describe "#table_builder" do
+    context "when resource class table builder exists" do
+      it "returns resource class table builder" do
+        allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
+        expect(subject.table_builder).to eq(Releaf::Permissions::UserTableBuilder)
+      end
+    end
+
+    context "when resource class table builder does not exists" do
+      it "returns Releaf::TableBuilder class" do
+        allow(subject).to receive(:resource_class).and_return(Text)
+        expect(subject.table_builder).to eq(Releaf::TableBuilder)
+      end
+    end
+  end
+
+  describe "#table_options" do
+    it "returns table options" do
+      allow(subject).to receive(:table_builder).and_return("CustomTableBuilderClassHere")
+      allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
+
+      options = {
+        builder: "CustomTableBuilderClassHere",
+        toolbox: "boolean_value_here"
+      }
+      expect(subject.table_options).to eq(options)
+    end
+  end
+
   describe "#form_options" do
     it "returns form options" do
       allow(subject).to receive(:form_builder).with(:delete, resource).and_return("CustomFormBuilderClassHere")

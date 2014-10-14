@@ -1,8 +1,6 @@
 # TODO convert to arel
 module Releaf::I18nDatabase
   class TranslationsController < ::Releaf::BaseController
-    helper_method :locales, :localization
-
     def self.resource_class
       Releaf::I18nDatabase::Translation
     end
@@ -158,23 +156,6 @@ module Releaf::I18nDatabase
       {
         index: :index,
       }.with_indifferent_access
-    end
-
-    def fields_to_display
-      ['key'] + locales
-    end
-
-    def locales
-      Releaf.all_locales
-    end
-
-    def localization translation, locale
-      locale_key = "#{locale}_localization"
-      if translation.respond_to? locale_key
-        translation.send(locale_key)
-      else
-        translation.translation_data.find{ |x| x.lang == locale }.try(:localization)
-      end
     end
 
     private
