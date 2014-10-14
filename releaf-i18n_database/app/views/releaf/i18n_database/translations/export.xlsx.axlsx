@@ -2,6 +2,7 @@ wb = xlsx_package.workbook
 wb.use_autowidth = true
 header = wb.styles.add_style b: true
 wb.add_worksheet(name: "localization") do |sheet|
+locales = Releaf.all_locales
 
   sheet.add_row [''] + locales, style: header
 
@@ -12,7 +13,7 @@ wb.add_worksheet(name: "localization") do |sheet|
     @collection.each do |translation|
       columns = [translation.key]
       locales.each do|locale|
-        columns << localization(translation, locale)
+        columns << translation.locale_value(locale)
       end
 
       sheet.add_row columns, style: cell_styles, types: cell_types

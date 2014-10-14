@@ -68,8 +68,8 @@ class Releaf::TableBuilder
   def empty_body
     tag(:tr) do
       tag(:th) do
-        tag(:div) do
-          I18n.t("nothing_found", scope: "admin.global")
+        tag(:div, class: "nothing-found") do
+          I18n.t("nothing found", scope: "admin.global")
         end
       end
     end

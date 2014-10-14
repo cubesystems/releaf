@@ -11,4 +11,11 @@ describe Releaf::SettingsTableBuilder, type: :class do
       expect(subject.column_names).to eq([:var, :value, :updated_at])
     end
   end
+
+  describe "#value_content" do
+    it "return resource value casted to string" do
+      resource = Releaf::Settings.new(value: Date.parse("2012-01-01"))
+      expect(subject.value_content(resource)).to eq("2012-01-01")
+    end
+  end
 end
