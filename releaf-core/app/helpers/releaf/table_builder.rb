@@ -1,12 +1,11 @@
 class Releaf::TableBuilder
   include Releaf::BuilderCommons
-  attr_accessor :collection, :options, :template, :columns, :controller, :resource_class
+  attr_accessor :collection, :options, :template, :columns, :resource_class
 
   def initialize(collection, resource_class, template, options)
     self.collection = collection
     self.options = options
     self.template = template
-    self.controller = template.controller
     self.resource_class = resource_class
     self.columns = {}
     build_columns
@@ -221,9 +220,5 @@ class Releaf::TableBuilder
 
   def output
     table
-  end
-
-  def tag(*args, &block)
-    template.content_tag(*args, &block)
   end
 end

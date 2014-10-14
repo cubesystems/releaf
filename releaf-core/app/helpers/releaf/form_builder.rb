@@ -492,14 +492,6 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   # shortcut helper methods
-  def tag(*args, &block)
-    template.content_tag(*args, &block)
-  end
-
-  def controller
-    template.controller
-  end
-
   def template
     @template
   end

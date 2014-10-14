@@ -1,10 +1,14 @@
 require "spec_helper"
 
 describe Releaf::BuilderCommons, type: :module do
-  class CommonsIncluder
+  class FormBuilderTestHelper < ActionView::Base; end
+  class BuilderCommonsIncluder
     include Releaf::BuilderCommons
+    attr_accessor :template
   end
-  let(:subject){ CommonsIncluder.new }
+
+  let(:subject){ BuilderCommonsIncluder.new }
+  let(:template){ FormBuilderTestHelper.new }
 
   describe "#resource_class_attributes" do
     it "returns resource columns and i18n attributes except ignorables" do
@@ -34,6 +38,22 @@ describe Releaf::BuilderCommons, type: :module do
       it "returns empty array" do
         expect(subject.resource_class_i18n_attributes(Author)).to eq([])
       end
+    end
+  end
+
+  describe "#controller" do
+    it "returns template contoller" do
+      allow(template).to receive(:controller).and_return("x")
+      subject.template = template
+      expect(subject.controller).to eq("x")
+    end
+  end
+
+  describe "#tag" do
+    it "passes all arguments to template #content_tag method and return result" do
+      subject.template = template
+      expect(subject.tag(:span, "x", class: "red")).to eq('<span class="red">x</span>')
+      expect(subject.tag(:div, class: "green"){ "y" }).to eq('<div class="green">y</div>')
     end
   end
 end

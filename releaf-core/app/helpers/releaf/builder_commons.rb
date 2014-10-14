@@ -16,4 +16,12 @@ module Releaf::BuilderCommons
       []
     end
   end
+
+  def tag(*args, &block)
+    template.content_tag(*args, &block)
+  end
+
+  def controller
+    template.controller
+  end
 end
