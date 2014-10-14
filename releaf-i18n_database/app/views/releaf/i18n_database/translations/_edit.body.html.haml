@@ -2,6 +2,7 @@
   = hidden_field_tag :import, "true"
 .body
   - attributes_scope = "activerecord.attributes.#{resource_class.name.underscore}"
+  - locales = Releaf.all_locales
   - @translation_ids_to_destroy ||= []
 
   - template_html = capture do
@@ -32,7 +33,7 @@
                 %input{type: "text", name: "translations[][key]", value: translation.key }
             - locales.each_with_index do |locale, j|
               %td.translationCell{data: {locale: locale}}
-                %input{type: "text", name: "translations[][localizations][#{locale}]", value: localization(translation, locale) }
+                %input{type: "text", name: "translations[][localizations][#{locale}]", value: translation.locale_value(locale) }
             %td.delete_column
               = releaf_button(nil, "times", class: %w(danger remove-nested-item), title: t("Remove item", scope: controller_scope_name))
     = releaf_button(t('Add item', :scope => 'admin.releaf_translations'), "plus", class: "add-nested-item")
