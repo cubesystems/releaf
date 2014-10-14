@@ -29,15 +29,10 @@ module Releaf
       :controller_scope_name,
       :current_params,
       :current_url,
-      :fields_to_display,
       :find_parent_template,
-      :get_template_field_attributes,
-      :get_template_input_attributes,
-      :get_template_label_options,
       :has_template?,
       :index_url,
       :page_title,
-      :render_field_type,
       :render_parent_template,
       :resource_class,
       :resource_to_text,
@@ -153,65 +148,6 @@ module Releaf
 
 
     # Helper methods ##############################################################################
-
-
-    # Defines which fields/associations should be rendered.
-    #
-    # By default renders resource columns except few (check source).
-    #
-    # You can override this method to make it possible to render pretty complex
-    # views which inludes nested fields.
-    #
-    # To render field you simply need to add it's name to array.
-    #
-    # belongs_to relations will be automatically rendered (by default) as
-    # select field.  For belongs_to to be recognized you need to use Integer
-    # field that ends with <tt>_id</tt>
-    #
-    # You can also render has_many associations. For these associations you
-    # need to add either association name, or a Hash. Hash keys must match
-    # association name, hash value must be array with nested fields to be
-    # rendered.
-    #
-    # @example
-    #   def fields_to_display
-    #     case params[:action]
-    #     when 'edit', 'update', 'create', 'new'
-    #       return [
-    #         'name',
-    #         'category_id',
-    #         'description',
-    #         {'offer_card_types' => ['card_type_id', 'name', 'description']},
-    #         'show_banner',
-    #         'published',
-    #         'item_count',
-    #         {'images' => ['image_uid']},
-    #         'partner_id',
-    #         'offer_checkout_places' => ['checkout_place_id']
-    #       ]
-    #     else
-    #       return super
-    #     end
-    #
-    #   end
-    #
-    #
-    # Fields will be rendered in same order as specified in array
-    #
-    # @return array that represent which fields to render
-    def fields_to_display
-      cols = resource_class.column_names - %w[id created_at updated_at encrypted_password item_position]
-
-      if resource_class.translates?
-        cols += resource_class.translated_attribute_names.map { |a| a.to_s }
-      end
-
-      unless %w[new edit update create].include? params[:action]
-        cols -= %w[password password_confirmation]
-      end
-
-      return cols
-    end
 
     # Returns current url without internal params
     #

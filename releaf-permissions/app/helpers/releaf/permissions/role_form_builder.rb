@@ -1,5 +1,9 @@
 module Releaf::Permissions
   class RoleFormBuilder < Releaf::FormBuilder
+    def field_names
+      %w[name default_controller permissions]
+    end
+
     def render_default_controller
       controllers = {}
       Releaf.available_controllers.each do |controller|

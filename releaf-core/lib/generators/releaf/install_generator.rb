@@ -54,6 +54,10 @@ module Releaf
         copy_files 'views', 'app/views'
       end
 
+      def install_helpers
+        copy_files 'helpers', 'app/helpers'
+      end
+
       def install_controllers
         copy_files 'controllers', 'app/controllers'
       end

@@ -1,6 +1,10 @@
 class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::BuilderCommons
 
+  def field_names
+    resource_class_attributes(object.class)
+  end
+
   def field_render_method_name(name)
     parts = [name]
 

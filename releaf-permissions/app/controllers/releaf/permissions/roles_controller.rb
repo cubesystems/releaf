@@ -1,13 +1,7 @@
 module Releaf::Permissions
   class RolesController < Releaf::BaseController
-
     def self.resource_class
       Releaf::Permissions::Role
-    end
-
-    def fields_to_display
-      return %w[name default_controller] if params[:action] == 'index'
-      return %w[name default_controller permissions]
     end
 
     protected

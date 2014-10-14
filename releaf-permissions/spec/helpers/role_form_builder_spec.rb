@@ -6,6 +6,12 @@ describe Releaf::Permissions::RoleFormBuilder, type: :class do
   let(:object){ Releaf::Permissions::Role.new }
   let(:subject){ described_class.new(:resource, object, template, {}) }
 
+  describe "#field_names" do
+    it "returns name and default_controller as field names array" do
+      expect(subject.field_names).to eq(%w(name default_controller permissions))
+    end
+  end
+
   describe "#render_default_controller" do
     it "pass localized controller options to releaf item field" do
       allow(Releaf).to receive(:available_controllers).and_return(["releaf/i18n_database/translations", "releaf/content/nodes"])

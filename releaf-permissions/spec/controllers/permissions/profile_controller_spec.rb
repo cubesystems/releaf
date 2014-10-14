@@ -7,7 +7,7 @@ describe Releaf::Permissions::ProfileController do
 
   describe "#form_builder" do
     it "returns Releaf::Content::NodeFormBuilder" do
-      expect(subject.form_builder(:edit, Node.new)).to eq(Releaf::Permissions::UserFormBuilder)
+      expect(subject.form_builder(:edit, Node.new)).to eq(Releaf::Permissions::ProfileFormBuilder)
     end
   end
 
