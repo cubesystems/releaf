@@ -31,12 +31,18 @@ describe Releaf::TableBuilder, type: :class do
     it "assigns options" do
       expect(subject.options).to eq(options)
     end
+  end
 
-    it "assigns build_columns output to columns" do
-      subject = described_class.allocate
-      allow(subject).to receive(:build_columns).and_return("x")
-      subject.send(:initialize, collection, resource_class, template, options)
-      expect(subject.columns).to eq("x")
+  describe "#columns" do
+    it "returns columns schema" do
+      allow(subject).to receive(:columns_schema).and_return("schema")
+      expect(subject.columns).to eq("schema")
+    end
+
+    it "caches columns schema data" do
+      expect(subject).to receive(:columns_schema).and_return("schema").once
+      subject.columns
+      subject.columns
     end
   end
 
@@ -47,7 +53,7 @@ describe Releaf::TableBuilder, type: :class do
     end
   end
 
-  describe "#build_columns" do
+  describe "#columns_schema" do
     before do
       allow(subject).to receive(:column_names).and_return([:price, :title, :author_id])
       allow(subject).to receive(:cell_content_method).with(:price).and_return(:title_content)
@@ -65,21 +71,21 @@ describe Releaf::TableBuilder, type: :class do
         title: {content_method: :title_content},
         author_id: {format_method: :some_text_format}
       }
-      expect(subject.build_columns).to eq(columns)
+      expect(subject.columns_schema).to eq(columns)
     end
 
     it "preserves order as in #column_names" do
-      expect(subject.build_columns.keys).to eq([:price, :title, :author_id])
+      expect(subject.columns_schema.keys).to eq([:price, :title, :author_id])
     end
 
     context "when options[:toolbox] value is 'true'" do
       let(:options){ {toolbox: true} }
       it "adds toolbox as first column" do
-        expect(subject.build_columns.keys.first).to eq(:toolbox)
+        expect(subject.columns_schema.keys.first).to eq(:toolbox)
       end
 
       it "uses #toolbox_cell for toolbox cell rendering" do
-        expect(subject.build_columns[:toolbox]).to eq(cell_method: "toolbox_cell")
+        expect(subject.columns_schema[:toolbox]).to eq(cell_method: "toolbox_cell")
       end
     end
   end

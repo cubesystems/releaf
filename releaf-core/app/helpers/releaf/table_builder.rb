@@ -1,20 +1,23 @@
 class Releaf::TableBuilder
   include Releaf::Builder
-  attr_accessor :collection, :options, :template, :columns, :resource_class
+  attr_accessor :collection, :options, :template, :resource_class
 
   def initialize(collection, resource_class, template, options)
     self.collection = collection
     self.options = options
     self.template = template
     self.resource_class = resource_class
-    self.columns = build_columns
   end
 
   def column_names
     resource_class_attributes(resource_class)
   end
 
-  def build_columns
+  def columns
+    @columns ||= columns_schema
+  end
+
+  def columns_schema
     data = {}
 
     final_column_names = []
