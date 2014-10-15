@@ -16,7 +16,7 @@ feature "Dragonfly integration", js: true do
     find(".fancybox-inner button.close" ).click
     expect(page).to have_no_css(".fancybox-inner img.fancybox-image")
 
-    check "Remove image"
+    check "Remove"
     click_button "Save"
     expect(page).to have_notification("Update succeeded")
     expect(page).to have_no_css(".field[data-name='cover_image'] a.ajaxbox")
