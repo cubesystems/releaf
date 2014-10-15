@@ -13,3 +13,4 @@ rdoc/
 .project
 /.ruby-version
 /.ruby-gemset
+/.rspec
