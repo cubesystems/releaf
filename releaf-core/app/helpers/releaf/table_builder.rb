@@ -37,7 +37,7 @@ class Releaf::TableBuilder
     data
   end
 
-  def table
+  def output
     tag(:table, table_attributes) do
       if collection.empty?
         empty_body
@@ -54,11 +54,11 @@ class Releaf::TableBuilder
   def head
     tag(:thead) do
       tag(:tr) do
-        content = ''
+        content = ActiveSupport::SafeBuffer.new
         columns.each_pair do|column, options|
           content << head_cell(column)
         end
-        content.html_safe
+        content
       end
     end
   end
@@ -70,7 +70,7 @@ class Releaf::TableBuilder
   end
 
   def head_cell_content(column)
-    unless column == :toolbox
+    unless column.to_sym == :toolbox
       tag(:span) do
         I18n.t(column.to_s, scope: "activerecord.attributes.#{resource_class.name.underscore}")
       end
@@ -81,7 +81,7 @@ class Releaf::TableBuilder
     tag(:tr) do
       tag(:th) do
         tag(:div, class: "nothing-found") do
-          I18n.t("nothing found", scope: "admin.global")
+          I18n.t("nothing found", scope: translation_scope)
         end
       end
     end
@@ -109,16 +109,18 @@ class Releaf::TableBuilder
   end
 
   def row(resource)
+    url = row_url(resource)
     tag(:tr, row_attributes(resource)) do
-      content = ''
+      content = ActiveSupport::SafeBuffer.new
       columns.each_pair do|column, options|
+        cell_options = options.merge(url: url)
         if options[:cell_method]
-          content << send(options[:cell_method], resource)
+          content << send(options[:cell_method], resource, cell_options)
         else
-          content << cell(resource, column, options.merge(url: row_url(resource)))
+          content << cell(resource, column, cell_options)
         end
       end
-      content.html_safe
+      content
     end
   end
 
@@ -132,12 +134,12 @@ class Releaf::TableBuilder
     end
   end
 
-  def format_longtext_content(resource, column)
-    # TODO: add length limitation
-    resource.send(column)
+  def format_text_content(resource, column)
+    value = resource.send(column).to_s
+    template.truncate(value, length: 32, separator: ' ')
   end
 
-  def format_text_content(resource, column)
+  def format_string_content(resource, column)
     value = resource.send(column)
     if value.respond_to? :to_text
       value.to_text
@@ -148,7 +150,7 @@ class Releaf::TableBuilder
 
   def format_boolean_content(resource, column)
     value = resource.send(column)
-    I18n.t(value ? 'yes' : 'no', scope: 'admin.global')
+    I18n.t(value == true ? 'yes' : 'no', scope: translation_scope)
   end
 
   def format_date_content(resource, column)
@@ -165,13 +167,11 @@ class Releaf::TableBuilder
     unless resource.send(column).blank?
       association_name = column.to_s.sub(/_uid$/, '')
       template.image_tag(resource.send(association_name).thumb('x16').url, alt: '')
-    else
-       ""
     end
   end
 
   def format_association_content(resource, column)
-    format_text_content(resource, association_name(column))
+    format_string_content(resource, association_name(column))
   end
 
   def association_name(column)
@@ -196,45 +196,63 @@ class Releaf::TableBuilder
     end
   end
 
-  def cell_format_method(column)
-    column_type = resource_class.columns_hash[column.to_s].try(:type)
-
-    if column_type == :integer && column =~ /_id$/ && resource_class.reflections[association_name(column)]
-      :format_association_content
-    elsif column_type == :string && column =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
-      :format_image_content
-    elsif column_type == :boolean
-      :format_boolean_content
-    elsif column_type == :date
-      :format_date_content
-    elsif column_type == :datetime
-      :format_datetime_content
-    elsif column_type == :text
-      :format_longtext_content
+  def column_type(column)
+    column_description = resource_class.columns_hash[column.to_s]
+    if column_description
+      column_description.type
     else
-      :format_text_content
+      :string
     end
   end
 
-  def toolbox_cell(resource)
+  def column_type_format_method(column)
+    format_method = "format_#{column_type(column)}_content".to_sym
+    if respond_to?(format_method)
+      format_method
+    else
+      :format_string_content
+    end
+  end
+
+  def cell_format_method(column)
+    if association_column?(column)
+      :format_association_content
+    elsif image_column?(column)
+      :format_image_content
+    else
+      column_type_format_method(column)
+    end
+  end
+
+  def image_column?(column)
+    column =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
+  end
+
+  def association_column?(column)
+    column =~ /_id$/ && resource_class.reflections[association_name(column)]
+  end
+
+  def toolbox_cell(resource, options)
     tag(:td, class: "toolbox-cell") do
       template.toolbox(resource, index_url: controller.index_url)
     end
   end
 
   def cell(resource, column, options)
+    content = cell_content(resource, column, options)
+
     tag(:td) do
       if options[:url].blank?
-        cell_content(resource, column, options)
+        content
       else
         tag(:a, href: options[:url]) do
-          cell_content(resource, column, options)
+          content
         end
       end
     end
   end
 
-  def output
-    table
+  def translation_scope
+    "admin.global"
   end
 end

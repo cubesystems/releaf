@@ -34,7 +34,7 @@ describe Releaf::I18nDatabase::TranslationTableBuilder, type: :class do
 
     context "when given column name does not  exists within Releaf.all_locales" do
       it "return super" do
-        expect(subject.cell_format_method(:en)).to eq(:format_text_content)
+        expect(subject.cell_format_method(:en)).to eq(:format_string_content)
       end
     end
   end
