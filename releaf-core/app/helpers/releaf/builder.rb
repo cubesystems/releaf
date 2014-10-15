@@ -1,4 +1,4 @@
-module Releaf::BuilderCommons
+module Releaf::Builder
   extend ActiveSupport::Concern
 
   def resource_class_attributes(resource_class)

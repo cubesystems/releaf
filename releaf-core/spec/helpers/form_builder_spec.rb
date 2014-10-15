@@ -31,8 +31,8 @@ describe Releaf::FormBuilder, type: :class, pending: true do
     ]
   }
 
-  it "includes Releaf::BuilderCommons" do
-    expect(Releaf::FormBuilder.ancestors).to include(Releaf::BuilderCommons)
+  it "includes Releaf::Builder" do
+    expect(Releaf::FormBuilder.ancestors).to include(Releaf::Builder)
   end
 
   describe "#field_render_method_name" do

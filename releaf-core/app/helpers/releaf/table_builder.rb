@@ -1,5 +1,5 @@
 class Releaf::TableBuilder
-  include Releaf::BuilderCommons
+  include Releaf::Builder
   attr_accessor :collection, :options, :template, :columns, :resource_class
 
   def initialize(collection, resource_class, template, options)

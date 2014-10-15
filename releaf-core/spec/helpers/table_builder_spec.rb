@@ -11,8 +11,8 @@ describe Releaf::TableBuilder, type: :class do
   let(:options){ {toolbox: false} }
   let(:subject){ described_class.new(collection, resource_class, template, options) }
 
-  it "includes Releaf::BuilderCommons" do
-    expect(Releaf::TableBuilder.ancestors).to include(Releaf::BuilderCommons)
+  it "includes Releaf::Builder" do
+    expect(Releaf::TableBuilder.ancestors).to include(Releaf::Builder)
   end
 
   describe "#initialize" do

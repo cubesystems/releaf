@@ -1,5 +1,5 @@
 class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
-  include Releaf::BuilderCommons
+  include Releaf::Builder
 
   def field_names
     resource_class_attributes(object.class)

@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe Releaf::BuilderCommons, type: :module do
+describe Releaf::Builder, type: :module do
   class FormBuilderTestHelper < ActionView::Base; end
-  class BuilderCommonsIncluder
-    include Releaf::BuilderCommons
+  class BuilderIncluder
+    include Releaf::Builder
     attr_accessor :template
   end
 
-  let(:subject){ BuilderCommonsIncluder.new }
+  let(:subject){ BuilderIncluder.new }
   let(:template){ FormBuilderTestHelper.new }
 
   describe "#resource_class_attributes" do
