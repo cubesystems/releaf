@@ -20,21 +20,21 @@ describe Releaf::I18nDatabase::TranslationTableBuilder, type: :class do
     end
   end
 
-  describe "#column_content_method" do
+  describe "#cell_format_method" do
     before do
       allow(Releaf).to receive(:all_locales).and_return([:de, :ze])
     end
 
     context "when given column name exists within Releaf.all_locales" do
       it "returns :locale_value" do
-        expect(subject.column_content_method(:de)).to eq(:locale_value)
-        expect(subject.column_content_method(:ze)).to eq(:locale_value)
+        expect(subject.cell_format_method(:de)).to eq(:locale_value)
+        expect(subject.cell_format_method(:ze)).to eq(:locale_value)
       end
     end
 
     context "when given column name does not  exists within Releaf.all_locales" do
       it "return super" do
-        expect(subject.column_content_method(:en)).to eq(:format_text_content)
+        expect(subject.cell_format_method(:en)).to eq(:format_text_content)
       end
     end
   end

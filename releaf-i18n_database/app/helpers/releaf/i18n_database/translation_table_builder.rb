@@ -8,7 +8,7 @@ module Releaf::I18nDatabase
       resource.locale_value(column)
     end
 
-    def column_content_method(column)
+    def cell_format_method(column)
       if Releaf.all_locales.include? column
         :locale_value
       else

@@ -7,25 +7,31 @@ class Releaf::TableBuilder
     self.options = options
     self.template = template
     self.resource_class = resource_class
-    self.columns = {}
-    build_columns
-  end
-
-  def build_columns
-    if options[:toolbox] == true
-      columns[:toolbox] = {cell_method: "toolbox_cell"}
-    end
-
-    column_names.each do|column|
-      columns[column] = {
-        custom_content_method: custom_content_method(column),
-      }
-      columns[column][:content_method] = column_content_method(column) if columns[column][:custom_content_method].nil?
-    end
+    self.columns = build_columns
   end
 
   def column_names
     resource_class_attributes(resource_class)
+  end
+
+  def build_columns
+    data = {}
+
+    final_column_names = []
+    final_column_names << :toolbox if options[:toolbox] == true
+    final_column_names += column_names
+
+    final_column_names.map do|column|
+      if cell_method(column)
+        data[column] = {cell_method: cell_method(column)}
+      elsif cell_content_method(column)
+        data[column] = {content_method: cell_content_method(column)}
+      else
+        data[column] = {format_method: cell_format_method(column)}
+      end
+    end
+
+    data
   end
 
   def table
@@ -36,6 +42,10 @@ class Releaf::TableBuilder
         head << body
       end
     end
+  end
+
+  def table_attributes
+    {class: "table"}
   end
 
   def head
@@ -109,27 +119,18 @@ class Releaf::TableBuilder
     end
   end
 
-  def custom_content_method(column)
-    method_name = "#{column}_content"
-    if respond_to? method_name
-      method_name
-    else
-      nil
-    end
-  end
-
   def cell_content(resource, column, options)
     tag(:span) do
-      if options[:custom_content_method]
-        send(options[:custom_content_method], resource)
+      if options[:content_method]
+        send(options[:content_method], resource)
       else
-        send(options[:content_method], resource, column)
+        send(options[:format_method], resource, column)
       end
     end
   end
 
   def format_longtext_content(resource, column)
-    # TODO: add limit
+    # TODO: add length limitation
     resource.send(column)
   end
 
@@ -174,7 +175,25 @@ class Releaf::TableBuilder
     column.to_s.sub(/_id$/, '').to_sym
   end
 
-  def column_content_method(column)
+  def cell_method(column)
+    method_name = "#{column}_cell"
+    if respond_to? method_name
+      method_name
+    else
+      nil
+    end
+  end
+
+  def cell_content_method(column)
+    method_name = "#{column}_content"
+    if respond_to? method_name
+      method_name
+    else
+      nil
+    end
+  end
+
+  def cell_format_method(column)
     column_type = resource_class.columns_hash[column.to_s].try(:type)
 
     if column_type == :integer && column =~ /_id$/ && resource_class.reflections[association_name(column)]
@@ -210,12 +229,6 @@ class Releaf::TableBuilder
         end
       end
     end
-  end
-
-  def table_attributes
-    {
-      class: "table"
-    }
   end
 
   def output
