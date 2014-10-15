@@ -264,12 +264,11 @@ module Releaf
     end
 
     def form_builder(form_type, object)
-      custom_form_builder = "::#{resource_class}FormBuilder"
-      if (Object.const_get(custom_form_builder).is_a?(Class) rescue false)
-        custom_form_builder.constantize
-      else
-        Releaf::FormBuilder
-      end
+      builder_class(:form)
+    end
+
+    def table_builder
+      builder_class(:table)
     end
 
     def form_options(form_type, object, object_name)
@@ -279,15 +278,6 @@ module Releaf
         url: form_url(form_type, object),
         html: form_attributes(form_type, object)
       }
-    end
-
-    def table_builder
-      custom_form_builder = "::#{resource_class}TableBuilder"
-      if (Object.const_get(custom_form_builder).is_a?(Class) rescue false)
-        custom_form_builder.constantize
-      else
-        Releaf::TableBuilder
-      end
     end
 
     def table_options
@@ -579,6 +569,17 @@ module Releaf
     end
 
     private
+
+    def builder_class(type)
+      type = type.to_s.capitalize
+      builder_class_name = "::#{resource_class}#{type}Builder"
+
+      unless (Object.const_get(builder_class_name).is_a?(Class) rescue false)
+        builder_class_name = "Releaf::#{type}Builder"
+      end
+
+      builder_class_name.constantize
+    end
 
     def manage_ajax
       @_ajax = params.has_key? :ajax
