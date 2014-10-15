@@ -200,14 +200,17 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
           hidden_field("retained_#{name}") +
             template.link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
         end
-        inner_content += tag(:div, class: "remove_image") do
-          check_box("remove_#{name}") +
-            label("remove_#{name}", I18n.t("Remove image", scope: 'admin.global'))
-        end
+        inner_content << releaf_file_remove_button(name)
       end
     end
 
     input_wrapper_with_label(name, content, label: label, field: field, options: options)
+  end
+
+  def releaf_file_remove_button(name)
+    tag(:div, class: "remove") do
+      check_box("remove_#{name}") << label("remove_#{name}", I18n.t("Remove", scope: 'admin.global'))
+    end
   end
 
   def releaf_file_field(name, input: {}, label: {}, field: {}, options: {})
@@ -219,10 +222,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     unless object.send(name).blank?
       content << hidden_field("retained_#{name}")
       content << template.link_to(I18n.t("Download"), object.send(name).url, target: "_blank")
-      content << tag(:div, class: "remove_file") do
-        check_box("remove_#{name}") +
-          label("remove_#{name}", I18n.t("Remove file", scope: 'admin.global'))
-      end
+      content << releaf_file_remove_button(name)
     end
 
     input_wrapper_with_label(name, content, label: label, field: field, options: options)
