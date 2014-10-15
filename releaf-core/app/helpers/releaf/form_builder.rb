@@ -65,6 +65,8 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       releaf_has_many_association(association_name, fields)
     when :belongs_to
       releaf_belongs_to_association(association_name, fields)
+    else
+      raise 'not implemented'
     end
   end
 
