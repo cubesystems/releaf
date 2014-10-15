@@ -20,16 +20,10 @@ module Releaf::Content
 
       options = {field: {type: "text"}}
       attributes = input_attributes(:slug, input, options)
-      button_attributes = {title: I18n.t('Suggest slug', scope: @template.controller_scope_name), class: "secondary only-icon generate"}
-
-      content = text_field(:slug, attributes) << @template.releaf_button(nil, "keyboard-o", button_attributes)
-      base_url = "#{@template.request.protocol}#{@template.request.host_with_port}#{object.parent.try(:url)}/"
-      link = @template.link_to(object.url) do
-        (base_url << tag(:span, object.slug) << "/").html_safe
-      end
+      content = text_field(:slug, attributes) << slug_button
 
       field(:slug, {}, options) do
-        releaf_label(:slug, {}, options) << wrapper(content, class: "value") << wrapper(link, class: "link")
+        releaf_label(:slug, {}, options) << wrapper(content, class: "value") << wrapper(slug_link, class: "link")
       end
     end
 
@@ -49,6 +43,20 @@ module Releaf::Content
       end
 
       list
+    end
+
+    private
+
+    def slug_link
+      base_url = "#{@template.request.protocol}#{@template.request.host_with_port}#{object.parent.try(:url)}/"
+      @template.link_to(object.url) do
+        (base_url << tag(:span, object.slug) << "/").html_safe
+      end
+    end
+
+    def slug_button
+      attributes = {title: I18n.t('Suggest slug', scope: @template.controller_scope_name), class: "secondary generate"}
+      @template.releaf_button(nil, "keyboard-o", attributes)
     end
   end
 end
