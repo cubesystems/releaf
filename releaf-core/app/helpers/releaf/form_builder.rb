@@ -39,15 +39,17 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_fields(*fields)
     safe_join do
-      normalize_fields(fields).collect do |item|
-        if respond_to? item[:render_method]
-          send(item[:render_method])
-        elsif item[:association]
-          releaf_association_fields(item[:field], item[:subfields])
-        else
-          releaf_field(item[:field])
-        end
-      end
+      normalize_fields(fields).collect{|field_option| render_field_by_options(field_option) }
+    end
+  end
+
+  def render_field_by_options(options)
+    if respond_to? options[:render_method]
+      send(options[:render_method])
+    elsif options[:association] == true
+      releaf_association_fields(options[:field], options[:subfields])
+    else
+      releaf_field(options[:field])
     end
   end
 
@@ -56,7 +58,8 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def association_fields(association_name)
-    resource_class_attributes(reflection[association_name].klass) - [reflection(reflection.association_name).foreign_key]
+    reflection = reflection(association_name)
+    resource_class_attributes(reflection.klass) - [reflection.foreign_key]
   end
 
   def releaf_association_fields(association_name, fields)

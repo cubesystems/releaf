@@ -1,8 +1,10 @@
 require "spec_helper"
 
-describe Releaf::FormBuilder, type: :class, pending: true do
+describe Releaf::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base
     include Releaf::ApplicationHelper
+    include Releaf::ButtonHelper
+    include FontAwesome::Rails::IconHelper
   end
 
   let(:template){ FormBuilderTestHelper.new }
@@ -13,19 +15,19 @@ describe Releaf::FormBuilder, type: :class, pending: true do
       {
         render_method: "render_title",
         field: "title",
-        reflection: nil,
+        association: false,
         subfields: nil
       },
       {
         render_method: "render_author_id",
         field: "author_id",
-        reflection: nil,
+        association: false,
         subfields: nil
       },
       {
         render_method: "render_chapters",
         field: :chapters,
-        reflection: object.class.reflections[:chapters],
+        association: true,
         subfields: ["title", "text", "sample_html"]
       }
     ]
@@ -35,12 +37,19 @@ describe Releaf::FormBuilder, type: :class, pending: true do
     expect(Releaf::FormBuilder.ancestors).to include(Releaf::Builder)
   end
 
+  describe "#field_names" do
+    it "returns field names for object class" do
+      allow(subject).to receive(:resource_class_attributes).with(object.class).and_return(["a", "b"])
+      expect(subject.field_names).to eq(["a", "b"])
+    end
+  end
+
   describe "#field_render_method_name" do
     it "returns method name for given field" do
       expect(subject.field_render_method_name(:title)).to eq("render_title")
     end
 
-    context "when builder has parent builder" do
+    context "when builder has parent builder(-s)" do
       it "traverses through all builders and add relation name option to field name" do
         root_builder = Releaf::FormBuilder.new(:author, Author.new, template, {})
         middle_builder = Releaf::FormBuilder.new(:author, Author.new, template, {relation_name: :pages, parent_builder: root_builder})
@@ -65,30 +74,79 @@ describe Releaf::FormBuilder, type: :class, pending: true do
   end
 
   describe "#releaf_fields" do
+    it "normalizes given fields with #normalize_fields" do
+      allow(subject).to receive(:render_field_by_options)
+      expect(subject).to receive(:normalize_fields).with([:a, :b]).and_return([:x, :y])
+      subject.releaf_fields(:a, :b)
+    end
+
+    it "passes all normalized field options to #render_field" do
+      allow(subject).to receive(:normalize_fields).and_return([:x, :y])
+      expect(subject).to receive(:render_field_by_options).with(:x)
+      expect(subject).to receive(:render_field_by_options).with(:y)
+      subject.releaf_fields(:a, :b)
+    end
+
+    it "concatenates and return all #render_field_by_options outputs with #safe_join" do
+      allow(subject).to receive(:render_field_by_options).and_return('_a_', '_b_')
+      allow(subject).to receive(:normalize_fields).and_return([:x, :y])
+      expect(subject).to receive(:safe_join).with(no_args){|&block|
+        expect(block.call).to eq(['_a_', '_b_'])
+      }.and_return("xxx")
+      expect(subject.releaf_fields(:a, :b)).to eq("xxx")
+    end
+  end
+
+  describe "#render_field_by_options" do
+    let(:options){ {
+      render_method: "custom_render_method",
+      association: nil,
+      field: "title",
+      subfields: [:a, :b],
+      association: true
+    } }
+
     before do
-      @fields = [
-        "title",
-        "author_id",
-        {chapters: ["title", "text", "sample_html"]}
-      ]
-      allow(subject).to receive(:normalize_fields).with(@fields).and_return(normalized_fields)
+      allow(subject).to receive(:custom_render_method)
+        .with(no_args).and_return("_render_method_content_")
+      allow(subject).to receive(:releaf_association_fields)
+        .with("title", [:a, :b]).and_return("_association_method_content_")
+      allow(subject).to receive(:releaf_field)
+        .with("title").and_return("_releaf_field_content_")
     end
 
-    it "normalizes and return rendered output for all fields" do
-      allow(subject).to receive(:releaf_field).with("title").and_return("a")
-      allow(subject).to receive(:releaf_field).with("author_id").and_return("b")
-      allow(subject).to receive(:releaf_field_associations)
-        .with(:chapters, object.class.reflections[:chapters], ["title", "text", "sample_html"]).and_return("c")
-      expect(subject.releaf_fields(*@fields)).to eq("abc")
-    end
-
-    context "when field have custom render method" do
-      it "renders field with custom render method" do
-        allow(subject).to receive(:render_title).and_return("x")
-        allow(subject).to receive(:render_author_id).and_return("y")
-        allow(subject).to receive(:render_chapters).and_return("z")
-        expect(subject.releaf_fields(*@fields)).to eq("xyz")
+    context "when method defined in options[:render_method] exists" do
+      it "returns this method output" do
+        expect(subject.render_field_by_options(options)).to eq("_render_method_content_")
       end
+    end
+
+    context "when custom method does not exists and options[:association] is true" do
+      it "returns #releaf_association_fields by passing options[:field] and options[:subfields]" do
+        options[:render_method] = "something_unexisting"
+        expect(subject.render_field_by_options(options)).to eq("_association_method_content_")
+      end
+    end
+
+    context "when neither custom method exists or association is presented" do
+      it "returns #releaf_field with options[:field] as argument" do
+        options[:association] = false
+        options[:render_method] = "something_unexisting"
+        expect(subject.render_field_by_options(options)).to eq("_releaf_field_content_")
+      end
+    end
+  end
+
+  describe "#reflection" do
+    it "returns reflection for given reflection name" do
+      expect(subject.reflection("author")).to eq(object.class.reflections[:author])
+    end
+  end
+
+  describe "#association_fields" do
+    it "returns association field names except foreign key by given association name" do
+      fields = ["name", "surname", "bio", "birth_date", "wiki_link"]
+      expect(subject.association_fields("author")).to eq(fields)
     end
   end
 
