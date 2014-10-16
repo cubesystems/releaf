@@ -14,9 +14,11 @@ module Releaf::Permissions
     end
 
     def render_permissions
-      Releaf.available_controllers.collect do |controller_name|
-        permission_field(controller_name)
-      end.join
+      safe_join do
+        Releaf.available_controllers.collect do |controller_name|
+          permission_field(controller_name)
+        end
+      end
     end
 
     def permission_field(controller_name)
