@@ -50,10 +50,142 @@ describe Releaf::Builder, type: :module do
   end
 
   describe "#tag" do
-    it "passes all arguments to template #content_tag method and return result" do
+    before do
       subject.template = template
-      expect(subject.tag(:span, "x", class: "red")).to eq('<span class="red">x</span>')
-      expect(subject.tag(:div, class: "green"){ "y" }).to eq('<div class="green">y</div>')
+    end
+
+    context "when block is not given" do
+      context "when passing string as content" do
+        let(:output) do
+          subject.tag(:span, "<p>x</p>", class: "red")
+        end
+
+        it "returns an instance of ActiveSupport::SafeBuffer" do
+          expect( output ).to be_a ActiveSupport::SafeBuffer
+
+        end
+
+        it "passes all arguments to template #content_tag method and returns properly escaped result" do
+          expect( output ).to eq('<span class="red">&lt;p&gt;x&lt;/p&gt;</span>')
+        end
+      end
+
+      context "when passing safe buffer as content" do
+        let(:output) do
+          subject.tag(:span, ActiveSupport::SafeBuffer.new("<p>x</p>"), class: "red")
+        end
+
+        it "returns an instance of ActiveSupport::SafeBuffer" do
+          expect( output ).to be_a ActiveSupport::SafeBuffer
+
+        end
+
+        it "passes all arguments to template #content_tag method and returns properly escaped result" do
+          expect( output ).to eq('<span class="red"><p>x</p></span>')
+        end
+      end
+
+    end
+
+    context "when block is given" do
+      context "when block evaluates to array" do
+        let(:content) do
+          [
+            '<p>foo</p>',
+            'bar',
+            ActiveSupport::SafeBuffer.new('<p>baz</p>')
+          ]
+        end
+
+        let(:output) do
+          subject.tag(:div, class: 'important') { content }
+        end
+
+        it "returns an instance of ActiveSupport::SafeBuffer" do
+          expect( output ).to be_a ActiveSupport::SafeBuffer
+        end
+
+        it "safely joins array" do
+          expect( template ).to receive(:safe_join).with(content).and_call_original
+          output
+        end
+
+        it "passes joined result to #template#content_tag as content" do
+          allow( template ).to receive(:safe_join).with(content).and_return('super duper')
+          expect( output ).to eq('<div class="important">super duper</div>')
+        end
+
+        it "returns properly escaped result" do
+          expect( output ).to eq('<div class="important">&lt;p&gt;foo&lt;/p&gt;bar<p>baz</p></div>')
+        end
+
+      end
+
+      context "when block evaluates to safe buffer" do
+        let(:output) do
+          subject.tag(:div, class: 'important') { ActiveSupport::SafeBuffer.new('<p>content</p>') }
+        end
+
+        it "returns an instance of ActiveSupport::SafeBuffer" do
+          expect( output ).to be_a ActiveSupport::SafeBuffer
+        end
+
+        it "doesn't call #template#safe_join" do
+          expect( template ).to_not receive(:safe_join)
+          output
+        end
+
+        it "passes block result to #template#content_tag as content which won't be escaped" do
+          expect( output ).to eq '<div class="important"><p>content</p></div>'
+        end
+      end
+
+      context "when block evaluates to string" do
+        let(:output) do
+          subject.tag(:div, class: 'important') { '<p>content</p>' }
+        end
+
+        it "returns an instance of ActiveSupport::SafeBuffer" do
+          expect( output ).to be_a ActiveSupport::SafeBuffer
+        end
+
+        it "doesn't call #template#safe_join" do
+          expect( template ).to_not receive(:safe_join)
+          output
+        end
+
+        it "passes block result to #template#content_tag as content which will be escaped" do
+          expect( output ).to eq '<div class="important">&lt;p&gt;content&lt;/p&gt;</div>'
+        end
+      end
+    end
+  end # describe "#tag"
+
+  describe "#safe_join" do
+    before do
+      subject.template = template
+    end
+
+    let(:content) do
+      ['foo', '<p>bar</p>', ActiveSupport::SafeBuffer.new('<p>baz</p>')]
+    end
+
+    let(:output) do
+      subject.safe_join { content }
+    end
+
+    it "returns an instance of ActiveSupport::SafeBuffer" do
+      expect( output ).to be_a ActiveSupport::SafeBuffer
+    end
+
+    it "passes block result to #template#safe_join" do
+      expect( template ).to receive(:safe_join).with(content).and_call_original
+      output
+    end
+
+    it "returns correctly escaped result" do
+      expect( output ).to eq 'foo&lt;p&gt;bar&lt;/p&gt;<p>baz</p>'
     end
   end
+
 end

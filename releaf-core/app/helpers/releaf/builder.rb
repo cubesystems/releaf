@@ -18,7 +18,22 @@ module Releaf::Builder
   end
 
   def tag(*args, &block)
-    template.content_tag(*args, &block)
+    return template.content_tag(*args) unless block_given?
+
+    template.content_tag(*args) do
+      block_result = yield
+      if block_result.is_a? Array
+        safe_join do
+          block_result
+        end
+      else
+        block_result
+      end
+    end
+  end
+
+  def safe_join(&block)
+    template.safe_join(yield)
   end
 
   def controller
