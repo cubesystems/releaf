@@ -15,7 +15,7 @@ module Releaf::Content
     def render_slug
       input = {
         value: object.slug,
-        data: {'generator-url' => @template.generate_url_releaf_content_nodes_path(parent_id: object.parent_id, id: object.id)}
+        data: {'generator-url' => template.generate_url_releaf_content_nodes_path(parent_id: object.parent_id, id: object.id)}
       }
 
       options = {field: {type: "text"}}
@@ -30,7 +30,7 @@ module Releaf::Content
     def render_item_position
       options = {
         include_blank: false,
-        select_options: @template.options_for_select(item_position_options, object.item_position)
+        select_options: template.options_for_select(item_position_options, object.item_position)
       }
       releaf_item_field(:item_position, options: options)
     end
@@ -38,7 +38,7 @@ module Releaf::Content
     def item_position_options
       after_text = I18n.t('After', scope: 'admin.global')
       list = [[I18n.t('First', scope: 'admin.global'), 0]]
-      @template.controller.instance_variable_get(:@order_nodes).each do |node|
+      template.controller.instance_variable_get(:@order_nodes).each do |node|
         list.push [after_text + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
       end
 
@@ -48,15 +48,15 @@ module Releaf::Content
     private
 
     def slug_link
-      base_url = "#{@template.request.protocol}#{@template.request.host_with_port}#{object.parent.try(:url)}/"
-      @template.link_to(object.url) do
-        @template.safe_join([base_url, tag(:span, object.slug), '/'])
+      base_url = "#{template.request.protocol}#{template.request.host_with_port}#{object.parent.try(:url)}/"
+      template.link_to(object.url) do
+        template.safe_join([base_url, tag(:span, object.slug), '/'])
       end
     end
 
     def slug_button
-      attributes = {title: I18n.t('Suggest slug', scope: @template.controller_scope_name), class: "secondary generate"}
-      @template.releaf_button(nil, "keyboard-o", attributes)
+      attributes = {title: I18n.t('Suggest slug', scope: template.controller_scope_name), class: "secondary generate"}
+      template.releaf_button(nil, "keyboard-o", attributes)
     end
   end
 end

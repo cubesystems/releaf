@@ -26,8 +26,8 @@ module Releaf::Permissions
 
       wrapper(field) do
         wrapper(class: "value") do
-          @template.check_box_tag("resource[permissions][]", controller_name, checked, id: normalized_name) <<
-            @template.label_tag(normalized_name, I18n.t(controller_name, scope: "admin.menu_items"))
+          template.check_box_tag("resource[permissions][]", controller_name, checked, id: normalized_name) <<
+            template.label_tag(normalized_name, I18n.t(controller_name, scope: "admin.menu_items"))
         end
       end
     end

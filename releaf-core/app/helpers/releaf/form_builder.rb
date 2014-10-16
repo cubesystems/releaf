@@ -89,7 +89,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
     item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', allow_destroy: true,
                                              sortable_objects: sortable_objects, subfields: fields)
-    item_template = @template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
+    item_template = template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
     wrapper(class: "nested-wrap", data: { name: association_name, "releaf-template" => item_template}) do
       tag(:h3, I18n.t(association_name, scope: template.controller_scope_name), class: "subheader nested-title") <<
