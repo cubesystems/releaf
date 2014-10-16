@@ -472,14 +472,6 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def wrapper(content_or_attributes_with_block, attributes = {}, &block)
-    if block_given?
-      tag(:div, content_or_attributes_with_block, nil, nil, &block)
-    else
-      tag(:div, content_or_attributes_with_block, attributes)
-    end
-  end
-
   def label_text(name, options = {})
     if options[:label_text].present?
       options[:label_text]

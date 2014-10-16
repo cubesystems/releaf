@@ -17,6 +17,14 @@ module Releaf::Builder
     end
   end
 
+  def wrapper(content_or_attributes_with_block, attributes = {}, &block)
+    if block_given?
+      tag(:div, content_or_attributes_with_block, nil, nil, &block)
+    else
+      tag(:div, content_or_attributes_with_block, attributes)
+    end
+  end
+
   def tag(*args, &block)
     return template.content_tag(*args) unless block_given?
 

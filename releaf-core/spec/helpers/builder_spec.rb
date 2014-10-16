@@ -161,6 +161,30 @@ describe Releaf::Builder, type: :module do
     end
   end # describe "#tag"
 
+  describe "#wrapper" do
+    before do
+      subject.template = template
+    end
+
+    context "when block is given" do
+      let(:output) do
+        subject.wrapper(class: 'c') do
+          '<span class="a">b</span>'.html_safe
+        end
+      end
+
+      it "wrapps given content within div element with given attributes" do
+        expect(output).to eq('<div class="c"><span class="a">b</span></div>')
+      end
+    end
+
+    context "when block is not given" do
+      it "wrapps given content within div element with given attributes" do
+        expect(subject.wrapper('<span class="a">b</span>'.html_safe, class: "c")).to eq('<div class="c"><span class="a">b</span></div>')
+      end
+    end
+  end
+
   describe "#safe_join" do
     before do
       subject.template = template

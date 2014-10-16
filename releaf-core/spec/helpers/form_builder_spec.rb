@@ -122,12 +122,6 @@ describe Releaf::FormBuilder, type: :class, pending: true do
     end
   end
 
-  describe "#wrapper" do
-    it "wrapps given content within div element with given attributes" do
-      expect(subject.wrapper('<span class="a">b</span>'.html_safe, class: "c")).to eq('<div class="c"><span class="a">b</span></div>')
-    end
-  end
-
   describe "#releaf_label" do
     it "passes options :label value to #label_text and use returned value for label text content" do
       allow(subject).to receive(:label_text).with(:color, a: "b").and_return("xx")
