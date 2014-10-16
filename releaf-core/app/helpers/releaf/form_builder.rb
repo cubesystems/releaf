@@ -85,7 +85,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_has_many_association(association_name, fields)
     reflection = reflection(association_name)
-    sortable_objects = reflection.klass.column_names.include?('item_position')
+   sortable_objects = reflection.klass.column_names.include?(sortable_column_name)
 
     item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', allow_destroy: true,
                                              sortable_objects: sortable_objects, subfields: fields)
@@ -119,7 +119,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     content = ActiveSupport::SafeBuffer.new
 
     if sortable_objects
-      content << hidden_field(:item_position, class: "item_position")
+      content << hidden_field(sortable_column_name.to_sym, class: "item_position")
       content << tag(:div, "&nbsp;".html_safe, class: "handle")
     end
 
@@ -461,6 +461,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     attributes
   end
 
+
   def releaf_label(name, attributes, options = {})
     label_options = options.fetch(:label, {})
     attributes = label_attributes(name, attributes, options)
@@ -496,6 +497,10 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
       I18n.t(key, scope: "activerecord.attributes.#{object.class.name.underscore}")
     end
+  end
+
+  def sortable_column_name
+    'item_position'
   end
 
   # shortcut helper methods

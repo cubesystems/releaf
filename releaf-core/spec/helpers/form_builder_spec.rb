@@ -242,4 +242,10 @@ describe Releaf::FormBuilder, type: :class, pending: true do
       end
     end
   end
+
+  describe "#sortable_column_name" do
+    it "returns 'item_position'" do
+      expect( subject.sortable_column_name ).to eq 'item_position'
+    end
+  end
 end
