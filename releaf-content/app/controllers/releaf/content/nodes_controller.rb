@@ -9,9 +9,7 @@ module Releaf::Content
       tmp_resource = prepare_resource
 
       tmp_resource.name = params[:name]
-      tmp_resource.slug = nil
-      # FIXME calling private method
-      tmp_resource.send(:ensure_unique_url)
+      tmp_resource.reasign_slug
 
       respond_to do |format|
         format.js { render text: tmp_resource.slug }
@@ -28,13 +26,13 @@ module Releaf::Content
 
     def copy
       copy_move_common do |resource|
-        resource.copy_to_node! params[:new_parent_id]
+        resource.copy params[:new_parent_id]
       end
     end
 
     def move
       copy_move_common do |resource|
-        resource.move_to_node! params[:new_parent_id]
+        resource.move params[:new_parent_id]
       end
     end
 
