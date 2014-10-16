@@ -96,13 +96,10 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       wrapper(class: "list", data: {sortable: sortable_objects ? '' : nil}) do
         allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
 
-        safe_join do
-          object.send(association_name).each_with_index.map do |obj, i|
-            releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
-                                              sortable_objects: sortable_objects, subfields: fields)
-          end
+        object.send(association_name).each_with_index.map do |obj, i|
+          releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
+                                            sortable_objects: sortable_objects, subfields: fields)
         end
-
       end << field_type_add_nested
     end
   end
@@ -396,24 +393,22 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     default_locale = object.class.globalize_locales.first unless object.class.globalize_locales.include? default_locale
 
     wrapper(field_attributes(name, field, options)) do
-      content = safe_join do
-        object.class.globalize_locales.collect do |locale|
-          localized_name = "#{name}_#{locale}"
-          is_default_locale = locale == default_locale
-          html_class = ["localization"]
-          html_class << "active" if is_default_locale
+      content = object.class.globalize_locales.collect do |locale|
+        localized_name = "#{name}_#{locale}"
+        is_default_locale = locale == default_locale
+        html_class = ["localization"]
+        html_class << "active" if is_default_locale
 
-          tag(:div, class: html_class, data: {locale: locale}) do
-            releaf_label(localized_name, label, options) <<
-            tag(:div, class: "value") do
-              attributes = input_attributes(name, {value: object.send(localized_name)}.merge(input), options)
-              send(field_type, localized_name, attributes)
-            end
+        tag(:div, class: html_class, data: {locale: locale}) do
+          releaf_label(localized_name, label, options) <<
+          tag(:div, class: "value") do
+            attributes = input_attributes(name, {value: object.send(localized_name)}.merge(input), options)
+            send(field_type, localized_name, attributes)
           end
         end
       end
 
-      content += localization_switch(default_locale)
+      content.push localization_switch(default_locale)
     end
   end
 
