@@ -194,7 +194,7 @@ describe Node do
 
       it "raises error on node being moved, even tought descendant has error" do
         begin
-        rescue => e
+        rescue ActiveRecord::RecordInvalid => e
           expect( e.record ).to eq @text_node_2
         end
       end
@@ -301,7 +301,7 @@ describe Node do
 
       it "raises error on node being moved, even tought descendant has error" do
         begin
-        rescue => e
+        rescue ActiveRecord::RecordInvalid => e
           expect( e.record ).to eq @text_node_2
         end
       end
