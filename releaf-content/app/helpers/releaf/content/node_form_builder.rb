@@ -50,7 +50,7 @@ module Releaf::Content
     def slug_link
       base_url = "#{@template.request.protocol}#{@template.request.host_with_port}#{object.parent.try(:url)}/"
       @template.link_to(object.url) do
-        (base_url << tag(:span, object.slug) << "/").html_safe
+        @template.safe_join([base_url, tag(:span, object.slug), '/'])
       end
     end
 

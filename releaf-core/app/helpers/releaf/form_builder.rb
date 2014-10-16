@@ -38,15 +38,17 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_fields(*fields)
-    normalize_fields(fields).collect do |item|
-      if respond_to? item[:render_method]
-        send(item[:render_method])
-      elsif item[:association]
-        releaf_association_fields(item[:field], item[:subfields])
-      else
-        releaf_field(item[:field])
+    safe_join do
+      normalize_fields(fields).collect do |item|
+        if respond_to? item[:render_method]
+          send(item[:render_method])
+        elsif item[:association]
+          releaf_association_fields(item[:field], item[:subfields])
+        else
+          releaf_field(item[:field])
+        end
       end
-    end.join.html_safe
+    end
   end
 
   def reflection(reflection_name)
@@ -93,13 +95,14 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       tag(:h3, I18n.t(association_name, scope: template.controller_scope_name), class: "subheader nested-title") <<
       wrapper(class: "list", data: {sortable: sortable_objects ? '' : nil}) do
         allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
-        content = ''
-        object.send(association_name).each_with_index do |obj, i|
-          content << releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
-                                             sortable_objects: sortable_objects, subfields: fields)
+
+        safe_join do
+          object.send(association_name).each_with_index.map do |obj, i|
+            releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
+                                              sortable_objects: sortable_objects, subfields: fields)
+          end
         end
 
-        content.html_safe
       end << field_type_add_nested
     end
   end
@@ -113,7 +116,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_has_many_association_field(field, sortable_objects, subfields, allow_destroy)
-    content = ""
+    content = ActiveSupport::SafeBuffer.new
 
     if sortable_objects
       content << hidden_field(:item_position, class: "item_position")
@@ -123,7 +126,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     content << releaf_fields(subfields)
     content << field_type_remove_nested if allow_destroy
 
-    content.html_safe
+    content
   end
 
   def field_type_remove_nested
@@ -393,20 +396,22 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     default_locale = object.class.globalize_locales.first unless object.class.globalize_locales.include? default_locale
 
     wrapper(field_attributes(name, field, options)) do
-      content = object.class.globalize_locales.collect do |locale|
-        localized_name = "#{name}_#{locale}"
-        is_default_locale = locale == default_locale
-        html_class = ["localization"]
-        html_class << "active" if is_default_locale
+      content = safe_join do
+        object.class.globalize_locales.collect do |locale|
+          localized_name = "#{name}_#{locale}"
+          is_default_locale = locale == default_locale
+          html_class = ["localization"]
+          html_class << "active" if is_default_locale
 
-        tag(:div, class: html_class, data: {locale: locale}) do
-          releaf_label(localized_name, label, options) <<
-          tag(:div, class: "value") do
-            attributes = input_attributes(name, {value: object.send(localized_name)}.merge(input), options)
-            send(field_type, localized_name, attributes)
+          tag(:div, class: html_class, data: {locale: locale}) do
+            releaf_label(localized_name, label, options) <<
+            tag(:div, class: "value") do
+              attributes = input_attributes(name, {value: object.send(localized_name)}.merge(input), options)
+              send(field_type, localized_name, attributes)
+            end
           end
         end
-      end.join.html_safe
+      end
 
       content += localization_switch(default_locale)
     end
@@ -423,7 +428,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
             tag(:li) do
               tag(:button, locale, type: "button", data: {locale: locale})
             end
-          end.join.html_safe
+          end
         end
       end
     end

@@ -89,9 +89,9 @@ class Releaf::TableBuilder
 
   def body
     tag(:tbody, class: "tbody") do
-      collection.collect do|resource|
+      collection.collect do |resource|
         row(resource)
-      end.join.html_safe
+      end
     end
   end
 
