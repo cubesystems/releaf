@@ -447,7 +447,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def field_attributes(name, attributes, options)
     type = options.fetch(:field, {}).fetch(:type, nil)
 
-    classes = ["field", "type_#{type}"]
+    classes = ["field", "type_#{type}"] # TODO field_type -> field-type
     classes << "i18n" if options.key? :i18n
 
     template.merge_attributes({class: classes, data: {name: name}}, attributes)
