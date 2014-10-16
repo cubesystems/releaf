@@ -164,7 +164,7 @@ class Releaf::TableBuilder
   end
 
   def format_image_content(resource, column)
-    unless resource.send(column).blank?
+    if resource.send(column).present?
       association_name = column.to_s.sub(/_uid$/, '')
       template.image_tag(resource.send(association_name).thumb('x16').url, alt: '')
     end

@@ -198,7 +198,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
     options = {field: {type: "image"}}.deep_merge(options)
     content = file_field(name, attributes)
-    unless object.send(name).blank?
+    if object.send(name).present?
       content += tag(:div, class: "value_preview") do
         inner_content = tag(:div, class: "image_wrap") do
           thumbnail = template.image_tag(object.send(name).thumb('410x128>').url, alt: '')
@@ -224,7 +224,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     options = {field: {type: "file"}}.deep_merge(options)
 
     content = file_field(name, attributes)
-    unless object.send(name).blank?
+    if object.send(name).present?
       content << hidden_field("retained_#{name}")
       content << template.link_to(I18n.t("Download"), object.send(name).url, target: "_blank")
       content << releaf_file_remove_button(name)
@@ -472,7 +472,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     if label_options.fetch(:minimal, false) == true
       content
     else
-      content += wrapper(label_options[:description], class: "description") unless label_options.fetch(:description, nil).blank?
+      content += wrapper(label_options[:description], class: "description") if label_options.fetch(:description, nil).present?
       wrapper(content, class: "label_wrap") #TODO: label_wrap > label
     end
   end
@@ -486,10 +486,10 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def label_text(name, options = {})
-    unless options[:label_text].blank?
+    if options[:label_text].present?
       options[:label_text]
     else
-      unless options[:translation_key].blank?
+      if options[:translation_key].present?
         key = options[:translation_key]
       else
         key = name.to_s.sub(/_uid$/, '')

@@ -1,5 +1,5 @@
 %form.search{class: (!@searchable_fields.blank?) ? 'has-text-search' : '', action: url_for( controller: controller_name, action: "index" )}
-  - unless @searchable_fields.blank?
+  - if @searchable_fields.present?
     .text-search
       .wrapper
         %input{name: "search", type: "text", value: params[:search], autofocus: true }

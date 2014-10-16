@@ -92,7 +92,7 @@ module Releaf
 
         while (chain.length > 1) do
           result = cache_lookup(chain, locale, options, chain_initial_length == chain.length)
-          return result unless result.blank?
+          return result if result.present?
 
           # remove second last value
           chain.delete_at(chain.length - 2)

@@ -143,7 +143,7 @@ module Releaf
     # @return controller name
     def association_controller association
       guessed_name = association.name.to_s.pluralize
-      return guessed_name unless Releaf.controller_list.values.map{ |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).blank?
+      return guessed_name if Releaf.controller_list.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
     end
 
 
@@ -343,7 +343,7 @@ module Releaf
 
     def verify_feature_availability
       feature = action_feature(params[:action])
-      raise FeatureDisabled, feature.to_s unless (feature.blank? || feature_available?(feature))
+      raise FeatureDisabled, feature.to_s if (feature.present? && !feature_available?(feature))
     end
 
     def action_feature action
