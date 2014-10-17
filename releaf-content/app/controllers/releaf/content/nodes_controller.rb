@@ -9,9 +9,7 @@ module Releaf::Content
       tmp_resource = prepare_resource
 
       tmp_resource.name = params[:name]
-      tmp_resource.slug = nil
-      # FIXME calling private method
-      tmp_resource.send(:ensure_unique_url)
+      tmp_resource.reasign_slug
 
       respond_to do |format|
         format.js { render text: tmp_resource.slug }
@@ -28,13 +26,13 @@ module Releaf::Content
 
     def copy
       copy_move_common do |resource|
-        resource.copy_to_node! params[:new_parent_id]
+        resource.copy params[:new_parent_id]
       end
     end
 
     def move
       copy_move_common do |resource|
-        resource.move_to_node! params[:new_parent_id]
+        resource.move params[:new_parent_id]
       end
     end
 
@@ -84,30 +82,29 @@ module Releaf::Content
     def copy_move_common &block
       @resource = resource_class.find(params[:id])
 
-      result = nil
-
       if params[:new_parent_id].nil?
-        result = false
         @resource.errors.add(:base, 'parent not selected')
+        respond_after_copy_move false, @resource
       else
         begin
           @resource = yield(@resource)
         rescue ActiveRecord::RecordInvalid => e
-          @resource = e.record
-          result = false
+          respond_after_copy_move false, e.record
         else
-          result = true
           resource_class.updated
           render_notification true
+          respond_after_copy_move true, @resource
         end
       end
+    end
 
+    def respond_after_copy_move result, resource
       respond_to do |format|
         format.json do
           if result
             render json: {url: url_for( action: :index ), message: flash[:success][:message]}, status: 303
           else
-            render json: Releaf::ErrorFormatter.format_errors(@resource), status: 422
+            render json: Releaf::ErrorFormatter.format_errors(resource), status: 422
           end
         end
 
@@ -126,7 +123,7 @@ module Releaf::Content
     def prepare_resource
       if params[:id]
         return resource_class.find(params[:id])
-      elsif params[:parent_id].blank? == false
+      elsif params[:parent_id].present?
         parent = resource_class.find(params[:parent_id])
         return parent.children.new
       else
