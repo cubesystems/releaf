@@ -150,47 +150,72 @@ describe Releaf::FormBuilder, type: :class do
     end
   end
 
-  describe "#reflection_skippable_fields" do
-    it "returns array with REFLECTION_SKIPPABLE_FIELDS and reflection foreign_key" do
-      reflection = object.class.reflections[:chapters]
-      allow(reflection).to receive(:foreign_key).and_return("x")
-      expect(subject.reflection_skippable_fields(reflection)).to eq(described_class::REFLECTION_SKIPPABLE_FIELDS + ["x"])
-    end
-  end
+  describe "#releaf_association_fields" do
+    let(:reflection){ instance_double(ActiveRecord::Reflection::AssociationReflection) }
+    let(:fields){ ["a"] }
 
-  describe "#reflection_subfields" do
-    it "returns subfields for reflection" do
-      reflection = object.class.reflections[:chapters]
-      allow(subject).to receive(:reflection_skippable_fields).with(reflection).and_return([:created_at, :en_title])
-      allow(subject).to receive(:reflection_translated_attributes).with(reflection).and_return([:lv_title, :en_title])
-      list = ["id", "title", "text", "sample_html", "book_id", "item_position", "created_at", "updated_at", :lv_title]
-      expect(subject.reflection_subfields(reflection)).to eq(list)
+    before do
+      allow(subject).to receive(:reflection).with(:author).and_return(reflection)
+      allow(subject).to receive(:association_fields).with(:author).and_return(["b"])
+      allow(subject).to receive(:releaf_has_many_association).with(:author, fields).and_return("_has_many_content_")
+      allow(subject).to receive(:releaf_belongs_to_association).with(:author, fields).and_return("_belongs_to_content_")
+    end
+
+    context "when given fields argument is nil" do
+      it "passes #association_fields returned fields" do
+        allow(reflection).to receive(:macro).and_return(:has_many)
+        allow(subject).to receive(:releaf_has_many_association).with(:author, ["b"]).and_return("_has_many_content_")
+        expect(subject.releaf_association_fields(:author, nil)).to eq("_has_many_content_")
+      end
+    end
+
+    context "when :has_many association given" do
+      it "renders association with #releaf_has_many_association" do
+        allow(reflection).to receive(:macro).and_return(:has_many)
+        expect(subject.releaf_association_fields(:author, fields)).to eq("_has_many_content_")
+      end
+    end
+
+    context "when :belongs_to association given" do
+      it "renders association with #releaf_belongs_to_association" do
+        allow(reflection).to receive(:macro).and_return(:belongs_to)
+        expect(subject.releaf_association_fields(:author, fields)).to eq("_belongs_to_content_")
+      end
+    end
+
+    context "when non implemented assocation type given" do
+      it "raises error" do
+        allow(reflection).to receive(:macro).and_return(:new_macro_type)
+        expect{ subject.releaf_association_fields(:author, fields) }.to raise_error("not implemented")
+      end
     end
   end
 
   describe "#input_wrapper_with_label" do
     it "returns wrapped label and input content" do
-      allow(subject).to receive(:releaf_label).with(:color, "label_attributes", "options").and_return("label")
-      allow(subject).to receive(:field_attributes).with(:color, "field_attributes", "options").and_return("field_attributes_new")
+      allow(subject).to receive(:releaf_label).with(:color, "label_attributes", "options").and_return("label_content")
+      allow(subject).to receive(:wrapper).with("input_content", class: "value").and_return("input_content")
 
-      allow(subject).to receive(:wrapper).with("input", class: "value").and_return("input")
-      allow(subject).to receive(:wrapper).with("labelinput", "field_attributes_new").and_return("content")
+      allow(subject).to receive(:field).with(:color, "field_attributes", "options"){ |name, field, options, &block|
+        expect(block.call).to eq("label_contentinput_content")
+      }.and_return("content")
 
-      expect(subject.input_wrapper_with_label(:color, "input", label: "label_attributes", field: "field_attributes", options: "options")).to eq("content")
+      expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"))
+        .to eq("content")
     end
   end
 
   describe "#releaf_label" do
     it "passes options :label value to #label_text and use returned value for label text content" do
       allow(subject).to receive(:label_text).with(:color, a: "b").and_return("xx")
-      result = '<div class="label_wrap"><label for="author_color">xx</label></div>'
+      result = '<div class="label_wrap"><label for="book_color">xx</label></div>'
 
       expect(subject.releaf_label(:color, {}, label: {a: "b"})).to eq(result)
     end
 
     it "uses #label_attributes for label attributes" do
       allow(subject).to receive(:label_attributes).with(:color, {class: "red"}, {a: "b"}).and_return(class: "red blue")
-      result = '<div class="label_wrap"><label class="red blue" for="author_color">Color</label></div>'
+      result = '<div class="label_wrap"><label class="red blue" for="book_color">Color</label></div>'
 
       expect(subject.releaf_label(:color, {class: "red"}, {a: "b"})).to eq(result)
     end
@@ -198,14 +223,14 @@ describe Releaf::FormBuilder, type: :class do
     context "when options[:label][:description] is not blank" do
       context "when label has full version" do
         it "includes description" do
-          result = '<div class="label_wrap"><label for="author_color">Color</label><div class="description">xxx</div></div>'
+          result = '<div class="label_wrap"><label for="book_color">Color</label><div class="description">xxx</div></div>'
           expect(subject.releaf_label(:color, {}, label: {description: "xxx"})).to eq(result)
         end
       end
 
       context "when label has minimal version" do
         it "does not include description" do
-          result = '<label for="author_color">Color</label>'
+          result = '<label for="book_color">Color</label>'
           expect(subject.releaf_label(:color, {}, label: {minimal: true})).to eq(result)
         end
       end
@@ -213,7 +238,7 @@ describe Releaf::FormBuilder, type: :class do
 
     context "when options[:label][:minimal] is true" do
       it "returns label tag without wrap element" do
-        result = '<label for="author_color">Color</label>'
+        result = '<label for="book_color">Color</label>'
         expect(subject).to_not receive(:wrapper)
         expect(subject.releaf_label(:color, {}, label: {minimal: true})).to eq(result)
       end
@@ -221,7 +246,7 @@ describe Releaf::FormBuilder, type: :class do
 
     context "when options[:label][:minimal] is not true" do
       it "returns label tag with wrap element" do
-        allow(subject).to receive(:wrapper).with('<label for="author_color">Color</label>', class: "label_wrap").and_return("x")
+        allow(subject).to receive(:wrapper).with('<label for="book_color">Color</label>', class: "label_wrap").and_return("x")
         expect(subject.releaf_label(:color, {}, label: {minimal: false})).to eq("x")
         expect(subject.releaf_label(:color, {}, label: {minimal: nil})).to eq("x")
         expect(subject.releaf_label(:color, {}, label: {adasd: "xx"})).to eq("x")
