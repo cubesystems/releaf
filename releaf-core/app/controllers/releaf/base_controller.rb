@@ -287,6 +287,13 @@ module Releaf
       }
     end
 
+    # return contoller translation scope name for using
+    # with I18.translation call within hash params
+    # ex. t("save", scope: controller_scope_name)
+    def controller_scope_name
+      @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
+    end
+
     protected
 
     def respond
@@ -531,13 +538,6 @@ module Releaf
 
     def page_title
       I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
-    end
-
-    # return contoller translation scope name for using
-    # with I18.translation call within hash params
-    # ex. t("save", scope: controller_scope_name)
-    def controller_scope_name
-      'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
 
     # returns all params except :controller, :action and :format
