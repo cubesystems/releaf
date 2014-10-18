@@ -63,7 +63,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_association_fields(association_name, fields)
-    fields = association_fields(field) if fields.nil?
+    fields = association_fields(association_name) if fields.nil?
 
     case reflection(association_name).macro
     when :has_many
