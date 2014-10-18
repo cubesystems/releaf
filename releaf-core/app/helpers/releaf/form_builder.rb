@@ -77,7 +77,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_belongs_to_association(association_name, fields)
     wrapper(class: "nested-wrap", data: { name: association_name}) do
-      tag(:div, I18n.t(association_name, scope: template.controller_scope_name), class: "nested-title") <<
+      tag(:div, t(association_name), class: "nested-title") <<
       wrapper(class: "item") do
         fields_for(association_name, object.send(association_name)) do |builder|
           builder.releaf_fields_or_field(association_name, fields)
@@ -88,14 +88,14 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_has_many_association(association_name, fields)
     reflection = reflection(association_name)
-   sortable_objects = reflection.klass.column_names.include?(sortable_column_name)
+    sortable_objects = reflection.klass.column_names.include?(sortable_column_name)
 
     item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', allow_destroy: true,
                                              sortable_objects: sortable_objects, subfields: fields)
     item_template = template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
     wrapper(class: "nested-wrap", data: { name: association_name, "releaf-template" => item_template}) do
-      tag(:h3, I18n.t(association_name, scope: template.controller_scope_name), class: "subheader nested-title") <<
+      tag(:h3, t(association_name), class: "subheader nested-title") <<
       wrapper(class: "list", data: {sortable: sortable_objects ? '' : nil}) do
         allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
 
@@ -130,14 +130,14 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_type_remove_nested
-    button_attributes = {title: I18n.t('Remove item', scope: 'admin.global'), class: "danger only-icon remove-nested-item"}
+    button_attributes = {title: t('Remove item'), class: "danger only-icon remove-nested-item"}
     wrapper(class: "remove-item-box") do
       template.releaf_button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
     end
   end
 
   def field_type_add_nested
-    template.releaf_button(I18n.t('Add item', scope: 'admin.global'), "plus", class: "primary add-nested-item")
+    template.releaf_button(t('Add item'), "plus", class: "primary add-nested-item")
   end
 
   def field_type_method(name)
@@ -214,7 +214,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_file_remove_button(name)
     tag(:div, class: "remove") do
-      check_box("remove_#{name}") << label("remove_#{name}", I18n.t("Remove", scope: 'admin.global'))
+      check_box("remove_#{name}") << label("remove_#{name}", t("Remove"))
     end
   end
 
@@ -226,7 +226,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     content = file_field(name, attributes)
     if object.send(name).present?
       content << hidden_field("retained_#{name}")
-      content << template.link_to(I18n.t("Download"), object.send(name).url, target: "_blank")
+      content << template.link_to(t("Download"), object.send(name).url, target: "_blank")
       content << releaf_file_remove_button(name)
     end
 
@@ -428,7 +428,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def localization_switch(default_locale)
     tag(:div, class: "localization-switch") do
-      template.button_tag(type: 'button', title: I18n.t('Switch locale', scope: 'admin.global'), class: "trigger") do
+      template.button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])
       end <<
       tag(:menu, class: ["block", "localization-menu-items"], type: 'toolbar') do
@@ -496,7 +496,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
         key = name.to_s.sub(/_uid$/, '')
       end
 
-      I18n.t(key, scope: "activerecord.attributes.#{object.class.name.underscore}")
+      t(key, scope: "activerecord.attributes.#{object.class.name.underscore}")
     end
   end
 
