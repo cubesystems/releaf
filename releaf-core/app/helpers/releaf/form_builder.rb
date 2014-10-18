@@ -244,54 +244,65 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def releaf_datetime_field(name, input: {}, label: {}, field: {}, options: {})
-    input = {
-      class: 'datetime_picker',
-      data: {
-        date_format: template.jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
-      },
-      value: (I18n.l(object.send(name), default: "%Y-%m-%d %H:%M") if object.send(name))
-    }.merge(input)
-
-    options = {field: {type: "datetime"}}.deep_merge(options)
-
+  def date_or_time_fields(name, type, input: {}, label: {}, field: {}, options: {})
+    input = date_or_time_fields_input_attributes(name, type, input)
+    options = {field: {type: type.to_s}}.deep_merge(options)
     releaf_text_field(name, input: input, label: label, field: field, options: options)
+  end
+
+  def date_or_time_fields_input_attributes(name, type, attributes)
+    value = object.send(name)
+    {
+      class: "#{type}_picker",
+      data: {
+        "date-format" => jquery_date_format,
+        "time-format" => jquery_time_format
+      },
+      value: (format_date_or_time_value(value, type) if value)
+    }.merge(attributes)
+  end
+
+  def format_date_or_time_value(value, type)
+    default_format = date_or_time_default_format(type)
+
+    if type == :time
+      value.strftime(default_format)
+    else
+      I18n.l(value, default: default_format)
+    end
+  end
+
+  def jquery_time_format
+    format = date_or_time_default_format(:time)
+    template.jquery_date_format(format)
+  end
+
+  def jquery_date_format
+    format = date_or_time_default_format(:date)
+    template.jquery_date_format(t("default", scope: "date.formats", default: format))
+  end
+
+  def date_or_time_default_format(type)
+    case type
+    when :date
+      "%Y-%m-%d"
+    when :datetime
+      "%Y-%m-%d %H:%M"
+    when :time
+      "%H:%M"
+    end
+  end
+
+  def releaf_datetime_field(name, input: {}, label: {}, field: {}, options: {})
+    date_or_time_fields(name, :datetime, input: input, label: label, field: field, options: options)
   end
 
   def releaf_time_field(name, input: {}, label: {}, field: {}, options: {})
-    input = {
-      class: 'time_picker',
-      format: 'HH:mm',
-      data: {
-        date_format: template.jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
-      },
-      value: object.send(name).try(:strftime, '%H:%M')
-    }.merge(input)
-
-    options = {
-      field: {type: "time"},
-      label: {
-        description: I18n.t("field.Format %{_format}", default: 'Format %{_format}',
-                            _format: I18n.t("format.input.time", default: 'hh:mm'))
-
-      }
-    }.deep_merge(options)
-
-    releaf_text_field(name, input: input, label: label, field: field, options: options)
+    date_or_time_fields(name, :time, input: input, label: label, field: field, options: options)
   end
 
-
   def releaf_date_field(name, input: {}, label: {}, field: {}, options: {})
-    input = {
-      class: 'date_picker',
-      data: {
-        date_format: template.jquery_date_format(I18n.t("date.formats.default", default: "%Y-%m-%d"))
-      },
-      value: (I18n.l(object.send(name), default: "%Y-%m-%d") if object.send(name))
-    }.deep_merge(input)
-    options = {field: {type: "date"}}.deep_merge(options)
-
-    releaf_text_field(name, input: input, label: label, field: field, options: options)
+    date_or_time_fields(name, :date, input: input, label: label, field: field, options: options)
   end
 
   def releaf_richtext_field(name, input: {}, label: {}, field: {}, options: {})
