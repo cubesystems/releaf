@@ -28,7 +28,7 @@ require 'rspec/rails'
 require 'factory_girl'
 require 'capybara/rspec'
 require 'database_cleaner'
-require 'capybara-webkit'
+require 'capybara/poltergeist'
 require 'shoulda-matchers'
 require 'with_model'
 require 'timecop'
@@ -41,11 +41,11 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 include Warden::Test::Helpers
 
 
-Capybara.register_driver :quiet_webkit do |app|
-  Capybara::Webkit::Driver.new(app, stderr: HushLittleWebkit.new)
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: false, inspector: true, phantomjs_logger: WarningSuppressor)
 end
 
-class HushLittleWebkit
+class WarningSuppressor
   IGNOREABLE = /CoreText performance|userSpaceScaleFactor/
 
   def write(message)
@@ -81,16 +81,16 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
 
   # DEVISE
-  config.include Devise::TestHelpers, :type => :controller
-  config.extend ControllerMacros, :type => :controller
-  config.include Devise::TestHelpers, :type => :helper
-  config.extend ControllerMacros, :type => :helper
+  config.include Devise::TestHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
+  config.include Devise::TestHelpers, type: :helper
+  config.extend ControllerMacros, type: :helper
 
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
 
-  Capybara.javascript_driver = :quiet_webkit
+  Capybara.javascript_driver = :poltergeist
 
   # disable empty translation creation
   Releaf::I18nDatabase.create_missing_translations = false
