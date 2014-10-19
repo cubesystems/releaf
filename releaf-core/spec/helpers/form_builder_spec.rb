@@ -99,7 +99,7 @@ describe Releaf::FormBuilder, type: :class do
 
   describe "#render_field_by_options" do
     let(:options){ {
-      render_method: "custom_render_method",
+      render_method: "sortable_column_name", # just random method here
       association: nil,
       field: "title",
       subfields: [:a, :b],
@@ -107,7 +107,7 @@ describe Releaf::FormBuilder, type: :class do
     } }
 
     before do
-      allow(subject).to receive(:custom_render_method)
+      allow(subject).to receive(:sortable_column_name)
         .with(no_args).and_return("_render_method_content_")
       allow(subject).to receive(:releaf_association_fields)
         .with("title", [:a, :b]).and_return("_association_method_content_")

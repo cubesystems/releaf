@@ -31,8 +31,16 @@ describe Releaf::ApplicationHelper do
 
   describe "#i18n_options_for_select" do
     Color = Struct.new(:id, :to_s)
+    let(:helper) do
+      helper = instance_double(Releaf::BaseController)
+      helper.extend Releaf::ApplicationHelper
+      helper.extend ActionView::Helpers
+
+      helper
+    end
 
     before do
+
       translation = FactoryGirl.create(:translation, :key => "admin.global.colors-red")
       FactoryGirl.create(:translation_data, :lang => "en", :localization => "Color red", :translation => translation)
       I18n.backend.reload_cache

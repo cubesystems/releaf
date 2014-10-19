@@ -59,19 +59,20 @@ class WarningSuppressor
 end
 
 RSpec.configure do |config|
-  config.mock_with :rspec
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
   config.infer_spec_type_from_file_location!
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 
   config.color = true
 
   if ENV['COVERAGE']
     config.add_formatter(:progress)
   end
-
-  config.add_formatter(:html, 'rspec.html')
 
   config.include Helpers
   config.include WaitSteps

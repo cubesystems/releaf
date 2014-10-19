@@ -2,7 +2,16 @@ require "spec_helper"
 
 describe Releaf::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base
+    include Releaf::ToolboxHelper
     include Releaf::ApplicationHelper
+  end
+
+  class DummyTableBuilderInheriter < Releaf::TableBuilder
+    def some_cell_method(resource, column); end
+    def custom_format(resource, column); end
+    def format_big_boolean_content(resource, column); end
+    def title_cell; end
+    def custom_title(resource); end
   end
 
   let(:template){ TableBuilderTestHelper.new }
@@ -11,6 +20,7 @@ describe Releaf::TableBuilder, type: :class do
   let(:collection){ Book.all }
   let(:options){ {toolbox: false} }
   let(:subject){ described_class.new(collection, resource_class, template, options) }
+  let(:inheriter_subject){ DummyTableBuilderInheriter.new(collection, resource_class, template, options) }
 
   it "includes Releaf::Builder" do
     expect(Releaf::TableBuilder.ancestors).to include(Releaf::Builder)
@@ -180,7 +190,9 @@ describe Releaf::TableBuilder, type: :class do
 
   describe "#row_url" do
     it "returns edit url for given resource" do
-      allow(subject.template).to receive(:resource_edit_url).with("a").and_return('_url_')
+      template = double("some template")
+      allow(template).to receive(:resource_edit_url).with("a").and_return('_url_')
+      allow(subject).to receive(:template).and_return(template)
       expect(subject.row_url("a")).to eq('_url_')
     end
 
@@ -222,35 +234,35 @@ describe Releaf::TableBuilder, type: :class do
       }
       resource = resource_class.new(id: 89)
 
-      allow(subject).to receive(:columns).and_return(columns)
-      allow(subject).to receive(:row_url).with(resource).and_return("url_value")
+      allow(inheriter_subject).to receive(:columns).and_return(columns)
+      allow(inheriter_subject).to receive(:row_url).with(resource).and_return("url_value")
 
-      allow(subject).to receive(:some_cell_method)
+      allow(inheriter_subject).to receive(:some_cell_method)
         .with(resource, cell_method: "some_cell_method", url: "url_value").and_return("_title_cell_value")
-      allow(subject).to receive(:cell)
+      allow(inheriter_subject).to receive(:cell)
         .with(resource, :color, url: "url_value").and_return("_color_cell_value")
 
       content = '<tr class="row" data-id="89">_title_cell_value_color_cell_value</tr>'
-      expect(subject.row(resource)).to eq(content)
+      expect(inheriter_subject.row(resource)).to eq(content)
     end
   end
 
   describe "#cell_content" do
     it "returns format method output with resource and column as arguments wrapped in span element" do
       options = {format_method: "custom_format"}
-      allow(subject).to receive(:custom_format).with("a", :title).and_return('_custom " format_')
+      allow(inheriter_subject).to receive(:custom_format).with("a", :title).and_return('_custom " format_')
 
       content = '<span>_custom &quot; format_</span>'
-      expect(subject.cell_content("a", :title, options)).to eq(content)
+      expect(inheriter_subject.cell_content("a", :title, options)).to eq(content)
     end
 
     context "when given options has :content_method" do
       it "returns content method output with resource as argument wrapped in span element" do
         options = {content_method: "custom_title", format_method: "custom_format"}
-        allow(subject).to receive(:custom_title).with("a").and_return('_custom " _value_')
+        allow(inheriter_subject).to receive(:custom_title).with("a").and_return('_custom " _value_')
 
         content = '<span>_custom &quot; _value_</span>'
-        expect(subject.cell_content("a", :title, options)).to eq(content)
+        expect(inheriter_subject.cell_content("a", :title, options)).to eq(content)
       end
     end
   end
@@ -350,8 +362,7 @@ describe Releaf::TableBuilder, type: :class do
   describe "#cell_content_method" do
     context "when custom cell content method exists" do
       it "returns custom cell content method name" do
-        allow(subject).to receive(:title_content)
-        expect(subject.cell_content_method(:title)).to eq("title_content")
+        expect(subject.cell_content_method(:format_string)).to eq("format_string_content")
       end
     end
 
@@ -365,8 +376,7 @@ describe Releaf::TableBuilder, type: :class do
   describe "#cell_method" do
     context "when custom cell method exists" do
       it "returns custom cell method name" do
-        allow(subject).to receive(:title_cell)
-        expect(subject.cell_method(:title)).to eq("title_cell")
+        expect(inheriter_subject.cell_method(:title)).to eq("title_cell")
       end
     end
 
@@ -426,12 +436,12 @@ describe Releaf::TableBuilder, type: :class do
   describe "#column_type_format_method" do
     before do
       allow(subject).to receive(:column_type).with(:title).and_return(:big_boolean)
+      allow(inheriter_subject).to receive(:column_type).with(:title).and_return(:big_boolean)
     end
 
     context "when format method for returned column type exists" do
       it "returns column type format method" do
-        allow(subject).to receive(:format_big_boolean_content)
-        expect(subject.column_type_format_method(:title)).to eq(:format_big_boolean_content)
+        expect(inheriter_subject.column_type_format_method(:title)).to eq(:format_big_boolean_content)
       end
     end
 

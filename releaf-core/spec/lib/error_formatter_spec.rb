@@ -165,15 +165,15 @@ describe Releaf::ErrorFormatter do
     end
 
     it "adds error to errors" do
-      message = "error message"
+      message = ActiveModel::ErrorMessage.new("error message")
       allow(message).to receive(:error_code).and_return('test error')
       allow(message).to receive(:data).and_return(nil)
 
-      other_message = "invalid author"
+      other_message = ActiveModel::ErrorMessage.new("invalid author")
       allow(other_message).to receive(:error_code).and_return('invalid')
       allow(other_message).to receive(:data).and_return({foo: :bar})
 
-      jet_another_message = "jet another error message"
+      jet_another_message = ActiveModel::ErrorMessage.new("jet another error message")
       allow(jet_another_message).to receive(:error_code).and_return('test error')
       allow(jet_another_message).to receive(:data).and_return(nil)
 
@@ -193,7 +193,7 @@ describe Releaf::ErrorFormatter do
     end
 
     it "localizes error messages" do
-      message = "error message"
+      message = ActiveModel::ErrorMessage.new("error message")
       allow(message).to receive(:error_code).and_return('test error')
       allow(message).to receive(:data).and_return(nil)
 
