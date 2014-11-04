@@ -51,7 +51,13 @@ module Releaf
 
     def add_error attribute, message
       @errors[field_id(attribute)] ||= []
-      @errors[field_id(attribute)] << {error_code: message.error_code, full_message: I18n.t(message, scope: @error_message_i18n_scope)}
+      @errors[field_id(attribute)] << error_hash(message)
+    end
+
+    def error_hash message
+      h = {error_code: message.error_code, full_message: I18n.t(message, scope: @error_message_i18n_scope)}
+      h[:data] = message.data unless message.data.nil?
+      h
     end
 
     def field_id attribute

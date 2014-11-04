@@ -11,7 +11,7 @@ feature "Attachments", js: true do
     fill_in("Name", with: "Image test")
 
     status_script = 'CKEDITOR.instances["resource_content_attributes_text_html"].status=="ready"'
-    expect { page.driver.browser.evaluate_script(status_script) }.to become_true
+    expect { page.evaluate_script(status_script) }.to become_true
 
     find(".cke_toolbox a[title='Image']").click
     expect(page).to have_css(".cke_dialog_title", text: "Image Properties")
@@ -25,7 +25,6 @@ feature "Attachments", js: true do
     click_link "Send it to the Server"
     expect(page).to have_content("Preview")
     click_link "OK"
-    page.driver.browser.frame_focus # switch focus back to main frame
 
     expect(page).to have_css(".cke_editor_resource_content_attributes_text_html") # wait focus switch finished
     save_and_check_response "Create succeeded"
@@ -39,7 +38,7 @@ feature "Attachments", js: true do
     fill_in("Name", with: "Link test")
 
     status_script = 'CKEDITOR.instances["resource_content_attributes_text_html"].status=="ready"'
-    expect { page.driver.browser.evaluate_script(status_script) }.to become_true
+    expect { page.evaluate_script(status_script) }.to become_true
 
     find(".cke_toolbox a[title='Link']").click
     expect(page).to have_css(".cke_dialog_title", text: "Link")
@@ -53,7 +52,6 @@ feature "Attachments", js: true do
     click_link "Send it to the Server"
     expect(page).to have_content("Link Type")
     click_link "OK"
-    page.driver.browser.frame_focus # switch focus back to main frame
 
     expect(page).to have_css(".cke_editor_resource_content_attributes_text_html") # wait focus switch finished
     save_and_check_response "Create succeeded"

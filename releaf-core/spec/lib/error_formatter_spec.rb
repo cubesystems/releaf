@@ -165,14 +165,17 @@ describe Releaf::ErrorFormatter do
     end
 
     it "adds error to errors" do
-      message = "error message"
+      message = ActiveModel::ErrorMessage.new("error message")
       allow(message).to receive(:error_code).and_return('test error')
+      allow(message).to receive(:data).and_return(nil)
 
-      other_message = "invalid author"
+      other_message = ActiveModel::ErrorMessage.new("invalid author")
       allow(other_message).to receive(:error_code).and_return('invalid')
+      allow(other_message).to receive(:data).and_return({foo: :bar})
 
-      jet_another_message = "jet another error message"
+      jet_another_message = ActiveModel::ErrorMessage.new("jet another error message")
       allow(jet_another_message).to receive(:error_code).and_return('test error')
+      allow(jet_another_message).to receive(:data).and_return(nil)
 
       expect do
         subject.send(:add_error, 'title', message)
@@ -184,14 +187,15 @@ describe Releaf::ErrorFormatter do
           {error_code: 'test error', full_message: 'Jet another error message'},
         ],
         'resource[author_id]' => [
-          {error_code: 'invalid', full_message: 'Invalid author'},
+          {error_code: 'invalid', full_message: 'Invalid author', data: {foo: :bar}},
         ],
       })
     end
 
     it "localizes error messages" do
-      message = "error message"
+      message = ActiveModel::ErrorMessage.new("error message")
       allow(message).to receive(:error_code).and_return('test error')
+      allow(message).to receive(:data).and_return(nil)
 
       expect( I18n ).to receive(:t).with(message, scope: "activerecord.errors.messages.book").and_call_original
       subject.send(:add_error, 'title', message)

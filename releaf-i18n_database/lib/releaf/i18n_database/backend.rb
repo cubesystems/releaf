@@ -1,5 +1,5 @@
 require 'i18n/backend/base'
-
+# TODO convert to arel
 module Releaf
   module I18nDatabase
     class Backend
@@ -36,11 +36,10 @@ module Releaf
 
       # Return all non-empty localizations
       def localization_data
-        data_collection = TranslationData.where("localization != ''").
-          joins("LEFT JOIN releaf_translations ON releaf_translations.id=translation_id").
-          pluck("LOWER(CONCAT(lang, '.', releaf_translations.key)) AS translation_key", "localization")
-
-        Hash[data_collection]
+        TranslationData.where("localization <> ''").
+          joins("LEFT JOIN releaf_translations ON releaf_translations.id = translation_id").
+          pluck("LOWER(CONCAT(lang, '.', releaf_translations.key)) AS translation_key", "localization").
+          to_h
       end
 
       # Return translation hash for each releaf locales
@@ -93,7 +92,7 @@ module Releaf
 
         while (chain.length > 1) do
           result = cache_lookup(chain, locale, options, chain_initial_length == chain.length)
-          return result unless result.blank?
+          return result if result.present?
 
           # remove second last value
           chain.delete_at(chain.length - 2)

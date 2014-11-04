@@ -1,3 +1,4 @@
+# TODO convert to arel
 module Releaf
   class ResourceFinder
     attr_accessor :resource_class, :collection, :searchable_fields
@@ -21,7 +22,7 @@ module Releaf
     def normalize_fields klass, attributes
       fields = []
 
-      attributes.each do|attribute|
+      attributes.each do |attribute|
         if attribute.is_a?(Symbol) || attribute.is_a?(String)
           fields << "#{klass.table_name}.#{attribute.to_s}"
         elsif attribute.is_a? Hash
@@ -39,7 +40,7 @@ module Releaf
     def joins klass, attributes
       join_list = {}
 
-      attributes.each do|attribute|
+      attributes.each do |attribute|
         if attribute.is_a? Hash
           attribute.each_pair do |key, values|
             association = klass.reflect_on_association(key.to_sym)
@@ -99,8 +100,8 @@ module Releaf
 
     def add_search_to_collection(text)
       fields = normalize_fields(resource_class, searchable_fields)
-      text.strip.split(" ").each_with_index do|word, i|
-        query = fields.map { |field| "#{field} LIKE :word#{i}" }.join(' OR ')
+      text.strip.split(" ").each_with_index do |word, i|
+        query = fields.map { |field| "LOWER(#{field}) LIKE LOWER(:word#{i})" }.join(' OR ')
         self.collection = collection.where(query, "word#{i}".to_sym =>'%' + word + '%')
       end
     end

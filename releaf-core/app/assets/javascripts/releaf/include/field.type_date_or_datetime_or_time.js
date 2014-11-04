@@ -29,7 +29,6 @@ jQuery(document).ready(function()
 
         var options =
         {
-            timeFormat: 'HH:mm:ss',
             controlType: 'select',
             showHour: true,
             showMinute: true,
@@ -42,17 +41,15 @@ jQuery(document).ready(function()
             {
                 chevron_icons_show( instance );
             }
-            // showSecond: true,
-            // showTimezone: true,
         }
 
         block.find('.date_picker').each(function() {
             var picker = jQuery(this);
             var opt = options;
-            opt['dateFormat'] = picker.attr('data-date-format') || 'yy-mm-dd';
 
-            opt['minDate'] = get_date_limit(picker.attr('data-min-date'));
-            opt['maxDate'] = get_date_limit(picker.attr('data-max-date'));
+            opt['dateFormat'] = picker.data('date-format') || 'yy-mm-dd';
+            opt['minDate'] = get_date_limit(picker.data('min-date'));
+            opt['maxDate'] = get_date_limit(picker.data('max-date'));
 
             picker.datepicker(opt);
         });
@@ -60,30 +57,28 @@ jQuery(document).ready(function()
         block.find('.datetime_picker').each(function() {
             var picker = jQuery(this);
             var opt = options;
-            opt['dateFormat'] = picker.attr('data-date-format') || 'yy-mm-dd';
-            opt['pickerTimeFormat'] = picker.attr('data-time-format') || 'HH:mm'
 
-            opt['minDate'] = get_date_limit(picker.attr('data-min-date'));
-            opt['maxDate'] = get_date_limit(picker.attr('data-max-date'));
+            opt['dateFormat'] = picker.data('date-format') || 'yy-mm-dd';
+            opt['pickerTimeFormat'] = picker.data('time-format') || 'HH:mm'
+            opt['minDate'] = get_date_limit(picker.data('min-date'));
+            opt['maxDate'] = get_date_limit(picker.data('max-date'));
 
             picker.datetimepicker(opt);
         });
 
-        /*
-         * block.find('.time_picker').each(function() {
-         *     var picker = jQuery(this);
-         *     var opt = options;
-         *     opt['pickerTimeFormat'] = picker.attr('data-time-format') || 'HH:mm'
-         *     picker.timepicker(options);
-         * });
-         */
-    });
+         block.find('.time_picker').each(function() {
+             var picker = jQuery(this);
+             var opt = options;
 
+             opt['pickerTimeFormat'] = picker.data('time-format') || 'HH:mm'
+
+             picker.timepicker(options);
+         });
+    });
 
     body.on('contentloaded', function(e)
     {
         jQuery(e.target).trigger('calendarsinit');
     });
-
 
 });

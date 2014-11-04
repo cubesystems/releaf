@@ -124,8 +124,13 @@ describe Releaf::I18nDatabase::TranslationsController do
   describe "#import" do
     context "when file uploaded" do
       before do
-        file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', true)
-        allow(file).to receive(:tempfile).and_return(file)
+        file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        class << file
+          # The reader method is present in a real invocation,
+          # but missing from the fixture object for some reason (Rails 3.1.1)
+          attr_reader :tempfile
+        end
+
         post :import, import_file: file
       end
 

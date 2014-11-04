@@ -26,11 +26,11 @@ module Releaf::Content
       route_params.merge!(args)
 
       # normalize as with locale
-      unless locale.blank? || route_params[:as].blank?
+      if locale.present? && route_params[:as].present?
         route_params[:as] = "#{locale}_#{route_params[:as]}"
       end
 
-      route_params[path] = controller_action unless controller_action.blank?
+      route_params[path] = controller_action if controller_action.present?
 
       route_params
     end

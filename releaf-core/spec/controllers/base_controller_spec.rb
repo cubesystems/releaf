@@ -1,5 +1,101 @@
 require 'spec_helper'
 
+describe Releaf::BaseController do
+  let(:new_resource){ Author.new }
+  let(:resource){ create(:author) }
+  class FooFormBuilder; end
+
+  describe "#form_url" do
+    context "when given resource is new record" do
+      it "returns url for create method" do
+        allow(subject).to receive(:url_for).with(action: 'create', id: nil).and_return("/res/new")
+        expect(subject.form_url(:edit, new_resource)).to eq("/res/new")
+      end
+    end
+
+    context "when given resource is existing record" do
+      it "returns url for update method" do
+        allow(subject).to receive(:url_for).with(action: 'update', id: resource.id).and_return("/res/edit/")
+        expect(subject.form_url(:edit, resource)).to eq("/res/edit/")
+      end
+    end
+  end
+
+  describe "#form_attributes" do
+    it "returns basic releaf form attributes" do
+      attributes = {
+         multipart: true,
+         data: {
+           'validation-ok-handler' => 'ajax',
+           'validation' => 'true'
+         }
+      }
+      expect(subject.form_attributes(:edit, new_resource)).to eq(attributes)
+    end
+  end
+
+  describe "#form_builder" do
+    context "when resource class form builder exists" do
+      it "returns resource class form builder" do
+        allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
+        expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::Permissions::UserFormBuilder)
+      end
+    end
+
+    context "when resource class form builder does not exists" do
+      it "returns Releaf::FormBuilder class" do
+        allow(subject).to receive(:resource_class).and_return(Text)
+        expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::FormBuilder)
+      end
+    end
+  end
+
+  describe "#table_builder" do
+    context "when resource class table builder exists" do
+      it "returns resource class table builder" do
+        allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
+        expect(subject.table_builder).to eq(Releaf::Permissions::UserTableBuilder)
+      end
+    end
+
+    context "when resource class table builder does not exists" do
+      it "returns Releaf::TableBuilder class" do
+        allow(subject).to receive(:resource_class).and_return(Text)
+        expect(subject.table_builder).to eq(Releaf::TableBuilder)
+      end
+    end
+  end
+
+  describe "#table_options" do
+    it "returns table options" do
+      allow(subject).to receive(:table_builder).and_return("CustomTableBuilderClassHere")
+      allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
+
+      options = {
+        builder: "CustomTableBuilderClassHere",
+        toolbox: "boolean_value_here"
+      }
+      expect(subject.table_options).to eq(options)
+    end
+  end
+
+  describe "#form_options" do
+    it "returns form options" do
+      allow(subject).to receive(:form_builder).with(:delete, resource).and_return("CustomFormBuilderClassHere")
+      allow(subject).to receive(:form_url).with(:delete, resource).and_return("/some-url-here")
+      allow(subject).to receive(:form_attributes).with(:delete, resource).and_return(some: "options_here")
+
+      options = {
+        builder: "CustomFormBuilderClassHere",
+        as: :author,
+        url: "/some-url-here",
+        html: {some: "options_here"}
+      }
+      expect(subject.form_options(:delete, resource, :author)).to eq(options)
+    end
+  end
+end
+
 # use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::BaseController and
 # have no extra methods or overrides
 describe Admin::AuthorsController do

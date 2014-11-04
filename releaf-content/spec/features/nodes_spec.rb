@@ -125,7 +125,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Cant be parent to itself")
+        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Source or descendant node can't be parent of new node")
       end
     end
   end
@@ -159,7 +159,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Move"
         end
 
-        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Cant be parent to itself")
+        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Can't be parent to itself")
       end
     end
 
@@ -177,7 +177,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       fill_in "Slug", with: child_text
       fill_in_richtext 'resource_content_attributes_text_html', child_text
       if position
-        select position, from: 'Position'
+        select position, from: 'Item position'
       end
       save_and_check_response "Create succeeded"
     end

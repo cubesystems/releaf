@@ -1,3 +1,4 @@
+# TODO convert to arel
 class Chapter < ActiveRecord::Base
   validates_presence_of :title, :text, :book, :sample_html
   belongs_to :book

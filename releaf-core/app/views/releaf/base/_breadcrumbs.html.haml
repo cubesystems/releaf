@@ -1,8 +1,8 @@
-- unless @breadcrumbs.blank?
+- if @breadcrumbs.present?
   %ul.block.breadcrumbs
     - @breadcrumbs.each_with_index do |item, i|
       %li
-        - unless item[:url].blank?
+        - if item[:url].present?
           %a{:href => item[:url]}
             = item[:name]
         - else

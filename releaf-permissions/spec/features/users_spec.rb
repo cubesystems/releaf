@@ -16,25 +16,25 @@ describe "home page" do
     before do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email',    :with => @user.email
-        fill_in 'Password', :with => @user.password
+        fill_in 'Email', with: @user.email
+        fill_in 'Password', with: @user.password
       end
       click_button 'Sign in'
       expect(page).to have_css('header > ul > li.sign-out > form > button')
     end
 
-    it "new user creation", :js => true do
+    it "new user creation", js: true do
       visit (releaf_permissions_users_path)
       click_link 'Create new resource'
       within("form.new_resource") do
-        fill_in 'Name',    :with => "John"
-        fill_in 'Surname', :with => "Appleseed"
-        fill_in 'Email', :with => "john@example.com"
-        fill_in 'Password', :with => "password", :match => :prefer_exact
-        fill_in 'Password confirmation', :with => "password", :match => :prefer_exact
+        fill_in 'Name', with: "John"
+        fill_in 'Surname', with: "Appleseed"
+        fill_in 'Email', with: "john@example.com"
+        fill_in 'Password', with: "password", match: :prefer_exact
+        fill_in 'Password confirmation', with: "password", match: :prefer_exact
 
-        expect(page).to have_select('Locale', :options => Releaf.available_admin_locales)
-        select 'en', :from => 'Locale'
+        expect(page).to have_select('Locale', options: [""] + Releaf.available_admin_locales)
+        select 'en', from: 'Locale'
       end
       save_and_check_response('Create succeeded')
       expect(page).to have_content 'John Appleseed'
@@ -51,7 +51,7 @@ describe "home page" do
       visit '/admin/users'
       expect(page).to have_content 'simple@example.com'
       within("form.search") do
-        fill_in 'search',    :with => "admin@example.com"
+        fill_in 'search', with: "admin@example.com"
       end
       find('form.search button').click
       expect(page).not_to have_content 'simple@example.com'
@@ -65,8 +65,8 @@ describe "home page" do
     before do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email',    :with => @user.email
-        fill_in 'Password', :with => @user.password
+        fill_in 'Email', with: @user.email
+        fill_in 'Password', with: @user.password
       end
       click_button 'Sign in'
     end
@@ -95,8 +95,8 @@ describe "home page" do
     before do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email',    :with => @simple_user.email
-        fill_in 'Password', :with => @simple_user.password
+        fill_in 'Email', with: @simple_user.email
+        fill_in 'Password', with: @simple_user.password
       end
       click_button 'Sign in'
     end

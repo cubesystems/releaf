@@ -1,6 +1,0 @@
-.section.content-fields
-  - content_fields_to_display = f.object.content_fields_to_display(params[:action])
-  - if content_fields_to_display.present?
-    = f.fields_for :content, f.object.content || f.object.content_class.new do |ff|
-      = render 'edit.fields', :f => ff, :fields => content_fields_to_display, :view_prefix => 'edit.field.content'
-  .clear

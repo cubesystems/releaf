@@ -1,5 +1,8 @@
 module Releaf::Permissions
   class ProfileController < Releaf::BaseController
+    def form_builder(form_type, object)
+      Releaf::Permissions::ProfileFormBuilder
+    end
 
     # Store settings for menu collapsing and others
     def settings
@@ -29,17 +32,6 @@ module Releaf::Permissions
       if @resource.password != old_password
         sign_in(self.send("current_#{::Releaf::ReleafDeviseHelper.devise_admin_model_name}"), bypass: true)
       end
-    end
-
-    def fields_to_display
-      return %w[
-        name
-        surname
-        locale
-        email
-        password
-        password_confirmation
-      ]
     end
 
     def self.resource_class

@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Releaf::TemplateFieldTypeMapper do
+  let(:object){ double("generic object") }
+
   def file_field_error_message field_name, obj
     "object doesn't respond to `%s` method. Did you forgot to add `file_accessor :%s` to `%s` model?" % [field_name, field_name, obj.class.name]
   end
@@ -9,13 +11,13 @@ describe Releaf::TemplateFieldTypeMapper do
     "object doesn't respond to `%s` method. Did you forgot to add `image_accessor :%s` to `%s` model?" % [field_name, field_name, obj.class.name]
   end
 
-  describe ".field_type_name" do
+  describe ".field_type_name", pending: true do
     it "needs tests"
   end
 
   describe ".use_i18n?" do
     context "when object translates" do
-      context "when given attribute  translatable" do
+      context "when given attribute translatable" do
         it "returns true" do
           expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :description)).to be true
         end
@@ -38,24 +40,22 @@ describe Releaf::TemplateFieldTypeMapper do
   describe ".image_or_error" do
     context "given field_name that doesn't end with _uid" do
       it "raises ArgumentError" do
-        obj = Object.new
-        expect { subject.send(:image_or_error, 'image', obj) }.to raise_error ArgumentError
+        allow(object).to receive(:image)
+        expect { subject.send(:image_or_error, 'image', object) }.to raise_error ArgumentError
       end
     end
 
     context 'given field_name is `image_uid`' do
       context 'when object responds to `image` method' do
         it "returns 'image'" do
-          obj = Object.new
-          allow(obj).to receive(:image)
-          expect( subject.send(:image_or_error, 'image_uid', obj) ).to eq 'image'
+          allow(object).to receive(:image)
+          expect( subject.send(:image_or_error, 'image_uid', object) ).to eq 'image'
         end
       end
 
       context 'when object does not respond to `image` method' do
         it 'raises RuntimeError' do
-          obj = Object.new
-          expect { subject.send(:image_or_error, 'image_uid', obj) }.to raise_error(RuntimeError, image_field_error_message('image', obj))
+          expect { subject.send(:image_or_error, 'image_uid', object) }.to raise_error(RuntimeError, image_field_error_message('image', object))
         end
       end
     end
@@ -64,24 +64,22 @@ describe Releaf::TemplateFieldTypeMapper do
   describe ".file_or_error" do
     context "given field_name that doesn't end with _uid" do
       it "raises ArgumentError" do
-        obj = Object.new
-        expect { subject.send(:file_or_error, 'file', obj) }.to raise_error ArgumentError
+        allow(object).to receive(:file)
+        expect { subject.send(:file_or_error, 'file', object) }.to raise_error ArgumentError
       end
     end
 
     context 'given field_name is `file_uid`' do
       context 'when object responds to `file` method' do
         it "returns 'file'" do
-          obj = Object.new
-          allow(obj).to receive(:file)
-          expect( subject.send(:file_or_error, 'file_uid', obj) ).to eq 'file'
+          allow(object).to receive(:file)
+          expect( subject.send(:file_or_error, 'file_uid', object) ).to eq 'file'
         end
       end
 
       context 'when object does not respond to `file` method' do
         it 'raises RuntimeError' do
-          obj = Object.new
-          expect { subject.send(:file_or_error, 'file_uid', obj) }.to raise_error(RuntimeError, file_field_error_message('file', obj))
+          expect { subject.send(:file_or_error, 'file_uid', object) }.to raise_error(RuntimeError, file_field_error_message('file', object))
         end
       end
     end
@@ -92,17 +90,15 @@ describe Releaf::TemplateFieldTypeMapper do
       context "when attribute name is '#{field_name}'" do
         context "when object responds to '#{field_name.sub(/_uid$/, '')}'" do
           it "returns 'image'" do
-            obj = Object.new
-            allow(obj).to receive(field_name.sub(/_uid$/, '').to_sym)
-            expect( subject.send(:field_type_name_for_string, field_name, obj) ).to eq 'image'
+            allow(object).to receive(field_name.sub(/_uid$/, '').to_sym)
+            expect( subject.send(:field_type_name_for_string, field_name, object) ).to eq 'image'
           end
         end
 
         context "when object doesn't respond to '#{field_name.sub(/_uid$/, '')}'" do
           it "raises RuntimeError" do
             test_field_name = field_name.sub(/_uid$/, '')
-            obj = Object.new
-            expect { subject.send(:field_type_name_for_string, field_name, obj) }.to raise_error(RuntimeError, image_field_error_message(test_field_name, obj))
+            expect { subject.send(:field_type_name_for_string, field_name, object) }.to raise_error(RuntimeError, image_field_error_message(test_field_name, object))
           end
         end
       end
@@ -124,17 +120,15 @@ describe Releaf::TemplateFieldTypeMapper do
       context "when attribute name is '#{field_name}'" do
         context "when object responds to '#{field_name.sub(/_uid$/, '')}'" do
           it "returns 'file'" do
-            obj = Object.new
-            allow(obj).to receive(field_name.sub(/_uid$/, '').to_sym)
-            expect( subject.send(:field_type_name_for_string, field_name, obj) ).to eq 'file'
+            allow(object).to receive(field_name.sub(/_uid$/, '').to_sym)
+            expect( subject.send(:field_type_name_for_string, field_name, object) ).to eq 'file'
           end
         end
 
         context "when object doesn't respond to '#{field_name.sub(/_uid$/, '')}'" do
           it "raises RuntimeError" do
             test_field_name = field_name.sub(/_uid$/, '')
-            obj = Object.new
-            expect { subject.send(:field_type_name_for_string, field_name, obj) }.to raise_error(RuntimeError, file_field_error_message(test_field_name, obj))
+            expect { subject.send(:field_type_name_for_string, field_name, object) }.to raise_error(RuntimeError, file_field_error_message(test_field_name, object))
           end
         end
       end

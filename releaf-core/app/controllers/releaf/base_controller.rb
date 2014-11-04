@@ -23,19 +23,16 @@ module Releaf
     protect_from_forgery
 
     helper_method \
+      :form_options,
+      :table_options,
       :ajax?,
       :controller_scope_name,
       :current_params,
       :current_url,
-      :fields_to_display,
       :find_parent_template,
-      :get_template_field_attributes,
-      :get_template_input_attributes,
-      :get_template_label_options,
       :has_template?,
       :index_url,
       :page_title,
-      :render_field_type,
       :render_parent_template,
       :resource_class,
       :resource_to_text,
@@ -49,24 +46,13 @@ module Releaf
     end
 
     def index
-      # load resource only if they are not loaded yet
-      @collection = resources unless collection_given?
-
-      search(params[:search])
-
-      unless @resources_per_page.nil?
-        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
-      end
-
-      respond_to do |format|
-        format.html
-      end
+      prepare_index
+      respond
     end
 
     def new
-      # load resource only if is not initialized yet
-      @resource = resource_class.new unless resource_given?
-      add_resource_breadcrumb(@resource)
+      prepare_new
+      respond
     end
 
     def show
@@ -74,30 +60,24 @@ module Releaf
     end
 
     def edit
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
-      add_resource_breadcrumb(@resource)
+      prepare_edit
+      respond
     end
 
     def create
-      # load resource only if is not loaded yet
-      @resource = resource_class.new unless resource_given?
-      @resource.assign_attributes required_params.permit(*resource_params)
+      prepare_create
       result = @resource.save
-
       respond_after_save(:create, result, "new")
     end
 
     def update
-      # load resource only if is not loaded yet
-      @resource = resource_class.find(params[:id]) unless resource_given?
+      prepare_update
       result = @resource.update_attributes required_params.permit(*resource_params)
-
       respond_after_save(:update, result, "edit")
     end
 
     def confirm_destroy
-      @resource = resource_class.find(params[:id])
+      prepare_destroy
 
       respond_to do |format|
         format.html do
@@ -110,7 +90,7 @@ module Releaf
     end
 
     def toolbox
-      @resource = resource_class.find(params[:id])
+      prepare_toolbox
 
       respond_to do |format|
         format.html do
@@ -120,7 +100,7 @@ module Releaf
     end
 
     def destroy
-      @resource = resource_class.find(params[:id])
+      prepare_destroy
 
       action_success = destroyable? && @resource.destroy
       render_notification(action_success, failure_message_key: 'cant destroy, because relations exists')
@@ -163,70 +143,11 @@ module Releaf
     # @return controller name
     def association_controller association
       guessed_name = association.name.to_s.pluralize
-      return guessed_name unless Releaf.controller_list.values.map{ |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).blank?
+      return guessed_name if Releaf.controller_list.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
     end
 
 
     # Helper methods ##############################################################################
-
-
-    # Defines which fields/associations should be rendered.
-    #
-    # By default renders resource columns except few (check source).
-    #
-    # You can override this method to make it possible to render pretty complex
-    # views which inludes nested fields.
-    #
-    # To render field you simply need to add it's name to array.
-    #
-    # belongs_to relations will be automatically rendered (by default) as
-    # select field.  For belongs_to to be recognized you need to use Integer
-    # field that ends with <tt>_id</tt>
-    #
-    # You can also render has_many associations. For these associations you
-    # need to add either association name, or a Hash. Hash keys must match
-    # association name, hash value must be array with nested fields to be
-    # rendered.
-    #
-    # @example
-    #   def fields_to_display
-    #     case params[:action]
-    #     when 'edit', 'update', 'create', 'new'
-    #       return [
-    #         'name',
-    #         'category_id',
-    #         'description',
-    #         {'offer_card_types' => ['card_type_id', 'name', 'description']},
-    #         'show_banner',
-    #         'published',
-    #         'item_count',
-    #         {'images' => ['image_uid']},
-    #         'partner_id',
-    #         'offer_checkout_places' => ['checkout_place_id']
-    #       ]
-    #     else
-    #       return super
-    #     end
-    #
-    #   end
-    #
-    #
-    # Fields will be rendered in same order as specified in array
-    #
-    # @return array that represent which fields to render
-    def fields_to_display
-      cols = resource_class.column_names - %w[id created_at updated_at encrypted_password item_position]
-
-      if resource_class.translates?
-        cols += resource_class.translated_attribute_names.map { |a| a.to_s }
-      end
-
-      unless %w[new edit update create].include? params[:action]
-        cols -= %w[password password_confirmation]
-      end
-
-      return cols
-    end
 
     # Returns current url without internal params
     #
@@ -328,64 +249,108 @@ module Releaf
       end
     end
 
-    # This helper will return options passed to render 'edit_label'.
-    # It will merge in label_options when present
-    def get_template_label_options local_assigns, options={}
-      raise ArgumentError unless options.is_a? Hash
-      default_options = {
-        f: local_assigns.fetch(:f, nil),
-        name: local_assigns.fetch(:name, nil),
-        attributes: {}
-      }.deep_merge(options)
-
-      raise RuntimeError, 'form_builder not passed to partial' if default_options[:f].blank?
-      raise RuntimeError, 'name not passed to partial'         if default_options[:name].blank?
-
-      return default_options unless local_assigns.key? :label_options
-
-      custom_options = local_assigns[:label_options]
-      raise RuntimeError, 'label_options must be a Hash' unless custom_options.is_a? Hash
-      return default_options.deep_merge(custom_options)
+    def form_url(form_type, object)
+      url_for(action: object.new_record? ? 'create' : 'update', id: object.id)
     end
 
-    # This helper will return attributes for input fields (input, select,
-    # textarea). It will merge in input_attributes when present. You can pass
-    # any valid html attributes to input_attributes
-    def get_template_input_attributes local_assigns, attributes={}
-      raise ArgumentError unless attributes.is_a? Hash
-      default_attributes = attributes
-      return default_attributes unless local_assigns.key? :input_attributes
-
-      custom_attributes = local_assigns[:input_attributes]
-      raise RuntimeError, 'input_attributes must be a Hash' unless custom_attributes.is_a? Hash
-      return default_attributes.deep_merge(custom_attributes)
+    def form_attributes(form_type, object)
+      {
+         multipart: true,
+         data: {
+           'validation-ok-handler' => 'ajax',
+           'validation' => 'true'
+         }
+      }
     end
 
-    # This helper will return attributes for fields.  It will merge in
-    # field_attributes when present. You can pass any valid html attributes to
-    # field_attributes
-    def get_template_field_attributes local_assigns, attributes={}
-      raise ArgumentError unless attributes.is_a? Hash
-      default_attributes = {
-        data: {
-          name: local_assigns.fetch(:name, nil)
-        }
-      }.deep_merge(attributes)
+    def form_builder(form_type, object)
+      builder_class(:form)
+    end
 
-      raise RuntimeError, 'name not passed to partial' if default_attributes[:data].try('[]', :name).blank?
+    def table_builder
+      builder_class(:table)
+    end
 
-      return default_attributes unless local_assigns.key? :field_attributes
+    def form_options(form_type, object, object_name)
+      {
+        builder: form_builder(form_type, object),
+        as: object_name,
+        url: form_url(form_type, object),
+        html: form_attributes(form_type, object)
+      }
+    end
 
-      custom_attributes = local_assigns[:field_attributes]
-      raise RuntimeError, 'field_attributes must be a Hash' unless custom_attributes.is_a? Hash
-      return default_attributes.deep_merge(custom_attributes)
+    def table_options
+      {
+        builder: table_builder,
+        toolbox: feature_available?(:toolbox)
+      }
+    end
+
+    # return contoller translation scope name for using
+    # with I18.translation call within hash params
+    # ex. t("save", scope: controller_scope_name)
+    def controller_scope_name
+      @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
 
     protected
 
+    def respond
+      respond_to do |format|
+        format.html
+      end
+    end
+
+    def prepare_index
+      # load resource only if they are not loaded yet
+      @collection = resources unless collection_given?
+
+      search(params[:search])
+
+      unless @resources_per_page.nil?
+        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
+      end
+    end
+
+    def prepare_new
+      # load resource only if is not initialized yet
+      @resource = resource_class.new unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
+    def prepare_create
+      # load resource only if is not loaded yet
+      @resource = resource_class.new unless resource_given?
+      @resource.assign_attributes required_params.permit(*resource_params)
+    end
+
+    def prepare_edit
+      # load resource only if is not loaded yet
+      load_resource unless resource_given?
+      add_resource_breadcrumb(@resource)
+    end
+
+    def prepare_update
+      # load resource only if is not loaded yet
+      load_resource unless resource_given?
+    end
+
+    def prepare_destroy
+      load_resource
+    end
+
+    def prepare_toolbox
+      load_resource
+    end
+
+    def load_resource
+      @resource = resource_class.find(params[:id])
+    end
+
     def verify_feature_availability
       feature = action_feature(params[:action])
-      raise FeatureDisabled, feature.to_s unless (feature.blank? || feature_available?(feature))
+      raise FeatureDisabled, feature.to_s if (feature.present? && !feature_available?(feature))
     end
 
     def action_feature action
@@ -575,13 +540,6 @@ module Releaf
       I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
     end
 
-    # return contoller translation scope name for using
-    # with I18.translation call within hash params
-    # ex. t("save", scope: controller_scope_name)
-    def controller_scope_name
-      'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
-    end
-
     # returns all params except :controller, :action and :format
     def current_params
       params.except(:controller, :action, :format)
@@ -611,6 +569,17 @@ module Releaf
     end
 
     private
+
+    def builder_class(type)
+      type = type.to_s.capitalize
+      builder_class_name = "::#{resource_class}#{type}Builder"
+
+      unless (Object.const_get(builder_class_name).is_a?(Class) rescue false)
+        builder_class_name = "Releaf::#{type}Builder"
+      end
+
+      builder_class_name.constantize
+    end
 
     def manage_ajax
       @_ajax = params.has_key? :ajax

@@ -1,14 +1,13 @@
 :ruby
   expanded = (current_admin_user.settings["content.tree.expanded.#{resource.id}"] == true)
 
-%li.row.clearInside{ :class => [(resource.children.empty?) ? nil : 'has-children', ('collapsed' unless expanded)], :data => { :level => level, :id => resource.id } }
+%li.row.clearInside{class: [(resource.children.empty?) ? nil : 'has-children', ('collapsed' unless expanded)], data: {level: level, id: resource.id}}
   - unless resource.children.empty?
     %div.collapser-cell
-      %button.secondary.button.collapser.only-icon{ :type => :button }
-        %i.fa{class: expanded ? 'fa-chevron-down' : 'fa-chevron-right'}
+      = releaf_button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser), title: t(expanded ? "collapse" : "expand", scope: controller_scope_name))
   %div.node-cell{ class: resource.active? ? :active : nil }
     - if action == :edit
-      %a{:href => url_for(:action => action, :id => resource.id)}
+      %a{href: url_for(action: action, id: resource.id)}
         %span
           = resource.name
     - else
@@ -19,4 +18,4 @@
 
 
   - unless resource.children.empty?
-    = render 'action_tree.level', :collection => resource.children, :level => level + 1, :action => action
+    = render 'action_tree.level', collection: resource.children, level: level + 1, action: action

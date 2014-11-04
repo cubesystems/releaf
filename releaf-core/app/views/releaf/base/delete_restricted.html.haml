@@ -21,9 +21,5 @@
                   = resource_to_text(relation_obj, :to_s)
             - if relations[:objects].count > 3
               %li= "..."
-
-
   .footer.clearInside
-    %a.button{ href: index_url, data: {type: 'cancel'} }
-      %i.fa.fa-check
-      %span= t('Ok', scope: 'admin.global')
+    = releaf_button(t('Ok', scope: 'admin.global'), "check", href: index_url, data: {type: 'cancel'})
