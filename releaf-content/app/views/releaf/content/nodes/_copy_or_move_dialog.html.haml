@@ -21,10 +21,5 @@
 
     .footer.clearInside
       - cancel_url = url_for( action: 'index' )
-      %a.button.secondary{ data: {type: 'cancel'}, href: cancel_url }
-        %i.fa.fa-ban
-        %span= t('Cancel', scope: 'admin.global')
-      %button.primary.button{type: "submit"}
-        %i.fa.fa-check
-        %span= t(action.to_s.capitalize, scope: controller_scope_name)
-
+      = releaf_button(t('Cancel', scope: 'admin.global'), "ban", class: "secondary", data: {type: 'cancel'}, href: cancel_url)
+      = releaf_button(t(action.to_s.capitalize, scope: controller_scope_name), "check", class: "primary", type: "submit")

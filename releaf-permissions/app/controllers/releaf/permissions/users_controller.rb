@@ -10,34 +10,6 @@ module Releaf::Permissions
       Releaf::Permissions::User
     end
 
-    def fields_to_display
-      fields = super - %w[
-        authentication_token
-        confirmation_sent_at
-        confirmation_token
-        confirmed_at
-        current_sign_in_at
-        current_sign_in_ip
-        encrypted_password
-        failed_attempts
-        last_sign_in_at
-        last_sign_in_ip
-        locked_at
-        remember_created_at
-        reset_password_sent_at
-        reset_password_token
-        sign_in_count
-        unconfirmed_email
-        unlock_token
-      ]
-
-      if %w[new create edit update].include? params[:action]
-        fields += ['password', 'password_confirmation']
-      end
-
-      return fields
-    end
-
     protected
 
     def prepare_new

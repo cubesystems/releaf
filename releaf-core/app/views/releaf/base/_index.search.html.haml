@@ -1,15 +1,11 @@
 %form.search{class: (!@searchable_fields.blank?) ? 'has-text-search' : '', action: url_for( controller: controller_name, action: "index" )}
-  - unless @searchable_fields.blank?
+  - if @searchable_fields.present?
     .text-search
       .wrapper
         %input{name: "search", type: "text", value: params[:search], autofocus: true }
-        %button.button.only-icon{type: "submit", title: t('Search', scope: 'admin.global')}>
-          %i.fa.fa-search
+        = releaf_button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))
       .clear
   - if has_template? "_index.search.extras"
     .extras.clearInside
       = render partial: "index.search.extras"
-      %button.button{type: "submit"}>
-        %i.fa.fa-search
-        %span
-          = t('Filter', scope: 'admin.global')
+      = releaf_button(t('Filter', scope: 'admin.global'), "search", type: "submit", title: t('Search', scope: 'admin.global'))

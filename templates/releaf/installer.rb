@@ -32,7 +32,7 @@ end
 
 gsub_file "config/database.yml", /username: .*/, "username: #{db_username}"
 gsub_file "config/database.yml", /database: dummy_/, "database: #{db_name}_"
-gsub_file "config/database.yml", /password:/, "password: #{db_password}" unless db_password.blank?
+gsub_file "config/database.yml", /password:/, "password: #{db_password}" if db_password.present?
 
 gsub_file 'config/boot.rb', "'../../Gemfile'", "'../../../../Gemfile'"
 

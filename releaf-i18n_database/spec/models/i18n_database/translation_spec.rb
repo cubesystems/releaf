@@ -32,4 +32,18 @@ describe Releaf::I18nDatabase::Translation do
       expect{ @translation.destroy }.to change{ Releaf::I18nDatabase::TranslationData.all.count }.from(2).to(0)
     end
   end
+
+  describe "#locale_value" do
+    it "returns translated value for given locale" do
+      expect(@translation.locale_value("en")).to eq("apple")
+      expect(@translation.locale_value("de")).to eq("apfel")
+      expect(@translation.locale_value("lt")).to eq(nil)
+    end
+
+    it "caches translated values with first call" do
+      expect(@translation.locale_value("en")).to eq("apple")
+      Releaf::I18nDatabase::TranslationData.destroy_all
+      expect(@translation.locale_value("de")).to eq("apfel")
+    end
+  end
 end

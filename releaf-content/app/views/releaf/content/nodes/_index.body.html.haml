@@ -5,8 +5,8 @@
   %table.table
     %tr
       %th
-        .nothing_found= t("nothing_found", :scope => "admin.global")
+        .nothing-found= t("nothing found", scope: "admin.global")
 - else
-  = render "index.table", :collection => collection, :count => count
+  = render "index.table", collection: collection, count: count
 
 

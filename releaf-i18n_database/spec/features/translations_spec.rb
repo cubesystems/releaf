@@ -76,7 +76,7 @@ feature "Translations" do
     expect(page).to have_no_css(".table td span", text: "jauns")
 
     script = "$('form.import').css({display: 'block'});"
-    page.driver.browser.execute_script(script)
+    page.execute_script(script)
 
     fixture_path = File.expand_path('../fixtures/translations_import.xlsx', __dir__)
 
@@ -101,7 +101,7 @@ feature "Translations" do
     visit releaf_i18n_database_translations_path
 
     script = "$('form.import').css({display: 'block'});"
-    page.driver.browser.execute_script(script)
+    page.execute_script(script)
 
     fixture_path = File.expand_path('../fixtures/unsupported_import_file.png', __dir__)
 

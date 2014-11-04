@@ -54,6 +54,7 @@ body.side-compact .main > .edit_resource > footer
 /* form inputs styling */
 .view-edit form .section .field  label,
 .view-edit form .section .field  select,
+.view-edit form .section .field  input[type="email"],
 .view-edit form .section .field  input[type="text"],
 .view-edit form .section .field  input[type="password"],
 .view-edit form .section .field  textarea
@@ -65,6 +66,7 @@ body.side-compact .main > .edit_resource > footer
   font-size: 11px;
 }
 
+.view-edit form .section .field input[type="email"],
 .view-edit form .section .field input[type="text"],
 .view-edit form .section .field input[type="password"]
 {
@@ -91,11 +93,13 @@ body.side-compact .main > .edit_resource > footer
 
 
 .view-edit form .section .field.has_error:not(.i18n) select,
+.view-edit form .section .field.has_error:not(.i18n) input[type="email"],
 .view-edit form .section .field.has_error:not(.i18n) input[type="text"],
 .view-edit form .section .field.has_error:not(.i18n) input[type="password"],
 .view-edit form .section .field.has_error:not(.i18n) textarea,
 .view-edit form .section .field.has_error:not(.i18n) .mceLayout,
 .view-edit form .section .field.i18n.has_error .localization.has_error select,
+.view-edit form .section .field.i18n.has_error .localization.has_error input[type="email"],
 .view-edit form .section .field.i18n.has_error .localization.has_error input[type="text"],
 .view-edit form .section .field.i18n.has_error .localization.has_error input[type="password"],
 .view-edit form .section .field.i18n.has_error .localization.has_error textarea,
@@ -189,6 +193,7 @@ body.side-compact .main > .edit_resource > footer
     width: 360px;
 }
 
+.view-edit form .section .nested-wrap .field input[type="email"],
 .view-edit form .section .nested-wrap .field input[type="text"],
 .view-edit form .section .nested-wrap .field input[type="password"],
 .view-edit form .section .nested-wrap .field select
@@ -207,6 +212,7 @@ body.side-compact .main > .edit_resource > footer
     width: 775px;
 }
 
+.view-edit form .section .nested-wrap .nested-wrap .field input[type="email"],
 .view-edit form .section .nested-wrap .nested-wrap .field input[type="text"],
 .view-edit form .section .nested-wrap .nested-wrap .field input[type="password"],
 .view-edit form .section .nested-wrap .nested-wrap .field select

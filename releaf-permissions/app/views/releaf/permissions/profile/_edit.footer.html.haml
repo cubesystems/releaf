@@ -1,6 +1,3 @@
 %footer
   .tools
-    .primary
-      %button.button.primary{type: "submit"}
-        %i.fa.fa-check
-        = t('Save', scope: "admin.global")
+    .primary= releaf_button(t('Save', scope: "admin.global"), "check", type: "submit")

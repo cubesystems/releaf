@@ -4,11 +4,7 @@
     .question= t('Confirm destroy', scope: 'admin.global')
     .description= resource_to_text(@resource)
   .footer.clearInside
-    = form_for @resource, url: index_url, as: :resource, method: :get do |f|
-      %button.button.secondary{data: {type: 'cancel'}, type: 'submit'}
-        %i.fa.fa-ban
-          %span= t('No', scope: 'admin.global')
-    = form_for @resource, url: url_for( action: 'destroy', id: @resource.id, index_url: index_url), as: :resource, method: :delete do |f|
-      %button.button.danger{ type: 'submit' }
-        %i.fa.fa-trash-o
-          %span= t('Yes', scope: 'admin.global')
+    = form_for @resource, builder: Releaf::FormBuilder, url: index_url, as: :resource, method: :get do |f|
+      = releaf_button(t('No', scope: 'admin.global'), "ban", class: "secondary", data: {type: 'cancel'}, type: 'submit')
+    = form_for @resource, builder: Releaf::FormBuilder, url: url_for( action: 'destroy', id: @resource.id, index_url: index_url), as: :resource, method: :delete do |f|
+      = releaf_button(t('Yes', scope: 'admin.global'), "trash-o", class: "danger", data: {type: 'cancel'}, type: 'submit')
