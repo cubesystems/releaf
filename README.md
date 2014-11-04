@@ -14,7 +14,7 @@ Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
 ## Getting started
 
-Releaf works with Rails 4.
+Releaf works with Rails 4.1
 
 First add Releaf gem to your Gemfile
 ```ruby
