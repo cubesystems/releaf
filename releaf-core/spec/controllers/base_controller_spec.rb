@@ -193,7 +193,7 @@ describe Admin::AuthorsController do
 
     it "creates flash error with message" do
       delete :destroy, id: @author
-      expect(flash[:error]).to eq({id: :resource_status, message: "Cant destroy, because relations exists"})
+      expect(flash["error"]).to eq({"id" => "resource_status", "message" => "Cant destroy, because relations exists"})
     end
   end
 end

@@ -89,7 +89,7 @@ describe Releaf::I18nDatabase::TranslationsController do
         end
 
         it "flash success notification with updated count" do
-          expect(flash[:success]).to eq(id: :resource_status, message: "successfuly imported 1 translations")
+          expect(flash["success"]).to eq("id" => "resource_status", "message" => "successfuly imported 1 translations")
         end
       end
 
@@ -103,7 +103,7 @@ describe Releaf::I18nDatabase::TranslationsController do
         end
 
         it "flash success notification" do
-          expect(flash[:success]).to eq(id: :resource_status, message: "Update succeeded")
+          expect(flash["success"]).to eq("id" => "resource_status", "message" => "Update succeeded")
         end
       end
     end
@@ -116,7 +116,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
       it "flash error notification" do
         put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
-        expect(flash[:error]).to eq(id: :resource_status, message: "Update failed")
+        expect(flash["error"]).to eq("id" => "resource_status", "message" => "Update failed")
       end
     end
   end

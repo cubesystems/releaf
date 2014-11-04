@@ -1,4 +1,3 @@
 - flash.each do |name, item|
-  .flash{:'data-type' => name, :'data-id' => (item.is_a? (Hash)) && (item.has_key? :id) ? item[:id] : nil }
-    = (item.is_a? (Hash)) ? item[:message] : item
-  
+  .flash{:'data-type' => name, :'data-id' => (item.is_a? (Hash)) && (item.has_key? "id") ? item["id"] : nil }
+    = (item.is_a? (Hash)) ? item["message"] : item

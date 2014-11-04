@@ -1,8 +1,8 @@
 module Releaf::Content
   module Node
+    extend ActiveSupport::Concern
     # TODO Node should be configurable
 
-    module InstanceMethods
       def locale_selection_enabled?
         false
       end
@@ -234,7 +234,6 @@ module Releaf::Content
       def update_settings_timestamp
         self.class.updated
       end
-    end
 
     module ClassMethods
       def updated_at
@@ -268,33 +267,28 @@ module Releaf::Content
       end
     end
 
-    def self.included base
-      base.acts_as_nested_set order_column: :item_position
-      base.acts_as_list scope: :parent_id, column: :item_position
+    included do
+      acts_as_nested_set order_column: :item_position
+      acts_as_list scope: :parent_id, column: :item_position
 
-      base.default_scope { base.order(:item_position) }
+      default_scope { order(:item_position) }
 
-      base.validates_presence_of :name, :slug, :content_type
-      base.validates_uniqueness_of :slug, scope: :parent_id
-      base.validates_length_of :name, :slug, :content_type, maximum: 255
-      base.validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?
-      base.validates_presence_of :parent, if: :parent_id?
-      base.validate :validate_parent_node_is_not_self
-      base.validate :validate_parent_is_not_descendant
+      validates_presence_of :name, :slug, :content_type
+      validates_uniqueness_of :slug, scope: :parent_id
+      validates_length_of :name, :slug, :content_type, maximum: 255
+      validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?
+      validates_presence_of :parent, if: :parent_id?
+      validate :validate_parent_node_is_not_self
+      validate :validate_parent_is_not_descendant
 
-      base.alias_attribute :to_text, :name
+      alias_attribute :to_text, :name
 
-      base.belongs_to :content, polymorphic: true, dependent: :destroy
-      base.accepts_nested_attributes_for :content
+      belongs_to :content, polymorphic: true, dependent: :destroy
+      accepts_nested_attributes_for :content
 
-      base.after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?
+      after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?
 
-      base.acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
-
-      base.extend ClassMethods
+      acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
     end
-
-    include InstanceMethods
-
   end
 end
