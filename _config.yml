@@ -1,3 +1,7 @@
+# Serving
+baseurl: "/releaf"
+
+
 defaults:
   -
     scope:
