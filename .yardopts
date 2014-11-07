@@ -1,9 +1,0 @@
---title "Re:Leaf documentation"
---protected
---output-dir ../releaf.pages
-app/**/*.rb
-lib/i18n/**/*.rb
-lib/releaf.rb
-lib/releaf/**/*.rb
--
-LICENSE
