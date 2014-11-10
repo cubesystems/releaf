@@ -12,17 +12,19 @@
   </head>
 
   <body>
-    {% include header.html %}
+    <div class="page-wrap">
+      {% include header.html %}
 
-    <div id="docs" class="page">
-      <div class="content with-nav">
-        <ul class="nav">
-          {% assign pages_list = site.pages | sort:"weight" %}
-          {% assign group = "documentation" %}
-          {% include documentation_list.html %}
-        </ul>
-        <div class="text">
-          {{ content }}
+      <div id="docs" class="page">
+        <div class="content with-nav">
+          <ul class="nav">
+            {% assign pages_list = site.pages | sort:"weight" %}
+            {% assign group = "documentation" %}
+            {% include documentation_list.html %}
+          </ul>
+          <div class="text">
+            {{ content }}
+          </div>
         </div>
       </div>
     </div>

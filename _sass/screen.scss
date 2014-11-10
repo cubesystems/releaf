@@ -25,6 +25,7 @@ $mobile-breakpont: 630px;
 html
 {
   box-sizing: border-box;
+  height: 100%;
 }
 
 *,
@@ -41,6 +42,12 @@ body
   color: $color-inv;
   font-size: 1em;
   font-family: 'TililliumWeb Light', sans-serif;
+  height: 100%;
+  .page-wrap
+  {
+    height: auto;
+    min-height: 100%;
+  }
 }
 
 a
@@ -339,6 +346,7 @@ ul li,
 
 footer
 {
+  position: relative;
   .content
   {
     padding: 5.4em 0;
