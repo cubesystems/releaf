@@ -1,19 +1,57 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
+<!doctype html>
 <html>
   <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta charset="utf-8" />
     <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="{{ site.baseurl }}/stylesheets/default.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ site.baseurl }}/stylesheets/home.css" type="text/css" media="screen" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/screen.css" type="text/css" media="screen" />
   </head>
   <body>
-     <a href="{{ site.baseurl }}/documentation">documentation</a>
-      <div id="content">
-        {{ content }}
+    {% include header.html %}
+
+    <div id="home" class="page hero">
+      <div class="content">
+        <h1>Administration interface for Ruby on Rails</h1>
+        <div class="hero-image">
+          <img src="{{ site.baseurl }}/images/hero-image-pc.png" alt="releaf" class="pc" />
+          <!--<img src="images/hero-image-tablet.png" alt="releaf" class="tablet" />-->
+          <!--<img src="images/hero-image-phone.png" alt="releaf" class="phone" />-->
+        </div>
       </div>
-      {% include footer.html %}
+      <div class="hero-buttons">
+        <div class="content">
+          <div>
+            <a class="button has-icon" href="#demo">
+              <span>Demo</span>
+              <span class="icon">
+                <img src="{{ site.baseurl }}/images/icons/eye.png" alt="demo" />
+              </span>
+            </a>
+          </div>
+          <div>
+            <a class="button has-icon" href="https://github.com/cubesystems/releaf">
+              <span>Source code</span>
+               <span class="icon">
+                <img src="{{ site.baseurl }}/images/icons/brackets.png" alt="code" />
+              </span>
+            </a>
+          </div>
+          <div>
+            <a class="button has-icon" href="{{ site.baseurl }}/documentation">
+              <span>Documentation</span>
+              <span class="icon">
+                <img src="{{ site.baseurl }}/images/icons/document.png" alt="docs" />
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
+
+    {% include footer.html %}
   </body>
 </html>

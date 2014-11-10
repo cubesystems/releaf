@@ -1,26 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
+<!doctype html>
 <html>
   <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>{{ page.site-title }} - {{ page.title }}</title>
-    <link rel="stylesheet" href="{{ site.baseurl }}/stylesheets/default.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ site.baseurl }}/stylesheets/documentation.css" type="text/css" media="screen" />
+    <meta charset="utf-8" />
+    <title>{{ page.title }}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" href="{{ site.baseurl }}/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="{{ site.baseurl }}/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/screen.css" type="text/css" media="screen" />
   </head>
+
   <body>
-   <a href="{{ site.baseurl }}/">home</a>
-    <menu>
-      <ul>
-        {% assign pages_list = site.pages | sort:"weight" %}
-        {% assign group = "documentation" %}
-        {% include documentation_list.html %}
-      </ul>
-    </menu>
-      <div id="content">
-        {{ content }}
+    {% include header.html %}
+
+    <div id="docs" class="page">
+      <div class="content with-nav">
+        <ul class="nav">
+          {% assign pages_list = site.pages | sort:"weight" %}
+          {% assign group = "documentation" %}
+          {% include documentation_list.html %}
+        </ul>
+        <div class="text">
+          {{ content }}
+        </div>
       </div>
-      {% include footer.html %}
     </div>
+
+    {% include footer.html %}
   </body>
 </html>
