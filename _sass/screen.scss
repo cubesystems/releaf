@@ -250,7 +250,7 @@ ul li,
   }
   > .nav
   {
-    margin-top: 5em;
+    margin-top: 4em;
     font-size: 0.9375em;
     line-height: 1.3em;
     float: left;
@@ -258,11 +258,10 @@ ul li,
     padding-right: 1em;
     li
     {
-      padding: 0.5em 0.4em;
-      border: 1px solid transparent;
+      padding: 0.5em 0.4em 0.4em 1.6em;
       &.active
       {
-        border: 1px solid #e9e9e9;
+        background: url("../images/leaf.png") no-repeat left center;
       }
     }
     @media screen and (max-width: $mobile-breakpont)
@@ -353,13 +352,9 @@ footer
   }
   .copyright
   {
-    font-size: 1.25em;
+    font-size: 0.85em;
     float: left;
     width: 45%;
-    @media screen and (max-width: $mobile-breakpont)
-    {
-      font-size: 1em;
-    }
   }
   .logo
   {
