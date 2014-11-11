@@ -10,6 +10,19 @@
 @include font-face("SourceCode Pro", font-files("SourceCodePro-Light.ttf"), '', normal, normal);
 @include font-face("SourceCode Pro", font-files("SourceCodePro-Medium.ttf"), '', bold, normal);
 
+@mixin retina-image($file, $repeat, $position, $width, $height)
+{
+  background: url($file + '.png') $repeat $position;
+
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2)
+  {
+    &
+    {
+      background-image: url($file + '@2x.png');
+      -webkit-background-size: $width $height;
+    }
+  }
+}
 
 $color: #f6f6f6;
 $color-inv: #111111;
@@ -21,6 +34,8 @@ $code-color: #111111;
 $code-bg: #e9e9e9;
 
 $mobile-breakpont: 630px;
+
+$footer-height: 208px;
 
 html
 {
@@ -47,6 +62,7 @@ body
   {
     height: auto;
     min-height: 100%;
+    padding-bottom: $footer-height;
   }
 }
 
@@ -184,7 +200,7 @@ header
   top: -12px;
   right: 0px;
   padding-left: 1em;
-  background: url(../images/icons/fork.png) no-repeat left center;
+  @include retina-image("../images/icons/fork", no-repeat, left center, 5px, 20px);
 }
 .page
 {
@@ -261,7 +277,7 @@ ul li,
       padding: 0.5em 0.4em 0.4em 1.6em;
       &.active
       {
-        background: url("../images/leaf.png") no-repeat left 0.4em;
+        @include retina-image("../images/leaf", no-repeat, left 0.4em, 15px, 18px);
       }
     }
     .nav
@@ -350,6 +366,8 @@ ul li,
 footer
 {
   position: relative;
+  margin-top: -$footer-height;
+  height: $footer-height;
   .content
   {
     padding: 5.4em 0;
