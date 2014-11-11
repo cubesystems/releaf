@@ -379,20 +379,20 @@ ul li {
   }
 }
 /* line 332, ../_sass/screen.scss */
-.hero .hero-buttons .content div {
+.hero .hero-buttons .content li {
   margin: 1% 1.77%;
   display: inline-block;
   width: 22%;
 }
 @media screen and (max-width: 830px) {
   /* line 332, ../_sass/screen.scss */
-  .hero .hero-buttons .content div {
+  .hero .hero-buttons .content li {
     width: 29%;
   }
 }
 @media screen and (max-width: 630px) {
   /* line 332, ../_sass/screen.scss */
-  .hero .hero-buttons .content div {
+  .hero .hero-buttons .content li {
     display: block;
     width: 60%;
     margin: 1% auto;
