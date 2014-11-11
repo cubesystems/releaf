@@ -8,6 +8,7 @@ weight: 7
 ### Q: How to use custom admin model?
 
 in ```config/initializers/leaf.rb``` set
+
 ```ruby
 Leaf.setup do |conf|
   conf.devise_for = 'custom_admin'
@@ -18,6 +19,7 @@ Don't forget to restart rails restart rails.
 
 ### Q: How to use Leaf::Slug module in models?
 Add this code to your model.
+
 ```ruby
 acts_as_url :name, :url_attribute => :slug, :scope => :parent_id
 include Leaf::Slug

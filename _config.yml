@@ -3,6 +3,9 @@ baseurl: "/releaf"
 sass:
   style: compressed
 
+kramdown:
+  input: GFM
+
 defaults:
   -
     scope:
