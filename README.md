@@ -4,8 +4,6 @@ Releaf is Admin interface for Rails projects.
 
 Documentation: http://cubesystems.github.com/releaf/
 
-wiki: https://github.com/cubesystems/releaf/wiki/_pages
-
 Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
 [![Build Status](https://travis-ci.org/cubesystems/releaf.png?branch=master)](https://travis-ci.org/cubesystems/releaf)
