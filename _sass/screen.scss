@@ -197,7 +197,6 @@ header
   max-width: 920px;
   margin: 0 auto;
   position: relative;
-  overflow: hidden;
 }
 code,
 pre
@@ -262,8 +261,16 @@ ul li,
       padding: 0.5em 0.4em 0.4em 1.6em;
       &.active
       {
-        background: url("../images/leaf.png") no-repeat left center;
+        background: url("../images/leaf.png") no-repeat left 0.4em;
       }
+    }
+    .nav
+    {
+      display: none;
+    }
+    .active .nav
+    {
+      display: block;
     }
     @media screen and (max-width: $mobile-breakpont)
     {
@@ -279,10 +286,6 @@ ul li,
         margin-bottom: 0.5em;
       }
     }
-  }
-  .nav .nav
-  {
-    padding-left: 1.2em;
   }
   .nav a
   {

@@ -1,5 +1,13 @@
 {% for node in pages_list %}
   {% if group == null or group == node.group %}
-    <li class="{% if page.url == node.url %}active{% endif %}"><a href="{{ site.baseurl }}{{node.url}}">{{node.title}}</a></li>
+    <li class="{% if page.url == node.url %}active{% endif %}"><a href="{{ site.baseurl }}{{node.url}}">{{node.title}}</a>
+    {% if node.subitems != null %}
+      <ul class="nav">
+      {% for subitem in node.subitems %}
+        <li><a href="#{{subitem.anchor}}">{{subitem.title}}</a></li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    </li>
   {% endif %}
 {% endfor %}
