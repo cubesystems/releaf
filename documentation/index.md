@@ -1,5 +1,5 @@
 ---
-title: documentation
+title: Getting started
 weight: 1
 ---
 

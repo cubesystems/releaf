@@ -1,12 +1,14 @@
 ---
 title: Richtext editor
-weight: 2
+weight: 4
 ---
 
-## Editor
+## Richtext editor
+
+### Editor
 To have auto-enabled richtext editor (TinyMCE) attribute name must end with _html prefix. Example: text_html will be rendered as richtext UI.
 
-## Attachments (files, images)
+### Attachments (files, images)
 To enable file uploading:
 
 1. add `include Releaf::Attachments` to your controller
