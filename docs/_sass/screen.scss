@@ -226,6 +226,11 @@ pre
   margin: 0;
   line-height: 1.5em;
   display: block;
+  code,
+  pre
+  {
+    font-size: 1em;
+  }
 }
 ul,
 ul li,
