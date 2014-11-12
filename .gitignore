@@ -2,7 +2,7 @@
 log/*.log
 pkg/
 brake.html
-Gemfile.lock
+/Gemfile.lock
 spec/dummy
 doc/
 .yardoc/
