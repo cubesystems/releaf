@@ -1,0 +1,17 @@
+# Serving
+baseurl: "/releaf"
+sass:
+  style: compressed
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      site-title: "Releaf"
+  -
+    scope:
+      path: "documentation"
+    values:
+      layout: documentation
+      group: documentation

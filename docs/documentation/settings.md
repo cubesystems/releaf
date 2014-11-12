@@ -1,0 +1,41 @@
+---
+title: Settings
+weight: 6
+---
+
+## Settings
+
+Releaf uses "rails-settings-cached" gem for simple key/value settings permanent storing.
+
+### Read/write
+It's recommended to add some prefix to setting key, so instead of "email.from_address" better key name will be "myapp.email.from_address".
+
+To write setting:
+`Releaf::Settings["myapp.email.from_address"] = "noreply@example.com"`
+
+To read:
+`Releaf::Settings["myapp.email.from_address"]`
+
+### Default values
+For default values create "config/initializers/default_settings.rb" with content like:
+```
+Releaf::Settings.register_defaults(
+   "myapp.email.from_address" => "noreply@example.com",
+   "myapp.email.from_name" => "John Deer",
+)
+```
+
+### UI
+To enable simple controller for changing existing Releaf::Settings values, make following changes in releaf initializer:
+
+* Add "Releaf::SettingsComponent" to releaf components definition:
+```
+conf.components = [Releaf::Core::SettingsUIComponent]
+```
+* Add "releaf/core/controller" to releaf menu definition:
+```
+    {
+      :controller => "releaf/core/settings",
+      :icon => 'cog',
+    },
+```
