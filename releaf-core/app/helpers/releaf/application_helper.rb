@@ -40,14 +40,16 @@ module Releaf
     end
 
     private
-      def i18n_option_text_and_value(option)
-        # Options are [text, value] pairs or strings used for both.
-        if !option.is_a?(String) && option.respond_to?(:first) && option.respond_to?(:last)
-          option = option.reject { |e| Hash === e } if Array === option
-          [option.first, option.last]
-        else
-          [option, option]
-        end
+
+    def i18n_option_text_and_value(option)
+      # Options are [text, value] pairs or strings used for both.
+      if !option.is_a?(String) && option.respond_to?(:first) && option.respond_to?(:last)
+        option = option.reject { |e| Hash === e } if Array === option
+        [option.first, option.last]
+      else
+        [option, option]
       end
+    end
+
   end
 end
