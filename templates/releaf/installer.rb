@@ -35,6 +35,7 @@ gsub_file "config/database.yml", /database: dummy_/, "database: #{db_name}_"
 gsub_file "config/database.yml", /password:/, "password: #{db_password}" if db_password.present?
 
 gsub_file 'config/boot.rb', "'../../Gemfile'", "'../../../../Gemfile'"
+append_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w( releaf/*.css releaf/*.js )"
 
 files_to_remove = %w[
   public/index.html
