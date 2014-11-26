@@ -1,10 +1,10 @@
 :ruby
   default_locale = cookies[:'releaf.i18n.locale']
   default_locale = default_locale.to_sym unless default_locale.nil?
-  default_locale = resource.class.globalize_locales.first unless resource.class.globalize_locales.include? default_locale
+  default_locale = f.object.class.globalize_locales.first unless f.object.class.globalize_locales.include? default_locale
 
 
-- resource.class.globalize_locales.each_with_index do |locale, i|
+- f.object.class.globalize_locales.each_with_index do |locale, i|
   - translation_name = "#{name}_#{locale}"
   - is_default_locale = locale == default_locale
 
@@ -22,7 +22,7 @@
     %i.fa.fa-chevron-down
   %menu.block.localization-menu-items{:type => 'toolbar'}
     %ul.block
-    - resource.class.globalize_locales.each_with_index do |locale, i|
+    - f.object.class.globalize_locales.each_with_index do |locale, i|
       - is_default_locale = locale == default_locale
       %li
         %button{:type => :button, :'data-locale' => locale}= locale
