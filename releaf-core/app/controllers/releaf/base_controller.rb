@@ -44,18 +44,6 @@ module Releaf
       @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
     end
 
-    def custom_action_views
-      {
-        new: :edit,
-        update: :edit,
-        create: :edit,
-      }
-    end
-
-    def active_view
-      custom_action_views[action_name.to_sym] || action_name
-    end
-
     def index
       prepare_index
       respond
@@ -238,6 +226,28 @@ module Releaf
         Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
         return fallback
       end
+    end
+
+    # Returns action > view translation hash
+    # @return Hash
+    def action_views
+      {
+        new: :edit,
+        update: :edit,
+        create: :edit,
+      }
+    end
+
+    # Returns generic view name for given action
+    # @return String
+    def action_view(_action_name)
+      action_views[_action_name.to_sym] || _action_name
+    end
+
+    # Returns generic view name for current action
+    # @return String
+    def active_view
+      action_view(action_name)
     end
 
     def resource_edit_url(resource)

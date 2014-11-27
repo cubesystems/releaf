@@ -5,6 +5,43 @@ describe Releaf::BaseController do
   let(:resource){ create(:author) }
   class FooFormBuilder; end
 
+  describe "#action_views"  do
+    it "returns action > view translation hash" do
+      hash = {
+        new: :edit,
+        update: :edit,
+        create: :edit,
+      }
+      expect(subject.action_views).to eq(hash)
+    end
+  end
+
+  describe "#action_view" do
+    context "when given view does not exists within action views hash" do
+      it "returns given action" do
+        expect(subject.action_view("a")).to eq("a")
+      end
+    end
+
+    context "when given view does not exists within action views hash" do
+      it "returns given action" do
+        expect(subject.action_view(:update)).to eq(:edit)
+      end
+    end
+
+    it "lookup given action as symbol to within action views hash" do
+      expect(subject.action_view("new")).to eq(:edit)
+    end
+  end
+
+  describe "#active_view" do
+    it "returns generic view name for current action" do
+      allow(subject).to receive(:action_name).and_return("a")
+      allow(subject).to receive(:action_view).with("a").and_return("b")
+      expect(subject.active_view).to eq("b")
+    end
+  end
+
   describe "#form_url" do
     context "when given resource is new record" do
       it "returns url for create method" do
