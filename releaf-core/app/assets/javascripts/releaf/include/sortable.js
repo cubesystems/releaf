@@ -40,7 +40,7 @@ jQuery(document).ready(function()
 
             list.on('sortablereindex', function(e)
             {
-                list.find('> .item:visible > input[type="hidden"].item_position').each(function(i)
+                list.find('> .item:visible > input[type="hidden"].item-position').each(function(i)
                 {
                     jQuery(this).attr('value', i);
                 });

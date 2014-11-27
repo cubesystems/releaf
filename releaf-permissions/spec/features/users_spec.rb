@@ -26,7 +26,7 @@ describe "home page" do
     it "new user creation", js: true do
       visit (releaf_permissions_users_path)
       click_link 'Create new resource'
-      within("form.new_resource") do
+      within("form.new-resource") do
         fill_in 'Name', with: "John"
         fill_in 'Surname', with: "Appleseed"
         fill_in 'Email', with: "john@example.com"

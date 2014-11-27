@@ -260,9 +260,12 @@ module Releaf
       url_for(action: object.new_record? ? 'create' : 'update', id: object.id)
     end
 
-    def form_attributes(form_type, object)
+    def form_attributes(form_type, object, object_name)
+      action = object.respond_to?(:persisted?) && object.persisted? ? :edit : :new
       {
          multipart: true,
+         id: "#{action}-#{object_name}",
+         class: "#{action}-#{object_name}",
          data: {
            'validation-ok-handler' => 'ajax',
            'validation' => 'true'
@@ -283,7 +286,7 @@ module Releaf
         builder: form_builder(form_type, object),
         as: object_name,
         url: form_url(form_type, object),
-        html: form_attributes(form_type, object)
+        html: form_attributes(form_type, object, object_name)
       }
     end
 

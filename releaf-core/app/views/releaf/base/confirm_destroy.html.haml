@@ -1,6 +1,6 @@
-.body.dialog.delete_dialog
+.body.dialog.delete-dialog
   .content
-    %i.fa.fa-trash-o
+    = fa_icon("trash-o")
     .question= t('Confirm destroy', scope: 'admin.global')
     .description= resource_to_text(@resource)
   .footer.clearInside

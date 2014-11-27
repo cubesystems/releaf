@@ -4,7 +4,7 @@ jQuery(function()
 
 
 	// import
-    var controller = jQuery( '.controller-releaf-i18n_database-translations' );
+    var controller = jQuery( '.controller-releaf-i18n-database-translations' );
 	var import_form            = controller.find( 'form.import' );
 	var import_file            = import_form.find( 'input[type="file"]' );
 	var import_button 		   = controller.find( 'button[name="import"]' );

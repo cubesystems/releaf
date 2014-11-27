@@ -208,14 +208,14 @@ describe Releaf::FormBuilder, type: :class do
   describe "#releaf_label" do
     it "passes options :label value to #label_text and use returned value for label text content" do
       allow(subject).to receive(:label_text).with(:color, a: "b").and_return("xx")
-      result = '<div class="label_wrap"><label for="book_color">xx</label></div>'
+      result = '<div class="label-wrap"><label for="book_color">xx</label></div>'
 
       expect(subject.releaf_label(:color, {}, label: {a: "b"})).to eq(result)
     end
 
     it "uses #label_attributes for label attributes" do
       allow(subject).to receive(:label_attributes).with(:color, {class: "red"}, {a: "b"}).and_return(class: "red blue")
-      result = '<div class="label_wrap"><label class="red blue" for="book_color">Color</label></div>'
+      result = '<div class="label-wrap"><label class="red blue" for="book_color">Color</label></div>'
 
       expect(subject.releaf_label(:color, {class: "red"}, {a: "b"})).to eq(result)
     end
@@ -223,7 +223,7 @@ describe Releaf::FormBuilder, type: :class do
     context "when options[:label][:description] is not blank" do
       context "when label has full version" do
         it "includes description" do
-          result = '<div class="label_wrap"><label for="book_color">Color</label><div class="description">xxx</div></div>'
+          result = '<div class="label-wrap"><label for="book_color">Color</label><div class="description">xxx</div></div>'
           expect(subject.releaf_label(:color, {}, label: {description: "xxx"})).to eq(result)
         end
       end
@@ -246,7 +246,7 @@ describe Releaf::FormBuilder, type: :class do
 
     context "when options[:label][:minimal] is not true" do
       it "returns label tag with wrap element" do
-        allow(subject).to receive(:wrapper).with('<label for="book_color">Color</label>', class: "label_wrap").and_return("x")
+        allow(subject).to receive(:wrapper).with('<label for="book_color">Color</label>', class: "label-wrap").and_return("x")
         expect(subject.releaf_label(:color, {}, label: {minimal: false})).to eq("x")
         expect(subject.releaf_label(:color, {}, label: {minimal: nil})).to eq("x")
         expect(subject.releaf_label(:color, {}, label: {adasd: "xx"})).to eq("x")
@@ -257,7 +257,7 @@ describe Releaf::FormBuilder, type: :class do
 
   describe "#field_attributes" do
     it "adds field data and class attributes" do
-      expect(subject.field_attributes(:color, {}, {field: {type: "text"}})).to eq(data: {name: :color}, class: ["field", "type_text"])
+      expect(subject.field_attributes(:color, {}, {field: {type: "text"}})).to eq(data: {name: :color}, class: ["field", "type-text"])
     end
 
     it "merges attributes over build-in data hash" do
@@ -266,7 +266,7 @@ describe Releaf::FormBuilder, type: :class do
     end
 
     it "supports class attributes merging" do
-      expect(subject.field_attributes(:color, {class: ["a", "b"]}, {})[:class]).to eq(["field", "type_", "a", "b"])
+      expect(subject.field_attributes(:color, {class: ["a", "b"]}, {})[:class]).to eq(["field", "type-", "a", "b"])
     end
   end
 

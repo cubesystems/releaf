@@ -90,7 +90,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         open_toolbox('Go to')
         click_link("RootNode")
 
-        expect(page).to have_css('.view-edit .edit_resource h2.header', text: 'RootNode')
+        expect(page).to have_css('.view-edit .edit-resource h2.header', text: 'RootNode')
       end
     end
   end
@@ -125,7 +125,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Source or descendant node can't be parent of new node")
+        expect(page).to have_css('.copy-or-move-node-dialog .form-error-box', text: "Source or descendant node can't be parent of new node")
       end
     end
   end
@@ -159,7 +159,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Move"
         end
 
-        expect(page).to have_css('.copy-or-move-node-dialog .form_error_box', text: "Can't be parent to itself")
+        expect(page).to have_css('.copy-or-move-node-dialog .form-error-box', text: "Can't be parent to itself")
       end
     end
 

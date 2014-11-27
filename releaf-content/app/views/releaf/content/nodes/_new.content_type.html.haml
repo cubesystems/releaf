@@ -19,7 +19,7 @@
   .content.clearInside
     .description
       = t("Select content type of new node", scope: controller_scope_name)
-    .content_types.clearInside
+    .content-types.clearInside
       - content_types_slices.each do |slice|
         %ul.block
           - slice.each do |content_type|

@@ -52,7 +52,7 @@
                   %ul.block
                     - menu_item[:items].each do |section_item|
                       %li
-                        %a.trigger{href: section_item[:url], class: section_item[:active] ? :active_item : nil}
+                        %a.trigger{href: section_item[:url], class: section_item[:active] ? "active-item" : nil}
                           %span.name= t(section_item[:name], scope: "admin.menu_items")
                           %i.fa.fa-caret-left
                 - else

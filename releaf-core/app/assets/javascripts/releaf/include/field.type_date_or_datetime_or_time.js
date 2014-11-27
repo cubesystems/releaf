@@ -43,7 +43,7 @@ jQuery(document).ready(function()
             }
         }
 
-        block.find('.date_picker').each(function() {
+        block.find('.date-picker').each(function() {
             var picker = jQuery(this);
             var opt = options;
 
@@ -54,7 +54,7 @@ jQuery(document).ready(function()
             picker.datepicker(opt);
         });
 
-        block.find('.datetime_picker').each(function() {
+        block.find('.datetime-picker').each(function() {
             var picker = jQuery(this);
             var opt = options;
 
@@ -66,7 +66,7 @@ jQuery(document).ready(function()
             picker.datetimepicker(opt);
         });
 
-         block.find('.time_picker').each(function() {
+         block.find('.time-picker').each(function() {
              var picker = jQuery(this);
              var opt = options;
 

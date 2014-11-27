@@ -119,7 +119,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     content = ActiveSupport::SafeBuffer.new
 
     if sortable_objects
-      content << hidden_field(sortable_column_name.to_sym, class: "item_position")
+      content << hidden_field(sortable_column_name.to_sym, class: "item-position")
       content << tag(:div, "&nbsp;".html_safe, class: "handle")
     end
 
@@ -199,8 +199,8 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     options = {field: {type: "image"}}.deep_merge(options)
     content = file_field(name, attributes)
     if object.send(name).present?
-      content += tag(:div, class: "value_preview") do
-        inner_content = tag(:div, class: "image_wrap") do
+      content += tag(:div, class: "value-preview") do
+        inner_content = tag(:div, class: "image-wrap") do
           thumbnail = template.image_tag(object.send(name).thumb('410x128>').url, alt: '')
           hidden_field("retained_#{name}") +
             template.link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
@@ -253,7 +253,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def date_or_time_fields_input_attributes(name, type, attributes)
     value = object.send(name)
     {
-      class: "#{type}_picker",
+      class: "#{type}-picker",
       data: {
         "date-format" => jquery_date_format,
         "time-format" => jquery_time_format
@@ -456,7 +456,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def field_attributes(name, attributes, options)
     type = options.fetch(:field, {}).fetch(:type, nil)
 
-    classes = ["field", "type_#{type}"] # TODO field_type -> field-type
+    classes = ["field", "type-#{type}"]
     classes << "i18n" if options.key? :i18n
 
     template.merge_attributes({class: classes, data: {name: name}}, attributes)
@@ -482,7 +482,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       content
     else
       content += wrapper(label_options[:description], class: "description") if label_options.fetch(:description, nil).present?
-      wrapper(content, class: "label_wrap") #TODO: label_wrap > label
+      wrapper(content, class: "label-wrap")
     end
   end
 

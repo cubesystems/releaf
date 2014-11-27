@@ -62,12 +62,22 @@ describe Releaf::BaseController do
     it "returns basic releaf form attributes" do
       attributes = {
          multipart: true,
+         class: "new-user",
+         id: "new-user",
          data: {
            'validation-ok-handler' => 'ajax',
            'validation' => 'true'
          }
       }
-      expect(subject.form_attributes(:edit, new_resource)).to eq(attributes)
+      expect(subject.form_attributes(:edit, new_resource, :user)).to eq(attributes)
+    end
+
+    it "changes class/id depending whether given object is persisted" do
+      expect(subject.form_attributes(:edit, new_resource, :user)[:id]).to eq("new-user")
+      expect(subject.form_attributes(:edit, new_resource, :user)[:class]).to eq("new-user")
+
+      expect(subject.form_attributes(:edit, resource, :user)[:id]).to eq("edit-user")
+      expect(subject.form_attributes(:edit, resource, :user)[:class]).to eq("edit-user")
     end
   end
 
@@ -120,7 +130,7 @@ describe Releaf::BaseController do
     it "returns form options" do
       allow(subject).to receive(:form_builder).with(:delete, resource).and_return("CustomFormBuilderClassHere")
       allow(subject).to receive(:form_url).with(:delete, resource).and_return("/some-url-here")
-      allow(subject).to receive(:form_attributes).with(:delete, resource).and_return(some: "options_here")
+      allow(subject).to receive(:form_attributes).with(:delete, resource, :author).and_return(some: "options_here")
 
       options = {
         builder: "CustomFormBuilderClassHere",

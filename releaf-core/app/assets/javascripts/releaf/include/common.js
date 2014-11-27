@@ -51,12 +51,12 @@ jQuery(function(){
             var except_validation_id = (event_params && ('except_validation_id' in event_params)) ? event_params.except_validation_id : null;
 
             // remove field errors
-            form.find('.field.has_error').each(function()
+            form.find('.field.has-error').each(function()
             {
                 var field = jQuery(this);
 
                 // in case of i18n fields there may be multiple error boxes inside a single field
-                var error_boxes = field.find( '.error_box' );
+                var error_boxes = field.find( '.error-box' );
 
                 error_boxes.each(function()
                 {
@@ -72,18 +72,18 @@ jQuery(function(){
                     {
                         if (field.is('.i18n'))
                         {
-                            error_box.closest('.localization').removeClass('has_error');
+                            error_box.closest('.localization').removeClass('has-error');
                         }
                         error_box.remove();
                     }
                 });
 
                 // see if any error boxes are left in the field.
-                var error_boxes = field.find( '.error_box' );
+                var error_boxes = field.find( '.error-box' );
 
                 if (error_boxes.length < 1)
                 {
-                    field.removeClass('has_error');
+                    field.removeClass('has-error');
                 }
 
 
@@ -91,9 +91,9 @@ jQuery(function(){
 
 
             // remove form errors
-            if (form.hasClass('has_error'))
+            if (form.hasClass('has-error'))
             {
-                var form_error_box = form.find('.form_error_box');
+                var form_error_box = form.find('.form-error-box');
                 var form_errors_remain = false;
 
                 form_error_box.find('.error').each(function()
@@ -116,7 +116,7 @@ jQuery(function(){
                 if (!form_errors_remain)
                 {
                     form_error_box.remove();
-                    form.removeClass('has_error');
+                    form.removeClass('has-error');
                 }
             }
 
@@ -142,9 +142,9 @@ jQuery(function(){
             // if error fields still exist, focus to first visible
 
             // locate first input inside visible error fields,
-            // but for i18n fields exclude inputs inside .localization without .has_error
+            // but for i18n fields exclude inputs inside .localization without .has-error
 
-            var focus_target = form.find('.field.has_error').filter(':visible').find(input_selector).not('.localization:not(.has_error) *').first();
+            var focus_target = form.find('.field.has-error').filter(':visible').find(input_selector).not('.localization:not(.has-error) *').first();
 
             focus_target.trigger('focusprepare');
 
@@ -212,11 +212,11 @@ jQuery(function(){
 
                 var wrap = (field_box.is('.i18n')) ? target.closest('.localization') : field_box;
 
-                var error_box = wrap.find('.error_box');
+                var error_box = wrap.find('.error-box');
 
                 if (error_box.length < 1)
                 {
-                    error_box = jQuery('<div class="error_box"><div class="error"></div></div>');
+                    error_box = jQuery('<div class="error-box"><div class="error"></div></div>');
                     error_box.appendTo( wrap.find('.value').first() );
                 }
 
@@ -225,16 +225,16 @@ jQuery(function(){
                 error_node.attr('data-validation-id', event_params.validation_id );
                 error_node.text( error.message );
 
-                field_box.addClass('has_error');
+                field_box.addClass('has-error');
 
                 if (field_box.is('.i18n'))
                 {
-                    wrap.addClass('has_error');
+                    wrap.addClass('has-error');
                 }
             }
             else if (target.is('form'))
             {
-                var form_error_box = form.find('.form_error_box');
+                var form_error_box = form.find('.form-error-box');
                 if (form_error_box.length < 1)
                 {
                     var form_error_box_container = form.find('.body').first();
@@ -242,7 +242,7 @@ jQuery(function(){
                     {
                         form_error_box_container = form;
                     }
-                    form_error_box = jQuery('<div class="form_error_box"></div>');
+                    form_error_box = jQuery('<div class="form-error-box"></div>');
                     form_error_box.prependTo( form_error_box_container );
                 }
 
@@ -276,7 +276,7 @@ jQuery(function(){
                     error_node.appendTo( form_error_box );
                 }
 
-                form.addClass('has_error');
+                form.addClass('has-error');
 
                 // Scroll to form_error_box
                 form_error_box.parent().scrollTop(form_error_box.offset().top - form_error_box.parent().offset().top + form_error_box.parent().scrollTop());

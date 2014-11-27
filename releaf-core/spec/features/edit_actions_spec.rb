@@ -81,7 +81,7 @@ feature "Base controller edit", js: true do
 
   scenario "adding nested objects" do
     visit new_admin_book_path
-    within "form.new_resource" do
+    within "form.new-resource" do
       fill_in "Title", with: "Master and Margarita"
       within "[data-name='chapters']" do
 
