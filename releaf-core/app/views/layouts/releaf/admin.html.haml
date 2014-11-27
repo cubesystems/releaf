@@ -1,7 +1,7 @@
 :ruby
   body_classes = []
   body_classes << "application-#{Rails.application.class.parent_name.downcase}"
-  body_classes << "controller-#{params[:controller].tr( '/', '-' )}"
+  body_classes << "controller-#{params[:controller].tr( '_/', '-' )}"
   body_classes << "view-#{controller.active_view}"  if controller.respond_to? :active_view
   body_classes << "side-compact" if current_admin_user.try(:settings).try(:[], 'releaf.side.compact')
 

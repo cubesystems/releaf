@@ -1,9 +1,9 @@
 /* header */
-.controller-releaf-i18n_database-translations.view-edit .table .code_header
+.controller-releaf-i18n-database-translations.view-edit .table .code_header
 {
     width: 200px;
 }
-.controller-releaf-i18n_database-translations.view-edit .table .delete_header
+.controller-releaf-i18n-database-translations.view-edit .table .delete_header
 {
     min-width: 20px;
     max-width: 20px;
@@ -11,18 +11,18 @@
 }
 
 /* body */
-.controller-releaf-i18n_database-translations.view-edit .header
+.controller-releaf-i18n-database-translations.view-edit .header
 {
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.controller-releaf-i18n_database-translations.view-edit .header .value input
+.controller-releaf-i18n-database-translations.view-edit .header .value input
 {
 
     font-weight: normal;
 }
 
-.controller-releaf-i18n_database-translations.view-edit .table td
+.controller-releaf-i18n-database-translations.view-edit .table td
 {
     padding: 0;
     border-style: solid;
@@ -30,15 +30,15 @@
     text-align: center;
     background-color: white;
 }
-.controller-releaf-i18n_database-translations.view-edit .table td
+.controller-releaf-i18n-database-translations.view-edit .table td
 {
     border-color: #DDDDDD;
 }
-.controller-releaf-i18n_database-translations.view-edit .table td.translation_name
+.controller-releaf-i18n-database-translations.view-edit .table td.translation_name
 {
     background: #f5f7f8;
 }
-.controller-releaf-i18n_database-translations.view-edit .table input
+.controller-releaf-i18n-database-translations.view-edit .table input
 {
     border-width: 0;
     font-weight: normal;
@@ -47,33 +47,33 @@
     width: 100%;
 }
 
-.controller-releaf-i18n_database-translations.view-edit .table .button.danger
+.controller-releaf-i18n-database-translations.view-edit .table .button.danger
 {
     background: inherit;
     color: inherit;
 }
-.controller-releaf-i18n_database-translations.view-edit .table .changed input
+.controller-releaf-i18n-database-translations.view-edit .table .changed input
 {
     background-color: #7AD528;
     border-color: #C1AD2F;
 }
-.controller-releaf-i18n_database-translations.view-edit .table input:focus
+.controller-releaf-i18n-database-translations.view-edit .table input:focus
 {
     border-width: 1px;
     margin: -1px;
 }
-.controller-releaf-i18n_database-translations.view-edit .table .delete_column
+.controller-releaf-i18n-database-translations.view-edit .table .delete_column
 {
     border-right: none;
 }
 
 
-.controller-releaf-i18n_database-translations.view-index form.search .search-field-wrapper
+.controller-releaf-i18n-database-translations.view-index form.search .search-field-wrapper
 {
     float: left;
     margin-left: 20px;
 }
-.controller-releaf-i18n_database-translations.view-index form.search .search-only-bank
+.controller-releaf-i18n-database-translations.view-index form.search .search-only-bank
 {
     margin-top: 3px;
 }
