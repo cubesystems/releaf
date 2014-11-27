@@ -2,12 +2,7 @@
   body_classes = []
   body_classes << "application-#{Rails.application.class.parent_name.downcase}"
   body_classes << "controller-#{params[:controller].tr( '/', '-' )}"
-  if controller.active_template
-    view = controller.active_template.virtual_path.split('/').pop()
-    # consolidate new -> edit
-    view = "edit" if view == "new"
-    body_classes << "view-#{view}"
-  end
+  body_classes << "view-#{controller.active_view}"  if controller.respond_to? :active_view
   body_classes << "side-compact" if current_admin_user.try(:settings).try(:[], 'releaf.side.compact')
 
   _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"

@@ -29,11 +29,10 @@ module Releaf
       :controller_scope_name,
       :current_params,
       :current_url,
-      :find_parent_template,
       :has_template?,
+      :active_view,
       :index_url,
       :page_title,
-      :render_parent_template,
       :resource_class,
       :resource_to_text,
       :resource_to_text_method,
@@ -213,20 +212,6 @@ module Releaf
       lookup_context.template_exists?( name, lookup_context.prefixes, false )
     end
 
-    def find_parent_template( name )
-      lookup_context.find_template( name, lookup_context.prefixes.slice( 1, lookup_context.prefixes.length ), false )
-    end
-
-    def render_parent_template( name, locals = {} )
-      template = find_parent_template( name )
-      if template.blank?
-        return 'blank'
-      end
-
-      arguments = { layout: false, locals: locals, template: template.virtual_path }
-      return render_to_string( arguments ).html_safe
-    end
-
     # calls `#to_text` on resource if resource supports it. Otherwise calls
     # fallback method
     def resource_to_text resource, fallback=:to_s
@@ -241,6 +226,28 @@ module Releaf
         Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
         return fallback
       end
+    end
+
+    # Returns action > view translation hash
+    # @return Hash
+    def action_views
+      {
+        new: :edit,
+        update: :edit,
+        create: :edit,
+      }
+    end
+
+    # Returns generic view name for given action
+    # @return String
+    def action_view(_action_name)
+      action_views[_action_name.to_sym] || _action_name
+    end
+
+    # Returns generic view name for current action
+    # @return String
+    def active_view
+      action_view(action_name)
     end
 
     def resource_edit_url(resource)
