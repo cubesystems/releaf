@@ -1,9 +1,9 @@
 /* header */
-.controller-releaf-i18n-database-translations.view-edit .table .code_header
+.controller-releaf-i18n-database-translations.view-edit .table .code-header
 {
     width: 200px;
 }
-.controller-releaf-i18n-database-translations.view-edit .table .delete_header
+.controller-releaf-i18n-database-translations.view-edit .table .delete-header
 {
     min-width: 20px;
     max-width: 20px;
@@ -34,7 +34,7 @@
 {
     border-color: #DDDDDD;
 }
-.controller-releaf-i18n-database-translations.view-edit .table td.translation_name
+.controller-releaf-i18n-database-translations.view-edit .table td.translation-name
 {
     background: #f5f7f8;
 }
@@ -62,7 +62,7 @@
     border-width: 1px;
     margin: -1px;
 }
-.controller-releaf-i18n-database-translations.view-edit .table .delete_column
+.controller-releaf-i18n-database-translations.view-edit .table .delete-column
 {
     border-right: none;
 }
