@@ -29,11 +29,10 @@ module Releaf
       :controller_scope_name,
       :current_params,
       :current_url,
-      :find_parent_template,
       :has_template?,
+      :active_view,
       :index_url,
       :page_title,
-      :render_parent_template,
       :resource_class,
       :resource_to_text,
       :resource_to_text_method,
@@ -43,6 +42,18 @@ module Releaf
       return if text.blank?
       return if @searchable_fields.blank?
       @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
+    end
+
+    def custom_action_views
+      {
+        new: :edit,
+        update: :edit,
+        create: :edit,
+      }
+    end
+
+    def active_view
+      custom_action_views[action_name.to_sym] || action_name
     end
 
     def index
@@ -211,20 +222,6 @@ module Releaf
     # @return `true` or `false`
     def has_template? name
       lookup_context.template_exists?( name, lookup_context.prefixes, false )
-    end
-
-    def find_parent_template( name )
-      lookup_context.find_template( name, lookup_context.prefixes.slice( 1, lookup_context.prefixes.length ), false )
-    end
-
-    def render_parent_template( name, locals = {} )
-      template = find_parent_template( name )
-      if template.blank?
-        return 'blank'
-      end
-
-      arguments = { layout: false, locals: locals, template: template.virtual_path }
-      return render_to_string( arguments ).html_safe
     end
 
     # calls `#to_text` on resource if resource supports it. Otherwise calls
