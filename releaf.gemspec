@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name        = "releaf"
   s.version     = Releaf::VERSION
 
-  s.date        = '2013-03-23'
+  s.date        = '2014-11-28'
   s.summary     = "Admin interface for RubyOnRails projects"
   s.description = "Admin interface for RubyOnRails projects inspired by Leaf CMS"
   s.authors     = ["CubeSystems"]
