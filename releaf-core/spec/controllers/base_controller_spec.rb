@@ -99,7 +99,7 @@ describe Releaf::BaseController do
 
   describe "#table_options" do
     it "returns table options" do
-      allow(subject).to receive(:table_builder).and_return("CustomTableBuilderClassHere")
+      allow(subject).to receive(:table_builder_class).and_return("CustomTableBuilderClassHere")
       allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
 
       options = {
@@ -112,7 +112,7 @@ describe Releaf::BaseController do
 
   describe "#form_options" do
     it "returns form options" do
-      allow(subject).to receive(:form_builder).with(:delete, resource).and_return("CustomFormBuilderClassHere")
+      allow(subject).to receive(:form_builder_class).with(:delete, resource).and_return("CustomFormBuilderClassHere")
       allow(subject).to receive(:form_url).with(:delete, resource).and_return("/some-url-here")
       allow(subject).to receive(:form_attributes).with(:delete, resource, :author).and_return(some: "options_here")
 
