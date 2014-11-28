@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.version     = Releaf::VERSION
 
   s.date        = '2014-11-28'
-  s.summary     = "Admin interface for RubyOnRails projects"
-  s.description = "Admin interface for RubyOnRails projects inspired by Leaf CMS"
+  s.summary     = "Administration interface for Ruby on Rails"
+  s.description = "Administration interface for Ruby on Rails"
   s.authors     = ["CubeSystems"]
   s.email       = 'info@cubesystems.lv'
   s.homepage    = 'https://github.com/cubesystems/releaf'
