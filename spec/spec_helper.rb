@@ -42,7 +42,7 @@ include Warden::Test::Helpers
 
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: false, inspector: true, phantomjs_logger: WarningSuppressor)
+  Capybara::Poltergeist::Driver.new(app, js_errors: true, inspector: true, phantomjs_logger: WarningSuppressor)
 end
 
 class WarningSuppressor
