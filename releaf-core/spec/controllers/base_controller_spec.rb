@@ -81,35 +81,19 @@ describe Releaf::BaseController do
     end
   end
 
-  describe "#form_builder" do
-    context "when resource class form builder exists" do
-      it "returns resource class form builder" do
-        allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
-        expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::Permissions::UserFormBuilder)
-      end
-    end
-
-    context "when resource class form builder does not exists" do
-      it "returns Releaf::FormBuilder class" do
-        allow(subject).to receive(:resource_class).and_return(Text)
-        expect(subject.form_builder(:edit, new_resource)).to eq(Releaf::FormBuilder)
-      end
+  describe "#form_builder_class" do
+    it "returns resource class form builder" do
+      allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
+      allow(Releaf::Builder::Utility).to receive(:builder_class).with(Releaf::BaseController, Releaf::Permissions::User, :form).and_return("x")
+      expect(subject.form_builder_class(:edit, new_resource)).to eq("x")
     end
   end
 
-  describe "#table_builder" do
-    context "when resource class table builder exists" do
-      it "returns resource class table builder" do
-        allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
-        expect(subject.table_builder).to eq(Releaf::Permissions::UserTableBuilder)
-      end
-    end
-
-    context "when resource class table builder does not exists" do
-      it "returns Releaf::TableBuilder class" do
-        allow(subject).to receive(:resource_class).and_return(Text)
-        expect(subject.table_builder).to eq(Releaf::TableBuilder)
-      end
+  describe "#table_builder_class" do
+    it "returns resource class table builder" do
+      allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
+      allow(Releaf::Builder::Utility).to receive(:builder_class).with(Releaf::BaseController, Releaf::Permissions::User, :table).and_return("x")
+      expect(subject.table_builder_class).to eq("x")
     end
   end
 

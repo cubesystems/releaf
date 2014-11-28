@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   class SettingsFormBuilder < Releaf::FormBuilder
     def field_names
       [:value]
