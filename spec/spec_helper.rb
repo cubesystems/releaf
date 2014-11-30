@@ -74,7 +74,7 @@ RSpec.configure do |config|
     config.add_formatter(:progress)
   end
 
-  config.include Helpers
+  config.include Releaf::TestHelpers
   config.include WaitSteps
   config.include ExcelHelpers
   config.extend WithModel
