@@ -12,22 +12,17 @@ module Releaf::Content
     end
 
     def render_content_type
-      content_type_input_options = {disabled: true, value: I18n.t(object.content_type.underscore, scope: 'admin.content_types')}
-      releaf_text_field(:content_type, input: content_type_input_options)
+      input = {disabled: true, value: I18n.t(object.content_type.underscore, scope: 'admin.content_types')}
+      releaf_text_field(:content_type, input: input)
     end
 
     def render_slug
       input = {
-        value: object.slug,
         data: {'generator-url' => template.generate_url_releaf_content_nodes_path(parent_id: object.parent_id, id: object.id)}
       }
 
-      options = {field: {type: "text"}}
-      attributes = input_attributes(:slug, input, options)
-      content = text_field(:slug, attributes) << slug_button
-
-      field(:slug, {}, options) do
-        releaf_label(:slug, {}, options) << wrapper(content, class: "value") << wrapper(slug_link, class: "link")
+      releaf_field(:slug, input: input) do
+        slug_button << wrapper(slug_link, class: "link")
       end
     end
 

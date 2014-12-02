@@ -61,7 +61,7 @@ describe Releaf::Content::NodeFormBuilder, type: :class do
       allow(subject).to receive(:slug_base_url).and_return("http://localhost/parent")
       allow(template).to receive(:generate_url_releaf_content_nodes_path).with(parent_id: 1, id: 2).and_return("http://localhost/slug-generation-url")
 
-      content = '<div class="field type-text" data-name="slug"><div class="label-wrap"><label for="resource_slug">Slug</label></div><div class="value"><input data-generator-url="http://localhost/slug-generation-url" id="resource_slug" name="resource[slug]" type="text" value="b" /><button class="button only-icon secondary generate" title="Suggest slug" type="button"><i class="fa fa-keyboard-o"></i></button></div><div class="link"><a href="/a/b">http://localhost/parent<span>b</span>/</a></div></div>'
+      content = '<div class="field type-text" data-name="slug"><div class="label-wrap"><label for="resource_slug">Slug</label></div><div class="value"><input data-generator-url="http://localhost/slug-generation-url" id="resource_slug" name="resource[slug]" type="text" value="b" /><button class="button only-icon secondary generate" title="Suggest slug" type="button"><i class="fa fa-keyboard-o"></i></button><div class="link"><a href="/a/b">http://localhost/parent<span>b</span>/</a></div></div></div>'
 
       expect(subject.render_slug).to eq(content)
     end

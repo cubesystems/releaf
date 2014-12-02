@@ -147,12 +147,12 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     "releaf_#{type}_#{'i18n_' if localization}field"
   end
 
-  def releaf_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     method_name = field_type_method(name)
-    send(method_name, name, input: input, label: label, field: field, options: options)
+    send(method_name, name, input: input, label: label, field: field, options: options, &block)
   end
 
-  def releaf_item_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_item_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     label = {translation_key: name.to_s.sub(/_id$/, '').to_s}.deep_merge(label)
     attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
     options = {field: {type: "item"}}.deep_merge(options)
@@ -184,10 +184,10 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
 
     content = select(name, choices, options, attributes)
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_image_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_image_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     name = name.to_s.sub(/_uid$/, '')
 
     attributes = {
@@ -209,7 +209,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       end
     end
 
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
   def releaf_file_remove_button(name)
@@ -218,7 +218,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def releaf_file_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_file_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     name = name.to_s.sub(/_uid$/, '')
     attributes = input_attributes(name, input, options)
     options = {field: {type: "file"}}.deep_merge(options)
@@ -230,7 +230,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       content << releaf_file_remove_button(name)
     end
 
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
   def releaf_boolean_field(name, input: {}, label: {}, field: {}, options: {})
@@ -305,7 +305,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     date_or_time_fields(name, :date, input: input, label: label, field: field, options: options)
   end
 
-  def releaf_richtext_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_richtext_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     attributes = {
       rows: 5,
       cols: 50,
@@ -321,10 +321,10 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     options = {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
     content = text_area(name, attributes)
 
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_textarea_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_textarea_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     attributes = {
       rows: 5,
       cols: 75,
@@ -336,34 +336,34 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     options = {field: {type: "textarea"}}.deep_merge(options)
     content = text_area(name, attributes)
 
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_email_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_email_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     options = {field: {type: "email"}}.deep_merge(options)
     input = {type: "email"}.deep_merge(input)
-    releaf_text_field(name, input: input, label: label, field: field, options: options)
+    releaf_text_field(name, input: input, label: label, field: field, options: options, &block)
   end
 
-  def releaf_link_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_link_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     options = {field: {type: "link"}}.deep_merge(options)
-    releaf_text_field(name, input: input, label: label, field: field, options: options)
+    releaf_text_field(name, input: input, label: label, field: field, options: options, &block)
   end
 
-  def releaf_password_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_password_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     attributes = input_attributes(name, {autocomplete: "off"}.merge(input), options)
     options = {field: {type: "password"}}.deep_merge(options)
     content = password_field(name, attributes)
 
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_text_field(name, input: {}, label: {}, field: {}, options: {})
+  def releaf_text_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
     options = {field: {type: "text"}}.deep_merge(options)
     content = text_field(name, attributes)
 
-    input_wrapper_with_label(name, content, label: label, field: field, options: options)
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
@@ -443,9 +443,10 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def input_wrapper_with_label(name, input_content, label: {}, field: {}, options: {})
+  def input_wrapper_with_label(name, input_content, label: {}, field: {}, options: {}, &block)
     field(name, field, options) do
-      releaf_label(name, label, options) + wrapper(input_content, class: "value")
+      input_content += block.call if block
+      releaf_label(name, label, options) << wrapper(input_content, class: "value")
     end
   end
 
