@@ -366,6 +366,24 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
+  def releaf_check_boxes(name, input: {}, label: {}, field: {}, options: {}, &block)
+    hidden_field(name, multiple: true, value: "") <<
+    safe_join do
+      options[:check_boxes_options].collect do|item|
+        releaf_check_box(name, item)
+      end
+    end
+  end
+
+  def releaf_check_box(name, item)
+    field = field_attributes("#{name}_#{item[:value]}", {}, {field: {type: "boolean"}})
+    wrapper(field) do
+      wrapper(class: "value") do
+        check_box(name, {multiple: true }, item[:value], nil) << label(name, item[:label], value: item[:value])
+      end
+    end
+  end
+
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "text"}}.deep_merge(options)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
