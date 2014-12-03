@@ -1,9 +1,19 @@
 require 'spec_helper'
+require "#{File.dirname(__FILE__)}/../support/shared/controllers/concerns/releaf/serialized_array_params_normalizer_includer"
 
 describe Releaf::BaseController do
   let(:new_resource){ Author.new }
   let(:resource){ create(:author) }
+  let(:subject){ DummyController.new }
+  class DummyController < Releaf::BaseController
+    def resource_class
+      Author
+    end
+  end
   class FooFormBuilder; end
+
+
+  it_behaves_like "a SerializedArrayParamsNormalizer includer"
 
   describe "#mass_assigment_actions" do
     it "returns create and update as mass assigment actions" do
@@ -106,7 +116,7 @@ describe Releaf::BaseController do
   describe "#form_builder_class" do
     it "returns resource class form builder" do
       allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
-      allow(Releaf::Builder::Utility).to receive(:builder_class).with(Releaf::BaseController, Releaf::Permissions::User, :form).and_return("x")
+      allow(Releaf::Builder::Utility).to receive(:builder_class).with(DummyController, Releaf::Permissions::User, :form).and_return("x")
       expect(subject.form_builder_class(:edit, new_resource)).to eq("x")
     end
   end
@@ -114,7 +124,7 @@ describe Releaf::BaseController do
   describe "#table_builder_class" do
     it "returns resource class table builder" do
       allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
-      allow(Releaf::Builder::Utility).to receive(:builder_class).with(Releaf::BaseController, Releaf::Permissions::User, :table).and_return("x")
+      allow(Releaf::Builder::Utility).to receive(:builder_class).with(DummyController, Releaf::Permissions::User, :table).and_return("x")
       expect(subject.table_builder_class).to eq("x")
     end
   end

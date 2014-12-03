@@ -3,6 +3,7 @@ module Releaf
 
   class BaseController < ActionController::Base
     include Releaf::BeforeRender
+    include Releaf::SerializedArrayParamsNormalizer
 
     before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
     before_filter :manage_ajax
