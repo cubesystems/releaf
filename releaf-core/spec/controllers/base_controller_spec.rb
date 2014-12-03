@@ -5,6 +5,28 @@ describe Releaf::BaseController do
   let(:resource){ create(:author) }
   class FooFormBuilder; end
 
+  describe "#mass_assigment_actions" do
+    it "returns create and update as mass assigment actions" do
+      expect(subject.mass_assigment_actions).to eq(["create", "update"])
+    end
+  end
+
+  describe "#mass_assigment_actions" do
+    context "when current action is mass assigment action" do
+      it "returns true" do
+        allow(subject).to receive(:params).and_return(action: "update")
+        expect(subject.mass_assigment_action?).to be true
+      end
+    end
+
+    context "when current action is not mass assigment action" do
+      it "returns false" do
+        allow(subject).to receive(:params).and_return(action: "edit")
+        expect(subject.mass_assigment_action?).to be false
+      end
+    end
+  end
+
   describe "#action_views"  do
     it "returns action > view translation hash" do
       hash = {

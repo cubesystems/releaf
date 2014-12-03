@@ -304,6 +304,14 @@ module Releaf
       @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
 
+    def mass_assigment_actions
+      ['create', 'update']
+    end
+
+    def mass_assigment_action?
+      mass_assigment_actions.include? params[:action]
+    end
+
     protected
 
     def respond
@@ -462,15 +470,11 @@ module Releaf
       @resources_per_page    = 40
     end
 
-    def mass_assigment_actions
-      ['create', 'update']
-    end
-
     # Returns which resource attributes can be updated with mass assignment.
     #
     # The resulting array will be passed to strong_parameters ``permit``
     def resource_params
-      return unless mass_assigment_actions.include? params[:action]
+      return unless mass_assigment_action?
 
       cols = resource_class.column_names.dup - %w{id created_at updated_at}
 
