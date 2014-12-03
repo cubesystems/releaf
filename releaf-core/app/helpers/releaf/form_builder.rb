@@ -366,21 +366,23 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_check_boxes(name, input: {}, label: {}, field: {}, options: {}, &block)
-    hidden_field(name, multiple: true, value: "") <<
+  def releaf_checkbox_group(name, input: {}, label: {}, field: {}, options: {}, &block)
+    options = {field: {type: "boolean-group"}}.deep_merge(options)
+    input_wrapper_with_label(name, releaf_checkbox_group_content(name, options[:items]),
+                             label: label, field: field, options: options, &block)
+  end
+
+  def releaf_checkbox_group_content(name, items)
     safe_join do
-      options[:check_boxes_options].collect do|item|
-        releaf_check_box(name, item)
+      items.collect do|item|
+        releaf_checkbox_group_item(name, item)
       end
     end
   end
 
-  def releaf_check_box(name, item)
-    field = field_attributes("#{name}_#{item[:value]}", {}, {field: {type: "boolean"}})
-    wrapper(field) do
-      wrapper(class: "value") do
-        check_box(name, {multiple: true }, item[:value], nil) << label(name, item[:label], value: item[:value])
-      end
+  def releaf_checkbox_group_item(name, item)
+    wrapper(class: "type-boolean-group-item") do
+      check_box(name, {multiple: true}, item[:value], nil) << label(name, item[:label], value: item[:value])
     end
   end
 

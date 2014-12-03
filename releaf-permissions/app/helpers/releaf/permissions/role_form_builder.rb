@@ -14,16 +14,12 @@ module Releaf::Permissions
     end
 
     def render_permissions
-      releaf_check_boxes(:permissions, options: {check_boxes_options: permissions_options})
+      releaf_checkbox_group(:permissions, options: {items: permissions_items})
     end
 
-    def permissions_options
+    def permissions_items
       Releaf.available_controllers.collect do |controller_name|
-        {
-          checked: object.permissions.include?(controller_name),
-          value: controller_name,
-          label: I18n.t(controller_name, scope: "admin.menu_items")
-        }
+        {value: controller_name, label: t(controller_name, scope: "admin.menu_items")}
       end
     end
   end
