@@ -23,17 +23,24 @@ describe Releaf::Permissions::RoleFormBuilder, type: :class do
   end
 
   describe "#render_permissions" do
-    it "returns checkbox output for all releaf available controllers" do
-      allow(Releaf).to receive(:available_controllers).and_return(["a", "b"])
-      allow(subject).to receive(:permission_field).with("a").and_return("aa")
-      allow(subject).to receive(:permission_field).with("b").and_return("bb")
-      expect(subject.render_permissions).to eq("aabb")
+    it "returns checkbox group" do
+      allow(subject).to receive(:permissions_items).and_return("x")
+      allow(subject).to receive(:releaf_checkbox_group).with(:permissions, options: {items: "x"}).and_return("y")
+      expect(subject.render_permissions).to eq("y")
     end
   end
 
-  describe "#permission_field", pending: true do
-    it "returns permission checkbox for given controller" do
-      expect(subject.permission_field("releaf/i18n_database/translations")).to eq("x")
+  describe "#permissions_items" do
+    it "returns array with items for #releaf_checkbox_group options[:items]" do
+      allow(Releaf).to receive(:available_controllers).and_return(["releaf/i18n_database/translations", "releaf/content/nodes"])
+      allow(subject).to receive(:t).with("releaf/i18n_database/translations", scope: "admin.menu_items").and_return("aa")
+      allow(subject).to receive(:t).with("releaf/content/nodes", scope: "admin.menu_items").and_return("bb")
+      items = [
+        {value: "releaf/i18n_database/translations", label: "aa"},
+        {value: "releaf/content/nodes", label: "bb"}
+      ]
+
+      expect(subject.permissions_items).to eq(items)
     end
   end
 end

@@ -366,6 +366,26 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
+  def releaf_checkbox_group(name, input: {}, label: {}, field: {}, options: {}, &block)
+    options = {field: {type: "boolean-group"}}.deep_merge(options)
+    input_wrapper_with_label(name, releaf_checkbox_group_content(name, options[:items]),
+                             label: label, field: field, options: options, &block)
+  end
+
+  def releaf_checkbox_group_content(name, items)
+    safe_join do
+      items.collect do|item|
+        releaf_checkbox_group_item(name, item)
+      end
+    end
+  end
+
+  def releaf_checkbox_group_item(name, item)
+    wrapper(class: "type-boolean-group-item") do
+      check_box(name, {multiple: true}, item[:value], nil) << label(name, item[:label], value: item[:value])
+    end
+  end
+
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "text"}}.deep_merge(options)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)

@@ -325,4 +325,37 @@ describe Releaf::FormBuilder, type: :class do
       expect( subject.sortable_column_name ).to eq 'item_position'
     end
   end
+
+  describe "#releaf_checkbox_group" do
+    it "renders checkbox group" do
+      allow(subject).to receive(:releaf_checkbox_group_content)
+        .with(:tags, ["a", "b"]).and_return('a_&quot;_ab_"_b'.html_safe)
+      content = '<div class="field type-boolean-group" data-name="tags"><div class="label-wrap"><label for="book_tags">Tags</label></div><div class="value">a_&quot;_ab_"_b</div></div>'
+
+      expect(subject.releaf_checkbox_group(:tags, options: {items: ["a", "b"]})).to eq(content)
+    end
+  end
+
+  describe "#releaf_checkbox_group_content" do
+    it "returns rendered checkbox group items" do
+      allow(subject).to receive(:releaf_checkbox_group_item).with(:tags, "a").and_return('a_"_a')
+      allow(subject).to receive(:releaf_checkbox_group_item).with(:tags, "b").and_return('b_"_b'.html_safe)
+      content = 'a_&quot;_ab_"_b'
+      expect(subject.releaf_checkbox_group_content(:tags, ["a", "b"])).to eq(content)
+    end
+  end
+
+  describe "#releaf_checkbox_group_item" do
+    let(:object){ Releaf::Permissions::Role.new }
+    it "renders single checkbox group checkbox" do
+      content = '<div class="type-boolean-group-item"><input id="book_permissions_a" name="book[permissions][]" type="checkbox" value="a" /><label for="book_permissions_a">x</label></div>'
+      expect(subject.releaf_checkbox_group_item(:permissions, label: "x", value: "a"))
+        .to eq(content)
+
+      object.permissions = ["a"]
+      content = '<div class="type-boolean-group-item"><input checked="checked" id="book_permissions_a" name="book[permissions][]" type="checkbox" value="a" /><label for="book_permissions_a">x</label></div>'
+      expect(subject.releaf_checkbox_group_item(:permissions, label: "x", value: "a"))
+        .to eq(content)
+    end
+  end
 end

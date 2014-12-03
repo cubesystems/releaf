@@ -9,6 +9,7 @@ module Releaf::Permissions
     has_many :users, dependent: :restrict_with_exception
 
     serialize :permissions, Array
+    before_validation{|model| model.permissions.reject!(&:blank?) if model.permissions}
 
     alias_attribute :to_text, :name
 
