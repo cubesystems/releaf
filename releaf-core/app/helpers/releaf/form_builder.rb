@@ -443,9 +443,9 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def input_wrapper_with_label(name, input_content, label: {}, field: {}, options: {}, &block)
+  def input_wrapper_with_label(name, input_content, label: {}, field: {}, options: {})
     field(name, field, options) do
-      input_content += block.call if block
+      input_content += yield if block_given?
       releaf_label(name, label, options) << wrapper(input_content, class: "value")
     end
   end
