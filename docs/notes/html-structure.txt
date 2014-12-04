@@ -1,0 +1,201 @@
+RELEAF HTML OUTLINE:
+html
+    body
+        header
+            = releaf logo, user box etc
+        aside
+            nav
+                = releaf menu
+        main
+            = [content]
+-------------------------------------------------------
+
+[content]:
+
+INDEX ACTION:
+    header
+        nav
+            = breadcrumbs
+        = extras: search form etc
+    section
+        header (black)
+            h1 = main title
+            = n resources found
+        .body
+            = table
+        footer
+            = pagination
+            = footer extras (export import etc)
+
+EDIT ACTION:
+    header
+        nav
+            = breadcrumbs
+        = extras: custom notices (above the black header), extra forms etc
+    section
+        form        -- form as an extra wrapper. not styled via css
+            header (black)
+                h1 = main title
+                = toolbox
+            .body
+                = form notices (below the black header, such as full-form validation errors) + custom form extras before fields
+                .field
+                .field
+                fieldset                    - "belongs to" scenario or custom grouping of fields with only title + fields
+                    legend = fieldset title - if there are still problems styling legend with css, h2 can be used here
+                    .field
+                    .field
+                section                     - custom grouping of fields when the block needs to be separated from others and have its own header
+                    header (black)
+                        h1 = block title
+                        = custom block header extras (toolboxes etc)
+                    .body
+                        fieldset
+                            .field
+                            .field
+                    footer (optional)
+                        = block extra buttons etc
+                section.type-nested         - multiple item blocks
+                    header (non-black)
+                        h1 = nested items title
+                        = custom nested header extras
+                    .body.list
+                        fieldset.item
+                            .field
+                            .field
+                            fieldset
+                                < same as "belongs to" above >
+                            section
+                                < same as custom grouping above >
+                            section.type-nested
+                                < RECURSION >
+                        fieldset.item
+                            ...
+                    footer
+                        = add item
+                        = custom nested footer extras
+            footer
+                = save button
+
+
+DIALOG ACTION:
+    full page render view for all dialogs.
+
+    normally each dialog should have its own action with its own URL
+    that renders a full page view from given params (and works via direct link also)
+
+    ajax then fetches the content, picks out the dialog part and displays in ajaxbox
+    that way there is no need to figure out custom techniques of storing the dialog template html somewhere within the main view etc
+
+    header
+        nav
+            (breadcrumbs)
+  --------------------------------------  (this block is used by ajax dialogs)
+  | section.dialog
+  |     form  (optional - if the dialog is not a single form, this wrapper does not exist)
+  |         header (black) (optional)
+  |             h1 = dialog title
+  |             = close button
+  |         .body
+  |             = dialog content
+  |         footer                         -- in other full page views this footer would sit at the bottom of the page/window
+  |             = ok / cancel et              but inside a section.dialog it is displayed immediately after the .body
+  ----------------------------------------
+
+
+CUSTOM ACTIONS:
+
+    header
+        nav
+            (breadcrumbs)
+        = custom header stuff
+    section
+        header (black)
+            = h1
+            = custom header
+        .body
+            = custom content
+        footer
+            = custom page footer
+
+=================================================================
+
+in all section levels the same structural pattern is repeated:
+
+    section
+        header
+        .body
+        footer
+
+if the whole section is a form, then the form is an extra wrapper
+
+    section
+        form
+            header
+            .body
+            footer
+
+=================================================================
+
+CSS:
+
+/*
+    to avoid adding additional class names in html, 2 versions of selectors are needed - both with and without there being a form wrapper
+    which is not ideal, but is needed for section nesting to work
+    because an immediate child selector is needed so as not to affect any nested sections
+*/
+
+section:not(.type-nested) > header,   /* better to use :not(), so that further section.type-nested > header does not have to undo all this */
+section > form > header
+{
+    black
+}
+
+section:not(.type-nested) > .body,
+section > form > .body
+{
+    border
+}
+
+fieldset
+{
+    no border
+}
+
+/*
+    nested sections will not have their own forms, therefore a single selector is enough
+*/
+section.type-nested > header
+{
+    not black
+}
+
+section.type-nested > .body
+{
+    no border
+}
+
+section.type-nested > .body > .item    /* in nested item sections the borders are on the fieldsets/items instead of .body */
+{
+    border
+}
+
+/*
+    with this structure we can also get rid of .view-* prefixes
+    so that the styles work in any view
+
+    and the default selectors will be weaker -> easier to override
+
+    current selectors like
+    .view-edit form .section .field
+    will become
+    .field
+
+*/
+
+
+
+
+
+
+
