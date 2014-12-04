@@ -121,26 +121,7 @@ describe Releaf::Builder, type: :module do
 
       end
 
-      context "when block evaluates to safe buffer" do
-        let(:output) do
-          subject.tag(:div, class: 'important') { ActiveSupport::SafeBuffer.new('<p>content</p>') }
-        end
-
-        it "returns an instance of ActiveSupport::SafeBuffer" do
-          expect( output ).to be_a ActiveSupport::SafeBuffer
-        end
-
-        it "doesn't call #template#safe_join" do
-          expect( template ).to_not receive(:safe_join)
-          output
-        end
-
-        it "passes block result to #template#content_tag as content which won't be escaped" do
-          expect( output ).to eq '<div class="important"><p>content</p></div>'
-        end
-      end
-
-      context "when block evaluates to string" do
+      context "when block evaluates to other than array" do
         let(:output) do
           subject.tag(:div, class: 'important') { '<p>content</p>' }
         end
@@ -154,8 +135,16 @@ describe Releaf::Builder, type: :module do
           output
         end
 
+        it "keeps safe buffer unmodified and pass to #template#content_tag as content which won't be escaped" do
+          expect( subject.tag(:div, class: 'important') { ActiveSupport::SafeBuffer.new('<p>content</p>') } ).to eq '<div class="important"><p>content</p></div>'
+        end
+
         it "passes block result to #template#content_tag as content which will be escaped" do
           expect( output ).to eq '<div class="important">&lt;p&gt;content&lt;/p&gt;</div>'
+        end
+
+        it "casts block result to string" do
+          expect( subject.tag(:div, class: 'important') { 1 } ).to eq '<div class="important">1</div>'
         end
       end
     end

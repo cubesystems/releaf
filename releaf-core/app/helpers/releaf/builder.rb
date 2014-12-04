@@ -35,7 +35,7 @@ module Releaf::Builder
           block_result
         end
       else
-        block_result
+        block_result.to_s
       end
     end
   end
