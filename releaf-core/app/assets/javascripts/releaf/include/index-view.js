@@ -41,19 +41,19 @@ jQuery(function()
                 header :
                 {
                     result_selector : '.header',
-                    target : jQuery('body > .main .header').first()
+                    target : jQuery('main .header').first()
                 },
 
                 table :
                 {
                     result_selector : '.table',
-                    target : jQuery('body > .main .table').first()
+                    target : jQuery('main .table').first()
                 },
 
                 footer :
                 {
                     result_selector : 'footer',
-                    target : jQuery('body > .main footer').first()
+                    target : jQuery('main footer').first()
                 }
             };
         }

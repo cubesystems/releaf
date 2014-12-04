@@ -54,14 +54,14 @@ feature "Base controller index", js: true do
     click_link("good book")
     click_link("Back to list")
 
-    expect(page).to have_css('.main > .table > tbody .row', :count => 1)
+    expect(page).to have_css('main > .table > tbody .row', :count => 1)
   end
 
   scenario "keeps search parameters after delete" do
     visit admin_books_path(search: "good")
     open_toolbox('Delete', Book.first)
     click_button("Yes")
-    expect(page).to have_css('.main > .table th .nothing-found', :count => 1, :text => "Nothing found")
+    expect(page).to have_css('main > .table th .nothing-found', :count => 1, :text => "Nothing found")
   end
 
   scenario "when deleting item in edit" do
@@ -69,7 +69,7 @@ feature "Base controller index", js: true do
     click_link("good book")
     open_toolbox('Delete')
     click_button("Yes")
-    expect(page).to have_css('.view-index .main > .table th .nothing-found', :count => 1, :text => "Nothing found")
+    expect(page).to have_css('main > .table th .nothing-found', :count => 1, :text => "Nothing found")
   end
 
   scenario "when deleting item with restrict relation" do
