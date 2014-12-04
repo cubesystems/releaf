@@ -377,7 +377,7 @@ body > aside nav li.collapsed ul
 /* Header */
 header > .brand {
     display: block;
-    background-image: url(<%= asset_path("releaf/brand.png") %>);
+    background-image: image-url("releaf/brand.png");
     background-repeat: no-repeat;
     width: 110px;
     height: 33px;

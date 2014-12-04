@@ -32,7 +32,7 @@ body.controller-releaf-sessions
       width: 60px;
       height: 72px;
       background-repeat: no-repeat;
-      background-image: url(<%= asset_path("releaf/brand-login.png") %>);
+      background-image: image-url("releaf/brand-login.png");
   }
 
   .control-group {
