@@ -1,15 +1,11 @@
 module Releaf
   module SerializedArrayParamsNormalizer
-    extend ActiveSupport::Concern
-
-    included do
-      before_filter :normalize_serialized_array_params, if: :normalize_serialized_array_params?
-    end
-
-    def normalize_serialized_array_params
+    def normalize_serialized_array_params(parameters)
       normalizable_resource_array_params.each do|attribute|
-        params[:resource][attribute] = [] unless params[:resource].has_key? attribute
+        parameters[attribute] = [] unless parameters.has_key? attribute
       end
+
+      parameters
     end
 
     def normalizable_resource_array_params
@@ -19,7 +15,7 @@ module Releaf
     end
 
     def resource_array_params
-      resource_params
+      permitted_params
         .select{|parameter| parameter.is_a?(Hash) && parameter.length == 1 && parameter.first.last == []}
         .collect{|parameter| parameter.first.first.to_s }
     end

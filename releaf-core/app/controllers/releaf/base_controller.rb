@@ -472,7 +472,9 @@ module Releaf
     end
 
     def resource_params
-      required_params.permit(*permitted_params)
+      values = required_params.permit(*permitted_params)
+      values = normalize_serialized_array_params(values) if normalize_serialized_array_params?
+      values
     end
 
     # Returns which resource attributes can be updated with mass assignment.

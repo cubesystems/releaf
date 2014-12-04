@@ -15,10 +15,9 @@ shared_examples "a SerializedArrayParamsNormalizer includer" do |args|
 
   describe "#normalize_serialized_array_params" do
     it "normalizes all empty, normalizable resource array params" do
-      allow(subject).to receive(:params).and_return(resource: {"colors" => ["x"], "title" => "asd"})
       allow(subject).to receive(:normalizable_resource_array_params).and_return(["permissions", "colors"])
-      subject.normalize_serialized_array_params
-      expect(subject.params).to eq(resource: {"colors" => ["x"], "title" => "asd", "permissions" => []})
+      expect(subject.normalize_serialized_array_params("colors" => ["x"], "title" => "asd"))
+        .to eq("colors" => ["x"], "title" => "asd", "permissions" => [])
     end
   end
 
@@ -31,11 +30,11 @@ shared_examples "a SerializedArrayParamsNormalizer includer" do |args|
   end
 
   describe "#resource_array_params" do
-    it "returns array with valid array resource parameters keys as strings" do
-      allow(subject).to receive(:resource_params).and_return([:title, {sizes: []}, :weight, {colors: []}])
+    it "returns array with permitted array resource parameters keys as strings" do
+      allow(subject).to receive(:permitted_params).and_return([:title, {sizes: []}, :weight, {colors: []}])
       expect(subject.resource_array_params).to eq(["sizes", "colors"])
 
-      allow(subject).to receive(:resource_params).and_return([:title, {sizes: ["a"]}, :weight, {colors: [], assad: []}])
+      allow(subject).to receive(:permitted_params).and_return([:title, {sizes: ["a"]}, :weight, {colors: [], assad: []}])
       expect(subject.resource_array_params).to eq([])
     end
   end
