@@ -59,9 +59,6 @@
                   %a.trigger{href: menu_item[:url]}
                     %i.fa{class: "fa-" + menu_item[:icon]}
                     %span.name= t(menu_item[:name], scope: "admin.menu_items")
-        .clear
-        %footer
-
       %main{id: "main"}= yield
       .notifications{:'data-close-text' => t(:close, scope: "admin.global")}
     - else

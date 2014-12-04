@@ -62,21 +62,6 @@ body > aside > nav
     margin-bottom: 50px;
 }
 
-body > aside > footer
-{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 240px;
-    z-index: 9;
-    margin-top: -50px;
-}
-body.side-compact > aside > footer
-{
-  width: 40px;
-  overflow: hidden;
-}
-
 main
 {
     display: block; /* fix poltergeist main element support */
@@ -119,7 +104,6 @@ main footer .tools > .secondary
 }
 
 
-body > aside > footer,
 main footer .tools
 {
     height: 40px;
@@ -172,11 +156,6 @@ body.side-compact > aside .compacter button
 .side-compact > main
 {
     padding-left: 80px;
-}
-
-body.side-compact > footer
-{
-    left: 80px;
 }
 
 body.side-compact > aside nav li .name,
