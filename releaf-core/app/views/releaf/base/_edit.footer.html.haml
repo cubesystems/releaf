@@ -1,7 +1,0 @@
-%footer
-  .tools
-    .primary
-      = releaf_button(t('Save', scope: "admin.global"), "check", class: "primary", data: { type: 'ok' }, type: "submit")
-    - if @features[:index] && params[:index_url].present?
-      .secondary
-        = releaf_button(t('Back to list', scope: "admin.global"), "caret-left", class: "secondary", href: index_url)

@@ -6,9 +6,42 @@ module Releaf::ViewBuilder
     self.template = template
   end
 
+  def output
+    safe_join do
+      [header, section]
+    end
+  end
+
+  def section_header
+    tag(:header) do
+      [tag(:h1, section_header_text), section_header_extras]
+    end
+  end
+
+  def section_footer
+    tag(:footer) do
+      footer_tools
+    end
+  end
+
+  def footer_tools
+    tag(:div, class: "tools") do
+      tag(:div, class: "primary") do
+        footer_primary_tools
+      end <<
+      tag(:div, class: "secondary") do
+        footer_secondary_tools
+      end
+    end
+  end
+
+  def section_blocks
+    [flash_notices, section_header, section_body, section_footer]
+  end
+
   def header
     tag(:header) do
-      [breadcrumbs, flash_notices, header_extras]
+      [breadcrumbs, header_extras]
     end
   end
 
@@ -69,7 +102,11 @@ module Releaf::ViewBuilder
     template.controller_name
   end
 
-  def releaf_button(*args)
+  def button(*args)
     template.releaf_button(*args)
+  end
+
+  def feature_available?(feature)
+    template.feature_available?(feature)
   end
 end

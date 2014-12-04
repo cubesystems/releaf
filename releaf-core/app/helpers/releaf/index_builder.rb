@@ -20,7 +20,7 @@ class Releaf::IndexBuilder
       tag(:div, class: "wrapper") do
         [
           tag(:input, "", name: "search", type: "text", value: template.params[:search], autofocus: true),
-          releaf_button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))
+          button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))
         ]
       end
     end
@@ -51,43 +51,24 @@ class Releaf::IndexBuilder
 
   def section
     tag(:section) do
-      [section_header, body, footer]
+      section_blocks
     end
   end
 
-  def section_header
-    tag(:header) do
-      [tag(:h1, t("all_title", scope: 'admin.global')), section_header_totals]
-    end
+  def section_header_text
+    t("all_title", scope: 'admin.global')
   end
 
-  def section_header_totals
+  def section_header_extras
     return unless collection.respond_to? :total_entries
     tag(:span, class: "totals") do
       [collection.total_entries, t("resources_found", scope: 'admin.global')]
     end
   end
 
-  def footer
-    tag(:footer) do
-      footer_tools
-    end
-  end
-
-  def footer_tools
-    tag(:div, class: "tools") do
-      tag(:div, class: "primary") do
-        footer_primary_tools
-      end <<
-      tag(:div, class: "secondary") do
-        footer_secondary_tools
-      end
-    end
-  end
-
   def footer_primary_tools
     items = []
-    items << resource_creation_button if template.feature_available? :create
+    items << resource_creation_button if feature_available? :create
     items << pagination if collection.respond_to?(:page)
     items
   end
@@ -97,7 +78,7 @@ class Releaf::IndexBuilder
   end
 
   def resource_creation_button
-    releaf_button(t('Create new resource', scope: 'admin.global'), "plus", class: "primary",
+    button(t('Create new resource', scope: 'admin.global'), "plus", class: "primary",
                                       href: url_for(controller: controller_name, action: "new"))
   end
 
@@ -105,15 +86,9 @@ class Releaf::IndexBuilder
     []
   end
 
-  def body
+  def section_body
     tag(:div, class: "body") do
       template.releaf_table(collection, template.resource_class, template.table_options)
-    end
-  end
-
-  def output
-    safe_join do
-      [header, section]
     end
   end
 end
