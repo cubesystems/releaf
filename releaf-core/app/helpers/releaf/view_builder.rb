@@ -36,12 +36,12 @@ module Releaf::ViewBuilder
   end
 
   def section_blocks
-    [flash_notices, section_header, section_body, section_footer]
+    [section_header, section_body, section_footer]
   end
 
   def header
     tag(:header) do
-      [breadcrumbs, header_extras]
+      [breadcrumbs, flash_notices, header_extras]
     end
   end
 

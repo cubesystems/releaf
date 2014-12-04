@@ -186,11 +186,11 @@ jQuery(function(){
                     return;
                 }
 
-                var form_selector = 'form#' + form_id;
+                var content_selector = 'main';
 
                 event.preventDefault(); // prevent validator's built in submit_form on ok
 
-                body.trigger('contentreplace', [ event_params.response, form_selector ])
+                body.trigger('contentreplace', [ event_params.response, content_selector ])
 
             }
 
