@@ -35,19 +35,19 @@ body > header
     z-index: 10;
 }
 
-body > .side,
+body > aside,
 body > .main
 {
     position: relative;
     min-height: 100%;
 }
 
-body > .side > *:first-child
+body > aside > *:first-child
 {
     padding-top: 60px;
 }
 
-body > .side
+body > aside
 {
     background: #1d1d1d;
     color: #d3d3d3;
@@ -57,12 +57,12 @@ body > .side
     top: 0;
     z-index: 5;
 }
-body > .side > nav
+body > aside > nav
 {
     margin-bottom: 50px;
 }
 
-body > .side > footer
+body > aside > footer
 {
     position: absolute;
     bottom: 0;
@@ -71,7 +71,7 @@ body > .side > footer
     z-index: 9;
     margin-top: -50px;
 }
-body.side-compact > .side > footer
+body.side-compact > aside > footer
 {
   width: 40px;
   overflow: hidden;
@@ -118,7 +118,7 @@ body .main footer .tools > .secondary
 }
 
 
-body > .side > footer,
+body > aside > footer,
 body .main footer .tools
 {
     height: 40px;
@@ -135,35 +135,35 @@ header .side-opener
     display: none;
 }
 
-body > .side .compacter
+body > aside .compacter
 {
   text-align: right;
   border-bottom: 1px solid #282828;
 }
-body > .side .compacter button
+body > aside .compacter button
 {
   padding: 0;
   height: 39px;
   width: 45px;
   background: #171717;
 }
-body > .side .compacter button:hover
+body > aside .compacter button:hover
 {
   background: #282828;
 }
-body > .side .compacter .toggle-angle-icon
+body > aside .compacter .toggle-angle-icon
 {
     color: #37b1a7;
     font-size: 20px;
 }
 
 /* compact sidebar stuff */
-body.side-compact > .side
+body.side-compact > aside
 {
     width: 40px;
 }
 
-body.side-compact > .side .compacter button
+body.side-compact > aside .compacter button
 {
     width: 40px;
 }
@@ -178,17 +178,17 @@ body.side-compact > footer
     left: 80px;
 }
 
-body.side-compact > .side nav li .name,
-body.side-compact > .side nav li .collapser
+body.side-compact > aside nav li .name,
+body.side-compact > aside nav li .collapser
 {
     display: none;
 }
 
-body.side-compact > .side nav li .trigger
+body.side-compact > aside nav li .trigger
 {
     padding-right: 20px;
 }
-body.side-compact > .side nav > ul > li.open > .trigger .name
+body.side-compact > aside nav > ul > li.open > .trigger .name
 {
     position: absolute;
     top: 0;
@@ -200,18 +200,18 @@ body.side-compact > .side nav > ul > li.open > .trigger .name
     background: #000;
 }
 
-body.side-compact > .side nav > ul > li.open > .trigger
+body.side-compact > aside nav > ul > li.open > .trigger
 {
     background-color: #050505;
     color: #fff;
 }
 
-body.side-compact > .side nav > ul > li.active > .trigger,
-body.side-compact > .side nav > ul > li.active > .trigger .name
+body.side-compact > aside nav > ul > li.active > .trigger,
+body.side-compact > aside nav > ul > li.active > .trigger .name
 {
     background-color: #37b1a7;
 }
-body.side-compact > .side nav > ul > li.open > ul
+body.side-compact > aside nav > ul > li.open > ul
 {
     position: absolute;
     top: 39px;
@@ -220,11 +220,11 @@ body.side-compact > .side nav > ul > li.open > ul
     display: block;
     background: #000;
 }
-body.side-compact > .side nav > ul > li > ul
+body.side-compact > aside nav > ul > li > ul
 {
     display: none;
 }
-body.side-compact > .side nav > ul > li.open > ul .name
+body.side-compact > aside nav > ul > li.open > ul .name
 {
     display: block;
 }
@@ -248,20 +248,20 @@ body > header > .item
 }
 
 /* side */
-body > .side nav li
+body > aside nav li
 {
     border-bottom: 1px solid #282828;
     position: relative;
 }
 
-body > .side nav li .collapser
+body > aside nav li .collapser
 {
     position: absolute;
     right: 0;
     top: 0;
     color: #4a4a4a;
 }
-body > .side nav li .collapser button
+body > aside nav li .collapser button
 {
     padding: 0;
     background-color: transparent;
@@ -271,13 +271,13 @@ body > .side nav li .collapser button
 }
 
 
-body > .side nav li li
+body > aside nav li li
 {
     background: #282828;
     border-bottom: none;
 }
 
-body > .side nav li .trigger
+body > aside nav li .trigger
 {
     color: #d3d3d3;
     display: block;
@@ -286,60 +286,60 @@ body > .side nav li .trigger
     cursor: pointer;
     padding: 10px 40px 10px 13px;
 }
-body > .side nav li .trigger.active-item i
+body > aside nav li .trigger.active-item i
 {
     display: inline;
     width: auto;
 }
-body > .side nav li .trigger i
+body > aside nav li .trigger i
 {
     display: inline-block;
 }
-body > .side nav > ul > li > .trigger:hover
+body > aside nav > ul > li > .trigger:hover
 {
     background-color: #050505;
     color: #fff;
 }
-body > .side nav .trigger:hover
+body > aside nav .trigger:hover
 {
     color: #fff;
 }
-body > .side nav > ul > li > .trigger:hover .collapser
+body > aside nav > ul > li > .trigger:hover .collapser
 {
   color: #929292;
 }
-body > .side nav > ul > li.active > .trigger
+body > aside nav > ul > li.active > .trigger
 {
   background-color: #37b1a7;
   color: #111111;
 }
-body > .side nav > ul > li.active > .trigger .collapser
+body > aside nav > ul > li.active > .trigger .collapser
 {
   color: #111111;
 }
 
-body > .side nav > ul > li > .trigger > .name
+body > aside nav > ul > li > .trigger > .name
 {
     padding: 0 0 0 8px;
 }
 
-body > .side nav li li .trigger
+body > aside nav li li .trigger
 {
     color: #a6a6a6;
     position: relative;
     padding: 4px 40px 5px 50px;
 }
 
-body > .side nav li li:first-child .trigger
+body > aside nav li li:first-child .trigger
 {
     padding-top: 10px;
 }
-body > .side nav li li:last-child .trigger
+body > aside nav li li:last-child .trigger
 {
     padding-bottom: 14px;
 }
 
-body > .side nav li li .trigger i
+body > aside nav li li .trigger i
 {
     position: absolute;
     top: 7px;
@@ -347,12 +347,12 @@ body > .side nav li li .trigger i
     display: none;
 }
 
-body > .side nav li li .trigger.active-item
+body > aside nav li li .trigger.active-item
 {
     color: #ffffff;
     background: #383838;
 }
-body > .side nav li li .trigger.active-item i
+body > aside nav li li .trigger.active-item i
 {
     display: block;
     position: absolute;
@@ -361,13 +361,13 @@ body > .side nav li li .trigger.active-item i
     font-size: 28px;
 }
 
-body > .side nav li li:first-child .trigger.active-item i
+body > aside nav li li:first-child .trigger.active-item i
 {
     top: 6px;
 }
 
 
-body > .side nav li.collapsed ul
+body > aside nav li.collapsed ul
 {
     display: none;
 }

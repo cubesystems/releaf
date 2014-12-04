@@ -8,9 +8,9 @@ jQuery(function(){
         body.trigger('sidecompactcloseall');
     });
 
-    var first_level_side_items =  jQuery('body > .side > nav > ul > li');
+    var first_level_side_items =  jQuery('body > aside > nav > ul > li');
 
-    jQuery('body > .side > .compacter button').click(function()
+    jQuery('body > aside > .compacter button').click(function()
     {
         var button = jQuery(this);
         var icon = button.find('i').first();
@@ -49,7 +49,7 @@ jQuery(function(){
 
     body.trigger('sidecompactchange');
 
-    jQuery('body > .side > nav .collapser button').click(function(e)
+    jQuery('body > aside > nav .collapser button').click(function(e)
     {
         var item = jQuery(this).closest('li');
         e.stopPropagation();
@@ -111,7 +111,7 @@ jQuery(function(){
         return false;
     });
 
-    jQuery('body > .side > nav span.trigger').click(function(e)
+    jQuery('body > aside > nav span.trigger').click(function(e)
     {
         if (body.hasClass('side-compact'))
         {
