@@ -182,7 +182,7 @@ module Releaf::Content
       params[:content_type].constantize
     end
 
-    def resource_params
+    def permitted_params
       res_params = super
       res_params += [{content_attributes: permitted_content_attributes}]
       res_params -= %w[content_type]

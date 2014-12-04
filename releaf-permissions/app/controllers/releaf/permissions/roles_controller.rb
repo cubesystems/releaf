@@ -11,7 +11,7 @@ module Releaf::Permissions
       @features[:edit_ajax_reload] = false
     end
 
-    def resource_params
+    def permitted_params
       return [] unless %w[update create].include? params[:action]
       return [:name, :default_controller, permissions: []]
     end

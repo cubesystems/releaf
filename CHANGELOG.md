@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2014.12.04
+* BaseController 'resource_params' method renamed to 'permitted_params'
+
 ### 2014.09.15
 * Releaf controllers now properly resolves namespaced classes
   For example Admin::Foo::BarsController previously would resolve to Bar class,

@@ -50,7 +50,7 @@ module Releaf::Permissions
       @resource = self.send("current_#{::Releaf::ReleafDeviseHelper.devise_admin_model_name}")
     end
 
-    def resource_params
+    def permitted_params
       return [] unless %w[create update].include? params[:action]
       %w[name surname email password password_confirmation locale]
     end

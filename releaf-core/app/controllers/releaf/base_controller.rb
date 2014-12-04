@@ -72,7 +72,7 @@ module Releaf
 
     def update
       prepare_update
-      result = @resource.update_attributes required_params.permit(*resource_params)
+      result = @resource.update_attributes(resource_params)
       respond_after_save(:update, result, "edit")
     end
 
@@ -341,7 +341,7 @@ module Releaf
     def prepare_create
       # load resource only if is not loaded yet
       @resource = resource_class.new unless resource_given?
-      @resource.assign_attributes required_params.permit(*resource_params)
+      @resource.assign_attributes(resource_params)
     end
 
     def prepare_edit
@@ -471,10 +471,14 @@ module Releaf
       @resources_per_page    = 40
     end
 
+    def resource_params
+      required_params.permit(*permitted_params)
+    end
+
     # Returns which resource attributes can be updated with mass assignment.
     #
     # The resulting array will be passed to strong_parameters ``permit``
-    def resource_params
+    def permitted_params
       return unless mass_assigment_action?
 
       cols = resource_class.column_names.dup - %w{id created_at updated_at}
