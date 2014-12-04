@@ -79,8 +79,8 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     wrapper(class: "nested-wrap", data: { name: association_name}) do
       tag(:div, t(association_name), class: "nested-title") <<
       wrapper(class: "item") do
-        fields_for(association_name, object.send(association_name)) do |builder|
-          builder.releaf_fields_or_field(association_name, fields)
+        fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
+          builder.releaf_fields(fields)
         end
       end
     end
