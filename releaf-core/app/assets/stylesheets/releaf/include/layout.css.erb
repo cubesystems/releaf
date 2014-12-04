@@ -36,7 +36,7 @@ body > header
 }
 
 body > aside,
-body > main
+main
 {
     position: relative;
     min-height: 100%;
@@ -77,7 +77,7 @@ body.side-compact > aside > footer
   overflow: hidden;
 }
 
-body > main
+main
 {
     display: block; /* fix poltergeist main element support */
     position: relative;
@@ -85,7 +85,7 @@ body > main
     z-index: 1;
 }
 
-body main footer
+main footer
 {
     position: fixed;
     bottom: 0;
@@ -95,13 +95,13 @@ body main footer
     z-index: 10;
     background: #fff;
 }
-body.side-compact main footer
+.side-compact main footer
 {
     margin-left: 80px;
 }
 
 
-body main footer .tools
+main footer .tools
 {
     height: 40px;
     background: #e6e6e6;
@@ -109,18 +109,18 @@ body main footer .tools
     border: 1px solid #c5c5c5;
     border-bottom: 0;
 }
-body main footer .tools > .primary
+main footer .tools > .primary
 {
     float: right;
 }
-body main footer .tools > .secondary
+main footer .tools > .secondary
 {
     float: left;
 }
 
 
 body > aside > footer,
-body main footer .tools
+main footer .tools
 {
     height: 40px;
 }
@@ -169,7 +169,7 @@ body.side-compact > aside .compacter button
     width: 40px;
 }
 
-body.side-compact > main
+.side-compact > main
 {
     padding-left: 80px;
 }
@@ -631,16 +631,16 @@ body > .notifications .notification > .close
 
 
 /* Breadcrumbs */
-body main .breadcrumbs
+main .breadcrumbs
 {
   padding: 14px 0px;
   border-bottom: 1px solid #e6e6e6;
 }
-body main .breadcrumbs > li
+main .breadcrumbs > li
 {
   display: inline-block;
 }
-body main .breadcrumbs > li a
+main .breadcrumbs > li a
 {
   position: relative;
   z-index: 100;
@@ -648,12 +648,12 @@ body main .breadcrumbs > li a
   color: #000;
   text-decoration: none;
 }
-body main .breadcrumbs > li a:hover
+main .breadcrumbs > li a:hover
 {
   text-decoration: none;
   color: #42690d;
 }
-body main .breadcrumbs > li i
+main .breadcrumbs > li i
 {
   padding: 0px 8px;
   font-size: 10px;
