@@ -57,6 +57,7 @@ body > aside
     top: 0;
     z-index: 5;
 }
+
 body > aside > nav
 {
     margin-bottom: 50px;
@@ -80,6 +81,7 @@ main footer
     z-index: 10;
     background: #fff;
 }
+
 .side-compact main footer
 {
     margin-left: 80px;
@@ -94,15 +96,16 @@ main footer .tools
     border: 1px solid #c5c5c5;
     border-bottom: 0;
 }
+
 main footer .tools > .primary
 {
     float: right;
 }
+
 main footer .tools > .secondary
 {
     float: left;
 }
-
 
 main footer .tools
 {
@@ -122,20 +125,23 @@ header .side-opener
 
 body > aside .compacter
 {
-  text-align: right;
-  border-bottom: 1px solid #282828;
+    text-align: right;
+    border-bottom: 1px solid #282828;
 }
+
 body > aside .compacter button
 {
-  padding: 0;
-  height: 39px;
-  width: 45px;
-  background: #171717;
+    padding: 0;
+    height: 39px;
+    width: 45px;
+    background: #171717;
 }
+
 body > aside .compacter button:hover
 {
-  background: #282828;
+    background: #282828;
 }
+
 body > aside .compacter .toggle-angle-icon
 {
     color: #37b1a7;
@@ -168,6 +174,7 @@ body.side-compact > aside nav li .trigger
 {
     padding-right: 20px;
 }
+
 body.side-compact > aside nav > ul > li.open > .trigger .name
 {
     position: absolute;
@@ -191,6 +198,7 @@ body.side-compact > aside nav > ul > li.active > .trigger .name
 {
     background-color: #37b1a7;
 }
+
 body.side-compact > aside nav > ul > li.open > ul
 {
     position: absolute;
@@ -200,14 +208,17 @@ body.side-compact > aside nav > ul > li.open > ul
     display: block;
     background: #000;
 }
+
 body.side-compact > aside nav > ul > li > ul
 {
     display: none;
 }
+
 body.side-compact > aside nav > ul > li.open > ul .name
 {
     display: block;
 }
+
 body > .side-compact-overlay
 {
     position: absolute;
@@ -217,7 +228,6 @@ body > .side-compact-overlay
     bottom: 0;
     z-index: 3;
     display: none;
-
 }
 
 
@@ -241,6 +251,7 @@ body > aside nav li .collapser
     top: 0;
     color: #4a4a4a;
 }
+
 body > aside nav li .collapser button
 {
     padding: 0;
@@ -266,36 +277,43 @@ body > aside nav li .trigger
     cursor: pointer;
     padding: 10px 40px 10px 13px;
 }
+
 body > aside nav li .trigger.active-item i
 {
     display: inline;
     width: auto;
 }
+
 body > aside nav li .trigger i
 {
     display: inline-block;
 }
+
 body > aside nav > ul > li > .trigger:hover
 {
     background-color: #050505;
     color: #fff;
 }
+
 body > aside nav .trigger:hover
 {
     color: #fff;
 }
+
 body > aside nav > ul > li > .trigger:hover .collapser
 {
-  color: #929292;
+    color: #929292;
 }
+
 body > aside nav > ul > li.active > .trigger
 {
-  background-color: #37b1a7;
-  color: #111111;
+    background-color: #37b1a7;
+    color: #111111;
 }
+
 body > aside nav > ul > li.active > .trigger .collapser
 {
-  color: #111111;
+    color: #111111;
 }
 
 body > aside nav > ul > li > .trigger > .name
@@ -314,6 +332,7 @@ body > aside nav li li:first-child .trigger
 {
     padding-top: 10px;
 }
+
 body > aside nav li li:last-child .trigger
 {
     padding-bottom: 14px;
@@ -332,6 +351,7 @@ body > aside nav li li .trigger.active-item
     color: #ffffff;
     background: #383838;
 }
+
 body > aside nav li li .trigger.active-item i
 {
     display: block;
@@ -354,7 +374,8 @@ body > aside nav li.collapsed ul
 
 
 /* Header */
-header > .brand {
+header > .brand
+{
     display: block;
     background-image: image-url("releaf/brand.png");
     background-repeat: no-repeat;
@@ -365,57 +386,70 @@ header > .brand {
     margin: 13px 0 0 13px;
 }
 
-header > ul {
+header > ul
+{
     float: right;
 }
 
-header > ul > li {
+header > ul > li
+{
     float: left;
 }
 
-header > ul > li > a {
+header > ul > li > a
+{
     display: block;
     text-decoration: none;
     height: 60px;
 }
 
-header .profile{
-  padding-right: 1px;
+header .profile
+{
+    padding-right: 1px;
 }
-header .profile a{
+
+header .profile a
+{
     position: relative;
     width: 237px;
     color: #d8d8d8;
     border-left: 1px solid #242424;
 }
-header .profile a:hover{
+
+header .profile a:hover
+{
     background-color: #242424;
     color: #fff;
 }
-header .profile .name{
-  position: absolute;
-  top: 20px;
-  left: 25px;
-  display: block;
-  width: 152px;
+
+header .profile .name
+{
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    display: block;
+    width: 152px;
 }
 
-header .profile .avatar{
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: block;
-  width: 36px;
+header .profile .avatar
+{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: block;
+    width: 36px;
 }
 
-header .sign-out button{
+header .sign-out button
+{
     position: relative;
     background-color: #242424;
     color: #37b1a7;
     width: 60px;
     height: 60px;
 }
-header .sign-out button:hover {
+header .sign-out button:hover
+{
     background-color: #37b1a7;
     color: #242424;
 }
@@ -487,15 +521,18 @@ main .dialog
 {
     width: 390px;
 }
+
 .dialog.delete-restricted
 {
     width: 490px;
 }
+
 .dialog.confirm-destroy section.body
 {
     padding: 37px 10px 55px;
     text-align: center;
 }
+
 .dialog.delete-restricted section.body
 {
     padding: 37px 10px 25px;
@@ -527,6 +564,7 @@ main .dialog
     font-family: 'robotoregular';
     font-weight: normal;
 }
+
 .dialog.confirm-destroy section.body .description
 {
     color: #37b1a7;
@@ -534,6 +572,7 @@ main .dialog
     line-height: 1.4em;
     font-weight: bold;
 }
+
 .dialog.delete-restricted section.body .restricted-relations
 {
     margin-top: 10px;
@@ -582,6 +621,7 @@ body > .notifications .notification[data-type="error"]
     background-color: #eed3d7;
     color: #b94a48;
 }
+
 body > .notifications .notification > .icon
 {
     float: left;
@@ -595,6 +635,7 @@ body > .notifications .notification > .content
     padding-bottom: 9px;
     text-align: center;
 }
+
 body > .notifications .notification > .close
 {
     position: absolute;
@@ -610,35 +651,38 @@ body > .notifications .notification > .close
 
 
 /* Breadcrumbs */
+
 main .breadcrumbs
 {
-  padding: 14px 0px;
-  border-bottom: 1px solid #e6e6e6;
+    padding: 14px 0px;
+    border-bottom: 1px solid #e6e6e6;
 }
+
 main .breadcrumbs > li
 {
-  display: inline-block;
+    display: inline-block;
 }
+
 main .breadcrumbs > li a
 {
-  position: relative;
-  z-index: 100;
-  font-size: 1em;
-  color: #000;
-  text-decoration: none;
+    position: relative;
+    z-index: 100;
+    font-size: 1em;
+    color: #000;
+    text-decoration: none;
 }
+
 main .breadcrumbs > li a:hover
 {
-  text-decoration: none;
-  color: #42690d;
+    text-decoration: none;
+    color: #42690d;
 }
+
 main .breadcrumbs > li i
 {
-  padding: 0px 8px;
-  font-size: 10px;
+    padding: 0px 8px;
+    font-size: 10px;
 }
-
-
 
 main > .body.error
 {
@@ -678,4 +722,5 @@ main > .body.error a.return
     font-weight: bold;
     text-decoration: none;
 }
+
 

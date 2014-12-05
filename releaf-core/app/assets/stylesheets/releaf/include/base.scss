@@ -1,14 +1,14 @@
 html, body
 {
-	margin:  0;
-	padding: 0;
-  position: relative;
+    margin:  0;
+    padding: 0;
+    position: relative;
 }
 
 body, input, select, textarea, button, pre
 {
-	font-family: Arial, helvetica, sans-serif;
-  font-size:   100%;
+    font-family: Arial, helvetica, sans-serif;
+    font-size:   100%;
 }
 
 html
@@ -38,13 +38,13 @@ h1, h2, h3, h4, h5, h6, form
 
 a
 {
-  color: #37b1a7;
-	text-decoration: underline;
+    color: #37b1a7;
+    text-decoration: underline;
 }
 
 a img
 {
-	border: none;
+    border: none;
 }
 
 p
@@ -83,6 +83,7 @@ p
     margin-top: 20px;
     position: relative;
 }
+
 .header *
 {
     font-family: Arial, helvetica, sans-serif;
@@ -100,11 +101,11 @@ p
 
 .clearInside:after
 {
-	content: '\00a0';
-	display: block;
-	clear: both;
-	height: 0;
-	visibility: hidden;
+    content: '\00a0';
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
 }
 
 /* reset native button and link styles */
@@ -112,12 +113,12 @@ button,
 input[type="button"],
 input[type="submit"]
 {
-	cursor: pointer;
+    cursor: pointer;
     background: transparent;
-	border: none;
-	padding: 0;
+    border: none;
+    padding: 0;
     margin: 0;
-	box-shadow: none;
+    box-shadow: none;
     color: inherit;
 }
 
