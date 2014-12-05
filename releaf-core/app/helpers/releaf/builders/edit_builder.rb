@@ -32,15 +32,18 @@ class Releaf::Builders::EditBuilder
 
 
   def section_body
-    #- if has_template? "_edit.body_top"
-      #= render 'edit.body_top', f: f
     tag(:div, class: "body") do
-      [error_notices, form.releaf_fields(form.field_names)]
+      section_body_blocks
     end
-    #- if has_template? "_edit.body_bottom"
-      #= render 'edit.body_bottom', f: f
   end
 
+  def section_body_blocks
+    [error_notices, form_fields]
+  end
+
+  def form_fields
+    form.releaf_fields(form.field_names)
+  end
 
   #-#TODO: improve style/html
   def error_notices
