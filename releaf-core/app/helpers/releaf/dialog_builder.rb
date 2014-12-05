@@ -1,11 +1,5 @@
 module Releaf::DialogBuilder
-  include Releaf::ViewBuilder
-  attr_accessor :resource
-
-  def initialize(template)
-    super
-    self.resource = template.instance_variable_get("@resource")
-  end
+  include Releaf::SingleResourceBuilder
 
   def output
     tag(:section, class: classes) do

@@ -1,11 +1,6 @@
 class Releaf::EditBuilder
-  include Releaf::ViewBuilder
-  attr_accessor :resource, :form
-
-  def initialize(template)
-    super
-    self.resource = template.instance_variable_get("@resource")
-  end
+  include Releaf::SingleResourceBuilder
+  attr_accessor :form
 
   def section
     template.form_for(resource, template.form_options(template.action_name, resource, :resource)) do |form|
