@@ -38,7 +38,8 @@ module Releaf
       :resource_to_text,
       :resource_to_text_method,
       :resource_edit_url,
-      :feature_available?
+      :feature_available?,
+      :builder_class
 
     def search text
       return if text.blank?
@@ -275,17 +276,13 @@ module Releaf
       }
     end
 
-    def form_builder_class(form_type, object)
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, :form)
-    end
-
-    def table_builder_class
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, :table)
+    def builder_class(builder_type)
+      Releaf::Builder::Utility.builder_class(self.class, resource_class, builder_type)
     end
 
     def form_options(form_type, object, object_name)
       {
-        builder: form_builder_class(form_type, object),
+        builder: builder_class(:form),
         as: object_name,
         url: form_url(form_type, object),
         html: form_attributes(form_type, object, object_name)
@@ -294,7 +291,7 @@ module Releaf
 
     def table_options
       {
-        builder: table_builder_class,
+        builder: builder_class(:table),
         toolbox: feature_available?(:toolbox)
       }
     end

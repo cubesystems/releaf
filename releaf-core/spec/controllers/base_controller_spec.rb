@@ -113,25 +113,17 @@ describe Releaf::BaseController do
     end
   end
 
-  describe "#form_builder_class" do
-    it "returns resource class form builder" do
+  describe "#builder_class" do
+    it "returns resource class scoped builder for given builder type" do
       allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
       allow(Releaf::Builder::Utility).to receive(:builder_class).with(DummyController, Releaf::Permissions::User, :form).and_return("x")
-      expect(subject.form_builder_class(:edit, new_resource)).to eq("x")
-    end
-  end
-
-  describe "#table_builder_class" do
-    it "returns resource class table builder" do
-      allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
-      allow(Releaf::Builder::Utility).to receive(:builder_class).with(DummyController, Releaf::Permissions::User, :table).and_return("x")
-      expect(subject.table_builder_class).to eq("x")
+      expect(subject.builder_class(:form)).to eq("x")
     end
   end
 
   describe "#table_options" do
     it "returns table options" do
-      allow(subject).to receive(:table_builder_class).and_return("CustomTableBuilderClassHere")
+      allow(subject).to receive(:builder_class).with(:table).and_return("CustomTableBuilderClassHere")
       allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
 
       options = {
@@ -144,7 +136,7 @@ describe Releaf::BaseController do
 
   describe "#form_options" do
     it "returns form options" do
-      allow(subject).to receive(:form_builder_class).with(:delete, resource).and_return("CustomFormBuilderClassHere")
+      allow(subject).to receive(:builder_class).with(:form).and_return("CustomFormBuilderClassHere")
       allow(subject).to receive(:form_url).with(:delete, resource).and_return("/some-url-here")
       allow(subject).to receive(:form_attributes).with(:delete, resource, :author).and_return(some: "options_here")
 
