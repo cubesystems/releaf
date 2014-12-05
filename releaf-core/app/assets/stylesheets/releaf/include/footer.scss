@@ -1,0 +1,42 @@
+/* page footer */
+main footer
+{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0 40px 0px 280px;
+    z-index: 10;
+    background: #fff;
+}
+
+.side-compact main footer
+{
+    margin-left: 80px;
+}
+
+
+main footer .tools
+{
+    height: 40px;
+    background: #e6e6e6;
+    color: #818181;
+    border: 1px solid #c5c5c5;
+    border-bottom: 0;
+}
+
+main footer .tools > .primary
+{
+    float: right;
+}
+
+main footer .tools > .secondary
+{
+    float: left;
+}
+
+main footer .tools
+{
+    height: 40px;
+}
+

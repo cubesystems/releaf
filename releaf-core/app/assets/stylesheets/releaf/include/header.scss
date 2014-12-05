@@ -1,0 +1,92 @@
+body > header > .brand
+{
+    display: block;
+    background-image: image-url("releaf/brand.png");
+    background-repeat: no-repeat;
+    width: 110px;
+    height: 33px;
+    text-decoration: none;
+    float: left;
+    margin: 13px 0 0 13px;
+}
+
+
+body > header > .item
+{
+    display: inline-block;
+    margin-left: 20px;
+}
+
+body > header > ul
+{
+    float: right;
+}
+
+body > header > ul > li
+{
+    float: left;
+}
+
+body > header > ul > li > a
+{
+    display: block;
+    text-decoration: none;
+    height: 60px;
+}
+
+body > header .profile
+{
+    padding-right: 1px;
+}
+
+body > header .profile a
+{
+    position: relative;
+    width: 237px;
+    color: #d8d8d8;
+    border-left: 1px solid #242424;
+}
+
+body > header .profile a:hover
+{
+    background-color: #242424;
+    color: #fff;
+}
+
+body > header .profile .name
+{
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    display: block;
+    width: 152px;
+}
+
+body > header .profile .avatar
+{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: block;
+    width: 36px;
+}
+
+body > header .sign-out button
+{
+    position: relative;
+    background-color: #242424;
+    color: #37b1a7;
+    width: 60px;
+    height: 60px;
+}
+
+body > header .sign-out button:hover
+{
+    background-color: #37b1a7;
+    color: #242424;
+}
+
+body > header .sign-out button i
+{
+    font-size: 18px;
+}

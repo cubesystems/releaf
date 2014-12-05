@@ -1,3 +1,61 @@
+/* dialog */
+
+.dialog
+{
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
+}
+
+main .dialog
+{
+    margin-top: 40px;
+}
+
+.dialog header
+{
+    padding-right: 50px;
+}
+
+.dialog section.body
+{
+    position: relative;
+}
+
+.dialog footer
+{
+    position: relative;
+    background-color: #d9d9d9;
+    border-top: #c5c5c5 1px solid;
+    text-align: right;
+}
+
+.dialog footer form
+{
+    display: inline-block;
+}
+
+.dialog footer .button.secondary
+{
+    border-left: #c5c5c5 1px solid;
+}
+
+.fancybox-inner .dialog header
+{
+    margin-top: 0;
+}
+
+.fancybox-inner .dialog header .close,
+.fancybox-inner > .close
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 40px;
+}
+
+
+/* ui-dialog */
 .ui-widget-overlay
 {
     background-color: rgba(0, 0, 0, 0.3);
@@ -60,3 +118,79 @@
     color: #37b1a7;
     text-decoration: none;
 }
+
+
+/* confirm_destroy and refused_destroy dialogs *?
+
+/* Delete dialog and delete restricted dialog */
+.dialog.confirm-destroy
+{
+    width: 390px;
+}
+
+.dialog.refused-destroy
+{
+    width: 490px;
+}
+
+.dialog.confirm-destroy section.body
+{
+    padding: 37px 10px 55px;
+    text-align: center;
+}
+
+.dialog.refused-destroy section.body
+{
+    padding: 37px 10px 25px;
+    text-align: center;
+}
+
+.dialog.confirm-destroy section.body i,
+.dialog.refused-destroy section.body i
+{
+    display: block;
+    margin: 0 auto;
+    border-radius: 40px;
+    width: 50px;
+    background-color: #d4d4d4;
+    color: white;
+    font-size: 3.57em;
+    padding: 9px;
+    text-align: center;
+    line-height: 1em;
+    margin-bottom: 22px;
+}
+
+.dialog.confirm-destroy section.body .question,
+.dialog.refused-destroy section.body .message
+{
+    font-size: 2.2857em;
+    line-height: 1.25em;
+    margin-bottom: 40px;
+    font-family: 'robotoregular';
+    font-weight: normal;
+}
+
+.dialog.confirm-destroy section.body .description
+{
+    color: #37b1a7;
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: bold;
+}
+
+.dialog.refused-destroy section.body .restricted-relations
+{
+    margin-top: 10px;
+    height: 95px;
+    overflow-y: auto;
+    color: #37b1a7;
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: bold;
+}
+
+
+
+
+
