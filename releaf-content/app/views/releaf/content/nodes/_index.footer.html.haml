@@ -1,7 +1,0 @@
-%footer
-  .tools
-    .primary
-      - if @features[:create]
-        = releaf_button(t('Create new resource', scope: 'admin.global'), "plus", class: %w(primary ajaxbox), href: url_for(controller: controller.controller_name, action: "new"))
-    .secondary
-      = render partial: "index.footer.extras"
