@@ -1,5 +1,5 @@
-/* page footer */
-main footer
+/* main page footer is the last footer element in the first section directly under main */
+main > section footer:nth-last-of-type(1)
 {
     position: fixed;
     bottom: 0;
@@ -10,13 +10,12 @@ main footer
     background: #fff;
 }
 
-.side-compact main footer
+.side-compact main > section footer:nth-last-of-type(1)
 {
     margin-left: 80px;
 }
 
-
-main footer .tools
+main > section footer:nth-last-of-type(1) .tools
 {
     height: 40px;
     background: #e6e6e6;
@@ -25,18 +24,17 @@ main footer .tools
     border-bottom: 0;
 }
 
-main footer .tools > .primary
+main > section footer:nth-last-of-type(1) .tools > .primary
 {
     float: right;
 }
 
-main footer .tools > .secondary
+main > section footer:nth-last-of-type(1) .tools > .secondary
 {
     float: left;
 }
 
-main footer .tools
+main > section footer:nth-last-of-type(1) .tools
 {
     height: 40px;
 }
-
