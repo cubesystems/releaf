@@ -64,8 +64,12 @@ class Releaf::Builders::IndexBuilder
   def footer_primary_tools
     items = []
     items << resource_creation_button if feature_available? :create
-    items << pagination if collection.respond_to?(:page)
+    items << pagination if pagination?
     items
+  end
+
+  def pagination?
+    collection.respond_to?(:page)
   end
 
   def pagination
