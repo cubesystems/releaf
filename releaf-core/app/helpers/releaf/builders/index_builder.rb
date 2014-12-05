@@ -1,12 +1,6 @@
 class Releaf::Builders::IndexBuilder
   include Releaf::Builders::View
-
-  attr_accessor :collection
-
-  def initialize(template)
-    super
-    self.collection = template.instance_variable_get("@collection")
-  end
+  include Releaf::Builders::Collection
 
   def header_extras
     search
