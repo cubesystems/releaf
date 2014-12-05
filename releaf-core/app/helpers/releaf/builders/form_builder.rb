@@ -79,12 +79,10 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_belongs_to_association(association_name, fields)
-    wrapper(class: "nested-wrap", data: { name: association_name}) do
-      tag(:div, t(association_name), class: "nested-title") <<
-      wrapper(class: "item") do
-        fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
-          builder.releaf_fields(fields)
-        end
+    tag(:fieldset, class: "type-association", data: {name: association_name}) do
+      tag(:legend, t(association_name)) <<
+      fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
+        builder.releaf_fields(fields)
       end
     end
   end
@@ -97,21 +95,38 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
                                              sortable_objects: sortable_objects, subfields: fields)
     item_template = template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
-    wrapper(class: "nested-wrap", data: { name: association_name, "releaf-template" => item_template}) do
-      tag(:h3, t(association_name), class: "subheader nested-title") <<
-      wrapper(class: "list", data: {sortable: sortable_objects ? '' : nil}) do
-        allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
+    tag(:section, class: "type-nested", data: {name: association_name, "releaf-template" => item_template}) do
+      [releaf_has_many_association_header(association_name),
+       releaf_has_many_association_body(association_name, sortable_objects, reflection, fields),
+       releaf_has_many_association_footer(association_name)]
+    end
+  end
 
-        object.send(association_name).each_with_index.map do |obj, i|
-          releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
-                                            sortable_objects: sortable_objects, subfields: fields)
+  def releaf_has_many_association_header(association_name)
+    tag(:header) do
+      tag(:h1, t(association_name))
+    end
+  end
+
+  def releaf_has_many_association_body(association_name, sortable_objects, reflection, fields)
+    tag(:div, class: "body list", data: {sortable: sortable_objects ? '' : nil}) do
+      allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
+
+      object.send(association_name).each_with_index.map do |obj, i|
+        releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
+                                          sortable_objects: sortable_objects, subfields: fields)
         end
-      end << field_type_add_nested
+    end
+  end
+
+  def releaf_has_many_association_footer(association_name)
+    tag(:footer) do
+      field_type_add_nested
     end
   end
 
   def releaf_has_many_association_fields(association_name, obj: nil, subfields: subfields, child_index: nil, allow_destroy: nil, sortable_objects: nil)
-    wrapper(class: ["item", "clearInside"], data: {name: association_name, index: child_index}) do
+    tag(:fieldset, class: ["item"], data: {name: association_name, index: child_index}) do
       fields_for(association_name, obj, relation_name: association_name, child_index: child_index, builder: self.class) do |builder|
         builder.releaf_has_many_association_field(association_name, sortable_objects, subfields, allow_destroy)
       end
