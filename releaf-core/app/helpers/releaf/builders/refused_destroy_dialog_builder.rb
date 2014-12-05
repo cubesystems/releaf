@@ -1,5 +1,6 @@
-class Releaf::DeleteRestrictedDialogBuilder
-  include Releaf::DialogBuilder
+class Releaf::RefusedDestroyDialogBuilder
+  include Releaf::Builders::View
+  include Releaf::Builders::ResourceDialog
 
   def section_body
     tag(:div, class: "body") do

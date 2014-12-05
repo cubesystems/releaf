@@ -1,5 +1,4 @@
-module Releaf::SingleResourceBuilder
-  include Releaf::ViewBuilder
+module Releaf::Builders::Resource
   attr_accessor :resource
 
   def initialize(template)

@@ -85,7 +85,7 @@ module Releaf
         format.html do
           unless destroyable?
             @restrict_relations = list_restrict_relations
-            render 'delete_restricted'
+            render 'refused_destroy'
           end
         end
       end
@@ -277,7 +277,7 @@ module Releaf
     end
 
     def builder_class(builder_type)
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, builder_type)
+      Releaf::Builders.builder_class(self.class, resource_class, builder_type)
     end
 
     def form_options(form_type, object, object_name)

@@ -1,9 +1,11 @@
-class Releaf::Builder::Utility
+class Releaf::Builders
+
   def self.builder_class(controller_class, model_class, builder_type)
+
     builder_name = builder_class_name(controller_class.name, model_class.name, builder_type)
 
     unless (Object.const_get(builder_name).is_a?(Class) rescue false)
-      builder_name = "Releaf::#{builder_type.to_s.camelize}Builder"
+      builder_name = "Releaf::Builders::#{builder_type.to_s.camelize}Builder"
     end
 
     builder_name.constantize
@@ -18,4 +20,5 @@ class Releaf::Builder::Utility
       "#{model_class_unscoped}#{builder_type.to_s.camelize}Builder"
     ].join("::")
   end
+
 end

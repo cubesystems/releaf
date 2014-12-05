@@ -1,21 +1,5 @@
-module Releaf::Builder
+module Releaf::Builders::Base
   extend ActiveSupport::Concern
-
-  def resource_class_attributes(resource_class)
-    resource_class.column_names + resource_class_i18n_attributes(resource_class) - resource_class_ignorable_attributes(resource_class)
-  end
-
-  def resource_class_ignorable_attributes(resource_class)
-    %w[id created_at updated_at password password_confirmation encrypted_password item_position]
-  end
-
-  def resource_class_i18n_attributes(resource_class)
-    if resource_class.translates?
-      resource_class.translated_attribute_names.map { |a| a.to_s }
-    else
-      []
-    end
-  end
 
   def wrapper(content_or_attributes_with_block, attributes = {}, &block)
     if block_given?
@@ -44,12 +28,20 @@ module Releaf::Builder
     template.safe_join(yield)
   end
 
-  def controller
-    template.controller
-  end
-
   def t(key, options = {})
     options[:scope] = controller.controller_scope_name unless options.key? :scope
     I18n.t(key, options)
   end
+
+
+  #
+  # Aliases
+  #
+
+  delegate :controller, :controller_name, :url_for, :feature_available?, :index_url, :releaf_button, to: :template
+
+  def button(*args)
+    releaf_button(*args)
+  end
+
 end

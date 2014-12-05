@@ -1,5 +1,5 @@
 module Releaf::Permissions
-  class UserTableBuilder < Releaf::TableBuilder
+  class UserTableBuilder < Releaf::Builders::TableBuilder
     def column_names
       [:name, :surname, :role, :email, :locale]
     end

@@ -1,5 +1,4 @@
-module Releaf::DialogBuilder
-  include Releaf::SingleResourceBuilder
+module Releaf::Builders::Dialog
 
   def output
     tag(:section, class: classes) do
@@ -10,4 +9,5 @@ module Releaf::DialogBuilder
   def classes
     ["dialog", self.class.name.split("::").last.gsub(/DialogBuilder$/, "").underscore.dasherize]
   end
+
 end

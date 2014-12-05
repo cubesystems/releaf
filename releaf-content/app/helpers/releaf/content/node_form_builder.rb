@@ -1,5 +1,5 @@
 module Releaf::Content
-  class NodeFormBuilder < Releaf::FormBuilder
+  class NodeFormBuilder < Releaf::Builders::FormBuilder
     def render_locale
       releaf_item_field(:locale, options: render_locale_options)
     end

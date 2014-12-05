@@ -1,5 +1,7 @@
-class Releaf::EditBuilder
-  include Releaf::SingleResourceBuilder
+class Releaf::Builders::EditBuilder
+  include Releaf::Builders::View
+  include Releaf::Builders::Resource
+
   attr_accessor :form
 
   def section

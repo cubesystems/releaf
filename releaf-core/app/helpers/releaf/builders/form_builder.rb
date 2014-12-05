@@ -1,5 +1,8 @@
-class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
-  include Releaf::Builder
+class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
+  include Releaf::Builders::Base
+  include Releaf::Builders::ResourceClass
+
+  attr_accessor :template
 
   def field_names
     resource_class_attributes(object.class)
@@ -525,8 +528,4 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     'item_position'
   end
 
-  # shortcut helper methods
-  def template
-    @template
-  end
 end

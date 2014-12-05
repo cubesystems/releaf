@@ -1,10 +1,6 @@
-module Releaf::ViewBuilder
-  include Releaf::Builder
-  attr_accessor :template
-
-  def initialize(template)
-    self.template = template
-  end
+module Releaf::Builders::View
+  include Releaf::Builders::Base
+  include Releaf::Builders::Template
 
   def output
     safe_join do
@@ -93,27 +89,5 @@ module Releaf::ViewBuilder
   def header_extras
   end
 
-  #
-  # Aliases
-  #
 
-  def url_for(*args)
-    template.url_for(*args)
-  end
-
-  def controller_name
-    template.controller_name
-  end
-
-  def button(*args)
-    template.releaf_button(*args)
-  end
-
-  def feature_available?(feature)
-    template.feature_available?(feature)
-  end
-
-  def index_url
-    template.index_url
-  end
 end

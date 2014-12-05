@@ -1,5 +1,6 @@
-class Releaf::IndexBuilder
-  include Releaf::ViewBuilder
+class Releaf::Builders::IndexBuilder
+  include Releaf::Builders::View
+
   attr_accessor :collection
 
   def initialize(template)

@@ -1,5 +1,6 @@
-class Releaf::ConfirmDestroyDialogBuilder
-  include Releaf::DialogBuilder
+class Releaf::Builders::ConfirmDestroyDialogBuilder
+  include Releaf::Builders::View
+  include Releaf::Builders::ResourceDialog
 
   def section_body
     tag(:div, class: "body") do
@@ -16,13 +17,13 @@ class Releaf::ConfirmDestroyDialogBuilder
   end
 
   def cancel_form
-    template.form_for(resource, builder: Releaf::FormBuilder, url: url_for( action: 'destroy', id: resource.id, index_url: index_url), as: :resource, method: :delete) do
+    template.form_for(resource, builder: Releaf::Builders::FormBuilder, url: url_for( action: 'destroy', id: resource.id, index_url: index_url), as: :resource, method: :delete) do
       button(t('Yes', scope: 'admin.global'), "trash-o", class: "danger", data: {type: 'cancel'}, type: 'submit')
     end
   end
 
   def confirm_form
-    template.form_for(resource, builder: Releaf::FormBuilder, url: index_url, as: :resource, method: :get) do
+    template.form_for(resource, builder: Releaf::Builders::FormBuilder, url: index_url, as: :resource, method: :get) do
       button(t('No', scope: 'admin.global'), "ban", class: "secondary", data: {type: 'cancel'}, type: 'submit')
     end
   end
