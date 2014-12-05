@@ -8,39 +8,15 @@ module Releaf::Builders::View
     end
   end
 
-  def section_header
-    tag(:header) do
-      [tag(:h1, section_header_text), section_header_extras]
-    end
-  end
-
-  def section_footer
-    tag(:footer) do
-      footer_tools
-    end
-  end
-
-  def footer_tools
-    tag(:div, class: "tools") do
-      tag(:div, class: "primary") do
-        footer_primary_tools
-      end <<
-      tag(:div, class: "secondary") do
-        footer_secondary_tools
-      end
-    end
-  end
-
-  def footer_secondary_tools
-  end
-
-  def section_blocks
-    [section_header, section_body, section_footer]
-  end
-
   def header
     tag(:header) do
       [breadcrumbs, flash_notices, header_extras]
+    end
+  end
+
+  def section
+    tag(:section) do
+      section_blocks
     end
   end
 
@@ -87,6 +63,44 @@ module Releaf::Builders::View
   end
 
   def header_extras
+  end
+
+
+
+  def section_blocks
+    [section_header, section_body, section_footer]
+  end
+
+  def section_header
+    tag(:header) do
+      [tag(:h1, section_header_text), section_header_extras]
+    end
+  end
+
+  def section_body
+  end
+
+  def section_footer
+    tag(:footer) do
+      footer_tools
+    end
+  end
+
+  def footer_tools
+    tag(:div, class: "tools") do
+      tag(:div, class: "primary") do
+        footer_primary_tools
+      end <<
+      tag(:div, class: "secondary") do
+        footer_secondary_tools
+      end
+    end
+  end
+
+  def footer_primary_tools
+  end
+
+  def footer_secondary_tools
   end
 
 

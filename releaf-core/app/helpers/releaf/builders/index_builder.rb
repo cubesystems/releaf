@@ -50,12 +50,6 @@ class Releaf::Builders::IndexBuilder
       #= releaf_button(t('Filter', scope: 'admin.global'), "search", type: "submit", title: t('Search', scope: 'admin.global'))
   end
 
-  def section
-    tag(:section) do
-      section_blocks
-    end
-  end
-
   def section_header_text
     t("all_title", scope: 'admin.global')
   end

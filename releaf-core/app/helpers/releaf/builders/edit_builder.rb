@@ -5,12 +5,18 @@ class Releaf::Builders::EditBuilder
   attr_accessor :form
 
   def section
-    template.form_for(resource, template.form_options(template.action_name, resource, :resource)) do |form|
-      self.form = form
-      safe_join do
-        [index_url_preserver] + section_blocks
+    tag(:section) do
+      template.form_for(resource, template.form_options(template.action_name, resource, :resource)) do |form|
+        self.form = form
+        safe_join do
+          [index_url_preserver] + section_blocks
+        end
       end
     end
+  end
+
+  def index_url_preserver
+    template.hidden_field_tag 'index_url', template.params[:index_url] if template.params[:index_url].present?
   end
 
   def section_header_text
@@ -23,6 +29,18 @@ class Releaf::Builders::EditBuilder
       template.toolbox(resource, index_url: index_url)
     end
   end
+
+
+  def section_body
+    #- if has_template? "_edit.body_top"
+      #= render 'edit.body_top', f: f
+    tag(:div, class: "body") do
+      [error_notices, form.releaf_fields(form.field_names)]
+    end
+    #- if has_template? "_edit.body_bottom"
+      #= render 'edit.body_bottom', f: f
+  end
+
 
   #-#TODO: improve style/html
   def error_notices
@@ -59,17 +77,4 @@ class Releaf::Builders::EditBuilder
     button(t('Back to list', scope: "admin.global"), "caret-left", class: "secondary", href: index_url)
   end
 
-  def section_body
-    #- if has_template? "_edit.body_top"
-      #= render 'edit.body_top', f: f
-    tag(:div, class: "body") do
-      [error_notices, form.releaf_fields(form.field_names)]
-    end
-    #- if has_template? "_edit.body_bottom"
-      #= render 'edit.body_bottom', f: f
-  end
-
-  def index_url_preserver
-    template.hidden_field_tag 'index_url', template.params[:index_url] if template.params[:index_url].present?
-  end
 end
