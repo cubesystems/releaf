@@ -23,7 +23,7 @@ class Releaf::EditBuilder
   def section_header_extras
     return unless feature_available? :toolbox
     tag(:div, class: "toolbox-wrap") do
-      template.toolbox(resource, index_url: template.index_url)
+      template.toolbox(resource, index_url: index_url)
     end
   end
 
@@ -59,7 +59,7 @@ class Releaf::EditBuilder
   end
 
   def back_to_list_button
-    button(t('Back to list', scope: "admin.global"), "caret-left", class: "secondary", href: template.index_url)
+    button(t('Back to list', scope: "admin.global"), "caret-left", class: "secondary", href: index_url)
   end
 
   def section_body

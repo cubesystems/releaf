@@ -95,7 +95,7 @@ module Releaf
 
       respond_to do |format|
         format.html do
-          render partial: 'toolbox.items', locals: { resource: @resource }
+          render 'toolbox', locals: { resource: @resource }
         end
       end
     end

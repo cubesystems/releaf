@@ -109,4 +109,8 @@ module Releaf::ViewBuilder
   def feature_available?(feature)
     template.feature_available?(feature)
   end
+
+  def index_url
+    template.index_url
+  end
 end
