@@ -34,11 +34,11 @@
 {
     border-bottom: 1px solid #d4d4d4;
 }
-.controller-releaf-content-nodes .collection.action-tree > ul li
+.controller-releaf-content-nodes .dialog .collection > ul li
 {
     position: relative;
 }
-.controller-releaf-content-nodes .collection.action-tree .collapser-cell
+.controller-releaf-content-nodes .dialog .collection .collapser-cell
 {
     position: absolute;
     top: 0;
@@ -54,7 +54,7 @@
     text-align: left;
     z-index: 1;
 }
-.controller-releaf-content-nodes .copy-or-move-node-dialog .collection .node-cell label,
+.controller-releaf-content-nodes .dialog .collection .node-cell label,
 .controller-releaf-content-nodes .collection .node-cell a
 {
     display: block;
@@ -64,26 +64,26 @@
     font-weight: bold;
     cursor: pointer;
 }
-.controller-releaf-content-nodes .copy-or-move-node-dialog .collection .node-cell.active label,
+.controller-releaf-content-nodes .dialog .collection .node-cell.active label,
 .controller-releaf-content-nodes .collection .node-cell.active a
 {
     color: #1a1a1a;
 }
 
-.controller-releaf-content-nodes .copy-or-move-node-dialog .content .node-cell label.selected,
-.controller-releaf-content-nodes .copy-or-move-node-dialog .content .node-cell label:hover,
+.controller-releaf-content-nodes .dialog .body .node-cell label.selected,
+.controller-releaf-content-nodes .dialog .body .node-cell label:hover,
 .controller-releaf-content-nodes .collection .node-cell button:hover,
 .controller-releaf-content-nodes .collection .node-cell a:hover
 {
     background: #d0eeec;
 }
 
-.controller-releaf-content-nodes .copy-or-move-node-dialog .content .node-cell input[type="radio"]
+.controller-releaf-content-nodes .dialog .body .node-cell input[type="radio"]
 {
     display: none;
 }
 
-.controller-releaf-content-nodes .copy-or-move-node-dialog .content .node-cell label span,
+.controller-releaf-content-nodes .dialog .body .node-cell label span,
 .controller-releaf-content-nodes .collection .node-cell button span,
 .controller-releaf-content-nodes .collection .node-cell a span
 {
@@ -91,102 +91,102 @@
     left: 13px
 }
 
-.controller-releaf-content-nodes .collection li  ul ul
+.controller-releaf-content-nodes main .collection li  ul ul
 {
     background: #f3f1f1;
 }
 
 .controller-releaf-content-nodes .collection li ul .toolbox-cell,
-.controller-releaf-content-nodes .collection.action-tree li ul .collapser-cell
+.controller-releaf-content-nodes .dialog .collection li ul .collapser-cell
 {
     border-left:  1px solid #d4d4d4;
 }
-.controller-releaf-content-nodes .collection.action-tree li > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li > .node-cell span
 {
     display: inline-block;
 }
-.controller-releaf-content-nodes .collection.action-tree li:not(.has-children) > .node-cell label,
-.controller-releaf-content-nodes .collection.action-tree li:not(.has-children) > .node-cell button,
-.controller-releaf-content-nodes .collection.action-tree li:not(.has-children) > .node-cell a
+.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell label,
+.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell button,
+.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell a
 {
     padding-left: 0px;
 }
 
-.controller-releaf-content-nodes .collection.action-tree li[data-level="1"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="1"].has-children > .node-cell span
 {
     margin-left: 20px;
 }
 
-.controller-releaf-content-nodes .collection.action-tree li[data-level="1"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="2"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="2"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="1"]:not(.has-children) > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="2"].has-children > .toolbox-cell
 {
     margin-left: 30px;
 }
 
-.controller-releaf-content-nodes .collection.action-tree li[data-level="2"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .node-cell span
 {
     margin-left: 51px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="2"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="3"] > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="2"]:not(.has-children) > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="3"] > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="2"]:not(.has-children) > .toolbox-cell,
 .controller-releaf-content-nodes .collection li[data-level="3"] > .toolbox-cell
 {
     margin-left: 61px;
 }
 
-.controller-releaf-content-nodes .collection.action-tree li[data-level="3"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="3"].has-children > .node-cell span
 {
     margin-left: 82px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="3"]:not(.has-children)  > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="4"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="3"]:not(.has-children)  > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="4"].has-children > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="3"]:not(.has-children)  > .toolbox-cell,
 .controller-releaf-content-nodes .collection li[data-level="4"].has-children > .toolbox-cell
 {
     margin-left: 92px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="4"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="4"].has-children > .node-cell span
 {
     margin-left: 113px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="4"]:not(.has-children)  > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="5"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="4"]:not(.has-children)  > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="5"].has-children > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="4"]:not(.has-children)  > .toolbox-cell,
 .controller-releaf-content-nodes .collection li[data-level="5"].has-children > .toolbox-cell
 {
     margin-left: 123px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="5"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="5"].has-children > .node-cell span
 {
     margin-left: 144px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="5"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="6"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="5"]:not(.has-children) > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="6"].has-children > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="5"]:not(.has-children)  > .toolbox-cell,
 .controller-releaf-content-nodes .collection li[data-level="6"].has-children > .toolbox-cell
 {
     margin-left: 154px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="6"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="6"].has-children > .node-cell span
 {
     margin-left: 175px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="6"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="7"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="6"]:not(.has-children) > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="7"].has-children > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="6"]:not(.has-children)  > .toolbox-cell,
 .controller-releaf-content-nodes .collection li[data-level="7"].has-children > .toolbox-cell
 {
     margin-left: 185px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="7"].has-children > .node-cell span
+.controller-releaf-content-nodes .dialog .collection li[data-level="7"].has-children > .node-cell span
 {
     margin-left: 206px;
 }
-.controller-releaf-content-nodes .collection.action-tree li[data-level="7"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .collection.action-tree li[data-level="8"].has-children > .collapser-cell,
+.controller-releaf-content-nodes .dialog .collection li[data-level="7"]:not(.has-children) > .node-cell span,
+.controller-releaf-content-nodes .dialog .collection li[data-level="8"].has-children > .collapser-cell,
 .controller-releaf-content-nodes .collection li[data-level="7"]:not(.has-children)  > .toolbox-cell,
 .controller-releaf-content-nodes .collection li[data-level="8"].has-children > .toolbox-cell
 {
@@ -198,48 +198,50 @@
     display: none;
 }
 
-.controller-releaf-content-nodes .copy-or-move-node-dialog,
-.controller-releaf-content-nodes .goto-node-dialog,
-.controller-releaf-content-nodes .add-child-dialog
+.controller-releaf-content-nodes .dialog.copy,
+.controller-releaf-content-nodes .dialog.move,
+.controller-releaf-content-nodes .dialog.go-to,
+.controller-releaf-content-nodes .dialog.add-child
 {
     width: 500px;
 }
-.controller-releaf-content-nodes .add-child-dialog[data-columns="1"]
+.controller-releaf-content-nodes .dialog.add-child[data-columns="1"]
 {
     width: 280px;
 }
 
-.controller-releaf-content-nodes .add-child-dialog .content
+.controller-releaf-content-nodes .dialog.add-child .content
 {
     padding: 20px 40px;
     text-align: center;
 }
 
-.controller-releaf-content-nodes .add-child-dialog .content .description
+.controller-releaf-content-nodes .dialog.add-child .content .description
 {
     padding: 0 0 20px 0;
 }
 
 
-.controller-releaf-content-nodes .add-child-dialog .content ul
+.controller-releaf-content-nodes .dialog.add-child .content ul
 {
     width: 200px;
     margin-left: 20px;
     float: left;
 }
 
-.controller-releaf-content-nodes .goto-node-dialog .content,
-.controller-releaf-content-nodes .dialog.copy-or-move-node-dialog .content
+.controller-releaf-content-nodes .dialog.goto .content,
+.controller-releaf-content-nodes .dialog.copy .content
+.controller-releaf-content-nodes .dialog.move .content
 {
   height: 25em;
   overflow-y: auto;
 }
 
-.controller-releaf-content-nodes .add-child-dialog .content .content-types ul:first-child
+.controller-releaf-content-nodes .dialog.add-child .content .content-types ul:first-child
 {
     margin-left: 0;
 }
-.controller-releaf-content-nodes .add-child-dialog .content .content-types ul li
+.controller-releaf-content-nodes .dialog.add-child .content .content-types ul li
 {
     margin-bottom: 0.5em;
 }
@@ -300,7 +302,8 @@
  * TODO this style should be removed and applied automatically.
  * For this to work correclty styles in edit-view.css should be refactored.
  */
-.controller-releaf-content-nodes .copy-or-move-node-dialog .form-error-box
+.controller-releaf-content-nodes .dialog.copy .form-error-box,
+.controller-releaf-content-nodes .dialog.move .form-error-box
 {
   border: 1px solid #D4D4D4;
   padding: 15px 25px;

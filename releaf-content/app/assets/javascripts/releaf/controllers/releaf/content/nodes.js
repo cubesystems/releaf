@@ -6,36 +6,36 @@ jQuery(function()
     {
         var block = jQuery(e.target);
 
-        // row collapse / expand
-        block.find('.row .collapser').click(function()
+        // item collapse / expand
+        block.find('.collection li .collapser').click(function()
         {
-            var row             = jQuery(this).closest('.row');
-            var should_expand   = row.is('.collapsed');
-            var event_name      = should_expand ? 'noderowexpand' : 'noderowcollapse';
+            var item             = jQuery(this).closest('.collection li');
+            var should_expand   = item.is('.collapsed');
+            var event_name      = should_expand ? 'nodeitemexpand' : 'nodeitemcollapse';
 
-            row.trigger(event_name);
+            item.trigger(event_name);
 
-            var setting_key = 'content.tree.expanded.' + row.data('id');
+            var setting_key = 'content.tree.expanded.' + item.data('id');
             body.trigger( 'settingssave', [ setting_key, should_expand ] );
         });
 
-        block.find('.row').bind('noderowcollapse', function( e )
+        block.find('.collection li').bind('nodeitemcollapse', function( e )
         {
             e.stopPropagation();
 
-            var row = jQuery(e.target);
-            row.addClass('collapsed');
-            row.children('.collapser-cell').find('.collapser i').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+            var item = jQuery(e.target);
+            item.addClass('collapsed');
+            item.children('.collapser-cell').find('.collapser i').removeClass('fa-chevron-down').addClass('fa-chevron-right');
 
         });
 
-        block.find('.row').bind('noderowexpand', function( e )
+        block.find('.collection li').bind('nodeitemexpand', function( e )
         {
             e.stopPropagation();
 
-            var row = jQuery(e.target);
-            row.removeClass('collapsed');
-            row.children('.collapser-cell').find('.collapser i').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+            var item = jQuery(e.target);
+            item.removeClass('collapsed');
+            item.children('.collapser-cell').find('.collapser i').removeClass('fa-chevron-right').addClass('fa-chevron-down');
 
         });
 
@@ -81,9 +81,8 @@ jQuery(function()
 
     });
 
-    body.on('click', '.copy-or-move-node-dialog .node-cell label', function() {
-        jQuery('.copy-or-move-node-dialog .node-cell label').removeClass('selected');
+    body.on('click', '.dialog .node-cell label', function() {
+        jQuery('.dialog .node-cell label').removeClass('selected');
         jQuery(this).addClass('selected');
     });
-
 });

@@ -120,7 +120,7 @@ module Releaf::Content
     end
 
     def copy_move_dialog_common
-      @node = resource_class.find params[:id]
+      @resource = resource_class.find params[:id]
       @collection = resource_class.roots
     end
 
