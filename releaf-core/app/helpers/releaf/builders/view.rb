@@ -77,8 +77,8 @@ module Releaf::Builders::View
     end
   end
 
-  def section_body
-  end
+  def section_header_extras; end
+  def section_body; end
 
   def section_footer
     tag(:footer) do
