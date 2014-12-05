@@ -3,7 +3,7 @@ class Releaf::Builder::Utility
     builder_name = builder_class_name(controller_class.name, model_class.name, builder_type)
 
     unless (Object.const_get(builder_name).is_a?(Class) rescue false)
-      builder_name = "Releaf::#{builder_type.capitalize}Builder"
+      builder_name = "Releaf::#{builder_type.to_s.camelize}Builder"
     end
 
     builder_name.constantize
@@ -15,7 +15,7 @@ class Releaf::Builder::Utility
 
     [
       controller_class_scope,
-      "#{model_class_unscoped}#{builder_type.capitalize}Builder"
+      "#{model_class_unscoped}#{builder_type.to_s.camelize}Builder"
     ].join("::")
   end
 end

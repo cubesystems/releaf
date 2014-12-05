@@ -35,6 +35,9 @@ module Releaf::ViewBuilder
     end
   end
 
+  def footer_secondary_tools
+  end
+
   def section_blocks
     [section_header, section_body, section_footer]
   end

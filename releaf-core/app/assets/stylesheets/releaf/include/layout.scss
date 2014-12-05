@@ -438,17 +438,17 @@ main .dialog
     margin-top: 40px;
 }
 
-.dialog .header
+.dialog header
 {
     padding-right: 50px;
 }
 
-.dialog .content
+.dialog section.body
 {
     position: relative;
 }
 
-.dialog .footer
+.dialog footer
 {
     position: relative;
     background-color: #d9d9d9;
@@ -456,22 +456,22 @@ main .dialog
     text-align: right;
 }
 
-.dialog .footer form
+.dialog footer form
 {
     display: inline-block;
 }
 
-.dialog .footer .button.secondary
+.dialog footer .button.secondary
 {
     border-left: #c5c5c5 1px solid;
 }
 
-.fancybox-inner .dialog .header
+.fancybox-inner .dialog header
 {
     margin-top: 0;
 }
 
-.fancybox-inner .dialog .header .close,
+.fancybox-inner .dialog header .close,
 .fancybox-inner > .close
 {
     position: absolute;
@@ -483,27 +483,27 @@ main .dialog
 
 
 /* Delete dialog and delete restricted dialog */
-.delete-dialog
+.dialog.confirm-destroy
 {
     width: 390px;
 }
-.delete-restricted-dialog
+.dialog.delete-restricted
 {
     width: 490px;
 }
-.delete-dialog .content
+.dialog.confirm-destroy section.body
 {
     padding: 37px 10px 55px;
     text-align: center;
 }
-.delete-restricted-dialog .content
+.dialog.delete-restricted section.body
 {
     padding: 37px 10px 25px;
     text-align: center;
 }
 
-.delete-dialog .content i,
-.delete-restricted-dialog .content i
+.dialog.confirm-destroy section.body i,
+.dialog.delete-restricted section.body i
 {
     display: block;
     margin: 0 auto;
@@ -518,8 +518,8 @@ main .dialog
     margin-bottom: 22px;
 }
 
-.delete-dialog .content .question,
-.delete-restricted-dialog .content .message
+.dialog.confirm-destroy section.body .question,
+.dialog.delete-restricted section.body .message
 {
     font-size: 2.2857em;
     line-height: 1.25em;
@@ -527,14 +527,14 @@ main .dialog
     font-family: 'robotoregular';
     font-weight: normal;
 }
-.delete-dialog .content .description
+.dialog.confirm-destroy section.body .description
 {
     color: #37b1a7;
     font-size: 1em;
     line-height: 1.4em;
     font-weight: bold;
 }
-.delete-restricted-dialog .content .restricted-relations
+.dialog.delete-restricted section.body .restricted-relations
 {
     margin-top: 10px;
     height: 95px;

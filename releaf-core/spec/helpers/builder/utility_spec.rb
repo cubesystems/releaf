@@ -18,6 +18,7 @@ describe Releaf::Builder::Utility, type: :class do
       expect(described_class.builder_class_name("Releaf::Permissions::UsersController", "Releaf::Permissions::User", :form)).to eq("Releaf::Permissions::UserFormBuilder")
       expect(described_class.builder_class_name("Admin::UsersController", "User", :form)).to eq("Admin::UserFormBuilder")
       expect(described_class.builder_class_name("Admin::Valuation::ApplicationController", "Valuation::Application", :table)).to eq("Admin::Valuation::ApplicationTableBuilder")
+      expect(described_class.builder_class_name("Admin::Valuation::ApplicationController", "Valuation::Application", :new_dialog)).to eq("Admin::Valuation::ApplicationNewDialogBuilder")
     end
   end
 end
