@@ -20,6 +20,12 @@ module Releaf::Content
       Releaf::Content::NodeFormBuilder
     end
 
+    def content_type_dialog
+      @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort do |a, b|
+        I18n.t(a.name.underscore, scope: 'admin.content_types') <=> I18n.t(b.name.underscore, scope: 'admin.content_types')
+      end
+    end
+
     def copy_dialog
       copy_move_dialog_common
     end
@@ -149,7 +155,7 @@ module Releaf::Content
       @resource = resource_class.new
 
       if params[:content_type].blank?
-        load_content_types
+        redirect_to url_for( action: 'content_type_dialog' )
       else
         @order_nodes = resource_class.where(parent_id: params[:parent_id])
         prepare_node

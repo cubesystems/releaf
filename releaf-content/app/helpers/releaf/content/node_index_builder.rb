@@ -17,7 +17,7 @@ module Releaf::Content
     end
 
     def resource_creation_button
-      button(t('Create new resource', scope: 'admin.global'), "plus", class: %w(primary ajaxbox), href: url_for(controller: controller.controller_name, action: "new"))
+      button(t('Create new resource', scope: 'admin.global'), "plus", class: %w(primary ajaxbox), href: url_for(controller: controller.controller_name, action: "content_type_dialog"))
     end
   end
 end

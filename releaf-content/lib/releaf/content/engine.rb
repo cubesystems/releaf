@@ -16,6 +16,7 @@ module Releaf::Content
     router.namespace :content, path: nil do
       router.releaf_resources :nodes, :except => [:show], concerns: :attachmentable do
         router.collection do
+          router.get :content_type_dialog
           router.get :generate_url
           router.get :go_to_dialog
         end

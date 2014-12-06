@@ -14,7 +14,7 @@ module Releaf::Content
     end
 
     def add_child_button
-      button(t('Add child'), "plus lg", class: "ajaxbox", href: url_for(action: "new", parent_id: resource.id))
+      button(t('Add child'), "plus lg", class: "ajaxbox", href: url_for(action: "content_type_dialog", parent_id: resource.id))
     end
 
     def go_to_button
