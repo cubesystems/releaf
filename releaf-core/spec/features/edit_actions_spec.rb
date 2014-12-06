@@ -66,25 +66,26 @@ feature "Base controller edit", js: true do
     expect(page).to_not have_link("Back to list")
   end
 
-  scenario "editing nested object with :allow_destroy => false" do
+  scenario "editing nested object with allow_destroy: false" do
     visit admin_book_path(id: @good_book.id)
     expect(page).to_not have_css('.remove-nested-item')
 
-    find('.add-nested-item').click
-    expect(page).to have_css('.remove-nested-item')
+    update_resource do
+      find('.add-nested-item').click
+      expect(page).to have_css('.remove-nested-item')
+      fill_in 'resource_chapters_attributes_0_title', with: 'Chapter 1'
+      fill_in 'resource_chapters_attributes_0_text', with: 'todo'
+      fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
+    end
 
-    fill_in 'resource_chapters_attributes_0_title', :with => 'Chapter 1'
-    fill_in 'resource_chapters_attributes_0_text', :with => 'todo'
-    fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
-
-    save_and_check_response "Update succeeded"
     expect(page).to_not have_css('.remove-nested-item')
     expect(page).to have_css('#resource_chapters_attributes_0_title[value="Chapter 1"]')
   end
 
   scenario "adding nested objects" do
     visit new_admin_book_path
-    within "form.new-resource" do
+
+    create_resource do
       fill_in "Title", with: "Master and Margarita"
       within "[data-name='chapters']" do
 
@@ -99,7 +100,6 @@ feature "Base controller edit", js: true do
         fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
       end
     end
-    save_and_check_response "Create succeeded"
 
     new_book = Book.where(title: "Master and Margarita").first
     expect( new_book.chapters.count ).to eq 1

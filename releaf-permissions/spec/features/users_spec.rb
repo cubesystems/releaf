@@ -1,32 +1,23 @@
 require 'spec_helper'
-describe "home page" do
-  before do
-    module Leaf
-    end
-    @user = build(:user)
-    @user.email = "admin@example.com"
-    @user.save
-
-    @simple_user = build(:content_user)
-    @simple_user.email = "simple@example.com"
-    @simple_user.save
-  end
+feature "Users", js: true do
+  let!(:user){ create(:user, email: "admin@example.com") }
+  let!(:simple_user){ create(:content_user, email: "simple@example.com") }
 
   describe "users CRUD" do
-    before do
+    background do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email', with: @user.email
-        fill_in 'Password', with: @user.password
+        fill_in 'Email', with: user.email
+        fill_in 'Password', with: user.password
       end
       click_button 'Sign in'
       expect(page).to have_css('header > ul > li.sign-out > form > button')
     end
 
-    it "new user creation", js: true do
+    scenario "new user creation", js: true do
       visit (releaf_permissions_users_path)
       click_link 'Create new resource'
-      within("form.new-resource") do
+      create_resource do
         fill_in 'Name', with: "John"
         fill_in 'Surname', with: "Appleseed"
         fill_in 'Email', with: "john@example.com"
@@ -36,7 +27,7 @@ describe "home page" do
         expect(page).to have_select('Locale', options: [""] + Releaf.available_admin_locales)
         select 'en', from: 'Locale'
       end
-      save_and_check_response('Create succeeded')
+
       expect(page).to have_content 'John Appleseed'
       visit '/admin/users'
       expect(page).to have_content 'john@example.com'
@@ -47,31 +38,25 @@ describe "home page" do
       expect(page).not_to have_content 'john@example.com'
     end
 
-    it "user search" do
+    scenario "user search" do
       visit '/admin/users'
       expect(page).to have_content 'simple@example.com'
-      within("form.search") do
-        fill_in 'search', with: "admin@example.com"
-      end
-      find('form.search button').click
+      search "admin@example.com"
       expect(page).not_to have_content 'simple@example.com'
-    end
-
-    it "user deletion" do
     end
   end
 
   describe "login as user procedure" do
-    before do
+    background do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email', with: @user.email
-        fill_in 'Password', with: @user.password
+        fill_in 'Email', with: user.email
+        fill_in 'Password', with: user.password
       end
       click_button 'Sign in'
     end
 
-    it "user page content" do
+    scenario "user page content" do
       expect(page).to have_css('header > ul > li.sign-out > form > button')
       expect(page).to have_content 'Releaf/content'
       expect(page).to have_content 'Permissions'
@@ -81,7 +66,7 @@ describe "home page" do
       expect(page).to have_content 'simple@example.com'
     end
 
-    it "logout sequence" do
+    scenario "logout sequence" do
       find('header > ul > li.sign-out > form > button').click
 
       expect(page).to have_content 'Welcome to re:Leaf'
@@ -92,26 +77,26 @@ describe "home page" do
   end
 
   describe "login as simple user procedure" do
-    before do
+    background do
       visit "/admin"
       within("form.login") do
-        fill_in 'Email', with: @simple_user.email
-        fill_in 'Password', with: @simple_user.password
+        fill_in 'Email', with: simple_user.email
+        fill_in 'Password', with: simple_user.password
       end
       click_button 'Sign in'
     end
 
-    it "user page content" do
+    scenario "user page content" do
       expect(page).to have_css('header > ul > li.sign-out > form > button')
       expect(page).to have_content 'Releaf/content'
     end
 
-    it "translations module access denied" do
+    scenario "translations module access denied" do
       visit "/admin/translations"
       expect(page).to have_content 'You are not authorized to access translations'
     end
 
-    it "logout sequence" do
+    scenario "logout sequence" do
       find('header > ul > li.sign-out > form > button').click
 
       expect(page).to have_content 'Welcome to re:Leaf'
