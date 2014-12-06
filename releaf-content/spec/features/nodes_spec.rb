@@ -169,7 +169,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     def create_child parent, child_text, position=nil
       visit releaf_content_nodes_path
       open_toolbox 'Add child', parent, ".view-index .collection li"
-      within ".add-child-dialog" do
+      within ".dialog.content-type" do
         click_link("Text")
       end
 
