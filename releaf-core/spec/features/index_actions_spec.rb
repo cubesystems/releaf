@@ -2,42 +2,33 @@ require 'spec_helper'
 feature "Base controller index", js: true do
   background do
     auth_as_user
-    @author = FactoryGirl.create(:author)
-    @good_book = FactoryGirl.create(:book, title: "good book", author: @author)
-    @chapter = FactoryGirl.create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: @good_book)
-    FactoryGirl.create(:book, title: "bad book", author: @author)
+    author = FactoryGirl.create(:author)
+    good_book = FactoryGirl.create(:book, title: "good book", author: author)
+    FactoryGirl.create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: good_book)
+    FactoryGirl.create(:book, title: "bad book", author: author)
   end
 
   scenario "shows resource count" do
     visit admin_books_path
-    expect(page).to have_content('2 Resources found')
+    expect(page).to have_number_of_resources(2)
   end
 
   scenario "search resources dynamically" do
     visit admin_books_path
-    within("form.search") do
-      fill_in 'search', :with => "good"
-    end
-
-    expect(page).to have_content('1 Resources found')
+    search "good"
+    expect(page).to have_number_of_resources(1)
   end
 
   scenario "search by 2nd level nested fields" do
     visit admin_authors_path
-    within("form.search") do
-      fill_in 'search', :with => "upon"
-    end
-
-    expect(page).to have_content('1 Resources found')
+    search "upon"
+    expect(page).to have_number_of_resources(1)
   end
 
   scenario "search nonexisting stuff" do
     visit admin_authors_path
-    within("form.search") do
-      fill_in 'search', :with => "bunnyrabit"
-    end
-
-    expect(page).to have_content('Nothing found')
+    search "bunnyrabit"
+    expect(page).to have_number_of_resources(0)
   end
 
   scenario "no row urls when edit url is empty" do
@@ -53,15 +44,14 @@ feature "Base controller index", js: true do
     visit admin_books_path(search: "good")
     click_link("good book")
     click_link("Back to list")
-
-    expect(page).to have_css('main > .table > tbody .row', :count => 1)
+    expect(page).to have_number_of_resources(1)
   end
 
   scenario "keeps search parameters after delete" do
     visit admin_books_path(search: "good")
     open_toolbox('Delete', Book.first)
     click_button("Yes")
-    expect(page).to have_css('main > .table th .nothing-found', :count => 1, :text => "Nothing found")
+    expect(page).to have_number_of_resources(0)
   end
 
   scenario "when deleting item in edit" do
@@ -69,13 +59,15 @@ feature "Base controller index", js: true do
     click_link("good book")
     open_toolbox('Delete')
     click_button("Yes")
-    expect(page).to have_css('main > .table th .nothing-found', :count => 1, :text => "Nothing found")
+    expect(page).to have_number_of_resources(0)
   end
 
   scenario "when deleting item with restrict relation" do
     visit admin_authors_path
     open_toolbox('Delete', Author.first)
 
-    expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :count => 2)
+    within_dialog do
+      expect(page).to have_css('.restricted-relations .relations li', count: 2)
+    end
   end
 end

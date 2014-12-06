@@ -12,14 +12,16 @@ feature "Base controller edit", js: true do
     click_link("good book")
     open_toolbox("Delete")
     click_button("Yes")
-    expect(page).to have_css('main > .table th .nothing-found', :count => 1, :text => "Nothing found")
+    expect(page).to have_number_of_resources(0)
   end
 
   scenario "when deleting item with restrict relation" do
     visit edit_admin_author_path @author
     open_toolbox("Delete")
 
-    expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :count => 2)
+    within_dialog do
+      expect(page).to have_css('.restricted-relations .relations li', count: 2)
+    end
   end
 
   scenario "drag and drop nested items with ckeditors" do
@@ -30,9 +32,10 @@ feature "Base controller edit", js: true do
     visit edit_admin_author_path @author
     open_toolbox("Delete")
 
-    find('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :text => "good book").click
-
-    expect(page).to have_css('.view-edit h2.header', text: "good book")
+    within_dialog do
+      find('.restricted-relations .relations li a', text: "good book").click
+    end
+    expect(page).to have_header(text: "good book")
   end
 
   scenario "remember last active locale for localized fields" do
