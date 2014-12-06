@@ -201,47 +201,47 @@
 .controller-releaf-content-nodes .dialog.copy,
 .controller-releaf-content-nodes .dialog.move,
 .controller-releaf-content-nodes .dialog.go-to,
-.controller-releaf-content-nodes .dialog.add-child
+.controller-releaf-content-nodes .dialog.content-type
 {
     width: 500px;
 }
-.controller-releaf-content-nodes .dialog.add-child[data-columns="1"]
+.controller-releaf-content-nodes .dialog.content-type[data-columns="1"]
 {
     width: 280px;
 }
 
-.controller-releaf-content-nodes .dialog.add-child .content
+.controller-releaf-content-nodes .dialog.content-type .body
 {
     padding: 20px 40px;
     text-align: center;
 }
 
-.controller-releaf-content-nodes .dialog.add-child .content .description
+.controller-releaf-content-nodes .dialog.content-type .body .description
 {
     padding: 0 0 20px 0;
 }
 
 
-.controller-releaf-content-nodes .dialog.add-child .content ul
+.controller-releaf-content-nodes .dialog.content-type .body ul
 {
     width: 200px;
     margin-left: 20px;
     float: left;
 }
 
-.controller-releaf-content-nodes .dialog.goto .content,
-.controller-releaf-content-nodes .dialog.copy .content
-.controller-releaf-content-nodes .dialog.move .content
+.controller-releaf-content-nodes .dialog.goto .body,
+.controller-releaf-content-nodes .dialog.copy .body
+.controller-releaf-content-nodes .dialog.move .body
 {
   height: 25em;
   overflow-y: auto;
 }
 
-.controller-releaf-content-nodes .dialog.add-child .content .content-types ul:first-child
+.controller-releaf-content-nodes .dialog.content-type .body .content-types ul:first-child
 {
     margin-left: 0;
 }
-.controller-releaf-content-nodes .dialog.add-child .content .content-types ul li
+.controller-releaf-content-nodes .dialog.content-type .body .content-types ul li
 {
     margin-bottom: 0.5em;
 }
