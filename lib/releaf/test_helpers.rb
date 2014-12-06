@@ -42,15 +42,11 @@ module Releaf
       expect(page).to have_css('.dialog form[data-validation="true"][data-validation-initialized="true"]')
     end
 
-    def open_toolbox item_name, resource = nil, content_controller = false
+    def open_toolbox item_name, resource = nil, resource_selector_scope = ".view-index .table tr"
       if resource
-        if content_controller
-          find('.view-index .collection .row[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
-        else
-          find('.view-index .table tr[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
-        end
+        find(resource_selector_scope + '[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
       else
-        find('main h2.header .toolbox-wrap .toolbox button.trigger').click
+        find('main section header .toolbox-wrap .toolbox button.trigger').click
       end
 
       click_link item_name
