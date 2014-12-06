@@ -44,7 +44,7 @@ module Releaf::Builders::View
         end
       else
         item[:name]
-      end << ( template.fa_icon("small chevron-right") unless last)
+      end << ( template.fa_icon("small chevron-right") unless last).to_s
     end
   end
 
