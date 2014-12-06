@@ -26,10 +26,11 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       it "creates new node in content tree" do
         click_link("Create new resource")
         click_link("Contacts controller")
-        fill_in("resource_name", with: "RootNode2")
-        save_and_check_response('Create succeeded')
+        create_resource do
+          fill_in("resource_name", with: "RootNode2")
+        end
 
-        expect(page).to have_content('Releaf/content/nodesRootNode2') #check breadcrumb
+        expect(page).to have_breadcrumbs("Releaf/content/nodes", "RootNode2")
       end
     end
 
@@ -38,10 +39,11 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @root.id.to_s + '"] > .toolbox-cell button').click
         click_link("Add child")
         click_link("Contacts controller")
-        fill_in("resource_name", with: "Contacts")
-        save_and_check_response('Create succeeded')
+        create_resource do
+          fill_in("resource_name", with: "Contacts")
+        end
 
-        expect(page).to have_content('Releaf/content/nodesRootNodeContacts') #check breadcrum
+        expect(page).to have_breadcrumbs("Releaf/content/nodes", "RootNode", "Contacts")
       end
     end
   end
@@ -90,7 +92,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         open_toolbox('Go to')
         click_link("RootNode")
 
-        expect(page).to have_css('.view-edit .edit-resource header h1', text: 'RootNode')
+        expect(page).to have_header(text: 'RootNode')
       end
     end
   end
@@ -101,13 +103,12 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
 
-        find('.dialog.copy form[data-validation-initialized="true"]')
-        within '.dialog.copy' do
+        within_dialog do
           find('label > span', text: "RootNode").click
           click_button "Copy"
         end
 
-        expect(page).to have_css('.notifications .notification .message', text: "Copy succeeded")
+        expect(page).to have_notification("Copy succeeded")
 
         find('li[data-id="' + @root.id.to_s + '"] > .collapser-cell button').click
         expect(page).to have_css('li > .node-cell a', text: "Main", count: 2)
@@ -119,8 +120,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
 
-        find('.dialog.copy form[data-validation-initialized="true"]')
-        within '.dialog.copy' do
+        within_dialog do
           find('label > span', text: "Main").click
           click_button "Copy"
         end
@@ -136,8 +136,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Move")
 
-        find('.dialog.move form[data-validation-initialized="true"]')
-        within '.dialog.move' do
+        within_dialog do
           find('label > span', text: "RootNode").click
           click_button "Move"
         end
@@ -153,8 +152,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Move")
 
-        find('.dialog.move form[data-validation-initialized="true"]')
-        within '.dialog.move' do
+        within_dialog do
           find('label > span', text: "Main").click
           click_button "Move"
         end
@@ -169,7 +167,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     def create_child parent, child_text, position=nil
       visit releaf_content_nodes_path
       open_toolbox 'Add child', parent, ".view-index .collection li"
-      within ".dialog.content-type" do
+      within_dialog do
         click_link("Text")
       end
 
