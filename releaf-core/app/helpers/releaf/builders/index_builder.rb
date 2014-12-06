@@ -51,7 +51,7 @@ class Releaf::Builders::IndexBuilder
   def section_header_extras
     return unless collection.respond_to? :total_entries
     tag(:span, class: "totals") do
-      [collection.total_entries, t("resources_found", scope: 'admin.global')]
+      "#{collection.total_entries} #{t("resources_found", scope: 'admin.global')}"
     end
   end
 

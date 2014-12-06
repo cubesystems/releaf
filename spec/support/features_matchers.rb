@@ -1,7 +1,7 @@
 module Capybara
   class Session
     def has_number_of_resources?(count)
-      has_css?('.header .totals', text: "#{count} Resources found")
+      has_css?('header .totals', text: "#{count} Resources found")
     end
 
     def has_notification?(text, type="success")
