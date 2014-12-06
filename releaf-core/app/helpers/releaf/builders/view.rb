@@ -88,20 +88,26 @@ module Releaf::Builders::View
 
   def footer_tools
     tag(:div, class: "tools") do
-      tag(:div, class: "primary") do
-        footer_primary_tools
-      end <<
-      tag(:div, class: "secondary") do
-        footer_secondary_tools
-      end
+      footer_blocks
     end
   end
 
-  def footer_primary_tools
+  def footer_blocks
+    [footer_primary_block, footer_secondary_block]
   end
 
-  def footer_secondary_tools
+  def footer_primary_block
+    tag(:div, class: "primary") do
+      footer_primary_tools
+    end
   end
 
+  def footer_secondary_block
+    tag(:div, class: "secondary") do
+      footer_secondary_tools
+    end
+  end
 
+  def footer_primary_tools; end
+  def footer_secondary_tools; end
 end

@@ -55,10 +55,16 @@ class Releaf::Builders::IndexBuilder
     end
   end
 
+  def footer_blocks
+    list = [footer_primary_block]
+    list << pagination if pagination?
+    list << footer_secondary_block
+    list
+  end
+
   def footer_primary_tools
     items = []
     items << resource_creation_button if feature_available? :create
-    items << pagination if pagination?
     items
   end
 
@@ -73,10 +79,6 @@ class Releaf::Builders::IndexBuilder
   def resource_creation_button
     button(t('Create new resource', scope: 'admin.global'), "plus", class: "primary",
                                       href: url_for(controller: controller_name, action: "new"))
-  end
-
-  def footer_secondary_tools
-    []
   end
 
   def section_body
