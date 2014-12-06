@@ -49,6 +49,9 @@ module Releaf
     end
 
     def within_dialog(&block)
+      if first('.dialog form[data-validation=true]')
+        find('.dialog form[data-validation-initialized=true]') # wait for validation to initialize
+      end
       within(".dialog") do
         yield
       end
