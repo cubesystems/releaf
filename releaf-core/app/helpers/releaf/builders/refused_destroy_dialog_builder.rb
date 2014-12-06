@@ -1,4 +1,4 @@
-class Releaf::RefusedDestroyDialogBuilder
+class Releaf::Builders::RefusedDestroyDialogBuilder
   include Releaf::Builders::View
   include Releaf::Builders::ResourceDialog
 
