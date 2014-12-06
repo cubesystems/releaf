@@ -1,6 +1,17 @@
 module Releaf::I18nDatabase
   class TranslationIndexBuilder < Releaf::Builders::IndexBuilder
 
+    def text_search_content
+      [search_only_blank_ui] + super
+    end
+
+    def search_only_blank_ui
+      tag(:div, class: "search-field-wrapper search-only-blank") do
+        [template.check_box_tag(:only_blank, 'true', params['only_blank'] == 'true'),
+         template.label_tag(:only_blank, t("Only blank"))]
+      end
+    end
+
     def footer_primary_tools
       [edit_button, pagination]
     end
@@ -31,16 +42,3 @@ module Releaf::I18nDatabase
     end
   end
 end
-
-#%form.search.has-text-search{ action: url_for( controller: controller_name, action: "index" )}
-  #.text-search
-    #.wrapper
-      #.search-field-wrapper.search-only-bank
-        #= check_box_tag :only_blank, 'true', params['only_blank'] == 'true'
-        #= label_tag :only_blank, I18n.t("Only blank", scope: controller_scope_name)
-      #.search-field-wrapper.search-text
-        #%input{name: "search", type: "text", value: params[:search], autofocus: true }
-        #= releaf_button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))
-      #.clear
-    #.clear
-

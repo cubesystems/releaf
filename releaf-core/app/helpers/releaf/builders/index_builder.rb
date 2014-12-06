@@ -6,42 +6,44 @@ class Releaf::Builders::IndexBuilder
     search
   end
 
-  def search_available?
+  def text_search_available?
     template.instance_variable_get("@searchable_fields").present?
   end
 
   def text_search
+    return unless text_search_available?
     tag(:div, class: "text-search") do
-      tag(:div, class: "wrapper") do
-        [
-          tag(:input, "", name: "search", type: "text", value: template.params[:search], autofocus: true),
-          button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))
-        ]
-      end
+      text_search_content
     end
+  end
+
+  def text_search_content
+    [tag(:input, "", name: "search", type: "text", value: template.params[:search], autofocus: true),
+      button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))]
+  end
+
+  def extra_search_content; end
+
+  def extra_search_button
+    button(t('Filter', scope: 'admin.global'), "search", type: "submit", title: t('Search', scope: 'admin.global'))
   end
 
   def extra_search
+    content = extra_search_content
+    return unless content.present?
+    tag(:div, class: "extras") do
+      [content, extra_search_button]
+    end
   end
 
   def search
-    parts = [text_search]
+    parts = [text_search, extra_search_content].compact
     return if parts.empty?
-    tag(:form, class: ["search", (search_available? ? 'has-text-search' : '')], action: url_for( controller: controller_name, action: "index" )) do
-      [text_search, extra_search]
+
+    url = url_for( controller: controller_name, action: "index" )
+    tag(:form, class: ["search clearInside", (text_search_available? ? 'has-text-search' : '')], action: url) do
+      parts
     end
-    #return unless (template.instance_variable_get("@searchable_fields") || template.instance_variable_get("@breadcrumbs"))
-#%form.search{class: (!@searchable_fields.blank?) ? 'has-text-search' : '', action: url_for( controller: controller_name, action: "index" )}
-  #- if @searchable_fields.present?
-    #.text-search
-      #.wrapper
-        #%input{name: "search", type: "text", value: params[:search], autofocus: true }
-        #= releaf_button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))
-      #.clear
-  #- if has_template? "_index.search.extras"
-    #.extras.clearInside
-      #= render partial: "index.search.extras"
-      #= releaf_button(t('Filter', scope: 'admin.global'), "search", type: "submit", title: t('Search', scope: 'admin.global'))
   end
 
   def section_header_text

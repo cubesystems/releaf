@@ -1,15 +1,15 @@
+.view-index form.search
+{
+    border-bottom: 2px solid #e6e6e6;
+    min-height: 20px;
+}
 .view-index form.search.has-text-search
 {
+    position: relative;
     margin-top: -29px;
 }
 
 .view-index form.search .text-search
-{
-    position: relative;
-    border-bottom: 2px solid #e6e6e6;
-}
-
-.view-index form.search .text-search .wrapper
 {
     float: right;
 }
