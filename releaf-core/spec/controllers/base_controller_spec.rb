@@ -116,7 +116,7 @@ describe Releaf::BaseController do
   describe "#builder_class" do
     it "returns resource class scoped builder for given builder type" do
       allow(subject).to receive(:resource_class).and_return(Releaf::Permissions::User)
-      allow(Releaf::Builder::Utility).to receive(:builder_class).with(DummyController, Releaf::Permissions::User, :form).and_return("x")
+      allow(Releaf::Builders).to receive(:builder_class).with(DummyController, Releaf::Permissions::User, :form).and_return("x")
       expect(subject.builder_class(:form)).to eq("x")
     end
   end
