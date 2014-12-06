@@ -28,6 +28,10 @@ module Releaf::Builders::Base
     template.safe_join(yield)
   end
 
+  def params
+    template.params
+  end
+
   def t(key, options = {})
     options[:scope] = controller.controller_scope_name unless options.key? :scope
     I18n.t(key, options)
