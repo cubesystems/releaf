@@ -22,8 +22,20 @@ module Releaf
       return user
     end
 
+    def within_search &block
+      within("form.search") do
+        yield
+      end
+    end
+
+    def search(text)
+      within_search do
+        fill_in 'search', with: text
+      end
+    end
+
     def within_dialog &block
-      find(".dialog") do
+      within(".dialog") do
         yield
       end
     end
