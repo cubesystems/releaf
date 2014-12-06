@@ -1,7 +1,16 @@
 module Capybara
   class Session
+
+    def primary_header_css_rule
+      "header"  #TODO: more specific css rules to match primary header
+    end
+
+    def has_header?(*args)
+      has_css?("#{primary_header_css_rule} h1", *args)
+    end
+
     def has_number_of_resources?(count)
-      has_css?('header .totals', text: "#{count} Resources found")
+      has_css?("#{primary_header_css_rule} .totals", text: "#{count} Resources found")
     end
 
     def has_notification?(text, type="success")
