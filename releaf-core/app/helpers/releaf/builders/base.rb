@@ -28,10 +28,6 @@ module Releaf::Builders::Base
     template.safe_join(yield)
   end
 
-  def params
-    template.params
-  end
-
   def t(key, options = {})
     options[:scope] = controller.controller_scope_name unless options.key? :scope
     I18n.t(key, options)
@@ -42,7 +38,8 @@ module Releaf::Builders::Base
   # Aliases
   #
 
-  delegate :controller, :controller_name, :url_for, :feature_available?, :index_url, :releaf_button, to: :template
+  delegate :controller, :controller_name, :url_for, :feature_available?,
+           :index_url, :releaf_button, :params, to: :template
 
   def button(*args)
     releaf_button(*args)
