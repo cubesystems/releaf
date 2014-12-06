@@ -22,6 +22,12 @@ module Releaf
       return user
     end
 
+    def within_dialog &block
+      find(".dialog") do
+        yield
+      end
+    end
+
     def save_and_check_response status_text
       click_button 'Save'
       expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: status_text)
