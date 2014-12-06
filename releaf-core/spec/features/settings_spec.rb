@@ -8,14 +8,13 @@ feature "Settings", js: true do
     visit releaf_core_settings_path
     expect(page).to have_number_of_resources(2)
 
-    within("form.search") do
-      fill_in 'search', with: "content.updated"
-    end
+    search "content.updated"
     expect(page).to have_number_of_resources(1)
 
     click_link "content.updated_at"
-    fill_in 'Value', with: '2014-04-01 12:33:59'
-    save_and_check_response "Update succeeded"
+    update_resource do
+      fill_in 'Value', with: '2014-04-01 12:33:59'
+    end
 
     click_link "Back to list"
     expect(page).to have_content("2014-04-01 12:33:59")
