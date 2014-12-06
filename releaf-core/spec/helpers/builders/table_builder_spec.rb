@@ -1,12 +1,12 @@
 require "spec_helper"
 
-describe Releaf::TableBuilder, type: :class do
+describe Releaf::Builders::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base
     include Releaf::ToolboxHelper
     include Releaf::ApplicationHelper
   end
 
-  class DummyTableBuilderInheriter < Releaf::TableBuilder
+  class DummyTableBuilderInheriter < Releaf::Builders::TableBuilder
     def some_cell_method(resource, column); end
     def custom_format(resource, column); end
     def format_big_boolean_content(resource, column); end
@@ -22,8 +22,12 @@ describe Releaf::TableBuilder, type: :class do
   let(:subject){ described_class.new(collection, resource_class, template, options) }
   let(:inheriter_subject){ DummyTableBuilderInheriter.new(collection, resource_class, template, options) }
 
-  it "includes Releaf::Builder" do
-    expect(Releaf::TableBuilder.ancestors).to include(Releaf::Builder)
+  it "includes Releaf::Builders::Base" do
+    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
+  end
+
+  it "includes Releaf::Builders::ResourceClass" do
+    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::ResourceClass)
   end
 
   describe "#initialize" do

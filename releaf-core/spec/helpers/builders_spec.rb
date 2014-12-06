@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Releaf::Builder::Utility, type: :class do
+describe Releaf::Builders, type: :class do
   describe ".builder_class" do
     it "returns builder class for given controller, model and builder type" do
       expect(described_class.builder_class(Releaf::Permissions::UsersController, Releaf::Permissions::User, :form)).to eq(Releaf::Permissions::UserFormBuilder)
@@ -8,7 +8,7 @@ describe Releaf::Builder::Utility, type: :class do
 
     context "when custom builder class does not exists for given controller, model and builder type" do
       it "returns default builder class" do
-        expect(described_class.builder_class(Admin::AuthorsController, Author, :form)).to eq(Releaf::FormBuilder)
+        expect(described_class.builder_class(Admin::AuthorsController, Author, :form)).to eq(Releaf::Builders::FormBuilder)
       end
     end
   end

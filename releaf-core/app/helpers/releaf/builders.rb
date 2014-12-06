@@ -1,5 +1,4 @@
 class Releaf::Builders
-
   def self.builder_class(controller_class, model_class, builder_type)
 
     builder_name = builder_class_name(controller_class.name, model_class.name, builder_type)

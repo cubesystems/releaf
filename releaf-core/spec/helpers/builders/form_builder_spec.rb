@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::FormBuilder, type: :class do
+describe Releaf::Builders::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base
     include Releaf::ApplicationHelper
     include Releaf::ButtonHelper
@@ -33,8 +33,12 @@ describe Releaf::FormBuilder, type: :class do
     ]
   }
 
-  it "includes Releaf::Builder" do
-    expect(Releaf::FormBuilder.ancestors).to include(Releaf::Builder)
+  it "includes Releaf::Builders::Base" do
+    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
+  end
+
+  it "includes Releaf::Builders::ResourceClass" do
+    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::ResourceClass)
   end
 
   describe "#field_names" do
@@ -51,8 +55,8 @@ describe Releaf::FormBuilder, type: :class do
 
     context "when builder has parent builder(-s)" do
       it "traverses through all builders and add relation name option to field name" do
-        root_builder = Releaf::FormBuilder.new(:author, Author.new, template, {})
-        middle_builder = Releaf::FormBuilder.new(:author, Author.new, template, {relation_name: :pages, parent_builder: root_builder})
+        root_builder = Releaf::Builders::FormBuilder.new(:author, Author.new, template, {})
+        middle_builder = Releaf::Builders::FormBuilder.new(:author, Author.new, template, {relation_name: :pages, parent_builder: root_builder})
         subject.options[:parent_builder] = middle_builder
         subject.options[:relation_name] = :chapters
 
