@@ -29,7 +29,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         fill_in("resource_name", with: "RootNode2")
         save_and_check_response('Create succeeded')
 
-        expect(page).to have_content('Releaf/content/nodes RootNode2')
+        expect(page).to have_content('Releaf/content/nodesRootNode2') #check breadcrumb
       end
     end
 
@@ -41,7 +41,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         fill_in("resource_name", with: "Contacts")
         save_and_check_response('Create succeeded')
 
-        expect(page).to have_content('Releaf/content/nodes RootNode Contacts')
+        expect(page).to have_content('Releaf/content/nodesRootNodeContacts') #check breadcrum
       end
     end
   end
@@ -90,7 +90,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         open_toolbox('Go to')
         click_link("RootNode")
 
-        expect(page).to have_css('.view-edit .edit-resource h2.header', text: 'RootNode')
+        expect(page).to have_css('.view-edit .edit-resource header h1', text: 'RootNode')
       end
     end
   end
@@ -101,8 +101,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
 
-        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
-        within '.copy-or-move-node-dialog' do
+        find('.dialog.copy form[data-validation-initialized="true"]')
+        within '.dialog.copy' do
           find('label > span', text: "RootNode").click
           click_button "Copy"
         end
@@ -119,13 +119,13 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Copy")
 
-        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
-        within '.copy-or-move-node-dialog' do
+        find('.dialog.copy form[data-validation-initialized="true"]')
+        within '.dialog.copy' do
           find('label > span', text: "Main").click
           click_button "Copy"
         end
 
-        expect(page).to have_css('.copy-or-move-node-dialog .form-error-box', text: "Source or descendant node can't be parent of new node")
+        expect(page).to have_css('.dialog.copy .form-error-box', text: "Source or descendant node can't be parent of new node")
       end
     end
   end
@@ -136,8 +136,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Move")
 
-        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
-        within '.copy-or-move-node-dialog' do
+        find('.dialog.move form[data-validation-initialized="true"]')
+        within '.dialog.move' do
           find('label > span', text: "RootNode").click
           click_button "Move"
         end
@@ -153,13 +153,13 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @node.id.to_s + '"] > .toolbox-cell button').click
         click_link("Move")
 
-        find('.copy-or-move-node-dialog form[data-validation-initialized="true"]')
-        within '.copy-or-move-node-dialog' do
+        find('.dialog.move form[data-validation-initialized="true"]')
+        within '.dialog.move' do
           find('label > span', text: "Main").click
           click_button "Move"
         end
 
-        expect(page).to have_css('.copy-or-move-node-dialog .form-error-box', text: "Can't be parent to itself")
+        expect(page).to have_css('.dialog.move .form-error-box', text: "Can't be parent to itself")
       end
     end
 
@@ -168,7 +168,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
   describe "node order", with_tree: false do
     def create_child parent, child_text, position=nil
       visit releaf_content_nodes_path
-      open_toolbox 'Add child', parent, true
+      open_toolbox 'Add child', parent, ".view-index .collection li"
       within ".add-child-dialog" do
         click_link("Text")
       end
