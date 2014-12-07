@@ -18,15 +18,23 @@ describe Releaf::Builders::Base, type: :module do
   end
 
   describe "delegations" do
-    [:controller, :controller_name, :url_for, :feature_available?, :form_for,
-     :index_url, :releaf_button, :params, :form_tag, :fa_icon, :file_field_tag,
+    [:controller, :controller_name, :url_for, :form_for,
+     :releaf_button, :params, :form_tag, :fa_icon, :file_field_tag,
      :current_admin_user, :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
-     :render, :link_to, :flash, :truncate, :toolbox, :resource_to_text, :radio_button_tag,
+     :render, :link_to, :flash, :truncate, :toolbox, :radio_button_tag,
      :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
      :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes
     ].each do|method_name|
       it "deletages #{method_name} to template" do
         expect(subject).to delegate_method(method_name).to(:template)
+      end
+    end
+
+    [:controller_scope_name, :feature_available?, :index_url,
+     :resource_to_text
+    ].each do|method_name|
+      it "deletages #{method_name} to controller" do
+        expect(subject).to delegate_method(method_name).to(:controller)
       end
     end
   end

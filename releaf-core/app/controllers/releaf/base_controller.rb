@@ -311,6 +311,10 @@ module Releaf
       mass_assigment_actions.include? params[:action]
     end
 
+    def feature_available? feature
+      @features[feature].present?
+    end
+
     protected
 
     def respond
@@ -384,10 +388,6 @@ module Releaf
         confirm_destroy: :destroy,
         destroy: :destroy
       }.with_indifferent_access
-    end
-
-    def feature_available? feature
-      @features[feature].present?
     end
 
     def render_notification status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed", now: false
