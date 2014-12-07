@@ -1,7 +1,10 @@
 require "spec_helper"
 
 describe Releaf::Builders::Base, type: :module do
-  class FormBuilderTestHelper < ActionView::Base; end
+  class FormBuilderTestHelper < ActionView::Base
+    include Releaf::ButtonHelper
+    include Releaf::ApplicationHelper
+  end
   class BuilderIncluder
     include Releaf::Builders::Base
     attr_accessor :template
@@ -10,19 +13,37 @@ describe Releaf::Builders::Base, type: :module do
   let(:subject){ BuilderIncluder.new }
   let(:template){ FormBuilderTestHelper.new }
 
+  before do
+    subject.template = template
+  end
+
+  describe "delegations" do
+    [:controller, :controller_name, :url_for, :feature_available?, :form_for,
+     :index_url, :releaf_button, :params, :form_tag, :fa_icon, :file_field_tag,
+     :current_admin_user, :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
+     :render, :link_to, :flash, :truncate, :toolbox, :resource_to_text, :radio_button_tag,
+     :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
+     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes
+    ].each do|method_name|
+      it "deletages #{method_name} to template" do
+        expect(subject).to delegate_method(method_name).to(:template)
+      end
+    end
+  end
+
+  it "aliases #button to #releaf_button" do
+    allow(subject.template).to receive(:releaf_button).with("x", a: "y", b: "z").and_return("xx")
+    expect(subject.button("x", a: "y", b: "z")).to eq("xx")
+  end
+
   describe "#controller" do
     it "returns template contoller" do
       allow(template).to receive(:controller).and_return("x")
-      subject.template = template
       expect(subject.controller).to eq("x")
     end
   end
 
   describe "#tag" do
-    before do
-      subject.template = template
-    end
-
     context "when block is not given" do
       context "when passing string as content" do
         let(:output) do
@@ -117,13 +138,9 @@ describe Releaf::Builders::Base, type: :module do
         end
       end
     end
-  end # describe "#tag"
+  end
 
   describe "#wrapper" do
-    before do
-      subject.template = template
-    end
-
     context "when block is given" do
       let(:output) do
         subject.wrapper(class: 'c') do
@@ -143,11 +160,14 @@ describe Releaf::Builders::Base, type: :module do
     end
   end
 
-  describe "#safe_join" do
-    before do
-      subject.template = template
+  describe "#template_variable" do
+    it "returns template instance variable value for given key" do
+      template.instance_variable_set("@test", "xx")
+      expect(subject.template_variable("test")).to eq("xx")
     end
+  end
 
+  describe "#safe_join" do
     let(:content) do
       ['foo', '<p>bar</p>', ActiveSupport::SafeBuffer.new('<p>baz</p>')]
     end
