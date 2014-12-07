@@ -28,6 +28,9 @@ module Releaf
   mattr_accessor :available_locales
   @@available_locales = nil
 
+  mattr_accessor :page_header_builder
+  @@page_header_builder = nil
+
   mattr_accessor :available_admin_locales
   @@available_admin_locales = nil
 
@@ -63,6 +66,7 @@ module Releaf
       build_controller_list(normalized_additional_controllers)
 
       self.components = normalize_components(components)
+      self.page_header_builder ||= Releaf::Builders::PageHeaderBuilder
       initialize_components
     end
 

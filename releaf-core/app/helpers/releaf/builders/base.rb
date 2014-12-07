@@ -39,10 +39,10 @@ module Releaf::Builders::Base
   #
 
   delegate :controller, :controller_name, :url_for, :feature_available?,
-           :index_url, :releaf_button, :params, to: :template
+    :index_url, :releaf_button, :params, :form_tag, :fa_icon,
+    :current_admin_user, :request, to: :template
 
   def button(*args)
     releaf_button(*args)
   end
-
 end

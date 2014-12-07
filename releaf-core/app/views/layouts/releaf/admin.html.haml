@@ -25,15 +25,7 @@
     = csrf_meta_tags
   %body{class: body_classes}
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
-      %header
-        %a.brand{href: releaf_root_path}
-        %ul.block
-          = render 'layouts/releaf/profile'
-          %li.sign-out
-            = form_tag(self.send(:"destroy_#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_session_path"), method: :delete) do
-              %button{type: "submit"}
-                %i.fa.fa-power-off.icon-header
-
+      %header= Releaf.page_header_builder.new(self).output
       %aside
         .compacter
           %button{type: "button"}

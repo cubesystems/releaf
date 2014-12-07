@@ -25,6 +25,7 @@ Releaf.setup do |conf|
   conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
 
   conf.available_locales = ["en"]
+  # conf.page_header_builder = CustomPageHeaderBuilder
   # conf.layout = 'releaf/admin'
   # conf.devise_for 'releaf/admin'
 end

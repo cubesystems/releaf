@@ -1,4 +1,8 @@
-body > header > .brand
+body > header
+{
+    text-align: right;
+}
+body > header .brand
 {
     display: block;
     background-image: image-url("releaf/brand.png");
@@ -11,67 +15,45 @@ body > header > .brand
 }
 
 
-body > header > .item
+body > header a.profile,
+body > header form.sign-out
 {
-    display: inline-block;
-    margin-left: 20px;
+  display: inline-block;
+  margin-left: 1px;
 }
 
-body > header > ul
-{
-    float: right;
-}
-
-body > header > ul > li
-{
-    float: left;
-}
-
-body > header > ul > li > a
-{
-    display: block;
-    text-decoration: none;
-    height: 60px;
-}
-
-body > header .profile
-{
-    padding-right: 1px;
-}
-
-body > header .profile a
+body > header a.profile
 {
     position: relative;
+    text-decoration: none;
+    height: 60px;
     width: 237px;
     color: #d8d8d8;
     border-left: 1px solid #242424;
 }
 
-body > header .profile a:hover
+body > header a.profile:hover
 {
     background-color: #242424;
     color: #fff;
 }
 
-body > header .profile .name
+body > header a.profile .name
 {
     position: absolute;
     top: 20px;
     left: 25px;
-    display: block;
-    width: 152px;
 }
 
-body > header .profile .avatar
+body > header a.profile .avatar
 {
-    position: absolute;
+    position: relative;
     top: 12px;
     right: 12px;
-    display: block;
     width: 36px;
 }
 
-body > header .sign-out button
+body > header form.sign-out button
 {
     position: relative;
     background-color: #242424;
@@ -80,13 +62,13 @@ body > header .sign-out button
     height: 60px;
 }
 
-body > header .sign-out button:hover
+body > header form.sign-out button:hover
 {
     background-color: #37b1a7;
     color: #242424;
 }
 
-body > header .sign-out button i
+body > header form.sign-out button i
 {
     font-size: 18px;
 }
