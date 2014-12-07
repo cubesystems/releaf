@@ -22,7 +22,7 @@ feature "User profile" do
     click_button 'Save'
 
     # logout
-    find('header > ul > li.sign-out > form > button').click
+    find('body > header form.sign-out button').click
 
     # login
     visit releaf_root_path

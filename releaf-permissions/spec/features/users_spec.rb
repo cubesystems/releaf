@@ -11,7 +11,7 @@ feature "Users", js: true do
         fill_in 'Password', with: user.password
       end
       click_button 'Sign in'
-      expect(page).to have_css('header > ul > li.sign-out > form > button')
+      expect(page).to have_css('body > header form.sign-out button')
     end
 
     scenario "new user creation", js: true do
@@ -57,7 +57,7 @@ feature "Users", js: true do
     end
 
     scenario "user page content" do
-      expect(page).to have_css('header > ul > li.sign-out > form > button')
+      expect(page).to have_css('body > header form.sign-out button')
       expect(page).to have_content 'Releaf/content'
       expect(page).to have_content 'Permissions'
       expect(page).to have_content 'Releaf/i18n database/translations'
@@ -67,7 +67,7 @@ feature "Users", js: true do
     end
 
     scenario "logout sequence" do
-      find('header > ul > li.sign-out > form > button').click
+      find('body > header form.sign-out button').click
 
       expect(page).to have_content 'Welcome to re:Leaf'
 
@@ -87,7 +87,7 @@ feature "Users", js: true do
     end
 
     scenario "user page content" do
-      expect(page).to have_css('header > ul > li.sign-out > form > button')
+      expect(page).to have_css('body > header form.sign-out button')
       expect(page).to have_content 'Releaf/content'
     end
 
@@ -97,7 +97,7 @@ feature "Users", js: true do
     end
 
     scenario "logout sequence" do
-      find('header > ul > li.sign-out > form > button').click
+      find('body > header form.sign-out button').click
 
       expect(page).to have_content 'Welcome to re:Leaf'
 
