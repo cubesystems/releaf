@@ -33,22 +33,22 @@ class Releaf::Builders::PageHeaderBuilder
   end
 
   def profile_controller
-    '/releaf/permissions/profile'
+    "/releaf/permissions/profile"
   end
 
   def profile_block
     tag(:a, class: "profile", href: profile_url, "data-settings-url" => profile_settings_url) do
-      [profile_user_name, profile_user_image]
+      [tag(:span, profile_user_name, class: "name"), profile_user_image]
     end
   end
 
   def profile_user_image
-    template.gravatar_image_tag(current_admin_user.email, alt: current_admin_user.to_text,
+    template.gravatar_image_tag(current_admin_user.email, alt: profile_user_name,
                                 gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
   end
 
   def profile_user_name
-    tag(:span, current_admin_user.to_text, class: "name")
+    current_admin_user.to_text
   end
 
   def sign_out_url
