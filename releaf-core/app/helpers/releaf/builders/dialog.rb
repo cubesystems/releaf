@@ -7,7 +7,10 @@ module Releaf::Builders::Dialog
   end
 
   def classes
-    ["dialog", self.class.name.split("::").last.gsub(/DialogBuilder$/, "").underscore.dasherize]
+    ["dialog", dialog_name]
   end
 
+  def dialog_name
+    self.class.name.split("::").last.gsub(/DialogBuilder$/, "").underscore.dasherize
+  end
 end
