@@ -16,13 +16,14 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder
     [cancel_form, confirm_form]
   end
 
-  def cancel_form
-    form_for(resource, builder: Releaf::Builders::FormBuilder, url: url_for( action: 'destroy', id: resource.id, index_url: index_url), as: :resource, method: :delete) do
+  def confirm_form
+    url = url_for( action: 'destroy', id: resource.id, index_url: index_url)
+    form_for(resource, builder: Releaf::Builders::FormBuilder, url: url, as: :resource, method: :delete) do
       button(t('Yes', scope: 'admin.global'), "trash-o", class: "danger", data: {type: 'cancel'}, type: 'submit')
     end
   end
 
-  def confirm_form
+  def cancel_form
     form_for(resource, builder: Releaf::Builders::FormBuilder, url: index_url, as: :resource, method: :get) do
       button(t('No', scope: 'admin.global'), "ban", class: "secondary", data: {type: 'cancel'}, type: 'submit')
     end
