@@ -5,9 +5,9 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   def section_body
     tag(:div, class: "body") do
       [
-        template.fa_icon("ban"),
+        fa_icon("ban"),
         tag(:div, t('Delete restricted', scope: 'admin.global'), class: "message"),
-        tag(:div, t("Deletion of %{resource} restricted, due to existing relations:", scope: "admin.global", default: "Deletion of %{resource} restricted, due to existing relations:", resource: template.resource_to_text(resource)), class: "description"),
+        tag(:div, t("Deletion of %{resource} restricted, due to existing relations:", scope: "admin.global", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
         restricted_relations
       ]
     end
@@ -15,7 +15,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def restricted_relations
     tag(:ul, class: "block restricted-relations") do
-      template.instance_variable_get("@restrict_relations").collect do|key, relation|
+      template_variable("restrict_relations").collect do|key, relation|
         tag(:li) do
           restricted_relation(relation, key)
         end
@@ -38,9 +38,9 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
       relation[:objects][0..2].collect do |relation_obj|
         tag(:li) do
           unless relation[:controller].nil?
-            template.link_to template.resource_to_text(relation_obj, :to_s), controller: relation[:controller], action: "edit", id: relation_obj
+            link_to(resource_to_text(relation_obj, :to_s), controller: relation[:controller], action: "edit", id: relation_obj)
           else
-            template.resource_to_text(relation_obj, :to_s)
+            resource_to_text(relation_obj, :to_s)
           end
         end
       end + [(tag(:li, "...") if relation[:objects].count > 3)]

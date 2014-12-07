@@ -93,7 +93,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
     item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', allow_destroy: true,
                                              sortable_objects: sortable_objects, subfields: fields)
-    item_template = template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
+    item_template = html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
     tag(:section, class: "type-nested", data: {name: association_name, "releaf-template" => item_template}) do
       [releaf_has_many_association_header(association_name),
@@ -150,12 +150,12 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def field_type_remove_nested
     button_attributes = {title: t('Remove item'), class: "danger only-icon remove-nested-item"}
     wrapper(class: "remove-item-box") do
-      template.releaf_button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
+      button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
     end
   end
 
   def field_type_add_nested
-    template.releaf_button(t('Add item'), "plus", class: "primary add-nested-item")
+    button(t('Add item'), "plus", class: "primary add-nested-item")
   end
 
   def field_type_method(name)
@@ -179,13 +179,13 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
     if options.key? :select_options
       if options[:select_options].is_a? Array
-        choices = template.options_for_select(options[:select_options], object.send(name))
+        choices = options_for_select(options[:select_options], object.send(name))
       else
         choices = options[:select_options]
       end
     else
       collection = object.class.reflect_on_association(relation_name).try(:klass).try(:all)
-      choices = template.options_from_collection_for_select(collection, :id,
+      choices = options_from_collection_for_select(collection, :id,
                                                    controller.resource_to_text_method(collection.first), object.send(name))
     end
 
@@ -219,9 +219,9 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     if object.send(name).present?
       content += tag(:div, class: "value-preview") do
         inner_content = tag(:div, class: "image-wrap") do
-          thumbnail = template.image_tag(object.send(name).thumb('410x128>').url, alt: '')
+          thumbnail = image_tag(object.send(name).thumb('410x128>').url, alt: '')
           hidden_field("retained_#{name}") +
-            template.link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
+            link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
         end
         inner_content << releaf_file_remove_button(name)
       end
@@ -244,7 +244,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     content = file_field(name, attributes)
     if object.send(name).present?
       content << hidden_field("retained_#{name}")
-      content << template.link_to(t("Download"), object.send(name).url, target: "_blank")
+      content << link_to(t("Download"), object.send(name).url, target: "_blank")
       content << releaf_file_remove_button(name)
     end
 
@@ -273,8 +273,8 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     {
       class: "#{type}-picker",
       data: {
-        "date-format" => jquery_date_format,
-        "time-format" => jquery_time_format
+        "date-format" => date_format_for_jquery,
+        "time-format" => time_format_for_jquery
       },
       value: (format_date_or_time_value(value, type) if value)
     }.merge(attributes)
@@ -290,14 +290,14 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def jquery_time_format
+  def time_format_for_jquery
     format = date_or_time_default_format(:time)
-    template.jquery_date_format(format)
+    jquery_date_format(format)
   end
 
-  def jquery_date_format
+  def date_format_for_jquery
     format = date_or_time_default_format(:date)
-    template.jquery_date_format(t("default", scope: "date.formats", default: format))
+    jquery_date_format(t("default", scope: "date.formats", default: format))
   end
 
   def date_or_time_default_format(type)
@@ -440,7 +440,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def localized_field(name, field_type, input: {}, label: {}, field: {}, options: {})
     options = {i18n: true, label: {translation_key: name}}.deep_merge(options)
 
-    default_locale = template.cookies[:'releaf.i18n.locale']
+    default_locale = cookies[:'releaf.i18n.locale']
     default_locale = default_locale.to_sym unless default_locale.nil?
     default_locale = object.class.globalize_locales.first unless object.class.globalize_locales.include? default_locale
 
@@ -466,7 +466,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
   def localization_switch(default_locale)
     tag(:div, class: "localization-switch") do
-      template.button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
+      button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])
       end <<
       tag(:menu, class: ["block", "localization-menu-items"], type: 'toolbar') do
@@ -498,7 +498,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     classes = ["field", "type-#{type}"]
     classes << "i18n" if options.key? :i18n
 
-    template.merge_attributes({class: classes, data: {name: name}}, attributes)
+    merge_attributes({class: classes, data: {name: name}}, attributes)
   end
 
   def label_attributes(name, attributes, options)

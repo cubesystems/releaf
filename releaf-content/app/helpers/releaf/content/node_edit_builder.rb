@@ -7,7 +7,7 @@ module Releaf::Content
     end
 
     def form_fields
-      template.render(partial: "form_fields", locals: {form: form, object: form.object})
+      render(partial: "form_fields", locals: {form: form, object: form.object})
     end
   end
 end

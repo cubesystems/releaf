@@ -3,6 +3,6 @@ module Releaf::Builders::Collection
 
   def initialize(template)
     super
-    self.collection = template.instance_variable_get("@collection")
+    self.collection = template_variable("collection")
   end
 end

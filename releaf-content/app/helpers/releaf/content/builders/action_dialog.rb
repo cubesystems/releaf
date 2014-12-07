@@ -21,7 +21,7 @@ module Releaf::Content::Builders
     def tree_root_resource
       field_id = "new_parent_id_0"
       tag(:div, class: "node-cell") do
-        [template.radio_button_tag(:new_parent_id, '', false, id: 'new_parent_id_0'),
+        [radio_button_tag(:new_parent_id, '', false, id: 'new_parent_id_0'),
            tag(:label, t("Root node"), for: field_id)]
       end
     end
@@ -29,12 +29,12 @@ module Releaf::Content::Builders
     def tree_resource_name_button(resource)
       field_id = "new_parent_id_#{resource.id}"
 
-      [template.radio_button_tag(:new_parent_id, resource.id, false, id: field_id),
+      [radio_button_tag(:new_parent_id, resource.id, false, id: field_id),
          tag(:label, tag(:span, resource.name), for: field_id)]
     end
 
     def section_blocks
-      template.form_tag(url_for(action: action, id: resource.id), form_attributes) do
+      form_tag(url_for(action: action, id: resource.id), form_attributes) do
         safe_join do
           super
         end

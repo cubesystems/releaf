@@ -138,7 +138,7 @@ class Releaf::Builders::TableBuilder
 
   def format_text_content(resource, column)
     value = resource.send(column).to_s
-    template.truncate(value, length: 32, separator: ' ')
+    truncate(value, length: 32, separator: ' ')
   end
 
   def format_string_content(resource, column)
@@ -168,7 +168,7 @@ class Releaf::Builders::TableBuilder
   def format_image_content(resource, column)
     if resource.send(column).present?
       association_name = column.to_s.sub(/_uid$/, '')
-      template.image_tag(resource.send(association_name).thumb('x16').url, alt: '')
+      image_tag(resource.send(association_name).thumb('x16').url, alt: '')
     end
   end
 
@@ -236,7 +236,7 @@ class Releaf::Builders::TableBuilder
 
   def toolbox_cell(resource, options)
     tag(:td, class: "toolbox-cell") do
-      template.toolbox(resource, index_url: controller.index_url)
+      toolbox(resource, index_url: controller.index_url)
     end
   end
 

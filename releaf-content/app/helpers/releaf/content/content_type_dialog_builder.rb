@@ -5,7 +5,7 @@ module Releaf::Content
 
     def initialize(template)
       super
-      self.content_types = template.instance_variable_get("@content_types")
+      self.content_types = template_variable("content_types")
     end
 
     def content_types_slices
@@ -48,9 +48,9 @@ module Releaf::Content
     end
 
     def content_type_item(content_type)
-      url = template.new_releaf_content_node_path(parent_id: template.params[:parent_id], content_type: content_type.name)
+      url = url_for(controller: "/releaf/content/nodes", action: "new", parent_id: params[:parent_id], content_type: content_type.name)
       tag(:li) do
-        template.link_to(I18n.t(content_type.name.underscore, scope: 'admin.content_types'), url)
+        link_to(I18n.t(content_type.name.underscore, scope: 'admin.content_types'), url)
       end
     end
 

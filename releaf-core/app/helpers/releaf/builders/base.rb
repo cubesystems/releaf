@@ -10,9 +10,9 @@ module Releaf::Builders::Base
   end
 
   def tag(*args, &block)
-    return template.content_tag(*args) unless block_given?
+    return content_tag(*args) unless block_given?
 
-    template.content_tag(*args) do
+    content_tag(*args) do
       block_result = yield
       if block_result.is_a? Array
         safe_join do
@@ -22,6 +22,10 @@ module Releaf::Builders::Base
         block_result.to_s
       end
     end
+  end
+
+  def template_variable(variable)
+    template.instance_variable_get("@#{variable}")
   end
 
   def safe_join(&block)
@@ -38,9 +42,12 @@ module Releaf::Builders::Base
   # Aliases
   #
 
-  delegate :controller, :controller_name, :url_for, :feature_available?,
-    :index_url, :releaf_button, :params, :form_tag, :fa_icon,
-    :current_admin_user, :request, to: :template
+  delegate :controller, :controller_name, :url_for, :feature_available?, :form_for,
+    :index_url, :releaf_button, :params, :form_tag, :fa_icon, :file_field_tag,
+    :current_admin_user, :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
+    :render, :link_to, :flash, :truncate, :toolbox, :resource_to_text, :radio_button_tag,
+    :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
+    :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
 
   def button(*args)
     releaf_button(*args)

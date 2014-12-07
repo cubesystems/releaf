@@ -7,7 +7,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def text_search_available?
-    template.instance_variable_get("@searchable_fields").present?
+    template_variable("searchable_fields").present?
   end
 
   def text_search
@@ -18,7 +18,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def text_search_content
-    [tag(:input, "", name: "search", type: "text", value: template.params[:search], autofocus: true),
+    [tag(:input, "", name: "search", type: "text", value: params[:search], autofocus: true),
       button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))]
   end
 
@@ -75,7 +75,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def pagination
-    template.will_paginate( collection, class: "pagination", params: template.params.merge({ajax: nil}), renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2 )
+    template.will_paginate( collection, class: "pagination", params: params.merge({ajax: nil}), renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2 )
   end
 
   def resource_creation_button

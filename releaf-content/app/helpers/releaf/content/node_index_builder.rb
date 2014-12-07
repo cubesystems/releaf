@@ -8,7 +8,7 @@ module Releaf::Content
 
     def tree_resource_toolbox(resource)
       tag(:div, class: "toolbox-cell") do
-        template.toolbox(resource, index_url: index_url)
+        toolbox(resource, index_url: index_url)
       end
     end
 

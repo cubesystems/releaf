@@ -3,7 +3,7 @@ module Releaf::Builders::Resource
 
   def initialize(template)
     super
-    self.resource = template.instance_variable_get("@resource")
+    self.resource = template_variable("resource")
   end
 
 end

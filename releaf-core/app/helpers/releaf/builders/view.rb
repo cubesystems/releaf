@@ -21,7 +21,7 @@ module Releaf::Builders::View
   end
 
   def breadcrumbs
-    breadcrumb_items = template.instance_variable_get("@breadcrumbs")
+    breadcrumb_items = template_variable("breadcrumbs")
     return nil unless breadcrumb_items.present?
 
     tag(:nav) do
@@ -44,19 +44,19 @@ module Releaf::Builders::View
         end
       else
         item[:name]
-      end << ( template.fa_icon("small chevron-right") unless last).to_s
+      end << ( fa_icon("small chevron-right") unless last).to_s
     end
   end
 
   def flash_notices
     safe_join do
-      template.flash.collect do |name, item|
-        flash(name, item)
+      flash.collect do |name, item|
+        flash_item(name, item)
       end
     end
   end
 
-  def flash(name, item)
+  def flash_item(name, item)
     tag(:div, class: "flash", 'data-type' => name, :'data-id' => (item.is_a? (Hash)) && (item.has_key? "id") ? item["id"] : nil) do
       item.is_a?(Hash) ? item["message"] : item
     end

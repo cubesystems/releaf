@@ -3,7 +3,7 @@ module Releaf::I18nDatabase
 
     def section
       tag(:section) do
-        template.form_tag url_for( action: :update, search: template.params[:search] ) do
+        form_tag url_for( action: :update, search: params[:search] ) do
           safe_join do
             section_blocks
           end
@@ -13,12 +13,12 @@ module Releaf::I18nDatabase
 
     def section_body
       tag(:div, class: "body") do
-        template.render(partial: "form_fields")
+        render(partial: "form_fields")
       end
     end
 
     def import?
-      template.instance_variable_get("@import")
+      template_variable("import")
     end
 
 

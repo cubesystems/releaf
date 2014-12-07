@@ -5,7 +5,7 @@ module Releaf::Content
 
       unless resource.new_record?
         list << add_child_button
-        list << go_to_button unless template.params[:context] == "index"
+        list << go_to_button unless params[:context] == "index"
         list << copy_button
         list << move_button
       end

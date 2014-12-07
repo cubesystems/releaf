@@ -6,7 +6,7 @@ class Releaf::Builders::EditBuilder
 
   def section
     tag(:section) do
-      template.form_for(resource, template.form_options(template.action_name, resource, :resource)) do |form|
+      form_for(resource, template.form_options(action_name, resource, :resource)) do |form|
         self.form = form
         safe_join do
           [index_url_preserver] + section_blocks
@@ -16,17 +16,17 @@ class Releaf::Builders::EditBuilder
   end
 
   def index_url_preserver
-    template.hidden_field_tag 'index_url', template.params[:index_url] if template.params[:index_url].present?
+    hidden_field_tag 'index_url', params[:index_url] if params[:index_url].present?
   end
 
   def section_header_text
-    resource.new_record? ? t('Create new resource', scope: 'admin.global') : template.resource_to_text(resource)
+    resource.new_record? ? t('Create new resource', scope: 'admin.global') : resource_to_text(resource)
   end
 
   def section_header_extras
     return unless feature_available? :toolbox
     tag(:div, class: "toolbox-wrap") do
-      template.toolbox(resource, index_url: index_url)
+      toolbox(resource, index_url: index_url)
     end
   end
 
@@ -73,7 +73,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def back_to_list?
-    feature_available?(:index) && template.params[:index_url].present?
+    feature_available?(:index) && params[:index_url].present?
   end
 
   def back_to_list_button
