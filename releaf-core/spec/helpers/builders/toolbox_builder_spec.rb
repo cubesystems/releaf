@@ -2,7 +2,6 @@ require "spec_helper"
 
 describe Releaf::Builders::ToolboxBuilder, type: :class do
   class ToolboxBuilderTestHelper < ActionView::Base
-    #include Rails.application.routes.url_helpers
     include FontAwesome::Rails::IconHelper
     include Releaf::ButtonHelper
     include Releaf::ApplicationHelper
