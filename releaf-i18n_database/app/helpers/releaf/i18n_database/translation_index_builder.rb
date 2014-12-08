@@ -13,7 +13,7 @@ module Releaf::I18nDatabase
     end
 
     def footer_primary_tools
-      [edit_button, pagination]
+      [edit_button]
     end
 
     def footer_secondary_tools
