@@ -38,22 +38,10 @@ jQuery(function()
             // and placed in page body
             options.result_blocks =
             {
-                header :
+                main_section :
                 {
-                    result_selector : '.header',
-                    target : jQuery('main .header').first()
-                },
-
-                table :
-                {
-                    result_selector : '.table',
-                    target : jQuery('main .table').first()
-                },
-
-                footer :
-                {
-                    result_selector : 'footer',
-                    target : jQuery('main footer').first()
+                    result_selector : 'section',
+                    target : jQuery('main > section').first()
                 }
             };
         }
@@ -130,7 +118,10 @@ jQuery(function()
             {
                 var block = options.result_blocks[ key ];
 
+                console.log( block.result_selector );
+                console.log(response);
                 var content = response.find( block.result_selector ).first().html();
+                console.log( content );
 
                 jQuery( block.target ).html( content );
 
@@ -156,7 +147,7 @@ jQuery(function()
             }
 
             form.trigger( 'searchstart' );
-        }
+        };
 
         text_inputs.on( 'keyup',  start_search_if_value_changed);
         all_inputs.on(  'change', start_search_if_value_changed);
@@ -171,19 +162,5 @@ jQuery(function()
         jQuery( '.view-index form.search' ).trigger( 'searchinit' );
 
     }, 0);
-
-
-    body.on('contentloaded', function(e)
-    {
-        jQuery(e.target).find('#page_select').on('change', function()
-        {
-            var val = jQuery(this).val();
-            if (val)
-            {
-                var url = new url_builder().add({page: val}).getUrl();
-                window.location.href = url;
-            }
-        });
-    });
 
 });
