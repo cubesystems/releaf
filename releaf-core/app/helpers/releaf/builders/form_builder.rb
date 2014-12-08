@@ -126,7 +126,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_has_many_association_fields(association_name, obj: nil, subfields: subfields, child_index: nil, allow_destroy: nil, sortable_objects: nil)
-    tag(:fieldset, class: ["item"], data: {name: association_name, index: child_index}) do
+    tag(:fieldset, class: ["item", "type-association"], data: {name: association_name, index: child_index}) do
       fields_for(association_name, obj, relation_name: association_name, child_index: child_index, builder: self.class) do |builder|
         builder.releaf_has_many_association_field(association_name, sortable_objects, subfields, allow_destroy)
       end
