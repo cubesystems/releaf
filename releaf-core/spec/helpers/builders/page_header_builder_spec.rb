@@ -38,9 +38,11 @@ describe Releaf::Builders::PageHeaderBuilder, type: :class do
   end
 
   describe "#home_link" do
-    it "returns home link" do
+    it "returns home link with a logo" do
       allow(subject).to receive(:home_url).and_return("www.xxx")
-      content = '<a class="brand" href="www.xxx"></a>'
+      allow(subject).to receive(:home_text).and_return("Rrr")
+      allow(subject).to receive(:home_image_path).and_return("releaf/foo.png")
+      content = '<a class="home" href="www.xxx"><img alt="Rrr" src="/images/releaf/foo.png" /></a>'
       expect(subject.home_link).to eq(content)
     end
   end
@@ -50,6 +52,19 @@ describe Releaf::Builders::PageHeaderBuilder, type: :class do
       expect(subject.home_url).to eq("/admin")
     end
   end
+
+  describe "#home_image_path" do
+    it "returns image to the logo image asset" do
+      expect(subject.home_image_path).to eq("releaf/logo.png")
+    end
+  end
+
+  describe "#home_text" do
+    it "returns releaf home link text" do
+      expect(subject.home_text).to eq("Releaf")
+    end
+  end
+
 
   describe "#profile_url" do
     it "returns profile edit url for defined profile controller" do

@@ -2,18 +2,14 @@ body > header
 {
     text-align: right;
 }
-body > header .brand
+
+body > header .home
 {
     display: block;
-    background-image: image-url("releaf/brand.png");
-    background-repeat: no-repeat;
-    width: 110px;
-    height: 33px;
     text-decoration: none;
     float: left;
     margin: 13px 0 0 13px;
 }
-
 
 body > header a.profile,
 body > header form.sign-out

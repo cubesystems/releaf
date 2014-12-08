@@ -1,17 +1,17 @@
 /* Breadcrumbs */
 
-main .breadcrumbs
+.breadcrumbs
 {
     padding: 14px 0px;
     border-bottom: 1px solid #e6e6e6;
 }
 
-main .breadcrumbs > li
+.breadcrumbs li
 {
     display: inline-block;
 }
 
-main .breadcrumbs > li a
+.breadcrumbs a
 {
     position: relative;
     z-index: 100;
@@ -20,13 +20,13 @@ main .breadcrumbs > li a
     text-decoration: none;
 }
 
-main .breadcrumbs > li a:hover
+.breadcrumbs a:hover
 {
     text-decoration: none;
     color: #42690d;
 }
 
-main .breadcrumbs > li i
+.breadcrumbs li i
 {
     padding: 0px 8px;
     font-size: 10px;

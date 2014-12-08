@@ -17,11 +17,21 @@ class Releaf::Builders::PageHeaderBuilder
   end
 
   def home_link
-    tag(:a, "", class: "brand", href: home_url)
+    tag(:a, class: "home", href: home_url) do
+      image_tag(home_image_path, alt: home_text)
+    end
   end
 
   def home_url
     url_for(action: 'index', controller: "/releaf/home")
+  end
+
+  def home_text
+    "Releaf"
+  end
+
+  def home_image_path
+    "releaf/logo.png"
   end
 
   def profile_url
