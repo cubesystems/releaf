@@ -1,15 +1,15 @@
 var Validator = function( node_or_selector, options )
 {
-	// self
-	var v = this;
+    // self
+    var v = this;
 
-	// form
-	v.form = node_or_selector;
+    // form
+    v.form = node_or_selector;
 
-	if (!(v.form instanceof jQuery))
-	{
-		v.form = jQuery( v.form );
-	}
+    if (!(v.form instanceof jQuery))
+    {
+        v.form = jQuery( v.form );
+    }
 
     if (v.form.length > 1)
     {
@@ -23,45 +23,45 @@ var Validator = function( node_or_selector, options )
     v.options = jQuery.extend( { ui : true }, options );
 
 
-	// attach click events to submit elements
+    // attach click events to submit elements
     v.form.delegate('input[type="submit"], input[type="image"], button', 'click', function(event)
     {
-		var target = jQuery( event.target );
+        var target = jQuery( event.target );
 
-		// webkit sends inner button elements as event targets instead of the button
-		// so catch if the click is inside a button element and change the target if needed
-		var closest_button = target.closest('button');
-		if (closest_button.length > 0)
-		{
-		    target = closest_button;
-		}
+        // webkit sends inner button elements as event targets instead of the button
+        // so catch if the click is inside a button element and change the target if needed
+        var closest_button = target.closest('button');
+        if (closest_button.length > 0)
+        {
+            target = closest_button;
+        }
 
-		// register only submit buttons - buttons with type="submit" or without type attribute at all
-		// direct target[0].type property is used because of inconsistent attr() method return values
-		// between older and newer jQuery versions
+        // register only submit buttons - buttons with type="submit" or without type attribute at all
+        // direct target[0].type property is used because of inconsistent attr() method return values
+        // between older and newer jQuery versions
         if (target.is( 'button' ) && target[0].type != 'submit' )
-		{
-			return;
-		}
-		v.clicked_button = target;
+        {
+            return;
+        }
+        v.clicked_button = target;
     });
 
-	// submit
-	v.form.submit(function( event )
-	{
+    // submit
+    v.form.submit(function( event )
+    {
         if ( window.FormData !== undefined )
         {
             event.preventDefault();
             v.validate_form();
         }
-	});
+    });
 
     v.form.on('validationstart', function( event, validator, event_params )
     {
-		if (validator !== v || event.isDefaultPrevented() || !v.form[0])
-		{
-			return;
-		}
+        if (validator !== v || event.isDefaultPrevented() || !v.form[0])
+        {
+            return;
+        }
 
         var url = v.form.attr('action');
 
@@ -178,10 +178,10 @@ var Validator = function( node_or_selector, options )
 
     jQuery( document ).on( 'validationok validationerror validationfail', 'form', function( event, validator, event_params )
     {
-		if (validator !== v || event.isDefaultPrevented() || !v.form[0])
-		{
-			return;
-		}
+        if (validator !== v || event.isDefaultPrevented() || !v.form[0])
+        {
+            return;
+        }
 
         switch (event.type)
         {
@@ -202,7 +202,7 @@ var Validator = function( node_or_selector, options )
 
                 break;
 
-            case 'validationfail':  	// fail (internal validation failure, not a user error)
+            case 'validationfail':      // fail (internal validation failure, not a user error)
 
                 v.submit_form();
 
@@ -210,7 +210,7 @@ var Validator = function( node_or_selector, options )
         }
     });
 
-}
+};
 
 Validator.prototype.logError = function( msg )
 {
@@ -222,7 +222,7 @@ Validator.prototype.logError = function( msg )
     var f = ('error' in console) ? 'error' : 'log';
     console[f](msg);
 
-}
+};
 
 Validator.prototype.validate_form = function()
 {
@@ -235,11 +235,11 @@ Validator.prototype.validate_form = function()
 
     v.form.trigger( 'beforevalidation', [ v, event_params ]);
     v.form.trigger( 'validationstart', [ v, event_params ]);
-}
+};
 
 Validator.prototype.submit_form = function()
 {
-	var v = this;
+    var v = this;
 
     // append clicked button as a hidden field
     // because no button value will be sent when submitting the form via .submit()
@@ -251,4 +251,4 @@ Validator.prototype.submit_form = function()
         input.appendTo(v.form);
     }
     v.form[0].submit();
-}
+};
