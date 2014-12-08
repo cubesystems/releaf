@@ -41,7 +41,7 @@ class Releaf::Builders::IndexBuilder
     return if parts.empty?
 
     url = url_for( controller: controller_name, action: "index" )
-    tag(:form, class: ["search clearInside", (text_search_available? ? 'has-text-search' : '')], action: url) do
+    tag(:form, class: ["search clear-inside", (text_search_available? ? 'has-text-search' : '')], action: url) do
       parts
     end
   end

@@ -20,10 +20,6 @@ html
 body
 {
     min-height: 100%;
-}
-
-body
-{
     font-size:   14px;
     line-height: 1.5;
     background-color: #FFFFFF;
@@ -99,7 +95,7 @@ p
     margin: 0 0 10px 0;
 }
 
-.clearInside:after
+.clear-inside:after
 {
     content: '\00a0';
     display: block;
