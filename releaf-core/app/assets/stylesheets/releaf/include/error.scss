@@ -1,19 +1,17 @@
-
-
-main > .body.error
+section.error
 {
     font-family: 'robotoregular';
     padding: 63px 0 0 79px;
 }
 
-main > .body.error h1
+section.error h1
 {
     font-size: 32px;
     position: relative;
     left: -2px;
 }
 
-main > .body.error h1 i
+section.error h1 i
 {
     color: #ef3d64;
     font-size: 25px;
@@ -23,7 +21,7 @@ main > .body.error h1 i
     margin-bottom: 11px;
 }
 
-main > .body.error .description
+section.error .description
 {
     color: #616161;
     max-width: 500px;
@@ -32,7 +30,7 @@ main > .body.error .description
     margin: 0 0 18px 0;
 }
 
-main > .body.error a.return
+section.error a.return
 {
     font-size: 13px;
     font-weight: bold;
