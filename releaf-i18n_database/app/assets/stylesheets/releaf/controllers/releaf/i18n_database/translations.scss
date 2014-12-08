@@ -1,3 +1,19 @@
+.controller-releaf-i18n-database-translations.view-edit section
+{
+    padding: 0;
+}
+
+.controller-releaf-i18n-database-translations.view-edit section form,
+.controller-releaf-i18n-database-translations.view-edit section form > footer
+{
+    max-width: none;
+}
+
+.controller-releaf-i18n-database-translations.view-edit section form > .body
+{
+    border: none;
+}
+
 /* header */
 .controller-releaf-i18n-database-translations.view-edit .table .code-header,
 .controller-releaf-i18n-database-translations.view-import .table .code-header
