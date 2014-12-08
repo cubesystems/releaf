@@ -12,7 +12,7 @@ module Releaf::Content
     end
 
     def render_content_type
-      input = {disabled: true, value: I18n.t(object.content_type.underscore, scope: 'admin.content_types')}
+      input = {disabled: true, value: t(object.content_type.underscore, scope: 'admin.content_types')}
       releaf_text_field(:content_type, input: input)
     end
 
@@ -39,8 +39,8 @@ module Releaf::Content
     end
 
     def item_position_select_options
-      after_text = I18n.t('After', scope: 'admin.global')
-      list = [[I18n.t('First', scope: 'admin.global'), 0]]
+      after_text = t('After', scope: 'admin.global')
+      list = [[t('First', scope: 'admin.global'), 0]]
       controller.instance_variable_get(:@order_nodes).each do |node|
         list.push [after_text + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
       end
