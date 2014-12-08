@@ -1,4 +1,4 @@
-/* apply releaf button styles */
+/* releaf buttons */
 .button
 {
     cursor:pointer;
@@ -88,7 +88,7 @@
 
 
 
-/* Inputs */
+/* form controls */
 .label-wrap
 {
     padding: 5px 0;
@@ -105,6 +105,7 @@ input[type="password"]
     border: 1px solid #d4d4d4;
     outline: none;
     font-weight: bold;
+    font-size: 13px;
 }
 
 input[type="email"],
@@ -157,6 +158,3 @@ input[type="passwod"]:focus
     background-color: #ffffff;
     border: 1px solid #6c6c6c;
 }
-
-
-

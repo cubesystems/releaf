@@ -95,7 +95,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
                                              sortable_objects: sortable_objects, subfields: fields)
     item_template = html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
-    tag(:section, class: "type-nested", data: {name: association_name, "releaf-template" => item_template}) do
+    tag(:section, class: "nested", data: {name: association_name, "releaf-template" => item_template}) do
       [releaf_has_many_association_header(association_name),
        releaf_has_many_association_body(association_name, sortable_objects, reflection, fields),
        releaf_has_many_association_footer(association_name)]

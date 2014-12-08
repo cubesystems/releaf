@@ -68,33 +68,6 @@ p
     height: 0px;
 }
 
-.header
-{
-    font-family: 'robotoregular';
-    font-weight: normal;
-    color: #fff;
-    font-size: 20px;
-    background-color: #282828;
-    padding: 5px 17px;
-    margin-top: 20px;
-    position: relative;
-}
-
-.header *
-{
-    font-family: Arial, helvetica, sans-serif;
-}
-
-.subheader
-{
-    font-size: 20px;
-    font-weight: normal;
-    color: #1d1d1d;
-    background: transparent;
-    padding: 12px 0 7px 0;
-    margin: 0 0 10px 0;
-}
-
 .clear-inside:after
 {
     content: '\00a0';

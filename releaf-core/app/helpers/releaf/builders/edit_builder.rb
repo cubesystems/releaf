@@ -25,7 +25,7 @@ class Releaf::Builders::EditBuilder
 
   def section_header_extras
     return unless feature_available? :toolbox
-    tag(:div, class: "toolbox-wrap") do
+    tag(:div, class: "extras toolbox-wrap") do
       toolbox(resource, index_url: index_url)
     end
   end

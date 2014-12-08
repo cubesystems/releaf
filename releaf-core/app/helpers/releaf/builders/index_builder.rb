@@ -52,13 +52,13 @@ class Releaf::Builders::IndexBuilder
 
   def section_header_extras
     return unless collection.respond_to? :total_entries
-    tag(:span, class: "totals") do
+    tag(:span, class: "extras totals") do
       "#{collection.total_entries} #{t("resources_found", scope: 'admin.global')}"
     end
   end
 
   def footer_blocks
-    list = [footer_primary_block]
+    list = [ footer_primary_block ]
     list << pagination if pagination?
     list << footer_secondary_block
     list

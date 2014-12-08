@@ -55,7 +55,7 @@ EDIT ACTION:
                             .field
                     footer (optional)
                         = block extra buttons etc
-                section.type-nested         - multiple item blocks
+                section.nested         - multiple item blocks
                     header (non-black)
                         h1 = nested items title
                         = custom nested header extras
@@ -67,7 +67,7 @@ EDIT ACTION:
                                 < same as "belongs to" above >
                             section
                                 < same as custom grouping above >
-                            section.type-nested
+                            section.nested
                                 < RECURSION >
                         fieldset.item
                             ...
@@ -145,13 +145,13 @@ CSS:
     because an immediate child selector is needed so as not to affect any nested sections
 */
 
-section:not(.type-nested) > header,   /* better to use :not(), so that further section.type-nested > header does not have to undo all this */
+section:not(.nested) > header,   /* better to use :not(), so that further section.nested > header does not have to undo all this */
 section > form > header
 {
     black
 }
 
-section:not(.type-nested) > .body,
+section:not(.nested) > .body,
 section > form > .body
 {
     border
@@ -165,17 +165,17 @@ fieldset
 /*
     nested sections will not have their own forms, therefore a single selector is enough
 */
-section.type-nested > header
+section.nested > header
 {
     not black
 }
 
-section.type-nested > .body
+section.nested > .body
 {
     no border
 }
 
-section.type-nested > .body > .item    /* in nested item sections the borders are on the fieldsets/items instead of .body */
+section.nested > .body > .item    /* in nested item sections the borders are on the fieldsets/items instead of .body */
 {
     border
 }
