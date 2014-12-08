@@ -10,7 +10,6 @@ jQuery(function()
             {
                 var url = new url_builder().add({page: val}).getUrl();
                 window.location.href = url;
-                console.log(url);
             }
         });
     });

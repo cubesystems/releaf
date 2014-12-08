@@ -118,10 +118,7 @@ jQuery(function()
             {
                 var block = options.result_blocks[ key ];
 
-                console.log( block.result_selector );
-                console.log(response);
                 var content = response.find( block.result_selector ).first().html();
-                console.log( content );
 
                 jQuery( block.target ).html( content );
 
