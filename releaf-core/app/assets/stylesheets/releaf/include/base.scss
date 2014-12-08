@@ -1,14 +1,14 @@
 html, body
 {
-	margin:  0;
-	padding: 0;
-  position: relative;
+    margin:  0;
+    padding: 0;
+    position: relative;
 }
 
 body, input, select, textarea, button, pre
 {
-	font-family: Arial, helvetica, sans-serif;
-  font-size:   100%;
+    font-family: Arial, helvetica, sans-serif;
+    font-size:   100%;
 }
 
 html
@@ -20,10 +20,6 @@ html
 body
 {
     min-height: 100%;
-}
-
-body
-{
     font-size:   14px;
     line-height: 1.5;
     background-color: #FFFFFF;
@@ -38,13 +34,13 @@ h1, h2, h3, h4, h5, h6, form
 
 a
 {
-  color: #37b1a7;
-	text-decoration: underline;
+    color: #37b1a7;
+    text-decoration: underline;
 }
 
 a img
 {
-	border: none;
+    border: none;
 }
 
 p
@@ -72,39 +68,13 @@ p
     height: 0px;
 }
 
-.header
+.clear-inside:after
 {
-    font-family: 'robotoregular';
-    font-weight: normal;
-    color: #fff;
-    font-size: 20px;
-    background-color: #282828;
-    padding: 5px 17px;
-    margin-top: 20px;
-    position: relative;
-}
-.header *
-{
-    font-family: Arial, helvetica, sans-serif;
-}
-
-.subheader
-{
-    font-size: 20px;
-    font-weight: normal;
-    color: #1d1d1d;
-    background: transparent;
-    padding: 12px 0 7px 0;
-    margin: 0 0 10px 0;
-}
-
-.clearInside:after
-{
-	content: '\00a0';
-	display: block;
-	clear: both;
-	height: 0;
-	visibility: hidden;
+    content: '\00a0';
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
 }
 
 /* reset native button and link styles */
@@ -112,12 +82,12 @@ button,
 input[type="button"],
 input[type="submit"]
 {
-	cursor: pointer;
+    cursor: pointer;
     background: transparent;
-	border: none;
-	padding: 0;
+    border: none;
+    padding: 0;
     margin: 0;
-	box-shadow: none;
+    box-shadow: none;
     color: inherit;
 }
 

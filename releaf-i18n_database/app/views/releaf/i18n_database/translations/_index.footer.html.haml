@@ -1,8 +1,0 @@
-%footer
-  .tools
-    .primary
-      = releaf_button(t('Edit', scope: 'admin.global'), "edit", class: "edit", class: "primary", href: url_for(action: :edit, search: params[:search]))
-    - if collection.respond_to?(:page)
-      = will_paginate( collection, class: "pagination",  params: params.merge({ajax: nil}), renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2 )
-    .secondary
-      = render partial: "index.footer.extras"

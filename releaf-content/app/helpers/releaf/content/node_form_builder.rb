@@ -1,5 +1,5 @@
 module Releaf::Content
-  class NodeFormBuilder < Releaf::FormBuilder
+  class NodeFormBuilder < Releaf::Builders::FormBuilder
     def render_locale
       releaf_item_field(:locale, options: render_locale_options)
     end
@@ -12,13 +12,14 @@ module Releaf::Content
     end
 
     def render_content_type
-      input = {disabled: true, value: I18n.t(object.content_type.underscore, scope: 'admin.content_types')}
+      input = {disabled: true, value: t(object.content_type.underscore, scope: 'admin.content_types')}
       releaf_text_field(:content_type, input: input)
     end
 
     def render_slug
+      url = url_for(controller: "/releaf/content/nodes", action: "generate_url", parent_id: object.parent_id, id: object.id)
       input = {
-        data: {'generator-url' => template.generate_url_releaf_content_nodes_path(parent_id: object.parent_id, id: object.id)}
+        data: {'generator-url' => url}
       }
 
       releaf_field(:slug, input: input) do
@@ -33,14 +34,14 @@ module Releaf::Content
     def item_position_options
       {
         include_blank: false,
-        select_options: template.options_for_select(item_position_select_options, object.item_position)
+        select_options: options_for_select(item_position_select_options, object.item_position)
       }
     end
 
     def item_position_select_options
-      after_text = I18n.t('After', scope: 'admin.global')
-      list = [[I18n.t('First', scope: 'admin.global'), 0]]
-      template.controller.instance_variable_get(:@order_nodes).each do |node|
+      after_text = t('After', scope: 'admin.global')
+      list = [[t('First', scope: 'admin.global'), 0]]
+      controller.instance_variable_get(:@order_nodes).each do |node|
         list.push [after_text + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
       end
 
@@ -48,11 +49,11 @@ module Releaf::Content
     end
 
     def slug_base_url
-      "#{template.request.protocol}#{template.request.host_with_port}#{object.parent.try(:url)}/"
+      "#{request.protocol}#{request.host_with_port}#{object.parent.try(:url)}/"
     end
 
     def slug_link
-      template.link_to(object.url) do
+      link_to(object.url) do
         safe_join do
           [slug_base_url, tag(:span, object.slug), '/']
         end
@@ -60,8 +61,7 @@ module Releaf::Content
     end
 
     def slug_button
-      attributes = {title: I18n.t('Suggest slug', scope: template.controller_scope_name), class: "secondary generate"}
-      template.releaf_button(nil, "keyboard-o", attributes)
+      button(nil, "keyboard-o", title: t('Suggest slug'), class: "secondary generate")
     end
   end
 end

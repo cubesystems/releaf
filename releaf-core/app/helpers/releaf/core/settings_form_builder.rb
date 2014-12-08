@@ -1,5 +1,5 @@
 module Releaf::Core
-  class SettingsFormBuilder < Releaf::FormBuilder
+  class SettingsFormBuilder < Releaf::Builders::FormBuilder
     def field_names
       [:value]
     end

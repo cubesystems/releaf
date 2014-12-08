@@ -1,6 +1,0 @@
-- unless resource.new_record?
-  %li= releaf_button(t('Add child', scope: controller_scope_name), "plus lg", class: "ajaxbox", href: url_for(action: "new", parent_id: resource.id))
-  - unless params[:context] == "index"
-    %li= releaf_button(t('Go to', scope: controller_scope_name), "external-link lg", class: "ajaxbox", href: url_for(action: "go_to_dialog"))
-  %li= releaf_button(t('Copy', scope: controller_scope_name), "copy lg", class: "ajaxbox", href: url_for(action: "copy_dialog", id: resource.id))
-  %li= releaf_button(t('Move', scope: controller_scope_name), "arrows lg", class: "ajaxbox", href: url_for(action: "move_dialog", id: resource.id))

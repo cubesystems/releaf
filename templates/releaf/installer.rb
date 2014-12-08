@@ -50,6 +50,7 @@ run "rm -f #{files_to_remove.join(' ')}"
 run 'rm -f "Gemfile" "public/robots.txt" ".gitignore"'
 # in "test" env "true" cause to fail on install generators
 gsub_file 'config/environments/test.rb', 'config.cache_classes = true', 'config.cache_classes = false'
+gsub_file 'config/environments/development.rb', 'config.assets.debug = true', 'config.assets.debug = false'
 rake 'db:create'
 
 generate "releaf:install"

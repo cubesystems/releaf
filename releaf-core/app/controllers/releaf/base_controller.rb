@@ -37,7 +37,9 @@ module Releaf
       :resource_class,
       :resource_to_text,
       :resource_to_text_method,
-      :resource_edit_url
+      :resource_edit_url,
+      :feature_available?,
+      :builder_class
 
     def search text
       return if text.blank?
@@ -83,7 +85,7 @@ module Releaf
         format.html do
           unless destroyable?
             @restrict_relations = list_restrict_relations
-            render 'delete_restricted'
+            render 'refused_destroy'
           end
         end
       end
@@ -94,7 +96,7 @@ module Releaf
 
       respond_to do |format|
         format.html do
-          render partial: 'toolbox.items', locals: { resource: @resource }
+          render 'toolbox', locals: { resource: @resource }
         end
       end
     end
@@ -274,17 +276,13 @@ module Releaf
       }
     end
 
-    def form_builder_class(form_type, object)
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, :form)
-    end
-
-    def table_builder_class
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, :table)
+    def builder_class(builder_type)
+      Releaf::Builders.builder_class(self.class, resource_class, builder_type)
     end
 
     def form_options(form_type, object, object_name)
       {
-        builder: form_builder_class(form_type, object),
+        builder: builder_class(:form),
         as: object_name,
         url: form_url(form_type, object),
         html: form_attributes(form_type, object, object_name)
@@ -293,7 +291,7 @@ module Releaf
 
     def table_options
       {
-        builder: table_builder_class,
+        builder: builder_class(:table),
         toolbox: feature_available?(:toolbox)
       }
     end
@@ -311,6 +309,10 @@ module Releaf
 
     def mass_assigment_action?
       mass_assigment_actions.include? params[:action]
+    end
+
+    def feature_available? feature
+      @features[feature].present?
     end
 
     protected
@@ -386,10 +388,6 @@ module Releaf
         confirm_destroy: :destroy,
         destroy: :destroy
       }.with_indifferent_access
-    end
-
-    def feature_available? feature
-      @features[feature].present?
     end
 
     def render_notification status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed", now: false

@@ -12,14 +12,16 @@ feature "Base controller edit", js: true do
     click_link("good book")
     open_toolbox("Delete")
     click_button("Yes")
-    expect(page).to have_css('main > .table th .nothing-found', :count => 1, :text => "Nothing found")
+    expect(page).to have_number_of_resources(0)
   end
 
   scenario "when deleting item with restrict relation" do
     visit edit_admin_author_path @author
     open_toolbox("Delete")
 
-    expect(page).to have_css('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :count => 2)
+    within_dialog do
+      expect(page).to have_css('.restricted-relations .relations li', count: 2)
+    end
   end
 
   scenario "drag and drop nested items with ckeditors" do
@@ -30,9 +32,10 @@ feature "Base controller edit", js: true do
     visit edit_admin_author_path @author
     open_toolbox("Delete")
 
-    find('.delete-restricted-dialog.dialog .content .restricted-relations .relations li', :text => "good book").click
-
-    expect(page).to have_css('.view-edit h2.header', text: "good book")
+    within_dialog do
+      find('.restricted-relations .relations li a', text: "good book").click
+    end
+    expect(page).to have_header(text: "good book")
   end
 
   scenario "remember last active locale for localized fields" do
@@ -63,25 +66,26 @@ feature "Base controller edit", js: true do
     expect(page).to_not have_link("Back to list")
   end
 
-  scenario "editing nested object with :allow_destroy => false" do
+  scenario "editing nested object with allow_destroy: false" do
     visit admin_book_path(id: @good_book.id)
     expect(page).to_not have_css('.remove-nested-item')
 
-    find('.add-nested-item').click
-    expect(page).to have_css('.remove-nested-item')
+    update_resource do
+      find('.add-nested-item').click
+      expect(page).to have_css('.remove-nested-item')
+      fill_in 'resource_chapters_attributes_0_title', with: 'Chapter 1'
+      fill_in 'resource_chapters_attributes_0_text', with: 'todo'
+      fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
+    end
 
-    fill_in 'resource_chapters_attributes_0_title', :with => 'Chapter 1'
-    fill_in 'resource_chapters_attributes_0_text', :with => 'todo'
-    fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
-
-    save_and_check_response "Update succeeded"
     expect(page).to_not have_css('.remove-nested-item')
     expect(page).to have_css('#resource_chapters_attributes_0_title[value="Chapter 1"]')
   end
 
   scenario "adding nested objects" do
     visit new_admin_book_path
-    within "form.new-resource" do
+
+    create_resource do
       fill_in "Title", with: "Master and Margarita"
       within "[data-name='chapters']" do
 
@@ -96,7 +100,6 @@ feature "Base controller edit", js: true do
         fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
       end
     end
-    save_and_check_response "Create succeeded"
 
     new_book = Book.where(title: "Master and Margarita").first
     expect( new_book.chapters.count ).to eq 1

@@ -178,20 +178,9 @@ jQuery(function(){
             }
             else if ('getResponseHeader' in event_params.response)
             {
-                // html content returned, replace main form if found in response
-
-                var form_id = form.attr('id');
-                if (!form_id)
-                {
-                    return;
-                }
-
-                var form_selector = 'form#' + form_id;
-
                 event.preventDefault(); // prevent validator's built in submit_form on ok
 
-                body.trigger('contentreplace', [ event_params.response, form_selector ])
-
+                body.trigger('contentreplace', [ event_params.response, "main" ])
             }
 
         });

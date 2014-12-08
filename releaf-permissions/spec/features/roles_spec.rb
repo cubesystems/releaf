@@ -8,23 +8,31 @@ feature "Roles management", js: true do
   scenario "User creates a new role" do
     visit releaf_permissions_roles_path
     click_link "Create new resource"
-    fill_in("Name", with: "second role")
-    select('Releaf/content/nodes', from: 'Default controller')
-    save_and_check_response('Create succeeded')
+    create_resource do
+      fill_in("Name", with: "second role")
+      select('Releaf/content/nodes', from: 'Default controller')
+    end
+    visit releaf_permissions_roles_path
+    expect(page).to have_content "second role"
   end
 
   scenario "User updates an existing role" do
     visit releaf_permissions_roles_path
     click_link @role.name
-    fill_in("Name", with: "new name")
-    save_and_check_response('Update succeeded')
+    update_resource do
+      fill_in("Name", with: "new name")
+    end
+
+    visit releaf_permissions_roles_path
+    expect(page).to have_content "new name"
   end
 
   scenario "User changes the default controller of a role" do
     visit releaf_permissions_roles_path
     click_link @role.name
-    select('Admin/books', from: 'Default controller')
-    save_and_check_response('Update succeeded')
+    update_resource do
+      select('Admin/books', from: 'Default controller')
+    end
 
     expect(page).to have_select('Default controller', selected: 'Admin/books')
   end
@@ -32,8 +40,9 @@ feature "Roles management", js: true do
   scenario "User changes permissions of a role controller" do
     visit releaf_permissions_roles_path
     click_link @role.name
-    uncheck('Admin/books')
-    save_and_check_response('Update succeeded')
+    update_resource do
+      uncheck('Admin/books')
+    end
 
     Releaf.available_controllers.each do |controller|
       if controller == "admin/books"

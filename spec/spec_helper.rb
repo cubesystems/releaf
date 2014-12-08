@@ -32,6 +32,7 @@ require 'capybara/poltergeist'
 require 'shoulda-matchers'
 require 'with_model'
 require 'timecop'
+require 'releaf/rspec'
 
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
