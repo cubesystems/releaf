@@ -1,13 +1,10 @@
 jQuery(function()
 {
     var body = jQuery('body');
-
     body.on('contentloaded', function(e)
     {
-        console.log( jQuery(e.target).find('#page_select') );
-        jQuery(e.target).find('#page_select').on('click', function()
+        jQuery(e.target).find('#page_select').on('change', function()
         {
-            console.log('wat');
             var val = jQuery(this).val();
             if (val)
             {
@@ -16,7 +13,6 @@ jQuery(function()
                 console.log(url);
             }
         });
-        console.log( jQuery(e.target).find('#page_select') );
     });
 
 });
