@@ -2,7 +2,7 @@ module Capybara
   class Session
 
     def primary_header_css_rule
-      "header"  #TODO: more specific css rules to match primary header
+      "main > section header"
     end
 
     def has_header?(*args)
