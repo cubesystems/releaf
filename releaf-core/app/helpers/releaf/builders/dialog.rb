@@ -13,4 +13,9 @@ module Releaf::Builders::Dialog
   def dialog_name
     self.class.name.split("::").last.gsub(/DialogBuilder$/, "").underscore.dasherize
   end
+
+  def section_footer_class
+    nil
+  end
+
 end

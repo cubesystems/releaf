@@ -81,10 +81,15 @@ module Releaf::Builders::View
   def section_body; end
 
   def section_footer
-    tag(:footer, class: :main) do
+    tag(:footer, class: section_footer_class) do
       footer_tools
     end
   end
+
+  def section_footer_class
+    :main
+  end
+
 
   def footer_tools
     tag(:div, class: "tools") do

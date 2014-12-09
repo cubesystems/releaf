@@ -35,4 +35,11 @@ describe Releaf::Builders::Dialog, type: :class do
       expect(subject.dialog_name).to eq("unit-test")
     end
   end
+
+  describe "#section_footer_class" do
+    it "returns nil" do
+      expect(subject.section_footer_class).to be_nil
+    end
+  end
+
 end
