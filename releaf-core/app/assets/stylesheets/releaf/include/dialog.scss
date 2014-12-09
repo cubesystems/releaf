@@ -132,21 +132,22 @@ main .dialog
     width: 490px;
 }
 
-.dialog.confirm-destroy section.body
+.dialog.confirm-destroy .body
 {
     padding: 37px 10px 55px;
     text-align: center;
 }
 
-.dialog.refused-destroy section.body
+.dialog.refused-destroy .body
 {
     padding: 37px 10px 25px;
     text-align: center;
 }
 
-.dialog.confirm-destroy section.body i,
-.dialog.refused-destroy section.body i
+.dialog.confirm-destroy .body i,
+.dialog.refused-destroy .body i
 {
+
     display: block;
     margin: 0 auto;
     border-radius: 40px;
@@ -160,8 +161,8 @@ main .dialog
     margin-bottom: 22px;
 }
 
-.dialog.confirm-destroy section.body .question,
-.dialog.refused-destroy section.body .message
+.dialog.confirm-destroy .body .question,
+.dialog.refused-destroy .body .message
 {
     font-size: 2.2857em;
     line-height: 1.25em;
@@ -170,7 +171,7 @@ main .dialog
     font-weight: normal;
 }
 
-.dialog.confirm-destroy section.body .description
+.dialog.confirm-destroy .body .description
 {
     color: #37b1a7;
     font-size: 1em;
@@ -178,7 +179,7 @@ main .dialog
     font-weight: bold;
 }
 
-.dialog.refused-destroy section.body .restricted-relations
+.dialog.refused-destroy .body .restricted-relations
 {
     margin-top: 10px;
     height: 95px;
