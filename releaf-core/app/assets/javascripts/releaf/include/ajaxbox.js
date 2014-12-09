@@ -28,7 +28,7 @@ jQuery(document).ready( function()
                 // enable drag with header
                 if( this.wrap.draggable !== undefined )
                 {
-                    this.wrap.draggable({ handle: this.inner.find('.body .header').first() });
+                    this.wrap.draggable({ handle: this.inner.find('section > header').first() });
                 }
 
                 // insert close button if header exists and box is not modal
@@ -38,7 +38,7 @@ jQuery(document).ready( function()
 
                     if (params.type != 'image')
                     {
-                        close_container =  this.inner.find('.body .header').first();
+                        close_container =  this.inner.find('section > header').first();
                     }
 
                     if (close_container.length > 0)
@@ -54,7 +54,7 @@ jQuery(document).ready( function()
                 }
 
                 // focus on cancel button in footer if found
-                var cancel_button = this.inner.find('.body .footer .button[data-type="cancel"]').first();
+                var cancel_button = this.inner.find('section > footer .button[data-type="cancel"]').first();
                 if (cancel_button.length > 0)
                 {
                     cancel_button.bind('click', function()
