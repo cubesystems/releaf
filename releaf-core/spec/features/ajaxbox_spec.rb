@@ -28,4 +28,7 @@ feature "Ajaxbox", js: true do
 
   scenario "Ajaxbox modality (background is not clickable)", pending: true do
   end
+
+  scenario "Ajaxbox single image view", pending: true do
+  end
 end
