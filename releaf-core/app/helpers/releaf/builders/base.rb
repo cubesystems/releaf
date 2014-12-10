@@ -6,6 +6,7 @@ module Releaf::Builders::Base
     :current_admin_user, :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
     :render, :link_to, :flash, :truncate, :toolbox, :radio_button_tag,
     :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
+    :select_tag, :text_field_tag,
     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
 
   delegate :controller_scope_name, :feature_available?, :index_url, :resource_to_text, to: :controller
