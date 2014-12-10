@@ -3,8 +3,15 @@ class Releaf::Builders
 
     builder_name = builder_class_name(controller_class.name, model_class.name, builder_type)
 
-    unless (Object.const_get(builder_name).is_a?(Class) rescue false)
-      builder_name = "Releaf::Builders::#{builder_type.to_s.camelize}Builder"
+    begin
+      Object.const_get(builder_name).is_a?(Class)
+    rescue => e
+      builder_name_error = "uninitialized constant #{builder_name}"
+      if e.message == builder_name_error
+        builder_name = "Releaf::Builders::#{builder_type.to_s.camelize}Builder"
+      else
+        raise e
+      end
     end
 
     builder_name.constantize

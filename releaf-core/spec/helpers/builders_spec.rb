@@ -11,6 +11,14 @@ describe Releaf::Builders, type: :class do
         expect(described_class.builder_class(Admin::AuthorsController, Author, :form)).to eq(Releaf::Builders::FormBuilder)
       end
     end
+
+    context "when custom error throwed" do
+      it "do not catch it and reraise" do
+        allow(Object).to receive(:const_get).and_call_original
+        allow(Object).to receive(:const_get).with("Admin::AuthorFormBuilder").and_raise(NameError, "xx")
+        expect{ described_class.builder_class(Admin::AuthorsController, Author, :form) }.to raise_error(NameError, "xx")
+      end
+    end
   end
 
   describe ".builder_class_name" do
