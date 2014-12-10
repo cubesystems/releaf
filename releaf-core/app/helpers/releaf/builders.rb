@@ -7,10 +7,10 @@ class Releaf::Builders
       Object.const_get(builder_name).is_a?(Class)
     rescue => e
       builder_name_error = "uninitialized constant #{builder_name}"
-      if e.message == builder_name_error
+      if e.class == NameError && e.message == builder_name_error
         builder_name = "Releaf::Builders::#{builder_type.to_s.camelize}Builder"
       else
-        raise e
+        raise
       end
     end
 

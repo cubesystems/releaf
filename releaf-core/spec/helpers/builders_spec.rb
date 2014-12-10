@@ -13,10 +13,13 @@ describe Releaf::Builders, type: :class do
     end
 
     context "when custom error throwed" do
-      it "do not catch it and reraise" do
+      it "reraises it" do
         allow(Object).to receive(:const_get).and_call_original
-        allow(Object).to receive(:const_get).with("Admin::AuthorFormBuilder").and_raise(NameError, "xx")
-        expect{ described_class.builder_class(Admin::AuthorsController, Author, :form) }.to raise_error(NameError, "xx")
+        allow(Object).to receive(:const_get).with("Admin::AuthorFormBuilder").and_raise(ArgumentError, "xx")
+        expect{ described_class.builder_class(Admin::AuthorsController, Author, :form) }.to raise_error(ArgumentError, "xx")
+
+        allow(Object).to receive(:const_get).with("Admin::AuthorFormBuilder").and_raise(NameError, "uninitialized constant asdasd")
+        expect{ described_class.builder_class(Admin::AuthorsController, Author, :form) }.to raise_error(NameError, "uninitialized constant asdasd")
       end
     end
   end
