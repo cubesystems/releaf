@@ -1,13 +1,17 @@
 form.search
 {
-    border-bottom: 2px solid #e6e6e6;
     min-height: 20px;
+    border-bottom: 2px solid #e6e6e6;
 }
 
 form.search.has-text-search
 {
     position: relative;
     margin-top: -29px;
+}
+form.search.has-extra-search
+{
+    border-bottom: none;
 }
 
 form.search .text-search
@@ -52,6 +56,8 @@ form.search .extras
     border-top: none;
     background-color: #f6f6f6;
     padding: 23px;
+    clear: both;
+    border-top: 2px solid #e6e6e6;
 }
 
 form.search .extras button

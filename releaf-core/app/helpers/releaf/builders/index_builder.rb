@@ -10,6 +10,10 @@ class Releaf::Builders::IndexBuilder
     template_variable("searchable_fields").present?
   end
 
+  def extra_search_available?
+    extra_search.present?
+  end
+
   def text_search
     return unless text_search_available?
     tag(:div, class: "text-search") do
@@ -31,17 +35,20 @@ class Releaf::Builders::IndexBuilder
   def extra_search
     content = extra_search_content
     return unless content.present?
-    tag(:div, class: "extras") do
+    @extra_search ||= tag(:div, class: "extras clear-inside") do
       [content, extra_search_button]
     end
   end
 
   def search
-    parts = [text_search, extra_search_content].compact
+    parts = [text_search, extra_search].compact
     return if parts.empty?
+    classes = ["search", "clear-inside"]
+    classes << "has-text-search" if text_search_available?
+    classes << "has-extra-search" if extra_search_available?
 
-    url = url_for( controller: controller_name, action: "index" )
-    tag(:form, class: ["search clear-inside", (text_search_available? ? 'has-text-search' : '')], action: url) do
+    url = url_for(controller: controller_name, action: "index")
+    tag(:form, class: classes, action: url) do
       parts
     end
   end

@@ -12,6 +12,14 @@ module Releaf::I18nDatabase
       end
     end
 
+    def extra_search_content
+      safe_join do
+        [
+          text_field_tag('loan_id', params[:loan_id], placeholder: t('id')),
+        ]
+      end
+    end
+
     def footer_primary_tools
       [edit_button]
     end
