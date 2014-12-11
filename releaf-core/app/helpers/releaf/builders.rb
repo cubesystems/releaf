@@ -24,7 +24,7 @@ class Releaf::Builders
     [
       controller_class_scope,
       "#{model_class_unscoped}#{builder_type.to_s.camelize}Builder"
-    ].join("::")
+    ].reject(&:empty?).join("::")
   end
 
 end

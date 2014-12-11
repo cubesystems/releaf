@@ -26,8 +26,9 @@ describe Releaf::Builders, type: :class do
 
   describe ".builder_class_name" do
     it "returns builder class name for given controller name, model name and builder type" do
-      expect(described_class.builder_class_name("Releaf::Permissions::UsersController", "Releaf::Permissions::User", :form)).to eq("Releaf::Permissions::UserFormBuilder")
+      expect(described_class.builder_class_name("UsersController", "User", :form)).to eq("UserFormBuilder")
       expect(described_class.builder_class_name("Admin::UsersController", "User", :form)).to eq("Admin::UserFormBuilder")
+      expect(described_class.builder_class_name("Releaf::Permissions::UsersController", "Releaf::Permissions::User", :form)).to eq("Releaf::Permissions::UserFormBuilder")
       expect(described_class.builder_class_name("Admin::Valuation::ApplicationController", "Valuation::Application", :table)).to eq("Admin::Valuation::ApplicationTableBuilder")
       expect(described_class.builder_class_name("Admin::Valuation::ApplicationController", "Valuation::Application", :new_dialog)).to eq("Admin::Valuation::ApplicationNewDialogBuilder")
     end
