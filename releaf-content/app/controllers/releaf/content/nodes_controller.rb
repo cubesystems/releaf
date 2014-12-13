@@ -173,12 +173,6 @@ module Releaf::Content
       end
     end
 
-    def load_content_types
-      @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort do |a, b|
-        I18n.t(a.name.underscore, scope: 'admin.content_types') <=> I18n.t(b.name.underscore, scope: 'admin.content_types')
-      end
-    end
-
     # Returns valid content type class
     def node_content_class
       unless ActsAsNode.classes.include? params[:content_type]
