@@ -15,8 +15,7 @@ feature "Users", js: true do
     end
 
     scenario "new user creation", js: true do
-      visit (releaf_permissions_users_path)
-      click_link 'Create new resource'
+      visit releaf_permissions_users_path
       create_resource do
         fill_in 'Name', with: "John"
         fill_in 'Surname', with: "Appleseed"

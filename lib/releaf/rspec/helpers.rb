@@ -30,6 +30,7 @@ module Releaf
     end
 
     def create_resource(&block)
+      click_link "Create new resource" unless first("form.new-resource")
       within "form.new-resource" do
         yield
       end

@@ -7,7 +7,6 @@ feature "Roles management", js: true do
 
   scenario "User creates a new role" do
     visit releaf_permissions_roles_path
-    click_link "Create new resource"
     create_resource do
       fill_in("Name", with: "second role")
       select('Releaf/content/nodes', from: 'Default controller')
