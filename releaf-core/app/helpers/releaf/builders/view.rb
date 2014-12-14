@@ -37,14 +37,17 @@ module Releaf::Builders::View
   end
 
   def breadcrumb_item(item, last)
+    content = []
+    if item[:url].present?
+      content << tag(:a, item[:name], href: item[:url])
+    else
+      content << item[:name]
+    end
+
+    content << fa_icon("small chevron-right") unless last
+
     tag(:li) do
-      if item[:url].present?
-        tag(:a, href: item[:url]) do
-          item[:name]
-        end
-      else
-        item[:name]
-      end << ( fa_icon("small chevron-right") unless last).to_s
+      safe_join{ content }
     end
   end
 
@@ -64,8 +67,6 @@ module Releaf::Builders::View
 
   def header_extras
   end
-
-
 
   def section_blocks
     [section_header, section_body, section_footer]
@@ -89,7 +90,6 @@ module Releaf::Builders::View
   def section_footer_class
     :main
   end
-
 
   def footer_tools
     tag(:div, class: "tools") do
