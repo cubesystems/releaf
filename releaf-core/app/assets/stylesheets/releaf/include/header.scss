@@ -11,14 +11,14 @@ body > header .home
     margin: 13px 0 0 13px;
 }
 
-body > header a.profile,
+body > header .profile,
 body > header form.sign-out
 {
   display: inline-block;
   margin-left: 1px;
 }
 
-body > header a.profile
+body > header .profile
 {
     position: relative;
     text-decoration: none;
@@ -28,20 +28,20 @@ body > header a.profile
     border-left: 1px solid #242424;
 }
 
-body > header a.profile:hover
+body > header .profile:hover
 {
     background-color: #242424;
     color: #fff;
 }
 
-body > header a.profile .name
+body > header .profile .name
 {
     position: absolute;
     top: 20px;
     left: 25px;
 }
 
-body > header a.profile .avatar
+body > header .profile .avatar
 {
     position: relative;
     top: 12px;
