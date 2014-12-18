@@ -3,7 +3,9 @@ class Releaf::Settings < RailsSettings::CachedSettings
     var
   end
 
-  def self.register_defaults args
+  def self.store_defaults args
+    @@defaults = @@defaults.merge!(args)
+
     return unless table_exists? # otherwise will get problems on project initalizers with fresh database
 
     args.each_pair do|key, value|

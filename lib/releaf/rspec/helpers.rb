@@ -22,6 +22,17 @@ module Releaf
       return user
     end
 
+    def stub_settings(values)
+      unless @releaf_settings_default_stubbed
+        allow(Releaf::Settings).to receive(:[]).and_call_original
+        @releaf_settings_default_stubbed = true
+      end
+
+      values.each_pair do|key, value|
+        allow(Releaf::Settings).to receive(:[]).with(key).and_return(value)
+      end
+    end
+
     def update_resource(&block)
       within "form.edit-resource" do
         yield
