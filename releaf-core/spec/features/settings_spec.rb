@@ -2,7 +2,7 @@ require 'spec_helper'
 feature "Settings", js: true do
   scenario "edit settings" do
     Releaf::Settings.destroy_all
-    Releaf::Settings.register_defaults("content.updated_at" => Time.parse("2014-07-01 14:33:59"), "content.title" => "some")
+    Releaf::Settings.store_defaults("content.updated_at" => Time.parse("2014-07-01 14:33:59"), "content.title" => "some")
     auth_as_user
 
     visit releaf_core_settings_path
