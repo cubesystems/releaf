@@ -251,6 +251,10 @@ module Releaf
       action_view(action_name)
     end
 
+    def action_errors(request_type)
+      Releaf::ErrorFormatter.format_errors(@resource)
+    end
+
     def resource_edit_url(resource)
       if feature_available?( :edit )
         url_for( action: :edit, id: resource.try(:id), index_url: index_url )
@@ -613,7 +617,7 @@ module Releaf
               render json: {url: success_url, message: flash["success"]["message"]}, status: 303
             end
           else
-            render json: Releaf::ErrorFormatter.format_errors(@resource), status: 422
+            render json: action_errors(request_type), status: 422
           end
         end
 
