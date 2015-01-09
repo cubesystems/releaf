@@ -1,5 +1,5 @@
-module Releaf::Content
-  class NodeEditBuilder < Releaf::Builders::EditBuilder
+module Releaf::Content::Nodes
+  class EditBuilder < Releaf::Builders::EditBuilder
     def section_body
       tag(:div, class: "body") do
         [error_notices, form_fields]

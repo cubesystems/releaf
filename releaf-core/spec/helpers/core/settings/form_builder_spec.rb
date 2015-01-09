@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Core::SettingsFormBuilder, type: :class do
+describe Releaf::Core::Settings::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
   let(:template){ FormBuilderTestHelper.new }
   let(:object){ Releaf::Settings.new }

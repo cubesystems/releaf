@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Content::NodeFormBuilder, type: :class do
+describe Releaf::Content::Nodes::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base
     include Releaf::ApplicationHelper
     include Releaf::ButtonHelper

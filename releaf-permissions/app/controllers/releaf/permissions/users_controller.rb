@@ -18,7 +18,6 @@ module Releaf::Permissions
     end
 
     def permitted_params
-      return [] unless %w[create update].include? params[:action]
       %w[name surname role_id email password password_confirmation locale]
     end
   end

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Permissions::UserFormBuilder, type: :class do
+describe Releaf::Permissions::Users::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
   let(:template){ FormBuilderTestHelper.new }
   let(:object){ Releaf::Permissions::Role.new }

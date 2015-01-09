@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::I18nDatabase::TranslationTableBuilder, type: :class do
+describe Releaf::I18nDatabase::Translations::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end
   let(:template){ TableBuilderTestHelper.new }
   let(:resource_class){ Releaf::I18nDatabase::Translation }

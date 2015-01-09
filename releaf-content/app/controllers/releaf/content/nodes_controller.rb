@@ -16,10 +16,6 @@ module Releaf::Content
       end
     end
 
-    def form_builder(form_type, object)
-      Releaf::Content::NodeFormBuilder
-    end
-
     def content_type_dialog
       @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort do |a, b|
         I18n.t(a.name.underscore, scope: 'admin.content_types') <=> I18n.t(b.name.underscore, scope: 'admin.content_types')

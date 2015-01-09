@@ -1,5 +1,5 @@
-module Releaf::Core
-  class SettingsTableBuilder < Releaf::Builders::TableBuilder
+module Releaf::Core::Settings
+  class TableBuilder < Releaf::Builders::TableBuilder
     def column_names
       [:var, :value, :updated_at]
     end

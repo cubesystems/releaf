@@ -1,5 +1,5 @@
-module Releaf::I18nDatabase
-  class TranslationIndexBuilder < Releaf::Builders::IndexBuilder
+module Releaf::I18nDatabase::Translations
+  class IndexBuilder < Releaf::Builders::IndexBuilder
 
     def text_search_content
       [search_only_blank_ui] + super

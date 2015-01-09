@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe Releaf::Permissions::ProfileFormBuilder, type: :class do
+describe Releaf::Permissions::Profile::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
   let(:template){ FormBuilderTestHelper.new }
   let(:object){ Releaf::Permissions::User.new }
   let(:subject){ described_class.new(:resource, object, template, {}) }
 
-  it "inherits Releaf::Permissions::UserFormBuilder" do
-    expect(described_class.superclass).to eq(Releaf::Permissions::UserFormBuilder)
+  it "inherits Releaf::Permissions::Users::FormBuilder" do
+    expect(described_class.superclass).to eq(Releaf::Permissions::Users::FormBuilder)
   end
 
   describe "#field_names" do

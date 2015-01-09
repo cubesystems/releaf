@@ -1,5 +1,5 @@
-module Releaf::I18nDatabase
-  class TranslationTableBuilder < Releaf::Builders::TableBuilder
+module Releaf::I18nDatabase::Translations
+  class TableBuilder < Releaf::Builders::TableBuilder
     def column_names
       [:key] + Releaf.all_locales
     end

@@ -281,7 +281,7 @@ module Releaf
     end
 
     def builder_class(builder_type)
-      Releaf::Builders.builder_class(self.class, resource_class, builder_type)
+      Releaf::Builders.builder_class(self.class, builder_type)
     end
 
     def form_options(form_type, object, object_name)

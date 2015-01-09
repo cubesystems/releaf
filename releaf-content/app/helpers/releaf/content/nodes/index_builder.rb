@@ -1,5 +1,5 @@
-module Releaf::Content
-  class NodeIndexBuilder < Releaf::Builders::IndexBuilder
+module Releaf::Content::Nodes
+  class IndexBuilder < Releaf::Builders::IndexBuilder
     include Releaf::Content::Builders::Tree
 
     def tree_resource_blocks(resource, level, expanded)

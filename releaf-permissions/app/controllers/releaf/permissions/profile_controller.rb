@@ -1,9 +1,5 @@
 module Releaf::Permissions
   class ProfileController < Releaf::BaseController
-    def form_builder(form_type, object)
-      Releaf::Permissions::ProfileFormBuilder
-    end
-
     # Store settings for menu collapsing and others
     def settings
       if params[:settings].is_a? Hash

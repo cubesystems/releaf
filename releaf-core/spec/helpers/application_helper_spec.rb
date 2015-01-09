@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Releaf::ApplicationHelper do
   describe "#releaf_table" do
     it "returns table builder output for collection and resource class with given options" do
-      builder = Releaf::Permissions::UserTableBuilder
+      builder = Releaf::Permissions::Users::TableBuilder
       collection = "collection"
 
       allow(builder).to receive(:new).with(collection, Text, subject, toolbox: false).and_call_original

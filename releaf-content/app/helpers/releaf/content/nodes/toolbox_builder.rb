@@ -1,5 +1,5 @@
-module Releaf::Content
-  class NodeToolboxBuilder < Releaf::Builders::ToolboxBuilder
+module Releaf::Content::Nodes
+  class ToolboxBuilder < Releaf::Builders::ToolboxBuilder
     def items
       list = []
 

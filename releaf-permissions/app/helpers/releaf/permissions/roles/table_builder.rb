@@ -1,5 +1,5 @@
-module Releaf::Permissions
-  class RoleTableBuilder < Releaf::Builders::TableBuilder
+module Releaf::Permissions::Roles
+  class TableBuilder < Releaf::Builders::TableBuilder
     def column_names
       [:name, :default_controller]
     end

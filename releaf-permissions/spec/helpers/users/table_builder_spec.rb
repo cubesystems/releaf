@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Permissions::UserTableBuilder, type: :class do
+describe Releaf::Permissions::Users::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end
   let(:template){ TableBuilderTestHelper.new }
   let(:resource_class){ Releaf::Permissions::User }

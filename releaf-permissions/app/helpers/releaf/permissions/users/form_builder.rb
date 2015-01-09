@@ -1,5 +1,5 @@
-module Releaf::Permissions
-  class UserFormBuilder < Releaf::Builders::FormBuilder
+module Releaf::Permissions::Users
+  class FormBuilder < Releaf::Builders::FormBuilder
     def field_names
       %w(name surname locale role_id email password password_confirmation)
     end

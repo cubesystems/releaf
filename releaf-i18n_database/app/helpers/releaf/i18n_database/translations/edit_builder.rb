@@ -1,5 +1,5 @@
-module Releaf::I18nDatabase
-  class TranslationEditBuilder < Releaf::Builders::EditBuilder
+module Releaf::I18nDatabase::Translations
+  class EditBuilder < Releaf::Builders::EditBuilder
 
     def section
       tag(:section) do
