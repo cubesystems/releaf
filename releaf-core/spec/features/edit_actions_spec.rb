@@ -71,7 +71,7 @@ feature "Base controller edit", js: true do
     expect(page).to_not have_css('.remove-nested-item')
 
     update_resource do
-      find('.add-nested-item').click
+      find('.nested[data-name="chapters"] .add-nested-item').click
       expect(page).to have_css('.remove-nested-item')
       fill_in 'resource_chapters_attributes_0_title', with: 'Chapter 1'
       fill_in 'resource_chapters_attributes_0_text', with: 'todo'
