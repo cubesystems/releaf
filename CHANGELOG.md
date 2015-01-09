@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2015.01.09
+* Controller name scoped builders implemented.
+  More there: http://cubesystems.github.io/releaf/documentation/builders.html#creation
+
 ### 2014.12.04
 * BaseController 'resource_params' method renamed to 'permitted_params'
 
