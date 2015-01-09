@@ -29,6 +29,12 @@ describe Releaf::Builders::FormBuilder, type: :class do
         field: :chapters,
         association: true,
         subfields: ["title", "text", "sample_html"]
+      },
+      {
+        render_method: "render_book_sequels",
+        field: :book_sequels,
+        association: true,
+        subfields: ["sequel_id"]
       }
     ]
   }
@@ -70,9 +76,21 @@ describe Releaf::Builders::FormBuilder, type: :class do
       fields = [
         "title",
         "author_id",
-        {chapters: ["title", "text", "sample_html"]}
+        {chapters: ["title", "text", "sample_html"]},
+        {book_sequels: ["sequel_id"]}
       ]
+      expect(subject.normalize_fields(fields)).to eq(normalized_fields)
+    end
 
+    it "handles multi-key hashes" do
+      fields = [
+        "title",
+        "author_id",
+        {
+          chapters: ["title", "text", "sample_html"],
+          book_sequels: ["sequel_id"]
+        }
+      ]
       expect(subject.normalize_fields(fields)).to eq(normalized_fields)
     end
   end

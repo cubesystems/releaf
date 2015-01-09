@@ -24,20 +24,22 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def normalize_fields(fields)
     fields.flatten.map do |item|
       if item.is_a? Hash
-        field = item.keys.first
-        subfields = item.values.first
+        item.each_pair.map do |(association, subfields)|
+          normalize_field(association, subfields)
+        end
       else
-        field = item
-        subfields = nil
+        normalize_field(item, nil)
       end
+    end.flatten
+  end
 
-      {
-        render_method: field_render_method_name(field),
-        field: field,
-        association: object.class.reflections.key?(field.to_sym),
-        subfields: subfields
-      }
-    end
+  def normalize_field(field, subfields)
+    {
+      render_method: field_render_method_name(field),
+      field: field,
+      association: object.class.reflections.key?(field.to_sym),
+      subfields: subfields
+    }
   end
 
   def releaf_fields(*fields)
