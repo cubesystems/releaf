@@ -6,12 +6,12 @@ class Releaf::Builders
 
     begin
       Object.const_get(builder_class_name).is_a?(Class)
-    rescue => e
+    rescue NameError => e
       allowed_errors = [
         "uninitialized constant #{builder_namespace}",
         "uninitialized constant #{builder_class_name}"
       ]
-      if e.class == NameError && allowed_errors.include?(e.message)
+      if allowed_errors.include?(e.message)
         builder_class_name = "Releaf::Builders::#{builder_type.to_s.camelize}Builder"
       else
         raise
