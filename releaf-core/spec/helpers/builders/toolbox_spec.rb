@@ -16,7 +16,7 @@ describe Releaf::Builders::Toolbox, type: :class do
   describe "#output" do
     it "returns safely joined items" do
       allow(subject).to receive(:items).and_return([ '<', ActiveSupport::SafeBuffer.new(">")])
-      expect(subject.output).to eq("&lt;>")
+      expect(subject.output).to eq("<li>&lt;</li><li>></li>")
     end
   end
 

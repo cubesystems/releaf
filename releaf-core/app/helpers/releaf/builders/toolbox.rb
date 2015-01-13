@@ -2,7 +2,9 @@ module Releaf::Builders::Toolbox
 
   def output
     safe_join do
-      items
+      items.map do |item|
+        tag('li', item)
+      end
     end
   end
 
