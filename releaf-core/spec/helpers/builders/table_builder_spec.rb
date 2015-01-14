@@ -392,13 +392,27 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#toolbox_cell" do
-    it "returns cell with toolbox" do
+    before do
       allow(subject.controller).to receive(:index_url).and_return("_index_url_")
+    end
+
+    it "returns cell with toolbox" do
       allow(subject.template).to receive(:toolbox)
         .with(resource, index_url: "_index_url_").and_return("_toolbox_")
 
       content = '<td class="toolbox-cell">_toolbox_</td>'
       expect(subject.toolbox_cell(resource, {})).to eq(content)
+    end
+
+    it "merges given toolbox options and passes it to toolbox heplper" do
+      allow(subject.controller).to receive(:index_url).and_return("_index_url_")
+      expect(subject.template).to receive(:toolbox)
+        .with(resource, index_url: "_index_url_", some_url: "xx").and_return("_toolbox_")
+      subject.toolbox_cell(resource, {toolbox: {some_url: "xx"}})
+
+      expect(subject.template).to receive(:toolbox)
+        .with(resource, index_url: "xx").and_return("_toolbox_")
+      subject.toolbox_cell(resource, {toolbox: {index_url: "xx"}})
     end
   end
 
