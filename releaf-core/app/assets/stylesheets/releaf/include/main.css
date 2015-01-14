@@ -54,7 +54,7 @@ section > form > header .toolbox .trigger
 
 
 
-section:not(.nested) > .body,
+section:not(.nested):not(.dialog) > .body,
 section > form > .body
 {
     border-width: 0 1px 1px 1px;
