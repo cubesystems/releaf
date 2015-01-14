@@ -45,7 +45,11 @@ module Releaf::Builders::Base
   end
 
   def t(key, options = {})
-    options[:scope] = controller_scope_name unless options.key? :scope
+    options[:scope] = default_translation_scope unless options.key? :scope
     I18n.t(key, options)
+  end
+
+  def default_translation_scope
+    controller_scope_name
   end
 end

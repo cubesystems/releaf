@@ -201,8 +201,7 @@ describe Releaf::Builders::Base, type: :module do
 
   describe "#t" do
     before do
-      controller = Releaf::BaseController.new
-      allow(subject).to receive(:controller).and_return(controller)
+      allow(subject).to receive(:default_translation_scope).and_return("_default_scope_")
     end
 
     it "passes all arguments to I18n.t and returns translation" do
@@ -211,7 +210,7 @@ describe Releaf::Builders::Base, type: :module do
     end
 
     context "when :scope option passed" do
-      it "adds controller translation scope" do
+      it "uses default translation scope controller translation scope" do
         expect(I18n).to receive(:t).with("x", scope: "zzz").and_return("asd")
         subject.t("x", scope: "zzz")
       end
@@ -219,9 +218,18 @@ describe Releaf::Builders::Base, type: :module do
 
     context "when no :scope option passed" do
       it "adds controller translation scope" do
-        expect(I18n).to receive(:t).with("x", scope: "admin.releaf_base").and_return("asd")
+        expect(I18n).to receive(:t).with("x", scope: "_default_scope_").and_return("asd")
         subject.t("x")
       end
+    end
+  end
+
+  describe "#default_translation_scope" do
+    it "returns controller scope" do
+      controller = Releaf::BaseController.new
+      allow(subject).to receive(:controller).and_return(controller)
+      allow(controller).to receive(:controller_scope_name).and_return("x")
+      expect(subject.default_translation_scope).to eq("x")
     end
   end
 end
