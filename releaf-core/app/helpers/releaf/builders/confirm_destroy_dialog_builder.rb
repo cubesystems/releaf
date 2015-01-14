@@ -19,7 +19,7 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder
   def confirm_form
     url = url_for( action: 'destroy', id: resource.id, index_url: index_url)
     form_for(resource, builder: Releaf::Builders::FormBuilder, url: url, as: :resource, method: :delete) do
-      button(t('Yes', scope: 'admin.global'), "trash-o", class: "danger", data: {type: 'cancel'}, type: 'submit')
+      button(t('Yes', scope: 'admin.global'), "trash-o", class: "danger", type: 'submit')
     end
   end
 
