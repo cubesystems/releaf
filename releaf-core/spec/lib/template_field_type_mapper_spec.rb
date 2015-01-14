@@ -197,34 +197,18 @@ describe Releaf::TemplateFieldTypeMapper do
 
 
   describe '.field_type_name_for_text' do
-    %w[url homepage random_url random_homepage].each do |field_name|
+    %w[url homepage random_url random_homepage random_link cool_link].each do |field_name|
       context "when attribute name is '#{field_name}'" do
-        it "returns 'url'" do
-          expect( subject.send(:field_type_name_for_text, field_name, nil) ).to eq 'url'
+        it "returns 'link'" do
+          expect( subject.send(:field_type_name_for_text, field_name, nil) ).to eq 'link'
         end
       end
     end
 
-    %w[url_for_site home_page homepage_for_site].each do |field_name|
+    %w[url_for_site link_to_site link home_page homepage_for_site].each do |field_name|
       context "when attribute name is '#{field_name}'" do
-        it "doesn't return 'url'" do
-          expect( subject.send(:field_type_name_for_text, field_name, nil) ).to_not eq 'url'
-        end
-      end
-    end
-
-    %w[random_link cool_link].each do |field_name|
-      context "when attribute name is '#{field_name}'" do
-        it "returns 'link_or_url'" do
-          expect( subject.send(:field_type_name_for_text, field_name, nil) ).to eq 'link_or_url'
-        end
-      end
-    end
-
-    %w[link_to_site link].each do |field_name|
-      context "when attribute name is '#{field_name}'" do
-        it "doesn't return 'link_or_url'" do
-          expect( subject.send(:field_type_name_for_text, field_name, nil) ).to_not eq 'link_or_url'
+        it "doesn't return 'link'" do
+          expect( subject.send(:field_type_name_for_text, field_name, nil) ).to_not eq 'link'
         end
       end
     end
