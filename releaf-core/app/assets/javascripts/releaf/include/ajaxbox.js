@@ -55,11 +55,8 @@ jQuery(document).ready( function()
 
                 // focus on cancel button in footer if found
                 var cancel_button = this.inner.find('section footer .button[data-type="cancel"]').first();
-                console.log(cancel_button);
-                console.log(cancel_button.length);
                 if (cancel_button.length > 0)
                 {
-                    console.log("adasdsadd");
                     cancel_button.bind('click', function()
                     {
                         body.trigger('ajaxboxclose');

@@ -61,10 +61,6 @@ jQuery( document ).ready(function()
                     var template = jQuery(target_block.data('releaf-template'));
                     if (template.length != 1)
                     {
-                        if (typeof console != 'undefined' && 'log' in console)
-                        {
-                            console.log('Nested field template not found.');
-                        }
                         return null;
                     }
 
