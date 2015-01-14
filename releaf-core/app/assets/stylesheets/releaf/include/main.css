@@ -55,7 +55,7 @@ section > form > header .toolbox .trigger
 
 
 section:not(.nested):not(.dialog) > .body,
-section > form > .body
+section:not(.dialog) > form > .body
 {
     border-width: 0 1px 1px 1px;
     border-style: solid;
