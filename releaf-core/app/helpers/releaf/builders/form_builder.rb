@@ -293,8 +293,20 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     }.merge(attributes)
   end
 
+  def normalize_date_or_time_value(value, type)
+    case type
+    when :date
+      value.to_date
+    when :datetime
+      value.to_datetime
+    when :time
+      value.to_time
+    end
+  end
+
   def format_date_or_time_value(value, type)
     default_format = date_or_time_default_format(type)
+    value = normalize_date_or_time_value(value, type)
 
     if type == :time
       value.strftime(default_format)
