@@ -31,9 +31,7 @@ describe Releaf::Builders::Base, type: :module do
       end
     end
 
-    [:controller_scope_name, :feature_available?, :index_url,
-     :resource_to_text
-    ].each do|method_name|
+    [:controller_scope_name, :feature_available?, :index_url].each do|method_name|
       it "deletages #{method_name} to controller" do
         expect(subject).to delegate_method(method_name).to(:controller)
       end
@@ -220,6 +218,25 @@ describe Releaf::Builders::Base, type: :module do
       it "adds controller translation scope" do
         expect(I18n).to receive(:t).with("x", scope: "_default_scope_").and_return("asd")
         subject.t("x")
+      end
+    end
+  end
+
+  describe "#resource_to_text" do
+    let(:resource){ Releaf::Permissions::User.new(name: "a", surname: "b") }
+
+    context "when given resource respond to #to_text method" do
+      it "returns resource #to_text output" do
+        expect(subject.resource_to_text(resource)).to eq("a b")
+      end
+    end
+
+    context "when given resource does not respond to #to_text method" do
+      it "returns resource #to_s output" do
+        allow(resource).to receive(:respond_to?).and_call_original
+        allow(resource).to receive(:respond_to?).with(:to_text).and_return(false)
+        allow(resource).to receive(:to_s).and_return("x")
+        expect(subject.resource_to_text(resource)).to eq("x")
       end
     end
   end

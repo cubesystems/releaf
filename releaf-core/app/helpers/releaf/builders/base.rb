@@ -9,7 +9,7 @@ module Releaf::Builders::Base
     :select_tag, :text_field_tag,
     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
 
-  delegate :controller_scope_name, :feature_available?, :index_url, :resource_to_text, to: :controller
+  delegate :controller_scope_name, :feature_available?, :index_url, to: :controller
 
   alias_method :button, :releaf_button
 
@@ -51,5 +51,11 @@ module Releaf::Builders::Base
 
   def default_translation_scope
     controller_scope_name
+  end
+
+  # calls `#to_text` on resource if resource supports it. Otherwise calls
+  # `#to_s` method
+  def resource_to_text(resource)
+    resource.send(resource.respond_to?(:to_text) ? :to_text : :to_s)
   end
 end

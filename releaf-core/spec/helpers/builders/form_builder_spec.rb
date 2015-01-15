@@ -399,4 +399,57 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
     end
   end
+
+  describe "#releaf_item_field_collection" do
+    context "when collection exists within options" do
+      it "returns collection" do
+        expect(subject.releaf_item_field_collection(:author_id, collection: "x")).to eq("x")
+      end
+    end
+
+    context "when collection does not exist within options" do
+      it "returns all relation objects" do
+        allow(Author).to receive(:all).and_return("y")
+        expect(subject.releaf_item_field_collection(:author_id)).to eq("y")
+      end
+    end
+  end
+
+  describe "#releaf_item_field_choices" do
+    before do
+      subject.object.author_id = 3
+    end
+
+    context "when no select_options passed within options" do
+      it "prefills select_options with corresponding collection array" do
+        collection = [Author.new(name: "a", surname: "b", id: 1), Author.new(name: "c", surname: "d", id: 2)]
+        allow(subject).to receive(:releaf_item_field_collection)
+          .with(:author_id, x: "a").and_return(collection)
+        allow(subject).to receive(:options_for_select).with([["a b", 1], ["c d", 2]], 3).and_return("xx")
+        expect(subject.releaf_item_field_choices(:author_id, x: "a")).to eq("xx")
+      end
+    end
+
+    context "when options have select_options passed" do
+      context "when select_options is array" do
+        it "process and return select options with `options_for_select` rails helper" do
+          collection = [["a b", 1], ["c d", 2]]
+          allow(subject).to receive(:options_for_select).with(collection, 3).and_return("xx")
+          expect(subject.releaf_item_field_choices(:author_id, select_options: collection)).to eq("xx")
+        end
+      end
+
+      context "when select_options is not array" do
+        it "returns select_options value" do
+          expect(subject.releaf_item_field_choices(:author_id, select_options: "xx")).to eq("xx")
+        end
+      end
+    end
+  end
+
+  describe "#relation_name" do
+    it "strips _id from given string and returns it as symbol" do
+      expect(subject.relation_name("admin_id")).to eq(:admin)
+    end
+  end
 end

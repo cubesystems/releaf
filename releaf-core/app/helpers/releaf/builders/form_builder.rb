@@ -172,24 +172,34 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     send(method_name, name, input: input, label: label, field: field, options: options, &block)
   end
 
+  def releaf_item_field_collection(name, options = {})
+    options[:collection] || object.class.reflect_on_association(relation_name(name)).try(:klass).try(:all)
+  end
+
+  def releaf_item_field_choices(name, options = {})
+    unless options.key? :select_options
+      options[:select_options] = releaf_item_field_collection(name, options)
+        .collect{|item| [resource_to_text(item), item.id]}
+    end
+
+    if options[:select_options].is_a? Array
+      choices = options_for_select(options[:select_options], object.send(name))
+    else
+      choices = options[:select_options]
+    end
+
+    choices
+  end
+
+  def relation_name(name)
+    name.to_s.sub(/_id$/, '').to_sym
+  end
+
   def releaf_item_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     label = {translation_key: name.to_s.sub(/_id$/, '').to_s}.deep_merge(label)
     attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
     options = {field: {type: "item"}}.deep_merge(options)
 
-    relation_name = name.to_s.sub(/_id$/, '').to_sym
-
-    if options.key? :select_options
-      if options[:select_options].is_a? Array
-        choices = options_for_select(options[:select_options], object.send(name))
-      else
-        choices = options[:select_options]
-      end
-    else
-      collection = object.class.reflect_on_association(relation_name).try(:klass).try(:all)
-      choices = options_from_collection_for_select(collection, :id,
-                                                   controller.resource_to_text_method(collection.first), object.send(name))
-    end
 
     # add empty value when validation exists, so user is forced to choose something
     unless options.key? :include_blank
@@ -197,12 +207,13 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
       object.class.validators_on(name).each do |validator|
         next unless validator.is_a? ActiveModel::Validations::PresenceValidator
         # if new record, or object is missing (was deleted)
-        options[:include_blank] = object.new_record? || object.send(relation_name).blank?
+        options[:include_blank] = object.new_record? || object.send(relation_name(name)).blank?
         break
       end
     end
 
 
+    choices = releaf_item_field_choices(name, options)
     content = select(name, choices, options, attributes)
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end

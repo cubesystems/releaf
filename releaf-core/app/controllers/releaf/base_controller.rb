@@ -35,8 +35,6 @@ module Releaf
       :index_url,
       :page_title,
       :resource_class,
-      :resource_to_text,
-      :resource_to_text_method,
       :resource_edit_url,
       :feature_available?,
       :builder_class
@@ -213,22 +211,6 @@ module Releaf
     # @return `true` or `false`
     def has_template? name
       lookup_context.template_exists?( name, lookup_context.prefixes, false )
-    end
-
-    # calls `#to_text` on resource if resource supports it. Otherwise calls
-    # fallback method
-    def resource_to_text resource, fallback=:to_s
-      resource.send resource_to_text_method(resource, fallback)
-    end
-
-    # @return `:to_text` if resource supports `#to_text`, otherwise fallback.
-    def resource_to_text_method resource, fallback=:to_s
-      if resource.respond_to?(:to_text)
-        return :to_text
-      else
-        Rails.logger.warn "Re:Leaf: #{resource.class.name} doesn't support #to_text method. Please define it"
-        return fallback
-      end
     end
 
     # Returns action > view translation hash
