@@ -122,29 +122,22 @@ main .dialog
 
 /* confirm_destroy and refused_destroy dialogs */
 
-.dialog.confirm-destroy
+.dialog.confirm,
+.dialog.refused-destroy
+
 {
     width: 390px;
 }
 
-.dialog.refused-destroy
-{
-    width: 490px;
-}
+.dialog.confirm .body,
+.dialog.refused-destroy .body
 
-.dialog.confirm-destroy .body
 {
     padding: 37px 10px 55px;
     text-align: center;
 }
 
-.dialog.refused-destroy .body
-{
-    padding: 37px 10px 25px;
-    text-align: center;
-}
-
-.dialog.confirm-destroy .body i,
+.dialog.confirm .body i,
 .dialog.refused-destroy .body i
 {
 
@@ -161,8 +154,7 @@ main .dialog
     margin-bottom: 22px;
 }
 
-.dialog.confirm-destroy .body .question,
-.dialog.refused-destroy .body .message
+.dialog.confirm .body .question
 {
     font-size: 2.2857em;
     line-height: 1.25em;
@@ -171,7 +163,7 @@ main .dialog
     font-weight: normal;
 }
 
-.dialog.confirm-destroy .body .description
+.dialog.confirm .body .description
 {
     color: #37b1a7;
     font-size: 1em;
@@ -182,15 +174,9 @@ main .dialog
 .dialog.refused-destroy .body .restricted-relations
 {
     margin-top: 10px;
-    height: 95px;
     overflow-y: auto;
     color: #37b1a7;
     font-size: 1em;
     line-height: 1.4em;
     font-weight: bold;
 }
-
-
-
-
-

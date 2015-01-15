@@ -6,7 +6,6 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
     tag(:div, class: "body") do
       [
         fa_icon("ban"),
-        tag(:div, t('Delete restricted', scope: 'admin.global'), class: "message"),
         tag(:div, t("Deletion of %{resource} restricted, due to existing relations:", scope: "admin.global", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
         restricted_relations
       ]
@@ -60,7 +59,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
     ]
   end
 
-  # TODO
-  def section_header
+  def section_header_text
+    t('Delete restricted', scope: 'admin.global')
   end
 end
