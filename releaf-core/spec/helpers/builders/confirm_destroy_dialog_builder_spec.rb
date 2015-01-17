@@ -31,7 +31,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   describe "#section_body" do
     it "returns destroy description content" do
-      content = '<div class="body"><i class="fa fa-trash-o"></i><div class="question">Confirm destroy</div><div class="description">book title</div></div>'
+      content = '<div class="body"><i class="fa fa-trash-o"></i><div class="question">Do you want to destroy following object?</div><div class="description">book title</div></div>'
       expect(subject.section_body).to eq(content)
     end
   end
@@ -48,7 +48,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
     it "returns confirm form" do
       allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_url: "y").and_return("x")
       allow(subject.template).to receive(:url_for).with("x").and_return("y") # Rails are double calling url_for ....
-      content = '<form accept-charset="UTF-8" action="y" class="new_resource" id="new_resource" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="delete" /><input name="yyy" type="hidden" value="xxx" /></div><button class="button with-icon danger" title="Yes" type="submit"><i class="fa fa-trash-o"></i>Yes</button></form>'
+      content = '<form accept-charset="UTF-8" action="y" class="new_resource" id="new_resource" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="delete" /><input name="yyy" type="hidden" value="xxx" /></div><button class="button with-icon danger" title="Yes" type="submit"><i class="fa fa-check"></i>Yes</button></form>'
       expect(subject.confirm_form).to eq(content)
     end
   end
@@ -60,9 +60,9 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
     end
   end
 
-  describe "#section_header" do
-    it "returns empty section header" do
-      expect(subject.section_header).to be nil
+  describe "#section_header_text" do
+    it "returns correct section header" do
+      expect(subject.section_header_text).to eq ("Confirm destroy")
     end
   end
 end
