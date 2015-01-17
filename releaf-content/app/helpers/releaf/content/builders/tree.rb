@@ -25,7 +25,7 @@ module Releaf::Content::Builders
     end
 
     def tree_resource(resource, level)
-      expanded = (permissions_manager.user.settings["content.tree.expanded.#{resource.id}"] == true)
+      expanded = (layout_settings("content.tree.expanded.#{resource.id}") == true)
       classes = []
       classes << 'collapsed' unless expanded
       classes << 'has-children' unless resource.children.empty?

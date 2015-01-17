@@ -25,7 +25,7 @@ class Releaf::Builders::Page::MenuBuilder
   end
 
   def collapsed_item?(item)
-    permissions_manager.user.settings["releaf.menu.collapsed.#{item[:name]}"] == true && !item[:active]
+    !item[:active] && layout_settings("releaf.menu.collapsed.#{item[:name]}") == true
   end
 
   def menu_items(items)

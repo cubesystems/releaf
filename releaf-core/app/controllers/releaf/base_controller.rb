@@ -301,7 +301,7 @@ module Releaf
     end
 
     def layout_settings(key)
-      permissions_manager.user.try(:settings).try(:[], 'releaf.side.compact')
+      permissions_manager.user.try(:settings).try(:[], key)
     end
 
     def page_title
