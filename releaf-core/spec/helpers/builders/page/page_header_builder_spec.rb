@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Builders::PageHeaderBuilder, type: :class do
+describe Releaf::Builders::Page::HeaderBuilder, type: :class do
   class PageHeaderBuilderTestHelper < ActionView::Base
     include Rails.application.routes.url_helpers
     include FontAwesome::Rails::IconHelper
@@ -106,7 +106,7 @@ describe Releaf::Builders::PageHeaderBuilder, type: :class do
   describe "#profile_user_image" do
     it "returns gravatar image for current admin user email with http or https url" do
       admin = Releaf::Permissions::User.new(email: "xx")
-      allow(subject).to receive(:current_admin_user).and_return(admin)
+      allow(subject).to receive(:user).and_return(admin)
       allow(subject).to receive(:profile_user_name).and_return("neim")
       allow(subject).to receive_message_chain(:request, :ssl?).and_return(true)
       content = '<img alt="neim" class="avatar" height="36" src="https://secure.gravatar.com/avatar/9336ebf25087d91c818ee6e9ec29f8c1?default=mm&secure=true&size=36" width="36" />'
@@ -122,10 +122,19 @@ describe Releaf::Builders::PageHeaderBuilder, type: :class do
     end
   end
 
+  describe "#user" do
+    it "returns permissions manager user" do
+      permissions_manager = double(Releaf::Permissions::Management)
+      allow(subject).to receive(:permissions_manager).and_return(permissions_manager)
+      allow(permissions_manager).to receive(:user).and_return("x")
+      expect(subject.user).to eq("x")
+    end
+  end
+
   describe "#profile_user_name" do
     it "returns profile user name" do
       admin = Releaf::Permissions::User.new(name: "a", surname: "b")
-      allow(subject).to receive(:current_admin_user).and_return(admin)
+      allow(subject).to receive(:user).and_return(admin)
       expect(subject.profile_user_name).to eq("a b")
     end
   end

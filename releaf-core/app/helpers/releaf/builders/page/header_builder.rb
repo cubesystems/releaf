@@ -1,10 +1,6 @@
-class Releaf::Builders::PageHeaderBuilder
+class Releaf::Builders::Page::HeaderBuilder
   include Releaf::Builders::Base
-  attr_accessor :template
-
-  def initialize(template)
-    self.template = template
-  end
+  include Releaf::Builders::Template
 
   def output
     safe_join do
@@ -53,12 +49,16 @@ class Releaf::Builders::PageHeaderBuilder
   end
 
   def profile_user_image
-    template.gravatar_image_tag(current_admin_user.email, alt: profile_user_name,
+    template.gravatar_image_tag(user.email, alt: profile_user_name,
                                 gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
   end
 
+  def user
+    permissions_manager.user
+  end
+
   def profile_user_name
-    current_admin_user.to_text
+    user.to_text
   end
 
   def sign_out_url

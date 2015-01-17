@@ -18,13 +18,9 @@ module Releaf::Core::RouteMapper
   end
 
   def mount_releaf_at mount_location, options={}, &block
-    devise_for Releaf.devise_for, path: mount_location, controllers: { sessions: "releaf/sessions" }
-
     mount_location_namespace = mount_location.gsub("/", "").to_sym
     scope mount_location do
-      namespace :releaf, :path => nil do
-        initialize_releaf_components
-      end
+      initialize_releaf_components
 
       if mount_location_namespace.empty?
         yield if block_given?

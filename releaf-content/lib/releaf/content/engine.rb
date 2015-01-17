@@ -13,19 +13,21 @@ module Releaf::Content
   end
 
   def self.draw_component_routes router
-    router.namespace :content, path: nil do
-      router.releaf_resources :nodes, :except => [:show], concerns: :attachmentable do
-        router.collection do
-          router.get :content_type_dialog
-          router.get :generate_url
-          router.get :go_to_dialog
-        end
+    router.namespace :releaf, path: nil do
+      router.namespace :content, path: nil do
+        router.releaf_resources :nodes, :except => [:show], concerns: :attachmentable do
+          router.collection do
+            router.get :content_type_dialog
+            router.get :generate_url
+            router.get :go_to_dialog
+          end
 
-        router.member do
-          router.get :copy_dialog
-          router.post :copy
-          router.get :move_dialog
-          router.post :move
+          router.member do
+            router.get :copy_dialog
+            router.post :copy
+            router.get :move_dialog
+            router.post :move
+          end
         end
       end
     end

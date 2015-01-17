@@ -28,8 +28,8 @@ module Releaf
   mattr_accessor :available_locales
   @@available_locales = nil
 
-  mattr_accessor :page_header_builder
-  @@page_header_builder = nil
+  mattr_accessor :layout_builder
+  @@layout_builder = nil
 
   mattr_accessor :available_admin_locales
   @@available_admin_locales = nil
@@ -66,7 +66,7 @@ module Releaf
       build_controller_list(normalized_additional_controllers)
 
       self.components = normalize_components(components)
-      self.page_header_builder ||= Releaf::Builders::PageHeaderBuilder
+      self.layout_builder ||= Releaf::Builders::Page::LayoutBuilder
       initialize_components
     end
 
@@ -125,9 +125,9 @@ module Releaf
       end
 
       if item.has_key? :helper
-        item[:url_helper] = item[:helper] + "_path"
+        item[:url_helper] = item[:helper].to_sym
       elsif item.has_key? :controller
-        item[:url_helper] = item[:controller].gsub('/', '_') + "_path"
+        item[:url_helper] = item[:controller].gsub('/', '_').to_sym
       end
 
       return item

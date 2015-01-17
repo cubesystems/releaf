@@ -1,7 +1,7 @@
 module Releaf
   class HomeController < BaseController
     def index
-      @user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+      @user = permissions_manager.user
       unless @user.nil?
         respond_to do |format|
           format.html { redirect_to default_or_available_controller_path }

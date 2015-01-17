@@ -5,17 +5,8 @@ module Releaf
     include Releaf::BeforeRender
     include Releaf::SerializedArrayParamsNormalizer
 
-    before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
-    before_filter :manage_ajax
-    before_filter :set_locale
-
-    before_filter do
-      authorize!
-      build_breadcrumbs
-      setup
-    end
-
-    before_filter :verify_feature_availability
+    before_filter :authorize!, :manage_ajax, :set_locale,
+      :build_breadcrumbs, :setup, :verify_feature_availability
 
     rescue_from Releaf::Core::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
@@ -301,6 +292,22 @@ module Releaf
       @features[feature].present?
     end
 
+    def authorize!
+      permissions_manager.authorize!
+    end
+
+    def permissions_manager
+      @permissions_manager ||= Releaf::Permissions::Management.new(controller: self)
+    end
+
+    def layout_settings(key)
+      permissions_manager.user.try(:settings).try(:[], 'releaf.side.compact')
+    end
+
+    def page_title
+      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+    end
+
     protected
 
     def respond
@@ -412,11 +419,6 @@ module Releaf
       resource_class.all
     end
 
-    def authorize! action=nil
-      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
-      raise Releaf::Core::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
-    end
-
     def required_params
       params.require(:resource)
     end
@@ -520,7 +522,7 @@ module Releaf
       unless controller_params.nil?
         @breadcrumbs << {
           name: I18n.t(controller_params[:name], scope: "admin.menu_items"),
-          url: send(controller_params[:url_helper])
+          url: send("#{controller_params[:url_helper]}_path")
         }
       end
     end
@@ -541,10 +543,6 @@ module Releaf
       @breadcrumbs << { name: name, url: url }
     end
 
-    def page_title
-      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
-    end
-
     # returns all params except :controller, :action and :format
     def current_params
       params.except(:controller, :action, :format)
@@ -552,8 +550,7 @@ module Releaf
 
     # set locale for interface translating from current admin user
     def set_locale
-      admin = send("current_" + ReleafDeviseHelper.devise_admin_model_name)
-      I18n.locale = admin.locale
+      I18n.locale = permissions_manager.user.locale
     end
 
     def feature_disabled exception
