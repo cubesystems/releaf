@@ -392,8 +392,10 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#toolbox_cell" do
+    let(:controller){ double(ActionController::Base) }
     before do
-      allow(subject.controller).to receive(:index_url).and_return("_index_url_")
+      allow(subject).to receive(:controller).and_return(controller)
+      allow(controller).to receive(:index_url).and_return("_index_url_")
     end
 
     it "returns cell with toolbox" do
