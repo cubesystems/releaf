@@ -10,7 +10,7 @@ class Releaf::Builders::ConfirmDialogBuilder
 
   def section_body_blocks
     [
-      fa_icon(icon),
+      icon(icon_name),
       tag(:div, question_content, class: "question"),
       tag(:div, description_content, class: "description")
     ]

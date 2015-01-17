@@ -68,7 +68,7 @@ class Releaf::Builders::PageHeaderBuilder
   def sign_out_form
     form_tag(sign_out_url, method: :delete, class: "sign-out") do
       tag(:button, type: "submit") do
-        fa_icon("power-off icon-header")
+        icon("power-off icon-header")
       end
     end
   end

@@ -5,7 +5,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   def section_body
     tag(:div, class: "body") do
       [
-        fa_icon("ban"),
+        icon("ban"),
         tag(:div, t("Deletion of %{resource} restricted, due to existing relations:", scope: "admin.global", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
         restricted_relations
       ]

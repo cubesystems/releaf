@@ -2,7 +2,7 @@ module Releaf::Builders::Base
   extend ActiveSupport::Concern
 
   delegate :controller, :controller_name, :url_for, :form_for,
-    :releaf_button, :params, :form_tag, :fa_icon, :file_field_tag,
+    :releaf_button, :params, :form_tag, :file_field_tag,
     :current_admin_user, :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
     :render, :link_to, :flash, :truncate, :toolbox, :radio_button_tag,
     :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
@@ -38,6 +38,10 @@ module Releaf::Builders::Base
 
   def template_variable(variable)
     template.instance_variable_get("@#{variable}")
+  end
+
+  def icon(name)
+    template.fa_icon(name)
   end
 
   def safe_join(&block)
