@@ -1,27 +1,22 @@
 module Releaf
   class AssetsResolver
-    CONTROLLER_ASSET_PATTERN = /app\/assets\/(javascripts|stylesheets)\/releaf\/controllers\/(.*?)\..*/
+    CONTROLLER_ASSET_PATTERN = /app\/assets\/(javascripts|stylesheets)\/((releaf\/)?controllers\/(.*?))\..*/
 
-    def self.stylesheet_exists? controller
-      list[:stylesheets].include? controller
+    def self.controller_assets(controller, type)
+      ["releaf/application"] + list.fetch(controller, {}).fetch(type, [])
     end
-
-    def self.javascript_exists? controller
-      list[:javascripts].include? controller
-    end
-
-    private
 
     def self.scan
-      list = {
-        javascripts: [],
-        stylesheets: [],
-      }
+      list = {}
 
       Rails.application.assets.each_file do|file|
         match = file.to_s.match(CONTROLLER_ASSET_PATTERN)
         if match
-          list[match[1].to_sym] << match[2]
+          controller = match[4]
+          if list[controller].nil?
+            list[controller] = {stylesheets: [], javascripts: []}
+          end
+          list[controller][match[1].to_sym] << match[2]
         end
       end
 
@@ -29,7 +24,11 @@ module Releaf
     end
 
     def self.list
-      @@list ||= scan
+      if Rails.env.development?
+        scan
+      else
+        @@list ||= scan
+      end
     end
   end
 end

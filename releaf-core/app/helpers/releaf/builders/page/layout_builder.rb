@@ -14,7 +14,7 @@ class Releaf::Builders::Page::LayoutBuilder
 
   def body(&block)
     tag(:body, class: body_classes) do
-      body_content{ yield } << javascripts_block
+      body_content{ yield } << assets(:javascripts, :javascript_include_tag)
     end
   end
 
@@ -46,10 +46,10 @@ class Releaf::Builders::Page::LayoutBuilder
     Releaf::Builders::Page::MenuBuilder
   end
 
-  def javascripts_block
+  def assets(type, tag_method)
     safe_join do
-      javascripts.collect do |javascript|
-        template.javascript_include_tag javascript
+      send(type).collect do |asset|
+        template.send(tag_method, asset)
       end
     end
   end
@@ -64,52 +64,19 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def head_blocks
-    [title, meta, stylesheets_block, csrf]
+    [title, meta, assets(:stylesheets, :stylesheet_link_tag), csrf]
   end
 
   def controller_name
     params[:controller]
   end
 
-  def stylesheets_block
-    safe_join do
-      stylesheets.collect do |stylesheet|
-        template.stylesheet_link_tag(stylesheet, media: 'all')
-      end
-    end
-  end
-
   def stylesheets
-    list = ["releaf/application"]
-    if Releaf::AssetsResolver.stylesheet_exists? controller_name
-      list << "releaf/controllers/#{controller_name}"
-    end
-
-    %w[css.scss.erb scss.erb css.scss scss css.erb css sass.erb sass].each do |ext|
-      if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{controller_name}.#{ext}")
-         list << "controllers/#{controller_name}"
-      end
-      if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
-         list << "releaf/#{Rails.application.class.parent_name.downcase}"
-      end
-    end
-
-    list
+    Releaf::AssetsResolver.controller_assets(controller_name, :stylesheets)
   end
 
   def javascripts
-    list = ["releaf/application"]
-    list << "releaf/controllers/#{controller_name}" if Releaf::AssetsResolver.javascript_exists? controller_name
-    %w[js js.erb].each do |ext|
-      if File.exists?(Rails.root.to_s + "/app/assets/javascripts/controllers/#{controller_name}.#{ext}")
-        list << "controllers/#{controller_name}"
-      end
-      if File.exists?(Rails.root.to_s + "/app/assets/javascripts/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
-        list << "releaf/#{Rails.application.class.parent_name.downcase}"
-      end
-    end
-
-    list
+    Releaf::AssetsResolver.controller_assets(controller_name, :javascripts)
   end
 
   def csrf
