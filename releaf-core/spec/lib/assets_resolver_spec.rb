@@ -25,7 +25,6 @@ describe Releaf::AssetsResolver do
   describe ".scan" do
     it "returns array with controller scoped stylesheets and javascripts" do
       list = {
-        "admin/books"=>{:stylesheets=>["controllers/admin/books"], :javascripts=>[]},
         "releaf/content/nodes"=>{:stylesheets=>["releaf/controllers/releaf/content/nodes"],
                                  :javascripts=>["releaf/controllers/releaf/content/nodes"]},
         "releaf/permissions/roles"=>{:stylesheets=>["releaf/controllers/releaf/permissions/roles"],

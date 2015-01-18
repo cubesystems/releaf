@@ -130,18 +130,19 @@ module Releaf
         item[:url_helper] = item[:controller].gsub('/', '_').to_sym
       end
 
-      return item
+      item
     end
 
     # Recursively normalize menu item and subitems
     def normalize_menu_item item_data
       item = normalize_controller_item item_data
+      item[:icon] = "caret-left" if item[:icon].nil?
 
       if item.has_key?(:items)
         item[:items].map! { |subitem| normalize_menu_item(subitem) }
       end
 
-      return item
+      item
     end
   end
 end

@@ -2,71 +2,82 @@ class Releaf::Builders::Page::MenuBuilder
   include Releaf::Builders::Base
   include Releaf::Builders::Template
 
-  delegate :permissions_manager, to: :controller
+  class Menu
+    mattr_accessor :permissions_manager
 
-  def output
-    compacter << tag(:nav, menu_level(menu_items(Releaf.menu)))
-  end
+    def self.build(list, permissions_manager)
+      self.permissions_manager = permissions_manager
+      build_list(list)
+    end
 
-  def compacter
-    tag(:div, class: "compacter") do
-      tag(:button, type: "button") do
-        icon("angle-double-" + (layout_settings('releaf.side.compact') ? "right" : "left"))
+    def self.build_list(list)
+      list.collect{|item| build_item(item) }.compact
+    end
+
+    def self.build_item(source_item)
+      item = source_item.dup
+      item[:items] = build_list(item.fetch(:items, []))
+      item.delete(:items) if item[:items].empty?
+
+      if item[:items]
+        item[:active]  = item[:items].find{|i| i[:active] == true }.present?
+        item[:url_helper] = item[:items].first[:url_helper] if item[:items].present?
+        item
+      elsif permissions_manager.authorize_controller!(item[:controller])
+        item[:active] = active_controller?(item[:controller])
+        item
+      else
+        nil
       end
     end
+
+    def self.active_controller?(controller_name)
+      permissions_manager.current_controller_name == controller_name
+    end
+  end
+
+  def output
+    menu_items = Menu.build(Releaf.menu, permissions_manager)
+    compacter << tag(:nav, menu_level(menu_items))
   end
 
   def menu_level(items)
     tag(:ul, class: "block") do
-      items.collect do|item|
-        build_menu_item(item)
+      items.collect{|item| menu_item(item) }
+    end
+  end
+
+  def menu_item(item)
+    tag(:li, item_attributes(item)) do
+      if item[:items]
+        tag(:span, class: "trigger") do
+          item_name_content(item) << item_collapser(item)
+        end << menu_level(item[:items])
+      else
+        tag(:a, class: "trigger", href: url_for(item[:url_helper])) do
+          item_name_content(item)
+        end
       end
     end
   end
 
   def collapsed_item?(item)
-    !item[:active] && layout_settings("releaf.menu.collapsed.#{item[:name]}") == true
+    item[:items] && !item[:active] && layout_settings("releaf.menu.collapsed.#{item[:name]}") == true
   end
 
-  def menu_items(items)
-    items.collect{|item| get_releaf_menu_item(item)}.compact
-  end
-
-  def active_controller?(controller_name)
-    permissions_manager.current_controller_name == controller_name
-  end
-
-  def get_releaf_menu_item(source_item)
-    item = {
-      icon: source_item[:icon] || "caret-left",
-      name: source_item[:name],
-      url_helper: source_item[:url_helper],
-      attributes: {
-        class: [],
-        data: {
-          name: source_item[:name]
-        }
+  def item_attributes(item)
+    attributes = {
+      class: [],
+      data: {
+        name: item[:name]
       }
     }
 
-    if source_item[:items]
-      item[:items] = menu_items(source_item[:items])
-      item[:active]  = item[:items].find{|i| i[:active] == true }.present?
-      item[:attributes][:class] << "collapsed" if collapsed_item?(item)
-      valid = item[:items].present?
-      item[:url_helper] = item[:items].first[:url_helper] if valid
-    else
-      valid = permissions_manager.authorize_controller!(source_item[:controller])
-      item[:active] = active_controller?(source_item[:controller])
-    end
+    attributes[:class] << "collapsed" if collapsed_item?(item)
+    attributes[:class] << "active" if item[:active]
+    attributes.delete(:class) if attributes[:class].empty?
 
-    if valid
-      item[:attributes][:class] << "active" if item[:active]
-      item[:attributes].delete(:class) if item[:attributes][:class].empty?
-      item
-    else
-      nil
-    end
+    attributes
   end
 
   def item_name_content(item)
@@ -81,16 +92,10 @@ class Releaf::Builders::Page::MenuBuilder
     end
   end
 
-  def build_menu_item(item)
-    tag(:li, item[:attributes]) do
-      if item[:items]
-        tag(:span, class: "trigger") do
-          item_name_content(item) << item_collapser(item)
-        end << menu_level(item[:items])
-      else
-        tag(:a, class: "trigger", href: url_for(item[:url_helper])) do
-          item_name_content(item)
-        end
+  def compacter
+    tag(:div, class: "compacter") do
+      tag(:button, type: "button") do
+        icon("angle-double-" + (layout_settings('releaf.side.compact') ? "right" : "left"))
       end
     end
   end
