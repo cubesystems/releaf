@@ -1,9 +1,7 @@
 module Releaf::Permissions::RolesComponent
+  extend Releaf::Core::Component
+
   def self.draw_component_routes router
-    router.namespace :releaf, path: nil do
-      router.namespace :permissions, path: nil do
-        router.releaf_resources :roles
-      end
-    end
+    resource_route(router, :permissions, :roles)
   end
 end

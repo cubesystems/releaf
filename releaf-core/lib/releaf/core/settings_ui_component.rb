@@ -1,9 +1,7 @@
 module Releaf::Core::SettingsUIComponent
+  extend Releaf::Core::Component
+
   def self.draw_component_routes router
-    router.namespace :releaf, path: nil do
-      router.namespace :core, path: nil do
-        router.releaf_resources :settings
-      end
-    end
+    resource_route(router, :core, :settings)
   end
 end

@@ -17,6 +17,7 @@ require 'globalize'
 require 'globalize-accessors'
 
 module Releaf::Core
+  require 'releaf/core/component'
   require 'releaf/core/attachments_component'
   require 'releaf/core/settings_ui_component'
   require 'releaf/core/route_mapper'
