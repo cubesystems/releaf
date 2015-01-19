@@ -13,7 +13,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
     builder = self
     until builder.options[:parent_builder].nil? do
-      parts << builder.options[:relation_name]
+      parts << builder.options[:relation_name] if builder.options[:relation_name]
       builder = builder.options[:parent_builder]
     end
 
