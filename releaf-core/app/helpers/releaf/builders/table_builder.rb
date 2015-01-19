@@ -50,7 +50,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def table_attributes
-    {class: "table"}
+    {class: ["table", resource_class.name.pluralize.underscore.dasherize]}
   end
 
   def head

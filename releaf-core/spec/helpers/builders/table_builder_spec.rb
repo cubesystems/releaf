@@ -119,7 +119,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
     context "when collection is not empty" do
       it "returns table with #header and #body" do
         create(:book)
-        content = '<table class="table">header_contentbody_content</table>'
+        content = '<table class="table books">header_contentbody_content</table>'
         allow(subject).to receive(:head).and_return("header_content")
         allow(subject).to receive(:body).and_return("body_content")
 
@@ -129,15 +129,15 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     context "when collection is empty" do
       it "returns table with #empty_body content" do
-        content = '<table class="table">empty</table>'
+        content = '<table class="table books">empty</table>'
         expect(subject.output).to eq(content)
       end
     end
   end
 
   describe "#table_attributes" do
-    it "returns hash with table class" do
-      expect(subject.table_attributes).to eq(class: "table")
+    it "returns hash with table and pluralized, dasherized resource classes" do
+      expect(subject.table_attributes).to eq(class: ["table", "books"])
     end
   end
 
