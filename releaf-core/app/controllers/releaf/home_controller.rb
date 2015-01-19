@@ -8,11 +8,6 @@ module Releaf
         end
       end
     end
-
-    def page_not_found
-      error_response('page_not_found', 404)
-    end
-
     protected
 
     def default_or_available_controller_path

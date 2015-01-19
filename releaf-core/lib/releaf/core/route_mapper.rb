@@ -32,7 +32,7 @@ module Releaf::Core::RouteMapper
 
       namespace :releaf, :path => nil do
         root :to => "home#index"
-        get '/*path' => 'home#page_not_found'
+        get '/*path' => 'core/errors#page_not_found'
       end
     end
   end
