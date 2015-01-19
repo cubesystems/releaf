@@ -3,13 +3,14 @@ module Releaf::Builders::Base
 
   delegate :controller, :controller_name, :url_for, :form_for,
     :releaf_button, :params, :form_tag, :file_field_tag,
-    :current_admin_user, :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
+    :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
     :render, :link_to, :flash, :truncate, :toolbox, :radio_button_tag,
     :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
     :select_tag, :text_field_tag,
     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
 
-  delegate :controller_scope_name, :feature_available?, :index_url, to: :controller
+  delegate :layout_settings, :access_control, :controller_scope_name,
+    :feature_available?, :index_url, to: :controller
 
   alias_method :button, :releaf_button
 

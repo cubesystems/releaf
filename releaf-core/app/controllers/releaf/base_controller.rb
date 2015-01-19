@@ -4,18 +4,10 @@ module Releaf
   class BaseController < ActionController::Base
     include Releaf::BeforeRender
     include Releaf::SerializedArrayParamsNormalizer
+    include Releaf.access_control_module
+    include Releaf::Breadcrumbs
 
-    before_filter "authenticate_#{ReleafDeviseHelper.devise_admin_model_name}!"
-    before_filter :manage_ajax
-    before_filter :set_locale
-
-    before_filter do
-      authorize!
-      build_breadcrumbs
-      setup
-    end
-
-    before_filter :verify_feature_availability
+    before_filter :manage_ajax, :setup, :verify_feature_availability!
 
     rescue_from Releaf::Core::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
@@ -301,6 +293,10 @@ module Releaf
       @features[feature].present?
     end
 
+    def page_title
+      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+    end
+
     protected
 
     def respond
@@ -355,7 +351,7 @@ module Releaf
       @resource = resource_class.find(params[:id])
     end
 
-    def verify_feature_availability
+    def verify_feature_availability!
       feature = action_feature(params[:action])
       raise FeatureDisabled, feature.to_s if (feature.present? && !feature_available?(feature))
     end
@@ -410,11 +406,6 @@ module Releaf
     # @return ActiveRecord::Relation
     def resources
       resource_class.all
-    end
-
-    def authorize! action=nil
-      user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
-      raise Releaf::Core::AccessDenied.new(controller_name, action) unless user.role.authorize!(self, action)
     end
 
     def required_params
@@ -512,48 +503,9 @@ module Releaf
       url_for( action: 'edit', id: @resource.id )
     end
 
-    def build_breadcrumbs
-      @breadcrumbs = []
-      @breadcrumbs << { name: I18n.t('Home', scope: 'admin.breadcrumbs'), url: releaf_root_path }
-
-      controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
-      unless controller_params.nil?
-        @breadcrumbs << {
-          name: I18n.t(controller_params[:name], scope: "admin.menu_items"),
-          url: send(controller_params[:url_helper])
-        }
-      end
-    end
-
-
-    def add_resource_breadcrumb resource, url = nil
-      if resource.new_record?
-        name=  I18n.t('New record', scope: 'admin.breadcrumbs')
-        url = url_for(action: :new, only_path: true) if url.nil?
-      else
-        if resource.respond_to?(:to_text)
-          name = resource.send(:to_text)
-        else
-          name = I18n.t('Edit record', scope: 'admin.breadcrumbs')
-        end
-        url = url_for(action: :edit, id: resource.id, only_path: true) if url.nil?
-      end
-      @breadcrumbs << { name: name, url: url }
-    end
-
-    def page_title
-      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
-    end
-
     # returns all params except :controller, :action and :format
     def current_params
       params.except(:controller, :action, :format)
-    end
-
-    # set locale for interface translating from current admin user
-    def set_locale
-      admin = send("current_" + ReleafDeviseHelper.devise_admin_model_name)
-      I18n.locale = admin.locale
     end
 
     def feature_disabled exception

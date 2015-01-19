@@ -27,7 +27,7 @@ Releaf.setup do |conf|
     },
    ]
 
-  conf.additional_controllers = %w[admin/chapters]
+  conf.additional_controllers = %w[admin/chapters releaf/permissions/profile]
   conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content, Releaf::Core::SettingsUIComponent]
 
   conf.available_locales = ["en", "lv"]

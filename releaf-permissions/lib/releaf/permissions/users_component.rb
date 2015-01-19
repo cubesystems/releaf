@@ -1,7 +1,7 @@
 module Releaf::Permissions::UsersComponent
-  def self.draw_component_routes router
-    router.namespace :permissions, path: nil do
-      router.releaf_resources :users
-    end
+  extend Releaf::Core::Component
+
+  def self.draw_component_routes(router)
+    resource_route(router, :permissions, :users)
   end
 end

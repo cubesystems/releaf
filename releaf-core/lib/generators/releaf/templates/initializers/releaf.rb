@@ -20,7 +20,7 @@ Releaf.setup do |conf|
 
   # controllers that must be accessible by user, but are not visible in menu
   # should be added to this list
-  conf.additional_controllers = []
+  conf.additional_controllers = ['releaf/permissions/profile']
 
   conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
 

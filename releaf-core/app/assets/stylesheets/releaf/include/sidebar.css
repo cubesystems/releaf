@@ -59,7 +59,7 @@ body > aside nav li .trigger
     padding: 10px 40px 10px 13px;
 }
 
-body > aside nav li .trigger.active-item i
+body > aside nav li li.active .trigger i
 {
     display: inline;
     width: auto;
@@ -127,13 +127,13 @@ body > aside nav li li .trigger i
     display: none;
 }
 
-body > aside nav li li .trigger.active-item
+body > aside nav li li.active > .trigger
 {
     color: #ffffff;
     background: #383838;
 }
 
-body > aside nav li li .trigger.active-item i
+body > aside nav li li.active .trigger i
 {
     display: block;
     position: absolute;
@@ -142,7 +142,7 @@ body > aside nav li li .trigger.active-item i
     font-size: 28px;
 }
 
-body > aside nav li li:first-child .trigger.active-item i
+body > aside nav li li.active:first-child .trigger i
 {
     top: 6px;
 }
@@ -177,7 +177,7 @@ body > aside .compacter button:hover
     background: #282828;
 }
 
-body > aside .compacter .toggle-angle-icon
+body > aside .compacter i
 {
     color: #37b1a7;
     font-size: 20px;

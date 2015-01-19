@@ -22,7 +22,7 @@ module Releaf::Builders::View
 
   def breadcrumbs
     breadcrumb_items = template_variable("breadcrumbs")
-    return nil unless breadcrumb_items.present?
+    return unless breadcrumb_items.present?
 
     tag(:nav) do
       tag(:ul, class: "block breadcrumbs") do

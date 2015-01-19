@@ -1,6 +1,6 @@
 require 'spec_helper'
 feature "Authorization" do
-  let(:user){ FactoryGirl.create(:user) }
+  let(:user){ create(:user) }
 
   scenario "Url preserving after authorization" do
     current_unauthorized_url = new_admin_book_url

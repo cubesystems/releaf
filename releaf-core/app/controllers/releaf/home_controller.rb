@@ -1,18 +1,13 @@
 module Releaf
   class HomeController < BaseController
     def index
-      @user = self.send("current_#{ReleafDeviseHelper.devise_admin_model_name}")
+      @user = access_control.user
       unless @user.nil?
         respond_to do |format|
           format.html { redirect_to default_or_available_controller_path }
         end
       end
     end
-
-    def page_not_found
-      error_response('page_not_found', 404)
-    end
-
     protected
 
     def default_or_available_controller_path

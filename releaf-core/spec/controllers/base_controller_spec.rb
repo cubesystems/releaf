@@ -326,7 +326,7 @@ describe Admin::BooksController do
 
   describe "GET #edit" do
     before do
-      @resource = FactoryGirl.create(:book)
+      @resource = create(:book)
     end
 
     it "assigns the requested record to @resource" do

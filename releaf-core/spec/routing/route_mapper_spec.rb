@@ -6,17 +6,6 @@ describe Releaf::Core::RouteMapper do
     Dummy::Application.reload_routes!
   end
 
-  describe "#mount_releaf_at" do
-    it "calls #devise_for routing mapper method" do
-      expect_any_instance_of(ActionDispatch::Routing::Mapper).to receive(:devise_for).
-        with("releaf/permissions/user", {path: "/my-admin", controllers: {sessions: "releaf/sessions"}})
-
-      routes.draw do
-        mount_releaf_at '/my-admin'
-      end
-    end
-  end
-
   describe "#releaf_resources" do
     before do
       routes.draw do
@@ -105,7 +94,8 @@ describe Releaf::Core::RouteMapper do
       end
 
       it "route to page not found" do
-        expect(get: "/admin/books/1/toolbox").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/toolbox")
+        expect(get: "/admin/books/1/toolbox")
+          .to route_to(controller: "releaf/core/errors", action: "page_not_found", path: "books/1/toolbox")
       end
     end
 
@@ -119,7 +109,8 @@ describe Releaf::Core::RouteMapper do
       end
 
       it "route to page not found" do
-        expect(get: "/admin/books/1/toolbox").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/toolbox")
+        expect(get: "/admin/books/1/toolbox")
+          .to route_to(controller: "releaf/core/errors", action: "page_not_found", path: "books/1/toolbox")
       end
     end
 
@@ -133,7 +124,8 @@ describe Releaf::Core::RouteMapper do
       end
 
       it "does not mount destroy confirm route" do
-        expect(get: "/admin/books/1/confirm_destroy").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/confirm_destroy")
+        expect(get: "/admin/books/1/confirm_destroy")
+          .to route_to(controller: "releaf/core/errors", action: "page_not_found", path: "books/1/confirm_destroy")
       end
     end
 
@@ -147,7 +139,8 @@ describe Releaf::Core::RouteMapper do
       end
 
       it "does not mount destroy confirm route" do
-        expect(get: "/admin/books/1/confirm_destroy").to route_to(controller: "releaf/home", action: "page_not_found", path: "books/1/confirm_destroy")
+        expect(get: "/admin/books/1/confirm_destroy")
+          .to route_to(controller: "releaf/core/errors", action: "page_not_found", path: "books/1/confirm_destroy")
       end
     end
 

@@ -12,38 +12,5 @@ module Releaf::Permissions
     before_validation{|model| model.permissions.reject!(&:blank?) if model.permissions}
 
     alias_attribute :to_text, :name
-
-    # Return true/false access for given controller and action
-    # @param [Controller, String or class that inherit ActionController::Base] controller to check access
-    # @param [Action, String] action to check access
-    # @return [Boolean] access to controller and action
-    def authorize!(controller, action = nil)
-
-      if controller.is_a? String
-        controller_name = controller
-      elsif controller.class < ActionController::Base
-        controller_name = controller.class.name
-      else
-        raise ArgumentError, 'Argument is neither String or class that inherit ActionController::Base'
-      end
-
-      # clean controller in name if left
-      controller_name = controller_name.gsub("Controller", "")
-
-      # final convertation to underscore
-      controller_name = controller_name.underscore
-
-      # always allow access to profile controller
-      if controller_name == 'releaf/permissions/profile'
-        return true
-      # always allow access to home controller, so we can route user to default controller
-      elsif controller_name == 'releaf/home'
-        return true
-      end
-
-      return permissions.include? controller_name
-    end
-
   end
-
 end

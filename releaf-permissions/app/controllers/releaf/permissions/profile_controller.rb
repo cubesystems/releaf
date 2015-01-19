@@ -26,7 +26,7 @@ module Releaf::Permissions
 
       # reload resource as password has been changed
       if @resource.password != old_password
-        sign_in(self.send("current_#{::Releaf::ReleafDeviseHelper.devise_admin_model_name}"), bypass: true)
+        sign_in(access_control.user, bypass: true)
       end
     end
 
@@ -36,6 +36,8 @@ module Releaf::Permissions
 
     protected
 
+    def controller_breadcrumb; end
+
     def setup
       @features = {
         edit: true,
@@ -43,11 +45,10 @@ module Releaf::Permissions
       }
 
       # use already loaded admin user instance
-      @resource = self.send("current_#{::Releaf::ReleafDeviseHelper.devise_admin_model_name}")
+      @resource = access_control.user
     end
 
     def permitted_params
-      return [] unless %w[create update].include? params[:action]
       %w[name surname email password password_confirmation locale]
     end
   end

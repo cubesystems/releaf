@@ -28,8 +28,8 @@ module Releaf
   mattr_accessor :available_locales
   @@available_locales = nil
 
-  mattr_accessor :page_header_builder
-  @@page_header_builder = nil
+  mattr_accessor :layout_builder
+  @@layout_builder = nil
 
   mattr_accessor :available_admin_locales
   @@available_admin_locales = nil
@@ -38,6 +38,9 @@ module Releaf
   # should be added to this list
   mattr_accessor :additional_controllers
   @@additional_controllers = []
+
+  mattr_accessor :access_control_module
+  @@access_control_module = nil
 
   # controller list
   mattr_accessor :controller_list
@@ -66,7 +69,8 @@ module Releaf
       build_controller_list(normalized_additional_controllers)
 
       self.components = normalize_components(components)
-      self.page_header_builder ||= Releaf::Builders::PageHeaderBuilder
+      self.layout_builder ||= Releaf::Builders::Page::LayoutBuilder
+      self.access_control_module ||= Releaf::Permissions
       initialize_components
     end
 
@@ -125,23 +129,24 @@ module Releaf
       end
 
       if item.has_key? :helper
-        item[:url_helper] = item[:helper] + "_path"
+        item[:url_helper] = item[:helper].to_sym
       elsif item.has_key? :controller
-        item[:url_helper] = item[:controller].gsub('/', '_') + "_path"
+        item[:url_helper] = item[:controller].gsub('/', '_').to_sym
       end
 
-      return item
+      item
     end
 
     # Recursively normalize menu item and subitems
     def normalize_menu_item item_data
       item = normalize_controller_item item_data
+      item[:icon] = "caret-left" if item[:icon].nil?
 
       if item.has_key?(:items)
         item[:items].map! { |subitem| normalize_menu_item(subitem) }
       end
 
-      return item
+      item
     end
   end
 end
