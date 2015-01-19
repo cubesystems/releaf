@@ -32,7 +32,7 @@ describe Releaf::Builders::Base, type: :module do
       end
     end
 
-    [:layout_settings, :permissions_manager, :controller_scope_name, :feature_available?,
+    [:layout_settings, :access_control, :controller_scope_name, :feature_available?,
      :index_url].each do|method_name|
       it "delegates #{method_name} to controller" do
         expect(subject).to delegate_method(method_name).to(:controller)

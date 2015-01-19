@@ -39,6 +39,9 @@ module Releaf
   mattr_accessor :additional_controllers
   @@additional_controllers = []
 
+  mattr_accessor :access_control_module
+  @@access_control_module = nil
+
   # controller list
   mattr_accessor :controller_list
   @@controller_list = {}
@@ -67,6 +70,7 @@ module Releaf
 
       self.components = normalize_components(components)
       self.layout_builder ||= Releaf::Builders::Page::LayoutBuilder
+      self.access_control_module ||= Releaf::Permissions
       initialize_components
     end
 

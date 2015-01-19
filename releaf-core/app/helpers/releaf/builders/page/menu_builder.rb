@@ -3,10 +3,10 @@ class Releaf::Builders::Page::MenuBuilder
   include Releaf::Builders::Template
 
   class Menu
-    mattr_accessor :permissions_manager
+    mattr_accessor :access_control
 
-    def self.build(list, permissions_manager)
-      self.permissions_manager = permissions_manager
+    def self.build(list, access_control)
+      self.access_control = access_control
       build_list(list)
     end
 
@@ -23,7 +23,7 @@ class Releaf::Builders::Page::MenuBuilder
         item[:active]  = item[:items].find{|i| i[:active] == true }.present?
         item[:url_helper] = item[:items].first[:url_helper] if item[:items].present?
         item
-      elsif permissions_manager.authorize_controller!(item[:controller])
+      elsif access_control.controller_allowed?(item[:controller])
         item[:active] = active_controller?(item[:controller])
         item
       else
@@ -32,12 +32,12 @@ class Releaf::Builders::Page::MenuBuilder
     end
 
     def self.active_controller?(controller_name)
-      permissions_manager.current_controller_name == controller_name
+      access_control.current_controller_name == controller_name
     end
   end
 
   def output
-    menu_items = Menu.build(Releaf.menu, permissions_manager)
+    menu_items = Menu.build(Releaf.menu, access_control)
     compacter << tag(:nav, menu_level(menu_items))
   end
 

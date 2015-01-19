@@ -31,7 +31,7 @@ describe Releaf::AssetsResolver do
                                      :javascripts=>[]},
         "releaf/i18n_database/translations"=>{:stylesheets=>["releaf/controllers/releaf/i18n_database/translations"],
                                               :javascripts=>["releaf/controllers/releaf/i18n_database/translations"]},
-        "releaf/sessions"=>{:stylesheets=>["releaf/controllers/releaf/sessions"], :javascripts=>[]}
+        "releaf/permissions/sessions" => {:stylesheets=>["releaf/controllers/releaf/permissions/sessions"], :javascripts=>[]}
       }
       expect(described_class.scan).to eq(list)
     end

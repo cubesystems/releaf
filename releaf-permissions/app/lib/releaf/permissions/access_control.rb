@@ -1,9 +1,9 @@
 module Releaf::Permissions
-  class Management
+  class AccessControl
     include ActiveModel::Model
     attr_accessor :controller
 
-    def authorize_controller!(controller_name)
+    def controller_allowed?(controller_name)
       allowed_controllers.include?(controller_name) || user.role.permissions.include?(controller_name)
     end
 
@@ -19,17 +19,12 @@ module Releaf::Permissions
       ['releaf/home']
     end
 
-    def authorize!
-      authenticate_devise!
-      authorize_controller!(current_controller_name)
-    end
-
     def authorized?
       method_name = "#{self.class.devise_admin_model_name}_signed_in?"
       controller.send(method_name)
     end
 
-    def authenticate_devise!
+    def authenticate!
       method_name = "authenticate_#{self.class.devise_admin_model_name}!"
       controller.send(method_name)
     end

@@ -58,11 +58,6 @@ describe Releaf::Builders::View, type: :class do
       end
     end
 
-    it "compacts empty breadcrumbs" do
-      allow(subject).to receive(:template_variable).with("breadcrumbs").and_return([nil, nil])
-      expect(subject.breadcrumbs).to be nil
-    end
-
     context "when breadcrumbs template variable does not exists" do
       it "returns nil" do
         allow(subject).to receive(:template_variable).with("breadcrumbs").and_return(nil)

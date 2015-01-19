@@ -4,9 +4,9 @@ module Releaf
   class BaseController < ActionController::Base
     include Releaf::BeforeRender
     include Releaf::SerializedArrayParamsNormalizer
+    include Releaf.access_control_module
 
-    before_filter :authorize!, :manage_ajax, :set_locale,
-      :build_breadcrumbs, :setup, :verify_feature_availability
+    before_filter :manage_ajax, :build_breadcrumbs, :setup, :verify_feature_availability!
 
     rescue_from Releaf::Core::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
@@ -292,18 +292,6 @@ module Releaf
       @features[feature].present?
     end
 
-    def authorize!
-      raise Releaf::Core::AccessDenied.new(permissions_manager.current_controller_name) unless permissions_manager.authorize!
-    end
-
-    def permissions_manager
-      @permissions_manager ||= Releaf::Permissions::Management.new(controller: self)
-    end
-
-    def layout_settings(key)
-      permissions_manager.user.try(:settings).try(:[], key)
-    end
-
     def page_title
       I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
     end
@@ -362,7 +350,7 @@ module Releaf
       @resource = resource_class.find(params[:id])
     end
 
-    def verify_feature_availability
+    def verify_feature_availability!
       feature = action_feature(params[:action])
       raise FeatureDisabled, feature.to_s if (feature.present? && !feature_available?(feature))
     end
@@ -515,15 +503,17 @@ module Releaf
     end
 
     def build_breadcrumbs
-      @breadcrumbs = []
-      @breadcrumbs << { name: I18n.t('Home', scope: 'admin.breadcrumbs'), url: releaf_root_path }
-      @breadcrumbs << controller_breadcrumb
+      @breadcrumbs = [home_breadcrumb, controller_breadcrumb].compact
+    end
+
+    def home_breadcrumb
+       { name: I18n.t('Home', scope: 'admin.breadcrumbs'), url: releaf_root_path }
     end
 
     def controller_breadcrumb
       controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
-      unless controller_params.nil?
-        @breadcrumbs << {
+      if controller_params
+        {
           name: I18n.t(controller_params[:name], scope: "admin.menu_items"),
           url: send("#{controller_params[:url_helper]}_path")
         }
@@ -548,11 +538,6 @@ module Releaf
     # returns all params except :controller, :action and :format
     def current_params
       params.except(:controller, :action, :format)
-    end
-
-    # set locale for interface translating from current admin user
-    def set_locale
-      I18n.locale = permissions_manager.user.locale
     end
 
     def feature_disabled exception

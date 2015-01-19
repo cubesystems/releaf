@@ -26,7 +26,7 @@ module Releaf::Permissions
 
       # reload resource as password has been changed
       if @resource.password != old_password
-        sign_in(permissions_manager.user, bypass: true)
+        sign_in(access_control.user, bypass: true)
       end
     end
 
@@ -45,7 +45,7 @@ module Releaf::Permissions
       }
 
       # use already loaded admin user instance
-      @resource = permissions_manager.user
+      @resource = access_control.user
     end
 
     def permitted_params

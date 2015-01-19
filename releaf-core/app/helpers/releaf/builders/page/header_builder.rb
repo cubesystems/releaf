@@ -54,7 +54,7 @@ class Releaf::Builders::Page::HeaderBuilder
   end
 
   def user
-    permissions_manager.user
+    access_control.user
   end
 
   def profile_user_name
@@ -62,7 +62,7 @@ class Releaf::Builders::Page::HeaderBuilder
   end
 
   def sign_out_url
-    url_for(action: 'destroy', controller: "/releaf/sessions")
+    url_for(action: 'destroy', controller: "/releaf/permissions/sessions")
   end
 
   def sign_out_form

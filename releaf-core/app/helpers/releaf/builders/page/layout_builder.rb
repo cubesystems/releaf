@@ -19,7 +19,7 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def body_content(&block)
-    if controller.permissions_manager.authorized?
+    if access_control.authorized?
       header << menu << tag(:main, id: "main"){ yield } << notifications
     else
       yield

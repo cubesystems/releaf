@@ -124,9 +124,9 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
 
   describe "#user" do
     it "returns permissions manager user" do
-      permissions_manager = double(Releaf::Permissions::Management)
-      allow(subject).to receive(:permissions_manager).and_return(permissions_manager)
-      allow(permissions_manager).to receive(:user).and_return("x")
+      access_control = double(Releaf::Permissions::AccessControl)
+      allow(subject).to receive(:access_control).and_return(access_control)
+      allow(access_control).to receive(:user).and_return("x")
       expect(subject.user).to eq("x")
     end
   end

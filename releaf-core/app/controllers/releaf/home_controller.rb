@@ -1,7 +1,7 @@
 module Releaf
   class HomeController < BaseController
     def index
-      @user = permissions_manager.user
+      @user = access_control.user
       unless @user.nil?
         respond_to do |format|
           format.html { redirect_to default_or_available_controller_path }
