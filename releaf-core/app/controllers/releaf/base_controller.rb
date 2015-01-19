@@ -5,8 +5,9 @@ module Releaf
     include Releaf::BeforeRender
     include Releaf::SerializedArrayParamsNormalizer
     include Releaf.access_control_module
+    include Releaf::Breadcrumbs
 
-    before_filter :manage_ajax, :build_breadcrumbs, :setup, :verify_feature_availability!
+    before_filter :manage_ajax, :setup, :verify_feature_availability!
 
     rescue_from Releaf::Core::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
@@ -500,39 +501,6 @@ module Releaf
     # @return [String] url
     def success_url
       url_for( action: 'edit', id: @resource.id )
-    end
-
-    def build_breadcrumbs
-      @breadcrumbs = [home_breadcrumb, controller_breadcrumb].compact
-    end
-
-    def home_breadcrumb
-       { name: I18n.t('Home', scope: 'admin.breadcrumbs'), url: releaf_root_path }
-    end
-
-    def controller_breadcrumb
-      controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
-      if controller_params
-        {
-          name: I18n.t(controller_params[:name], scope: "admin.menu_items"),
-          url: send("#{controller_params[:url_helper]}_path")
-        }
-      end
-    end
-
-    def add_resource_breadcrumb resource, url = nil
-      if resource.new_record?
-        name=  I18n.t('New record', scope: 'admin.breadcrumbs')
-        url = url_for(action: :new, only_path: true) if url.nil?
-      else
-        if resource.respond_to?(:to_text)
-          name = resource.send(:to_text)
-        else
-          name = I18n.t('Edit record', scope: 'admin.breadcrumbs')
-        end
-        url = url_for(action: :edit, id: resource.id, only_path: true) if url.nil?
-      end
-      @breadcrumbs << { name: name, url: url }
     end
 
     # returns all params except :controller, :action and :format
