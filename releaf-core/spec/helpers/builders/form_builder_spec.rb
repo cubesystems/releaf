@@ -181,6 +181,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
       allow(subject).to receive(:association_fields).with(:author).and_return(["b"])
       allow(subject).to receive(:releaf_has_many_association).with(:author, fields).and_return("_has_many_content_")
       allow(subject).to receive(:releaf_belongs_to_association).with(:author, fields).and_return("_belongs_to_content_")
+      allow(subject).to receive(:releaf_has_one_association).with(:author, fields).and_return("_has_one_content_")
     end
 
     context "when given fields argument is nil" do
@@ -202,6 +203,13 @@ describe Releaf::Builders::FormBuilder, type: :class do
       it "renders association with #releaf_belongs_to_association" do
         allow(reflection).to receive(:macro).and_return(:belongs_to)
         expect(subject.releaf_association_fields(:author, fields)).to eq("_belongs_to_content_")
+      end
+    end
+
+    context "when :has_one association given" do
+      it "renders association with #releaf_has_one_association" do
+        allow(reflection).to receive(:macro).and_return(:has_one)
+        expect(subject.releaf_association_fields(:author, fields)).to eq("_has_one_content_")
       end
     end
 

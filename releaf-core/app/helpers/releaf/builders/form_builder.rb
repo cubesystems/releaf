@@ -75,12 +75,23 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
       releaf_has_many_association(association_name, fields)
     when :belongs_to
       releaf_belongs_to_association(association_name, fields)
+    when :has_one
+      releaf_has_one_association(association_name, fields)
     else
       raise 'not implemented'
     end
   end
 
   def releaf_belongs_to_association(association_name, fields)
+    releaf_has_one_or_belongs_to_association(association_name, fields)
+  end
+
+  def releaf_has_one_association(association_name, fields)
+    object.send("build_#{association_name}") unless object.send(association_name).present?
+    releaf_has_one_or_belongs_to_association(association_name, fields)
+  end
+
+  def releaf_has_one_or_belongs_to_association(association_name, fields)
     tag(:fieldset, class: "type-association", data: {name: association_name}) do
       tag(:legend, t(association_name)) <<
       fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
