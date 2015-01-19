@@ -21,7 +21,7 @@ module Releaf::Permissions
 
     def authorize!
       authenticate_devise!
-      raise Releaf::Core::AccessDenied.new(current_controller_name) unless authorize_controller!(current_controller_name)
+      authorize_controller!(current_controller_name)
     end
 
     def authorized?

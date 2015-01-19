@@ -293,7 +293,7 @@ module Releaf
     end
 
     def authorize!
-      permissions_manager.authorize!
+      raise Releaf::Core::AccessDenied.new(permissions_manager.current_controller_name) unless permissions_manager.authorize!
     end
 
     def permissions_manager
