@@ -517,7 +517,10 @@ module Releaf
     def build_breadcrumbs
       @breadcrumbs = []
       @breadcrumbs << { name: I18n.t('Home', scope: 'admin.breadcrumbs'), url: releaf_root_path }
+      @breadcrumbs << controller_breadcrumb
+    end
 
+    def controller_breadcrumb
       controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
       unless controller_params.nil?
         @breadcrumbs << {
@@ -526,7 +529,6 @@ module Releaf
         }
       end
     end
-
 
     def add_resource_breadcrumb resource, url = nil
       if resource.new_record?

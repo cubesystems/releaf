@@ -36,6 +36,8 @@ module Releaf::Permissions
 
     protected
 
+    def controller_breadcrumb; end
+
     def setup
       @features = {
         edit: true,
