@@ -222,16 +222,30 @@ describe Releaf::Builders::FormBuilder, type: :class do
   end
 
   describe "#input_wrapper_with_label" do
-    it "returns wrapped label and input content" do
-      allow(subject).to receive(:releaf_label).with(:color, "label_attributes", "options").and_return("label_content")
+    before do
       allow(subject).to receive(:wrapper).with("input_content", class: "value").and_return("input_content")
-
+      allow(subject).to receive(:releaf_label).with(:color, "label_attributes", "options").and_return("label_content")
       allow(subject).to receive(:field).with(:color, "field_attributes", "options"){ |name, field, options, &block|
         expect(block.call).to eq("label_contentinput_content")
       }.and_return("content")
+    end
 
+    it "returns wrapped label and input content" do
       expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"))
         .to eq("content")
+    end
+
+    context "when block given" do
+      it "concatinates block output to content" do
+        allow(subject).to receive(:wrapper).with("input_contentX", class: "value").and_return("input_content")
+        expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"){ "X" })
+          .to eq("content")
+      end
+
+      it "correctly handles block nil output" do
+        expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"){ })
+          .to eq("content")
+      end
     end
   end
 
