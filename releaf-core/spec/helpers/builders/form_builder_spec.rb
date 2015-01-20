@@ -236,9 +236,10 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
 
     context "when block given" do
-      it "concatinates block output to content" do
-        allow(subject).to receive(:wrapper).with("input_contentX", class: "value").and_return("input_content")
-        expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"){ "X" })
+      it "safely concatinate block output to content" do
+        content =  'input_content<input id="book_id" name="book[id]" type="hidden" />'
+        allow(subject).to receive(:wrapper).with(content, class: "value").and_return("input_content")
+        expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"){ subject.hidden_field(:id) })
           .to eq("content")
       end
 
