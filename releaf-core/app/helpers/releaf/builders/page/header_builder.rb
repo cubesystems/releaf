@@ -19,7 +19,7 @@ class Releaf::Builders::Page::HeaderBuilder
   end
 
   def home_url
-    url_for(action: 'index', controller: "/releaf/home")
+    url_for(:releaf_root)
   end
 
   def home_text

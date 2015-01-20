@@ -1,11 +1,8 @@
-module Releaf
-  class HomeController < BaseController
-    def index
-      @user = access_control.user
-      unless @user.nil?
-        respond_to do |format|
-          format.html { redirect_to default_or_available_controller_path }
-        end
+module Releaf::Permissions
+  class HomeController < Releaf::BaseController
+    def home
+      respond_to do |format|
+        format.html { redirect_to default_or_available_controller_path }
       end
     end
     protected
@@ -18,11 +15,12 @@ module Releaf
           next
         end
       end
-      return root_path
+
+      root_path
     end
 
     def controllers_to_try
-      [@user.role.default_controller, @user.role.permissions].flatten.uniq
+      [access_control.user.role.default_controller, access_control.user.role.permissions].flatten.uniq
     end
   end
 end

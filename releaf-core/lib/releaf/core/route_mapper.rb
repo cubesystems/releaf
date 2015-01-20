@@ -4,8 +4,8 @@ module Releaf::Core::RouteMapper
   def releaf_resources(*args, &block)
     resources *args do
       yield if block_given?
-      get   :confirm_destroy, :on => :member      if include_confirm_destroy?(args.last)
-      get   :toolbox, :on => :member              if include_toolbox?(args.last)
+      get   :confirm_destroy, on: :member      if include_confirm_destroy?(args.last)
+      get   :toolbox, on: :member              if include_toolbox?(args.last)
     end
   end
 
@@ -25,13 +25,12 @@ module Releaf::Core::RouteMapper
       if mount_location_namespace.empty?
         yield if block_given?
       else
-        namespace mount_location_namespace, :path => nil do
+        namespace mount_location_namespace, path: nil do
           yield if block_given?
         end
       end
 
-      namespace :releaf, :path => nil do
-        root :to => "home#index"
+      namespace :releaf, path: nil do
         get '/*path' => 'core/errors#page_not_found'
       end
     end

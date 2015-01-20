@@ -16,7 +16,7 @@ module Releaf::Permissions
     end
 
     def allowed_controllers
-      ['releaf/home', 'releaf/core/errors']
+      ['releaf/permissions/home', 'releaf/core/errors']
     end
 
     def authorized?

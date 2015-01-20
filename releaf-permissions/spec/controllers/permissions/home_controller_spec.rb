@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Releaf::HomeController do
+describe Releaf::Permissions::HomeController do
 
-  describe "GET index" do
+  describe "GET home" do
     context "when authorized as user" do
       login_as_user :user
 
@@ -11,7 +11,7 @@ describe Releaf::HomeController do
       end
 
       it "redirects to users controller" do
-        get :index
+        get :home
         expect(response).to redirect_to(url_for(:action => 'index', :controller => @role.default_controller, :only_path => true))
       end
 
@@ -21,7 +21,7 @@ describe Releaf::HomeController do
         end
 
         it "redirects to first available controller" do
-          get :index
+          get :home
           expect(response).to redirect_to(url_for(:action => 'index', :controller => @role.permissions.first, :only_path => true))
         end
 
@@ -32,7 +32,7 @@ describe Releaf::HomeController do
           end
 
           it "redirects to root_path" do
-            get :index
+            get :home
             expect(response).to redirect_to(root_path)
           end
         end
@@ -43,7 +43,7 @@ describe Releaf::HomeController do
       login_as_user :user
 
       it "redirects to content controller" do
-        get :index
+        get :home
         expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_permissions_user.role.default_controller, :only_path => true))
       end
     end
