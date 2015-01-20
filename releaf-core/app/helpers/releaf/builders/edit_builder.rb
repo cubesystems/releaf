@@ -30,11 +30,14 @@ class Releaf::Builders::EditBuilder
     end
   end
 
-
   def section_body
-    tag(:div, class: "body") do
+    tag(:div, section_body_attributes) do
       section_body_blocks
     end
+  end
+
+  def section_body_attributes
+    {class: ["body"]}
   end
 
   def section_body_blocks
