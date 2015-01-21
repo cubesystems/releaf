@@ -19,7 +19,6 @@ module Releaf::Content::Nodes
     end
 
     def content_fields
-      #binding.pry
       object.content_class.releaf_fields_to_display(nil) if object.content_class.respond_to?(:releaf_fields_to_display)
     end
 
