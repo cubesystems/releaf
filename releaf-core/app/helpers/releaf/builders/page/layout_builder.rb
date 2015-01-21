@@ -3,7 +3,13 @@ class Releaf::Builders::Page::LayoutBuilder
   include Releaf::Builders::Template
 
   def output(&block)
-    head << body{ yield }
+    doctype << tag(:html) do
+      head << body{ yield }
+    end
+  end
+
+  def doctype
+    "<!DOCTYPE html>"
   end
 
   def head
