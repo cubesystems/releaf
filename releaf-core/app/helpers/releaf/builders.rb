@@ -1,6 +1,6 @@
 class Releaf::Builders
-  def self.builder_class(controller_class, type)
-    scopes(controller_class).each do |scope|
+  def self.builder_class(scopes, type)
+    (scopes + inherited_builder_scopes).each do |scope|
       resolved_class = scoped_builder_class(scope, type)
       return resolved_class if resolved_class
     end
@@ -28,10 +28,6 @@ class Releaf::Builders
 
   def self.ignorable_error_pattern(scope, builder_class_name)
     /uninitialized constant (#{scope}|#{builder_class_name})$/
-  end
-
-  def self.scopes(controller_class)
-    [controller_class.name.gsub(/Controller$/, "")] + inherited_builder_scopes
   end
 
   def self.inherited_builder_scopes

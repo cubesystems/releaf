@@ -124,8 +124,15 @@ describe Releaf::BaseController do
 
   describe "#builder_class" do
     it "returns controller class scoped builder for given builder type" do
-      allow(Releaf::Builders).to receive(:builder_class).with(DummyController, :form).and_return("x")
+      allow(subject).to receive(:builder_scopes).and_return(["a", "b"])
+      allow(Releaf::Builders).to receive(:builder_class).with(["a", "b"], :form).and_return("x")
       expect(subject.builder_class(:form)).to eq("x")
+    end
+  end
+
+  describe "#builder_scopes" do
+    it "returns array with normalized controller class name" do
+      expect(subject.builder_scopes).to eq(["Dummy"])
     end
   end
 

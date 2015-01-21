@@ -11,16 +11,16 @@ describe Releaf::Builders, type: :class do
   class Admin::Advanced::Builders < Releaf::Builders; end
 
   describe ".builder_class" do
-    it "returns returns first resolved builder class" do
-      allow(described_class).to receive(:scopes).with(Releaf::Permissions::UsersController).and_return(["a", "b", "c"])
+    it "returns first resolved builder class from given and inherited scopes" do
+      allow(described_class).to receive(:inherited_builder_scopes).and_return(["b", "c"])
       allow(described_class).to receive(:scoped_builder_class).with("a", :form).and_return(nil)
       allow(described_class).to receive(:scoped_builder_class).with("b", :form).and_return("x")
       allow(described_class).to receive(:scoped_builder_class).with("c", :form).and_return("y")
 
-      expect(described_class.builder_class(Releaf::Permissions::UsersController, :form)).to eq("x")
+      expect(described_class.builder_class(["a"], :form)).to eq("x")
 
       allow(described_class).to receive(:scoped_builder_class).with("b", :form).and_return(nil)
-      expect(described_class.builder_class(Releaf::Permissions::UsersController, :form)).to eq("y")
+      expect(described_class.builder_class(["a"], :form)).to eq("y")
     end
   end
 
@@ -92,15 +92,6 @@ describe Releaf::Builders, type: :class do
       it "returns false" do
         expect(described_class.ignorable_error?("some critical error", "a", "b")).to be false
       end
-    end
-  end
-
-  describe ".scopes" do
-    it "returns given controller scope merged with inherited builder scopes" do
-      expect(described_class.scopes(Admin::Advanced::AuthorsController))
-        .to eq(["Admin::Advanced::Authors", "Releaf::Builders"])
-      expect(Admin::Advanced::Builders.scopes(Admin::Advanced::AuthorsController))
-        .to eq(["Admin::Advanced::Authors", "Admin::Advanced::Builders", "Releaf::Builders"])
     end
   end
 

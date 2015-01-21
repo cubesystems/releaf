@@ -255,7 +255,11 @@ module Releaf
     end
 
     def builder_class(builder_type)
-      Releaf::Builders.builder_class(self.class, builder_type)
+      Releaf::Builders.builder_class(builder_scopes, builder_type)
+    end
+
+    def builder_scopes
+      [self.class.name.gsub(/Controller$/, "")]
     end
 
     def form_options(form_type, object, object_name)
