@@ -75,11 +75,15 @@ module Releaf::Content::Nodes
     def item_position_select_options
       after_text = t('After', scope: 'admin.global')
       list = [[t('First', scope: 'admin.global'), 0]]
-      controller.instance_variable_get(:@order_nodes).each do |node|
+      order_nodes.each do |node|
         list.push [after_text + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
       end
 
       list
+    end
+
+    def order_nodes
+      object.class.where(parent_id: object.parent_id).where('id <> ?',  object.id.to_i)
     end
 
     def slug_base_url

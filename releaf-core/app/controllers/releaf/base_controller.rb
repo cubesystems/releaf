@@ -2,7 +2,6 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < ActionController::Base
-    include Releaf::BeforeRender
     include Releaf::SerializedArrayParamsNormalizer
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
@@ -321,14 +320,12 @@ module Releaf
     end
 
     def prepare_new
-      # load resource only if is not initialized yet
-      @resource = resource_class.new unless resource_given?
+      new_resource unless resource_given?
       add_resource_breadcrumb(@resource)
     end
 
     def prepare_create
-      # load resource only if is not loaded yet
-      @resource = resource_class.new unless resource_given?
+      new_resource unless resource_given?
       @resource.assign_attributes(resource_params)
     end
 
@@ -349,6 +346,11 @@ module Releaf
 
     def prepare_toolbox
       load_resource
+    end
+
+    def new_resource
+      # load resource only if is not initialized yet
+      @resource = resource_class.new
     end
 
     def load_resource
