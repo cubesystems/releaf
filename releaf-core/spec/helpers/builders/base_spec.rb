@@ -23,7 +23,7 @@ describe Releaf::Builders::Base, type: :module do
      :releaf_button, :params, :form_tag, :file_field_tag,
      :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
      :render, :link_to, :flash, :truncate, :toolbox, :radio_button_tag,
-     :options_for_select, :action_name, :html_escape, :options_from_collection_for_select,
+     :options_for_select, :action_name, :options_from_collection_for_select,
      :select_tag, :text_field_tag,
      :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes
     ].each do|method_name|
@@ -39,6 +39,14 @@ describe Releaf::Builders::Base, type: :module do
       end
     end
   end
+
+  describe "#html_escape" do
+    it "escapes given value with " do
+      allow(ERB::Util).to receive(:html_escape).with("a").and_return("b")
+      expect(subject.html_escape("a")).to eq("b")
+    end
+  end
+
 
   it "aliases #button to #releaf_button" do
     allow(subject.template).to receive(:releaf_button).with("x", a: "y", b: "z").and_return("xx")

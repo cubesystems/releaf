@@ -282,6 +282,7 @@
 .controller-releaf-content-nodes.view-edit .node-fields .field[data-name="active"]
 {
     min-height: initial;
+    clear: both;
 }
 .controller-releaf-content-nodes.view-edit .node-fields .field[data-name="active"] .value
 {
@@ -289,6 +290,7 @@
 }
 .controller-releaf-content-nodes.view-edit .node-fields hr
 {
+    clear: both;
     border: 1px solid #d4d4d4;
     margin: 7px 34px 7px 0px;
 }

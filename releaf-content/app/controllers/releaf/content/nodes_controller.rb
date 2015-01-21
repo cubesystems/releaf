@@ -2,12 +2,8 @@ module Releaf::Content
   class NodesController < Releaf::BaseController
     include Releaf::Attachments
 
-    before_render :edit_common, only: [:edit, :update]
-    before_filter :new_common, only: [:new, :create]
-
     def generate_url
       tmp_resource = prepare_resource
-
       tmp_resource.name = params[:name]
       tmp_resource.reasign_slug
 
@@ -20,6 +16,14 @@ module Releaf::Content
       @content_types = resource_class.valid_node_content_classes(params[:parent_id]).sort do |a, b|
         I18n.t(a.name.underscore, scope: 'admin.content_types') <=> I18n.t(b.name.underscore, scope: 'admin.content_types')
       end
+    end
+
+    def builder_scopes
+      [node_builder_scope] + super
+    end
+
+    def node_builder_scope
+      [Releaf.mount_location.capitalize, "Nodes"].reject(&:empty?).join("::")
     end
 
     def copy_dialog
@@ -54,7 +58,7 @@ module Releaf::Content
 
     # override base_controller method for adding content tree ancestors
     # to breadcrumbs
-    def add_resource_breadcrumb resource
+    def add_resource_breadcrumb(resource)
       ancestors = []
       if resource.new_record?
         if resource.parent_id
@@ -69,11 +73,10 @@ module Releaf::Content
         @breadcrumbs << { name: ancestor, url: url_for( action: :edit, id: ancestor.id ) }
       end
 
-      super resource
+      super
     end
 
     def self.resource_class
-      # TODO class name should be configurable
       ::Node
     end
 
@@ -85,7 +88,7 @@ module Releaf::Content
 
     private
 
-    def copy_move_common &block
+    def copy_move_common(&block)
       @resource = resource_class.find(params[:id])
 
       if params[:new_parent_id].nil?
@@ -104,7 +107,7 @@ module Releaf::Content
       end
     end
 
-    def respond_after_copy_move result, resource
+    def respond_after_copy_move(result, resource)
       respond_to do |format|
         format.json do
           if result
@@ -128,61 +131,38 @@ module Releaf::Content
 
     def prepare_resource
       if params[:id]
-        return resource_class.find(params[:id])
+        resource_class.find(params[:id])
       elsif params[:parent_id].present?
         parent = resource_class.find(params[:parent_id])
-        return parent.children.new
+        parent.children.new
       else
-        return resource_class.new
+        resource_class.new
       end
     end
 
-    def edit_common
-      @order_nodes = resource_class.where(parent_id: @resource.parent_id).where('id <> :id', id: params[:id])
-
-      if @resource.higher_item
-        @item_position = @resource.item_position
-      else
-        @item_position = 1
-      end
-    end
-
-    def new_common
-      @resource = resource_class.new
-
-      if params[:content_type].blank?
-        redirect_to url_for( action: 'content_type_dialog' )
-      else
-        @order_nodes = resource_class.where(parent_id: params[:parent_id])
-        prepare_node
-      end
-    end
-
-    def prepare_node
+    def new_resource
+      super
       @resource.content_type = node_content_class.name
       @resource.parent_id = params[:parent_id]
       @resource.item_position ||= resource_class.children_max_item_position(@resource.parent) + 1
 
       if node_content_class < ActiveRecord::Base
-        @resource.build_content({})
+        @resource.build_content
         @resource.content_id_will_change!
       end
     end
 
     # Returns valid content type class
     def node_content_class
-      unless ActsAsNode.classes.include? params[:content_type]
-        raise ArgumentError, "invalid content_type"
-      end
-
+      raise ArgumentError, "invalid content_type" unless ActsAsNode.classes.include? params[:content_type]
       params[:content_type].constantize
     end
 
     def permitted_params
-      res_params = super
-      res_params += [{content_attributes: permitted_content_attributes}]
-      res_params -= %w[content_type]
-      return res_params
+      list = super
+      list += [{content_attributes: permitted_content_attributes}]
+      list -= %w[content_type]
+      list
     end
 
     def permitted_content_attributes

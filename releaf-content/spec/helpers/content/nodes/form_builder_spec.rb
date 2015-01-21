@@ -14,11 +14,108 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
                          parent: Node.new(content_type: "Text", slug: "a", id: 1)) }
   let(:subject){ described_class.new(:resource, object, template, {}) }
 
+  describe "#field_names" do
+    it "returns hidden, node and content object fields" do
+      expect(subject.field_names).to eq(["node_fields_block", "content_fields_block"])
+    end
+  end
+
+  describe "#node_fields" do
+    it "returns array with renderable node fields" do
+      list = [:parent_id, :name, :content_type, :slug, :item_position, :active, :locale]
+      expect(subject.node_fields).to eq(list)
+    end
+  end
+
+  describe "#render_node_fields_block" do
+    it "renders node fields" do
+      allow(subject).to receive(:node_fields).and_return([1, 2])
+      allow(subject).to receive(:releaf_fields).with([1, 2]).and_return("x")
+      content = '<div class="section node-fields clear-inside">x</div>'
+      expect(subject.render_node_fields_block).to eq(content)
+    end
+  end
+
+  describe "#render_parent_id" do
+    it "renders hidden parent if field for new object" do
+      allow(subject.object).to receive(:new_record?).and_return(true)
+      allow(subject).to receive(:hidden_field).with(:parent_id).and_return("x")
+      expect(subject.render_parent_id).to eq("x")
+    end
+
+    it "renders nothing for existing object" do
+      allow(subject.object).to receive(:new_record?).and_return(false)
+      expect(subject.render_parent_id).to eq(nil)
+    end
+  end
+
+  describe "#content_fields" do
+    before do
+      subject.object.build_content
+    end
+
+    it "returns array of node content object fields" do
+      allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display).and_return(true)
+      allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display, true).and_return(true)
+      allow(object.content_class).to receive(:releaf_fields_to_display).and_return(["a", "b"])
+      expect(subject.content_fields).to eq(["a", "b"])
+    end
+
+    context "when object content class do not respond to releaf_fields_to_display" do
+      it "returns nil" do
+        allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display).and_return(false)
+        expect(subject.content_fields).to be nil
+      end
+    end
+  end
+
+  describe "#render_content_fields_block" do
+    before do
+      subject.object.build_content
+    end
+
+    it "renders content fields block" do
+      allow(subject).to receive(:content_builder_class).and_return("_b_")
+      allow(subject).to receive(:content_fields).and_return([1, 2])
+      subform = described_class.new(:resource, object, template, {})
+      allow(subject).to receive(:fields_for).with(:content, subject.object.content, builder: "_b_").and_yield(subform)
+      allow(subform).to receive(:releaf_fields).with([1, 2]).and_return("yy")
+      content = '<div class="section content-fields">yy</div>'
+      expect(subject.render_content_fields_block).to eq(content)
+    end
+
+    context "when content have no fields" do
+      it "returns nil" do
+        allow(subject).to receive(:content_fields).and_return([])
+        expect(subject.render_content_fields_block).to be nil
+
+        allow(subject).to receive(:content_fields).and_return(nil)
+        expect(subject.render_content_fields_block).to be nil
+      end
+    end
+  end
+
+  describe "#content_builder_class" do
+    it "returns current builder class" do
+      expect(subject.content_builder_class).to eq(subject.class)
+    end
+  end
+
   describe "#render_locale" do
-    it "renders locale with #render_locale_options" do
-      allow(subject).to receive(:render_locale_options).and_return(a: "b")
-      allow(subject).to receive(:releaf_item_field).with(:locale, options: {a: "b"}).and_return("x")
-      expect(subject.render_locale).to eq("x")
+    context "when node node has locale select enabled" do
+      it "renders locale with #render_locale_options" do
+        allow(subject.object).to receive(:locale_selection_enabled?).and_return(true)
+        allow(subject).to receive(:render_locale_options).and_return(a: "b")
+        allow(subject).to receive(:releaf_item_field).with(:locale, options: {a: "b"}).and_return("x")
+        expect(subject.render_locale).to eq("x")
+      end
+    end
+
+    context "when node node does not have locale select enabled" do
+      it "renders locale with #render_locale_options" do
+        allow(subject.object).to receive(:locale_selection_enabled?).and_return(false)
+        expect(subject.render_locale).to be nil
+      end
     end
   end
 
