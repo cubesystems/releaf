@@ -30,36 +30,6 @@ describe Node do
     end
   end
 
-  describe "#own_fields_to_display" do
-    it "returns blank array" do
-      expect( node.own_fields_to_display ).to eq []
-    end
-  end
-
-  describe "#content_fields_to_display" do
-    context "when #content_type is name of non ActiveRecord class" do
-      it "returns nil" do
-        node.content_type = 'TrueClass'
-        expect( node.content_fields_to_display('edit') ).to be_nil
-      end
-    end
-
-    context "when #content_type is name of ActionController class" do
-      it "returns nil" do
-        node.content_type = 'TextsController'
-        expect( node.content_fields_to_display('edit') ).to be_nil
-      end
-    end
-
-    context "when #content_type is name of ActiveRecord model that acts as node" do
-      it "display all but #id, #updated_at and #created_at fields" do
-        node.content_type = 'Book'
-        expect( node.content_fields_to_display('edit') ).to match_array(Book.column_names - %w[id created_at updated_at])
-      end
-    end
-
-  end
-
   describe "#content_class" do
     context 'when #content_type is nil' do
       it 'returns nil' do

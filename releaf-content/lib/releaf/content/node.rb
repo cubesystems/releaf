@@ -7,25 +7,12 @@ module Releaf::Content
         false
       end
 
-      def build_content(params, assignment_options=nil)
+      def build_content(params = {}, assignment_options = nil)
         self.content = content_class.new(params)
       end
 
-      def own_fields_to_display
-        []
-      end
-
-      def content_fields_to_display action
-        if content_class.respond_to? :releaf_fields_to_display
-          content_class.releaf_fields_to_display(action)
-        else
-          nil
-        end
-      end
-
       def content_class
-        return nil if content_type.blank?
-        content_type.constantize
+        content_type.constantize unless content_type.blank?
       end
 
       ##
@@ -65,7 +52,6 @@ module Releaf::Content
       def attributes_to_copy
         self.class.column_names - attributes_to_not_copy
       end
-
 
       def copy parent_id
         prevent_infinite_copy_loop(parent_id)

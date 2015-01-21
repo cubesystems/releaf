@@ -164,7 +164,7 @@ module Releaf::Content
       @resource.item_position ||= resource_class.children_max_item_position(@resource.parent) + 1
 
       if node_content_class < ActiveRecord::Base
-        @resource.build_content({})
+        @resource.build_content
         @resource.content_id_will_change!
       end
     end

@@ -1,7 +1,39 @@
 module Releaf::Content::Nodes
   class FormBuilder < Releaf::Builders::FormBuilder
+    def field_names
+      %w(node_fields_block content_fields_block)
+    end
+
+    def node_fields
+      [:parent_id, :name, :content_type, :slug, :item_position, :active, :locale]
+    end
+
+    def render_node_fields_block
+      tag(:div, class: ["section", "node-fields", "clear-inside"]) do
+        releaf_fields(node_fields)
+      end
+    end
+
+    def render_parent_id
+      hidden_field(:parent_id) if object.new_record?
+    end
+
+    def content_fields
+      #binding.pry
+      object.content_class.releaf_fields_to_display(nil) if object.content_class.respond_to?(:releaf_fields_to_display)
+    end
+
+    def render_content_fields_block
+      return unless content_fields.present?
+      tag(:div, class: ["section", "content-fields"]) do
+        fields_for(:content, object.content) do |form|
+          form.releaf_fields(content_fields)
+        end
+      end
+    end
+
     def render_locale
-      releaf_item_field(:locale, options: render_locale_options)
+      releaf_item_field(:locale, options: render_locale_options) if object.locale_selection_enabled?
     end
 
     def render_locale_options
@@ -13,7 +45,9 @@ module Releaf::Content::Nodes
 
     def render_content_type
       input = {disabled: true, value: t(object.content_type.underscore, scope: 'admin.content_types')}
-      releaf_text_field(:content_type, input: input)
+      releaf_text_field(:content_type, input: input) do
+        hidden_field_tag(:content_type, params[:content_type]) if object.new_record?
+      end
     end
 
     def render_slug
