@@ -25,10 +25,14 @@ module Releaf::Content::Nodes
     def render_content_fields_block
       return unless content_fields.present?
       tag(:div, class: ["section", "content-fields"]) do
-        fields_for(:content, object.content) do |form|
+        fields_for(:content, object.content, builder: content_builder_class) do |form|
           form.releaf_fields(content_fields)
         end
       end
+    end
+
+    def content_builder_class
+      self.class
     end
 
     def render_locale

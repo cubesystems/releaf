@@ -75,9 +75,10 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     end
 
     it "renders content fields block" do
+      allow(subject).to receive(:content_builder_class).and_return("_b_")
       allow(subject).to receive(:content_fields).and_return([1, 2])
       subform = described_class.new(:resource, object, template, {})
-      allow(subject).to receive(:fields_for).with(:content, subject.object.content).and_yield(subform)
+      allow(subject).to receive(:fields_for).with(:content, subject.object.content, builder: "_b_").and_yield(subform)
       allow(subform).to receive(:releaf_fields).with([1, 2]).and_return("yy")
       content = '<div class="section content-fields">yy</div>'
       expect(subject.render_content_fields_block).to eq(content)
@@ -91,6 +92,12 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
         allow(subject).to receive(:content_fields).and_return(nil)
         expect(subject.render_content_fields_block).to be nil
       end
+    end
+  end
+
+  describe "#content_builder_class" do
+    it "returns current builder class" do
+      expect(subject.content_builder_class).to eq(subject.class)
     end
   end
 
