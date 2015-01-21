@@ -528,7 +528,7 @@ module Releaf
     end
 
     def layout
-      ajax? ? false : Releaf.layout
+      ajax? ? false : "releaf/admin"
     end
 
     private

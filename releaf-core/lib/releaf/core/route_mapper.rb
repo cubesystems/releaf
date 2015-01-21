@@ -17,8 +17,9 @@ module Releaf::Core::RouteMapper
     end
   end
 
-  def mount_releaf_at mount_location, options={}, &block
+  def mount_releaf_at(mount_location, options={}, &block)
     mount_location_namespace = mount_location.gsub("/", "").to_sym
+    Releaf.mount_location = mount_location_namespace.to_s
     scope mount_location do
       initialize_releaf_components
 

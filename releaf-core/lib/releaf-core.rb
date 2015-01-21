@@ -22,8 +22,8 @@ module Releaf
   mattr_accessor :devise_for
   @@devise_for = 'releaf/permissions/user'
 
-  mattr_accessor :layout
-  @@layout = "releaf/admin"
+  mattr_accessor :mount_location
+  @@mount_location = nil
 
   mattr_accessor :available_locales
   @@available_locales = nil
