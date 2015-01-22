@@ -49,22 +49,20 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     end
   end
 
-  describe "#content_fields" do
+  describe "#render_content_fields_block?" do
     before do
       subject.object.build_content
     end
 
     it "returns array of node content object fields" do
       allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display).and_return(true)
-      allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display, true).and_return(true)
-      allow(object.content_class).to receive(:releaf_fields_to_display).and_return(["a", "b"])
-      expect(subject.content_fields).to eq(["a", "b"])
+      expect(subject.render_content_fields_block?).to be true
     end
 
     context "when object content class do not respond to releaf_fields_to_display" do
       it "returns nil" do
         allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display).and_return(false)
-        expect(subject.content_fields).to be nil
+        expect(subject.render_content_fields_block?).to be false
       end
     end
   end
@@ -76,9 +74,10 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
 
     it "renders content fields block" do
       allow(subject).to receive(:content_builder_class).and_return("_b_")
-      allow(subject).to receive(:content_fields).and_return([1, 2])
+      allow(subject).to receive(:render_content_fields_block?).and_return(true)
       subform = described_class.new(:resource, object, template, {})
       allow(subject).to receive(:fields_for).with(:content, subject.object.content, builder: "_b_").and_yield(subform)
+      allow(subform).to receive(:field_names).and_return([1, 2])
       allow(subform).to receive(:releaf_fields).with([1, 2]).and_return("yy")
       content = '<div class="section content-fields">yy</div>'
       expect(subject.render_content_fields_block).to eq(content)
@@ -86,18 +85,15 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
 
     context "when content have no fields" do
       it "returns nil" do
-        allow(subject).to receive(:content_fields).and_return([])
-        expect(subject.render_content_fields_block).to be nil
-
-        allow(subject).to receive(:content_fields).and_return(nil)
+        allow(subject).to receive(:render_content_fields_block?).and_return(false)
         expect(subject.render_content_fields_block).to be nil
       end
     end
   end
 
   describe "#content_builder_class" do
-    it "returns current builder class" do
-      expect(subject.content_builder_class).to eq(subject.class)
+    it "returns `Releaf::Content::Nodes::ContentFormBuilder`" do
+      expect(subject.content_builder_class).to eq(Releaf::Content::Nodes::ContentFormBuilder)
     end
   end
 

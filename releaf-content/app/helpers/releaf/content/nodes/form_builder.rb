@@ -18,21 +18,21 @@ module Releaf::Content::Nodes
       hidden_field(:parent_id) if object.new_record?
     end
 
-    def content_fields
-      object.content_class.releaf_fields_to_display(nil) if object.content_class.respond_to?(:releaf_fields_to_display)
+    def render_content_fields_block?
+      object.content_class.respond_to?(:releaf_fields_to_display)
     end
 
     def render_content_fields_block
-      return unless content_fields.present?
+      return unless render_content_fields_block?
       tag(:div, class: ["section", "content-fields"]) do
         fields_for(:content, object.content, builder: content_builder_class) do |form|
-          form.releaf_fields(content_fields)
+          form.releaf_fields(form.field_names)
         end
       end
     end
 
     def content_builder_class
-      self.class
+      Releaf::Content::Nodes::ContentFormBuilder
     end
 
     def render_locale
