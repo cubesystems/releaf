@@ -31,8 +31,8 @@ describe "FactoryGirl factories" do
       expect { FactoryGirl.create(:node) }.to change { Node.count }.by(1)
     end
 
-    it "creates new Text content node" do
-      expect { FactoryGirl.create(:text_node) }.to change { Text.count }.by(1)
+    it "creates new TextPage content node" do
+      expect { FactoryGirl.create(:text_page_node) }.to change { TextPage.count }.by(1)
     end
   end
 end

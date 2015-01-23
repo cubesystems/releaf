@@ -18,7 +18,7 @@ feature "Ajaxbox", js: true do
   end
 
   scenario "Close ajaxbox with footer 'cancel' button (wrapped within form) without reloading page" do
-    node = create(:text_node, name: "MyNode")
+    node = create(:text_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
     open_toolbox "Move"
@@ -28,7 +28,7 @@ feature "Ajaxbox", js: true do
   end
 
   scenario "Close ajaxbox with header 'close' button without reloading page" do
-    node = create(:text_node, name: "MyNode")
+    node = create(:text_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
     open_toolbox "Add child"
@@ -39,7 +39,7 @@ feature "Ajaxbox", js: true do
   end
 
   scenario "Drag ajaxbox within header" do
-    node = create(:text_node, name: "MyNode")
+    node = create(:text_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
     open_toolbox "Add child"
@@ -68,7 +68,7 @@ feature "Ajaxbox", js: true do
   end
 
   scenario "Ajaxbox without modality (background is clickable)" do
-    node = create(:text_node, name: "MyNode")
+    node = create(:text_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
     open_toolbox "Add child"

@@ -7,7 +7,7 @@ feature "Attachments", js: true do
   end
 
   scenario "Upload image and insert it within text" do
-    visit new_releaf_content_node_path(content_type: 'Text')
+    visit new_releaf_content_node_path(content_type: 'TextPage')
     fill_in("Name", with: "Image test")
 
     status_script = 'CKEDITOR.instances["resource_content_attributes_text_html"].status=="ready"'
@@ -34,7 +34,7 @@ feature "Attachments", js: true do
   end
 
   scenario "Upload file and insert url to it" do
-    visit new_releaf_content_node_path(content_type: 'Text')
+    visit new_releaf_content_node_path(content_type: 'TextPage')
     fill_in("Name", with: "Link test")
 
     status_script = 'CKEDITOR.instances["resource_content_attributes_text_html"].status=="ready"'

@@ -10,8 +10,8 @@ describe Releaf::Content::Nodes::ContentFormBuilder, type: :class do
   end
 
   let(:template){ FormBuilderTestHelper.new }
-  let(:node){ Node.new(content_type: "Text", slug: "b", id: 2,
-                         parent: Node.new(content_type: "Text", slug: "a", id: 1)) }
+  let(:node){ Node.new(content_type: "TextPage", slug: "b", id: 2,
+                         parent: Node.new(content_type: "TextPage", slug: "a", id: 1)) }
   let(:object){ node.build_content }
   let(:subject){ described_class.new(:resource, object, template, {}) }
 

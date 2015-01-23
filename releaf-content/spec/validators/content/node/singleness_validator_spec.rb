@@ -5,12 +5,12 @@ describe Releaf::Content::Node::SinglenessValidator do
 
   class DummySinglenessValidatorModel < ActiveRecord::Base
     acts_as_node
-    self.table_name = 'texts'
+    self.table_name = 'text_pages'
   end
 
   class DummySinglenessValidator2Model < ActiveRecord::Base
     acts_as_node
-    self.table_name = 'texts'
+    self.table_name = 'text_pages'
   end
 
   class DummySinglenessValidatorController < ActionController::Base
@@ -25,7 +25,7 @@ describe Releaf::Content::Node::SinglenessValidator do
     self.table_name = 'nodes'
     include Releaf::Content::Node
     validates_with Releaf::Content::Node::SinglenessValidator, for: DummySinglenessValidatorModel
-    validates_with Releaf::Content::Node::SinglenessValidator, for: DummySinglenessValidator2Controller, under: Text
+    validates_with Releaf::Content::Node::SinglenessValidator, for: DummySinglenessValidator2Controller, under: TextPage
   end
 
 
@@ -81,7 +81,7 @@ describe Releaf::Content::Node::SinglenessValidator do
 
   context "when scope is subtree" do
     context "when has ancestor in :under list" do
-      let!(:grand_parent_node) { create_node(content_type: 'Text', parent_id: root_node.id) }
+      let!(:grand_parent_node) { create_node(content_type: 'TextPage', parent_id: root_node.id) }
       let!(:parent_node) { create_node(content_type: 'DummySinglenessValidator2Model', parent_id: grand_parent_node.id) }
 
       context "when node with given content doesn't exist in subtree" do
@@ -127,10 +127,10 @@ describe Releaf::Content::Node::SinglenessValidator do
     context "@node.parent.self_and_ancestors bug" do
       it "works correctly / is worked around" do
         # for details see Releaf::Content::Node::SinglenessValidator#base_relation_for_subtree
-        @node1 = create_node(content_type: 'Text', locale: 'en')
-        @node2 = create_node(content_type: 'Text', locale: 'lv')
-        @node3 = create_node(content_type: 'Text', locale: 'ru')
-        @node4 = create_node(content_type: 'Text', locale: 'sp')
+        @node1 = create_node(content_type: 'TextPage', locale: 'en')
+        @node2 = create_node(content_type: 'TextPage', locale: 'lv')
+        @node3 = create_node(content_type: 'TextPage', locale: 'ru')
+        @node4 = create_node(content_type: 'TextPage', locale: 'sp')
 
         @node1_1 = create_node(content_type: 'DummySinglenessValidator2Controller',  parent: @node1)
         expect do

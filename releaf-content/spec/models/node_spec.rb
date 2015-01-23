@@ -88,15 +88,15 @@ describe Node do
     end
 
     context "when content object class exists" do
-      let(:text) { FactoryGirl.create(:text) }
-      let!(:node) { FactoryGirl.create(:node, content: text) }
+      let(:text_page) { FactoryGirl.create(:text_page) }
+      let!(:node) { FactoryGirl.create(:node, content: text_page) }
 
       it "deletes record" do
         expect { node.destroy }.to change { Node.count }.by(-1)
       end
 
       it "deletes associated record" do
-        expect { node.destroy }.to change { Text.count }.by(-1)
+        expect { node.destroy }.to change { TextPage.count }.by(-1)
       end
     end
 
@@ -203,7 +203,7 @@ describe Node do
     end
 
     context "when #content_id is not blank" do
-      let(:node) { FactoryGirl.create(:text_node) }
+      let(:node) { FactoryGirl.create(:text_page_node) }
 
       it "returns saved duplicated content" do
         content = double('new content')
@@ -214,7 +214,7 @@ describe Node do
 
       it "doesn't return same as original content" do
         result = node.duplicate_content
-        expect( result ).to be_an_instance_of Text
+        expect( result ).to be_an_instance_of TextPage
         expect( result.id ).to_not eq node.content_id
       end
     end
@@ -265,40 +265,40 @@ describe Node do
 
   describe "#copy", create_nodes: true do
     before create_nodes: true do
-      @text_node = FactoryGirl.create(:text_node)
-      @text_node_2 = FactoryGirl.create(:text_node)
-      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id)
-      @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_3.id)
+      @text_page_node = FactoryGirl.create(:text_page_node)
+      @text_page_node_2 = FactoryGirl.create(:text_page_node)
+      @text_page_node_3 = FactoryGirl.create(:text_page_node, parent_id: @text_page_node_2.id)
+      @text_page_node_4 = FactoryGirl.create(:text_page_node, parent_id: @text_page_node_3.id)
 
       # it is important to reload nodes, otherwise associations will return empty set
-      @text_node.reload
-      @text_node_2.reload
-      @text_node_3.reload
-      @text_node_4.reload
+      @text_page_node.reload
+      @text_page_node_2.reload
+      @text_page_node_3.reload
+      @text_page_node_4.reload
     end
 
     context "when one of children becomes invalid" do
       before do
-        @text_node_4.name = nil
-        @text_node_4.save(:validate => false)
+        @text_page_node_4.name = nil
+        @text_page_node_4.save(:validate => false)
       end
 
       it "raises ActiveRecord::RecordInvalid" do
-        expect { @text_node_2.copy(@text_node.id) }.to raise_error ActiveRecord::RecordInvalid
+        expect { @text_page_node_2.copy(@text_page_node.id) }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it "raises error on node being copied" do
         begin
-          @text_node_2.copy(@text_node.id)
+          @text_page_node_2.copy(@text_page_node.id)
         rescue ActiveRecord::RecordInvalid => e
-          expect( e.record ).to eq @text_node_2
+          expect( e.record ).to eq @text_page_node_2
         end
       end
 
       it "doesn't create any new nodes" do
         expect do
           begin
-            @text_node_2.copy(@text_node.id)
+            @text_page_node_2.copy(@text_page_node.id)
           rescue ActiveRecord::RecordInvalid
           end
         end.to_not change { Node.count }
@@ -307,7 +307,7 @@ describe Node do
       it "doesn't update settings timestamp" do
         expect( Node ).to_not receive(:updated)
         begin
-          @text_node_2.copy(@text_node.id)
+          @text_page_node_2.copy(@text_page_node.id)
         rescue ActiveRecord::RecordInvalid
         end
       end
@@ -317,25 +317,25 @@ describe Node do
 
     context "with corect parent_id" do
       it "creates new nodes" do
-        expect{ @text_node_2.copy(@text_node.id) }.to change{ Node.count }.by(3)
+        expect{ @text_page_node_2.copy(@text_page_node.id) }.to change{ Node.count }.by(3)
       end
 
       it "correctly copies attributes" do
-        allow( @text_node_2 ).to receive(:children).and_return([@text_node_3])
-        allow( @text_node_3 ).to receive(:children).and_return([@text_node_4])
+        allow( @text_page_node_2 ).to receive(:children).and_return([@text_page_node_3])
+        allow( @text_page_node_3 ).to receive(:children).and_return([@text_page_node_4])
 
-        @text_node_2.update_attribute(:active, :false)
-        @text_node_3.update_attribute(:active, :false)
+        @text_page_node_2.update_attribute(:active, :false)
+        @text_page_node_3.update_attribute(:active, :false)
 
-        allow( @text_node_2 ).to receive(:attributes_to_copy).and_return(["name", "parent_id", "content_type"])
+        allow( @text_page_node_2 ).to receive(:attributes_to_copy).and_return(["name", "parent_id", "content_type"])
 
-        expect( @text_node_2 ).to receive(:duplicate_under!).and_call_original.ordered
-        expect( @text_node_3 ).to receive(:duplicate_under!).and_call_original.ordered
-        expect( @text_node_4 ).to receive(:duplicate_under!).and_call_original.ordered
+        expect( @text_page_node_2 ).to receive(:duplicate_under!).and_call_original.ordered
+        expect( @text_page_node_3 ).to receive(:duplicate_under!).and_call_original.ordered
+        expect( @text_page_node_4 ).to receive(:duplicate_under!).and_call_original.ordered
 
-        @text_node_2.copy(@text_node.id)
+        @text_page_node_2.copy(@text_page_node.id)
 
-        @node_2_copy = @text_node.children.first
+        @node_2_copy = @text_page_node.children.first
         @node_3_copy = @node_2_copy.children.first
         @node_4_copy = @node_3_copy.children.first
 
@@ -344,50 +344,50 @@ describe Node do
         # Also we updated @test_node_2#active to be false.
         # However copy is active, because active attribute wasn't copied
         expect( @node_2_copy ).to be_active
-        # for copy of @text_node_3 active attribute was copied however, as it
+        # for copy of @text_page_node_3 active attribute was copied however, as it
         # should have been
         expect( @node_3_copy ).to_not be_active
         expect( @node_4_copy ).to be_active
 
-        expect( @node_2_copy.name ).to eq @text_node_2.name
-        expect( @node_3_copy.name ).to eq @text_node_3.name
-        expect( @node_4_copy.name ).to eq @text_node_4.name
+        expect( @node_2_copy.name ).to eq @text_page_node_2.name
+        expect( @node_3_copy.name ).to eq @text_page_node_3.name
+        expect( @node_4_copy.name ).to eq @text_page_node_4.name
       end
 
       it "updates settings timestamp only once" do
         expect( Node ).to receive(:updated).once.and_call_original
-        @text_node_2.copy(@text_node.id)
+        @text_page_node_2.copy(@text_page_node.id)
       end
 
       context "when node have children" do
         it "creates multiple new nodes" do
-          @text_node_2.copy(@text_node.id)
-          @text_node.reload
-          expect{ @text_node.copy(@text_node_2.id) }.to change{ Node.count }.by( @text_node.descendants.size + 1 )
+          @text_page_node_2.copy(@text_page_node.id)
+          @text_page_node.reload
+          expect{ @text_page_node.copy(@text_page_node_2.id) }.to change{ Node.count }.by( @text_page_node.descendants.size + 1 )
         end
       end
 
       context "when parent_id is nil" do
         it "creates new node" do
-          expect{ @text_node_3.copy(nil) }.to change{ Node.count }.by(2)
+          expect{ @text_page_node_3.copy(nil) }.to change{ Node.count }.by(2)
         end
       end
 
       context "when copying root nodes", create_nodes: false do
         context "when root locale uniqueness is validated" do
           it "resets locale to nil" do
-            @text_node = FactoryGirl.create(:text_node, locale: 'en')
+            @text_page_node = FactoryGirl.create(:text_page_node, locale: 'en')
             allow_any_instance_of(Node).to receive(:validate_root_locale_uniqueness?).and_return(true)
-            @text_node.copy(nil)
+            @text_page_node.copy(nil)
             expect( Node.last.locale ).to eq nil
           end
         end
 
         context "when root locale uniqueness is not validated" do
           it "doesn't reset locale to nil" do
-            @text_node = FactoryGirl.create(:text_node, locale: 'en')
+            @text_page_node = FactoryGirl.create(:text_page_node, locale: 'en')
             allow_any_instance_of(Node).to receive(:validate_root_locale_uniqueness?).and_return(false)
-            @text_node.copy(nil)
+            @text_page_node.copy(nil)
             expect( Node.last.locale ).to eq 'en'
           end
         end
@@ -396,37 +396,37 @@ describe Node do
 
     context "with nonexistent parent_id" do
       it "raises ActiveRecord::RecordInvalid" do
-        expect { @text_node_2.copy(99991) }.to raise_error(ActiveRecord::RecordInvalid)
+        expect { @text_page_node_2.copy(99991) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "with same parent_id as node.id" do
       it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_node.copy(@text_node.id) }.to raise_error(ActiveRecord::RecordInvalid)
+        expect{ @text_page_node.copy(@text_page_node.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "when copying to child node" do
       it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_node_2.copy(@text_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
+        expect{ @text_page_node_2.copy(@text_page_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
   end
 
   describe ".children_max_item_position" do
     before do
-      @text_node   = FactoryGirl.create(:text_node, item_position: 1)
-      @text_node_2 = FactoryGirl.create(:text_node, item_position: 2)
-      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id, item_position: 1)
-      @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id, item_position: 2)
-      @text_node_5 = FactoryGirl.create(:text_node, item_position: 3)
+      @text_page_node   = FactoryGirl.create(:text_page_node, item_position: 1)
+      @text_page_node_2 = FactoryGirl.create(:text_page_node, item_position: 2)
+      @text_page_node_3 = FactoryGirl.create(:text_page_node, parent_id: @text_page_node_2.id, item_position: 1)
+      @text_page_node_4 = FactoryGirl.create(:text_page_node, parent_id: @text_page_node_2.id, item_position: 2)
+      @text_page_node_5 = FactoryGirl.create(:text_page_node, item_position: 3)
 
       # it is important to reload nodes, otherwise associations will return empty set
-      @text_node.reload
-      @text_node_2.reload
-      @text_node_3.reload
-      @text_node_4.reload
-      @text_node_5.reload
+      @text_page_node.reload
+      @text_page_node_2.reload
+      @text_page_node_3.reload
+      @text_page_node_4.reload
+      @text_page_node_5.reload
     end
 
     context "when passing nil" do
@@ -437,79 +437,79 @@ describe Node do
 
     context "when passing node with children" do
       it "returns max item_position of node children" do
-        expect( Node.children_max_item_position(@text_node_2) ).to eq 2
+        expect( Node.children_max_item_position(@text_page_node_2) ).to eq 2
       end
     end
 
     context "when passing node without children" do
       it "returns 0" do
-        expect( Node.children_max_item_position(@text_node_5) ).to eq 0
+        expect( Node.children_max_item_position(@text_page_node_5) ).to eq 0
       end
     end
   end
 
   describe "#move" do
     before do
-      @text_node = FactoryGirl.create(:text_node)
-      @text_node_2 = FactoryGirl.create(:text_node)
-      @text_node_3 = FactoryGirl.create(:text_node, parent_id: @text_node_2.id)
-      @text_node_4 = FactoryGirl.create(:text_node, parent_id: @text_node_3.id)
+      @text_page_node = FactoryGirl.create(:text_page_node)
+      @text_page_node_2 = FactoryGirl.create(:text_page_node)
+      @text_page_node_3 = FactoryGirl.create(:text_page_node, parent_id: @text_page_node_2.id)
+      @text_page_node_4 = FactoryGirl.create(:text_page_node, parent_id: @text_page_node_3.id)
 
       # it is important to reload nodes, otherwise associations will return empty set
-      @text_node.reload
-      @text_node_2.reload
-      @text_node_3.reload
-      @text_node_4.reload
+      @text_page_node.reload
+      @text_page_node_2.reload
+      @text_page_node_3.reload
+      @text_page_node_4.reload
     end
 
     context "when one of children becomes invalid" do
       before do
-        @text_node_4.name = nil
-        @text_node_4.save(:validate => false)
+        @text_page_node_4.name = nil
+        @text_page_node_4.save(:validate => false)
       end
 
       it "raises ActiveRecord::RecordInvalid" do
-        expect { @text_node_2.move(@text_node.id) }.to raise_error ActiveRecord::RecordInvalid
+        expect { @text_page_node_2.move(@text_page_node.id) }.to raise_error ActiveRecord::RecordInvalid
       end
 
       it "raises error on node being moved, even tought descendant has error" do
         begin
         rescue ActiveRecord::RecordInvalid => e
-          expect( e.record ).to eq @text_node_2
+          expect( e.record ).to eq @text_page_node_2
         end
       end
     end
 
     context "when moving existing node to other nodes child's position" do
       it "changes parent_id" do
-        expect{ @text_node_3.move(@text_node.id) }.to change{ Node.find_by_id(@text_node_3.id).parent_id }.from(@text_node_2.id).to(@text_node.id)
+        expect{ @text_page_node_3.move(@text_page_node.id) }.to change{ Node.find_by_id(@text_page_node_3.id).parent_id }.from(@text_page_node_2.id).to(@text_page_node.id)
       end
     end
 
     context "when moving to self child's position" do
       it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_node_3.move(@text_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
+        expect{ @text_page_node_3.move(@text_page_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
     context "when passing nil as target node" do
       it "updates parent_id" do
-        expect{ @text_node_3.move(nil) }.to change { Node.find_by_id(@text_node_3.id).parent_id }.to(nil)
+        expect{ @text_page_node_3.move(nil) }.to change { Node.find_by_id(@text_page_node_3.id).parent_id }.to(nil)
       end
     end
 
     context "when passing nonexistent target node's id" do
       it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_node_3.move(998123) }.to raise_error(ActiveRecord::RecordInvalid)
+        expect{ @text_page_node_3.move(998123) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 
   end
 
   describe "#maintain_name" do
-    let(:root) { FactoryGirl.create(:text_node) }
-    let(:node) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node") }
-    let(:sibling) { FactoryGirl.create(:text_node, parent_id: root.id, name:  "Test node(1)") }
+    let(:root) { FactoryGirl.create(:text_page_node) }
+    let(:node) { FactoryGirl.create(:text_page_node, parent_id: root.id, name:  "Test node") }
+    let(:sibling) { FactoryGirl.create(:text_page_node, parent_id: root.id, name:  "Test node(1)") }
 
     context "when node don't have sibling/s with same name" do
       it "does not changes node's name" do
@@ -540,9 +540,9 @@ describe Node do
   end
 
   describe "#available?" do
-    let(:root) { FactoryGirl.create(:text_node, active: true) }
-    let(:node_ancestor) { FactoryGirl.create(:text_node, parent_id: root.id, active: true) }
-    let(:node) { FactoryGirl.create(:text_node, parent_id: node_ancestor.id, active: true) }
+    let(:root) { FactoryGirl.create(:text_page_node, active: true) }
+    let(:node_ancestor) { FactoryGirl.create(:text_page_node, parent_id: root.id, active: true) }
+    let(:node) { FactoryGirl.create(:text_page_node, parent_id: node_ancestor.id, active: true) }
 
     context "when object and all its ancestors are active" do
       it "returns true" do
@@ -567,8 +567,8 @@ describe Node do
 
   describe ".valid_node_content_classes" do
     it "returns array of constantized .valid_node_content_class_names" do
-      expect( Node ).to receive(:valid_node_content_class_names).with(42).and_return(['Text', 'HomeController'])
-      expect( Node.valid_node_content_classes(42) ).to eq [Text, HomeController]
+      expect( Node ).to receive(:valid_node_content_class_names).with(42).and_return(['TextPage', 'HomeController'])
+      expect( Node.valid_node_content_classes(42) ).to eq [TextPage, HomeController]
     end
   end
 
@@ -604,11 +604,11 @@ describe Node do
 
   describe "#build_content" do
     it "builds new content and assigns to #content" do
-      subject.content_type = 'Text'
+      subject.content_type = 'TextPage'
       params = {text_html: 'test'}
-      expect( Text ).to receive(:new).with(params).and_call_original
+      expect( TextPage ).to receive(:new).with(params).and_call_original
       subject.build_content(params)
-      expect( subject.content ).to be_an_instance_of Text
+      expect( subject.content ).to be_an_instance_of TextPage
       expect( subject.content.text_html ).to eq 'test'
     end
   end

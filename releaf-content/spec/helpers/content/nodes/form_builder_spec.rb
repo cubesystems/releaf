@@ -10,8 +10,8 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
   end
 
   let(:template){ FormBuilderTestHelper.new }
-  let(:object){ Node.new(content_type: "Text", slug: "b", id: 2,
-                         parent: Node.new(content_type: "Text", slug: "a", id: 1)) }
+  let(:object){ Node.new(content_type: "TextPage", slug: "b", id: 2,
+                         parent: Node.new(content_type: "TextPage", slug: "a", id: 1)) }
   let(:subject){ described_class.new(:resource, object, template, {}) }
 
   describe "#field_names" do
@@ -143,7 +143,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
   describe "#render_content_type" do
     it "renders disabled content type field with localized content type value" do
       options = {disabled: true, value: "Translated content type"}
-      allow(I18n).to receive(:t).with("text", scope: "admin.content_types").and_return("Translated content type")
+      allow(I18n).to receive(:t).with("text_page", scope: "admin.content_types").and_return("Translated content type")
       allow(subject).to receive(:releaf_text_field).with(:content_type, input: options).and_return("x")
       expect(subject.render_content_type).to eq("x")
     end
