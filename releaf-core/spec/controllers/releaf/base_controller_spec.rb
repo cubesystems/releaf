@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{File.dirname(__FILE__)}/../support/shared/controllers/concerns/releaf/serialized_array_params_normalizer_includer"
+require "#{File.dirname(__FILE__)}/../../support/shared/controllers/concerns/releaf/serialized_array_params_normalizer_includer"
 
 describe Releaf::BaseController do
   let(:new_resource){ Author.new }
