@@ -52,13 +52,17 @@ class Releaf::Builders::EditBuilder
   def error_notices
     return unless form.object.errors.any?
     tag(:div, id: "error_explanation") do
-      tag(:strong, "#{pluralize(f.object.errors.count, "error")} prohibited this news from being saved:") <<
+      error_notices_header <<
       tag(:ul) do
         form.object.errors.full_messages.collect do|message|
           tag(:li, message)
         end
       end
     end
+  end
+
+  def error_notices_header
+    tag(:strong, "#{form.object.errors.count} validation #{"error".pluralize(form.object.errors.count)} occured:")
   end
 
   def footer_primary_tools
