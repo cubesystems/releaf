@@ -43,13 +43,10 @@ describe Releaf::Builders::FormBuilder, type: :class do
     expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
   end
 
-  it "includes Releaf::Builders::ResourceClass" do
-    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::ResourceClass)
-  end
-
   describe "#field_names" do
     it "returns field names for object class" do
-      allow(subject).to receive(:resource_class_attributes).with(object.class).and_return(["a", "b"])
+      allow(Releaf::Core::ResourceFields).to receive(:new).with(object.class).and_call_original
+      allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:fields).and_return(["a", "b"])
       expect(subject.field_names).to eq(["a", "b"])
     end
   end

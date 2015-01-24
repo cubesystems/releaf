@@ -27,7 +27,7 @@ module ActiveRecord
         #
         # @return [Array] list of fields to display
         def releaf_fields_to_display action
-          column_names - %w[id created_at updated_at]
+          Releaf::Core::ResourceFields.new(self).fields
         end
       end
 

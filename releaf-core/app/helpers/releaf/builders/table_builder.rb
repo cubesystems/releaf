@@ -1,7 +1,5 @@
 class Releaf::Builders::TableBuilder
   include Releaf::Builders::Base
-  include Releaf::Builders::ResourceClass
-
   attr_accessor :collection, :options, :template, :resource_class
 
   def initialize(collection, resource_class, template, options)
@@ -12,7 +10,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def column_names
-    resource_class_attributes(resource_class)
+    Releaf::Core::ResourceFields.new(resource_class).fields
   end
 
   def columns

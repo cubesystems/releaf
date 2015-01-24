@@ -38,7 +38,10 @@ describe ActsAsNode do
 
     context ".releaf_fields_to_display" do
       it "returns model columns" do
-        expect( Book.releaf_fields_to_display('edit') ).to eq(["title", "year", "author_id", "genre", "summary_html", "active", "published_at", "price", "cover_image_uid"])
+
+        allow(Releaf::Core::ResourceFields).to receive(:new).with(Book).and_call_original
+        allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:fields).and_return(["a", "b"])
+        expect( Book.releaf_fields_to_display('edit') ).to eq(["a", "b"])
       end
     end
 
