@@ -30,7 +30,8 @@ describe ActsAsNode do
 
     describe "#node" do
       it "returns corresponding node object" do
-        node = FactoryGirl.create(:node, content_type: "Book", content_attributes: {title: "xx"})
+        allow_any_instance_of(Releaf::Content::Node::RootValidator).to receive(:validate)
+        node = create(:node, content_type: "Book", content_attributes: {title: "xx"})
         expect(Book.last.node).to eq(node)
       end
     end

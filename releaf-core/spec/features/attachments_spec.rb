@@ -7,10 +7,11 @@ feature "Attachments", js: true do
   end
 
   scenario "Upload image and insert it within text" do
-    visit new_releaf_content_node_path(content_type: 'TextPage')
+    visit new_releaf_content_node_path(content_type: 'HomePage')
     fill_in("Name", with: "Image test")
+    select('en', from: 'Locale')
 
-    status_script = 'CKEDITOR.instances["resource_content_attributes_text_html"].status=="ready"'
+    status_script = 'CKEDITOR.instances["resource_content_attributes_intro_text_html"].status=="ready"'
     expect { page.evaluate_script(status_script) }.to become_true
 
     find(".cke_toolbox a[title='Image']").click
@@ -26,7 +27,7 @@ feature "Attachments", js: true do
     expect(page).to have_content("Preview")
     click_link "OK"
 
-    expect(page).to have_css(".cke_editor_resource_content_attributes_text_html") # wait focus switch finished
+    expect(page).to have_css(".cke_editor_resource_content_attributes_intro_text_html") # wait focus switch finished
     save_and_check_response "Create succeeded"
 
     visit "/image-test"
@@ -34,10 +35,11 @@ feature "Attachments", js: true do
   end
 
   scenario "Upload file and insert url to it" do
-    visit new_releaf_content_node_path(content_type: 'TextPage')
+    visit new_releaf_content_node_path(content_type: 'HomePage')
     fill_in("Name", with: "Link test")
+    select('en', from: 'Locale')
 
-    status_script = 'CKEDITOR.instances["resource_content_attributes_text_html"].status=="ready"'
+    status_script = 'CKEDITOR.instances["resource_content_attributes_intro_text_html"].status=="ready"'
     expect { page.evaluate_script(status_script) }.to become_true
 
     find(".cke_toolbox a[title='Link']").click
@@ -53,7 +55,7 @@ feature "Attachments", js: true do
     expect(page).to have_content("Link Type")
     click_link "OK"
 
-    expect(page).to have_css(".cke_editor_resource_content_attributes_text_html") # wait focus switch finished
+    expect(page).to have_css(".cke_editor_resource_content_attributes_intro_text_html") # wait focus switch finished
     save_and_check_response "Create succeeded"
 
     visit "/link-test"

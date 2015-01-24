@@ -11,29 +11,29 @@ describe Releaf::Content::Route do
 
   describe ".for" do
     it "returns an array" do
-      expect(described_class.for(TextPage).class).to eq(Array)
+      expect(described_class.for(HomePage).class).to eq(Array)
     end
 
     context "when no releaf_nodes table defined" do
       it "returns an empty array" do
         allow(described_class).to receive(:nodes_available?).and_return(false)
-        expect(described_class.for(TextPage)).to eq([])
+        expect(described_class.for(HomePage)).to eq([])
       end
     end
 
     context "when releaf_nodes table defined and content nodes exist" do
       before do
-        create(:text_page_node)
+        create(:home_page_node)
       end
 
       it "returns an array of Node::Route objects" do
-        expect(described_class.for(TextPage).first.class).to eq(described_class)
+        expect(described_class.for(HomePage).first.class).to eq(described_class)
       end
 
       context "when node is not available" do
         it "does not include it in return" do
           allow_any_instance_of(Node).to receive(:available?).and_return(false)
-          expect(described_class.for(TextPage)).to eq([])
+          expect(described_class.for(HomePage)).to eq([])
         end
       end
     end

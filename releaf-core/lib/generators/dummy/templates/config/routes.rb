@@ -3,6 +3,10 @@ Dummy::Application.routes.draw do
     releaf_resources :books, :authors, :chapters
   end
 
+  Releaf::Content::Route.for(HomePage).each do|route|
+    get route.params('home_pages#show')
+  end
+
   Releaf::Content::Route.for(TextPage).each do|route|
     get route.params('text_pages#show')
   end
@@ -11,5 +15,5 @@ Dummy::Application.routes.draw do
     get route.params('contacts#show')
   end
 
-  root :to => 'home#index'
+  root to: 'application#redirect_to_locale_root'
 end
