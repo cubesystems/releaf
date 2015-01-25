@@ -1,19 +1,7 @@
 require "spec_helper"
 
-describe Releaf::Core::PermittedParams do
+describe Releaf::Core::ResourceParams do
   subject{ described_class.new(Book) }
-
-  describe "#initialize" do
-    it "assigns given class to resource class accessor" do
-      expect(subject.resource_class).to eq(Book)
-    end
-  end
-
-  describe "#excluded_attributes" do
-    it "returns array with id, created_at and updated_as" do
-      expect(subject.excluded_attributes).to eq(["id", "created_at", "updated_at"])
-    end
-  end
 
   describe "#file_attributes" do
     it "returns list with file attributes" do
@@ -47,21 +35,6 @@ describe Releaf::Core::PermittedParams do
     end
   end
 
-  describe "#localized_attributes?" do
-    context "when resource class has globalize support" do
-      it "returns true" do
-        expect(subject.localized_attributes?).to be true
-      end
-    end
-
-    context "when resource class does not have globalize support" do
-      it "returns false" do
-        allow(subject.resource_class).to receive(:translates?).and_return(false)
-        expect(subject.localized_attributes?).to be false
-      end
-    end
-  end
-
   describe "#localized_attributes" do
     it "returns array of all localized attributes params" do
       allow(subject.resource_class).to receive(:translated_attribute_names).and_return(["title", "summary"])
@@ -83,35 +56,62 @@ describe Releaf::Core::PermittedParams do
     end
   end
 
-  describe "#base_params" do
+  describe "#base_attributes" do
     it "returns array with non-excluded and file attributes" do
       allow(subject.resource_class).to receive(:column_names).and_return(["a", "b", "c"])
       allow(subject).to receive(:file_attribute?).and_return(false)
-      expect(subject.base_params).to eq(["a", "b", "c"])
+      expect(subject.base_attributes).to eq(["a", "b", "c"])
 
       allow(subject).to receive(:file_attribute?).with("b").and_return(true)
       allow(subject).to receive(:file_attribute_params).with("b").and_return(["b1", "b2"])
-      expect(subject.base_params).to eq(["a", "b1", "b2", "c"])
+      expect(subject.base_attributes).to eq(["a", "b1", "b2", "c"])
 
       allow(subject).to receive(:excluded_attributes).and_return(["a"])
-      expect(subject.base_params).to eq(["b1", "b2", "c"])
+      expect(subject.base_attributes).to eq(["b1", "b2", "c"])
     end
   end
 
-  describe "#params" do
-    it "returns resource params array" do
-      allow(subject).to receive(:base_params).and_return(["a", "b"])
+  describe "#values" do
+    before do
+      allow(subject).to receive(:associations_attributes).and_return(["x", "y"])
+    end
+
+    it "returns resource params array alongside associations params" do
+      allow(subject).to receive(:base_attributes).and_return(["a", "b"])
       allow(subject).to receive(:localized_attributes?).and_return(false)
-      expect(subject.params).to eq(["a", "b"])
+      expect(subject.values).to eq(["a", "b", "x", "y"])
     end
 
     context "when resource has localized attributes" do
       it "returns resource params array alongside localized attributes" do
-        allow(subject).to receive(:base_params).and_return(["a", "b"])
+        allow(subject).to receive(:base_attributes).and_return(["a", "b"])
         allow(subject).to receive(:localized_attributes?).and_return(true)
         allow(subject).to receive(:localized_attributes).and_return(["c", "d"])
-        expect(subject.params).to eq(["a", "b", "c", "d"])
+        expect(subject.values).to eq(["a", "b", "c", "d", "x", "y"])
       end
+    end
+  end
+
+  describe "#associations_attributes" do
+    it "returns array with associations params within hashes" do
+      association_1 = subject.resource_class.reflections[:chapters]
+      association_2 = subject.resource_class.reflections[:sequels]
+
+      allow(subject).to receive(:associations).and_return([association_1, association_2])
+      allow(subject).to receive(:association_attributes).with(association_1).and_return(["a", "b"])
+      allow(subject).to receive(:association_attributes).with(association_2).and_return(["c", "d"])
+
+      expect(subject.associations_attributes).to eq([{"chapters_attributes"=>["a", "b"]}, {"sequels_attributes"=>["c", "d"]}])
+    end
+  end
+
+  describe "#association_attributes" do
+    it "returns association params with `id` and `_destroy` params and without `foreign_key` param" do
+      association = subject.resource_class.reflections[:chapters]
+      allow(association).to receive(:foreign_key).and_return("b")
+      allow(described_class).to receive(:new).with(association.klass).and_call_original
+      allow_any_instance_of(described_class).to receive(:values).and_return(["a", "b", "c"])
+      expect(subject.association_attributes(association)).to eq(["a", "c", "id", "_destroy"])
     end
   end
 end

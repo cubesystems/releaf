@@ -60,7 +60,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
   describe "#column_names" do
     it "returns column names for resource_class" do
       allow(Releaf::Core::ResourceFields).to receive(:new).with(subject.resource_class).and_call_original
-      allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:fields).and_return(["a", "b"])
+      allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:values)
+        .with(include_associations: false).and_return(["a", "b"])
       expect(subject.column_names).to eq(["a", "b"])
     end
   end

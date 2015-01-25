@@ -55,13 +55,13 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     end
 
     it "returns array of node content object fields" do
-      allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display).and_return(true)
+      allow(object.content_class).to receive(:respond_to?).with(:acts_as_node_fields).and_return(true)
       expect(subject.render_content_fields_block?).to be true
     end
 
-    context "when object content class do not respond to releaf_fields_to_display" do
+    context "when object content class do not respond to `acts_as_node_fields`" do
       it "returns nil" do
-        allow(object.content_class).to receive(:respond_to?).with(:releaf_fields_to_display).and_return(false)
+        allow(object.content_class).to receive(:respond_to?).with(:acts_as_node_fields).and_return(false)
         expect(subject.render_content_fields_block?).to be false
       end
     end

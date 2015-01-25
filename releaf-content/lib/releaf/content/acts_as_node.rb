@@ -12,15 +12,13 @@ module ActsAsNode
 
     # Load all nodes for class
     def nodes
-      # TODO class name should be configurable
       ::Node.where(content_type: self.name)
     end
 
     # There are no configuration options yet.
     #
-    def acts_as_node(options = {})
-      configuration = {}
-      configuration.update(options) if options.is_a?(Hash)
+    def acts_as_node(params: nil, fields: nil)
+      configuration = {params: params, fields: fields}
 
       ActsAsNode.register_class(self.name)
 

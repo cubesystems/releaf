@@ -462,7 +462,7 @@ module Releaf
     #
     # The resulting array will be passed to strong_parameters ``permit``
     def permitted_params
-      Releaf::Core::PermittedParams.new(resource_class).params
+      Releaf::Core::ResourceParams.new(resource_class).values
     end
 
     # Returns url to redirect after successul resource create/update actions

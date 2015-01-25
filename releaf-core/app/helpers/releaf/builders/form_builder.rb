@@ -3,7 +3,11 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   attr_accessor :template
 
   def field_names
-    Releaf::Core::ResourceFields.new(object.class).fields
+    resource_fields.values
+  end
+
+  def resource_fields
+    Releaf::Core::ResourceFields.new(object.class)
   end
 
   def field_render_method_name(name)
@@ -61,8 +65,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def association_fields(association_name)
-    reflection = reflection(association_name)
-    Releaf::Core::ResourceFields.new(reflection.klass).fields - [reflection.foreign_key]
+    resource_fields.association_attributes(reflection(association_name))
   end
 
   def releaf_association_fields(association_name, fields)
