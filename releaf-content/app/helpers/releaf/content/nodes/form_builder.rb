@@ -19,7 +19,7 @@ module Releaf::Content::Nodes
     end
 
     def render_content_fields_block?
-      object.content_class.respond_to?(:releaf_fields_to_display)
+      object.content_class.respond_to?(:acts_as_node_fields)
     end
 
     def render_content_fields_block

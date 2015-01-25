@@ -462,44 +462,7 @@ module Releaf
     #
     # The resulting array will be passed to strong_parameters ``permit``
     def permitted_params
-      return unless mass_assigment_action?
-
-      cols = resource_class.column_names.dup - %w{id created_at updated_at}
-
-      if resource_class.translates?
-        cols = cols + localize_attributes(resource_class.translated_attribute_names)
-      end
-
-      cols_with_file_fields = []
-
-      cols.each do |col|
-        if col =~ /^(.+)_uid$/
-          file_field = $1
-          if resource_class.new.respond_to? file_field
-            cols_with_file_fields.push file_field
-            cols_with_file_fields.push "retained_#{file_field}"
-            cols_with_file_fields.push "remove_#{file_field}"
-            next
-          end
-        end
-
-        cols_with_file_fields.push col
-      end
-
-      return cols_with_file_fields
-    end
-
-    def localize_attributes args
-      attributes = []
-      if args.is_a? Array
-        args.each do |attribute|
-          resource_class.globalize_locales.each do|locale|
-            attributes << "#{attribute}_#{locale}"
-          end
-        end
-      end
-
-      return attributes
+      Releaf::Core::ResourceParams.new(resource_class).values
     end
 
     # Returns url to redirect after successul resource create/update actions

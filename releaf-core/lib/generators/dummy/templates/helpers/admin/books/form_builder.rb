@@ -1,9 +1,5 @@
 module Admin::Books
   class FormBuilder < Releaf::Builders::FormBuilder
-    def field_names
-      super + [{chapters: %w[title text sample_html], book_sequels: %w[sequel_id]}]
-    end
-
     def render_book_sequels_sequel_id
       releaf_item_field('sequel_id', options: { select_options: book_sequels_sequel_id_options })
     end

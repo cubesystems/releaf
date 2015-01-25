@@ -26,10 +26,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
     expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
   end
 
-  it "includes Releaf::Builders::ResourceClass" do
-    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::ResourceClass)
-  end
-
   describe "#initialize" do
     it "assigns collection" do
       expect(subject.collection.to_sql).to eq(collection.to_sql)
@@ -63,7 +59,9 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#column_names" do
     it "returns column names for resource_class" do
-      allow(subject).to receive(:resource_class_attributes).with(subject.resource_class).and_return(["a", "b"])
+      allow(Releaf::Core::ResourceFields).to receive(:new).with(subject.resource_class).and_call_original
+      allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:values)
+        .with(include_associations: false).and_return(["a", "b"])
       expect(subject.column_names).to eq(["a", "b"])
     end
   end

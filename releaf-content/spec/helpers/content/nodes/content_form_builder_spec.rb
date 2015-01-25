@@ -17,7 +17,7 @@ describe Releaf::Content::Nodes::ContentFormBuilder, type: :class do
 
   describe "#field_names" do
     it "returns array of node content object fields" do
-      allow(object.class).to receive(:releaf_fields_to_display).and_return(["a", "b"])
+      allow(object.class).to receive(:acts_as_node_fields).and_return(["a", "b"])
       expect(subject.field_names).to eq(["a", "b"])
     end
   end

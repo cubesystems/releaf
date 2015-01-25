@@ -15,10 +15,17 @@ module ActiveRecord
       #   end
       #
       module ClassMethods
-        def acts_as_node(options = {})
-          options[:permit_attributes].unshift :id if options.has_key? :permit_attributes
-          super options
+        def acts_as_node(params: nil, fields: nil)
+          super
           include ::ActiveRecord::Acts::Node::InstanceMethods
+        end
+
+        def acts_as_node_params
+          if acts_as_node_configuration[:params].nil?
+            Releaf::Core::ResourceParams.new(self).values << :id
+          else
+            acts_as_node_configuration[:params] << :id
+          end
         end
 
         # Returns fields to display for releaf content controller
@@ -26,8 +33,12 @@ module ActiveRecord
         # @param [String] action for which fields will be displayed
         #
         # @return [Array] list of fields to display
-        def releaf_fields_to_display action
-          column_names - %w[id created_at updated_at]
+        def acts_as_node_fields
+          if acts_as_node_configuration[:fields].nil?
+            Releaf::Core::ResourceFields.new(self).values
+          else
+            acts_as_node_configuration[:fields]
+          end
         end
       end
 
@@ -37,7 +48,6 @@ module ActiveRecord
         # Return object corresponding node object
         # @return [::Node]
         def node
-          # TODO class name should be configurable
           ::Node.find_by(content_type: self.class.name, content_id: id)
         end
 

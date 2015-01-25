@@ -166,7 +166,7 @@ module Releaf::Content
     end
 
     def permitted_content_attributes
-      @resource.content_class.acts_as_node_configuration[:permit_attributes]
+      @resource.content_class.acts_as_node_params if @resource.content_class.respond_to? :acts_as_node_params
     end
   end
 end
