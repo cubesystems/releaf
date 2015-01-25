@@ -51,12 +51,23 @@ describe Releaf::Core::ResourceBase do
   end
 
   describe "#association_attributes" do
-    it "returns association params without `foreign_key` param" do
+    it "returns association params without association excluded attributes" do
       association = subject.resource_class.reflections[:chapters]
-      allow(association).to receive(:foreign_key).and_return("b")
       allow(described_class).to receive(:new).with(association.klass).and_call_original
       allow_any_instance_of(described_class).to receive(:values).and_return(["a", "b", "c"])
+      allow(subject).to receive(:association_excluded_attributes).and_return(["b"])
       expect(subject.association_attributes(association)).to eq(["a", "c"])
+    end
+  end
+
+  describe "#association_excluded_attributes" do
+    it "returns `foreign_key` and polymorphic association type key (if exists)" do
+      association = subject.resource_class.reflections[:chapters]
+      allow(association).to receive(:foreign_key).and_return("b")
+      expect(subject.association_excluded_attributes(association)).to eq(["b"])
+
+      allow(association).to receive(:type).and_return("x")
+      expect(subject.association_excluded_attributes(association)).to eq(["b", "x"])
     end
   end
 

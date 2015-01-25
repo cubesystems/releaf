@@ -36,7 +36,11 @@ class Releaf::Core::ResourceBase
   end
 
   def association_attributes(association)
-    self.class.new(association.klass).values - [association.foreign_key]
+    self.class.new(association.klass).values - association_excluded_attributes(association)
+  end
+
+  def association_excluded_attributes(association)
+    [association.foreign_key, association.type].compact
   end
 
   def associations
