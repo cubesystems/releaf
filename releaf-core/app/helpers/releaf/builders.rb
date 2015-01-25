@@ -12,7 +12,7 @@ class Releaf::Builders
     begin
       Object.const_get(builder_class_name).is_a?(Class)
     rescue NameError => error
-      if ignorable_error?(error.message, scope, builder_class_name)
+      if ignorable_error?(error.message, builder_class_name)
         return
       else
         raise
@@ -22,12 +22,19 @@ class Releaf::Builders
     builder_class_name.constantize
   end
 
-  def self.ignorable_error?(error_message, scope, builder_class_name)
-    (error_message =~ ignorable_error_pattern(scope, builder_class_name)).present?
+  def self.ignorable_error?(error_message, builder_class_name)
+    (error_message =~ ignorable_error_pattern(builder_class_name)).present?
   end
 
-  def self.ignorable_error_pattern(scope, builder_class_name)
-    /uninitialized constant (#{scope}|#{builder_class_name})$/
+  def self.ignorable_error_pattern(builder_class_name)
+    list = []
+    tmp_scopes = builder_class_name.split("::")
+    while(tmp_scopes.present?)
+      list << tmp_scopes.join("::")
+      tmp_scopes.pop
+    end
+
+    /uninitialized constant (#{list.join("|")})$/
   end
 
   def self.inherited_builder_scopes

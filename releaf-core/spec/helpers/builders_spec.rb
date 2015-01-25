@@ -25,9 +25,9 @@ describe Releaf::Builders, type: :class do
   end
 
   describe ".ignorable_error_pattern" do
-    it "returns regexp pattern for matchin errors against scope and builder class name resolvation" do
-      expect(described_class.ignorable_error_pattern("_some_scope_", "_some_class_name_"))
-        .to eq(/uninitialized constant (_some_scope_|_some_class_name_)$/)
+    it "returns regexp pattern for matchin errors against ancestor scopes resolvation" do
+      expect(described_class.ignorable_error_pattern("Admin::Nodes::FormBuilder"))
+        .to eq(/uninitialized constant (Admin::Nodes::FormBuilder|Admin::Nodes|Admin)$/)
     end
   end
 
@@ -48,7 +48,7 @@ describe Releaf::Builders, type: :class do
       context "when ignorable NameError" do
         it "returns nil" do
           allow(described_class).to receive(:ignorable_error?)
-            .with("uninitialized constant asdasd", "Admin::Authors", "Admin::Authors::FormBuilder")
+            .with("uninitialized constant asdasd", "Admin::Authors::FormBuilder")
             .and_return(true)
 
           expect(described_class.scoped_builder_class("Admin::Authors", :form)).to be nil
@@ -58,7 +58,7 @@ describe Releaf::Builders, type: :class do
       context "when non ignorable NameError" do
         it "reraises it" do
           allow(described_class).to receive(:ignorable_error?)
-            .with("uninitialized constant asdasd", "Admin::Authors", "Admin::Authors::FormBuilder")
+            .with("uninitialized constant asdasd", "Admin::Authors::FormBuilder")
             .and_return(false)
 
           expect{ described_class.scoped_builder_class("Admin::Authors", :form) }
@@ -79,18 +79,18 @@ describe Releaf::Builders, type: :class do
   describe ".ignorable_error?" do
     before do
       allow(described_class).to receive(:ignorable_error_pattern)
-        .with("a", "b").and_return(/some ignorable error/)
+        .with("a").and_return(/some ignorable error/)
     end
 
     context "when given error message matches against ingorable error pattern" do
       it "returns true" do
-        expect(described_class.ignorable_error?("some ignorable error", "a", "b")).to be true
+        expect(described_class.ignorable_error?("some ignorable error", "a")).to be true
       end
     end
 
     context "when given error message does not match against ingorable error pattern" do
       it "returns false" do
-        expect(described_class.ignorable_error?("some critical error", "a", "b")).to be false
+        expect(described_class.ignorable_error?("some critical error", "a")).to be false
       end
     end
   end
