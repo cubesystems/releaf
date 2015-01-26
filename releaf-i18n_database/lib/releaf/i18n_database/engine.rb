@@ -1,4 +1,5 @@
 module Releaf::I18nDatabase
+  require 'releaf/i18n_database/builders_autoload'
   mattr_accessor :create_missing_translations
   @@create_missing_translations = true
 

@@ -1,4 +1,5 @@
 module Releaf::Content
+  require 'releaf/content/builders_autoload'
   class Engine < ::Rails::Engine
   end
 

@@ -5,6 +5,7 @@ module Releaf::Permissions
   require 'releaf/permissions/profile_component'
   require 'releaf/permissions/roles_component'
   require 'releaf/permissions/users_component'
+  require 'releaf/permissions/builders_autoload'
 
   class Engine < ::Rails::Engine
   end
