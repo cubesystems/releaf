@@ -63,10 +63,22 @@ class Releaf::Builders::Page::LayoutBuilder
   def body_classes
     list = []
     list << "application-#{Rails.application.class.parent_name.downcase}"
-    list << "controller-#{params[:controller].tr( '_/', '-' )}"
+    list += controller_body_classes
     list << "view-#{controller.active_view}"  if controller.respond_to? :active_view
     list << "side-compact" if layout_settings("releaf.side.compact")
     list
+  end
+
+  def controller_classes
+    ancestors = controller.class.ancestors.grep(Class)
+    slice_index = ancestors.index(Releaf::BaseController) || (ancestors.index(controller.class) + 1)
+    ancestors[0, slice_index].reverse
+  end
+
+  def controller_body_classes
+    controller_classes.collect do|c_class|
+      "controller-" + c_class.name.gsub(/Controller$/, "").underscore.tr( '_/', '-' )
+    end
   end
 
   def head_blocks
