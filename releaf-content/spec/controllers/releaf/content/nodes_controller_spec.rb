@@ -4,7 +4,7 @@ describe Releaf::Content::NodesController do
   describe "#builder_scopes" do
     it "adds node builder scope as first scope before default builder scopes" do
       allow(subject).to receive(:node_builder_scope).and_return("xx")
-      expect(subject.builder_scopes).to eq(["xx", "Releaf::Content::Nodes"])
+      expect(subject.builder_scopes).to eq(["xx", "Releaf::Content::Nodes", "Admin::Builders"])
     end
   end
 
