@@ -131,8 +131,19 @@ describe Releaf::BaseController do
   end
 
   describe "#builder_scopes" do
-    it "returns array with normalized controller class name" do
-      expect(subject.builder_scopes).to eq(["Dummy"])
+    it "returns array with normalized controller class name scope and project builder scope" do
+      allow(subject).to receive(:application_builder_scope).and_return("xxx")
+      expect(subject.builder_scopes).to eq(["Dummy", "xxx"])
+    end
+  end
+
+  describe "#application_builder_scope" do
+    it "returns node builder scope within releaf mount location scope" do
+      allow(Releaf).to receive(:mount_location).and_return("admin")
+      expect(subject.application_builder_scope).to eq("Admin::Builders")
+
+      allow(Releaf).to receive(:mount_location).and_return("")
+      expect(subject.application_builder_scope).to eq("Builders")
     end
   end
 

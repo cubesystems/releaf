@@ -257,8 +257,12 @@ module Releaf
       Releaf::Builders.builder_class(builder_scopes, builder_type)
     end
 
+    def application_builder_scope
+      [Releaf.mount_location.capitalize, "Builders"].reject(&:empty?).join("::")
+    end
+
     def builder_scopes
-      [self.class.name.gsub(/Controller$/, "")]
+      [self.class.name.gsub(/Controller$/, ""), application_builder_scope]
     end
 
     def form_options(form_type, object, object_name)
