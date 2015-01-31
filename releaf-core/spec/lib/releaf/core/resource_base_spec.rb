@@ -161,8 +161,8 @@ describe Releaf::Core::ResourceBase do
   end
 
   describe "#excluded_associations" do
-    it "returns array with `releaf_richtext_attachments` and `translations`" do
-      expect(subject.excluded_associations).to eq([:releaf_richtext_attachments, :translations])
+    it "returns array with `translations`" do
+      expect(subject.excluded_associations).to eq([:translations])
     end
   end
 end
