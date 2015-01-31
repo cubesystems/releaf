@@ -20,8 +20,8 @@ describe Node do
     it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_presence_of(:content_type) }
     it { is_expected.to validate_uniqueness_of(:slug).scoped_to(:parent_id) }
-    it { is_expected.to ensure_length_of(:name).is_at_most(255) }
-    it { is_expected.to ensure_length_of(:slug).is_at_most(255) }
+    it { is_expected.to validate_length_of(:name).is_at_most(255) }
+    it { is_expected.to validate_length_of(:slug).is_at_most(255) }
   end
 
   describe "after save" do

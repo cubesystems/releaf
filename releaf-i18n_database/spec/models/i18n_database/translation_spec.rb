@@ -3,7 +3,7 @@ require "spec_helper"
 describe Releaf::I18nDatabase::Translation do
 
   it { is_expected.to validate_presence_of(:key) }
-  it { is_expected.to ensure_length_of(:key).is_at_most(255) }
+  it { is_expected.to validate_length_of(:key).is_at_most(255) }
   it do
     FactoryGirl.create(:translation)
     is_expected.to validate_uniqueness_of(:key)
