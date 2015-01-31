@@ -13,10 +13,10 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files`.split("\n")
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency 'rails', '~> 4.1.0'
+  s.add_dependency 'rails', '~> 4.2.0'
   s.add_dependency 'sass-rails', '>= 3.2.5'
   s.add_dependency 'jquery-rails', '~> 3.1.0'
-  s.add_dependency 'jquery-ui-rails', '~> 4.1.0'
+  s.add_dependency 'jquery-ui-rails', '~> 4.2.0'
   s.add_dependency 'railties', '>= 3.1'
   s.add_dependency 'haml-rails', '>= 0.3.4'
   s.add_dependency 'dragonfly', '~> 1.0.4'
@@ -32,8 +32,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'nokogiri', '>= 1.6.0'
   s.add_dependency 'rack-cache'
 
-  s.add_dependency 'axlsx_rails', '~> 0.2.0'
-  s.add_dependency 'roo', '~> 1.12.2'
+  s.add_dependency 'axlsx_rails', '~> 0.3.0'
+  s.add_dependency 'roo', '~> 1.13.2'
 
   s.required_ruby_version = '>= 2.1.0'
 end

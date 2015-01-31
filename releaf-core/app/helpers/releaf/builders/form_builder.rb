@@ -1,5 +1,6 @@
 class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::Builders::Base
+  include Releaf::Tags::CheckboxGroupField
   attr_accessor :template
 
   def field_names
@@ -39,7 +40,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     {
       render_method: field_render_method_name(field),
       field: field,
-      association: object.class.reflections.key?(field.to_sym),
+      association: object.class.reflections.key?(field.to_s),
       subfields: subfields
     }
   end
@@ -61,7 +62,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def reflection(reflection_name)
-    object.class.reflections[reflection_name.to_sym]
+    object.class.reflections[reflection_name.to_s]
   end
 
   def association_fields(association_name)
@@ -414,33 +415,6 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_checkbox_group(name, input: {}, label: {}, field: {}, options: {}, &block)
-    options = {field: {type: "boolean-group"}}.deep_merge(options)
-    content = releaf_checkbox_group_content(name, options[:items], input: input, options: options)
-    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
-  end
-
-  def releaf_checkbox_group_content(name, items, input: {}, options: {})
-    safe_join do
-      items.collect do|item|
-        releaf_checkbox_group_item(name, item, input: input, options: options)
-      end
-    end
-  end
-
-  def releaf_checkbox_group_item(name, item, input: {}, options: {})
-    attributes = releaf_checkbox_group_item_attributes(name, item, input: input, options: options)
-    wrapper(class: "type-boolean-group-item") do
-      check_box(name, attributes, item[:value], nil) << label(name, item[:label], value: item[:value])
-    end
-  end
-
-  def releaf_checkbox_group_item_attributes(name, item, input: {}, options: {})
-    input_attributes(name, input, options).reject do |attribute, _value|
-      %w[id name value type multiple].include?(attribute.to_s)
-    end.merge(multiple: true)
-  end
-
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "text"}}.deep_merge(options)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
@@ -586,5 +560,4 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def sortable_column_name
     'item_position'
   end
-
 end

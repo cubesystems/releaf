@@ -3,8 +3,7 @@ class CreateHomePages < ActiveRecord::Migration
     create_table :home_pages do |t|
       t.text :intro_text_html
 
-      t.timestamps
+      t.timestamps(null: false)
     end
-
   end
 end

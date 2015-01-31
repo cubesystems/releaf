@@ -1,9 +1,5 @@
 module Releaf::Permissions::Roles
   class FormBuilder < Releaf::Builders::FormBuilder
-    def field_names
-      %w[name default_controller permissions]
-    end
-
     def render_default_controller
       controllers = {}
       Releaf.available_controllers.each do |controller|
@@ -14,13 +10,12 @@ module Releaf::Permissions::Roles
     end
 
     def render_permissions
-      releaf_checkbox_group(:permissions, options: {items: permissions_items})
-    end
-
-    def permissions_items
-      Releaf.available_controllers.collect do |controller_name|
-        {value: controller_name, label: t(controller_name, scope: "admin.menu_items")}
-      end
+      options = {
+        values: Releaf.available_controllers,
+        field: :permission,
+        translation_scope: "admin.menu_items"
+      }
+      releaf_checkbox_group_field(:permissions, options: {association: options})
     end
   end
 end

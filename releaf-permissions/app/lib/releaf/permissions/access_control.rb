@@ -4,7 +4,7 @@ module Releaf::Permissions
     attr_accessor :controller
 
     def controller_allowed?(controller_name)
-      allowed_controllers.include?(controller_name) || user.role.permissions.include?(controller_name)
+      allowed_controllers.include?(controller_name) || user.role.permissions.where(permission: controller_name).exists?
     end
 
     def current_controller_name

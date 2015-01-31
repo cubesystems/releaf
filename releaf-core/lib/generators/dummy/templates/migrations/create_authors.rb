@@ -7,7 +7,7 @@ class CreateAuthors < ActiveRecord::Migration
       t.date    :birth_date
       t.string    :wiki_link
 
-      t.timestamps
+      t.timestamps(null: false)
     end
   end
 end

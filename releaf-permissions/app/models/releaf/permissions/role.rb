@@ -7,9 +7,8 @@ module Releaf::Permissions
     validates_uniqueness_of :name, case_sensitive: false
 
     has_many :users, dependent: :restrict_with_exception
-
-    serialize :permissions, Array
-    before_validation{|model| model.permissions.reject!(&:blank?) if model.permissions}
+    has_many :permissions, as: :owner, class_name: "Releaf::Permissions::Permission", dependent: :destroy
+    accepts_nested_attributes_for :permissions, allow_destroy: true
 
     alias_attribute :to_text, :name
   end

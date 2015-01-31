@@ -5,7 +5,7 @@ module Releaf
       if factory.is_a? Releaf::Permissions::User
         user = factory
       else
-        user = FactoryGirl.create(factory)
+        user = create(factory)
       end
       if full_login
         visit "/"

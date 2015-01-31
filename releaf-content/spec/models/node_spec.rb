@@ -106,15 +106,6 @@ describe Node do
       it "deletes record" do
         expect { node.destroy }.to change { Node.count }.by(-1)
       end
-
-      it "retries to delete record only once" do
-        node.update_columns(content_type: 'NonExistingTestModel')
-        allow(node).to receive(:content_type=)
-        allow(node).to receive(:content_id=)
-
-        expect { node.destroy }.to raise_error NameError
-        expect( Node.count ).to eq 1
-      end
     end
 
     it "sets node update to current time" do

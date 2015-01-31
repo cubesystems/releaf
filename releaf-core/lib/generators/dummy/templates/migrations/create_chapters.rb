@@ -6,7 +6,7 @@ class CreateChapters < ActiveRecord::Migration
       t.text    :sample_html
       t.integer :book_id
       t.integer :item_position
-      t.timestamps
+      t.timestamps(null: false)
     end
     add_index :chapters, :book_id
   end

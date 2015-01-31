@@ -3,7 +3,6 @@ module Releaf
 
   class BaseController < ActionController::Base
     protect_from_forgery
-    include Releaf::SerializedArrayParamsNormalizer
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
@@ -458,9 +457,7 @@ module Releaf
     end
 
     def resource_params
-      values = required_params.permit(*permitted_params)
-      values = normalize_serialized_array_params(values) if normalize_serialized_array_params?
-      values
+      required_params.permit(*permitted_params)
     end
 
     # Returns which resource attributes can be updated with mass assignment.

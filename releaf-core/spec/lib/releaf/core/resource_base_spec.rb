@@ -39,8 +39,8 @@ describe Releaf::Core::ResourceBase do
 
   describe "#associations_attributes" do
     it "returns array with associations attributes within hashes" do
-      association_1 = subject.resource_class.reflections[:chapters]
-      association_2 = subject.resource_class.reflections[:sequels]
+      association_1 = subject.resource_class.reflections["chapters"]
+      association_2 = subject.resource_class.reflections["sequels"]
 
       allow(subject).to receive(:associations).and_return([association_1, association_2])
       allow(subject).to receive(:association_attributes).with(association_1).and_return(["a", "b"])
@@ -52,7 +52,7 @@ describe Releaf::Core::ResourceBase do
 
   describe "#association_attributes" do
     it "returns association params without association excluded attributes" do
-      association = subject.resource_class.reflections[:chapters]
+      association = subject.resource_class.reflections["chapters"]
       allow(described_class).to receive(:new).with(association.klass).and_call_original
       allow_any_instance_of(described_class).to receive(:values).and_return(["a", "b", "c"])
       allow(subject).to receive(:association_excluded_attributes).and_return(["b"])
@@ -62,7 +62,7 @@ describe Releaf::Core::ResourceBase do
 
   describe "#association_excluded_attributes" do
     it "returns `foreign_key` and polymorphic association type key (if exists)" do
-      association = subject.resource_class.reflections[:chapters]
+      association = subject.resource_class.reflections["chapters"]
       allow(association).to receive(:foreign_key).and_return("b")
       expect(subject.association_excluded_attributes(association)).to eq(["b"])
 
@@ -111,19 +111,19 @@ describe Releaf::Core::ResourceBase do
   describe "#associations" do
     it "returns array with includable associations" do
       reflections = subject.resource_class.reflections
-      allow(subject).to receive(:includable_association?).with(reflections[:releaf_richtext_attachments]).and_return(false)
-      allow(subject).to receive(:includable_association?).with(reflections[:chapters]).and_return(true)
-      allow(subject).to receive(:includable_association?).with(reflections[:book_sequels]).and_return(false)
-      allow(subject).to receive(:includable_association?).with(reflections[:sequels]).and_return(true)
-      allow(subject).to receive(:includable_association?).with(reflections[:author]).and_return(false)
-      allow(subject).to receive(:includable_association?).with(reflections[:translations]).and_return(false)
+      allow(subject).to receive(:includable_association?).with(reflections["releaf_richtext_attachments"]).and_return(false)
+      allow(subject).to receive(:includable_association?).with(reflections["chapters"]).and_return(true)
+      allow(subject).to receive(:includable_association?).with(reflections["book_sequels"]).and_return(false)
+      allow(subject).to receive(:includable_association?).with(reflections["sequels"]).and_return(true)
+      allow(subject).to receive(:includable_association?).with(reflections["author"]).and_return(false)
+      allow(subject).to receive(:includable_association?).with(reflections["translations"]).and_return(false)
 
-      expect(subject.associations).to eq([reflections[:chapters], reflections[:sequels]])
+      expect(subject.associations).to eq([reflections["chapters"], reflections["sequels"]])
     end
   end
 
   describe "#includable_association?" do
-    let(:association){ subject.resource_class.reflections[:chapters] }
+    let(:association){ subject.resource_class.reflections["chapters"] }
 
     context "when given association is :has_many, not excluded, not `ThroughReflection` and has nested_attributes for it" do
       it "returns true" do

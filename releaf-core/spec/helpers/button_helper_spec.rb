@@ -8,7 +8,7 @@ describe Releaf::ButtonHelper do
     end
 
     it "output given attributes within button" do
-      output = '<button class="button with-icon" data-color="red" title="x" type="button"><i class="fa fa-plus"></i>x</button>'
+      output = '<button class="button with-icon" title="x" type="button" data-color="red"><i class="fa fa-plus"></i>x</button>'
       expect(helper.releaf_button("x", "plus", data: {color: "red"})).to eq(output)
     end
 
@@ -33,7 +33,7 @@ describe Releaf::ButtonHelper do
 
     context "when href exists within given attributes" do
       it "returns link" do
-        output = '<a class="button with-icon" href="http://example.com" title="x"><i class="fa fa-plus"></i>x</a>'
+        output = '<a class="button with-icon" title="x" href="http://example.com"><i class="fa fa-plus"></i>x</a>'
         expect(helper.releaf_button("x", "plus", href: "http://example.com")).to eq(output)
       end
     end

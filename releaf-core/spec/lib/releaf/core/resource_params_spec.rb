@@ -107,7 +107,7 @@ describe Releaf::Core::ResourceParams do
 
   describe "#association_attributes" do
     it "returns association params with `id` and `_destroy` params and without `foreign_key` param" do
-      association = subject.resource_class.reflections[:chapters]
+      association = subject.resource_class.reflections["chapters"]
       allow(association).to receive(:foreign_key).and_return("b")
       allow(described_class).to receive(:new).with(association.klass).and_call_original
       allow_any_instance_of(described_class).to receive(:values).and_return(["a", "b", "c"])
