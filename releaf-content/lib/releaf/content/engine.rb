@@ -3,12 +3,6 @@ module Releaf::Content
   class Engine < ::Rails::Engine
   end
 
-  def self.components
-    [
-      Releaf::Core::AttachmentsComponent
-    ]
-  end
-
   def self.initialize_component
     Rails.application.config.middleware.use Releaf::Content::RoutesReloader
   end
@@ -16,7 +10,7 @@ module Releaf::Content
   def self.draw_component_routes router
     router.namespace :releaf, path: nil do
       router.namespace :content, path: nil do
-        router.releaf_resources :nodes, except: [:show], concerns: :releaf_richtext_attachmentable do
+        router.releaf_resources :nodes, except: [:show] do
           router.collection do
             router.get :content_type_dialog
             router.get :generate_url

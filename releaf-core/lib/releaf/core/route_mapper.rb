@@ -4,8 +4,13 @@ module Releaf::Core::RouteMapper
   def releaf_resources(*args, &block)
     resources *args do
       yield if block_given?
-      get   :confirm_destroy, on: :member      if include_confirm_destroy?(args.last)
-      get   :toolbox, on: :member              if include_toolbox?(args.last)
+      member do
+        get :confirm_destroy if route_enabled?(:destroy, args.last)
+        get :toolbox if route_enabled?(:toolbox, args.last)
+      end
+      collection do
+        post :create_releaf_richtext_attachment if route_enabled?(:releaf_richtext_attachments, args.last)
+      end
     end
   end
 
@@ -39,16 +44,7 @@ module Releaf::Core::RouteMapper
 
   private
 
-  # Check whether add confirm destroy route
-  def include_confirm_destroy? options
-    return include_routes? :destroy, options
-  end
-
-  def include_toolbox? options
-    return include_routes? :toolbox, options
-  end
-
-  def include_routes? route, options
+  def route_enabled?(route, options)
     include_route = true
     if options.is_a? Hash
       if options[:only] && !options[:only].include?(route.to_sym)
@@ -58,6 +54,6 @@ module Releaf::Core::RouteMapper
       end
     end
 
-    return include_route
+    include_route
   end
-end # Releaf::RouteMapper
+end

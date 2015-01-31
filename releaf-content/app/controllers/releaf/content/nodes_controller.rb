@@ -1,7 +1,5 @@
 module Releaf::Content
   class NodesController < Releaf::BaseController
-    include Releaf::RichtextAttachments::ActionController
-
     def generate_url
       tmp_resource = prepare_resource
       tmp_resource.name = params[:name]

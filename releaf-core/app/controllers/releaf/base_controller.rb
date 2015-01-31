@@ -2,9 +2,11 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < ActionController::Base
+    protect_from_forgery
     include Releaf::SerializedArrayParamsNormalizer
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
+    include Releaf::RichtextAttachments
 
     before_filter :manage_ajax, :setup, :verify_feature_availability!
 
@@ -12,7 +14,6 @@ module Releaf
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
 
     layout :layout
-    protect_from_forgery
 
     helper_method \
       :form_options,
