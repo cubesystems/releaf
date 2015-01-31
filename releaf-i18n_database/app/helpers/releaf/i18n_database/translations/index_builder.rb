@@ -1,5 +1,6 @@
 module Releaf::I18nDatabase::Translations
   class IndexBuilder < Releaf::Builders::IndexBuilder
+    include Releaf::I18nDatabase::Translations::BuildersCommon
 
     def text_search_content
       [search_only_blank_ui] + super
@@ -18,11 +19,6 @@ module Releaf::I18nDatabase::Translations
 
     def footer_secondary_tools
       [export_button, import_button, import_form]
-    end
-
-    def export_button
-      url = url_for(action: :export, search: params[:search], format: :xlsx)
-      button(t("export"), "download", class: "secondary", href: url)
     end
 
     def import_button

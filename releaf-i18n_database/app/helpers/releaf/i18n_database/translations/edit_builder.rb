@@ -1,5 +1,6 @@
 module Releaf::I18nDatabase::Translations
   class EditBuilder < Releaf::Builders::EditBuilder
+    include Releaf::I18nDatabase::Translations::BuildersCommon
 
     def section
       tag(:section) do
@@ -21,7 +22,6 @@ module Releaf::I18nDatabase::Translations
       template_variable("import")
     end
 
-
     def save_button
       if import?
         button_text =  t('Import')
@@ -34,11 +34,6 @@ module Releaf::I18nDatabase::Translations
 
     def footer_secondary_tools
       [back_to_index_button, (export_button unless import?)]
-    end
-
-    def export_button
-      url = url_for(action: :export, search: params[:search], format: :xlsx)
-      button(t('Export'), "download", class: "secondary", href: url)
     end
 
     def back_to_index_button
