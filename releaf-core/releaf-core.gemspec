@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/cubesystems/releaf'
 
   s.files             = `git ls-files`.split("\n")
-  #s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency 'rails', '~> 4.1.0'
@@ -30,7 +29,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
   s.add_dependency 'globalize-accessors'
-  s.add_dependency 'uuidtools', '>= 2.1.4'
   s.add_dependency 'nokogiri', '>= 1.6.0'
   s.add_dependency 'rack-cache'
 

@@ -11,6 +11,7 @@ feature "Richtext editing", js: true do
   end
 
   scenario "Image toolbar unavailable when controller doesn't support attachments" do
+    allow_any_instance_of(Admin::BooksController).to receive(:releaf_richtext_attachment_upload_url).and_return("")
     visit new_admin_book_path
     fill_in_richtext 'resource_summary_html', "some text"
     expect(page).to_not have_css("a.cke_button__image")

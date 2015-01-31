@@ -111,7 +111,7 @@ describe Releaf::Core::ResourceBase do
   describe "#associations" do
     it "returns array with includable associations" do
       reflections = subject.resource_class.reflections
-      allow(subject).to receive(:includable_association?).with(reflections[:attachments]).and_return(false)
+      allow(subject).to receive(:includable_association?).with(reflections[:releaf_richtext_attachments]).and_return(false)
       allow(subject).to receive(:includable_association?).with(reflections[:chapters]).and_return(true)
       allow(subject).to receive(:includable_association?).with(reflections[:book_sequels]).and_return(false)
       allow(subject).to receive(:includable_association?).with(reflections[:sequels]).and_return(true)
@@ -161,8 +161,8 @@ describe Releaf::Core::ResourceBase do
   end
 
   describe "#excluded_associations" do
-    it "returns array with `attachments` and `translations`" do
-      expect(subject.excluded_associations).to eq([:attachments, :translations])
+    it "returns array with `releaf_richtext_attachments` and `translations`" do
+      expect(subject.excluded_associations).to eq([:releaf_richtext_attachments, :translations])
     end
   end
 end

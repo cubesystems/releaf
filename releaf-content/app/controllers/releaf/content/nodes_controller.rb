@@ -1,6 +1,6 @@
 module Releaf::Content
   class NodesController < Releaf::BaseController
-    include Releaf::Attachments
+    include Releaf::RichtextAttachments::ActionController
 
     def generate_url
       tmp_resource = prepare_resource

@@ -16,7 +16,7 @@ module Releaf::Content
   def self.draw_component_routes router
     router.namespace :releaf, path: nil do
       router.namespace :content, path: nil do
-        router.releaf_resources :nodes, :except => [:show], concerns: :attachmentable do
+        router.releaf_resources :nodes, except: [:show], concerns: :releaf_richtext_attachmentable do
           router.collection do
             router.get :content_type_dialog
             router.get :generate_url

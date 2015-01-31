@@ -1,5 +1,5 @@
 require 'spec_helper'
-feature "Attachments", js: true do
+feature "Richtext attachments", js: true do
   background do
     # preload ActsAsNode classes
     Rails.application.eager_load!
@@ -31,7 +31,7 @@ feature "Attachments", js: true do
     save_and_check_response "Create succeeded"
 
     visit "/image-test"
-    expect(page).to have_css("img[src='#{Releaf::Attachment.last.file.url}']")
+    expect(page).to have_css("img[src='#{Releaf::RichtextAttachment.last.file.url}']")
   end
 
   scenario "Upload file and insert url to it" do
@@ -59,6 +59,6 @@ feature "Attachments", js: true do
     save_and_check_response "Create succeeded"
 
     visit "/link-test"
-    expect(page).to have_css("a[href='#{Releaf::Attachment.last.file.url}']")
+    expect(page).to have_css("a[href='#{Releaf::RichtextAttachment.last.file.url}']")
   end
 end

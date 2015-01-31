@@ -57,6 +57,6 @@ class Releaf::Core::ResourceBase
   end
 
   def excluded_associations
-    [:attachments, :translations]
+    [:releaf_richtext_attachments, :translations]
   end
 end

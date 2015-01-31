@@ -361,19 +361,12 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_richtext_field(name, input: {}, label: {}, field: {}, options: {}, &block)
-    attributes = {
-      rows: 5,
-      cols: 50,
-      class: "richtext",
-      value: object.send(name),
-      data: {
-        "attachment-upload-url" => (controller.respond_to?(:attachment_upload_url) ? controller.attachment_upload_url : '')
-      },
-    }.merge(input)
-
+    attributes = richtext_input_attributes(name)
+      .merge(value: object.send(name))
+      .merge(input)
     attributes = input_attributes(name, attributes, options)
 
-    options = {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
+    options = richtext_options(name, options)
     content = text_area(name, attributes)
 
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
@@ -458,17 +451,24 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
   end
 
-  def releaf_richtext_i18n_field(name, input: {}, label: {}, field: {}, options: {})
-    input = {
+  def richtext_input_attributes(name)
+    {
       rows: 5,
       cols: 50,
       class: "richtext",
       data: {
-        "attachment-upload-url" => (controller.respond_to?(:attachment_upload_url) ? attachment_upload_url : '')
+        "attachment-upload-url" => (controller.respond_to?(:releaf_richtext_attachment_upload_url) ? controller.releaf_richtext_attachment_upload_url : '')
       },
-    }.merge(input)
+    }
+  end
 
-    options = {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
+  def richtext_options(name, options)
+    {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
+  end
+
+  def releaf_richtext_i18n_field(name, input: {}, label: {}, field: {}, options: {})
+    input = richtext_input_attributes(name).merge(input)
+    options = richtext_options(name, options)
     localized_field(name, :text_area, input: input, label: label, field: field, options: options)
   end
 
