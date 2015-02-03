@@ -94,8 +94,8 @@ describe Releaf::Core::ResourceParams do
 
   describe "#associations_attributes" do
     it "returns array with associations params within hashes" do
-      association_1 = subject.resource_class.reflections[:chapters]
-      association_2 = subject.resource_class.reflections[:sequels]
+      association_1 = subject.resource_class.reflections["chapters"]
+      association_2 = subject.resource_class.reflections["sequels"]
 
       allow(subject).to receive(:associations).and_return([association_1, association_2])
       allow(subject).to receive(:association_attributes).with(association_1).and_return(["a", "b"])

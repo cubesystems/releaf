@@ -48,7 +48,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
     it "returns confirm form" do
       allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_url: "y").and_return("x")
       allow(subject.template).to receive(:url_for).with("x").and_return("y") # Rails are double calling url_for ....
-      content = '<form class="new_resource" id="new_resource" action="y" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button class="button with-icon danger" title="Yes" type="submit" data-type="cancel"><i class="fa fa-trash-o"></i>Yes</button></form>'
+      content = '<form class="new_resource" id="new_resource" action="y" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button class="button with-icon danger" title="Yes" type="submit"><i class="fa fa-check"></i>Yes</button></form>'
       expect(subject.confirm_form).to eq(content)
     end
   end

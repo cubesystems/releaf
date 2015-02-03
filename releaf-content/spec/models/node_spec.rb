@@ -68,7 +68,7 @@ describe Node do
       root = create(:node, locale: "lv")
       parent = create(:text_page_node, locale: nil, parent_id: root.id)
       @child1 = create(:text_page_node, locale: nil, parent_id: parent.id)
-      @child2 = create(:text_page_node, locale: nil, parent_id: parent.id, locale: "en")
+      @child2 = create(:text_page_node, parent_id: parent.id, locale: "en")
     end
 
     context "when node locale is nil" do

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require "#{File.dirname(__FILE__)}/../../support/shared/controllers/concerns/releaf/serialized_array_params_normalizer_includer"
 
 describe Releaf::BaseController do
   let(:new_resource){ Author.new }
@@ -11,9 +10,6 @@ describe Releaf::BaseController do
     end
   end
   class FooFormBuilder; end
-
-
-  it_behaves_like "a SerializedArrayParamsNormalizer includer"
 
   describe "#action_errors" do
     it "returns resource errors formatted with Releaf::ErrorFormatter" do
