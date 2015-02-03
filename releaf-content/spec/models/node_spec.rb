@@ -318,8 +318,8 @@ describe Node do
         allow( @text_page_node_3 ).to receive(:children).and_return([@text_page_node_4])
         allow( @text_page_node_4 ).to receive(:children).and_return([@text_page_node_5])
 
-        @text_page_node_3.update_attribute(:active, :false)
-        @text_page_node_4.update_attribute(:active, :false)
+        @text_page_node_3.update_attribute(:active, false)
+        @text_page_node_4.update_attribute(:active, false)
 
         allow( @text_page_node_3 ).to receive(:attributes_to_copy).and_return(["name", "parent_id", "content_type"])
 
