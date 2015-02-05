@@ -36,7 +36,7 @@ jQuery(document).ready( function()
                 {
                     var close_container = this.inner.first();
 
-                    if (params.type != 'image')
+                    if (params.type !== 'image')
                     {
                         close_container =  this.inner.find('section header').first();
                     }
@@ -48,7 +48,7 @@ jQuery(document).ready( function()
                         close_button.on('click', function()
                         {
                             close_ajax_box();
-                        })
+                        });
                         close_container.append( close_button );
                     }
                 }
@@ -77,7 +77,7 @@ jQuery(document).ready( function()
 
                 this.inner.trigger('ajaxboxbeforeclose');
             }
-        }
+        };
 
         if (params.modal)
         {
@@ -85,7 +85,7 @@ jQuery(document).ready( function()
             fancybox_params.helpers     = { overlay: { closeClick: false } };
         }
 
-        if (params['type'] == 'image')
+        if (params.type === 'image')
         {
             fancybox_params.href = params.url;
             fancybox_params.type = params.type;
@@ -96,12 +96,12 @@ jQuery(document).ready( function()
         }
         jQuery.fancybox( fancybox_params );
         return;
-    }
+    };
 
     var close_ajax_box = function()
     {
         jQuery.fancybox.close();
-    }
+    };
 
 
     body.on('ajaxboxinit', function(e)
@@ -120,9 +120,9 @@ jQuery(document).ready( function()
                 modal   : link.is('[data-modal]'),
                 trigger : link
             };
-            if (link.attr('rel') == 'image')
+            if (link.attr('rel') === 'image')
             {
-                params['type'] = 'image';
+                params.type = 'image';
             }
 
             link.trigger('ajaxboxopen', params);
@@ -175,7 +175,7 @@ jQuery(document).ready( function()
         params.trigger.trigger('loadingend');
     });
 
-    body.on('ajaxboxclose', function(e)
+    body.on('ajaxboxclose', function()
     {
         close_ajax_box();
     });

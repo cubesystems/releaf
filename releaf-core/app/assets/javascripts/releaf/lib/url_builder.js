@@ -13,7 +13,7 @@ function url_builder( params )
 	if( typeof params == 'string' )
 	{
 		params = { baseUrl: params };
-	}
+	};
 	// setup members
 	this.path = '';
 	this.query = {};
@@ -31,24 +31,25 @@ function url_builder( params )
 		{
 			if( queryParts[ i ].length > 0 )
 			{
+                var value;
 				var variable = queryParts[ i ].split( '=' );
 				var name = variable.shift();
 
 				if( variable.length > 0 )
 				{
-					var value = decodeURIComponent( variable.shift() );
+					value = decodeURIComponent( variable.shift() );
 				}
 				else
 				{
-					var value = '';
+					value = '';
 				}
 
-				if( unescape( name ).substr( unescape( name ).length - 2, 2 ) == '[]' )
+				if( unescape( name ).substr( unescape( name ).length - 2, 2 ) === '[]' )
 				{
 					name = unescape( name );
 				}
 
-				if( name.substr( name.length - 2, 2 ) == '[]' )
+				if( name.substr( name.length - 2, 2 ) === '[]' )
 				{
 					name = name.substr( 0, name.length - 2 );
 					if( this.query[ name ] === undefined || !(this.query[ name ] instanceof Array) )
@@ -67,11 +68,11 @@ function url_builder( params )
 	if( params.keep !== undefined && params.keep instanceof Array )
 	{
 		var filteredQuery = {};
-		for( var i = 0; i < params.keep.length; i++ )
+		for( var a = 0; a < params.keep.length; a++ )
 		{
-			if( this.query[ params.keep[i] ] !== undefined )
+			if( this.query[ params.keep[a] ] !== undefined )
 			{
-				filteredQuery[ params.keep[i] ] = this.query[ params.keep[i] ];
+				filteredQuery[ params.keep[a] ] = this.query[ params.keep[a] ];
 			}
 		}
 		this.query = filteredQuery;
@@ -87,7 +88,7 @@ url_builder.prototype.add = function( params, value )
 			if( params[ i ].name !== undefined && params[ i ].value !== undefined )
 			{
 				var name = params[ i ].name;
-				if( name.substr( name.length - 2, 2 ) == '[]' )
+				if( name.substr( name.length - 2, 2 ) === '[]' )
 				{
 					name = name.substr( 0, name.length - 2 );
 					if( this.query[ name ] === undefined || !(this.query[ name ] instanceof Array) )
@@ -105,26 +106,26 @@ url_builder.prototype.add = function( params, value )
 	}
 	else if( params instanceof Object )
 	{
-		for( var i in params )
+		for( var a in params )
 		{
-			this.query[ i ] = params[ i ];
+			this.query[ a ] = params[ a ];
 		}
 	}
-	else if( typeof params == 'string' )
+	else if( typeof params === 'string' )
 	{
 		if( value === undefined )
 		{
 			var temp = new url_builder( '?' + params );
-			for( var i in temp.query )
+			for( var b in temp.query )
 			{
-				this.query[ i ] = temp.query[i];
+				this.query[ b ] = temp.query[b];
 			}
 		}
 		else
 		{
 			this.query[ params ] = value;
 		}
-	}
+	};
 	return this;
 }
 
@@ -132,19 +133,19 @@ url_builder.prototype.removeAll = function( preserveParams )
 {
     for( var i in this.query )
     {
-        if( preserveParams === undefined || jQuery.inArray(i, preserveParams) == -1 )
+        if( preserveParams === undefined || jQuery.inArray(i, preserveParams) === -1 )
         {
             this.remove(i);
         }
     }
 	return this;
-}
+};
 
 url_builder.prototype.remove = function( name )
 {
 	delete this.query[ name ];
 	return this;
-}
+};
 
 url_builder.prototype.get = function( name )
 {
@@ -153,7 +154,7 @@ url_builder.prototype.get = function( name )
 		return this.query[ name ];
 	}
 	return null;
-}
+};
 
 url_builder.prototype.getUrl = function()
 {
@@ -180,4 +181,4 @@ url_builder.prototype.getUrl = function()
 	}
 
 	return this.path + '?' + query;
-}
+};
