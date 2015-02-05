@@ -10,10 +10,10 @@ function url_builder( params )
 	{
 		keepCurrentQuery = false;
 	}
-	if( typeof params == 'string' )
+	if( typeof params === 'string' )
 	{
 		params = { baseUrl: params };
-	};
+	}
 	// setup members
 	this.path = '';
 	this.query = {};
@@ -125,9 +125,9 @@ url_builder.prototype.add = function( params, value )
 		{
 			this.query[ params ] = value;
 		}
-	};
+	}
 	return this;
-}
+};
 
 url_builder.prototype.removeAll = function( preserveParams )
 {
