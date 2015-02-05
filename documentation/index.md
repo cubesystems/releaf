@@ -10,7 +10,7 @@ Releaf works with Rails 4.2
 First add Releaf gem to your Gemfile
 
 ```ruby
-gem 'releaf', git: 'https://github.com/cubesystems/releaf.git'
+gem 'releaf', github: 'cubesystems/releaf'
 ```
 
 Run the bundle command to install it.
