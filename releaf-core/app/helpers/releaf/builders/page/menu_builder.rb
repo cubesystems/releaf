@@ -81,7 +81,7 @@ class Releaf::Builders::Page::MenuBuilder
   end
 
   def item_name_content(item)
-    icon(item[:icon]) << tag(:span, t(item[:name], scope: "admin.menu_items"), class: "name")
+    icon(item[:icon]) << tag(:span, t(item[:name], scope: "admin.controllers"), class: "name")
   end
 
   def item_collapser(item)

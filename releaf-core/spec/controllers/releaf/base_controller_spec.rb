@@ -281,7 +281,7 @@ describe Admin::BooksController do
     sign_in FactoryGirl.create(:user)
     @breadcrumbs_base = [
       {name: I18n.t('home', scope: 'admin.breadcrumbs'), url: releaf_root_path},
-      {name: I18n.t('admin/books', scope: "admin.menu_items"), url: admin_books_path},
+      {name: I18n.t('admin/books', scope: "admin.controllers"), url: admin_books_path},
     ]
   end
 

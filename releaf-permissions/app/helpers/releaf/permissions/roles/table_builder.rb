@@ -9,7 +9,7 @@ module Releaf::Permissions::Roles
       if value.nil?
         '-'
       else
-        I18n.t(value.sub('_', '/'), scope: 'admin.menu_items')
+        I18n.t(value.sub('_', '/'), scope: 'admin.controllers')
       end
     end
   end

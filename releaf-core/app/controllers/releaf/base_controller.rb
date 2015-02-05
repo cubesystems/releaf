@@ -301,7 +301,7 @@ module Releaf
     end
 
     def page_title
-      I18n.t(params[:controller], scope: "admin.menu_items") + " - " + Rails.application.class.parent_name
+      I18n.t(params[:controller], scope: "admin.controllers") + " - " + Rails.application.class.parent_name
     end
 
     protected
