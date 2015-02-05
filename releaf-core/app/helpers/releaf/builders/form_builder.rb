@@ -553,8 +553,12 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         key = name.to_s.sub(/_uid$/, '')
       end
 
-      t(key, scope: "activerecord.attributes.#{object.class.name.underscore}")
+      t(key, scope: object_translation_scope)
     end
+  end
+
+  def object_translation_scope
+    "activerecord.attributes.#{object.class.name.underscore}"
   end
 
   def sortable_column_name
