@@ -496,6 +496,20 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
+  describe "#association_column?" do
+    context "when given column is association" do
+      it "returns true" do
+        expect(subject.association_column?(:author_id)).to be true
+      end
+    end
+
+    context "when given column is not association" do
+      it "returns false" do
+        expect(subject.association_column?(:title)).to be false
+      end
+    end
+  end
+
   describe "#cell" do
     context "when cell options :url value is blank" do
       it "returns cell with #cell_content output" do

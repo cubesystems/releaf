@@ -229,7 +229,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def association_column?(column)
-    column =~ /_id$/ && resource_class.reflections[association_name(column)]
+    !!(column =~ /_id$/) && resource_class.reflections[association_name(column).to_s].present?
   end
 
   def toolbox_cell(resource, options)
