@@ -25,9 +25,9 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   def relation_description(relation, key)
       (
         unless relation[:controller].nil?
-          I18n.t(relation[:controller], scope: 'admin.menu_items')
+          I18n.t(relation[:controller], scope: 'admin.controllers')
         else
-          I18n.t(key, scope: 'admin.menu_items')
+          I18n.t(key, scope: 'admin.controllers')
         end
       ) << " (#{relation[:objects].count})"
   end

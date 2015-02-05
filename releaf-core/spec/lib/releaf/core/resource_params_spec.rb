@@ -94,8 +94,8 @@ describe Releaf::Core::ResourceParams do
 
   describe "#associations_attributes" do
     it "returns array with associations params within hashes" do
-      association_1 = subject.resource_class.reflections[:chapters]
-      association_2 = subject.resource_class.reflections[:sequels]
+      association_1 = subject.resource_class.reflections["chapters"]
+      association_2 = subject.resource_class.reflections["sequels"]
 
       allow(subject).to receive(:associations).and_return([association_1, association_2])
       allow(subject).to receive(:association_attributes).with(association_1).and_return(["a", "b"])
@@ -107,7 +107,7 @@ describe Releaf::Core::ResourceParams do
 
   describe "#association_attributes" do
     it "returns association params with `id` and `_destroy` params and without `foreign_key` param" do
-      association = subject.resource_class.reflections[:chapters]
+      association = subject.resource_class.reflections["chapters"]
       allow(association).to receive(:foreign_key).and_return("b")
       allow(described_class).to receive(:new).with(association.klass).and_call_original
       allow_any_instance_of(described_class).to receive(:values).and_return(["a", "b", "c"])

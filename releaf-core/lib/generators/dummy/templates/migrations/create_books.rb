@@ -11,7 +11,7 @@ class CreateBooks < ActiveRecord::Migration
       t.integer   :price
       t.string    :cover_image_uid
 
-      t.timestamps
+      t.timestamps(null: false)
     end
 
     add_index :books, :author_id

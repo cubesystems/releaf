@@ -48,14 +48,14 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
     it "returns confirm form" do
       allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_url: "y").and_return("x")
       allow(subject.template).to receive(:url_for).with("x").and_return("y") # Rails are double calling url_for ....
-      content = '<form accept-charset="UTF-8" action="y" class="new_resource" id="new_resource" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="delete" /><input name="yyy" type="hidden" value="xxx" /></div><button class="button with-icon danger" title="Yes" type="submit"><i class="fa fa-check"></i>Yes</button></form>'
+      content = '<form class="new_resource" id="new_resource" action="y" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button class="button with-icon danger" title="Yes" type="submit"><i class="fa fa-check"></i>Yes</button></form>'
       expect(subject.confirm_form).to eq(content)
     end
   end
 
   describe "#cancel_form" do
     it "returns cancel form" do
-      content = '<form accept-charset="UTF-8" action="y" class="new_resource" id="new_resource" method="get"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><button class="button with-icon secondary" data-type="cancel" title="No" type="submit"><i class="fa fa-ban"></i>No</button></form>'
+      content = '<form class="new_resource" id="new_resource" action="y" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><button class="button with-icon secondary" title="No" type="submit" data-type="cancel"><i class="fa fa-ban"></i>No</button></form>'
       expect(subject.cancel_form).to eq(content)
     end
   end

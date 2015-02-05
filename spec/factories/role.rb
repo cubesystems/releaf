@@ -4,12 +4,18 @@ FactoryGirl.define do
 
     factory :admin_role do
       default_controller "releaf/permissions/users"
-      permissions Releaf.available_controllers
+      after(:create) do |role|
+        Releaf.available_controllers.each do|controller|
+          role.permissions.create!(permission: "controller.#{controller}")
+        end
+      end
     end
 
     factory :content_role do
       default_controller "releaf/content/nodes"
-      permissions ['releaf/content/nodes']
+      after(:create) do |role|
+        role.permissions.create!(permission: "controller.releaf/content/nodes")
+      end
     end
   end
 end

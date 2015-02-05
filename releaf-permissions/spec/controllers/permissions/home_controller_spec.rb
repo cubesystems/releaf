@@ -12,7 +12,7 @@ describe Releaf::Permissions::HomeController do
 
       it "redirects to users controller" do
         get :home
-        expect(response).to redirect_to(url_for(:action => 'index', :controller => @role.default_controller, :only_path => true))
+        expect(response).to redirect_to(url_for(action: 'index', controller: @role.default_controller, only_path: true))
       end
 
       context "when users default controller doesn't exist" do
@@ -22,7 +22,7 @@ describe Releaf::Permissions::HomeController do
 
         it "redirects to first available controller" do
           get :home
-          expect(response).to redirect_to(url_for(:action => 'index', :controller => @role.permissions.first, :only_path => true))
+          expect(response).to redirect_to(url_for(action: 'index', controller: "releaf/content/nodes", only_path: true))
         end
 
         context "when no releaf controller is available" do
@@ -44,7 +44,8 @@ describe Releaf::Permissions::HomeController do
 
       it "redirects to content controller" do
         get :home
-        expect(response).to redirect_to(url_for(:action => 'index', :controller => subject.current_releaf_permissions_user.role.default_controller, :only_path => true))
+        expect(response)
+          .to redirect_to(url_for(action: 'index', controller: subject.current_releaf_permissions_user.role.default_controller, only_path: true))
       end
     end
   end

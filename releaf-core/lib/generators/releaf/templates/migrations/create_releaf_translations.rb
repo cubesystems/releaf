@@ -3,7 +3,7 @@ class CreateReleafTranslations < ActiveRecord::Migration
     create_table :releaf_translations do |t|
       t.string  :key,       :null => false
 
-      t.timestamps
+      t.timestamps(null: false)
     end
     add_index :releaf_translations, :key, :unique => true
 
@@ -12,7 +12,7 @@ class CreateReleafTranslations < ActiveRecord::Migration
       t.string :lang, :null => false, :limit => 5
       t.text :localization
 
-      t.timestamps
+      t.timestamps(null: false)
     end
     add_index :releaf_translation_data, :lang
     add_index :releaf_translation_data, :translation_id

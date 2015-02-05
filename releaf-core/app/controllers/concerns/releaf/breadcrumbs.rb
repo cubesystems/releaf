@@ -18,7 +18,7 @@ module Releaf
       controller_params = Releaf.controller_list[self.class.name.sub(/Controller$/, '').underscore]
       if controller_params
         {
-          name: I18n.t(controller_params[:name], scope: "admin.menu_items"),
+          name: I18n.t(controller_params[:name], scope: "admin.controllers"),
           url: send("#{controller_params[:url_helper]}_path")
         }
       end

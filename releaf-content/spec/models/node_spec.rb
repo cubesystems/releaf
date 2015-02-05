@@ -68,7 +68,7 @@ describe Node do
       root = create(:node, locale: "lv")
       parent = create(:text_page_node, locale: nil, parent_id: root.id)
       @child1 = create(:text_page_node, locale: nil, parent_id: parent.id)
-      @child2 = create(:text_page_node, locale: nil, parent_id: parent.id, locale: "en")
+      @child2 = create(:text_page_node, parent_id: parent.id, locale: "en")
     end
 
     context "when node locale is nil" do
@@ -105,15 +105,6 @@ describe Node do
 
       it "deletes record" do
         expect { node.destroy }.to change { Node.count }.by(-1)
-      end
-
-      it "retries to delete record only once" do
-        node.update_columns(content_type: 'NonExistingTestModel')
-        allow(node).to receive(:content_type=)
-        allow(node).to receive(:content_id=)
-
-        expect { node.destroy }.to raise_error NameError
-        expect( Node.count ).to eq 1
       end
     end
 
@@ -327,8 +318,8 @@ describe Node do
         allow( @text_page_node_3 ).to receive(:children).and_return([@text_page_node_4])
         allow( @text_page_node_4 ).to receive(:children).and_return([@text_page_node_5])
 
-        @text_page_node_3.update_attribute(:active, :false)
-        @text_page_node_4.update_attribute(:active, :false)
+        @text_page_node_3.update_attribute(:active, false)
+        @text_page_node_4.update_attribute(:active, false)
 
         allow( @text_page_node_3 ).to receive(:attributes_to_copy).and_return(["name", "parent_id", "content_type"])
 

@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency    'releaf-permissions'
   s.add_dependency    'releaf-content'
 
-  s.add_development_dependency 'rspec-rails', '~> 3.0.2'
+  s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'factory_girl_rails'
@@ -34,12 +34,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'with_model'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'pry-nav'
-  s.add_development_dependency 'spring', '~> 1.1.0'
+  s.add_development_dependency 'spring'
   s.add_development_dependency 'spring-commands-rspec'
 
   s.add_development_dependency 'yard'
-  s.add_development_dependency 'github-markdown', '>= 0.5.3'
-  s.add_development_dependency 'redcarpet', '>= 2.2.2'
+  s.add_development_dependency 'github-markdown'
+  s.add_development_dependency 'redcarpet'
 
   s.required_ruby_version = '>= 2.1.0'
 end

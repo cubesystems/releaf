@@ -1,8 +1,6 @@
 require "spec_helper"
 
 describe Releaf::Permissions::Role do
-  it { is_expected.to serialize(:permissions).as(Array) }
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:default_controller) }

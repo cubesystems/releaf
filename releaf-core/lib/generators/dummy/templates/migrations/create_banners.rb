@@ -5,8 +5,7 @@ class CreateBanners < ActiveRecord::Migration
       t.string    :banner_uid
       t.string    :url
 
-      t.timestamps
+      t.timestamps(null: false)
     end
-
   end
 end

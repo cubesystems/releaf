@@ -7,7 +7,7 @@ describe Releaf::ResourceFinder do
     table do |t|
       t.string :title
       t.text :description
-      t.timestamps
+      t.timestamps(null: true)
     end
 
     model do
@@ -20,7 +20,7 @@ describe Releaf::ResourceFinder do
       t.string :text
       t.belongs_to :blog_post
       t.belongs_to :comment_author
-      t.timestamps
+      t.timestamps(null: true)
     end
 
     model do
@@ -32,7 +32,7 @@ describe Releaf::ResourceFinder do
   with_model :CommentAuthor do
     table do |t|
       t.string :name
-      t.timestamps
+      t.timestamps(null: true)
     end
 
     model do

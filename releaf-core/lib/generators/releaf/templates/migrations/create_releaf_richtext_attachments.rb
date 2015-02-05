@@ -6,7 +6,7 @@ class CreateReleafRichtextAttachments < ActiveRecord::Migration
       t.string  :file_type
       t.string  :title
 
-      t.timestamps
+      t.timestamps(null: false)
     end
   end
 end

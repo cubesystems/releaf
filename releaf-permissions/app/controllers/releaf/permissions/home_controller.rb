@@ -20,7 +20,10 @@ module Releaf::Permissions
     end
 
     def controllers_to_try
-      [access_control.user.role.default_controller, access_control.user.role.permissions].flatten.uniq
+      allowed_controllers = access_control.user.role.permissions.pluck(:permission).
+        collect{|controller_name| controller_name.gsub(/^controller\./, "") }
+
+      [access_control.user.role.default_controller, allowed_controllers].flatten.uniq
     end
   end
 end

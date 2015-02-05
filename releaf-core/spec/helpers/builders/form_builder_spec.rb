@@ -119,7 +119,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
   describe "#render_field_by_options" do
     let(:options){ {
       render_method: "sortable_column_name", # just random method here
-      association: nil,
       field: "title",
       subfields: [:a, :b],
       association: true
@@ -158,14 +157,14 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
   describe "#reflection" do
     it "returns reflection for given reflection name" do
-      expect(subject.reflection("author")).to eq(object.class.reflections[:author])
+      expect(subject.reflection(:author)).to eq(object.class.reflections["author"])
     end
   end
 
   describe "#association_fields" do
     it "returns association field names except foreign key by given association name" do
       fields = ["name", "surname", "bio", "birth_date", "wiki_link"]
-      expect(subject.association_fields("author")).to eq(fields)
+      expect(subject.association_fields(:author)).to eq(fields)
     end
   end
 
@@ -234,7 +233,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
     context "when block given" do
       it "safely concatinate block output to content" do
-        content =  'input_content<input id="book_id" name="book[id]" type="hidden" />'
+        content =  'input_content<input type="hidden" name="book[id]" id="book_id" />'
         allow(subject).to receive(:wrapper).with(content, class: "value").and_return("input_content")
         expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"){ subject.hidden_field(:id) })
           .to eq("content")
@@ -365,58 +364,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
   describe "#sortable_column_name" do
     it "returns 'item_position'" do
       expect( subject.sortable_column_name ).to eq 'item_position'
-    end
-  end
-
-  describe "#releaf_checkbox_group" do
-    it "renders checkbox group" do
-      allow(subject).to receive(:releaf_checkbox_group_content)
-        .with(:tags, ["a", "b"], input: {}, options: {field: {type: "boolean-group"}, items: ["a", "b"]}).and_return('a_&quot;_ab_"_b'.html_safe)
-      content = '<div class="field type-boolean-group" data-name="tags"><div class="label-wrap"><label for="book_tags">Tags</label></div><div class="value">a_&quot;_ab_"_b</div></div>'
-
-      expect(subject.releaf_checkbox_group(:tags, input: {}, options: {field: {type: "boolean-group"}}, options: {items: ["a", "b"]}, )).to eq(content)
-    end
-  end
-
-  describe "#releaf_checkbox_group_content" do
-    it "returns rendered checkbox group items" do
-      allow(subject).to receive(:releaf_checkbox_group_item).with(:tags, "a", input: {}, options: {}).and_return('a_"_a')
-      allow(subject).to receive(:releaf_checkbox_group_item).with(:tags, "b", input: {}, options: {}).and_return('b_"_b'.html_safe)
-      content = 'a_&quot;_ab_"_b'
-      expect(subject.releaf_checkbox_group_content(:tags, ["a", "b"], input: {}, options: {})).to eq(content)
-    end
-  end
-
-  describe "#releaf_checkbox_group_item" do
-    let(:object){ Releaf::Permissions::Role.new }
-    it "renders single checkbox group checkbox" do
-      content = '<div class="type-boolean-group-item"><input id="book_permissions_a" name="book[permissions][]" type="checkbox" value="a" /><label for="book_permissions_a">x</label></div>'
-      expect(subject.releaf_checkbox_group_item(:permissions, label: "x", value: "a"))
-        .to eq(content)
-
-      object.permissions = ["a"]
-      content = '<div class="type-boolean-group-item"><input checked="checked" id="book_permissions_a" name="book[permissions][]" type="checkbox" value="a" /><label for="book_permissions_a">x</label></div>'
-      expect(subject.releaf_checkbox_group_item(:permissions, label: "x", value: "a"))
-        .to eq(content)
-    end
-
-    it "uses #releaf_checkbox_group_item_attributes to get checbox attributes" do
-      expect( subject ).to receive(:releaf_checkbox_group_item_attributes).with(:permissions, {label: "x", value: "a"}, input: {foo: :bar}, options: {x: :y}).and_return(multiple: true, disabled: true)
-
-      content = '<div class="type-boolean-group-item"><input disabled="disabled" id="book_permissions_a" name="book[permissions][]" type="checkbox" value="a" /><label for="book_permissions_a">x</label></div>'
-      expect(subject.releaf_checkbox_group_item(:permissions, {label: "x", value: "a"}, input: {foo: :bar}, options: {x: :y})).to eq(content)
-    end
-  end
-
-  describe "#releaf_checkbox_group_item_attributes" do
-    it "returns modified #input_attributes" do
-      expect( subject ).to receive(:input_attributes).with(:permissions, {foo: :bar}, {x: :y}).and_return(test: :ok)
-      expect( subject.releaf_checkbox_group_item_attributes(:permissions, {label: "x", value: "a"}, input: {foo: :bar}, options: {x: :y} ) ).to eq(test: :ok, multiple: true)
-    end
-
-    it "ignores id 'name', 'value', 'type' and 'multiple' input attributes" do
-      expect( subject.releaf_checkbox_group_item_attributes(:permissions, {label: "x", value: "a"}, input: {id: 'fail', name: 'other_fail', type: 'text', multiple: 'non-existing', disabled: true}) ).to eq(disabled: true, multiple: true)
-
     end
   end
 

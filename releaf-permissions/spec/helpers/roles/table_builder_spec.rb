@@ -15,7 +15,7 @@ describe Releaf::Permissions::Roles::TableBuilder, type: :class do
   describe "#default_controller_content" do
     context "when default controller is defined for given resource" do
       it "returns translated value" do
-        allow(I18n).to receive(:t).with("releaf/i18n/database/translations", scope: "admin.menu_items").and_return("x")
+        allow(I18n).to receive(:t).with("releaf/i18n/database/translations", scope: "admin.controllers").and_return("x")
         expect(subject.default_controller_content(resource_class.new(default_controller: "releaf/i18n_database/translations"))).to eq("x")
       end
     end

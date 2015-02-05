@@ -39,7 +39,7 @@ class CreateReleafUsers < ActiveRecord::Migration
       ## Token authenticatable
       # t.string :authentication_token
 
-      t.timestamps
+      t.timestamps(null: false)
     end
 
     add_index :releaf_users, :role_id

@@ -98,7 +98,7 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
       allow(subject).to receive(:profile_user_image).and_return("image")
       allow(subject).to receive(:profile_settings_url).and_return("url_a")
       allow(subject).to receive(:profile_url).and_return("url_b")
-      content = '<a class="profile" data-settings-url="url_a" href="url_b"><span class="name">neim</span>image</a>'
+      content = '<a class="profile" href="url_b" data-settings-url="url_a"><span class="name">neim</span>image</a>'
       expect(subject.profile_block).to eq(content)
     end
   end
@@ -109,15 +109,15 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
       allow(subject).to receive(:user).and_return(admin)
       allow(subject).to receive(:profile_user_name).and_return("neim")
       allow(subject).to receive_message_chain(:request, :ssl?).and_return(true)
-      content = '<img alt="neim" class="avatar" height="36" src="https://secure.gravatar.com/avatar/9336ebf25087d91c818ee6e9ec29f8c1?default=mm&secure=true&size=36" width="36" />'
+      content = '<img alt="neim" class="avatar" src="https://secure.gravatar.com/avatar/9336ebf25087d91c818ee6e9ec29f8c1?default=mm&secure=true&size=36" width="36" height="36" />'
       expect(subject.profile_user_image).to eq(content)
 
       allow(subject).to receive_message_chain(:request, :ssl?).and_return(false)
-      content = '<img alt="neim" class="avatar" height="36" src="http://gravatar.com/avatar/9336ebf25087d91c818ee6e9ec29f8c1?default=mm&secure=false&size=36" width="36" />'
+      content = '<img alt="neim" class="avatar" src="http://gravatar.com/avatar/9336ebf25087d91c818ee6e9ec29f8c1?default=mm&secure=false&size=36" width="36" height="36" />'
       expect(subject.profile_user_image).to eq(content)
 
       admin.email = "a"
-      content = '<img alt="neim" class="avatar" height="36" src="http://gravatar.com/avatar/0cc175b9c0f1b6a831c399e269772661?default=mm&secure=false&size=36" width="36" />'
+      content = '<img alt="neim" class="avatar" src="http://gravatar.com/avatar/0cc175b9c0f1b6a831c399e269772661?default=mm&secure=false&size=36" width="36" height="36" />'
       expect(subject.profile_user_image).to eq(content)
     end
   end
@@ -148,7 +148,7 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
   describe "#sign_out_form" do
     it "returns sign out form" do
       allow(subject).to receive(:sign_out_url).and_return("url_a")
-      content = '<form accept-charset="UTF-8" action="url_a" class="sign-out" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="delete" /><input name="yyy" type="hidden" value="xxx" /></div><button type="submit"><i class="fa fa-power-off fa-icon-header"></i></button></form>'
+      content = '<form class="sign-out" action="url_a" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button type="submit"><i class="fa fa-power-off fa-icon-header"></i></button></form>'
       expect(subject.sign_out_form).to eq(content)
     end
   end
