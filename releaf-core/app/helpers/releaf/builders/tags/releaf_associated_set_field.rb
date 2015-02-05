@@ -11,19 +11,23 @@ module Releaf::Tags
       association = object.send(name)
       key_field = association_options[:field]
 
-      safe_join do
-        association_options[:values].collect do|value|
-          item = association.find_by(key_field => value) || association.build(key_field => value)
+      list = []
 
-          fields_for(name, item, relation_name: name, builder: self.class) do |builder|
-            builder.releaf_associated_set_item(association_options)
-          end
+      association_options[:items].each_pair do|value, label_text|
+        item = association.find_by(key_field => value) || association.build(key_field => value)
+
+        list << fields_for(name, item, relation_name: name, builder: self.class) do |builder|
+          builder.releaf_associated_set_item(association_options, label_text)
         end
+      end
+
+      safe_join do
+        list
       end
     end
 
-    def releaf_associated_set_item(association_options)
-      label_text = t(object.send(association_options[:field]), scope: association_options[:translation_scope])
+
+    def releaf_associated_set_item(association_options, label_text)
       wrapper(class: "type-associated-set-item") do
         [hidden_field(:_destroy, value: object.new_record?, class: "destroy"),
          check_box(association_options[:field], {class: "keep", name: "keep"}, (object.send(association_options[:field]) if object.persisted?)),
