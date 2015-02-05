@@ -1,6 +1,6 @@
 root_path = File.expand_path('../..', File.dirname(__dir__))
 files = %w(
-  builders/tags/releaf_checkbox_group_field
+  builders/tags/releaf_associated_set_field
   builders
   builders/base
   builders/template

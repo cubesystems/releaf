@@ -1,4 +1,3 @@
-require "spec_helper"
 
 describe Releaf::Permissions::Roles::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
@@ -17,7 +16,7 @@ describe Releaf::Permissions::Roles::FormBuilder, type: :class do
   end
 
   describe "#render_permissions" do
-    it "returns checkbox group" do
+    it "returns associated set field" do
       options = {
         association: {
           values: ["releaf/content/nodes", "admin/books", "admin/authors", "releaf/permissions/users",
@@ -27,7 +26,7 @@ describe Releaf::Permissions::Roles::FormBuilder, type: :class do
           translation_scope: "admin.menu_items"
         }
       }
-      allow(subject).to receive(:releaf_checkbox_group_field).with(:permissions, options: options).and_return("y")
+      allow(subject).to receive(:releaf_associated_set_field).with(:permissions, options: options).and_return("y")
       expect(subject.render_permissions).to eq("y")
     end
   end

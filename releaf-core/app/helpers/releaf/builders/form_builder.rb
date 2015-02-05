@@ -1,6 +1,6 @@
 class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::Builders::Base
-  include Releaf::Tags::CheckboxGroupField
+  include Releaf::Tags::AssociatedSetField
   attr_accessor :template
 
   def field_names

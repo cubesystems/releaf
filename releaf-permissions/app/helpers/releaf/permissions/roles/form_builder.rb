@@ -15,7 +15,7 @@ module Releaf::Permissions::Roles
         field: :permission,
         translation_scope: "admin.menu_items"
       }
-      releaf_checkbox_group_field(:permissions, options: {association: options})
+      releaf_associated_set_field(:permissions, options: {association: options})
     end
   end
 end

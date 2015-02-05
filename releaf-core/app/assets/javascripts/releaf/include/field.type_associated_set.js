@@ -2,9 +2,9 @@ jQuery( document ).ready(function()
 {
     var body = jQuery('body');
 
-    jQuery(document).bind('booleanassociationinit', function( e )
+    jQuery(document).bind('associatedsetsinit', function( e )
     {
-        var target_selector = '.field.type-boolean-group';
+        var target_selector = '.field.type-associated-set';
         var target = jQuery(e.target);
         if (!target.is(target_selector))
         {
@@ -17,8 +17,8 @@ jQuery( document ).ready(function()
             var checkboxes = block.find('input.keep');
             checkboxes.bind('click', function( event, event_params )
             {
-                var checkbox = $(this)
-                var destroy = checkbox.siblings("input.destroy")
+                var checkbox = jQuery(this);
+                var destroy = checkbox.siblings('input.destroy');
                 destroy.val(checkbox.prop('checked') ? 'false' : 'true');
             });
         });
@@ -27,6 +27,6 @@ jQuery( document ).ready(function()
 
     body.on('contentloaded', function(e, event_params)
     {
-        jQuery(e.target).trigger('booleanassociationinit', event_params);
+        jQuery(e.target).trigger('associatedsetsinit', event_params);
     });
 });
