@@ -44,9 +44,9 @@ function url_builder( params )
 					value = '';
 				}
 
-				if( unescape( name ).substr( unescape( name ).length - 2, 2 ) === '[]' )
+				if( decodeURIComponent( name ).substr( decodeURIComponent( name ).length - 2, 2 ) === '[]' )
 				{
-					name = unescape( name );
+					name = decodeURIComponent( name );
 				}
 
 				if( name.substr( name.length - 2, 2 ) === '[]' )
