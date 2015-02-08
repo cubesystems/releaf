@@ -63,11 +63,7 @@ jQuery(function()
                 {
                     input.data('previous-value', '');
                 }
-                else if (input.is('input[type="checkbox"]:checked'))
-                {
-                    // XXX: without this checkbox won't work
-                }
-                else
+                else if(!(input.is('input[type="checkbox"]:checked')))
                 {
                     input.data('previous-value', input.val());
                 }
