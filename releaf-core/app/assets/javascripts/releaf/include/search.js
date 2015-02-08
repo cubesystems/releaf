@@ -1,3 +1,4 @@
+/* global url_builder */
 jQuery(function()
 {
     var body = jQuery('body');

@@ -1,3 +1,4 @@
+/* global CKEDITOR */
 jQuery(function()
 {
     var body = jQuery('body');
