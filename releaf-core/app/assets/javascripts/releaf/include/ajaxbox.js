@@ -1,5 +1,6 @@
 /* global UrlBuilder */
 //= require ../lib/url_builder
+//= require ../3rd_party/jquery.fancybox.js
 
 jQuery(document).ready( function()
 {
