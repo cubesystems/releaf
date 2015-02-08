@@ -172,7 +172,7 @@ UrlBuilder.prototype.getUrl = function()
 		}
 		if( this.query[ i ] instanceof Array )
 		{
-			query += i + '[]=' + this.query[ i ].map(function(s){ return encodeURIComponent(s); }).join( '&' + i + '[]=' );
+			query += i + '[]=' + this.query[ i ].map(encodeURIComponent).join( '&' + i + '[]=' );
 		}
 		else
 		{

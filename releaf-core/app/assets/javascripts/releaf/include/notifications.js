@@ -88,7 +88,7 @@ jQuery(function()
         return notification_ids;
     };
 
-    body.on('notificationsinit', function(e)
+    body.on('notificationsinit', function()
     {
 
         body.on('notificationadd', function(e, custom_params)

@@ -17,12 +17,15 @@ jQuery(function()
       jQuery(e.editor.element.$).addClass("ckeditor-initialized");
     });
 
+    var has_removable_item = function(item, removable_item)
+    {
+      return value !== removable_item;
+    };
+
     var remove_toolbar_item = function(config, removable_item) {
         for( var k in config.toolbar )
         {
-            config.toolbar[k] = jQuery.grep(config.toolbar[k], function(value) {
-              return value !== removable_item;
-            });
+            config.toolbar[k] = jQuery.grep(config.toolbar[k], has_removable_item(value, removable_item));
         }
     };
 
