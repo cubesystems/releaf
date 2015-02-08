@@ -17,15 +17,22 @@ jQuery(function()
       jQuery(e.editor.element.$).addClass("ckeditor-initialized");
     });
 
-    var has_removable_item = function(item, removable_item)
-    {
-      return value !== removable_item;
-    };
+    var remove_array_value = function(arr, value) {
+        var b = '';
+        for (b in arr)
+        {
+            if (arr[b] === value)
+            {
+                arr.splice(b, 1);
+                break;
+            }
+        }
+    }
 
     var remove_toolbar_item = function(config, removable_item) {
         for( var k in config.toolbar )
         {
-            config.toolbar[k] = jQuery.grep(config.toolbar[k], has_removable_item(value, removable_item));
+            remove_array_value(config.toolbar[k], removable_item);
         }
     };
 
