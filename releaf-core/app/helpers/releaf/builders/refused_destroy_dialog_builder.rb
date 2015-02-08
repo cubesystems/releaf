@@ -34,15 +34,19 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def relation_objects(relation)
     tag(:ul, class: "block relations") do
-      relation[:objects][0..2].collect do |relation_obj|
-        tag(:li) do
-          unless relation[:controller].nil?
-            link_to(resource_to_text(relation_obj), controller: relation[:controller], action: "edit", id: relation_obj)
-          else
-            resource_to_text(relation_obj)
-          end
-        end
+      relation[:objects][0..2].collect do |item|
+          relation_objects_item(item, relation)
       end + [(tag(:li, "...") if relation[:objects].count > 3)]
+    end
+  end
+
+  def relation_objects_item(item, relation)
+    tag(:li) do
+      unless relation[:controller].nil?
+        link_to(resource_to_text(item), controller: relation[:controller], action: "edit", id: item)
+      else
+        resource_to_text(item)
+      end
     end
   end
 
