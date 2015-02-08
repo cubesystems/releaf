@@ -31,7 +31,7 @@ jQuery(function()
         do
         {
             random_id = Math.random().toString(16).slice(2);
-        } while (typeof notifications[random_id] != 'undefined');
+        } while (typeof notifications[random_id] !== 'undefined');
 
         // set defaults and then override with custom_params
         var params =
@@ -44,24 +44,24 @@ jQuery(function()
             duration : (('closable' in custom_params) && !custom_params.closable) ? null : 5,
             message  : '',
             html     : null,
-            icon     : (('type' in custom_params) && (custom_params['type'] in icons_by_type)) ? icons_by_type[ custom_params['type'] ] : icons_by_type['info']
+            icon     : (('type' in custom_params) && (custom_params.type in icons_by_type)) ? icons_by_type[ custom_params.type ] : icons_by_type.info
         };
 
         jQuery.extend( params, custom_params );
 
         return params;
-    }
+    };
 
     var get_notification_ids = function( params )
     {
         var notification_ids = [];
 
-        if (typeof params == 'string')
+        if (typeof params === 'string')
         {
             // locate notification by id
             notification_ids.push( params );
         }
-        else if (typeof params == 'object')
+        else if (typeof params === 'object')
         {
             // match multiple notifications by params
             jQuery.each(notifications, function(notification_id, notification)
@@ -72,11 +72,7 @@ jQuery(function()
 
                 jQuery.each(params, function(param, value)
                 {
-                    if (
-                        (typeof notification_params[param] == 'undefined')
-                        ||
-                        (notification_params[param] !== value)
-                    )
+                    if ((typeof notification_params[param] === 'undefined') || (notification_params[param] !== value))
                     {
                         all_params_match = false;
                         return false;
@@ -90,7 +86,7 @@ jQuery(function()
         }
 
         return notification_ids;
-    }
+    };
 
     body.on('notificationsinit', function(e)
     {
@@ -99,15 +95,15 @@ jQuery(function()
         {
             // adds or updates a notification
 
+            var notification:
             var params = get_params( custom_params );
-
             var is_new = false;
 
-            if (typeof notifications[params.id] == 'undefined')
+            if (typeof notifications[params.id] === 'undefined')
             {
                 is_new = true;
 
-                var notification = jQuery('<div />').addClass('notification').attr('data-id', params.id);
+                notification = jQuery('<div />').addClass('notification').attr('data-id', params.id);
 
                 notification.append(jQuery('<i />'));
 
@@ -119,7 +115,7 @@ jQuery(function()
 
             }
 
-            var notification = notifications[params.id];
+            notification = notifications[params.id];
 
             notification.data('params', params);
 
@@ -128,7 +124,7 @@ jQuery(function()
             notification.children('i').removeClass().addClass(icon_base_class + ' ' + params.icon);
 
             // check whether notification already have close button added
-            if (params.closable && notification.find('.close').length == 0)
+            if (params.closable && notification.find('.close').length === 0)
             {
                 notification.append( close_button.clone(true) );
             }
@@ -137,7 +133,7 @@ jQuery(function()
                 notification.find('.close').remove();
             }
 
-            if (typeof params.html != 'string')
+            if (typeof params.html !== 'string')
             {
                 params.html = jQuery('<div />').addClass('message').text( params.message );
             }
@@ -166,7 +162,7 @@ jQuery(function()
 
             jQuery.each( removable_notification_ids, function( index, notification_id)
             {
-                if (typeof notifications[notification_id] == 'undefined')
+                if (typeof notifications[notification_id] === 'undefined')
                 {
                     return;
                 }
@@ -196,7 +192,7 @@ jQuery(function()
 
             var notification_id = removal_params.id;
 
-            if (typeof notifications[notification_id] == 'undefined')
+            if (typeof notifications[notification_id] === 'undefined')
             {
                 return;
             }
@@ -236,7 +232,7 @@ jQuery(function()
 
         });
 
-        body.on('notificationaddflash', '.flash', function(e)
+        body.on('notificationaddflash', '.flash', function()
         {
             // convert .flash notice to notification
             var params =
@@ -246,7 +242,7 @@ jQuery(function()
             };
 
             var id = jQuery(this).attr('data-id');
-            if (typeof id != 'undefined')
+            if (typeof id !== 'undefined')
             {
                 params.id = id;
             }

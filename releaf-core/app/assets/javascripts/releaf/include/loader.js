@@ -28,7 +28,7 @@ jQuery(function()
 
         var disabled_before_loading = button.data('disabled-before-loading') ;
 
-        if (typeof disabled_before_loading != 'undefined')
+        if (typeof disabled_before_loading !== 'undefined')
         {
             if (!disabled_before_loading)
             {

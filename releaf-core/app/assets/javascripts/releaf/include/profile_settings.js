@@ -11,7 +11,7 @@ jQuery(function(){
         }
 
         var settings = key_or_settings;
-        if (typeof settings == "string")
+        if (typeof settings === "string")
         {
             settings = {};
             settings[key_or_settings] = value;

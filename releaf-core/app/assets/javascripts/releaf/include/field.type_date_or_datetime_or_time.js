@@ -62,7 +62,7 @@ jQuery(document).ready(function()
             var opt = options;
 
             opt.dateFormat = picker.data('date-format') || 'yy-mm-dd';
-            opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm'
+            opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm';
             opt.minDate = get_date_limit(picker.data('min-date'));
             opt.maxDate = get_date_limit(picker.data('max-date'));
 

@@ -97,13 +97,13 @@ jQuery(function()
 
         });
 
-        fields.find('.localization-switch .trigger').click(function(e)
+        fields.find('.localization-switch .trigger').click(function()
         {
             jQuery(this).closest('.field.i18n').trigger('localizationmenutoggle');
         });
 
 
-        fields.find('.localization-menu-items button').click(function(e)
+        fields.find('.localization-menu-items button').click(function()
         {
             var button = jQuery(this);
             var locale  = button.attr('data-locale');
@@ -143,7 +143,7 @@ jQuery(function()
         });
 
 
-        fields.find('.localization').bind('localizationlocaleactivate', function(e)
+        fields.find('.localization').bind('localizationlocaleactivate', function()
         {
             var localization_box = jQuery(this);
             var locale = localization_box.attr('data-locale');

@@ -16,7 +16,6 @@ jQuery( document ).ready(function()
             var list   = block.find('.list').first();
 
             var block_name               = block.attr('data-name');
-            var template_holder_selector = '[data-releaf-template]';
             var item_selector            = '.item[data-name="' + block_name + '"]';
 
             var new_item_selector        = '.item[data-name="' + block_name + '"].new';
@@ -33,11 +32,7 @@ jQuery( document ).ready(function()
                     trigger = trigger.parents( 'button' ).first();
                 }
 
-                if (
-                    (!trigger.is('button.add-nested-item'))
-                    &&
-                    (!trigger.is('button.remove-nested-item'))
-                )
+                if (!trigger.is('button.add-nested-item') && !trigger.is('button.remove-nested-item'))
                 {
                     // irrelevant click
                     return;
@@ -51,7 +46,7 @@ jQuery( document ).ready(function()
 
                 var target_block = trigger.parents('section.nested').first();
 
-                if (target_block.attr('data-name') != block_name)
+                if (target_block.attr('data-name') !== block_name)
                 {
                     return;   // only react to own clicks
                 }
@@ -59,7 +54,7 @@ jQuery( document ).ready(function()
                 if (trigger.is('.add-nested-item'))
                 {
                     var template = jQuery(target_block.data('releaf-template'));
-                    if (template.length != 1)
+                    if (template.length !== 1)
                     {
                         return null;
                     }
@@ -164,7 +159,7 @@ jQuery( document ).ready(function()
             });
 
 
-            block.on('nestedfieldsreindex', function( e )
+            block.on('nestedfieldsreindex', function()
             {
                 // update data-index attributes and names/ids for all fields inside a block
 
@@ -181,7 +176,7 @@ jQuery( document ).ready(function()
                 existing_items.each(function()
                 {
                     var index = jQuery(this).attr('data-index');
-                    if (typeof index == 'undefined')
+                    if (typeof index === 'undefined')
                     {
                         return;
                     }
@@ -228,7 +223,7 @@ jQuery( document ).ready(function()
                                     old_value: attr,
                                     new_value: attr.replace(searchPattern, replacePattern),
                                 };
-                                if (params.old_value == params.new_value)
+                                if (params.old_value === params.new_value)
                                 {
                                     continue;
                                 }
@@ -261,13 +256,13 @@ jQuery( document ).ready(function()
                 {
                     var element = jQuery(params.element);
                     element.attr(params.attribute, params.new_value);
-                    element.trigger('attributechanged', params )
+                    element.trigger('attributechanged', params );
                 });
 
 
             });
 
-            block.on('sortableupdate', function(e)
+            block.on('sortableupdate', function()
             {
                 block.trigger('nestedfieldsreindex');
             });
@@ -276,7 +271,7 @@ jQuery( document ).ready(function()
             {
                 var item = jQuery( e.target );
 
-                if (item.attr('data-name') != block_name)
+                if (item.attr('data-name') !== block_name)
                 {
                     return; // the added item does not belong to this block
                 }

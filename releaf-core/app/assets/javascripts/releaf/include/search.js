@@ -27,7 +27,7 @@ jQuery(function()
 
         var options = form.data('search-options');
 
-        if (typeof options == 'undefined')
+        if (typeof options === 'undefined')
         {
             options = {};
         }
