@@ -27,12 +27,12 @@ jQuery(function()
                 break;
             }
         }
-    }
+    };
 
-    var remove_toolbar_item = function(config, removable_item) {
-        for( var k in config.toolbar )
+    var remove_toolbar_item = function(toolbar_config, removable_item) {
+        for(var i = 0; i < toolbar_config.length; i++)
         {
-            remove_array_value(config.toolbar[k], removable_item);
+            remove_array_value(toolbar_config[i], removable_item);
         }
     };
 
@@ -44,7 +44,10 @@ jQuery(function()
         {
             for ( var instance in CKEDITOR.instances )
             {
-                CKEDITOR.instances[instance].updateElement();
+                if (CKEDITOR.instances.hasOwnProperty(instance))
+                {
+                    CKEDITOR.instances[instance].updateElement();
+                }
             }
         });
 
@@ -64,7 +67,7 @@ jQuery(function()
         }
         else
         {
-            remove_toolbar_item(config, 'Image');
+            remove_toolbar_item(config.toolbar, 'Image');
         }
 
         if (textarea.data('external-stylesheet'))

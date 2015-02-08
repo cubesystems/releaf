@@ -108,7 +108,10 @@ UrlBuilder.prototype.add = function( params, value )
 	{
 		for( var a in params )
 		{
-			this.query[ a ] = params[ a ];
+            if (params.hasOwnProperty(a))
+            {
+                this.query[ a ] = params[ a ];
+            }
 		}
 	}
 	else if( typeof params === 'string' )
@@ -118,7 +121,10 @@ UrlBuilder.prototype.add = function( params, value )
 			var temp = new UrlBuilder( '?' + params );
 			for( var b in temp.query )
 			{
-				this.query[ b ] = temp.query[b];
+                if (temp.query.hasOwnProperty(b))
+                {
+                    this.query[ b ] = temp.query[b];
+                }
 			}
 		}
 		else
@@ -162,22 +168,25 @@ UrlBuilder.prototype.getUrl = function()
 	var isFirst = true;
 	for( var i in this.query )
 	{
-		if( !isFirst )
-		{
-			query += '&';
-		}
-		else
-		{
-			isFirst = false;
-		}
-		if( this.query[ i ] instanceof Array )
-		{
-			query += i + '[]=' + this.query[ i ].map(encodeURIComponent).join( '&' + i + '[]=' );
-		}
-		else
-		{
-			query += i + '=' + encodeURIComponent(this.query[ i ]);
-		}
+        if(this.query.hasOwnProperty(i))
+        {
+            if( !isFirst )
+            {
+                query += '&';
+            }
+            else
+            {
+                isFirst = false;
+            }
+            if( this.query[ i ] instanceof Array )
+            {
+                query += i + '[]=' + this.query[ i ].map(encodeURIComponent).join( '&' + i + '[]=' );
+            }
+            else
+            {
+                query += i + '=' + encodeURIComponent(this.query[ i ]);
+            }
+        }
 	}
 
 	return this.path + '?' + query;

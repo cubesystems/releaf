@@ -115,14 +115,16 @@ jQuery(function()
 
             for (var key in options.result_blocks)
             {
-                var block = options.result_blocks[ key ];
+                if (options.result_blocks.hasOwnProperty(key))
+                {
+                    var block = options.result_blocks[ key ];
 
-                var content = response.find( block.result_selector ).first().html();
+                    var content = response.find( block.result_selector ).first().html();
 
-                jQuery( block.target ).html( content );
+                    jQuery( block.target ).html( content );
 
-                block.target.trigger('contentloaded');
-
+                    block.target.trigger('contentloaded');
+                }
             }
         });
 
