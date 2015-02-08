@@ -196,7 +196,7 @@ var Validator = function( node_or_selector, options )
 
                 if (v.options.ui)
                 {
-                    alert( event_params.error.message );
+                    window.alert( event_params.error.message );
                 }
 
                 v.clicked_button = null;
