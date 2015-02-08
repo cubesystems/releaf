@@ -68,7 +68,7 @@ jQuery(function(){
 
     });
 
-    first_level_side_items.bind('sidecompactitemopen', functione)
+    first_level_side_items.bind('sidecompactitemopen', function()
     {
         body.trigger('sidecompactcloseall');
         jQuery(this).addClass('open');
