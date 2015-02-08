@@ -9,7 +9,7 @@ jQuery(document).ready( function()
             // content is a ajax response
             // use content only if the response has valid 200 and html content type
             var status = content.status;
-            if (status != 200 && status !== 303)
+            if (status !=== 200 && status !=== 303)
             {
                 return;
             }
@@ -26,7 +26,7 @@ jQuery(document).ready( function()
 
         var new_node;
 
-        if (typeof selector != 'undefined')
+        if (typeof selector !== 'undefined')
         {
             // selector given, find matching node in given content
             content = jQuery('<html />').append( content );
@@ -42,7 +42,7 @@ jQuery(document).ready( function()
         // old_node defaults to event target if no selector given
         var old_node = jQuery(e.target);
 
-        if (typeof selector != 'undefined')
+        if (typeof selector !== 'undefined')
         {
             // but matches self or descendants if selector is given
             if (!old_node.is( selector ))

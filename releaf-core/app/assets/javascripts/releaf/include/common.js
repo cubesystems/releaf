@@ -53,10 +53,11 @@ jQuery(function(){
             // remove field errors
             form.find('.field.has-error').each(function()
             {
+                var error_boxes;
                 var field = jQuery(this);
 
                 // in case of i18n fields there may be multiple error boxes inside a single field
-                var error_boxes = field.find( '.error-box' );
+                error_boxes = field.find( '.error-box' );
 
                 error_boxes.each(function()
                 {
@@ -64,11 +65,7 @@ jQuery(function(){
 
                     var error_node = error_box.find('.error');
 
-                    if (
-                        (!except_validation_id)
-                        ||
-                        (error_node.attr('data-validation-id') != except_validation_id)
-                    )
+                    if (!except_validation_id) || error_node.attr('data-validation-id') !== except_validation_id)
                     {
                         if (field.is('.i18n'))
                         {
@@ -79,7 +76,7 @@ jQuery(function(){
                 });
 
                 // see if any error boxes are left in the field.
-                var error_boxes = field.find( '.error-box' );
+                error_boxes = field.find( '.error-box' );
 
                 if (error_boxes.length < 1)
                 {
@@ -99,11 +96,7 @@ jQuery(function(){
                 form_error_box.find('.error').each(function()
                 {
                     var error_node = jQuery(this);
-                    if (
-                        (!except_validation_id)
-                        ||
-                        (error_node.attr('data-validation-id') != except_validation_id)
-                    )
+                    if (!except_validation_id || error_node.attr('data-validation-id') !== except_validation_id)
                     {
                         error_node.remove();
                     }
@@ -128,7 +121,7 @@ jQuery(function(){
 
             var last_validation_id = form.attr( 'data-validation-id' );
 
-            if (event_params.validation_id != last_validation_id)
+            if (event_params.validation_id !== last_validation_id)
             {
                 // do not go further if this is not the last validation
                 return;
@@ -157,7 +150,7 @@ jQuery(function(){
         {
             var handler = form.attr('data-validation-ok-handler');
 
-            if (handler != 'ajax')
+            if (handler !== 'ajax')
             {
                 // custom handler or undefined
                 return;
@@ -180,13 +173,14 @@ jQuery(function(){
             {
                 event.preventDefault(); // prevent validator's built in submit_form on ok
 
-                body.trigger('contentreplace', [ event_params.response, "main" ])
+                body.trigger('contentreplace', [ event_params.response, "main" ]);
             }
 
         });
 
         form.bind( 'validationerror', function( event, v, event_params )
 		{
+            var error_node = null;
             var error  = event_params.error;
             var target = jQuery(event.target);
             var form   = (target.is('form')) ? target : target.closest('form');
@@ -194,7 +188,7 @@ jQuery(function(){
             if (target.is(input_selector))
             {
                 var field_box = target.parents('.field').first();
-                if (field_box.length != 1)
+                if (field_box.length !== 1)
                 {
                     return;
                 }
@@ -210,7 +204,7 @@ jQuery(function(){
                 }
 
 
-                var error_node = error_box.find('.error');
+                error_node = error_box.find('.error');
                 error_node.attr('data-validation-id', event_params.validation_id );
                 error_node.text( error.message );
 
@@ -235,8 +229,6 @@ jQuery(function(){
                     form_error_box.prependTo( form_error_box_container );
                 }
 
-                var error_node = null;
-
                 // reuse error node if it has the same text
                 form_error_box.find('.error').each(function()
                 {
@@ -244,7 +236,7 @@ jQuery(function(){
                     {
                         return;
                     }
-                    if (jQuery(this).text() == error.message)
+                    if (jQuery(this).text() === error.message)
                     {
                         error_node = jQuery(this);
                     }

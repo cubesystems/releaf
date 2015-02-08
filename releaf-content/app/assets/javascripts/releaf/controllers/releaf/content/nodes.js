@@ -48,10 +48,10 @@ jQuery(function()
         if (name_input.length && slug_field.length)
         {
             var slug_input  = slug_field.find('input');
-            var slug_button = slug_field.find('.generate')
+            var slug_button = slug_field.find('.generate');
             var slug_link   = slug_field.find('a');
 
-            slug_input.on('sluggenerate', function(e)
+            slug_input.on('sluggenerate', function()
             {
                 var url = slug_input.attr('data-generator-url');
 
@@ -69,7 +69,7 @@ jQuery(function()
                 slug_input.trigger('sluggenerate');
             });
 
-            if (name_input.val() == '')
+            if (name_input.val() === '')
             {
                 // bind onchange slug generation only if starting out with an empty name
                 name_input.change(function()
