@@ -1,5 +1,4 @@
-/* global url_builder */
-//= require ../3rd_party/jquery.fancybox.js
+/* global UrlBuilder */
 //= require ../lib/url_builder
 
 jQuery(document).ready( function()
@@ -117,7 +116,7 @@ jQuery(document).ready( function()
             var link = jQuery(this);
             var params =
             {
-                url     : new url_builder( link.attr('href') ).add( { ajax: 1 } ).getUrl(),
+                url     : new UrlBuilder( link.attr('href') ).add( { ajax: 1 } ).getUrl(),
                 modal   : link.is('[data-modal]'),
                 trigger : link
             };

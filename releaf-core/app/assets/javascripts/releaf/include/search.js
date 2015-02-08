@@ -1,4 +1,6 @@
-/* global url_builder */
+/* global UrlBuilder */
+//= require ../lib/url_builder
+
 jQuery(function()
 {
     var body = jQuery('body');
@@ -83,7 +85,7 @@ jQuery(function()
 
                 // construct url
                 var form_url = form.attr( 'action' );
-                var url = new url_builder( {baseUrl: form_url} );
+                var url = new UrlBuilder( {baseUrl: form_url} );
                 url.add( form.serializeArray() );
 
                 if ('replaceState' in window.history)

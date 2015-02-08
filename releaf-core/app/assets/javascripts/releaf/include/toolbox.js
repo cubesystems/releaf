@@ -1,4 +1,6 @@
-/* global url_builder */
+/* global UrlBuilder */
+//= require ../lib/url_builder
+
 jQuery(function()
 {
     var body = jQuery('body');
@@ -44,7 +46,7 @@ jQuery(function()
             }
 
             if (toolbox.data("url")) {
-                var url = new url_builder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl();
+                var url = new UrlBuilder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl();
                 xhr = jQuery.ajax(
                 {
                     url: url,

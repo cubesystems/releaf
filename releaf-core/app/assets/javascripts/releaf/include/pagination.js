@@ -1,3 +1,6 @@
+/* global UrlBuilder */
+//= require ../lib/url_builder
+
 jQuery(function()
 {
     var body = jQuery('body');
@@ -8,7 +11,7 @@ jQuery(function()
             var val = jQuery(this).val();
             if (val)
             {
-                var url = new url_builder().add({page: val}).getUrl();
+                var url = new UrlBuilder().add({page: val}).getUrl();
                 window.location.href = url;
             }
         });

@@ -1,5 +1,5 @@
 // constructor
-function url_builder( params )
+function UrlBuilder( params )
 {
 	if( params === undefined )
 	{
@@ -79,7 +79,7 @@ function url_builder( params )
 	}
 }
 
-url_builder.prototype.add = function( params, value )
+UrlBuilder.prototype.add = function( params, value )
 {
 	if( params instanceof Array )
 	{
@@ -115,7 +115,7 @@ url_builder.prototype.add = function( params, value )
 	{
 		if( value === undefined )
 		{
-			var temp = new url_builder( '?' + params );
+			var temp = new UrlBuilder( '?' + params );
 			for( var b in temp.query )
 			{
 				this.query[ b ] = temp.query[b];
@@ -129,7 +129,7 @@ url_builder.prototype.add = function( params, value )
 	return this;
 };
 
-url_builder.prototype.removeAll = function( preserveParams )
+UrlBuilder.prototype.removeAll = function( preserveParams )
 {
     for( var i in this.query )
     {
@@ -141,13 +141,13 @@ url_builder.prototype.removeAll = function( preserveParams )
 	return this;
 };
 
-url_builder.prototype.remove = function( name )
+UrlBuilder.prototype.remove = function( name )
 {
 	delete this.query[ name ];
 	return this;
 };
 
-url_builder.prototype.get = function( name )
+UrlBuilder.prototype.get = function( name )
 {
 	if( this.query[ name ] !== undefined )
 	{
@@ -156,7 +156,7 @@ url_builder.prototype.get = function( name )
 	return null;
 };
 
-url_builder.prototype.getUrl = function()
+UrlBuilder.prototype.getUrl = function()
 {
 	var query = '';
 	var isFirst = true;
