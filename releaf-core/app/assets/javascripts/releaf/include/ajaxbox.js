@@ -24,54 +24,7 @@ jQuery(document).ready( function()
             closeBtn          : false,
             afterShow        : function()
             {
-                this.inner.addClass('ajaxbox-inner');
-
-                // enable drag with header
-                if( this.wrap.draggable !== undefined )
-                {
-                    this.wrap.draggable({ handle: this.inner.find('section header').first() });
-                }
-
-                // insert close button if header exists and box is not modal
-                if (!params.modal)
-                {
-                    var close_container = this.inner.first();
-
-                    if (params.type !== 'image')
-                    {
-                        close_container =  this.inner.find('section header').first();
-                    }
-
-                    if (close_container.length > 0)
-                    {
-                        var close_icon   = jQuery('<i />').addClass('fa fa-times fa-lg');
-                        var close_button = jQuery('<button />').attr('type', 'button').addClass('button secondary close only-icon').append(close_icon);
-                        close_button.on('click', function()
-                        {
-                            close_ajax_box();
-                        });
-                        close_container.append( close_button );
-                    }
-                }
-
-                // focus on cancel button in footer if found
-                var cancel_button = this.inner.find('section footer .button[data-type="cancel"]').first();
-                if (cancel_button.length > 0)
-                {
-                    cancel_button.bind('click', function()
-                    {
-                        body.trigger('ajaxboxclose');
-                        return false;
-                    });
-                    cancel_button.focus();
-                }
-
-                //this.inner.find('.dialog').addClass('initialized');
-
-                this.inner.trigger('contentloaded');
-
-                this.inner.trigger('ajaxboxdone', params);
-
+                this.inner.trigger('ajaxboxaftershow', [this, params]);
             },
             beforeClose  : function()
             {
@@ -104,6 +57,51 @@ jQuery(document).ready( function()
         jQuery.fancybox.close();
     };
 
+    body.on('ajaxboxaftershow', function(e, ajaxbox, params)
+    {
+        // enable drag with header
+        if( ajaxbox.wrap.draggable !== undefined )
+        {
+            ajaxbox.wrap.draggable({ handle: ajaxbox.inner.find('section header').first() });
+        }
+
+        // insert close button if header exists and box is not modal
+        if (!params.modal)
+        {
+            var close_container = ajaxbox.inner.first();
+
+            if (params.type !== 'image')
+            {
+                close_container =  ajaxbox.inner.find('section header').first();
+            }
+
+            if (close_container.length > 0)
+            {
+                var close_icon   = jQuery('<i />').addClass('fa fa-times fa-lg');
+                var close_button = jQuery('<button />').attr('type', 'button').addClass('button secondary close only-icon').append(close_icon);
+                close_button.on('click', function()
+                {
+                    close_ajax_box();
+                });
+                close_container.append( close_button );
+            }
+        }
+
+        // focus on cancel button in footer if found
+        var cancel_button = ajaxbox.inner.find('section footer .button[data-type="cancel"]').first();
+        if (cancel_button.length > 0)
+        {
+            cancel_button.bind('click', function()
+            {
+                body.trigger('ajaxboxclose');
+                return false;
+            });
+            cancel_button.focus();
+        }
+
+        ajaxbox.inner.trigger('contentloaded');
+        ajaxbox.inner.trigger('ajaxboxdone', params);
+    });
 
     body.on('ajaxboxinit', function(e)
     {
