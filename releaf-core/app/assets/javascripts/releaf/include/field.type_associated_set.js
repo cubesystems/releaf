@@ -15,7 +15,7 @@ jQuery( document ).ready(function()
         {
             var block = jQuery(this);
             var checkboxes = block.find('input.keep');
-            checkboxes.bind('click', function( event, event_params )
+            checkboxes.bind('click', function()
             {
                 var checkbox = jQuery(this);
                 var destroy = checkbox.siblings('input.destroy');

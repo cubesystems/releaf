@@ -20,19 +20,18 @@ jQuery(function()
         for( var k in config.toolbar )
         {
             config.toolbar[k] = jQuery.grep(config.toolbar[k], function(value) {
-              return value != removable_item;
+              return value !== removable_item;
             });
         }
-    }
+    };
 
     body.on( 'richtextinit', 'textarea.richtext', function( event, extra_config )
     {
         var textarea = jQuery(this);
 
-
-        textarea.closest("form").on( 'beforevalidation', function( event, extra_config )
+        textarea.closest("form").on( 'beforevalidation', function()
         {
-            for ( instance in CKEDITOR.instances )
+            for ( var instance in CKEDITOR.instances )
             {
                 CKEDITOR.instances[instance].updateElement();
             }
@@ -54,7 +53,7 @@ jQuery(function()
         }
         else
         {
-            remove_toolbar_item(config, 'Image')
+            remove_toolbar_item(config, 'Image');
         }
 
         if (textarea.data('external-stylesheet'))
@@ -71,7 +70,7 @@ jQuery(function()
 
         textarea.ckeditor(config);
 
-        textarea.on('richtextsuspend', function(e)
+        textarea.on('richtextsuspend', function()
         {
             if (textarea.data('richtext-suspended'))
             {
@@ -83,7 +82,7 @@ jQuery(function()
             textarea.data('richtext-suspended', true);
         });
 
-        textarea.on('richtextresume', function(e)
+        textarea.on('richtextresume', function()
         {
             if (!textarea.data('richtext-suspended'))
             {
@@ -146,7 +145,7 @@ jQuery(function()
     // if id of the textarea gets changed, ckeditor needs to be reinitialized
     body.on('beforeattributechange', 'textarea.richtext', function(event, event_params)
     {
-        if (event_params.attribute != 'id')
+        if (event_params.attribute !== 'id')
         {
             return;
         }
@@ -155,7 +154,7 @@ jQuery(function()
 
     body.on('attributechanged', 'textarea.richtext', function(event, event_params)
     {
-        if (event_params.attribute != 'id')
+        if (event_params.attribute !== 'id')
         {
             return;
         }
