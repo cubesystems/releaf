@@ -39,7 +39,7 @@ var Validator = function( node_or_selector, options )
         // register only submit buttons - buttons with type="submit" or without type attribute at all
         // direct target[0].type property is used because of inconsistent attr() method return values
         // between older and newer jQuery versions
-        if (target.is( 'button' ) && target[0].type != 'submit' )
+        if (target.is( 'button' ) && target[0].type !== 'submit' )
         {
             return;
         }
@@ -80,14 +80,15 @@ var Validator = function( node_or_selector, options )
             processData: false,
             cache : false,
             dataType: 'json',
-            complete: function( response, textStatus, jqXHR )
+            complete: function( response )
             {
+                var json_response;
                 switch (response.status)
                 {
                     case 303:
                         // validation + saving ok
                         try {
-                            var json_response = jQuery.parseJSON(response.responseText);
+                            json_response = jQuery.parseJSON(response.responseText);
                         }
                         catch(error)
                         {
@@ -109,7 +110,7 @@ var Validator = function( node_or_selector, options )
                     case 422:
                         // validation returned errors
                         try {
-                            var json_response = jQuery.parseJSON(response.responseText);
+                            json_response = jQuery.parseJSON(response.responseText);
                         }
                         catch(error)
                         {
@@ -130,7 +131,7 @@ var Validator = function( node_or_selector, options )
                                 };
                                 if('data' in error)
                                 {
-                                    error_object['data'] = error.data;
+                                    error_object.data = error.data;
                                 }
                                 errors.push(error_object);
                             });

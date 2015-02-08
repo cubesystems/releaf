@@ -65,7 +65,7 @@ jQuery(function(){
 
                     var error_node = error_box.find('.error');
 
-                    if (!except_validation_id) || error_node.attr('data-validation-id') !== except_validation_id)
+                    if (!except_validation_id || error_node.attr('data-validation-id') !== except_validation_id)
                     {
                         if (field.is('.i18n'))
                         {

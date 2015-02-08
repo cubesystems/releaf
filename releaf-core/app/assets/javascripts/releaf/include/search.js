@@ -32,7 +32,7 @@ jQuery(function()
             options = {};
         }
 
-        if (typeof options.result_blocks == 'undefined')
+        if (typeof options.result_blocks === 'undefined')
         {
             // define default html blocks that will be fetched from search response
             // and placed in page body
@@ -109,7 +109,7 @@ jQuery(function()
 
         form.on( 'searchresponse', function(e, response)
         {
-            var response = jQuery('<div />').append( response );
+            response = jQuery('<div />').append( response );
 
             // for each result block find its content in response
             // and copy it to its target container
@@ -127,7 +127,7 @@ jQuery(function()
             }
         });
 
-        form.on( 'searchend', function( e )
+        form.on( 'searchend', function()
         {
             submit_buttons.trigger('loadingend');
         });
@@ -138,7 +138,7 @@ jQuery(function()
 
             var previous_value = input.data('previous-value');
 
-            if (input.val() == previous_value)
+            if (input.val() === previous_value)
             {
                 return;
             }

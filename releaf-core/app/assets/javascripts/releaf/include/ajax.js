@@ -9,7 +9,7 @@ jQuery(document).ready( function()
             // content is a ajax response
             // use content only if the response has valid 200 and html content type
             var status = content.status;
-            if (status !=== 200 && status !=== 303)
+            if (status !== 200 && status !== 303)
             {
                 return;
             }

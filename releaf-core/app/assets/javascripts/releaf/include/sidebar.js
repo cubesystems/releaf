@@ -31,7 +31,7 @@ jQuery(function(){
         body.trigger('sidecompactchange');
     });
 
-    body.bind('sidecompactchange', function(e)
+    body.bind('sidecompactchange', function()
     {
         if (body.hasClass('side-compact'))
         {
@@ -68,41 +68,37 @@ jQuery(function(){
 
     });
 
-    first_level_side_items.bind('sidecompactitemopen', function(e)
+    first_level_side_items.bind('sidecompactitemopen', functione)
     {
         body.trigger('sidecompactcloseall');
         jQuery(this).addClass('open');
         side_compact_overlay.show();
     });
 
-    first_level_side_items.bind('sidecompactitemclose', function(e)
+    first_level_side_items.bind('sidecompactitemclose', function()
     {
         jQuery(this).removeClass('open');
         side_compact_overlay.hide();
     });
 
 
-    first_level_side_items.bind('sidecompacttoggle', function(e)
+    first_level_side_items.bind('sidecompacttoggle', function()
     {
         var item   = jQuery(this);
         var event = (item.is('.open')) ? 'sidecompactitemclose' : 'sidecompactitemopen';
         item.trigger( event );
     });
 
-    body.bind('sidecompactcloseall', function(e)
+    body.bind('sidecompactcloseall', function()
     {
         first_level_side_items.filter('.open').trigger('sidecompactitemclose');
-    })
+    });
 
     jQuery('body > header').click(function()
     {
         // add additional trigger on header to close opened compact submenu
         // because header is above the side compact overlay
-        if (
-            (!body.hasClass('side-compact'))
-            ||
-            (first_level_side_items.filter('.open').length < 1)
-        )
+        if (!body.hasClass('side-compact') || first_level_side_items.filter('.open').length < 1)
         {
             return;
         }
@@ -111,7 +107,7 @@ jQuery(function(){
         return false;
     });
 
-    jQuery('body > aside > nav span.trigger').click(function(e)
+    jQuery('body > aside > nav span.trigger').click(function()
     {
         if (body.hasClass('side-compact'))
         {

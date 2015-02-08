@@ -95,7 +95,7 @@ jQuery(function()
         {
             // adds or updates a notification
 
-            var notification:
+            var notification;
             var params = get_params( custom_params );
             var is_new = false;
 

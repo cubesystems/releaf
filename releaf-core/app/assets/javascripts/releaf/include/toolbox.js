@@ -43,7 +43,7 @@ jQuery(function()
             }
 
             if (toolbox.data("url")) {
-                var url = new url_builder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl()
+                var url = new url_builder( toolbox.data("url") ).add( { ajax: 1 } ).getUrl();
                 xhr = jQuery.ajax(
                 {
                     url: url,
@@ -76,7 +76,7 @@ jQuery(function()
 
             menu.show();
 
-            if( data != undefined)
+            if( data !== undefined)
             {
                 items_container.html(data);
             }
@@ -152,7 +152,7 @@ jQuery(function()
 
         });
 
-        toolboxes.find('.trigger').click(function(e)
+        toolboxes.find('.trigger').click(function()
         {
             jQuery(this).closest('.toolbox').trigger('toolboxtoggle');
         });
@@ -172,12 +172,12 @@ jQuery(function()
             });
 
             // forward loader events from item buttons to main toolbox trigger
-            buttons.on('loadingstart', function( e )
+            buttons.on('loadingstart', function()
             {
                 trigger.trigger('loadingstart');
             });
 
-            buttons.on('loadingend', function( e )
+            buttons.on('loadingend', function()
             {
                 trigger.trigger('loadingend');
             });

@@ -38,7 +38,7 @@ jQuery(document).ready(function()
                 },
             });
 
-            list.on('sortablereindex', function(e)
+            list.on('sortablereindex', function()
             {
                 list.find('> .item:visible > input[type="hidden"].item-position').each(function(i)
                 {
@@ -46,7 +46,7 @@ jQuery(document).ready(function()
                 });
             });
 
-            list.on('sortableupdate contentloaded contentremoved', function(e)
+            list.on('sortableupdate contentloaded contentremoved', function()
             {
                 // item dragged to a new position
                 // or
