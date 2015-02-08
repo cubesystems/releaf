@@ -59,6 +59,7 @@ jQuery(document).ready( function()
 
     body.on('ajaxboxaftershow', function(e, ajaxbox, params)
     {
+        ajaxbox.inner.addClass('ajaxbox-inner');
         // enable drag with header
         if( ajaxbox.wrap.draggable !== undefined )
         {
