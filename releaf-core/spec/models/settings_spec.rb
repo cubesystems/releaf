@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Releaf::Settings do
+  let(:values){ [{key: "a", default: "x"}, {key: "b", default: "y"}] }
+
   describe "#to_text" do
     it "returns var value" do
       subject.var = "x"
@@ -8,24 +10,32 @@ describe Releaf::Settings do
     end
   end
 
-  describe ".register" do
-    let(:values){ [{key: "a", default: "x"}, {key: "b", default: "y"}] }
+  describe ".registered_keys" do
+    it "returns all keys from `Releaf::Settings.registry` hash" do
+      described_class.registry["a"] = 1
+      described_class.registry["b"] = 1
+      described_class.registry["c"] = 1
+      expect(described_class.registered_keys.count).to eq(3)
+      expect(described_class.registered_keys).to include("a", "b", "c")
+    end
+  end
 
+  describe ".register" do
     before do
       described_class.destroy_all
     end
 
     it "iterates through given array and assign item default value to default settings by overwriting existing values" do
-      Releaf::Settings.defaults.delete("a")
-      Releaf::Settings.defaults["b"] = "z"
-      expect{ described_class.register(values) }.to change{ [Releaf::Settings.defaults["a"], Releaf::Settings.defaults["b"]] }
+      described_class.defaults.delete("a")
+      described_class.defaults["b"] = "z"
+      expect{ described_class.register(values) }.to change{ [described_class.defaults["a"], described_class.defaults["b"]] }
         .from([nil, "z"]).to(["x", "y"])
     end
 
     it "iterates through given array and assign items to registry by overwriting existing values" do
-      Releaf::Settings.registry.delete("a")
-      Releaf::Settings.registry["b"] = "xx"
-      expect{ described_class.register(values) }.to change{ [Releaf::Settings.registry["a"], Releaf::Settings.registry["b"]] }
+      described_class.registry.delete("a")
+      described_class.registry["b"] = "xx"
+      expect{ described_class.register(values) }.to change{ [described_class.registry["a"], described_class.registry["b"]] }
         .from([nil, "xx"]).to(values)
     end
 

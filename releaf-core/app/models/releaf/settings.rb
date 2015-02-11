@@ -7,6 +7,10 @@ class Releaf::Settings < RailsSettings::CachedSettings
     var
   end
 
+  def self.registered_keys
+    @@registry.keys
+  end
+
   def self.register(args)
     if args.is_a? Hash
       list = [args]
