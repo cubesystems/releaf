@@ -5,7 +5,7 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
   end
 
   def resources
-    super.where(thing_type: nil)
+    super.where(thing_type: nil, var: resource_class.registered_keys)
   end
 
   def maintain_value_type

@@ -5,10 +5,15 @@ describe Releaf::Core::SettingsController do
 
   describe "GET index" do
     login_as_user :user
-    it "lists only settings records that not scoped to any object" do
+    it "lists only settings that not scoped to any object and exists within `Releaf::Settings.registry`" do
       Releaf::Settings.create(var: "a", value: "1")
       Releaf::Settings.create(var: "b", value: "2")
+      Releaf::Settings.create(var: "c", value: "2")
       Releaf::Settings.create(var: "a", value: "3", thing_type: "User", thing_id: "1")
+
+      Releaf::Settings.register(key: "a", default: "x", description: "some setting")
+      Releaf::Settings.register(key: "b", default: "xxxx", description: "some other setting")
+
       get :index
       expect(assigns(:collection).size).to eq(2)
     end
