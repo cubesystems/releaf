@@ -6,6 +6,9 @@ describe Releaf::Core::SettingsController do
   describe "GET index" do
     login_as_user :user
     it "lists only settings that not scoped to any object and exists within `Releaf::Settings.registry`" do
+      Releaf::Settings.destroy_all
+      Releaf::Settings.registry = {}
+
       Releaf::Settings.create(var: "a", value: "1")
       Releaf::Settings.create(var: "b", value: "2")
       Releaf::Settings.create(var: "c", value: "2")

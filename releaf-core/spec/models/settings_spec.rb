@@ -12,6 +12,7 @@ describe Releaf::Settings do
 
   describe ".registered_keys" do
     it "returns all keys from `Releaf::Settings.registry` hash" do
+      described_class.registry = {}
       described_class.registry["a"] = 1
       described_class.registry["b"] = 1
       described_class.registry["c"] = 1
