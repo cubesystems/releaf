@@ -1,8 +1,12 @@
 require 'spec_helper'
 feature "Settings", js: true do
   scenario "edit settings" do
+    values = [
+      {key: "content.updated_at", default: Time.parse("2014-07-01 14:33:59")},
+      {key: "content.title", default: "some"}
+    ]
     Releaf::Settings.destroy_all
-    Releaf::Settings.store_defaults("content.updated_at" => Time.parse("2014-07-01 14:33:59"), "content.title" => "some")
+    Releaf::Settings.register(values)
     auth_as_user
 
     visit releaf_core_settings_path
