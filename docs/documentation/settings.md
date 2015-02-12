@@ -18,6 +18,7 @@ To read:
 
 ### Default values
 For default values create "config/initializers/default_settings.rb" with content like:
+
 ```
 Releaf::Settings.register([
   {key: "myapp.email.from_address", default: "noreply@example.com", description: "From email address"},
