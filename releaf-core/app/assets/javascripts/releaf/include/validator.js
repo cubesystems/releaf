@@ -120,7 +120,7 @@ var Validator = function( node_or_selector, options )
                         event_params.response = json_response;
 
                         var errors = [];
-                        jQuery.each( json_response, function( fieldName, fieldErrors )
+                        jQuery.each( json_response.errors, function( fieldName, fieldErrors )
                         {
                             jQuery.each( fieldErrors, function( index, error )
                             {

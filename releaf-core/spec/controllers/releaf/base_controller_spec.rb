@@ -11,15 +11,6 @@ describe Releaf::BaseController do
   end
   class FooFormBuilder; end
 
-  describe "#action_errors" do
-    it "returns resource errors formatted with Releaf::ErrorFormatter" do
-      resource = "a"
-      subject.instance_variable_set(:@resource, resource)
-      allow(Releaf::ErrorFormatter).to receive(:format_errors).with(resource).and_return("x")
-      expect(subject.action_errors(:update)).to eq("x")
-    end
-  end
-
   describe "#mass_assigment_actions" do
     it "returns create and update as mass assigment actions" do
       expect(subject.mass_assigment_actions).to eq(["create", "update"])

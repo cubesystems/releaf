@@ -2,6 +2,7 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < ActionController::Base
+    respond_to :html, :json
     protect_from_forgery
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
@@ -57,14 +58,18 @@ module Releaf
 
     def create
       prepare_create
-      result = @resource.save
-      respond_after_save(:create, result, "new")
+      @resource.save
+      respond_with(@resource, responder: responder_class(:after_save), location: (success_url if @resource.persisted?), redirect: true)
     end
 
     def update
       prepare_update
-      result = @resource.update_attributes(resource_params)
-      respond_after_save(:update, result, "edit")
+      @resource.update_attributes(resource_params)
+      respond_with(@resource, responder: responder_class(:after_save), location: success_url)
+    end
+
+    def responder_class(type)
+      "Releaf::Responders::#{type.to_s.camelize}Responder".constantize
     end
 
     def confirm_destroy
@@ -126,7 +131,7 @@ module Releaf
         end
       end
 
-      return relations
+      relations
     end
 
     # Attempts to guess associated controllers name
@@ -134,7 +139,7 @@ module Releaf
     # @return controller name
     def association_controller association
       guessed_name = association.name.to_s.pluralize
-      return guessed_name if Releaf.controller_list.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
+      guessed_name if Releaf.controller_list.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
     end
 
 
@@ -226,10 +231,6 @@ module Releaf
       action_view(action_name)
     end
 
-    def action_errors(request_type)
-      Releaf::ErrorFormatter.format_errors(@resource)
-    end
-
     def resource_edit_url(resource)
       if feature_available?( :edit )
         url_for( action: :edit, id: resource.try(:id), index_url: index_url )
@@ -302,6 +303,20 @@ module Releaf
 
     def page_title
       I18n.t(params[:controller], scope: "admin.controllers") + " - " + Rails.application.class.parent_name
+    end
+
+    def render_notification(status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed", now: false)
+      if now == true
+        flash_target = flash.now
+      else
+        flash_target = flash
+      end
+
+      if status
+        flash_target["success"] = { "id" => "resource_status", "message" => I18n.t(success_message_key, scope: notice_scope_name) }
+      else
+        flash_target["error"] = { "id" => "resource_status", "message" => I18n.t(failure_message_key, scope: notice_scope_name) }
+      end
     end
 
     protected
@@ -380,20 +395,6 @@ module Releaf
         confirm_destroy: :destroy,
         destroy: :destroy
       }.with_indifferent_access
-    end
-
-    def render_notification status, success_message_key: "#{params[:action]} succeeded", failure_message_key: "#{params[:action]} failed", now: false
-      if now == true
-        flash_target = flash.now
-      else
-        flash_target = flash
-      end
-
-      if status
-        flash_target["success"] = { "id" => "resource_status", "message" => I18n.t(success_message_key, scope: notice_scope_name) }
-      else
-        flash_target["error"] = { "id" => "resource_status", "message" => I18n.t(failure_message_key, scope: notice_scope_name) }
-      end
     end
 
     # Returns true if @resource is assigned (even if it's nil)
@@ -509,37 +510,5 @@ module Releaf
         format.any  { render text: '', status: error_status }
       end
     end
-
-    def respond_after_save request_type, result, html_render_action
-      if result
-        render_notification true
-      end
-
-      respond_to do |format|
-        format.json  do
-          if result
-            if @features[:edit_ajax_reload] && request_type == :update
-              add_resource_breadcrumb(@resource)
-              render action: html_render_action, formats: [:html], content_type: "text/html"
-              flash.delete("success") # prevent flash on next full page reload
-            else
-              render json: {url: success_url, message: flash["success"]["message"]}, status: 303
-            end
-          else
-            render json: action_errors(request_type), status: 422
-          end
-        end
-
-        format.html do
-          if result
-            redirect_to success_url
-          else
-            render_notification false
-            render action: html_render_action
-          end
-        end
-      end
-    end
-
   end
 end

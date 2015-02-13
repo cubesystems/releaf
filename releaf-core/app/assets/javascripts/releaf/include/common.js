@@ -174,7 +174,9 @@ jQuery(function(){
             {
                 event.preventDefault(); // prevent validator's built in submit_form on ok
 
-                body.trigger('contentreplace', [ event_params.response, "main" ]);
+                body.trigger('contentreplace', [ event_params.response, "> header" ]);
+                body.trigger('contentreplace', [ event_params.response, "> aside" ]);
+                body.trigger('contentreplace', [ event_params.response, "> main" ]);
             }
 
         });
