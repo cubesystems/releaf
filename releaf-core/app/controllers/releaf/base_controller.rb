@@ -472,7 +472,7 @@ module Releaf
     #
     # @return [String] url
     def success_url
-      url_for( action: 'edit', id: @resource.id )
+      url_for( action: 'edit', id: @resource.id, index_url: index_url)
     end
 
     # returns all params except :controller, :action and :format
