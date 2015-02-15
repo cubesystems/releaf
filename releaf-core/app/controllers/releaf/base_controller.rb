@@ -2,11 +2,13 @@ module Releaf
   class FeatureDisabled < StandardError; end
 
   class BaseController < ActionController::Base
-    respond_to :html, :json
+    respond_to :html
+    respond_to :json, only: [:create, :update]
     protect_from_forgery
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
+    include Releaf::Responders
 
     before_filter :manage_ajax, :setup, :verify_feature_availability!
 
@@ -22,7 +24,6 @@ module Releaf
       :controller_scope_name,
       :current_params,
       :current_url,
-      :has_template?,
       :active_view,
       :index_url,
       :page_title,
@@ -39,12 +40,12 @@ module Releaf
 
     def index
       prepare_index
-      respond
+      respond_with(@collection)
     end
 
     def new
       prepare_new
-      respond
+      respond_with(@resource)
     end
 
     def show
@@ -53,57 +54,36 @@ module Releaf
 
     def edit
       prepare_edit
-      respond
+      respond_with(@resource)
     end
 
     def create
       prepare_create
       @resource.save
-      respond_with(@resource, responder: responder_class(:after_save), location: (success_url if @resource.persisted?), redirect: true)
+      respond_with(@resource, location: (success_url if @resource.persisted?), redirect: true)
     end
 
     def update
       prepare_update
       @resource.update_attributes(resource_params)
-      respond_with(@resource, responder: responder_class(:after_save), location: success_url)
-    end
-
-    def responder_class(type)
-      "Releaf::Responders::#{type.to_s.camelize}Responder".constantize
+      respond_with(@resource, location: success_url)
     end
 
     def confirm_destroy
       prepare_destroy
-
-      respond_to do |format|
-        format.html do
-          unless destroyable?
-            @restrict_relations = list_restrict_relations
-            render 'refused_destroy'
-          end
-        end
-      end
+      @restricted_relations = restricted_relations unless destroyable?
+      respond_with(@resource, destroyable: destroyable?)
     end
 
     def toolbox
       prepare_toolbox
-
-      respond_to do |format|
-        format.html do
-          render 'toolbox', locals: { resource: @resource }
-        end
-      end
+      respond_with(@resource)
     end
 
     def destroy
       prepare_destroy
-
-      action_success = destroyable? && @resource.destroy
-      render_notification(action_success, failure_message_key: 'cant destroy, because relations exists')
-
-      respond_to do |format|
-        format.html { redirect_to index_url }
-      end
+      @resource.destroy if destroyable?
+      respond_with(@resource, location: index_url)
     end
 
     # Check if @resource has existing restrict relation and it can be deleted
@@ -120,7 +100,7 @@ module Releaf
     # Lists relations for @resource with dependent: :restrict_with_exception
     #
     # @return hash of all related objects, who have dependancy :restrict_with_exception
-    def list_restrict_relations
+    def restricted_relations
       relations = {}
       resource_class.reflect_on_all_associations.each do |assoc|
         if assoc.options[:dependent] == :restrict_with_exception && @resource.send(assoc.name).exists?
@@ -200,13 +180,6 @@ module Releaf
     # @return class
     def resource_class
       @resource_class ||= self.class.resource_class
-    end
-
-    # Cheheck if there is a template in lookup_context with given name.
-    #
-    # @return `true` or `false`
-    def has_template? name
-      lookup_context.template_exists?( name, lookup_context.prefixes, false )
     end
 
     # Returns action > view translation hash
@@ -289,14 +262,6 @@ module Releaf
       @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
 
-    def mass_assigment_actions
-      ['create', 'update']
-    end
-
-    def mass_assigment_action?
-      mass_assigment_actions.include? params[:action]
-    end
-
     def feature_available? feature
       @features[feature].present?
     end
@@ -316,14 +281,6 @@ module Releaf
         flash_target["success"] = { "id" => "resource_status", "message" => I18n.t(success_message_key, scope: notice_scope_name) }
       else
         flash_target["error"] = { "id" => "resource_status", "message" => I18n.t(failure_message_key, scope: notice_scope_name) }
-      end
-    end
-
-    protected
-
-    def respond
-      respond_to do |format|
-        format.html
       end
     end
 
@@ -447,7 +404,6 @@ module Releaf
     def setup
       @features = {
         edit:              true,
-        edit_ajax_reload:  true,
         create:            true,
         destroy:           true,
         index:             true,
@@ -472,7 +428,7 @@ module Releaf
     #
     # @return [String] url
     def success_url
-      url_for( action: 'edit', id: @resource.id, index_url: index_url)
+      url_for(action: 'edit', id: @resource.id, index_url: index_url)
     end
 
     # returns all params except :controller, :action and :format
@@ -482,11 +438,11 @@ module Releaf
 
     def feature_disabled exception
       @feature = exception.message
-      error_response('feature_disabled', 403)
+      respond_with(nil, responder: action_responder(:feature_disabled))
     end
 
     def access_denied
-      error_response('access_denied', 403)
+      respond_with(nil, responder: action_responder(:access_denied))
     end
 
     def ajax?
@@ -497,18 +453,9 @@ module Releaf
       ajax? ? false : "releaf/admin"
     end
 
-    private
-
     def manage_ajax
       @_ajax = params.has_key? :ajax
       params.delete(:ajax)
-    end
-
-    def error_response error_page, error_status
-      respond_to do |format|
-        format.html { render "releaf/error_pages/#{error_page}", status: error_status }
-        format.any  { render text: '', status: error_status }
-      end
     end
   end
 end

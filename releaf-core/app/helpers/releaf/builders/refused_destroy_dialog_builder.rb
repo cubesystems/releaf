@@ -14,7 +14,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def restricted_relations
     tag(:ul, class: "block restricted-relations") do
-      template_variable("restrict_relations").collect do|key, relation|
+      template_variable("restricted_relations").collect do|key, relation|
         tag(:li) do
           restricted_relation(relation, key)
         end

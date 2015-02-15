@@ -27,7 +27,6 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
     @features = {
       edit: true,
       index: true,
-      edit_ajax_reload: true
     }
   end
 end

@@ -20,6 +20,10 @@ module Releaf::Permissions
       end
     end
 
+    def success_url
+      url_for(action: :edit)
+    end
+
     def update
       old_password = @resource.password
       super
@@ -34,14 +38,11 @@ module Releaf::Permissions
       Releaf.devise_for.classify.constantize
     end
 
-    protected
-
     def controller_breadcrumb; end
 
     def setup
       @features = {
         edit: true,
-        edit_ajax_reload: false
       }
 
       # use already loaded admin user instance
