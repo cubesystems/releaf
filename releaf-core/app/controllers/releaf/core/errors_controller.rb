@@ -1,5 +1,5 @@
-class Releaf::Core::ErrorsController < ::Releaf::BaseController
+class Releaf::Core::ErrorsController < Releaf::BaseController
   def page_not_found
-    error_response('page_not_found', 404)
+    respond_with(nil, responder: action_responder(:page_not_found))
   end
 end

@@ -1,5 +1,7 @@
 module Releaf::Content
   class NodesController < Releaf::BaseController
+    respond_to :json, only: [:create, :update, :copy, :move]
+
     def generate_url
       tmp_resource = prepare_resource
       tmp_resource.name = params[:name]
@@ -91,35 +93,24 @@ module Releaf::Content
 
       if params[:new_parent_id].nil?
         @resource.errors.add(:base, 'parent not selected')
-        respond_after_copy_move false, @resource
+        respond_with(@resource)
       else
         begin
           @resource = yield(@resource)
         rescue ActiveRecord::RecordInvalid => e
-          respond_after_copy_move false, e.record
+          respond_with(e.record)
         else
           resource_class.updated
-          render_notification true
-          respond_after_copy_move true, @resource
+          respond_with(@resource, redirect: true, location: url_for(action: :index))
         end
       end
     end
 
-    def respond_after_copy_move(result, resource)
-      respond_to do |format|
-        format.json do
-          if result
-            render json: {url: url_for( action: :index ), message: flash[:success][:message]}, status: 303
-          else
-            render json: Releaf::ErrorFormatter.format_errors(resource), status: 422
-          end
-        end
-
-        format.html do
-          render_notification false unless result
-          redirect_to url_for( action: :index )
-        end
-      end
+    def action_responders
+      super.merge(
+        copy: Releaf::Responders::AfterSaveResponder,
+        move: Releaf::Responders::AfterSaveResponder
+      )
     end
 
     def copy_move_dialog_common
