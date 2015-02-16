@@ -27,6 +27,9 @@ module Releaf::Core
   end
 
   class Engine < ::Rails::Engine
+    initializer 'precompile', group: :all do |app|
+      app.config.assets.precompile += %w(ckeditor/*)
+    end
   end
 
   ActiveSupport.on_load :action_controller do

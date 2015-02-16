@@ -1,5 +1,4 @@
 /* global Validator */
-//= require ../lib/url_builder
 
 jQuery(function(){
 

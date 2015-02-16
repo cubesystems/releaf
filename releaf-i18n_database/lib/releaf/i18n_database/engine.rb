@@ -4,6 +4,9 @@ module Releaf::I18nDatabase
   @@create_missing_translations = true
 
   class Engine < ::Rails::Engine
+    initializer 'precompile', group: :all do |app|
+      app.config.assets.precompile += %w(releaf/controllers/releaf/i18n_database/*)
+    end
   end
 
   def self.components

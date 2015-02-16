@@ -8,6 +8,9 @@ module Releaf::Permissions
   require 'releaf/permissions/builders_autoload'
 
   class Engine < ::Rails::Engine
+    initializer 'precompile', group: :all do |app|
+      app.config.assets.precompile += %w(releaf/controllers/releaf/permissions/*)
+    end
   end
 
   def self.components

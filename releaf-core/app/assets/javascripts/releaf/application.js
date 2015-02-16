@@ -10,5 +10,4 @@
 //= require jquery.cookie
 //= require ckeditor-jquery
 //= require_tree ./include
-//= require ./3rd_party/jquery-ui-timepicker-addon
-
+//= require_tree ./3rd_party

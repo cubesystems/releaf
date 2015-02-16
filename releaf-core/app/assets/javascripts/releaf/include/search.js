@@ -1,5 +1,4 @@
 /* global UrlBuilder */
-//= require ../lib/url_builder
 
 jQuery(function()
 {
