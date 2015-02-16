@@ -5,19 +5,7 @@ module Releaf
   require 'releaf/core/validation_error_codes'
 
   mattr_accessor :menu
-  @@menu = [
-    {
-      :controller => 'releaf/content',
-      :helper => 'releaf_nodes'
-    },
-    {
-      :name => "permissions",
-      :items =>   %w[releaf/permissions/users releaf/permissions/roles]
-    },
-    {
-      :controller => 'releaf/translations',
-    },
-  ]
+  @@menu = []
 
   mattr_accessor :devise_for
   @@devise_for = 'releaf/permissions/user'
