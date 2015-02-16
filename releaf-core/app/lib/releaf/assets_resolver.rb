@@ -2,8 +2,12 @@ module Releaf
   class AssetsResolver
     CONTROLLER_ASSET_PATTERN = /app\/assets\/(javascripts|stylesheets)\/((releaf\/)?controllers\/(.*?))\..*/
 
+    def self.base_assets
+      ["releaf/application"]
+    end
+
     def self.controller_assets(controller, type)
-      ["releaf/application"] + list.fetch(controller, {}).fetch(type, [])
+      base_assets + list.fetch(controller, {}).fetch(type, [])
     end
 
     def self.scan

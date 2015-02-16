@@ -30,6 +30,10 @@ module Releaf
   mattr_accessor :access_control_module
   @@access_control_module = nil
 
+  # assets resolver class
+  mattr_accessor :assets_resolver
+  @@assets_resolver = nil
+
   # controller list
   mattr_accessor :controller_list
   @@controller_list = {}
@@ -56,6 +60,7 @@ module Releaf
       build_controller_list(Releaf.menu)
       build_controller_list(normalized_additional_controllers)
 
+      self.assets_resolver ||= Releaf::AssetsResolver
       self.components = normalize_components(components)
       self.layout_builder ||= Releaf::Builders::Page::LayoutBuilder
       self.access_control_module ||= Releaf::Permissions

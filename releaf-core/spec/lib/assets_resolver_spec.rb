@@ -5,19 +5,29 @@ describe Releaf::AssetsResolver do
     described_class.class_variable_set(:@@list, nil)
   end
 
+  describe ".base_assets" do
+    it "returns array with `releaf/application`" do
+      expect(described_class.base_assets).to eq(["releaf/application"])
+    end
+  end
+
   describe ".controller_assets" do
-    it "returns array with controller specific asset alognside releaf/application" do
+    before do
+      allow(described_class).to receive(:base_assets).and_return(["a", "b"])
+    end
+
+    it "returns array with controller specific asset alognside base assets" do
       expect(described_class.controller_assets("releaf/i18n_database/translations", :javascripts))
-        .to eq(["releaf/application", "releaf/controllers/releaf/i18n_database/translations"])
+        .to eq(["a", "b", "releaf/controllers/releaf/i18n_database/translations"])
       expect(described_class.controller_assets("releaf/i18n_database/translations", :stylesheets))
-        .to eq(["releaf/application", "releaf/controllers/releaf/i18n_database/translations"])
+        .to eq(["a", "b", "releaf/controllers/releaf/i18n_database/translations"])
     end
 
     context "when no controller specific assets exists" do
-      it "returns only releaf/application" do
+      it "returns only base assets" do
         allow(described_class).to receive(:list).and_return({})
         expect(described_class.controller_assets("releaf/i18n_database/translations", :stylesheets))
-          .to eq(["releaf/application"])
+          .to eq(["a", "b"])
       end
     end
   end
