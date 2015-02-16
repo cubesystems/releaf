@@ -71,8 +71,9 @@ describe Releaf::BaseController do
          class: "new-user",
          id: "new-user",
          data: {
-           'validation-ok-handler' => 'ajax',
-           'validation' => 'true'
+           "remote"=>true,
+           "remote-validation"=>true,
+           "type"=>:json
          }
       }
       expect(subject.form_attributes(:edit, new_resource, :user)).to eq(attributes)

@@ -70,7 +70,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def save_button
-    button(t('Save', scope: "admin.global"), "check", class: "primary", data: { type: 'ok' }, type: "submit")
+    button(t('Save', scope: "admin.global"), "check", class: "primary", data: { type: 'ok', disable: true }, type: "submit")
   end
 
   def footer_secondary_tools
