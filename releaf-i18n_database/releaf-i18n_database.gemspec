@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files`.split("\n")
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency    'releaf-core', Releaf::VERSION
-  s.add_dependency    'twitter_cldr', '~> 3.0.2'
+  s.add_dependency 'releaf-core', Releaf::VERSION
+  s.add_dependency 'twitter_cldr'
 
   s.required_ruby_version = '>= 2.1.0'
 end

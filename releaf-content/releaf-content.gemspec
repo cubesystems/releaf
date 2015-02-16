@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency 'releaf-core', Releaf::VERSION
-  s.add_dependency 'stringex', '~> 2.5.2'
+  s.add_dependency 'stringex'
 
   s.required_ruby_version = '>= 2.1.0'
 end
