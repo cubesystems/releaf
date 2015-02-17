@@ -5,42 +5,31 @@ module Releaf
   require 'releaf/core/validation_error_codes'
 
   mattr_accessor :menu
-  @@menu = []
 
   mattr_accessor :devise_for
-  @@devise_for = 'releaf/permissions/user'
 
   mattr_accessor :mount_location
-  @@mount_location = nil
 
   mattr_accessor :available_locales
-  @@available_locales = nil
 
   mattr_accessor :layout_builder
-  @@layout_builder = nil
 
   mattr_accessor :available_admin_locales
-  @@available_admin_locales = nil
 
   # controllers that must be accessible by user, but are not visible in menu
   # should be added to this list
   mattr_accessor :additional_controllers
-  @@additional_controllers = []
 
   mattr_accessor :access_control_module
-  @@access_control_module = nil
 
   # assets resolver class
   mattr_accessor :assets_resolver
-  @@assets_resolver = nil
 
   # controller list
   mattr_accessor :controller_list
-  @@controller_list = {}
 
   # components
   mattr_accessor :components
-  @@components = []
 
   def self.all_locales
     valid_locales = Releaf.available_locales || []
@@ -53,18 +42,39 @@ module Releaf
     def setup
       yield self
 
-      ::I18n.available_locales = Releaf.available_locales
-      Releaf.available_admin_locales = Releaf.available_locales if Releaf.available_admin_locales.nil?
-      Releaf.menu.map! { |item| normalize_menu_item(item) }
-
-      build_controller_list(Releaf.menu)
-      build_controller_list(normalized_additional_controllers)
-
-      self.assets_resolver ||= Releaf::AssetsResolver
-      self.components = normalize_components(components)
-      self.layout_builder ||= Releaf::Builders::Page::LayoutBuilder
-      self.access_control_module ||= Releaf::Permissions
+      initialize_defaults
+      initialize_locales
+      initialize_menu
+      initialize_controllers
       initialize_components
+    end
+
+    def initialize_locales
+      ::I18n.available_locales = available_locales
+      self.available_admin_locales = available_locales if available_admin_locales.nil?
+    end
+
+    def initialize_menu
+      self.menu = menu.map{ |item| normalize_menu_item(item) }
+    end
+
+    def initialize_defaults
+      default_values.each_pair do|key, value|
+        send("#{key}=", value) if send(key).nil?
+      end
+    end
+
+    def default_values
+      {
+        menu: [],
+        devise_for: 'releaf/permissions/user',
+        additional_controllers: [],
+        controller_list: {},
+        components: [],
+        assets_resolver:  Releaf::AssetsResolver,
+        layout_builder: Releaf::Builders::Page::LayoutBuilder,
+        access_control_module: Releaf::Permissions
+      }
     end
 
     def available_controllers
@@ -72,6 +82,7 @@ module Releaf
     end
 
     def initialize_components
+      self.components = normalize_components(components)
       components.each do|component_class|
         component_class.initialize_component if component_class.respond_to? :initialize_component
       end
@@ -89,10 +100,13 @@ module Releaf
       list
     end
 
-    private
-
     def normalized_additional_controllers
       Releaf.additional_controllers.map { |controller| normalize_controller_item(controller) }
+    end
+
+    def initialize_controllers
+      build_controller_list(Releaf.menu)
+      build_controller_list(normalized_additional_controllers)
     end
 
     # Recursively build list of controllers
