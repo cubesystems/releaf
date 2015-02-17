@@ -6,8 +6,7 @@ class CreateReleafPermissions < ActiveRecord::Migration
       t.string  :permission
       t.timestamps(null: false)
     end
-    add_index :releaf_permissions, :owner_id
-    add_index :releaf_permissions, :owner_type
+    add_index :releaf_permissions, [:owner_id, :owner_type]
     add_index :releaf_permissions, :permission
   end
 end
