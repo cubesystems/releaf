@@ -10,7 +10,7 @@ var RemoteValidator = function( form )
     v.form = form;
     v.clicked_button = null;
 
-    v.form.on('click.rails', submit_elements_selector, function(event) {
+    v.form.on('click.rails', submit_elements_selector, function( event ) {
         var target = jQuery( event.target );
 
         // webkit sends inner button elements as event targets instead of the button
@@ -31,7 +31,7 @@ var RemoteValidator = function( form )
         v.clicked_button = target;
     });
 
-    v.form.on( 'ajax:beforeSend', function( event, xhr, settings )
+    v.form.on( 'ajax:beforeSend', function( event, xhr )
     {
         xhr.validation_id = 'v' + new Date().getTime() + Math.random();
         v.form.attr( 'data-validation-id', xhr.validation_id );
@@ -42,7 +42,7 @@ var RemoteValidator = function( form )
         }
     });
 
-    v.form.on('ajax:complete', function(event, xhr, status)
+    v.form.on('ajax:complete', function( event, xhr )
     {
         var json_response;
         var event_params =
@@ -102,7 +102,7 @@ var RemoteValidator = function( form )
                     });
                 });
 
-                jQuery.each( errors, function(index, error)
+                jQuery.each( errors, function( index, error )
                 {
                     var field = null;
 
@@ -347,7 +347,7 @@ var RemoteValidator = function( form )
         }
     });
 
-    jQuery( document ).on( 'validation:ok validation:error validation:fail', 'form', function( event, validator, event_params )
+    jQuery( document ).on( 'validation:ok validation:error validation:fail', 'form', function( event, validator )
     {
         if (validator !== v || event.isDefaultPrevented() || !v.form[0])
         {
@@ -409,9 +409,9 @@ jQuery(function(){
     });
 
     // attach remote validation to any new default forms after any content load
-    jQuery('body').on('contentloaded', function(e)
+    jQuery('body').on('contentloaded', function( event )
     {
-        var block = jQuery(e.target);
+        var block = jQuery(event.target);
         var forms = (block.is('form[data-remote-validation]')) ? block : block.find('form[data-remote-validation]');
 
         forms.trigger('validation:init');
