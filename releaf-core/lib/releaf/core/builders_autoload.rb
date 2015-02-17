@@ -11,12 +11,11 @@ files = %w(
   builders/resource_dialog
   builders/confirm_dialog_builder
   builders/confirm_destroy_dialog_builder
+  builders/toolbox
   builders/edit_builder
   builders/form_builder
   builders/index_builder
   builders/refused_destroy_dialog_builder
-  builders/toolbox
-  builders/resource_toolbox
   builders/table_builder
   builders/toolbox_builder
   core/settings/form_builder

@@ -18,8 +18,15 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
     expect(described_class.ancestors).to include(Releaf::Builders::Template)
   end
 
-  it "includes Releaf::Builders::ResourceToolbox" do
-    expect(described_class.ancestors).to include(Releaf::Builders::ResourceToolbox)
+  it "includes Releaf::Builders::Resource" do
+    expect(described_class.ancestors).to include(Releaf::Builders::Resource)
+  end
+
+  describe "#output" do
+    it "returns safely joined items" do
+      allow(subject).to receive(:items).and_return([ '<', ActiveSupport::SafeBuffer.new(">")])
+      expect(subject.output).to eq("<li>&lt;</li><li>></li>")
+    end
   end
 
   describe "#items" do

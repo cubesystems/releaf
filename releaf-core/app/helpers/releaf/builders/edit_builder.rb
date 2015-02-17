@@ -1,6 +1,7 @@
 class Releaf::Builders::EditBuilder
   include Releaf::Builders::View
   include Releaf::Builders::Resource
+  include Releaf::Builders::Toolbox
 
   attr_accessor :form
 

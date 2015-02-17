@@ -1,28 +1,37 @@
 require "spec_helper"
 
 describe Releaf::Builders::Toolbox, type: :class do
-  class ToolboxTestHelper < ActionView::Base
+  class ToolboxTestTemplate < ActionView::Base
   end
 
-  class ToolboxTestIncluder
+  class UnitTestToolboxBuilder
     include Releaf::Builders::Base
     include Releaf::Builders::Template
     include Releaf::Builders::Toolbox
   end
 
-  subject { ToolboxTestIncluder.new(template) }
-  let(:template){ ToolboxTestHelper.new }
+  subject { UnitTestToolboxBuilder.new(template) }
+  let(:template){ ToolboxTestTemplate.new }
+  let(:resource){ Releaf::Permissions::User.new }
 
-  describe "#output" do
-    it "returns safely joined items" do
-      allow(subject).to receive(:items).and_return([ '<', ActiveSupport::SafeBuffer.new(">")])
-      expect(subject.output).to eq("<li>&lt;</li><li>></li>")
+  describe "#toolbox" do
+    context "when passed object is new record" do
+      it "returns empty string" do
+        expect(subject.toolbox(resource)).to eq("")
+      end
     end
-  end
 
-  describe "#items" do
-    it "returns empty array" do
-      expect(subject.items).to eq([])
+    context "when passed object is existing record" do
+      it "returns empty string" do
+        resource.id = 212
+        allow(resource).to receive(:new_record?).and_return(false)
+        allow(subject).to receive(:icon).with("cog lg").and_return("cog_icon")
+        allow(subject).to receive(:icon).with("caret-up lg").and_return("caret_icon")
+        allow(subject).to receive(:action_name).and_return("edit")
+        allow(subject).to receive(:url_for).with({action: :toolbox, id: 212, context: "edit", some_param: 89}).and_return("/toolbox_action")
+
+        expect(subject.toolbox(resource, some_param: 89).gsub(/\s/,'')).to eq(%Q{<divclass=\"toolboxuninitialized\"data-url=\"/toolbox_action\"><buttondisabled=\"disabled\"class=\"buttontriggeronly-icon\"type=\"button\"title=\"Tools\">cog_icon</button><menuclass=\"blocktoolbox-items\"type=\"toolbar\">caret_icon<ulclass=\"block\"></ul></menu></div>}.gsub(/\s/,''))
+      end
     end
   end
 end

@@ -22,7 +22,7 @@ describe Releaf::Builders::Base, type: :module do
     [:controller, :controller_name, :url_for, :form_for,
      :releaf_button, :params, :form_tag, :file_field_tag,
      :request, :check_box_tag, :label_tag, :content_tag, :hidden_field_tag,
-     :render, :link_to, :flash, :truncate, :toolbox, :radio_button_tag,
+     :render, :link_to, :flash, :truncate, :radio_button_tag,
      :options_for_select, :action_name, :options_from_collection_for_select,
      :select_tag, :text_field_tag,
      :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes

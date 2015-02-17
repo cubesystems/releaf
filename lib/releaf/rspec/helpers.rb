@@ -93,7 +93,7 @@ module Releaf
       if resource
         find(resource_selector_scope + '[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger').click
       else
-        find('main section header .toolbox-wrap .toolbox button.trigger').click
+        find('main section header .toolbox-wrap .toolbox button.trigger:not([disabled])').click
       end
 
       click_link item_name

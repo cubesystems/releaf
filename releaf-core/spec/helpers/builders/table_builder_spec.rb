@@ -2,7 +2,6 @@ require "spec_helper"
 
 describe Releaf::Builders::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base
-    include Releaf::ToolboxHelper
     include Releaf::ApplicationHelper
   end
 
@@ -24,6 +23,10 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   it "includes Releaf::Builders::Base" do
     expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
+  end
+
+  it "includes Releaf::Builders::Toolbox" do
+    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Toolbox)
   end
 
   describe "#initialize" do
@@ -405,7 +408,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
 
     it "returns cell with toolbox" do
-      allow(subject.template).to receive(:toolbox)
+      allow(subject).to receive(:toolbox)
         .with(resource, index_url: "_index_url_").and_return("_toolbox_")
 
       content = '<td class="toolbox-cell">_toolbox_</td>'
@@ -414,11 +417,11 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     it "merges given toolbox options and passes it to toolbox heplper" do
       allow(subject.controller).to receive(:index_url).and_return("_index_url_")
-      expect(subject.template).to receive(:toolbox)
+      expect(subject).to receive(:toolbox)
         .with(resource, index_url: "_index_url_", some_url: "xx").and_return("_toolbox_")
       subject.toolbox_cell(resource, {toolbox: {some_url: "xx"}})
 
-      expect(subject.template).to receive(:toolbox)
+      expect(subject).to receive(:toolbox)
         .with(resource, index_url: "xx").and_return("_toolbox_")
       subject.toolbox_cell(resource, {toolbox: {index_url: "xx"}})
     end

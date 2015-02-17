@@ -1,7 +1,15 @@
 class Releaf::Builders::ToolboxBuilder
   include Releaf::Builders::Base
   include Releaf::Builders::Template
-  include Releaf::Builders::ResourceToolbox
+  include Releaf::Builders::Resource
+
+  def output
+    safe_join do
+      items.map do |item|
+        tag('li', item)
+      end
+    end
+  end
 
   def items
     list = []

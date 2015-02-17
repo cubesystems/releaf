@@ -1,6 +1,7 @@
 module Releaf::Content::Nodes
   class IndexBuilder < Releaf::Builders::IndexBuilder
     include Releaf::Content::Builders::Tree
+    include Releaf::Builders::Toolbox
 
     def tree_resource_blocks(resource, level, expanded)
       [tree_resource_toolbox(resource)] + super
