@@ -217,13 +217,14 @@ module Releaf
     def form_attributes(form_type, object, object_name)
       action = object.respond_to?(:persisted?) && object.persisted? ? :edit : :new
       {
-         multipart: true,
-         id: "#{action}-#{object_name}",
-         class: "#{action}-#{object_name}",
-         data: {
-           'validation-ok-handler' => 'ajax',
-           'validation' => 'true'
-         }
+        multipart: true,
+        id: "#{action}-#{object_name}",
+        class: "#{action}-#{object_name}",
+        data: {
+          "remote" => true,
+          "remote-validation" => true,
+          "type" => :json,
+        }
       }
     end
 

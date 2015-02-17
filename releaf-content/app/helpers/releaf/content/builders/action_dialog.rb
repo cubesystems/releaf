@@ -5,8 +5,11 @@ module Releaf::Content::Builders
     def form_attributes
       {
         method: :post,
-        'data-validation' => true,
-        'data-validation-ok-handler' => 'ajax'
+        data: {
+          "remote" => true,
+          "remote-validation" => true,
+          "type" => :json
+        }
       }
     end
 
@@ -51,7 +54,7 @@ module Releaf::Content::Builders
     end
 
     def confirm_button
-      button(t(action), "check", class: "primary", type: "submit")
+      button(t(action), "check", class: "primary", type: "submit", data: { type: 'ok', disable: true })
     end
   end
 end

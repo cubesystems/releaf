@@ -61,8 +61,8 @@ module Releaf
     end
 
     def within_dialog(&block)
-      if find(".dialog") && first('.dialog form[data-validation=true]')
-        find('.dialog form[data-validation-initialized=true]') # wait for validation to initialize
+      if find(".dialog") && first('.dialog form[data-remote-validation=true]')
+        find('.dialog form[data-remote-validation-initialized=true]') # wait for validation to initialize
       end
       within(".dialog") do
         yield
@@ -86,7 +86,7 @@ module Releaf
 
     def open_toolbox_dialog(item_name, resource = nil)
       open_toolbox(item_name, resource)
-      expect(page).to have_css('.dialog form[data-validation="true"][data-validation-initialized="true"]')
+      expect(page).to have_css('.dialog form[data-remote-validation=true][data-remote-validation-initialized=true]')
     end
 
     def open_toolbox(item_name, resource = nil, resource_selector_scope = ".view-index .table tr")
