@@ -8,7 +8,7 @@ module Releaf
 
       %Q{
       <div class="toolbox" data-url="#{url}">
-        <button class="button trigger only-icon" type="button" title="#{t('Tools', scope: 'admin.global')}">
+        <button class="button trigger only-icon" disabled="disabled" type="button" title="#{t('Tools', scope: 'admin.global')}">
           <i class="fa fa-lg fa-cog"></i>
         </button>
         <menu class="block toolbox-items" type="toolbar">

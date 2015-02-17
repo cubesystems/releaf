@@ -30,6 +30,8 @@ jQuery(function()
             return;
         }
 
+        target.find('.toolbox > .trigger').prop("disabled", false);
+
         toolboxes.bind('toolboxopen', function()
         {
             var toolbox   = jQuery(this);
