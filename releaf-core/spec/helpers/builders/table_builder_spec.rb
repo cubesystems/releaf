@@ -191,16 +191,23 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#row_url" do
+    let(:controller){ Releaf::BaseController.new }
+
+    before do
+      allow(subject).to receive(:controller).and_return(controller)
+      allow(controller).to receive(:index_url).and_return("_index_url_")
+    end
+
     it "returns edit url for given resource" do
-      template = double("some template")
-      allow(template).to receive(:resource_edit_url).with("a").and_return('_url_')
-      allow(subject).to receive(:template).and_return(template)
-      expect(subject.row_url("a")).to eq('_url_')
+      allow(controller).to receive(:feature_available?).with(:edit).and_return(true)
+      allow(template).to receive(:url_for).with(action: "edit", id: 77, index_url: "_index_url_").and_return('_url_')
+      expect(subject.row_url(resource)).to eq('_url_')
     end
 
     context "when resource do not have edit route/url" do
       it "returns nil" do
-        expect(subject.row_url("a")).to eq(nil)
+        allow(controller).to receive(:feature_available?).with(:edit).and_return(false)
+        expect(subject.row_url(resource)).to be nil
       end
     end
   end
@@ -217,6 +224,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
       resource = resource_class.new
       allow(subject).to receive(:column_names).and_return([])
       allow(subject).to receive(:row_attributes).with(resource).and_return(class: "color", data: {color: "red"})
+      allow(subject).to receive(:row_url)
 
       content = '<tr class="color" data-color="red"></tr>'
       expect(subject.row(resource)).to eq(content)

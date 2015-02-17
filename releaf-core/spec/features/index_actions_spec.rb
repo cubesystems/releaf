@@ -31,11 +31,11 @@ feature "Base controller index", js: true do
     expect(page).to have_number_of_resources(0)
   end
 
-  scenario "no row urls when edit url is empty" do
+  scenario "no row urls when :edit feature is not available" do
     visit admin_books_path
     expect(page).to have_link("good book")
 
-    allow_any_instance_of(Admin::BooksController).to receive(:resource_edit_url).and_return(nil)
+    allow_any_instance_of(Admin::BooksController).to receive(:feature_available?).with(:edit).and_return(false)
     visit admin_books_path
     expect(page).to_not have_link("good book")
   end

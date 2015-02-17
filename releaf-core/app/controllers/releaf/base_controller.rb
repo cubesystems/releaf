@@ -28,7 +28,6 @@ module Releaf
       :index_url,
       :page_title,
       :resource_class,
-      :resource_edit_url,
       :feature_available?,
       :builder_class
 
@@ -202,12 +201,6 @@ module Releaf
     # @return String
     def active_view
       action_view(action_name)
-    end
-
-    def resource_edit_url(resource)
-      if feature_available?( :edit )
-        url_for( action: :edit, id: resource.try(:id), index_url: index_url )
-      end
     end
 
     def form_url(form_type, object)
