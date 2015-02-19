@@ -74,9 +74,9 @@ feature "Ajaxbox", js: true do
     open_toolbox "Add child"
     sleep 1 # wait for form to be initialized
 
-    expect(page).to have_css(".fancybox-overlay")
+    expect(page).to have_css(".mfp-bg")
     page.driver.click(10, 10)
-    expect(page).to_not have_css(".fancybox-overlay")
+    expect(page).to_not have_css(".mfp-bg")
   end
 
   scenario "Ajaxbox with modality (background is not clickable)" do
@@ -88,10 +88,10 @@ feature "Ajaxbox", js: true do
     open_toolbox "Delete"
     sleep 1 # wait for form to be initialized
 
-    expect(page).to have_css(".fancybox-overlay")
+    expect(page).to have_css(".mfp-bg")
     page.driver.click(10, 10)
-    expect(page).to have_css(".fancybox-overlay")
-    expect(find(".fancybox-overlay")).to be_visible
+    expect(page).to have_css(".mfp-bg")
+    expect(find(".mfp-bg")).to be_visible
   end
 
   scenario "Ajaxbox single image view" do
@@ -100,15 +100,15 @@ feature "Ajaxbox", js: true do
     visit edit_admin_book_path(book)
 
     find(".field[data-name='cover_image'] .value-preview img").click
-    expect(page).to have_css(".fancybox-overlay")
+    expect(page).to have_css(".mfp-bg")
     page.driver.click(10, 10)
-    expect(page).to_not have_css(".fancybox-overlay")
+    expect(page).to_not have_css(".mfp-bg")
 
     find(".field[data-name='cover_image'] .value-preview img").click
     image_url = find(".field[data-name='cover_image'] .value-preview a.ajaxbox")["href"] + "&ajax=1"
-    expect(page).to have_css(".ajaxbox-inner > img[src='#{image_url}']")
+    expect(page).to have_css(".ajaxbox-inner img[src='#{image_url}']")
     find(".ajaxbox-inner button.close").click
-    expect(page).to_not have_css(".fancybox-overlay")
+    expect(page).to_not have_css(".mfp-bg")
     expect(page).to_not have_css(".ajaxbox-inner > img[src='#{image_url}']")
   end
 end

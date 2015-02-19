@@ -40,18 +40,22 @@ main .dialog
     border-left: #c5c5c5 1px solid;
 }
 
-.fancybox-inner .dialog header
+.ajaxbox-inner .dialog header
 {
     margin-top: 0;
 }
 
-.fancybox-inner .dialog header .close,
-.fancybox-inner > .close
+.ajaxbox-inner .dialog header .close,
+.ajaxbox-inner > .close
 {
     position: absolute;
     right: 0;
     top: 0;
     height: 40px;
+}
+.ajaxbox-inner > .close
+{
+    top: 40px;
 }
 
 
