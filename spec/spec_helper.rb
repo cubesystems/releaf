@@ -34,6 +34,10 @@ require 'with_model'
 require 'timecop'
 require 'releaf/rspec'
 
+# To stop these warnings:
+# WARN: tilt autoloading 'sass' in a non thread-safe way; explicit require 'sass' suggested.
+require 'sass'
+
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
