@@ -451,19 +451,23 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     localized_field(name, :text_area, input: input, label: label, field: field, options: options)
   end
 
+  def default_locale
+    selected_locale = (cookies[:'releaf.i18n.locale'] || I18n.locale).to_sym
+    locales.include?(selected_locale) ? selected_locale : locales.first
+  end
+
+  def locales
+    object.class.globalize_locales
+  end
+
   def localized_field(name, field_type, input: {}, label: {}, field: {}, options: {})
     options = {i18n: true, label: {translation_key: name}}.deep_merge(options)
-
-    default_locale = cookies[:'releaf.i18n.locale']
-    default_locale = default_locale.to_sym unless default_locale.nil?
-    default_locale = object.class.globalize_locales.first unless object.class.globalize_locales.include? default_locale
 
     wrapper(field_attributes(name, field, options)) do
       content = object.class.globalize_locales.collect do |locale|
         localized_name = "#{name}_#{locale}"
-        is_default_locale = locale == default_locale
         html_class = ["localization"]
-        html_class << "active" if is_default_locale
+        html_class << "active" if locale == default_locale
 
         tag(:div, class: html_class, data: {locale: locale}) do
           releaf_label(localized_name, label, options) <<
@@ -474,11 +478,11 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         end
       end
 
-      content.push localization_switch(default_locale)
+      content << localization_switch
     end
   end
 
-  def localization_switch(default_locale)
+  def localization_switch
     tag(:div, class: "localization-switch") do
       button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])

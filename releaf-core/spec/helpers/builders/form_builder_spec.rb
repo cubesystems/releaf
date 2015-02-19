@@ -458,6 +458,41 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
   end
 
+  describe "#locales" do
+    it "returns object globalize locales" do
+      allow(subject.object.class).to receive(:globalize_locales).and_return([:de, :ru])
+      expect(subject.locales).to eq([:de, :ru])
+    end
+  end
+
+  describe "#default_locale" do
+    before do
+      allow(subject).to receive(:cookies).and_return({})
+      allow(I18n).to receive(:locale).and_return(:ru)
+      allow(subject).to receive(:locales).and_return([:de, :ru])
+    end
+
+    context "when cookies has stored locale" do
+      it "returns stored locale normalized to symbol" do
+        allow(subject).to receive(:cookies).and_return("releaf.i18n.locale".to_sym => "de")
+        expect(subject.default_locale).to eq(:de)
+      end
+    end
+
+    context "when cookies hasn't stored locale" do
+      it "returns current I18n locale" do
+        expect(subject.default_locale).to eq(:ru)
+      end
+    end
+
+    context "when stored locale or I18n locale is not within form locales" do
+      it "returns first form locale" do
+        allow(subject).to receive(:locales).and_return([:lv, :en])
+        expect(subject.default_locale).to eq(:lv)
+      end
+    end
+  end
+
   describe "#normalize_date_or_time_value" do
     context "when :time type given" do
       it "casts value to time" do
