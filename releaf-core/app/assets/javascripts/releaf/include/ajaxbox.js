@@ -1,5 +1,4 @@
 /* global UrlBuilder */
-//= require ../3rd_party/jquery.fancybox.js
 
 jQuery(document).ready( function()
 {
@@ -11,68 +10,59 @@ jQuery(document).ready( function()
 
     var open_ajax_box = function( params )
     {
-        var fancybox_params =
+        var magnific_popup_params =
         {
-            autoDimensions    : true,
-            autoScale         : true,
-            centerOnScroll    : true,
-            scrolling         : 'no',
-            padding           : 0,
-            overlayColor      : '#000000',
-            overlayOpacity    : 0.5,
-            closeBtn          : false,
-            afterShow        : function()
-            {
-                this.inner.trigger('ajaxboxaftershow', [this, params]);
-            },
-            beforeClose  : function()
-            {
+            showCloseBtn     : false,
+            modal            : params.modal,
+            callbacks        : {
+                open         : function()
+                {
+                    this.contentContainer.trigger('ajaxboxaftershow', [this, params]);
+                },
+                beforeClose  : function()
+                {
 
-                this.inner.trigger('ajaxboxbeforeclose');
+                    this.contentContainer.trigger('ajaxboxbeforeclose');
+                }
             }
         };
 
-        if (params.modal)
-        {
-            fancybox_params.closeClick   = false;
-            fancybox_params.helpers     = { overlay: { closeClick: false } };
-        }
-
         if (params.type === 'image')
         {
-            fancybox_params.href = params.url;
-            fancybox_params.type = params.type;
+            magnific_popup_params.items = {src: params.url}
+            magnific_popup_params.type = "image"
         }
         else
         {
-            fancybox_params.content = params.content;
+            magnific_popup_params.items = {src: params.content, type: "inline"}
         }
-        jQuery.fancybox( fancybox_params );
+
+        jQuery.magnificPopup.open(magnific_popup_params);
         return;
     };
 
     var close_ajax_box = function()
     {
-        jQuery.fancybox.close();
+        jQuery.magnificPopup.close();
     };
 
     body.on('ajaxboxaftershow', function(e, ajaxbox, params)
     {
-        ajaxbox.inner.addClass('ajaxbox-inner');
+        ajaxbox.contentContainer.addClass('ajaxbox-inner');
         // enable drag with header
         if( ajaxbox.wrap.draggable !== undefined )
         {
-            ajaxbox.wrap.draggable({ handle: ajaxbox.inner.find('section header').first() });
+            ajaxbox.wrap.draggable({ handle: ajaxbox.contentContainer.find('section header').first() });
         }
 
         // insert close button if header exists and box is not modal
         if (!params.modal)
         {
-            var close_container = ajaxbox.inner.first();
+            var close_container = ajaxbox.contentContainer.first();
 
             if (params.type !== 'image')
             {
-                close_container =  ajaxbox.inner.find('section header').first();
+                close_container =  ajaxbox.contentContainer.find('section header').first();
             }
 
             if (close_container.length > 0)
@@ -88,7 +78,7 @@ jQuery(document).ready( function()
         }
 
         // focus on cancel button in footer if found
-        var cancel_button = ajaxbox.inner.find('section footer .button[data-type="cancel"]').first();
+        var cancel_button = ajaxbox.contentContainer.find('section footer .button[data-type="cancel"]').first();
         if (cancel_button.length > 0)
         {
             cancel_button.bind('click', function()
@@ -99,8 +89,8 @@ jQuery(document).ready( function()
             cancel_button.focus();
         }
 
-        ajaxbox.inner.trigger('contentloaded');
-        ajaxbox.inner.trigger('ajaxboxdone', params);
+        ajaxbox.contentContainer.trigger('contentloaded');
+        ajaxbox.contentContainer.trigger('ajaxboxdone', params);
     });
 
     body.on('ajaxboxinit', function(e)

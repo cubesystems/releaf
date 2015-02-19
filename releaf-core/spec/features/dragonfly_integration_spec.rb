@@ -12,9 +12,9 @@ feature "Dragonfly integration", js: true do
     end
 
     find(".field[data-name='cover_image'] a.ajaxbox" ).click
-    expect(page).to have_css(".fancybox-inner img.fancybox-image")
-    find(".fancybox-inner button.close" ).click
-    expect(page).to have_no_css(".fancybox-inner img.fancybox-image")
+    expect(page).to have_css(".ajaxbox-inner img.mfp-img")
+    find(".ajaxbox-inner button.close" ).click
+    expect(page).to have_no_css(".ajaxbox-inner img.mfp-img")
 
     update_resource do
       check "Remove"
