@@ -61,9 +61,9 @@ describe Releaf::Core::ResourceBase do
   end
 
   describe "#association_excluded_attributes" do
-    it "returns `foreign_key` and polymorphic association type key (if exists)" do
+    it "returns `foreign_key` and polymorphic association type key (if exists) casted to strings" do
       association = subject.resource_class.reflections["chapters"]
-      allow(association).to receive(:foreign_key).and_return("b")
+      allow(association).to receive(:foreign_key).and_return(:b)
       expect(subject.association_excluded_attributes(association)).to eq(["b"])
 
       allow(association).to receive(:type).and_return("x")

@@ -40,7 +40,7 @@ class Releaf::Core::ResourceBase
   end
 
   def association_excluded_attributes(association)
-    [association.foreign_key, association.type].compact
+    [association.foreign_key, association.type].compact.map(&:to_s)
   end
 
   def associations
