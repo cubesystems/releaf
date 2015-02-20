@@ -31,7 +31,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   describe "#section_body" do
     it "returns destroy description content" do
-      content = '<div class="body"><i class="fa fa-trash-o"></i><div class="question">Do you want to destroy following object?</div><div class="description">book title</div></div>'
+      content = '<div class="body"><i class="fa fa-trash-o"></i><div class="question">Do you want to delete the following object?</div><div class="description">book title</div></div>'
       expect(subject.section_body).to eq(content)
     end
   end
@@ -62,7 +62,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   describe "#section_header_text" do
     it "returns correct section header" do
-      expect(subject.section_header_text).to eq ("Confirm destroy")
+      expect(subject.section_header_text).to eq ("Confirm deletion")
     end
   end
 end
