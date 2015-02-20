@@ -11,6 +11,10 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmD
     t('Confirm deletion', scope: 'admin.global')
   end
 
+  def confirm_method
+    :delete
+  end
+
   def icon_name
     "trash-o"
   end

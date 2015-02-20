@@ -12,7 +12,7 @@ feature "Ajaxbox", js: true do
 
     open_toolbox "Delete"
     sleep 1 # wait for form to be initialized
-    within_dialog{ click_button "No" }
+    within_dialog{ click_link "No" }
     expect(page).to_not have_css(".dialog")
     expect(current_path).to eq(edit_releaf_permissions_user_path(user))
   end
