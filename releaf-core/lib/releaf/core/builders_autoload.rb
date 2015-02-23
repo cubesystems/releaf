@@ -22,5 +22,5 @@ files = %w(
   core/settings/table_builder
 )
 files.each do|file|
- require "#{root_path}/app/helpers/releaf/#{file}"
+ require "#{root_path}/app/builders/releaf/#{file}"
 end

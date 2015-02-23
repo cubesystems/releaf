@@ -7,5 +7,5 @@ files = %w(
   profile/form_builder
 )
 files.each do|file|
- require "#{root_path}/app/helpers/releaf/permissions/#{file}"
+ require "#{root_path}/app/builders/releaf/permissions/#{file}"
 end

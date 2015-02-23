@@ -6,5 +6,5 @@ files = %w(
   index_builder
 )
 files.each do|file|
- require "#{root_path}/app/helpers/releaf/i18n_database/translations/#{file}"
+ require "#{root_path}/app/builders/releaf/i18n_database/translations/#{file}"
 end

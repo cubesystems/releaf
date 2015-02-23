@@ -14,5 +14,5 @@ files = %w(
   nodes/toolbox_builder
 )
 files.each do|file|
- require "#{root_path}/app/helpers/releaf/content/#{file}"
+ require "#{root_path}/app/builders/releaf/content/#{file}"
 end
