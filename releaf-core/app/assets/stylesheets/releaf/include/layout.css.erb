@@ -62,7 +62,7 @@ body > .side > nav
     margin-bottom: 50px;
 }
 
-body > .side > footer
+body > .side > footer.main
 {
     position: absolute;
     bottom: 0;
@@ -71,7 +71,7 @@ body > .side > footer
     z-index: 9;
     margin-top: -50px;
 }
-body.side-compact > .side > footer
+body.side-compact > .side > footer.main
 {
   width: 40px;
   overflow: hidden;
@@ -84,7 +84,7 @@ body > .main
     z-index: 1;
 }
 
-body .main footer
+body .main footer.main
 {
     position: fixed;
     bottom: 0;
@@ -94,13 +94,13 @@ body .main footer
     z-index: 10;
     background: #fff;
 }
-body.side-compact .main footer
+body.side-compact .main footer.main
 {
     margin-left: 80px;
 }
 
 
-body .main footer .tools
+body .main footer.main .tools
 {
     height: 40px;
     background: #e6e6e6;
@@ -108,18 +108,18 @@ body .main footer .tools
     border: 1px solid #c5c5c5;
     border-bottom: 0;
 }
-body .main footer .tools > .primary
+body .main footer.main .tools > .primary
 {
     float: right;
 }
-body .main footer .tools > .secondary
+body .main footer.main .tools > .secondary
 {
     float: left;
 }
 
 
-body > .side > footer,
-body .main footer .tools
+body > .side > footer.main,
+body .main footer.main .tools
 {
     height: 40px;
 }
@@ -173,7 +173,7 @@ body.side-compact  > .main
     padding-left: 80px;
 }
 
-body.side-compact > footer
+body.side-compact > footer.main
 {
     left: 80px;
 }

@@ -1,5 +1,6 @@
-class Releaf::TableBuilder
-  include Releaf::Builder
+class Releaf::Builders::TableBuilder
+  include Releaf::Builders::Base
+  include Releaf::Builders::Toolbox
   attr_accessor :collection, :options, :template, :resource_class
 
   def initialize(collection, resource_class, template, options)
@@ -10,7 +11,7 @@ class Releaf::TableBuilder
   end
 
   def column_names
-    resource_class_attributes(resource_class)
+    Releaf::Core::ResourceFields.new(resource_class).values(include_associations: false)
   end
 
   def columns
@@ -48,7 +49,7 @@ class Releaf::TableBuilder
   end
 
   def table_attributes
-    {class: "table"}
+    {class: ["table", resource_class.name.pluralize.underscore.dasherize]}
   end
 
   def head
@@ -96,7 +97,7 @@ class Releaf::TableBuilder
   end
 
   def row_url(resource)
-    template.try(:resource_edit_url, resource)
+    url_for(action: "edit", id: resource.id, index_url: index_url) if feature_available?(:edit)
   end
 
   def row_attributes(resource)
@@ -136,7 +137,7 @@ class Releaf::TableBuilder
 
   def format_text_content(resource, column)
     value = resource.send(column).to_s
-    template.truncate(value, length: 32, separator: ' ')
+    truncate(value, length: 32, separator: ' ')
   end
 
   def format_string_content(resource, column)
@@ -166,7 +167,7 @@ class Releaf::TableBuilder
   def format_image_content(resource, column)
     if resource.send(column).present?
       association_name = column.to_s.sub(/_uid$/, '')
-      template.image_tag(resource.send(association_name).thumb('x16').url, alt: '')
+      image_tag(resource.send(association_name).thumb('x16').url, alt: '')
     end
   end
 
@@ -229,12 +230,13 @@ class Releaf::TableBuilder
   end
 
   def association_column?(column)
-    column =~ /_id$/ && resource_class.reflections[association_name(column)]
+    !!(column =~ /_id$/) && resource_class.reflections[association_name(column).to_s].present?
   end
 
   def toolbox_cell(resource, options)
+    toolbox_args = {index_url: controller.index_url}.merge(options.fetch(:toolbox, {}))
     tag(:td, class: "toolbox-cell") do
-      template.toolbox(resource, index_url: controller.index_url)
+      toolbox(resource, toolbox_args)
     end
   end
 

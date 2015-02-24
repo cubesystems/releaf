@@ -4,6 +4,8 @@ module Releaf
   require 'releaf/core/exceptions'
   require 'releaf/core/validation_error_codes'
 
+  mattr_accessor :mount_location
+
   mattr_accessor :menu
   @@menu = [
     {

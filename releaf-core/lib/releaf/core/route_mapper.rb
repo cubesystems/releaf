@@ -21,6 +21,7 @@ module Releaf::Core::RouteMapper
     devise_for Releaf.devise_for, path: mount_location, controllers: { sessions: "releaf/sessions" }
 
     mount_location_namespace = mount_location.gsub("/", "").to_sym
+    Releaf.mount_location = mount_location_namespace.to_s
     scope mount_location do
       namespace :releaf, :path => nil do
         initialize_releaf_components

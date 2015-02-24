@@ -5,9 +5,9 @@ jQuery( document ).ready(function()
     jQuery(document).bind('nestedfieldsinit', function( e )
     {
         var target = jQuery(e.target);
-        if (!target.is('.nested-wrap'))
+        if (!target.is('.nested-wrap') && !target.is('section.nested'))
         {
-            target = target.find('.nested-wrap');
+            target = target.find('.nested-wrap, section.nested');
         }
 
         target.each(function()
@@ -49,7 +49,7 @@ jQuery( document ).ready(function()
                     return;
                 }
 
-                var target_block = trigger.parents('.nested-wrap').first();
+                var target_block = trigger.parents('.nested-wrap, section.nested').first();
 
                 if (target_block.attr('data-name') != block_name)
                 {

@@ -21,6 +21,7 @@ module Releaf::Core
   require 'releaf/core/attachments_component'
   require 'releaf/core/settings_ui_component'
   require 'releaf/core/route_mapper'
+  require 'releaf/core/builders_autoload'
 
   def self.components
     [Releaf::Core::SettingsUIComponent]

@@ -278,17 +278,21 @@ module Releaf
       }
     end
 
-    def form_builder_class(form_type, object)
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, :form)
+    def builder_class(builder_type)
+      Releaf::Builders.builder_class(builder_scopes, builder_type)
     end
 
-    def table_builder_class
-      Releaf::Builder::Utility.builder_class(self.class, resource_class, :table)
+    def application_builder_scope
+      [Releaf.mount_location.capitalize, "Builders"].reject(&:empty?).join("::")
+    end
+
+    def builder_scopes
+      [self.class.name.gsub(/Controller$/, ""), application_builder_scope]
     end
 
     def form_options(form_type, object, object_name)
       {
-        builder: form_builder_class(form_type, object),
+        builder: builder_class(:form),
         as: object_name,
         url: form_url(form_type, object),
         html: form_attributes(form_type, object, object_name)
@@ -297,7 +301,7 @@ module Releaf
 
     def table_options
       {
-        builder: table_builder_class,
+        builder: builder_class(:table),
         toolbox: feature_available?(:toolbox)
       }
     end
@@ -316,8 +320,6 @@ module Releaf
     def mass_assigment_action?
       mass_assigment_actions.include? params[:action]
     end
-
-    protected
 
     def respond
       respond_to do |format|
@@ -586,8 +588,6 @@ module Releaf
     def layout
       ajax? ? false : Releaf.layout
     end
-
-    private
 
     def manage_ajax
       @_ajax = params.has_key? :ajax

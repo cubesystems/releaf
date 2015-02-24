@@ -1,8 +1,14 @@
-class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
-  include Releaf::Builder
+class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
+  include Releaf::Builders::Base
+  include Releaf::Tags::AssociatedSetField
+  attr_accessor :template
 
   def field_names
-    resource_class_attributes(object.class)
+    resource_fields.values
+  end
+
+  def resource_fields
+    Releaf::Core::ResourceFields.new(object.class)
   end
 
   def field_render_method_name(name)
@@ -10,7 +16,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
     builder = self
     until builder.options[:parent_builder].nil? do
-      parts << builder.options[:relation_name]
+      parts << builder.options[:relation_name] if builder.options[:relation_name]
       builder = builder.options[:parent_builder]
     end
 
@@ -21,20 +27,22 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def normalize_fields(fields)
     fields.flatten.map do |item|
       if item.is_a? Hash
-        field = item.keys.first
-        subfields = item.values.first
+        item.each_pair.map do |(association, subfields)|
+          normalize_field(association, subfields)
+        end
       else
-        field = item
-        subfields = nil
+        normalize_field(item, nil)
       end
+    end.flatten
+  end
 
-      {
-        render_method: field_render_method_name(field),
-        field: field,
-        association: object.class.reflections.key?(field.to_sym),
-        subfields: subfields
-      }
-    end
+  def normalize_field(field, subfields)
+    {
+      render_method: field_render_method_name(field),
+      field: field,
+      association: object.class.reflections.key?(field.to_sym),
+      subfields: subfields
+    }
   end
 
   def releaf_fields(*fields)
@@ -57,11 +65,6 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     object.class.reflections[reflection_name.to_sym]
   end
 
-  def association_fields(association_name)
-    reflection = reflection(association_name)
-    resource_class_attributes(reflection.klass) - [reflection.foreign_key]
-  end
-
   def releaf_association_fields(association_name, fields)
     fields = association_fields(association_name) if fields.nil?
 
@@ -70,61 +73,87 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       releaf_has_many_association(association_name, fields)
     when :belongs_to
       releaf_belongs_to_association(association_name, fields)
+    when :has_one
+      releaf_has_one_association(association_name, fields)
     else
       raise 'not implemented'
     end
   end
 
   def releaf_belongs_to_association(association_name, fields)
-    wrapper(class: "nested-wrap", data: { name: association_name}) do
-      tag(:div, t(association_name), class: "nested-title") <<
-      wrapper(class: "item") do
-        fields_for(association_name, object.send(association_name)) do |builder|
-          builder.releaf_fields_or_field(association_name, fields)
-        end
+    releaf_has_one_or_belongs_to_association(association_name, fields)
+  end
+
+  def releaf_has_one_association(association_name, fields)
+    object.send("build_#{association_name}") unless object.send(association_name).present?
+    releaf_has_one_or_belongs_to_association(association_name, fields)
+  end
+
+  def releaf_has_one_or_belongs_to_association(association_name, fields)
+    tag(:fieldset, class: "type-association", data: {name: association_name}) do
+      tag(:legend, t(association_name)) <<
+      fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
+        builder.releaf_fields(fields)
       end
     end
   end
 
   def releaf_has_many_association(association_name, fields)
     reflection = reflection(association_name)
-    sortable_objects = reflection.klass.column_names.include?(sortable_column_name)
 
-    item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', allow_destroy: true,
-                                             sortable_objects: sortable_objects, subfields: fields)
-    item_template = template.html_escape(item_template.to_str) # make html unsafe and escape afterwards
+    item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', destroyable: true,
+                                                       subfields: fields)
+    item_template = html_escape(item_template.to_str) # make html unsafe and escape afterwards
 
-    wrapper(class: "nested-wrap", data: { name: association_name, "releaf-template" => item_template}) do
-      tag(:h3, t(association_name), class: "subheader nested-title") <<
-      wrapper(class: "list", data: {sortable: sortable_objects ? '' : nil}) do
-        allow_destroy = reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
-
-        object.send(association_name).each_with_index.map do |obj, i|
-          releaf_has_many_association_fields(association_name, obj: obj, child_index: i, allow_destroy: allow_destroy,
-                                            sortable_objects: sortable_objects, subfields: fields)
-        end
-      end << field_type_add_nested
+    tag(:section, class: "nested", data: {name: association_name, "releaf-template" => item_template}) do
+      [releaf_has_many_association_header(association_name),
+       releaf_has_many_association_body(association_name, reflection, fields),
+       releaf_has_many_association_footer(association_name)]
     end
   end
 
-  def releaf_has_many_association_fields(field, obj: nil, subfields: subfields, child_index: nil, allow_destroy: nil, sortable_objects: nil)
-    wrapper(class: ["item", "clearInside"], data: {name: field, index: child_index}) do
-      fields_for(field, obj, relation_name: field, child_index: child_index, builder: self.class) do |builder|
-        builder.releaf_has_many_association_field(field, sortable_objects, subfields, allow_destroy)
+  def releaf_has_many_association_header(association_name)
+    tag(:header) do
+      tag(:h1, t(association_name))
+    end
+  end
+
+  def releaf_has_many_association_body(association_name, reflection, fields)
+    sortable = sortable_association?(reflection)
+    destroyable = destoyable_association?(reflection)
+
+    tag(:div, class: "body list", data: {sortable: sortable ? '' : nil}) do
+      association_collection(reflection, sortable).each_with_index.map do |obj, i|
+        releaf_has_many_association_fields(association_name, obj: obj, child_index: i, destroyable: destroyable,
+                                          sortable: sortable, subfields: fields)
+        end
+    end
+  end
+
+  def releaf_has_many_association_footer(association_name)
+    tag(:footer) do
+      field_type_add_nested
+    end
+  end
+
+  def releaf_has_many_association_fields(association_name, obj: nil, subfields: nil, child_index: nil, destroyable: nil, sortable: nil)
+    tag(:fieldset, class: ["item", "type-association"], data: {name: association_name, index: child_index}) do
+      fields_for(association_name, obj, relation_name: association_name, child_index: child_index, builder: self.class) do |builder|
+        builder.releaf_has_many_association_field(association_name, sortable, subfields, destroyable)
       end
     end
   end
 
-  def releaf_has_many_association_field(field, sortable_objects, subfields, allow_destroy)
+  def releaf_has_many_association_field(field, sortable, subfields, destroyable)
     content = ActiveSupport::SafeBuffer.new
 
-    if sortable_objects
+    if sortable
       content << hidden_field(sortable_column_name.to_sym, class: "item-position")
       content << tag(:div, "&nbsp;".html_safe, class: "handle")
     end
 
     content << releaf_fields(subfields)
-    content << field_type_remove_nested if allow_destroy
+    content << field_type_remove_nested if destroyable
 
     content
   end
@@ -132,12 +161,12 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   def field_type_remove_nested
     button_attributes = {title: t('Remove item'), class: "danger only-icon remove-nested-item"}
     wrapper(class: "remove-item-box") do
-      template.releaf_button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
+      button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
     end
   end
 
   def field_type_add_nested
-    template.releaf_button(t('Add item'), "plus", class: "primary add-nested-item")
+    button(t('Add item'), "plus", class: "primary add-nested-item")
   end
 
   def field_type_method(name)
@@ -152,24 +181,34 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     send(method_name, name, input: input, label: label, field: field, options: options, &block)
   end
 
+  def releaf_item_field_collection(name, options = {})
+    options[:collection] || object.class.reflect_on_association(relation_name(name)).try(:klass).try(:all)
+  end
+
+  def releaf_item_field_choices(name, options = {})
+    unless options.key? :select_options
+      options[:select_options] = releaf_item_field_collection(name, options)
+        .collect{|item| [resource_to_text(item), item.id]}
+    end
+
+    if options[:select_options].is_a? Array
+      choices = options_for_select(options[:select_options], object.send(name))
+    else
+      choices = options[:select_options]
+    end
+
+    choices
+  end
+
+  def relation_name(name)
+    name.to_s.sub(/_id$/, '').to_sym
+  end
+
   def releaf_item_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     label = {translation_key: name.to_s.sub(/_id$/, '').to_s}.deep_merge(label)
     attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
     options = {field: {type: "item"}}.deep_merge(options)
 
-    relation_name = name.to_s.sub(/_id$/, '').to_sym
-
-    if options.key? :select_options
-      if options[:select_options].is_a? Array
-        choices = template.options_for_select(options[:select_options], object.send(name))
-      else
-        choices = options[:select_options]
-      end
-    else
-      collection = object.class.reflect_on_association(relation_name).try(:klass).try(:all)
-      choices = template.options_from_collection_for_select(collection, :id,
-                                                   controller.resource_to_text_method(collection.first), object.send(name))
-    end
 
     # add empty value when validation exists, so user is forced to choose something
     unless options.key? :include_blank
@@ -177,12 +216,13 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
       object.class.validators_on(name).each do |validator|
         next unless validator.is_a? ActiveModel::Validations::PresenceValidator
         # if new record, or object is missing (was deleted)
-        options[:include_blank] = object.new_record? || object.send(relation_name).blank?
+        options[:include_blank] = object.new_record? || object.send(relation_name(name)).blank?
         break
       end
     end
 
 
+    choices = releaf_item_field_choices(name, options)
     content = select(name, choices, options, attributes)
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
@@ -201,9 +241,9 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     if object.send(name).present?
       content += tag(:div, class: "value-preview") do
         inner_content = tag(:div, class: "image-wrap") do
-          thumbnail = template.image_tag(object.send(name).thumb('410x128>').url, alt: '')
+          thumbnail = image_tag(object.send(name).thumb('410x128>').url, alt: '')
           hidden_field("retained_#{name}") +
-            template.link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
+            link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
         end
         inner_content << releaf_file_remove_button(name)
       end
@@ -226,7 +266,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     content = file_field(name, attributes)
     if object.send(name).present?
       content << hidden_field("retained_#{name}")
-      content << template.link_to(t("Download"), object.send(name).url, target: "_blank")
+      content << link_to(t("Download"), object.send(name).url, target: "_blank")
       content << releaf_file_remove_button(name)
     end
 
@@ -255,15 +295,27 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     {
       class: "#{type}-picker",
       data: {
-        "date-format" => jquery_date_format,
-        "time-format" => jquery_time_format
+        "date-format" => date_format_for_jquery,
+        "time-format" => time_format_for_jquery
       },
       value: (format_date_or_time_value(value, type) if value)
     }.merge(attributes)
   end
 
+  def normalize_date_or_time_value(value, type)
+    case type
+    when :date
+      value.to_date
+    when :datetime
+      value.to_datetime
+    when :time
+      value.to_time
+    end
+  end
+
   def format_date_or_time_value(value, type)
     default_format = date_or_time_default_format(type)
+    value = normalize_date_or_time_value(value, type)
 
     if type == :time
       value.strftime(default_format)
@@ -272,14 +324,14 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def jquery_time_format
+  def time_format_for_jquery
     format = date_or_time_default_format(:time)
-    template.jquery_date_format(format)
+    jquery_date_format(format)
   end
 
-  def jquery_date_format
+  def date_format_for_jquery
     format = date_or_time_default_format(:date)
-    template.jquery_date_format(t("default", scope: "date.formats", default: format))
+    jquery_date_format(t("default", scope: "date.formats", default: format))
   end
 
   def date_or_time_default_format(type)
@@ -306,19 +358,12 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_richtext_field(name, input: {}, label: {}, field: {}, options: {}, &block)
-    attributes = {
-      rows: 5,
-      cols: 50,
-      class: "richtext",
-      value: object.send(name),
-      data: {
-        "attachment-upload-url" => (controller.respond_to?(:attachment_upload_url) ? controller.attachment_upload_url : '')
-      },
-    }.merge(input)
-
+    attributes = richtext_input_attributes(name)
+      .merge(value: object.send(name))
+      .merge(input)
     attributes = input_attributes(name, attributes, options)
 
-    options = {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
+    options = richtext_options(name, options)
     content = text_area(name, attributes)
 
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
@@ -366,26 +411,6 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_checkbox_group(name, input: {}, label: {}, field: {}, options: {}, &block)
-    options = {field: {type: "boolean-group"}}.deep_merge(options)
-    input_wrapper_with_label(name, releaf_checkbox_group_content(name, options[:items]),
-                             label: label, field: field, options: options, &block)
-  end
-
-  def releaf_checkbox_group_content(name, items)
-    safe_join do
-      items.collect do|item|
-        releaf_checkbox_group_item(name, item)
-      end
-    end
-  end
-
-  def releaf_checkbox_group_item(name, item)
-    wrapper(class: "type-boolean-group-item") do
-      check_box(name, {multiple: true}, item[:value], nil) << label(name, item[:label], value: item[:value])
-    end
-  end
-
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "text"}}.deep_merge(options)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
@@ -396,17 +421,24 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
   end
 
-  def releaf_richtext_i18n_field(name, input: {}, label: {}, field: {}, options: {})
-    input = {
+  def richtext_input_attributes(name)
+    {
       rows: 5,
       cols: 50,
       class: "richtext",
       data: {
-        "attachment-upload-url" => (controller.respond_to?(:attachment_upload_url) ? attachment_upload_url : '')
+        "attachment-upload-url" => (controller.respond_to?(:releaf_richtext_attachment_upload_url) ? controller.releaf_richtext_attachment_upload_url : '')
       },
-    }.merge(input)
+    }
+  end
 
-    options = {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
+  def richtext_options(name, options)
+    {field: {type: "richtext"}, label: {translation_key: name.to_s.sub(/_html$/, '').to_s }}.deep_merge(options)
+  end
+
+  def releaf_richtext_i18n_field(name, input: {}, label: {}, field: {}, options: {})
+    input = richtext_input_attributes(name).merge(input)
+    options = richtext_options(name, options)
     localized_field(name, :text_area, input: input, label: label, field: field, options: options)
   end
 
@@ -419,19 +451,23 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     localized_field(name, :text_area, input: input, label: label, field: field, options: options)
   end
 
+  def default_locale
+    selected_locale = (cookies[:'releaf.i18n.locale'] || I18n.locale).to_sym
+    locales.include?(selected_locale) ? selected_locale : locales.first
+  end
+
+  def locales
+    object.class.globalize_locales
+  end
+
   def localized_field(name, field_type, input: {}, label: {}, field: {}, options: {})
     options = {i18n: true, label: {translation_key: name}}.deep_merge(options)
-
-    default_locale = template.cookies[:'releaf.i18n.locale']
-    default_locale = default_locale.to_sym unless default_locale.nil?
-    default_locale = object.class.globalize_locales.first unless object.class.globalize_locales.include? default_locale
 
     wrapper(field_attributes(name, field, options)) do
       content = object.class.globalize_locales.collect do |locale|
         localized_name = "#{name}_#{locale}"
-        is_default_locale = locale == default_locale
         html_class = ["localization"]
-        html_class << "active" if is_default_locale
+        html_class << "active" if locale == default_locale
 
         tag(:div, class: html_class, data: {locale: locale}) do
           releaf_label(localized_name, label, options) <<
@@ -442,13 +478,13 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
         end
       end
 
-      content.push localization_switch(default_locale)
+      content << localization_switch
     end
   end
 
-  def localization_switch(default_locale)
+  def localization_switch
     tag(:div, class: "localization-switch") do
-      template.button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
+      button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])
       end <<
       tag(:menu, class: ["block", "localization-menu-items"], type: 'toolbar') do
@@ -465,7 +501,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
 
   def input_wrapper_with_label(name, input_content, label: {}, field: {}, options: {})
     field(name, field, options) do
-      input_content += yield if block_given?
+      input_content = safe_join{[input_content, yield.to_s]} if block_given?
       releaf_label(name, label, options) << wrapper(input_content, class: "value")
     end
   end
@@ -480,7 +516,7 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
     classes = ["field", "type-#{type}"]
     classes << "i18n" if options.key? :i18n
 
-    template.merge_attributes({class: classes, data: {name: name}}, attributes)
+    merge_attributes({class: classes, data: {name: name}}, attributes)
   end
 
   def label_attributes(name, attributes, options)
@@ -517,16 +553,54 @@ class Releaf::FormBuilder < ActionView::Helpers::FormBuilder
         key = name.to_s.sub(/_uid$/, '')
       end
 
-      t(key, scope: "activerecord.attributes.#{object.class.name.underscore}")
+      t(key, scope: object_translation_scope)
     end
+  end
+
+  def object_translation_scope
+    "activerecord.attributes.#{object.class.name.underscore}"
+  end
+
+  def association_fields(association_name)
+    resource_fields.association_attributes(reflection(association_name))
+  end
+
+  def sortable_association?(reflection)
+    reflection.klass.column_names.include?(sortable_column_name)
+  end
+
+  def destoyable_association?(reflection)
+    reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
+  end
+
+  def association_collection(reflection, sortable)
+    collection = object.send(reflection.name)
+    collection = collection.reorder(sortable_column_name => :asc) if sortable
+    collection
   end
 
   def sortable_column_name
     'item_position'
   end
 
-  # shortcut helper methods
-  def template
-    @template
+  def releaf_checkbox_group(name, input: {}, label: {}, field: {}, options: {}, &block)
+    options = {field: {type: "boolean-group"}}.deep_merge(options)
+    input_wrapper_with_label(name, releaf_checkbox_group_content(name, options[:items]),
+                             label: label, field: field, options: options, &block)
   end
+
+  def releaf_checkbox_group_content(name, items)
+    safe_join do
+      items.collect do|item|
+        releaf_checkbox_group_item(name, item)
+      end
+    end
+  end
+
+  def releaf_checkbox_group_item(name, item)
+    wrapper(class: "type-boolean-group-item") do
+      check_box(name, {multiple: true}, item[:value], nil) << label(name, item[:label], value: item[:value])
+    end
+  end
+
 end
