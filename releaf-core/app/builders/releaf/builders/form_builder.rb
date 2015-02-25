@@ -149,6 +149,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     content = ActiveSupport::SafeBuffer.new
 
     if sortable
+      subfields -= [sortable_column_name]
       content << hidden_field(sortable_column_name.to_sym, class: "item-position")
       content << tag(:div, "&nbsp;".html_safe, class: "handle")
     end

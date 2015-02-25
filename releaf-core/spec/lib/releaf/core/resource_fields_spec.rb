@@ -6,7 +6,7 @@ describe Releaf::Core::ResourceFields do
   describe "#excluded_attributes" do
     it "returns array with excluded attributes" do
       expect(subject.excluded_attributes)
-        .to eq(%w(id created_at updated_at password password_confirmation encrypted_password item_position))
+        .to eq(%w(id created_at updated_at password password_confirmation encrypted_password))
     end
   end
 end
