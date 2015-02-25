@@ -110,6 +110,15 @@ describe Releaf::I18nDatabase::Backend do
       end
     end
 
+    context "when translation exists within higher level key" do
+      it "returns nil (Humanize key)" do
+        translation = FactoryGirl.create(:translation, key: "some.food")
+        FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+        expect(I18n.t("some.food", locale: "lv")).to eq("suņi")
+        expect(I18n.t("some.food.asd", locale: "lv")).to eq("Asd")
+      end
+    end
+
     context "when pluralized translation requested" do
       context "when valid pluralized data matched" do
         it "returns pluralized translation" do

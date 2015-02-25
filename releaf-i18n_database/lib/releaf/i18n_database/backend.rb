@@ -52,7 +52,7 @@ module Releaf
       end
 
       def cache_lookup keys, locale, options, first_lookup
-        result = keys.inject(CACHE[:translations]) { |h, key| h.try(:[], key.downcase.to_sym) }
+        result = keys.inject(CACHE[:translations]) { |h, key| h.is_a?(Hash) && h.try(:[], key.downcase.to_sym) }
 
         # when non-first match, non-pluralized and hash - return nil
         if !first_lookup && result.is_a?(Hash) && !options.has_key?(:count)
