@@ -40,7 +40,11 @@ describe Releaf::Builders::FormBuilder, type: :class do
   }
 
   it "includes Releaf::Builders::Base" do
-    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
+    expect(described_class.ancestors).to include(Releaf::Builders::Base)
+  end
+
+  it "includes Releaf::Builders::Orderer" do
+    expect(described_class.ancestors).to include(Releaf::Builders::Orderer)
   end
 
   describe "#field_names" do
@@ -58,8 +62,8 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
     context "when builder has parent builder(-s)" do
       it "traverses through all builders and add relation name option to field name" do
-        root_builder = Releaf::Builders::FormBuilder.new(:author, Author.new, template, {})
-        middle_builder = Releaf::Builders::FormBuilder.new(:author, Author.new, template, {relation_name: :pages, parent_builder: root_builder})
+        root_builder = described_class.new(:author, Author.new, template, {})
+        middle_builder = described_class.new(:author, Author.new, template, {relation_name: :pages, parent_builder: root_builder})
         subject.options[:parent_builder] = middle_builder
         subject.options[:relation_name] = :chapters
 

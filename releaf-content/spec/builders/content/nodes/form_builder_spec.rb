@@ -83,6 +83,16 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
       expect(subject.render_content_fields_block).to eq(content)
     end
 
+    it "casts form fields to array before passign to `releaf_fields`" do
+      allow(subject).to receive(:content_builder_class).and_return("_b_")
+      allow(subject).to receive(:render_content_fields_block?).and_return(true)
+      subform = described_class.new(:resource, object, template, {})
+      allow(subject).to receive(:fields_for).with(:content, subject.object.content, builder: "_b_").and_yield(subform)
+      allow(subform).to receive(:field_names).and_return({a: 1, b: 2})
+      expect(subform).to receive(:releaf_fields).with([[:a, 1], [:b, 2]])
+      subject.render_content_fields_block
+    end
+
     context "when content have no fields" do
       it "returns nil" do
         allow(subject).to receive(:render_content_fields_block?).and_return(false)

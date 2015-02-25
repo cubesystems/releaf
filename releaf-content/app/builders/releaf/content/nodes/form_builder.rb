@@ -26,7 +26,7 @@ module Releaf::Content::Nodes
       return unless render_content_fields_block?
       tag(:div, class: ["section", "content-fields"]) do
         fields_for(:content, object.content, builder: content_builder_class) do |form|
-          form.releaf_fields(form.field_names)
+          form.releaf_fields(form.field_names.to_a)
         end
       end
     end

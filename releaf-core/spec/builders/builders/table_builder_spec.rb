@@ -22,11 +22,15 @@ describe Releaf::Builders::TableBuilder, type: :class do
   let(:inheriter_subject){ DummyTableBuilderInheriter.new(collection, resource_class, template, options) }
 
   it "includes Releaf::Builders::Base" do
-    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Base)
+    expect(described_class.ancestors).to include(Releaf::Builders::Base)
   end
 
   it "includes Releaf::Builders::Toolbox" do
-    expect(Releaf::Builders::TableBuilder.ancestors).to include(Releaf::Builders::Toolbox)
+    expect(described_class.ancestors).to include(Releaf::Builders::Toolbox)
+  end
+
+  it "includes Releaf::Builders::Orderer" do
+    expect(described_class.ancestors).to include(Releaf::Builders::Orderer)
   end
 
   describe "#initialize" do
