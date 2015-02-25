@@ -3,6 +3,7 @@ files = %w(
   builders/tags/releaf_associated_set_field
   builders
   builders/base
+  builders/orderer
   builders/template
   builders/view
   builders/collection

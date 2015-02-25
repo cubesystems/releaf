@@ -1,6 +1,7 @@
 class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::Builders::Base
   include Releaf::Tags::AssociatedSetField
+  include Releaf::Builders::Orderer
   attr_accessor :template
 
   def field_names

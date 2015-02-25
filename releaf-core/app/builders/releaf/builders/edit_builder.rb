@@ -46,7 +46,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def form_fields
-    form.releaf_fields(form.field_names)
+    form.releaf_fields(form.field_names.to_a)
   end
 
   #-#TODO: improve style/html
