@@ -522,4 +522,12 @@ describe Releaf::Builders::FormBuilder, type: :class do
       end
     end
   end
+
+  describe "#translate_attribute" do
+    it "translates given attribute within object translation scope" do
+      allow(subject).to receive(:object_translation_scope).and_return("y")
+      allow(subject).to receive(:t).with("x", scope: "y").and_return("z")
+      expect(subject.translate_attribute("x")).to eq("z")
+    end
+  end
 end

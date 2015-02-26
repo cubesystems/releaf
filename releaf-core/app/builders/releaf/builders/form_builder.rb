@@ -92,7 +92,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_has_one_or_belongs_to_association(association_name, fields)
     tag(:fieldset, class: "type-association", data: {name: association_name}) do
-      tag(:legend, t(association_name)) <<
+      tag(:legend, translate_attribute(association_name)) <<
       fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
         builder.releaf_fields(fields)
       end
@@ -115,7 +115,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_has_many_association_header(association_name)
     tag(:header) do
-      tag(:h1, t(association_name))
+      tag(:h1, translate_attribute(association_name))
     end
   end
 
@@ -555,8 +555,12 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         key = name.to_s.sub(/_uid$/, '')
       end
 
-      t(key, scope: object_translation_scope)
+      translate_attribute(key)
     end
+  end
+
+  def translate_attribute(attribute)
+    t(attribute, scope: object_translation_scope)
   end
 
   def object_translation_scope
