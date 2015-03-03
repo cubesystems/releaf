@@ -110,7 +110,7 @@ describe Releaf::I18nDatabase::Backend do
       end
     end
 
-    context "when translation exists within higher level key" do
+    context "when translation exists within higher level key (instead of being scope)" do
       it "returns nil (Humanize key)" do
         translation = FactoryGirl.create(:translation, key: "some.food")
         FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
@@ -175,6 +175,14 @@ describe Releaf::I18nDatabase::Backend do
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
+
+        context "when `inherit_scopes` option is `false`" do
+          it "does not lookup upon higher level scopes" do
+            translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
+            FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+            expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv", inherit_scopes: false)).to eq("Blank")
+          end
+        end
         end
 
         context "and empty translation value in given scope" do

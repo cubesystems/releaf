@@ -89,10 +89,12 @@ module Releaf
 
         chain = locale_key.split('.')
         chain_initial_length = chain.length
+        inherit_scopes = options.fetch(:inherit_scopes, true)
 
         while (chain.length > 1) do
           result = cache_lookup(chain, locale, options, chain_initial_length == chain.length)
           return result if result.present?
+          break if inherit_scopes == false
 
           # remove second last value
           chain.delete_at(chain.length - 2)
