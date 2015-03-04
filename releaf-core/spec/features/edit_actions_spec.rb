@@ -75,7 +75,7 @@ feature "Base controller edit", js: true do
       expect(page).to have_css('.remove-nested-item')
       fill_in 'resource_chapters_attributes_0_title', with: 'Chapter 1'
       fill_in 'resource_chapters_attributes_0_text', with: 'todo'
-      fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
+      fill_in_richtext 'Sample', with: "xx"
     end
 
     expect(page).to_not have_css('.remove-nested-item')
@@ -97,7 +97,7 @@ feature "Base controller edit", js: true do
 
         fill_in "Title", with: "Chapter 1"
         fill_in "Text", with: "some text"
-        fill_in_richtext 'resource_chapters_attributes_0_sample_html', "xx"
+        fill_in_richtext 'Sample', with: "xx"
       end
     end
 
