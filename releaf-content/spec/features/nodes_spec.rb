@@ -179,7 +179,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       fill_in 'Name', with: child_text
       fill_in "Slug", with: child_text
-      fill_in_richtext 'resource_content_attributes_text_html', child_text
+      fill_in_richtext 'Text', with: child_text
       if position
         select position, from: 'Item position'
       end

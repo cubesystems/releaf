@@ -99,9 +99,33 @@ module Releaf
       click_link item_name
     end
 
-    def fill_in_richtext(html_element_id, content)
-      expect(page).to have_css("##{html_element_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
-      page.execute_script("$('##{html_element_id}').val(\"#{content}\")")
+    def fill_in_richtext(locator, options = {} )
+      # locator can be anything that is normally accepted by fill_in
+      # e.g., the label text or the id of the textarea
+
+      expect(page).to have_css('.field.type-richtext label')
+
+      # locate possibly hidden textarea among active/visible richtext fields ignoring hidden localization versions
+      textareas = []
+      richtext_boxes = all(".field.type-richtext:not(.i18n), .field.type-richtext.i18n .localization.active")
+      richtext_boxes.each do |richtext_box|
+        textarea = richtext_box.first(:field, locator, visible: false)
+        textareas << textarea if textarea.present?
+      end
+
+      if textareas.count > 1
+        raise Capybara::Ambiguous.new("Ambiguous match, found #{target_textareas.count} richtext boxes matching #{locator}")
+      elsif textareas.count < 1
+        raise Capybara::ElementNotFound.new("Unable to find richtext box #{locator}")
+      end
+
+      textarea_id = textareas.first[:id].to_s
+      expect(page).to have_css("##{textarea_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
+      html = options[:with].to_s
+      page.execute_script("jQuery('##{textarea_id}').val(#{html.to_json})")
+
     end
+
+
   end
 end
