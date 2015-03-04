@@ -41,7 +41,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     {
       render_method: field_render_method_name(field),
       field: field,
-      association: object.class.reflections.key?(field.to_s),
+      association: reflection(field).present?,
       subfields: subfields
     }
   end
@@ -100,17 +100,20 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_has_many_association(association_name, fields)
-    reflection = reflection(association_name)
-
-    item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', destroyable: true,
-                                                       subfields: fields)
-    item_template = html_escape(item_template.to_str) # make html unsafe and escape afterwards
+    item_template = releaf_has_many_association_item_tempalte(association_name, fields)
 
     tag(:section, class: "nested", data: {name: association_name, "releaf-template" => item_template}) do
       [releaf_has_many_association_header(association_name),
-       releaf_has_many_association_body(association_name, reflection, fields),
+       releaf_has_many_association_body(association_name, fields),
        releaf_has_many_association_footer(association_name)]
     end
+  end
+
+  def releaf_has_many_association_item_tempalte(association_name, fields)
+    reflection = reflection(association_name)
+    item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', destroyable: true,
+                                                       subfields: fields, sortable: sortable_association?(association_name))
+    item_template = html_escape(item_template.to_str) # make html unsafe and escape afterwards
   end
 
   def releaf_has_many_association_header(association_name)
@@ -119,12 +122,12 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def releaf_has_many_association_body(association_name, reflection, fields)
-    sortable = sortable_association?(reflection)
-    destroyable = destoyable_association?(reflection)
+  def releaf_has_many_association_body(association_name, fields)
+    sortable = sortable_association?(association_name)
+    destroyable = destoyable_association?(association_name)
 
     tag(:div, class: "body list", data: {sortable: sortable ? '' : nil}) do
-      association_collection(reflection, sortable).each_with_index.map do |obj, i|
+      association_collection(association_name, sortable).each_with_index.map do |obj, i|
         releaf_has_many_association_fields(association_name, obj: obj, child_index: i, destroyable: destroyable,
                                           sortable: sortable, subfields: fields)
         end
@@ -571,15 +574,18 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     resource_fields.association_attributes(reflection(association_name))
   end
 
-  def sortable_association?(reflection)
+  def sortable_association?(association_name)
+    reflection = reflection(association_name)
     reflection.klass.column_names.include?(sortable_column_name)
   end
 
-  def destoyable_association?(reflection)
+  def destoyable_association?(association_name)
+    reflection = reflection(association_name)
     reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
   end
 
-  def association_collection(reflection, sortable)
+  def association_collection(association_name, sortable)
+    reflection = reflection(association_name)
     collection = object.send(reflection.name)
     collection = collection.reorder(sortable_column_name => :asc) if sortable
     collection
