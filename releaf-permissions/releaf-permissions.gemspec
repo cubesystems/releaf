@@ -1,4 +1,4 @@
-require File.expand_path("../releaf-core/lib/releaf/version.rb", __dir__)
+require File.expand_path("../../releaf-core/lib/releaf/version.rb", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "releaf-permissions"

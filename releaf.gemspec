@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["CubeSystems"]
   s.email       = 'info@cubesystems.lv'
   s.homepage    = 'https://github.com/cubesystems/releaf'
+  s.require_paths     = %w(lib)
 
   s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]

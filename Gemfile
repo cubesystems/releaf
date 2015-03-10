@@ -17,7 +17,9 @@ gemspec
 
 case ENV.fetch('RELEAF_DB', 'mysql')
 when 'mysql'
-  gem 'mysql2'
+  gem 'mysql2', platform: :ruby
+  gem 'jdbc-mysql', platform: :jruby
+  gem 'activerecord-jdbc-adapter', platform: :jruby
 when 'postgresql'
   gem 'pg'
 end

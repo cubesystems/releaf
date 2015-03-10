@@ -1,4 +1,4 @@
-require File.expand_path('lib/releaf/version', __dir__)
+require File.expand_path('../lib/releaf/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "releaf-core"
@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'globalize-accessors'
   s.add_dependency 'nokogiri'
   s.add_dependency 'rack-cache'
-
   s.add_dependency 'axlsx_rails'
   s.add_dependency 'roo'
 
