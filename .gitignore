@@ -14,3 +14,4 @@ rdoc/
 /.ruby-gemset
 /.rspec
 _site/
+api/
