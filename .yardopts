@@ -1,6 +1,6 @@
 --title "Releaf documentation"
 --protected
---output-dir ../releaf.pages
+--output-dir api
 # WORKAROUND for: https://github.com/lsegal/yard/issues/825
 --legacy
 
