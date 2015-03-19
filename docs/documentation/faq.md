@@ -7,10 +7,10 @@ weight: 7
 
 ### Q: How to use custom admin model?
 
-in ```config/initializers/leaf.rb``` set
+in ```config/initializers/releaf.rb``` set
 
 ```ruby
-Leaf.setup do |conf|
+Releaf.setup do |conf|
   conf.devise_for = 'custom_admin'
 end
 ```
