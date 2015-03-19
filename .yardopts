@@ -1,16 +1,22 @@
 --title "Re:Leaf documentation"
 --protected
 --output-dir ../releaf.pages
+# WORKAROUND for: https://github.com/lsegal/yard/issues/825
+--legacy
 
-releaf-core/app
-releaf-core/lib/releaf-core.rb
-releaf-core/lib/releaf/
+
+releaf-permissions/app/**/*.rb
+releaf-permissions/lib/**/*.rb
+
+releaf-i18n_database/app/**/*.rb
+releaf-i18n_database/lib/**/*.rb
 
 releaf-core/app/**/*.rb
-releaf-core/lib/releaf-core.rb
 releaf-core/lib/releaf/**/*.rb
+releaf-core/lib/releaf-core.rb
 
-releaf-i18n/lib/**/*.rb
+releaf-content/app/**/*.rb
+releaf-content/lib/**/*.rb
 
 -
 LICENSE
