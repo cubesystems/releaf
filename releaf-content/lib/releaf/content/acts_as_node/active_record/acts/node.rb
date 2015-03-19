@@ -30,8 +30,6 @@ module ActiveRecord
 
         # Returns fields to display for releaf content controller
         #
-        # @param [String] action for which fields will be displayed
-        #
         # @return [Array] list of fields to display
         def acts_as_node_fields
           if acts_as_node_configuration[:fields].nil?
