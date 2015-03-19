@@ -9,7 +9,7 @@ class Releaf::Core::ResourceParams < Releaf::Core::ResourceBase
   end
 
   def file_attribute_params(column)
-    file_field = column.gsub(/_uid$/, "")
+    file_field = column.sub(/_uid$/, "")
     [file_field, "retained_#{file_field}", "remove_#{file_field}"]
   end
 
