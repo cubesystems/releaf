@@ -17,11 +17,8 @@ module Releaf
     end
 
     def translate(key, options = {})
-      # Revert https://github.com/rails/rails/commit/ec16ba75a5493b9da972eea08bae630eba35b62f#diff-79e8a3e6d1d2808c4f93f63b3928a5a1
-      # otherwise spans everythere.
-      # For example '<img alt="#{t("description")} src="...' will become '<img alt="<span class="missing_traslation...'
-      # Missing translations with html get escaped anyway.
-      options.merge!(rescue_format: :html) unless options.key?(:rescue_format)
+      # prevent I18n from raising errors when translation is missing
+      options.merge!(raise: false) unless options.key?(:raise)
       super(key, options)
     end
     alias :t :translate
