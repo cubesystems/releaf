@@ -68,7 +68,7 @@ feature "Users", js: true do
     scenario "logout sequence" do
       find('body > header form.sign-out button').click
 
-      expect(page).to have_content 'Welcome to re:Leaf'
+      expect(page).to have_content 'Welcome to Releaf'
 
       visit "/admin"
       expect(page).to have_content 'Sign in'
@@ -98,7 +98,7 @@ feature "Users", js: true do
     scenario "logout sequence" do
       find('body > header form.sign-out button').click
 
-      expect(page).to have_content 'Welcome to re:Leaf'
+      expect(page).to have_content 'Welcome to Releaf'
 
       visit "/admin"
       expect(page).to have_content 'Sign in'
