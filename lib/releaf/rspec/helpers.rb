@@ -78,9 +78,15 @@ module Releaf
     # do check against database
     def wait_for_settings_update(key, value = true)
       safety = 5
-      while !(@user.settings.try(:[], key) == value) && (safety > 0)
-        safety -= 1
-        sleep 0.5
+      loop do
+        if @user.settings.try(:[], key) == value
+          return
+        elsif safety > 0
+          safety -= 1
+          sleep 0.5
+        else
+          fail "'#{key}' setting didn't change to '#{value}' (#{value.class.name})"
+        end
       end
     end
 
