@@ -1,7 +1,7 @@
 language: ruby
 
 rvm:
-  - 2.2.0
+  - 2.2.1
 
 env:
   - RELEAF_DB=mysql RELEAF_DUMMY_DB_USERNAME=travis RELEAF_DUMMY_DB_PASSWORD="" RELEAF_DUMMY_DB_NAME=myapp
