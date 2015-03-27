@@ -37,8 +37,6 @@ describe Releaf::AssetsResolver do
       list = {
         "releaf/content/nodes"=>{:stylesheets=>["releaf/controllers/releaf/content/nodes"],
                                  :javascripts=>["releaf/controllers/releaf/content/nodes"]},
-        "releaf/permissions/roles"=>{:stylesheets=>["releaf/controllers/releaf/permissions/roles"],
-                                     :javascripts=>[]},
         "releaf/i18n_database/translations"=>{:stylesheets=>["releaf/controllers/releaf/i18n_database/translations"],
                                               :javascripts=>["releaf/controllers/releaf/i18n_database/translations"]},
         "releaf/permissions/sessions" => {:stylesheets=>["releaf/controllers/releaf/permissions/sessions"], :javascripts=>[]}
