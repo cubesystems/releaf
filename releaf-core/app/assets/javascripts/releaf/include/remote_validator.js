@@ -108,7 +108,7 @@ var RemoteValidator = function( form )
 
                     var eventTarget = null;
 
-                    field = v.form.find( '[name="' + error.fieldName + '"]:not([type="hidden"])' ).first();
+                    field = v.form.find( '[name="' + error.fieldName + '"],[name="' + error.fieldName + '[]"]' ).filter(':not([type="hidden"])').first();
 
                     event_params.error = error;
 
