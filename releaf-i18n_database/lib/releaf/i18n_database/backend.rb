@@ -120,12 +120,15 @@ module Releaf
       def create_missing_translation(locale, key, options)
         return if Releaf::I18nDatabase.create_missing_translations != true
 
-        if options.has_key?(:count) && options[:create_plurals] == true
-          get_all_pluralizations.each do|pluralization|
-            Translation.find_or_create_by(key: "#{key}.#{pluralization}")
+        begin
+          if options.has_key?(:count) && options[:create_plurals] == true
+            get_all_pluralizations.each do|pluralization|
+              Translation.create(key: "#{key}.#{pluralization}")
+            end
+          else
+            Translation.create(key: key)
           end
-        else
-          Translation.find_or_create_by(key: key)
+        rescue ActiveRecord::RecordNotUnique
         end
       end
 
