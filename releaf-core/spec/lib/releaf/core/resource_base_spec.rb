@@ -125,7 +125,7 @@ describe Releaf::Core::ResourceBase do
   describe "#includable_association?" do
     let(:association){ subject.resource_class.reflections["chapters"] }
 
-    context "when given association is :has_many, not excluded, not `ThroughReflection` and has nested_attributes for it" do
+    context "when given association type is includable, association is not excluded, not `ThroughReflection` and has nested_attributes for it" do
       it "returns true" do
         expect(subject.includable_association?(association)).to be true
       end
@@ -133,7 +133,7 @@ describe Releaf::Core::ResourceBase do
 
     context "when given association is not :has_many" do
       it "returns false" do
-        allow(association).to receive(:macro).and_return(:belongs_to)
+        allow(subject).to receive(:includable_association_types).and_return([:a, :b])
         expect(subject.includable_association?(association)).to be false
       end
     end
@@ -157,6 +157,12 @@ describe Releaf::Core::ResourceBase do
         allow(subject).to receive(:excluded_associations).and_return([:chapters])
         expect(subject.includable_association?(association)).to be false
       end
+    end
+  end
+
+  describe "#includable_association_types" do
+    it "returns array with `:has_many` and `:has_one` as includable association types" do
+      expect(subject.includable_association_types).to eq([:has_many, :has_one])
     end
   end
 
