@@ -100,7 +100,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_has_many_association(association_name, fields)
-    item_template = releaf_has_many_association_item_tempalte(association_name, fields)
+    item_template = releaf_has_many_association_item_template(association_name, fields)
 
     tag(:section, class: "nested", data: {name: association_name, "releaf-template" => item_template}) do
       [releaf_has_many_association_header(association_name),
@@ -109,7 +109,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def releaf_has_many_association_item_tempalte(association_name, fields)
+  def releaf_has_many_association_item_template(association_name, fields)
     reflection = reflection(association_name)
     item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', destroyable: true,
                                                        subfields: fields, sortable: sortable_association?(association_name))
