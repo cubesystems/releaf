@@ -15,5 +15,5 @@ Releaf.setup do |conf|
 end
 ```
 Where custom_admin is underscored name of you custom admin model.
-Don't forget to restart rails restart rails.
+Don't forget to restart rails.
 
