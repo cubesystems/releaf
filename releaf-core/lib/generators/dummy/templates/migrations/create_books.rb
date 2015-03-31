@@ -8,7 +8,8 @@ class CreateBooks < ActiveRecord::Migration
       t.text      :summary_html
       t.boolean   :active
       t.datetime  :published_at
-      t.integer   :price
+      t.decimal   :price, precision: 8, scale: 2
+      t.integer   :stars
       t.string    :cover_image_uid
 
       t.timestamps(null: false)

@@ -9,8 +9,21 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
   end
 
   def maintain_value_type
-    if @resource.value.class == Time
+    case resource_class.registry[@resource.var][:type]
+    when :boolean
+      params[:resource][:value] = params[:resource][:value] == '1'
+    when :date
+      params[:resource][:value] = Date.parse(params[:resource][:value])
+    when :time
       params[:resource][:value] = Time.parse(params[:resource][:value])
+    when :datetime
+      params[:resource][:value] = DateTime.parse(params[:resource][:value])
+    when :integer
+      params[:resource][:value] = params[:resource][:value].to_i
+    when :float
+      params[:resource][:value] = params[:resource][:value].to_s.sub(",", ".").to_f
+    when :decimal
+      params[:resource][:value] = params[:resource][:value].to_s.sub(",", ".").to_d
     end
   end
 

@@ -107,14 +107,21 @@ module Releaf
       'time'
     end
 
+    def self.field_type_name_for_float attribute_name, obj
+      'float'
+    end
+
+    def self.field_type_name_for_decimal attribute_name, obj
+      'decimal'
+    end
+
     def self.field_type_name_for_integer attribute_name, obj
       return 'item' if attribute_name.to_s =~ /_id$/ && obj.class.reflect_on_association(attribute_name[0..-4].to_sym)
-      return 'text'
+      return 'integer'
     end
 
     def self.field_type_name_for_boolean attribute_name, obj
       return 'boolean'
     end
-
   end
 end
