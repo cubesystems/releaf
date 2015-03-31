@@ -272,6 +272,15 @@ describe Releaf::TemplateFieldTypeMapper do
       end
     end
   end # describe ".field_type_name_for_boolean" do
+  describe ".field_type_name_for_float" do
+    %w[no matter what].each do |field_name|
+      context "when attribute name is '#{field_name}'" do
+        it "returns 'float'" do
+          expect( subject.send(:field_type_name_for_float, field_name, nil) ).to eq 'float'
+        end
+      end
+    end
+  end # describe ".field_type_name_for_float" do
 
   describe ".field_type_name_for_integer" do
     before do
