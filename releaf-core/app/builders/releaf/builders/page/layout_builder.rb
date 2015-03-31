@@ -82,7 +82,7 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def head_blocks
-    [title, meta, assets(:stylesheets, :stylesheet_link_tag), csrf]
+    [title, meta, favicon, assets(:stylesheets, :stylesheet_link_tag), csrf]
   end
 
   def controller_name
@@ -110,4 +110,6 @@ class Releaf::Builders::Page::LayoutBuilder
       controller.page_title
     end
   end
+
+  def favicon; end
 end
