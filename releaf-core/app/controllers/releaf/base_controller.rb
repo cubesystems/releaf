@@ -217,7 +217,8 @@ module Releaf
           "remote" => true,
           "remote-validation" => true,
           "type" => :json,
-        }
+        },
+        novalidate: ''
       }
     end
 

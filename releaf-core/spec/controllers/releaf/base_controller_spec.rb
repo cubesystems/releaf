@@ -68,6 +68,7 @@ describe Releaf::BaseController do
     it "returns basic releaf form attributes" do
       attributes = {
          multipart: true,
+         novalidate: "",
          class: "new-user",
          id: "new-user",
          data: {

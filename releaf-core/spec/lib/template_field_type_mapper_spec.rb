@@ -272,6 +272,15 @@ describe Releaf::TemplateFieldTypeMapper do
       end
     end
   end # describe ".field_type_name_for_boolean" do
+  describe ".field_type_name_for_float" do
+    %w[no matter what].each do |field_name|
+      context "when attribute name is '#{field_name}'" do
+        it "returns 'float'" do
+          expect( subject.send(:field_type_name_for_float, field_name, nil) ).to eq 'float'
+        end
+      end
+    end
+  end # describe ".field_type_name_for_float" do
 
   describe ".field_type_name_for_integer" do
     before do
@@ -288,14 +297,14 @@ describe Releaf::TemplateFieldTypeMapper do
 
       context "when there's no ActiveRecord association" do
         it "returns 'text'" do
-          expect( subject.send(:field_type_name_for_integer, 'random_field_id', @book) ).to eq 'text'
+          expect( subject.send(:field_type_name_for_integer, 'random_field_id', @book) ).to eq 'integer'
         end
       end
     end
 
     context "when attribute doesn't end with '_id'" do
       it "returns 'text'" do
-        expect( subject.send(:field_type_name_for_integer, 'random_field', nil) ).to eq 'text'
+        expect( subject.send(:field_type_name_for_integer, 'random_field', nil) ).to eq 'integer'
       end
     end
   end # describe ".field_type_name_for_integer"
