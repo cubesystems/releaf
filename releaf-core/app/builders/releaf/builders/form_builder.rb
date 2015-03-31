@@ -404,6 +404,18 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
+  def releaf_number_field(name, input: {}, label: {}, field: {}, options: {}, &block)
+    attributes = input_attributes(name, {value: object.send(name), step: "any"}.merge(input), options)
+    options = {field: {type: "number"}}.deep_merge(options)
+    content = number_field(name, attributes)
+
+    input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
+  end
+
+  alias_method :releaf_integer_field, :releaf_number_field
+  alias_method :releaf_float_field, :releaf_number_field
+  alias_method :releaf_decimal_field, :releaf_number_field
+
   def releaf_text_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
     options = {field: {type: "text"}}.deep_merge(options)

@@ -273,7 +273,8 @@ module Releaf
          data: {
            'validation-ok-handler' => 'ajax',
            'validation' => 'true'
-         }
+         },
+         novalidate: ''
       }
     end
 
