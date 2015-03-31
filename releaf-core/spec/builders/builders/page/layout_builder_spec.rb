@@ -43,5 +43,15 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
       expect(subject.controller_body_classes).to eq(["controller-releaf-base", "controller-releaf-permissions-roles"])
     end
   end
+
+  describe "#head_blocks" do
+    it "returns array" do
+      {title: :a, meta: :b, favicon: :c, assets: :d, csrf: :e}.each_pair do |method, stub_answer|
+        allow(subject).to receive(method).and_return stub_answer
+      end
+
+      expect(subject.head_blocks).to match_array( [:a, :b, :c, :d, :e] )
+    end
+  end
 end
 
