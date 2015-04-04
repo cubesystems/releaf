@@ -54,7 +54,7 @@ jQuery(document).ready( function()
                 }
 
                 // focus on cancel button in footer if found
-                var cancel_button = this.inner.find('.body .footer .button[data-type="cancel"]').first();
+                var cancel_button = this.inner.find('.body footer .button[data-type="cancel"]').first();
                 if (cancel_button.length > 0)
                 {
                     cancel_button.bind('click', function()
