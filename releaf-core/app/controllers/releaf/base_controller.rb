@@ -36,7 +36,8 @@ module Releaf
       :resource_class,
       :resource_to_text,
       :resource_to_text_method,
-      :resource_edit_url
+      :resource_edit_url,
+      :builder_class
 
     def search text
       return if text.blank?
