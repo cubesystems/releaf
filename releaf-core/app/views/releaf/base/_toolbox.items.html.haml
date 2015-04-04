@@ -1,4 +1,0 @@
-= render 'toolbox.extras', resource: resource
-- unless resource.new_record?
-  - if @features[:destroy]
-    %li= releaf_button(t('Delete', scope: 'admin.global'), "trash-o lg", class: %w(ajaxbox danger), href: url_for( action: :confirm_destroy, id: resource.id, index_url: index_url), data: {modal: true})

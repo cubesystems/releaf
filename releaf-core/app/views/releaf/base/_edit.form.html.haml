@@ -1,6 +1,0 @@
-= form_for resource, form_options(action_name, resource, :resource) do |f|
-  - if params[:index_url].present?
-    = hidden_field_tag 'index_url', params[:index_url]
-  = render "edit.header", resource: resource
-  = render "edit.body", f: f
-  = render "edit.footer", resource: resource
