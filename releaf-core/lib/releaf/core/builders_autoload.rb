@@ -21,6 +21,10 @@ files = %w(
   builders/toolbox_builder
   core/settings/form_builder
   core/settings/table_builder
+  i18n_database/translations/builders_common
+  i18n_database/translations/edit_builder
+  i18n_database/translations/index_builder
+  i18n_database/translations/table_builder
 )
 files.each do|file|
  require "#{root_path}/app/builders/releaf/#{file}"

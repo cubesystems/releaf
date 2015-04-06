@@ -1,9 +1,11 @@
 /* header */
-.controller-releaf-i18n-database-translations.view-edit .table .code-header
+.controller-releaf-i18n-database-translations.view-edit .table .code-header,
+.controller-releaf-i18n-database-translations.view-import .table .code-header
 {
     width: 200px;
 }
-.controller-releaf-i18n-database-translations.view-edit .table .delete-header
+.controller-releaf-i18n-database-translations.view-edit .table .delete-header,
+.controller-releaf-i18n-database-translations.view-import .table .delete-header
 {
     min-width: 20px;
     max-width: 20px;
@@ -11,18 +13,21 @@
 }
 
 /* body */
-.controller-releaf-i18n-database-translations.view-edit .header
+.controller-releaf-i18n-database-translations.view-edit .header,
+.controller-releaf-i18n-database-translations.view-import .header
 {
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.controller-releaf-i18n-database-translations.view-edit .header .value input
+.controller-releaf-i18n-database-translations.view-edit .header .value input,
+.controller-releaf-i18n-database-translations.view-import .header .value input
 {
 
     font-weight: normal;
 }
 
-.controller-releaf-i18n-database-translations.view-edit .table td
+.controller-releaf-i18n-database-translations.view-edit .table td,
+.controller-releaf-i18n-database-translations.view-import .table td
 {
     padding: 0;
     border-style: solid;
@@ -30,15 +35,18 @@
     text-align: center;
     background-color: white;
 }
-.controller-releaf-i18n-database-translations.view-edit .table td
+.controller-releaf-i18n-database-translations.view-edit .table td,
+.controller-releaf-i18n-database-translations.view-import .table td
 {
     border-color: #DDDDDD;
 }
-.controller-releaf-i18n-database-translations.view-edit .table td.translation-name
+.controller-releaf-i18n-database-translations.view-edit .table td.translation-name,
+.controller-releaf-i18n-database-translations.view-import .table td.translation-name
 {
     background: #f5f7f8;
 }
-.controller-releaf-i18n-database-translations.view-edit .table input
+.controller-releaf-i18n-database-translations.view-edit .table input,
+.controller-releaf-i18n-database-translations.view-import .table input
 {
     border-width: 0;
     font-weight: normal;
@@ -47,22 +55,26 @@
     width: 100%;
 }
 
-.controller-releaf-i18n-database-translations.view-edit .table .button.danger
+.controller-releaf-i18n-database-translations.view-edit .table .button.danger,
+.controller-releaf-i18n-database-translations.view-import .table .button.danger
 {
     background: inherit;
     color: inherit;
 }
-.controller-releaf-i18n-database-translations.view-edit .table .changed input
+.controller-releaf-i18n-database-translations.view-edit .table .changed input,
+.controller-releaf-i18n-database-translations.view-import .table .changed input
 {
     background-color: #7AD528;
     border-color: #C1AD2F;
 }
-.controller-releaf-i18n-database-translations.view-edit .table input:focus
+.controller-releaf-i18n-database-translations.view-edit .table input:focus,
+.controller-releaf-i18n-database-translations.view-import .table input:focus
 {
     border-width: 1px;
     margin: -1px;
 }
-.controller-releaf-i18n-database-translations.view-edit .table .delete-column
+.controller-releaf-i18n-database-translations.view-edit .table .delete-column,
+.controller-releaf-i18n-database-translations.view-import .table .delete-column
 {
     border-right: none;
 }
