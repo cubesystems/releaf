@@ -21,3 +21,9 @@ when 'mysql'
 when 'postgresql'
   gem 'pg'
 end
+
+group :documentation do
+  gem 'yard'
+  gem 'github-markdown', '>= 0.5.3'
+  gem 'redcarpet', '>= 2.2.2'
+end
