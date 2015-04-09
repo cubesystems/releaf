@@ -1,9 +1,7 @@
 --title "Releaf documentation"
 --protected
 --output-dir api
-# WORKAROUND for: https://github.com/lsegal/yard/issues/825
---legacy
-
+--plugin activerecord
 
 releaf-permissions/app/**/*.rb
 releaf-permissions/lib/**/*.rb
