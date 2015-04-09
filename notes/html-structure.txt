@@ -23,7 +23,7 @@ INDEX ACTION:
             = n resources found
         .body
             = table
-        footer
+        footer.main
             = pagination
             = footer extras (export import etc)
 
@@ -74,7 +74,7 @@ EDIT ACTION:
                     footer
                         = add item
                         = custom nested footer extras
-            footer
+            footer.main
                 = save button
 
 
@@ -98,7 +98,7 @@ DIALOG ACTION:
   |             = close button
   |         .body
   |             = dialog content
-  |         footer                         -- in other full page views this footer would sit at the bottom of the page/window
+  |         footer                         -- in other full page views this footer would have a "main" class and sit at the bottom of the page/window
   |             = ok / cancel et              but inside a section.dialog it is displayed immediately after the .body
   ----------------------------------------
 
@@ -115,7 +115,7 @@ CUSTOM ACTIONS:
             = custom header
         .body
             = custom content
-        footer
+        footer.main
             = custom page footer
 
 =================================================================
@@ -134,6 +134,10 @@ if the whole section is a form, then the form is an extra wrapper
             header
             .body
             footer
+
+the only difference between the outermost section and others inside it
+is that the footer of the outer ("main") section needs to have an additional "main" class
+in order to be properly styled and sit at the bottom of the page
 
 =================================================================
 
