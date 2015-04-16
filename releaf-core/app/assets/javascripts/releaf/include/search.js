@@ -9,6 +9,7 @@ jQuery(function ($) {
         var request;
         var timeout;
         var $form = $(e.target);
+        var self = e.target;
 
         // Set up options.
         var options = $form.data('search-options');
@@ -24,33 +25,32 @@ jQuery(function ($) {
 
         options = $.extend(true, defaults, options);
 
-        var textInputSelector  = 'input[type="text"]';
-        var otherInputSelector = 'input:not([type="text"]), select';
+        var allSelector  = 'input, select';
 
-        var $textInputs  = $form.find(textInputSelector);
-        var $otherInputs = $form.find(otherInputSelector);
+        this.elements = {
+            inputs: $(),
+            submit: $()
+        };
 
-        var $allInputs = $().add($textInputs).add($otherInputs);
+        this.collectAllElements = function () {
+            self.elements.$inputs = $(allSelector);
+            self.elements.$submit = $form.find('button[type="submit"]');
+        };
 
-        $textInputs.each(function () {
-            var $input = $(this);
-            $input.data('previous-value', $input.val() || '');
-        });
-
-        var $submitButtons = $form.find('button[type="submit"]');
-
-        $form.on('searchstart', function () {
+        this.doSearch = function () {
             // Cancel previous timeout.
             clearTimeout(timeout);
 
             // Store previous values for all inputs.
-            $allInputs.each(function () {
+            self.elements.$inputs.each(function () {
                 var $input = $(this);
                 if ($input.is('input[type="checkbox"]:not(:checked)')) {
                     $input.data('previous-value', '');
                 }
                 else if(!($input.is('input[type="checkbox"]:checked'))) {
                     $input.data('previous-value', $input.val());
+                } else {
+                    $input.data('previous-value', $input.val() || '');
                 }
             });
 
@@ -60,7 +60,7 @@ jQuery(function ($) {
             }
 
             timeout = setTimeout(function () {
-                $submitButtons.trigger('loadingstart');
+                self.elements.$submit.trigger('loadingstart');
 
                 // Construct url.
                 var formUrl = $form.attr('action');
@@ -82,11 +82,21 @@ jQuery(function ($) {
                     }
                 });
             }, 200);
-        });
+        };
+
+        var startSearchIfValueChanged = function () {
+            var $input = $(this);
+            var previousValue = $input.data('previous-value');
+
+            if ($input.val() === previousValue) {
+                return;
+            }
+
+            self.doSearch();
+        };
 
 
-        $form.on('searchresponse', function (e, response)
-        {
+        $form.on('searchresponse', function (e, response) {
             var $response = $('<div />').append(response);
 
             // For each result block find its content in response and copy it
@@ -103,25 +113,17 @@ jQuery(function ($) {
                     $(block.target).trigger('contentloaded');
                 }
             }
+
+            self.collectAllElements();
         });
 
         $form.on('searchend', function () {
-            $submitButtons.trigger('loadingend');
+            self.elements.$submit.trigger('loadingend');
         });
 
-        var startSearchIfValueChanged = function () {
-            var $input = $(this);
-            var previousValue = $input.data('previous-value');
+        $form.on('change keyup', allSelector, startSearchIfValueChanged);
 
-            if ($input.val() === previousValue) {
-                return;
-            }
-
-            $form.trigger('searchstart');
-        };
-
-        $textInputs.on('keyup', startSearchIfValueChanged);
-        $allInputs.on('change', startSearchIfValueChanged);
+        self.collectAllElements();
     });
 
     $('.view-index form.search').trigger('searchinit');
