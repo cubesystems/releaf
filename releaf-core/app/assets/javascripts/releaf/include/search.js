@@ -1,163 +1,128 @@
 /* global UrlBuilder */
 
-jQuery(function()
-{
-    var body = jQuery('body');
+jQuery(function ($) {
+    'use strict';
 
-    body.on('searchinit', 'form', function( e )
-    {
-        var form = jQuery(e.target);
+    var $body = $('body');
 
-        var text_input_selector  = 'input[type="text"]';
-        var other_input_selector = 'input:not([type="text"]), select';
-
-        var text_inputs  = form.find( text_input_selector  );
-        var other_inputs = form.find( other_input_selector );
-
-        var all_inputs   = jQuery().add(text_inputs).add(other_inputs);
-
-        text_inputs.each(function() {
-            var input = jQuery(this);
-            input.data('previous-value', input.val() || '');
-        });
-
-        var submit_buttons = form.find('button[type="submit"]');
-
+    $body.on('searchinit', 'form', function (e) {
         var request;
         var timeout;
+        var $form = $(e.target);
 
-
-        var options = form.data('search-options');
-
-        if (typeof options === 'undefined')
-        {
-            options = {};
-        }
-
-        if (typeof options.result_blocks === 'undefined')
-        {
-            // define default html blocks that will be fetched from search response
-            // and placed in page body
-            options.result_blocks =
-            {
-                main_section :
-                {
-                    result_selector : 'section',
-                    target : jQuery('main > section').first()
+        // Set up options.
+        var options = $form.data('search-options');
+        var defaults = {
+            resultBlocks: {
+                mainSection: {
+                    resultSelector : 'section',
+                    target : 'main > section:first'
                 }
-            };
-        }
+            },
+            rebind: false
+        };
 
+        options = $.extend(true, defaults, options);
 
-        form.on( 'searchstart', function()
-        {
-            // cancel previous timeout
-            clearTimeout( timeout );
+        var textInputSelector  = 'input[type="text"]';
+        var otherInputSelector = 'input:not([type="text"]), select';
 
-            // store previous values for all inputs
-            all_inputs.each(function()
-            {
-                var input = jQuery(this);
-                if (input.is('input[type="checkbox"]:not(:checked)'))
-                {
-                    input.data('previous-value', '');
+        var $textInputs  = $form.find(textInputSelector);
+        var $otherInputs = $form.find(otherInputSelector);
+
+        var $allInputs = $().add($textInputs).add($otherInputs);
+
+        $textInputs.each(function () {
+            var $input = $(this);
+            $input.data('previous-value', $input.val() || '');
+        });
+
+        var $submitButtons = $form.find('button[type="submit"]');
+
+        $form.on('searchstart', function () {
+            // Cancel previous timeout.
+            clearTimeout(timeout);
+
+            // Store previous values for all inputs.
+            $allInputs.each(function () {
+                var $input = $(this);
+                if ($input.is('input[type="checkbox"]:not(:checked)')) {
+                    $input.data('previous-value', '');
                 }
-                else if(!(input.is('input[type="checkbox"]:checked')))
-                {
-                    input.data('previous-value', input.val());
+                else if(!($input.is('input[type="checkbox"]:checked'))) {
+                    $input.data('previous-value', $input.val());
                 }
             });
 
-            // cancel previous unfinished request
-            if (request)
-            {
+            // Cancel previous unfinished request.
+            if (request) {
                 request.abort();
             }
 
-            timeout = setTimeout(function()
-            {
-                submit_buttons.trigger('loadingstart');
+            timeout = setTimeout(function () {
+                $submitButtons.trigger('loadingstart');
 
-                // construct url
-                var form_url = form.attr( 'action' );
-                var url = new UrlBuilder( {baseUrl: form_url} );
-                url.add( form.serializeArray() );
+                // Construct url.
+                var formUrl = $form.attr('action');
+                var url = new UrlBuilder({ baseUrl: formUrl });
+                url.add($form.serializeArray());
 
-                if ('replaceState' in window.history)
-                {
-                    window.history.replaceState( window.history.state, window.title, url.getUrl());
+                if ('replaceState' in window.history) {
+                    window.history.replaceState(window.history.state, window.title, url.getUrl());
                 }
 
                 url.add({ ajax: 1 });
 
-                // send request
-                request = jQuery.ajax
-                ({
+                // Send request.
+                request = $.ajax({
                     url: url.getUrl(),
-                    success: function( response )
-                    {
-                        form.trigger('searchresponse', response);
-
-                        form.trigger('searchend');
+                    success: function (response) {
+                        $form.trigger('searchresponse', response);
+                        $form.trigger('searchend');
                     }
                 });
-            }, 200 );
+            }, 200);
         });
 
 
-        form.on( 'searchresponse', function(e, response)
+        $form.on('searchresponse', function (e, response)
         {
-            response = jQuery('<div />').append( response );
+            var $response = $('<div />').append(response);
 
-            // for each result block find its content in response
-            // and copy it to its target container
+            // For each result block find its content in response and copy it
+            // to its target container.
 
-            for (var key in options.result_blocks)
+            for (var key in options.resultBlocks)
             {
-                if (options.result_blocks.hasOwnProperty(key))
+                if (options.resultBlocks.hasOwnProperty(key))
                 {
-                    var block = options.result_blocks[ key ];
+                    var block = options.resultBlocks[key];
+                    var content = $response.find(block.resultSelector).first().html();
 
-                    var content = response.find( block.result_selector ).first().html();
-
-                    jQuery( block.target ).html( content );
-
-                    block.target.trigger('contentloaded');
+                    $(block.target).html(content);
+                    $(block.target).trigger('contentloaded');
                 }
             }
         });
 
-        form.on( 'searchend', function()
-        {
-            submit_buttons.trigger('loadingend');
+        $form.on('searchend', function () {
+            $submitButtons.trigger('loadingend');
         });
 
-        var start_search_if_value_changed = function()
-        {
-            var input = jQuery(this);
+        var startSearchIfValueChanged = function () {
+            var $input = $(this);
+            var previousValue = $input.data('previous-value');
 
-            var previous_value = input.data('previous-value');
-
-            if (input.val() === previous_value)
-            {
+            if ($input.val() === previousValue) {
                 return;
             }
 
-            form.trigger( 'searchstart' );
+            $form.trigger('searchstart');
         };
 
-        text_inputs.on( 'keyup',  start_search_if_value_changed);
-        all_inputs.on(  'change', start_search_if_value_changed);
-
+        $textInputs.on('keyup', startSearchIfValueChanged);
+        $allInputs.on('change', startSearchIfValueChanged);
     });
 
-    setTimeout( function ()
-    {
-        // initialize search via timeout
-        // to allow any custom code to set custom form search options
-
-        jQuery( '.view-index form.search' ).trigger( 'searchinit' );
-
-    }, 0);
-
+    $('.view-index form.search').trigger('searchinit');
 });
