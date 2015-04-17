@@ -9,7 +9,6 @@ jQuery(function ($) {
         var request;
         var timeout;
         var $form = $(e.target);
-        var self = e.target;
 
         // Set up options.
         var options = $form.data('search-options');
@@ -27,22 +26,22 @@ jQuery(function ($) {
 
         var allSelector  = 'input, select';
 
-        this.elements = {
+        var elements = {
             inputs: $(),
             submit: $()
         };
 
-        this.collectAllElements = function () {
-            self.elements.$inputs = $(allSelector);
-            self.elements.$submit = $form.find('button[type="submit"]');
+        var collectAllElements = function () {
+            elements.$inputs = $(allSelector);
+            elements.$submit = $form.find('button[type="submit"]');
         };
 
-        this.doSearch = function () {
+        var doSearch = function () {
             // Cancel previous timeout.
             clearTimeout(timeout);
 
             // Store previous values for all inputs.
-            self.elements.$inputs.each(function () {
+            elements.$inputs.each(function () {
                 var $input = $(this);
                 if ($input.is('input[type="checkbox"]:not(:checked)')) {
                     $input.data('previous-value', '');
@@ -60,7 +59,7 @@ jQuery(function ($) {
             }
 
             timeout = setTimeout(function () {
-                self.elements.$submit.trigger('loadingstart');
+                elements.$submit.trigger('loadingstart');
 
                 // Construct url.
                 var formUrl = $form.attr('action');
@@ -92,7 +91,7 @@ jQuery(function ($) {
                 return;
             }
 
-            self.doSearch();
+            doSearch();
         };
 
 
@@ -114,16 +113,16 @@ jQuery(function ($) {
                 }
             }
 
-            self.collectAllElements();
+            collectAllElements();
         });
 
         $form.on('searchend', function () {
-            self.elements.$submit.trigger('loadingend');
+            elements.$submit.trigger('loadingend');
         });
 
         $form.on('change keyup', allSelector, startSearchIfValueChanged);
 
-        self.collectAllElements();
+        collectAllElements();
     });
 
     $('.view-index form.search').trigger('searchinit');
