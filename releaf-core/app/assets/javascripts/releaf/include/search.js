@@ -36,13 +36,10 @@ jQuery(function () {
             elements.submit = form.find('button[type="submit"]');
         };
 
-        var do_search = function () {
-            // Cancel previous timeout.
-            clearTimeout(timeout);
-
-            // Store previous values for all inputs.
+        var set_previous_values = function () {
             elements.inputs.each(function () {
                 var input = jQuery(this);
+
                 if (input.is('input[type="checkbox"]:not(:checked)')) {
                     input.data('previous-value', '');
                 }
@@ -52,6 +49,14 @@ jQuery(function () {
                     input.data('previous-value', input.val() || '');
                 }
             });
+        };
+
+        var start_search = function () {
+            // Cancel previous timeout.
+            clearTimeout(timeout);
+
+            // Store previous values for all inputs.
+            set_previous_values();
 
             // Cancel previous unfinished request.
             if (request) {
@@ -83,6 +88,10 @@ jQuery(function () {
             }, 200);
         };
 
+        var stop_search = function () {
+            elements.submit.trigger('loadingend');
+        };
+
         var start_search_if_value_changed = function () {
             var input = jQuery(this);
             var previous_value = input.data('previous-value');
@@ -91,7 +100,7 @@ jQuery(function () {
                 return;
             }
 
-            do_search();
+            form.trigger('searchstart');
         };
 
 
@@ -118,13 +127,12 @@ jQuery(function () {
             }
         });
 
-        form.on('searchend', function () {
-            elements.submit.trigger('loadingend');
-        });
-
         form.on('change keyup', all_selector, start_search_if_value_changed);
+        form.on('searchstart', start_search);
+        form.on('searchend', stop_search);
 
         collect_all_elements();
+        set_previous_values();
     });
 
     jQuery('.view-index form.search').trigger('searchinit');
