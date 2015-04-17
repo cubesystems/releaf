@@ -9,6 +9,7 @@ jQuery(function () {
         var request;
         var timeout;
         var form = jQuery(e.target);
+        var all_selector = 'input, select';
 
         // Set up options.
         var options = form.data('search-options');
@@ -23,8 +24,6 @@ jQuery(function () {
         };
 
         options = jQuery.extend(true, defaults, options);
-
-        var all_selector  = 'input, select';
 
         var elements = {
             inputs: jQuery(),
@@ -42,8 +41,7 @@ jQuery(function () {
 
                 if (input.is('input[type="checkbox"]:not(:checked)')) {
                     input.data('previous-value', '');
-                }
-                else if(!(input.is('input[type="checkbox"]:checked'))) {
+                } else if(!(input.is('input[type="checkbox"]:checked'))) {
                     input.data('previous-value', input.val());
                 } else {
                     input.data('previous-value', input.val() || '');
@@ -94,9 +92,8 @@ jQuery(function () {
 
         var start_search_if_value_changed = function () {
             var input = jQuery(this);
-            var previous_value = input.data('previous-value');
 
-            if (input.val() === previous_value) {
+            if (input.val() === input.data('previous-value')) {
                 return;
             }
 
