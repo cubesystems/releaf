@@ -13,9 +13,9 @@ jQuery(function () {
         // Set up options.
         var options = form.data('search-options');
         var defaults = {
-            resultBlocks: {
-                mainSection: {
-                    resultSelector : 'section',
+            result_blocks: {
+                main_section: {
+                    result_selector : 'section',
                     target : 'main > section:first'
                 }
             },
@@ -24,19 +24,19 @@ jQuery(function () {
 
         options = jQuery.extend(true, defaults, options);
 
-        var allSelector  = 'input, select';
+        var all_selector  = 'input, select';
 
         var elements = {
             inputs: jQuery(),
             submit: jQuery()
         };
 
-        var collectAllElements = function () {
-            elements.inputs = jQuery(allSelector);
+        var collect_all_elements = function () {
+            elements.inputs = jQuery(all_selector);
             elements.submit = form.find('button[type="submit"]');
         };
 
-        var doSearch = function () {
+        var do_search = function () {
             // Cancel previous timeout.
             clearTimeout(timeout);
 
@@ -62,8 +62,8 @@ jQuery(function () {
                 elements.submit.trigger('loadingstart');
 
                 // Construct url.
-                var formUrl = form.attr('action');
-                var url = new UrlBuilder({ baseUrl: formUrl });
+                var form_url = form.attr('action');
+                var url = new UrlBuilder({ baseUrl: form_url });
                 url.add(form.serializeArray());
 
                 if ('replaceState' in window.history) {
@@ -83,30 +83,30 @@ jQuery(function () {
             }, 200);
         };
 
-        var startSearchIfValueChanged = function () {
+        var start_search_if_value_changed = function () {
             var input = jQuery(this);
-            var previousValue = input.data('previous-value');
+            var previous_value = input.data('previous-value');
 
-            if (input.val() === previousValue) {
+            if (input.val() === previous_value) {
                 return;
             }
 
-            doSearch();
+            do_search();
         };
 
 
         form.on('searchresponse', function (e, response) {
-            var response = jQuery('<div />').append(response);
+            response = jQuery('<div />').append(response);
 
             // For each result block find its content in response and copy it
             // to its target container.
 
-            for (var key in options.resultBlocks)
+            for (var key in options.result_blocks)
             {
-                if (options.resultBlocks.hasOwnProperty(key))
+                if (options.result_blocks.hasOwnProperty(key))
                 {
-                    var block = options.resultBlocks[key];
-                    var content = response.find(block.resultSelector).first().html();
+                    var block = options.result_blocks[key];
+                    var content = response.find(block.result_selector).first().html();
 
                     jQuery(block.target).html(content);
                     jQuery(block.target).trigger('contentloaded');
@@ -114,7 +114,7 @@ jQuery(function () {
             }
 
             if (options.rebind) {
-                collectAllElements();
+                collect_all_elements();
             }
         });
 
@@ -122,9 +122,9 @@ jQuery(function () {
             elements.submit.trigger('loadingend');
         });
 
-        form.on('change keyup', allSelector, startSearchIfValueChanged);
+        form.on('change keyup', all_selector, start_search_if_value_changed);
 
-        collectAllElements();
+        collect_all_elements();
     });
 
     jQuery('.view-index form.search').trigger('searchinit');
