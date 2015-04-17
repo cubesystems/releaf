@@ -1,17 +1,17 @@
 /* global UrlBuilder */
 
-jQuery(function ($) {
+jQuery(function () {
     'use strict';
 
-    var $body = $('body');
+    var body = jQuery('body');
 
-    $body.on('searchinit', 'form', function (e) {
+    body.on('searchinit', 'form', function (e) {
         var request;
         var timeout;
-        var $form = $(e.target);
+        var form = jQuery(e.target);
 
         // Set up options.
-        var options = $form.data('search-options');
+        var options = form.data('search-options');
         var defaults = {
             resultBlocks: {
                 mainSection: {
@@ -22,18 +22,18 @@ jQuery(function ($) {
             rebind: false
         };
 
-        options = $.extend(true, defaults, options);
+        options = jQuery.extend(true, defaults, options);
 
         var allSelector  = 'input, select';
 
         var elements = {
-            inputs: $(),
-            submit: $()
+            inputs: jQuery(),
+            submit: jQuery()
         };
 
         var collectAllElements = function () {
-            elements.$inputs = $(allSelector);
-            elements.$submit = $form.find('button[type="submit"]');
+            elements.inputs = jQuery(allSelector);
+            elements.submit = form.find('button[type="submit"]');
         };
 
         var doSearch = function () {
@@ -41,15 +41,15 @@ jQuery(function ($) {
             clearTimeout(timeout);
 
             // Store previous values for all inputs.
-            elements.$inputs.each(function () {
-                var $input = $(this);
-                if ($input.is('input[type="checkbox"]:not(:checked)')) {
-                    $input.data('previous-value', '');
+            elements.inputs.each(function () {
+                var input = jQuery(this);
+                if (input.is('input[type="checkbox"]:not(:checked)')) {
+                    input.data('previous-value', '');
                 }
-                else if(!($input.is('input[type="checkbox"]:checked'))) {
-                    $input.data('previous-value', $input.val());
+                else if(!(input.is('input[type="checkbox"]:checked'))) {
+                    input.data('previous-value', input.val());
                 } else {
-                    $input.data('previous-value', $input.val() || '');
+                    input.data('previous-value', input.val() || '');
                 }
             });
 
@@ -59,12 +59,12 @@ jQuery(function ($) {
             }
 
             timeout = setTimeout(function () {
-                elements.$submit.trigger('loadingstart');
+                elements.submit.trigger('loadingstart');
 
                 // Construct url.
-                var formUrl = $form.attr('action');
+                var formUrl = form.attr('action');
                 var url = new UrlBuilder({ baseUrl: formUrl });
-                url.add($form.serializeArray());
+                url.add(form.serializeArray());
 
                 if ('replaceState' in window.history) {
                     window.history.replaceState(window.history.state, window.title, url.getUrl());
@@ -73,21 +73,21 @@ jQuery(function ($) {
                 url.add({ ajax: 1 });
 
                 // Send request.
-                request = $.ajax({
+                request = jQuery.ajax({
                     url: url.getUrl(),
                     success: function (response) {
-                        $form.trigger('searchresponse', response);
-                        $form.trigger('searchend');
+                        form.trigger('searchresponse', response);
+                        form.trigger('searchend');
                     }
                 });
             }, 200);
         };
 
         var startSearchIfValueChanged = function () {
-            var $input = $(this);
-            var previousValue = $input.data('previous-value');
+            var input = jQuery(this);
+            var previousValue = input.data('previous-value');
 
-            if ($input.val() === previousValue) {
+            if (input.val() === previousValue) {
                 return;
             }
 
@@ -95,8 +95,8 @@ jQuery(function ($) {
         };
 
 
-        $form.on('searchresponse', function (e, response) {
-            var $response = $('<div />').append(response);
+        form.on('searchresponse', function (e, response) {
+            var response = jQuery('<div />').append(response);
 
             // For each result block find its content in response and copy it
             // to its target container.
@@ -106,10 +106,10 @@ jQuery(function ($) {
                 if (options.resultBlocks.hasOwnProperty(key))
                 {
                     var block = options.resultBlocks[key];
-                    var content = $response.find(block.resultSelector).first().html();
+                    var content = response.find(block.resultSelector).first().html();
 
-                    $(block.target).html(content);
-                    $(block.target).trigger('contentloaded');
+                    jQuery(block.target).html(content);
+                    jQuery(block.target).trigger('contentloaded');
                 }
             }
 
@@ -118,14 +118,14 @@ jQuery(function ($) {
             }
         });
 
-        $form.on('searchend', function () {
-            elements.$submit.trigger('loadingend');
+        form.on('searchend', function () {
+            elements.submit.trigger('loadingend');
         });
 
-        $form.on('change keyup', allSelector, startSearchIfValueChanged);
+        form.on('change keyup', allSelector, startSearchIfValueChanged);
 
         collectAllElements();
     });
 
-    $('.view-index form.search').trigger('searchinit');
+    jQuery('.view-index form.search').trigger('searchinit');
 });
