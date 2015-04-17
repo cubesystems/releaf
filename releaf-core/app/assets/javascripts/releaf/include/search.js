@@ -113,7 +113,9 @@ jQuery(function ($) {
                 }
             }
 
-            collectAllElements();
+            if (options.rebind) {
+                collectAllElements();
+            }
         });
 
         $form.on('searchend', function () {
