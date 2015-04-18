@@ -1,11 +1,18 @@
-module Releaf
+module Releaf::Permissions
   class SessionsController < Devise::SessionsController
     layout "releaf/admin"
-
     helper_method :page_title
 
     def page_title
       Rails.application.class.parent_name
+    end
+
+    def access_control
+      @access_control ||= Releaf::Permissions::AccessControl.new(controller: self)
+    end
+
+    def layout_settings(key)
+      access_control.user.try(:settings).try(:[], 'releaf.side.compact')
     end
 
     protected

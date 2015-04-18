@@ -11,14 +11,13 @@ require 'jquery-rails'
 require 'jquery-ui-rails'
 require 'acts_as_list'
 require 'awesome_nested_set'
-require 'devise'
 require 'dragonfly'
 require 'axlsx_rails'
 require 'globalize'
 require 'globalize-accessors'
 
 module Releaf::Core
-  require 'releaf/core/attachments_component'
+  require 'releaf/core/component'
   require 'releaf/core/settings_ui_component'
   require 'releaf/core/route_mapper'
   require 'releaf/core/builders_autoload'
@@ -28,6 +27,9 @@ module Releaf::Core
   end
 
   class Engine < ::Rails::Engine
+    initializer 'precompile', group: :all do |app|
+      app.config.assets.precompile += %w(ckeditor/*)
+    end
   end
 
   ActiveSupport.on_load :action_controller do

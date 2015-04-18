@@ -58,7 +58,7 @@ module Releaf
       {
         icon: item[:icon],
         name: item[:name],
-        url: send(item[:url_helper]),
+        url: send(item[:url_helper].to_s + "_path"),
         active: (item[:controller] == params[:controller])
       }
     end
