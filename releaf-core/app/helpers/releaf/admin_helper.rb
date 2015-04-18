@@ -21,7 +21,7 @@ module Releaf
           submenu_items = []
 
           menu_item[:items].each do |submenu_item|
-            if current_admin_user.role.authorize!(submenu_item[:controller])
+            if controller.access_control.controller_allowed?(submenu_item[:controller])
               submenu_item2 = get_releaf_menu_item(submenu_item)
               if submenu_item2[:active]
                 item[:active] = true
@@ -40,7 +40,7 @@ module Releaf
           item[:items] = submenu_items
           items << item if item.has_key? :url
 
-        elsif current_admin_user.role.authorize!(menu_item[:controller])
+        elsif controller.access_control.controller_allowed?(menu_item[:controller])
 
           item = get_releaf_menu_item(menu_item)
           if menu_item[:controller] == params[:controller]
