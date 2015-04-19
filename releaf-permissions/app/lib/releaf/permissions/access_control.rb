@@ -3,8 +3,8 @@ module Releaf::Permissions
     include ActiveModel::Model
     attr_accessor :controller
 
-    def controller_allowed?(controller_name)
-      allowed_controllers.include?(controller_name) || user.role.permissions.where(permission: "controller.#{controller_name}").exists?
+    def controller_permitted?(controller_name)
+      permitted_controllers.include?(controller_name) || user.role.controller_permitted?(controller_name)
     end
 
     def current_controller_name
@@ -12,24 +12,24 @@ module Releaf::Permissions
     end
 
     def user
-      controller.send("current_#{self.class.devise_admin_model_name}")
+      controller.send("current_#{devise_model_name}")
     end
 
-    def allowed_controllers
+    def permitted_controllers
       ['releaf/permissions/home', 'releaf/core/errors']
     end
 
     def authorized?
-      method_name = "#{self.class.devise_admin_model_name}_signed_in?"
+      method_name = "#{devise_model_name}_signed_in?"
       controller.send(method_name)
     end
 
     def authenticate!
-      method_name = "authenticate_#{self.class.devise_admin_model_name}!"
+      method_name = "authenticate_#{devise_model_name}!"
       controller.send(method_name)
     end
 
-    def self.devise_admin_model_name
+    def devise_model_name
       Releaf.devise_for.underscore.tr('/', '_')
     end
   end

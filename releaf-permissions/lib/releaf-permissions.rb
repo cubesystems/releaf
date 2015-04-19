@@ -21,7 +21,7 @@ module Releaf::Permissions
   end
 
   def verify_controller_access!
-    unless access_control.controller_allowed?(access_control.current_controller_name)
+    unless access_control.controller_permitted?(access_control.current_controller_name)
       raise Releaf::Core::AccessDenied.new(access_control.current_controller_name)
     end
   end
