@@ -20,7 +20,7 @@ describe "Errors feature" do
   end
 
   it "returns 403 status code and generic error page for restricted content" do
-    allow_any_instance_of(Releaf::Permissions::AccessControl).to receive(:controller_allowed?).and_return(false)
+    allow_any_instance_of(Releaf::Permissions::AccessControl).to receive(:controller_permitted?).and_return(false)
     visit releaf_permissions_roles_path
 
     expect(page.status_code).to eq(403)

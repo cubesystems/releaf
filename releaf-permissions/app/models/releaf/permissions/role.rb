@@ -11,5 +11,14 @@ module Releaf::Permissions
     accepts_nested_attributes_for :permissions, allow_destroy: true
 
     alias_attribute :to_text, :name
+
+    # Load all permissions and check given controller against roles permissions.
+    # In this way permissions are cached resulting only single db hit per multiple permissions checks.
+    #
+    # @param controller_name [String] controller name to check permissions against (ex. products)
+    # @return [true, false] whether controller is permitted for role
+    def controller_permitted?(controller_name)
+      permissions.find{|item| item.permission == "controller.#{controller_name}"}.present?
+    end
   end
 end
