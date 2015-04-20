@@ -8,22 +8,24 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
     super.where(thing_type: nil, var: resource_class.registered_keys)
   end
 
-  def maintain_value_type
+  def normalize_value(value)
     case resource_class.registry[@resource.var][:type]
     when :boolean
-      params[:resource][:value] = params[:resource][:value] == '1'
+      value == '1'
     when :date
-      params[:resource][:value] = Date.parse(params[:resource][:value])
+      Date.parse(value)
     when :time
-      params[:resource][:value] = Time.parse(params[:resource][:value])
+      Time.parse(value)
     when :datetime
-      params[:resource][:value] = DateTime.parse(params[:resource][:value])
+      DateTime.parse(value)
     when :integer
-      params[:resource][:value] = params[:resource][:value].to_i
+      value.to_i
     when :float
-      params[:resource][:value] = params[:resource][:value].to_s.sub(",", ".").to_f
+      value.to_s.sub(",", ".").to_f
     when :decimal
-      params[:resource][:value] = params[:resource][:value].to_s.sub(",", ".").to_d
+      value.to_s.sub(",", ".").to_d
+    else
+      value
     end
   end
 
@@ -31,7 +33,7 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
 
   def prepare_update
     @resource = resource_class.find(params[:id]) unless resource_given?
-    maintain_value_type
+    params[:resource][:value] = normalize_value(params[:resource][:value])
   end
 
   def setup
