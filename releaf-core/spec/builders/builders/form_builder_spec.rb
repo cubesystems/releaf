@@ -15,25 +15,21 @@ describe Releaf::Builders::FormBuilder, type: :class do
       {
         render_method: "render_title",
         field: "title",
-        association: false,
         subfields: nil
       },
       {
         render_method: "render_author_id",
         field: "author_id",
-        association: false,
         subfields: nil
       },
       {
         render_method: "render_chapters",
         field: :chapters,
-        association: true,
         subfields: ["title", "text", "sample_html"]
       },
       {
         render_method: "render_book_sequels",
         field: :book_sequels,
-        association: true,
         subfields: ["sequel_id"]
       }
     ]
@@ -125,14 +121,14 @@ describe Releaf::Builders::FormBuilder, type: :class do
       render_method: "sortable_column_name", # just random method here
       field: "title",
       subfields: [:a, :b],
-      association: true
     } }
 
     before do
+      allow(subject).to receive(:reflect_on_association).with("title").and_return(:x)
       allow(subject).to receive(:sortable_column_name)
         .with(no_args).and_return("_render_method_content_")
       allow(subject).to receive(:releaf_association_fields)
-        .with("title", [:a, :b]).and_return("_association_method_content_")
+        .with(:x, [:a, :b]).and_return("_association_method_content_")
       allow(subject).to receive(:releaf_field)
         .with("title").and_return("_releaf_field_content_")
     end
@@ -143,79 +139,95 @@ describe Releaf::Builders::FormBuilder, type: :class do
       end
     end
 
-    context "when custom method does not exists and options[:association] is true" do
-      it "returns #releaf_association_fields by passing options[:field] and options[:subfields]" do
+    context "when custom method does not exist" do
+      before do
         options[:render_method] = "something_unexisting"
-        expect(subject.render_field_by_options(options)).to eq("_association_method_content_")
       end
-    end
 
-    context "when neither custom method exists or association is presented" do
-      it "returns #releaf_field with options[:field] as argument" do
-        options[:association] = false
-        options[:render_method] = "something_unexisting"
-        expect(subject.render_field_by_options(options)).to eq("_releaf_field_content_")
+      context "when reflection exists for given field" do
+        it "returns #releaf_association_fields by passing options[:field] and options[:subfields]" do
+          expect(subject.render_field_by_options(options)).to eq("_association_method_content_")
+        end
+      end
+
+      context "when reflection does not exist for given field" do
+        it "returns #releaf_field with options[:field] as argument" do
+          allow(subject).to receive(:reflect_on_association).with("title").and_return(nil)
+          expect(subject.render_field_by_options(options)).to eq("_releaf_field_content_")
+        end
       end
     end
   end
 
-  describe "#reflection" do
+  describe "#reflect_on_association" do
     it "returns reflection for given reflection name" do
-      expect(subject.reflection(:author)).to eq(object.class.reflections["author"])
+      expect(subject.reflect_on_association(:author)).to eq(object.class.reflections["author"])
     end
   end
 
-  describe "#association_fields" do
-    it "returns association field names except foreign key by given association name" do
-      fields = ["name", "surname", "bio", "birth_date", "wiki_link"]
-      expect(subject.association_fields(:author)).to eq(fields)
+  describe "#association_reflector" do
+    before do
+      resource_fields = subject.resource_fields
+      allow(resource_fields).to receive(:association_attributes).with(:x).and_return([:c, :d])
+
+      allow(subject).to receive(:resource_fields).and_return(resource_fields)
+      allow(subject).to receive(:sortable_column_name).and_return("sortable column name")
+    end
+
+    it "returns association reflector for given reflection" do
+      expect(subject.association_reflector(:x, [:a, :b])).to be_instance_of Releaf::Builders::AssociationReflector
+    end
+
+    it "pass reflection, fields and sortable column name to association reflector constructor" do
+      expect(Releaf::Builders::AssociationReflector).to receive(:new)
+        .with(:x, [:a, :b], "sortable column name")
+      subject.association_reflector(:x, [:a, :b])
+    end
+
+    context "when given fields is nil" do
+      it "uses resource fields returned association fields instead" do
+        expect(Releaf::Builders::AssociationReflector).to receive(:new)
+          .with(:x, [:c, :d], "sortable column name")
+        subject.association_reflector(:x, nil)
+      end
     end
   end
 
   describe "#releaf_association_fields" do
-    let(:reflection){ instance_double(ActiveRecord::Reflection::AssociationReflection) }
+    let(:reflector){ Releaf::Builders::AssociationReflector.new(:a, :b, :c) }
     let(:fields){ ["a"] }
 
     before do
-      allow(subject).to receive(:reflection).with(:author).and_return(reflection)
-      allow(subject).to receive(:association_fields).with(:author).and_return(["b"])
-      allow(subject).to receive(:releaf_has_many_association).with(:author, fields).and_return("_has_many_content_")
-      allow(subject).to receive(:releaf_belongs_to_association).with(:author, fields).and_return("_belongs_to_content_")
-      allow(subject).to receive(:releaf_has_one_association).with(:author, fields).and_return("_has_one_content_")
+      allow(subject).to receive(:association_reflector).with(:author, fields).and_return(reflector)
+      allow(subject).to receive(:releaf_has_many_association).with(reflector).and_return("_has_many_content_")
+      allow(subject).to receive(:releaf_belongs_to_association).with(reflector).and_return("_belongs_to_content_")
+      allow(subject).to receive(:releaf_has_one_association).with(reflector).and_return("_has_one_content_")
     end
 
-    context "when given fields argument is nil" do
-      it "passes #association_fields returned fields" do
-        allow(reflection).to receive(:macro).and_return(:has_many)
-        allow(subject).to receive(:releaf_has_many_association).with(:author, ["b"]).and_return("_has_many_content_")
-        expect(subject.releaf_association_fields(:author, nil)).to eq("_has_many_content_")
-      end
-    end
-
-    context "when :has_many association given" do
+    context "when reflector macro is :has_many" do
       it "renders association with #releaf_has_many_association" do
-        allow(reflection).to receive(:macro).and_return(:has_many)
+        allow(reflector).to receive(:macro).and_return(:has_many)
         expect(subject.releaf_association_fields(:author, fields)).to eq("_has_many_content_")
       end
     end
 
     context "when :belongs_to association given" do
       it "renders association with #releaf_belongs_to_association" do
-        allow(reflection).to receive(:macro).and_return(:belongs_to)
+        allow(reflector).to receive(:macro).and_return(:belongs_to)
         expect(subject.releaf_association_fields(:author, fields)).to eq("_belongs_to_content_")
       end
     end
 
     context "when :has_one association given" do
       it "renders association with #releaf_has_one_association" do
-        allow(reflection).to receive(:macro).and_return(:has_one)
+        allow(reflector).to receive(:macro).and_return(:has_one)
         expect(subject.releaf_association_fields(:author, fields)).to eq("_has_one_content_")
       end
     end
 
     context "when non implemented assocation type given" do
       it "raises error" do
-        allow(reflection).to receive(:macro).and_return(:new_macro_type)
+        allow(reflector).to receive(:macro).and_return(:new_macro_type)
         expect{ subject.releaf_association_fields(:author, fields) }.to raise_error("not implemented")
       end
     end
