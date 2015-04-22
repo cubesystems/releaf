@@ -4,7 +4,7 @@ class Releaf::Builders::Page::LayoutBuilder
 
   def output(&block)
     doctype.html_safe << tag(:html) do
-      head << body{ yield }
+      head << body(&block)
     end
   end
 
@@ -20,13 +20,13 @@ class Releaf::Builders::Page::LayoutBuilder
 
   def body(&block)
     tag(:body, class: body_classes) do
-      body_content{ yield } << assets(:javascripts, :javascript_include_tag)
+      body_content(&block) << assets(:javascripts, :javascript_include_tag)
     end
   end
 
   def body_content(&block)
     if access_control.authorized?
-      header << menu << tag(:main, id: "main"){ yield } << notifications
+      header << menu << tag(:main, id: "main", &block) << notifications
     else
       yield
     end
