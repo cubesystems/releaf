@@ -1,7 +1,6 @@
 .bundle/
 log/*.log
 pkg/
-brake.html
 /Gemfile.lock
 spec/dummy
 doc/
@@ -15,3 +14,4 @@ rdoc/
 /.ruby-gemset
 /.rspec
 _site/
+api/
