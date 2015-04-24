@@ -198,10 +198,9 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#head_cell_content" do
-    it "returns translated column scoped to column resource classs attributes within span element" do
-      allow(subject).to receive(:column_klass).with(resource_class, "some.long.name").and_return(Chapter)
-      allow(I18n).to receive(:t).with("name", scope: "activerecord.attributes.chapter").and_return("Taittls")
-      expect(subject.head_cell_content("some.long.name")).to eq('<span>Taittls</span>')
+    it "returns translated column scoped to resource class attributes within span element" do
+      allow(I18n).to receive(:t).with("some_long_name", scope: "activerecord.attributes.book").and_return("Taittls")
+      expect(subject.head_cell_content("some_long_name")).to eq('<span>Taittls</span>')
     end
 
     it "casts given column to string" do

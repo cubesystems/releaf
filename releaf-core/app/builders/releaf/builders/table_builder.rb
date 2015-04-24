@@ -74,9 +74,8 @@ class Releaf::Builders::TableBuilder
   def head_cell_content(column)
     unless column.to_sym == :toolbox
       tag(:span) do
-        klass = column_klass(resource_class, column)
-        attribute = column.to_s.split(".").last
-        I18n.t(attribute, scope: "activerecord.attributes.#{klass.name.underscore}")
+        attribute = column.to_s.gsub(".", "_")
+        I18n.t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
       end
     end
   end
