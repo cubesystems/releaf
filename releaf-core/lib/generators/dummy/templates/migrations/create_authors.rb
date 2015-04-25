@@ -6,6 +6,7 @@ class CreateAuthors < ActiveRecord::Migration
       t.text    :bio
       t.date    :birth_date
       t.string    :wiki_link
+      t.integer    :publisher_id
 
       t.timestamps(null: false)
     end

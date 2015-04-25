@@ -15,7 +15,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   let(:template){ TableBuilderTestHelper.new }
   let(:resource_class){ Book }
-  let(:resource){ resource_class.new(id: 77) }
+  let(:resource){ resource_class.new(id: 77, title: "Life of Brian") }
   let(:collection){ Book.all }
   let(:options){ {toolbox: false} }
   let(:subject){ described_class.new(collection, resource_class, template, options) }
@@ -110,6 +110,37 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
+  describe "#column_klass" do
+    context "when association column given" do
+      it "returns corresponding association class" do
+        resource.author = Author.new(name: "Brian")
+        expect(subject.column_klass(resource_class, "author.name")).to eq(Author)
+      end
+    end
+
+    context "when base resource column given" do
+      it "returns give resource class" do
+        expect(subject.column_klass(resource_class, "year")).to eq(resource_class)
+      end
+    end
+  end
+
+  describe "#column_value" do
+    it "returns value for column of given resource" do
+      expect(subject.column_value(resource, "title")).to eq("Life of Brian")
+    end
+
+    it "supports association columns" do
+      resource.author = Author.new(name: "Brian")
+      expect(subject.column_value(resource, "author.name")).to eq("Brian")
+    end
+
+    it "supports empty association columns" do
+      resource.author = nil
+      expect(subject.column_value(resource, "author.name")).to be nil
+    end
+  end
+
   describe "#output" do
     before do
       allow(subject).to receive(:empty_body).and_return("empty")
@@ -167,7 +198,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#head_cell_content" do
-    it "returns resource class attributes scoped translated column value within span element" do
+    it "returns translated column scoped to resource class attributes within span element" do
+      allow(I18n).to receive(:t).with("some_long_name", scope: "activerecord.attributes.book").and_return("Taittls")
+      expect(subject.head_cell_content("some_long_name")).to eq('<span>Taittls</span>')
+    end
+
+    it "casts given column to string" do
       allow(I18n).to receive(:t).with("title", scope: "activerecord.attributes.book").and_return("Taittls")
       expect(subject.head_cell_content(:title)).to eq('<span>Taittls</span>')
     end
@@ -286,15 +322,15 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#format_text_content" do
     it "returns truncated and escape column value" do
-      text = '"Pra<tag>nt commodo cursus magn'
-      resource = resource_class.new(title: text)
-      content = '&quot;Pra&lt;tag&gt;nt commodo cursus magn'
-
-      expect(subject.format_text_content(resource, :title)).to eq(content)
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return('"Pra<tag>nt commodo cursus magn')
+      expect(subject.format_text_content(resource, :title))
+        .to eq('&quot;Pra&lt;tag&gt;nt commodo cursus magn')
     end
 
     it "casts value to string before truncation" do
-      resource = resource_class.new(title: nil)
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return(nil)
       expect(subject.format_text_content(resource, :title)).to eq("")
     end
   end
@@ -304,8 +340,9 @@ describe Releaf::Builders::TableBuilder, type: :class do
       it "returns value #to_text" do
         fake_obj = double
         allow(fake_obj).to receive(:to_text).and_return("nineninine")
-        resource = resource_class.new(id: 99)
-        allow(resource).to receive(:id).and_return(fake_obj)
+
+        allow(subject).to receive(:column_value).with(resource, :id)
+          .and_return(fake_obj)
 
         expect(subject.format_string_content(resource, :id)).to eq("nineninine")
       end
@@ -313,7 +350,9 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     context "when resource column value do not respond to #to_text method" do
       it "returns value casted to string" do
-        resource = resource_class.new(id: 99)
+        allow(subject).to receive(:column_value).with(resource, :id)
+          .and_return(99)
+
         expect(subject.format_string_content(resource, :id)).to eq("99")
       end
     end
@@ -323,7 +362,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
     context "when resource column value is 'true'" do
       it "returns localized 'yes' value" do
         allow(I18n).to receive(:t).with("yes", scope: "admin.global").and_return("Jā")
-        resource = resource_class.new(active: true)
+        allow(subject).to receive(:column_value).with(resource, :active)
+          .and_return(true)
 
         expect(subject.format_boolean_content(resource, :active)).to eq("Jā")
       end
@@ -331,10 +371,14 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     context "when resource column value is other than 'true'" do
       it "returns localized 'no' value" do
-        allow(I18n).to receive(:t).with("yes", scope: "admin.global").and_return("Nē")
-        resource = resource_class.new(active: true)
+        allow(I18n).to receive(:t).with("no", scope: "admin.global").and_return("Nē")
 
+        allow(subject).to receive(:column_value).with(resource, :active)
+          .and_return(false)
         expect(subject.format_boolean_content(resource, :active)).to eq("Nē")
+
+        allow(subject).to receive(:column_value).with(resource, :active)
+          .and_return(nil)
         expect(subject.format_boolean_content(resource, :active)).to eq("Nē")
       end
     end
@@ -342,8 +386,11 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#format_date_content" do
     it "returns localized date value" do
-      resource = Author.new(birth_date: "2012.12.29")
-      expect(I18n).to receive(:l).with(resource.birth_date, format: :default, default: "%Y-%m-%d")
+      value = Date.parse("2012.12.29")
+      allow(subject).to receive(:column_value).with(resource, :birth_date)
+        .and_return(value)
+
+      expect(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d")
         .and_call_original
 
       expect(subject.format_date_content(resource, :birth_date)).to eq("2012-12-29")
@@ -352,8 +399,11 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#format_datetime_content" do
     it "returns localized datetime value" do
-      resource = Author.new(created_at: "2012.12.29 17:12:07")
-      expect(I18n).to receive(:l).with(resource.created_at, format: :default, default: "%Y-%m-%d %H:%M:%S")
+      value = DateTime.parse("2012.12.29 17:12:07")
+      allow(subject).to receive(:column_value).with(resource, :created_at)
+        .and_return(value)
+
+      expect(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d %H:%M:%S")
         .and_call_original
 
       expect(subject.format_datetime_content(resource, :created_at)).to eq("2012-12-29 17:12:07")
@@ -455,31 +505,34 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#column_type" do
     it "returns database column type for given column" do
-      expect(subject.column_type(:active)).to eq(:boolean)
-      expect(subject.column_type(:created_at)).to eq(:datetime)
+      expect(subject.column_type(resource_class, :active)).to eq(:boolean)
+      expect(subject.column_type(resource_class, :created_at)).to eq(:datetime)
     end
 
     context "when given column does not exists within database column definitions" do
       it "returns :string as default value" do
-        expect(subject.column_type(:random_title)).to eq(:string)
+        expect(subject.column_type(resource_class, :random_title)).to eq(:string)
       end
     end
   end
 
   describe "#column_type_format_method" do
-    before do
-      allow(subject).to receive(:column_type).with(:title).and_return(:big_boolean)
-      allow(inheriter_subject).to receive(:column_type).with(:title).and_return(:big_boolean)
+    it "uses column klass and column name for type calculation" do
+      allow(subject).to receive(:column_klass).with(resource_class, "some.column").and_return(Chapter)
+      expect(subject).to receive(:column_type).with(Chapter, "some.column")
+      subject.column_type_format_method("some.column")
     end
 
     context "when format method for returned column type exists" do
       it "returns column type format method" do
-        expect(inheriter_subject.column_type_format_method(:title)).to eq(:format_big_boolean_content)
+        allow(subject).to receive(:column_type).and_return(:date)
+        expect(subject.column_type_format_method(:title)).to eq(:format_date_content)
       end
     end
 
     context "when format method for returned column type does not exist" do
       it "returns :format_string_content" do
+        allow(subject).to receive(:column_type).and_return(:big_boolean)
         expect(subject.column_type_format_method(:title)).to eq(:format_string_content)
       end
     end
