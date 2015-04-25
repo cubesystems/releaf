@@ -54,8 +54,8 @@ module Releaf
         copy_files 'views', 'app/views'
       end
 
-      def install_helpers
-        copy_files 'helpers', 'app/helpers'
+      def install_builders
+        copy_files 'builders', 'app/builders'
       end
 
       def install_controllers

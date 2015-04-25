@@ -9,7 +9,7 @@ Releaf.setup do |conf|
     },
     {
       :name => "inventory",
-      :items =>   %w[admin/books admin/authors],
+      :items =>   %w[admin/books admin/authors admin/publishers],
       :icon => 'briefcase',
     },
     {

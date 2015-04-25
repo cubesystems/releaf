@@ -5,6 +5,13 @@ module Capybara
       "main > section header"
     end
 
+    def has_cells_text?(cells, options = {})
+      cells_count = cells.count
+      cells_count += 1 if options.fetch(:with_toolbox, true)
+      type = options.fetch(:type, "td")
+      has_selector?(type, count: cells_count) && has_text?(cells.join(""))
+    end
+
     def has_header?(*args)
       has_css?("#{primary_header_css_rule} h1", *args)
     end
