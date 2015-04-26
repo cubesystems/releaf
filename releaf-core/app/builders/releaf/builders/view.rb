@@ -4,8 +4,18 @@ module Releaf::Builders::View
 
   def output
     safe_join do
-      [header, section]
+      list = []
+      list << header unless dialog?
+      list << section
     end
+  end
+
+  def dialog?
+    params[:dialog].to_i == 1
+  end
+
+  def dialog_name
+    self.class.name.split("::").last.gsub(/(Dialog)?Builder$/, "").underscore.dasherize
   end
 
   def header
@@ -15,9 +25,15 @@ module Releaf::Builders::View
   end
 
   def section
-    tag(:section) do
+    tag(:section, section_attributes) do
       section_blocks
     end
+  end
+
+  def section_attributes
+    attributes = {}
+    attributes[:class] = ["dialog", dialog_name] if dialog?
+    attributes
   end
 
   def breadcrumbs
@@ -53,9 +69,7 @@ module Releaf::Builders::View
 
   def flash_notices
     safe_join do
-      flash.collect do |name, item|
-        flash_item(name, item)
-      end
+      flash.collect{|name, item| flash_item(name, item) }
     end
   end
 
@@ -65,8 +79,7 @@ module Releaf::Builders::View
     end
   end
 
-  def header_extras
-  end
+  def header_extras; end
 
   def section_blocks
     [section_header, section_body, section_footer]
@@ -78,6 +91,7 @@ module Releaf::Builders::View
     end
   end
 
+  def section_header_text; end
   def section_header_extras; end
   def section_body; end
 
@@ -88,7 +102,7 @@ module Releaf::Builders::View
   end
 
   def section_footer_class
-    :main
+    :main unless dialog?
   end
 
   def footer_tools

@@ -8,7 +8,6 @@ files = %w(
   builders/view
   builders/collection
   builders/resource
-  builders/dialog
   builders/resource_dialog
   builders/confirm_dialog_builder
   builders/confirm_destroy_dialog_builder

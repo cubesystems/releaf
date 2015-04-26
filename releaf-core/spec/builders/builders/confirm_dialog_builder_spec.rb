@@ -58,9 +58,9 @@ describe Releaf::Builders::ConfirmDialogBuilder, type: :class do
     end
   end
 
-  describe "#classes" do
+  describe "#section_attributes" do
     it "adds `confirm` class" do
-      expect(subject.classes).to include("confirm")
+      expect(subject.section_attributes[:class]).to include("confirm")
     end
   end
 

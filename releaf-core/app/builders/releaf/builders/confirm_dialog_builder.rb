@@ -1,5 +1,4 @@
 class Releaf::Builders::ConfirmDialogBuilder
-  include Releaf::Builders::View
   include Releaf::Builders::ResourceDialog
 
   attr_accessor :form
@@ -29,8 +28,8 @@ class Releaf::Builders::ConfirmDialogBuilder
     ]
   end
 
-  def classes
-    super << "confirm"
+  def section_attributes
+    merge_attributes(super, class: ["confirm"])
   end
 
   def footer_primary_tools

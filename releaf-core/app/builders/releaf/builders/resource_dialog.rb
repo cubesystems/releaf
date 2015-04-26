@@ -1,5 +1,8 @@
 module Releaf::Builders::ResourceDialog
+  include Releaf::Builders::View
   include Releaf::Builders::Resource
-  include Releaf::Builders::Dialog
 
+  def dialog?
+    true
+  end
 end
