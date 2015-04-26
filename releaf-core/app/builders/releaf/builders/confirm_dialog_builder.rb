@@ -4,7 +4,7 @@ class Releaf::Builders::ConfirmDialogBuilder
   attr_accessor :form
 
   def output
-    tag(:section, class: classes) do
+    tag(:section, section_attributes) do
       form_for(resource, confirm_form_options) do |form|
         self.form = form
         safe_join do
