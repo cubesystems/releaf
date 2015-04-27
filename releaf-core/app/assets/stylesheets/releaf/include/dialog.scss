@@ -3,6 +3,7 @@
 .dialog
 {
     margin: 0 auto;
+    width: 390px;
     background-color: white;
     box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
 }
@@ -125,14 +126,6 @@ main .dialog
 
 
 /* confirm_destroy and refused_destroy dialogs */
-
-.dialog.confirm,
-.dialog.refused-destroy
-
-{
-    width: 390px;
-}
-
 .dialog.confirm .body,
 .dialog.refused-destroy .body
 

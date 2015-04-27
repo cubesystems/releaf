@@ -6,7 +6,7 @@ class Releaf::Builders::EditBuilder
   attr_accessor :form
 
   def section
-    tag(:section) do
+    tag(:section, section_attributes) do
       form_for(resource, template.form_options(action_name, resource, :resource)) do |form|
         self.form = form
         safe_join do

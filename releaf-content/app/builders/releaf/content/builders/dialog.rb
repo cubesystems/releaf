@@ -1,6 +1,5 @@
 module Releaf::Content::Builders
   module Dialog
-    include Releaf::Builders::View
     include Releaf::Builders::ResourceDialog
     include Releaf::Builders::Collection
     include Releaf::Content::Builders::Tree

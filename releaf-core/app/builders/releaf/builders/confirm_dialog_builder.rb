@@ -1,11 +1,10 @@
 class Releaf::Builders::ConfirmDialogBuilder
-  include Releaf::Builders::View
   include Releaf::Builders::ResourceDialog
 
   attr_accessor :form
 
   def output
-    tag(:section, class: classes) do
+    tag(:section, section_attributes) do
       form_for(resource, confirm_form_options) do |form|
         self.form = form
         safe_join do
@@ -29,8 +28,8 @@ class Releaf::Builders::ConfirmDialogBuilder
     ]
   end
 
-  def classes
-    super << "confirm"
+  def section_attributes
+    merge_attributes(super, class: ["confirm"])
   end
 
   def footer_primary_tools
