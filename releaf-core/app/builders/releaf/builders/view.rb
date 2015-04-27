@@ -11,7 +11,7 @@ module Releaf::Builders::View
   end
 
   def dialog?
-    params[:dialog].to_i == 1
+    controller.ajax?
   end
 
   def dialog_name

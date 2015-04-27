@@ -42,24 +42,22 @@ describe Releaf::Builders::View, type: :class do
   end
 
   describe "#dialog?" do
+    let(:controller){ Releaf::BaseController.new }
+
     before do
-      controller = Releaf::BaseController.new
       allow(template).to receive(:controller).and_return(controller)
-      controller.params = {}
     end
 
-    context "when `dialog` params casted to integer is `1`" do
+    context "when controller has ajax mode enabled" do
       it "returns true" do
-        template.params[:dialog] = "1"
+        allow(controller).to receive(:ajax?).and_return(true)
         expect(subject.dialog?).to be true
       end
     end
 
-    context "when `dialog` params casted to integer is other than `1`" do
+    context "when controller has ajax mode disabled" do
       it "returns false" do
-        expect(subject.dialog?).to be false
-
-        template.params[:dialog] = "0"
+        allow(controller).to receive(:ajax?).and_return(false)
         expect(subject.dialog?).to be false
       end
     end
