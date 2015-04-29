@@ -604,6 +604,8 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_checkbox_group_content(name, items)
     safe_join do
+      [ hidden_field_tag("resource_#{name}", "", name: "resource[#{name}][]") ] +
+
       items.collect do|item|
         releaf_checkbox_group_item(name, item)
       end
