@@ -58,6 +58,16 @@ module Releaf::Builders::Base
     I18n.t(key, options)
   end
 
+  def translate_locale(locale)
+    t(locale, scope: "locales")
+  end
+
+  def locale_options(locales)
+    locales.collect do|locale|
+      [translate_locale(locale), locale]
+    end
+  end
+
   def default_translation_scope
     controller_scope_name
   end

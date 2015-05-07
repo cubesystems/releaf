@@ -231,6 +231,21 @@ describe Releaf::Builders::Base, type: :module do
     end
   end
 
+  describe "#translate_locale" do
+    it "returns translated locale within `locales` scope" do
+      allow(subject).to receive(:t).with("de", scope: "locales").and_return("dzerman")
+      expect(subject.translate_locale("de")).to eq("dzerman")
+    end
+  end
+
+  describe "#locale_options" do
+    it "returns array with translated locales usable for rails options helper" do
+      allow(subject).to receive(:t).with("de", scope: "locales").and_return("dzerman")
+      allow(subject).to receive(:t).with("lv", scope: "locales").and_return("latvian")
+      expect(subject.locale_options(["de", "lv"])).to eq([["dzerman", "de"], ["latvian", "lv"]])
+    end
+  end
+
   describe "#resource_to_text" do
     let(:resource){ Releaf::Permissions::User.new(name: "a", surname: "b") }
 

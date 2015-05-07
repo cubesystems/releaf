@@ -4,6 +4,16 @@ module Releaf::I18nDatabase::Translations
       [:key] + Releaf.all_locales
     end
 
+    def head_cell_content(column)
+      if Releaf.all_locales.include? column.to_s
+        tag(:span) do
+          translate_locale(column)
+        end
+      else
+        super
+      end
+    end
+
     def locale_value(resource, column)
       resource.locale_value(column)
     end

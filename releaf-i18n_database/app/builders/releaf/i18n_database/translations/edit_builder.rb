@@ -14,7 +14,7 @@ module Releaf::I18nDatabase::Translations
 
     def section_body
       tag(:div, class: "body") do
-        render(partial: "form_fields")
+        render partial: "form_fields", locals: {builder: self}
       end
     end
 

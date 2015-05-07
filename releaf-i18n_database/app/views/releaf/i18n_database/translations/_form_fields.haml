@@ -21,7 +21,7 @@
         %th.code-header= t("key", scope: attributes_scope)
         - locales.each do |locale|
           %th{"data-locale" => locale}
-            %span.name= t(locale, scope: attributes_scope)
+            %span.name= builder.translate_locale(locale)
         %th.delete-header  
     %tbody#variables.list
       - @collection.each_with_index do |translation, index|

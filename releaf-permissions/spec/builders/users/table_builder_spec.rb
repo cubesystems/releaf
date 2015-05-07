@@ -11,4 +11,11 @@ describe Releaf::Permissions::Users::TableBuilder, type: :class do
       expect(subject.column_names).to eq([:name, :surname, :role, :email, :locale])
     end
   end
+
+  describe "#locale_content" do
+    it "returns translated locale" do
+      allow(subject).to receive(:translate_locale).with("de").and_return("deutch")
+      expect(subject.locale_content(resource_class.new(locale: "de"))).to eq("deutch")
+    end
+  end
 end

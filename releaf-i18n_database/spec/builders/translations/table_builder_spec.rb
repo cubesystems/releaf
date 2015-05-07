@@ -6,9 +6,29 @@ describe Releaf::I18nDatabase::Translations::TableBuilder, type: :class do
   let(:resource_class){ Releaf::I18nDatabase::Translation }
   let(:subject){ described_class.new([], resource_class, template, {}) }
 
+  before do
+    allow(Releaf).to receive(:all_locales).and_return(["de", "ze"])
+  end
+
   describe "#column_names" do
     it "returns key and Releaf.all_locales column names array" do
-      expect(subject.column_names).to eq([:key, "en", "lv"])
+      expect(subject.column_names).to eq([:key, "de", "ze"])
+    end
+  end
+
+  describe "#head_cell_content" do
+    context "when locale column given" do
+      it "returns head cell content with translated locale" do
+        allow(subject).to receive(:translate_locale).with("de").and_return("gegxxxeg")
+        expect(subject.head_cell_content("de")).to eq('<span>gegxxxeg</span>')
+      end
+    end
+
+    context "when non locale column given" do
+      it "returns head cell content with translated locale" do
+        expect(subject).to_not receive(:translate_locale)
+        expect(subject.head_cell_content("lv")).to eq('<span>Lv</span>')
+      end
     end
   end
 

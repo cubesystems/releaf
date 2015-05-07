@@ -512,7 +512,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         tag(:ul, class: "block") do
           object.class.globalize_locales.collect do |locale, i|
             tag(:li) do
-              tag(:button, locale, type: "button", data: {locale: locale})
+              tag(:button, translate_locale(locale), type: "button", data: {locale: locale})
             end
           end
         end
