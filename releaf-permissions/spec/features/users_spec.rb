@@ -23,8 +23,8 @@ feature "Users", js: true do
         fill_in 'Password', with: "password", match: :prefer_exact
         fill_in 'Password confirmation', with: "password", match: :prefer_exact
 
-        expect(page).to have_select('Locale', options: [""] + Releaf.available_admin_locales)
-        select 'en', from: 'Locale'
+        expect(page).to have_select('Locale', options: ["", "En", "Lv"])
+        select 'En', from: 'Locale'
       end
 
       expect(page).to have_content 'John Appleseed'

@@ -6,9 +6,9 @@ feature "User profile" do
   end
 
   scenario "name, surname and locale" do
-    fill_in 'Name',    :with => "Edward"
-    fill_in 'Surname', :with => "Bat"
-    select "lv", :from => "Locale"
+    fill_in 'Name',    with: "Edward"
+    fill_in 'Surname', with: "Bat"
+    select "Lv", from: "Locale"
     click_button 'Save'
 
     expect(page).to have_css('header .profile .name', text: "Edward Bat")
@@ -16,9 +16,9 @@ feature "User profile" do
 
   scenario "password and email" do
     # update
-    fill_in 'Email', :with => "new.email@example.com"
-    fill_in 'Password', :with => "newpassword123", :match => :prefer_exact
-    fill_in 'Password confirmation', :with => "newpassword123", :match => :prefer_exact
+    fill_in 'Email', with:  "new.email@example.com"
+    fill_in 'Password', with:  "newpassword123", match: :prefer_exact
+    fill_in 'Password confirmation', with:  "newpassword123", match: :prefer_exact
     click_button 'Save'
 
     # logout
@@ -26,8 +26,8 @@ feature "User profile" do
 
     # login
     visit releaf_root_path
-    fill_in 'Email',    :with => "new.email@example.com"
-    fill_in 'Password', :with => "newpassword123"
+    fill_in 'Email',    with:  "new.email@example.com"
+    fill_in 'Password', with:  "newpassword123"
     click_button 'Sign in'
 
     expect(page).to have_css('.sign-out')

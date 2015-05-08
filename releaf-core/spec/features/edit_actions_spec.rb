@@ -41,11 +41,11 @@ feature "Base controller edit", js: true do
   scenario "remember last active locale for localized fields" do
     visit admin_book_path(id: @good_book.id)
     within(".localization-switch") do
-      click_button("en")
+      click_button "en"
     end
 
     within(".localization-menu-items") do
-      click_button("lv")
+      click_button "Lv"
     end
 
     visit admin_book_path(id: @good_book.id)
