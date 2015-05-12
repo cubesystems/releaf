@@ -11,50 +11,111 @@ describe Releaf::Builders, type: :class do
   class Admin::Advanced::Builders < Releaf::Builders; end
 
   describe ".builder_class" do
-    it "returns first resolved builder class from given and inherited scopes" do
+    before do
       allow(described_class).to receive(:inherited_builder_scopes).and_return(["Releaf::Permissions::Users"])
-      expect(described_class).to receive(:builder_defined?).with("Admin::Advanced::FormBuilder")
-        .and_return(false).ordered
-      expect(described_class).to receive(:builder_defined?).with("Releaf::Permissions::Users::FormBuilder")
-        .and_return(true).ordered
-      expect(described_class.builder_class(["Admin::Advanced"], :form)).to eq(Releaf::Permissions::Users::FormBuilder)
+    end
 
-      expect(described_class).to receive(:builder_defined?).with("Admin::Advanced::FormBuilder")
-        .and_return(true)
-      expect(described_class.builder_class(["Admin::Advanced"], :form)).to eq(Admin::Advanced::FormBuilder)
+    it "returns first existing builder class from given and inherited scopes" do
+      expect(described_class).to receive(:builder_class_at_scope).with("Admin::Advanced", :form)
+        .and_return(nil).ordered
+      expect(described_class).to receive(:builder_class_at_scope).with("Releaf::Permissions::Users", :form)
+        .and_return(Releaf::Permissions::Users::FormBuilder).ordered
+
+      expect(described_class.builder_class(["Admin::Advanced"], :form)).to eq(Releaf::Permissions::Users::FormBuilder)
     end
 
     context "when no builders exists for given scope and type" do
       it "raises error" do
-        allow(described_class).to receive(:inherited_builder_scopes).and_return([])
-        error_message = 'unexisting builder (type: form; scopes: Admin::Simple)'
-        expect{ described_class.builder_class(["Admin::Simple"], :form) }.to raise_error(ArgumentError, error_message)
-
-        error_message = 'unexisting builder (type: asd; scopes: Admin::Advanced)'
-        expect{ described_class.builder_class(["Admin::Advanced"], :asd) }.to raise_error(ArgumentError, error_message)
+        allow(described_class).to receive(:builder_class_at_scope).and_return(nil)
+        error_message = 'unexisting builder (type: form; scopes: Admin::Advanced)'
+        expect{ described_class.builder_class(["Admin::Advanced"], :form) }.to raise_error(ArgumentError, error_message)
       end
     end
   end
 
-  describe ".builder_defined?" do
-    it "returns whether given class is loaded and exists as constant" do
-      allow(Object).to receive(:const_defined?).and_call_original
-      allow(Object).to receive(:const_defined?).with("Something").and_return(true)
-      expect(described_class.builder_defined?("Something")).to be true
-
-      allow(Object).to receive(:const_defined?).with("Something").and_return(false)
-      expect(described_class.builder_defined?("Something")).to be false
+  describe ".builder_class_at_scope" do
+    before do
+      allow(described_class).to receive(:constant_defined_at_scope?)
+        .with("Releaf::Builders", Object).and_return(true)
+      allow(described_class).to receive(:constant_defined_at_scope?)
+        .with("Releaf::Builders::EditBuilder", Releaf::Builders).and_return(true)
     end
 
-    context "when eager load is switched off" do
-      it "call application eager load" do
-        allow(Rails.application.config).to receive(:eager_load).and_return(false)
-        expect(Rails.application).to receive(:eager_load!)
-        described_class.builder_defined?("Something")
+    context "when scope and builder exists" do
+      it "returns builder class" do
+        expect(described_class.builder_class_at_scope("Releaf::Builders", :edit)).to eq(Releaf::Builders::EditBuilder)
+      end
+    end
 
-        allow(Rails.application.config).to receive(:eager_load).and_return(true)
-        expect(Rails.application).to_not receive(:eager_load!)
-        described_class.builder_defined?("Something")
+    context "when scope exists but builder does not" do
+      it "returns nil" do
+        allow(described_class).to receive(:constant_defined_at_scope?)
+          .with("Releaf::Builders", Object).and_return(false)
+        expect(described_class.builder_class_at_scope("Releaf::Builders", :edit)).to be nil
+      end
+    end
+
+    context "when scope does not exist" do
+      it "returns nil" do
+        allow(described_class).to receive(:constant_defined_at_scope?)
+          .with("Releaf::Builders::EditBuilder", Releaf::Builders).and_return(false)
+        expect(described_class.builder_class_at_scope("Releaf::Builders", :edit)).to be nil
+      end
+    end
+  end
+
+  describe ".constant_defined_at_scope?" do
+    before do
+      allow(Releaf).to receive(:const_get).and_call_original
+    end
+
+    it "checks constant existence within given scope" do
+      expect(Releaf).to receive(:const_get).with("Releaf::Builders::FormBuilder").and_call_original
+      described_class.constant_defined_at_scope?("Releaf::Builders::FormBuilder", Releaf)
+
+      expect(Releaf).to receive(:const_get).with("Releaf::Builders::AnotherFormBuilder").and_call_original
+      described_class.constant_defined_at_scope?("Releaf::Builders::AnotherFormBuilder", Releaf)
+
+      expect(Admin).to receive(:const_get).with("Admin:xx").and_call_original
+      described_class.constant_defined_at_scope?("Admin:xx", Admin)
+    end
+
+    context "when constant exists at given namespace" do
+      it "returns true" do
+        expect(described_class.constant_defined_at_scope?("Releaf::Builders::FormBuilder", Releaf)).to be true
+      end
+    end
+
+    context "when NameError raised" do
+      context "when error message matches against constant name pattern" do
+        it "returns false" do
+          allow(described_class).to receive(:constant_name_error?)
+            .with("uninitialized constant Releaf::Builders::AnotherFormBuilder", "Releaf::Builders::AnotherFormBuilder")
+            .and_return(true)
+          expect(described_class.constant_defined_at_scope?("Releaf::Builders::AnotherFormBuilder", Releaf)).to be false
+        end
+      end
+
+      context "when error message does not match against constant name pattern" do
+        it "reraises it" do
+          allow(described_class).to receive(:constant_name_error?)
+            .with("uninitialized constant Releaf::Builders::AnotherFormBuilder", "Releaf::Builders::AnotherFormBuilder")
+            .and_return(false)
+
+          expect{ described_class.constant_defined_at_scope?("Releaf::Builders::AnotherFormBuilder", Releaf) }
+            .to raise_error(NameError, "uninitialized constant Releaf::Builders::AnotherFormBuilder")
+        end
+      end
+    end
+
+    context "when any other error raised" do
+      it "does not rescue it" do
+        allow(Releaf).to receive(:const_get).with("Releaf::Builders::FormBuilder")
+                  .and_raise(ArgumentError, "xxx")
+        expect(described_class).to_not receive(:constant_name_error?)
+
+        expect{ described_class.constant_defined_at_scope?("Releaf::Builders::FormBuilder", Releaf) }
+          .to raise_error(ArgumentError, "xxx")
       end
     end
   end
