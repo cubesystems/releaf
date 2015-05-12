@@ -6,6 +6,10 @@ class Releaf::Builders::IndexBuilder
     search
   end
 
+  def dialog?
+    false
+  end
+
   def text_search_available?
     template_variable("searchable_fields").present?
   end
