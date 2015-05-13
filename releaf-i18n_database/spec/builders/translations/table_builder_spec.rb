@@ -20,15 +20,22 @@ describe Releaf::I18nDatabase::Translations::TableBuilder, type: :class do
     context "when locale column given" do
       it "returns head cell content with translated locale" do
         allow(subject).to receive(:translate_locale).with("de").and_return("gegxxxeg")
-        expect(subject.head_cell_content("de")).to eq('<span>gegxxxeg</span>')
+        expect(subject.head_cell_content("de")).to eq('gegxxxeg')
       end
     end
 
     context "when non locale column given" do
       it "returns head cell content with translated locale" do
         expect(subject).to_not receive(:translate_locale)
-        expect(subject.head_cell_content("lv")).to eq('<span>Lv</span>')
+        expect(subject.head_cell_content("lv")).to eq('Lv')
       end
+    end
+  end
+
+  describe "#cell_content" do
+    it "wraps content within span element" do
+      resource = resource_class.new(key: "xx")
+      expect(subject.cell_content(resource, :key, format_method: :format_string_content)).to eq("<span>xx</span>")
     end
   end
 

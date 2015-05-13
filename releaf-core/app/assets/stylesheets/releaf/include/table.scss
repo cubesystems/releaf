@@ -51,7 +51,8 @@ section .body > .table td:last-child
     background-color: #d0eeec;
 }
 
-.table td a:not(.button)
+.table td a:not(.button),
+.table td > span
 {
     text-decoration: none;
     color: #1d1d1d;
@@ -61,19 +62,7 @@ section .body > .table td:last-child
 }
 
 .table th,
-.table td:not(.toolbox-cell) a:not(.button)
-{
-    padding: 5px 0;
-}
-
-.table th span,
-.table td a > span,
-.table td > span
-{
-    display: inline-block;
-    padding: 0 6px;
-}
-
+.table td:not(.toolbox-cell) a:not(.button),
 .table td > span
 {
     padding: 5px 6px;

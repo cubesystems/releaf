@@ -73,10 +73,8 @@ class Releaf::Builders::TableBuilder
 
   def head_cell_content(column)
     unless column.to_sym == :toolbox
-      tag(:span) do
-        attribute = column.to_s.gsub(".", "_")
-        I18n.t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
-      end
+      attribute = column.to_s.gsub(".", "_")
+      I18n.t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
     end
   end
 
@@ -128,12 +126,10 @@ class Releaf::Builders::TableBuilder
   end
 
   def cell_content(resource, column, options)
-    tag(:span) do
-      if options[:content_method]
-        send(options[:content_method], resource)
-      else
-        send(options[:format_method], resource, column)
-      end
+    if options[:content_method]
+      send(options[:content_method], resource)
+    else
+      send(options[:format_method], resource, column)
     end
   end
 

@@ -197,15 +197,16 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
+
   describe "#head_cell_content" do
-    it "returns translated column scoped to resource class attributes within span element" do
+    it "returns translated column scoped to resource class attributes" do
       allow(I18n).to receive(:t).with("some_long_name", scope: "activerecord.attributes.book").and_return("Taittls")
-      expect(subject.head_cell_content("some_long_name")).to eq('<span>Taittls</span>')
+      expect(subject.head_cell_content("some_long_name")).to eq('Taittls')
     end
 
     it "casts given column to string" do
       allow(I18n).to receive(:t).with("title", scope: "activerecord.attributes.book").and_return("Taittls")
-      expect(subject.head_cell_content(:title)).to eq('<span>Taittls</span>')
+      expect(subject.head_cell_content(:title)).to eq('Taittls')
     end
 
     context "when column value is 'toolbox'" do
@@ -301,20 +302,20 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#cell_content" do
-    it "returns format method output with resource and column as arguments wrapped in span element" do
+    it "returns format method output with resource and column as arguments" do
       options = {format_method: "custom_format"}
       allow(inheriter_subject).to receive(:custom_format).with("a", :title).and_return('_custom " format_')
 
-      content = '<span>_custom &quot; format_</span>'
+      content = '_custom " format_'
       expect(inheriter_subject.cell_content("a", :title, options)).to eq(content)
     end
 
     context "when given options has :content_method" do
-      it "returns content method output with resource as argument wrapped in span element" do
+      it "returns content method output with resource as argument" do
         options = {content_method: "custom_title", format_method: "custom_format"}
         allow(inheriter_subject).to receive(:custom_title).with("a").and_return('_custom " _value_')
 
-        content = '<span>_custom &quot; _value_</span>'
+        content = '_custom " _value_'
         expect(inheriter_subject.cell_content("a", :title, options)).to eq(content)
       end
     end
