@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'font-awesome-rails'
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
-  s.add_dependency 'globalize-accessors'
+  s.add_dependency 'globalize-accessors', '~> 0.2.1'
   s.add_dependency 'nokogiri'
   s.add_dependency 'rack-cache'
   s.add_dependency 'axlsx_rails'
