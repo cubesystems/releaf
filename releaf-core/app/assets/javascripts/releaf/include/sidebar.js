@@ -8,30 +8,82 @@ jQuery(function(){
         body.trigger('sidecompactcloseall');
     });
 
-    body.bind('sidebarinit', function(e)
+    var first_level_side_items = jQuery();
+
+    body.on('sidecompactcloseall', function()
     {
-        var target = jQuery(e.target);
+        first_level_side_items.filter('.open').trigger('sidecompactitemclose');
+    });
 
-        e.stopPropagation();
-
-        var sidebar;
-        if (target.is('aside'))
+    body.on('sidecompactchange', function()
+    {
+        if (body.hasClass('side-compact'))
         {
-            sidebar = target;
+            first_level_side_items.each(function()
+            {
+                var trigger = jQuery(this).children('.trigger');
+                trigger.attr( 'title', trigger.children('.name').text() );
+            });
         }
         else
         {
-            sidebar = target.find('aside');
+            first_level_side_items.children('.trigger').removeAttr('title');
+        }
+    });
+
+    body.on('contentloaded', function(e)
+    {
+        var header = jQuery(e.target).find('header').addBack().filter('body > header');
+        if (header.length < 1)
+        {
+            return;
         }
 
+        header.on('click', function()
+        {
+            // add additional trigger on header to close opened compact submenu
+            // because header is above the side compact overlay
+            if (!body.hasClass('side-compact') || first_level_side_items.filter('.open').length < 1)
+            {
+                return;
+            }
+
+            body.trigger('sidecompactcloseall');
+            return false;
+        });
+    });
+
+    body.on('contentloaded', function(e)
+    {
+        var sidebar = jQuery(e.target).find('aside').addBack().filter('body > aside');
         if (sidebar.length < 1)
         {
             return;
         }
 
-        var first_level_side_items =  sidebar.find('nav > ul > li');
+        first_level_side_items = sidebar.find('nav > ul > li');
 
-        sidebar.find('.compacter button').click(function()
+        first_level_side_items.on('sidecompactitemopen', function()
+        {
+            body.trigger('sidecompactcloseall');
+            jQuery(this).addClass('open');
+            side_compact_overlay.show();
+        });
+
+        first_level_side_items.on('sidecompactitemclose', function()
+        {
+            jQuery(this).removeClass('open');
+            side_compact_overlay.hide();
+        });
+
+        first_level_side_items.on('sidecompacttoggle', function()
+        {
+            var item   = jQuery(this);
+            var event = (item.is('.open')) ? 'sidecompactitemclose' : 'sidecompactitemopen';
+            item.trigger( event );
+        });
+
+        sidebar.find('.compacter button').on('click', function()
         {
             var button = jQuery(this);
             var icon = button.find('i').first();
@@ -52,25 +104,9 @@ jQuery(function(){
             body.trigger('sidecompactchange');
         });
 
-        body.unbind('sidecompactchange').bind('sidecompactchange', function()
-        {
-            if (body.hasClass('side-compact'))
-            {
-                first_level_side_items.each(function()
-                {
-                    var trigger = jQuery(this).children('.trigger');
-                    trigger.attr( 'title', trigger.children('.name').text() );
-                });
-            }
-            else
-            {
-                first_level_side_items.children('.trigger').removeAttr('title');
-            }
-        });
-
         body.trigger('sidecompactchange');
 
-        sidebar.find('> nav .collapser button').click(function(e)
+        sidebar.find('> nav .collapser button').on('click', function(e)
         {
             var item = jQuery(this).closest('li');
             e.stopPropagation();
@@ -89,45 +125,6 @@ jQuery(function(){
 
         });
 
-        first_level_side_items.bind('sidecompactitemopen', function()
-        {
-            body.trigger('sidecompactcloseall');
-            jQuery(this).addClass('open');
-            side_compact_overlay.show();
-        });
-
-        first_level_side_items.bind('sidecompactitemclose', function()
-        {
-            jQuery(this).removeClass('open');
-            side_compact_overlay.hide();
-        });
-
-
-        first_level_side_items.bind('sidecompacttoggle', function()
-        {
-            var item   = jQuery(this);
-            var event = (item.is('.open')) ? 'sidecompactitemclose' : 'sidecompactitemopen';
-            item.trigger( event );
-        });
-
-        body.unbind('sidecompactcloseall').bind('sidecompactcloseall', function()
-        {
-            first_level_side_items.filter('.open').trigger('sidecompactitemclose');
-        });
-
-        jQuery('body > header').click(function()
-        {
-            // add additional trigger on header to close opened compact submenu
-            // because header is above the side compact overlay
-            if (!body.hasClass('side-compact') || first_level_side_items.filter('.open').length < 1)
-            {
-                return;
-            }
-
-            body.trigger('sidecompactcloseall');
-            return false;
-        });
-
         sidebar.find('> nav span.trigger').click(function()
         {
             if (body.hasClass('side-compact'))
@@ -140,11 +137,6 @@ jQuery(function(){
                 jQuery(this).find('.collapser button').trigger('click');
             }
         });
-    });
 
-    // attach toolboxinit to all loaded content
-    body.on('contentloaded', function(e)
-    {
-        jQuery(e.target).trigger('sidebarinit');
     });
 });
