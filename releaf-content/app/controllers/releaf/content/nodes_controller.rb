@@ -23,7 +23,7 @@ module Releaf::Content
     end
 
     def node_builder_scope
-      [Releaf.mount_location.capitalize, "Nodes"].reject(&:empty?).join("::")
+      [application_scope, "Nodes"].reject(&:blank?).join("::")
     end
 
     def copy_dialog

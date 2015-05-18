@@ -227,7 +227,12 @@ module Releaf
     end
 
     def application_builder_scope
-      [Releaf.mount_location.capitalize, "Builders"].reject(&:empty?).join("::")
+      [application_scope, "Builders"].reject(&:blank?).join("::")
+    end
+
+    def application_scope
+      scope = Releaf.mount_location.capitalize
+      scope if scope.present? && Object.const_defined?(scope)
     end
 
     def builder_scopes
