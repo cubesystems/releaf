@@ -124,9 +124,10 @@ var Validator = function( node_or_selector, options )
                             jQuery.each( fieldErrors, function( index, error )
                             {
                                 var error_object = {
-                                    message   : error.full_message,
-                                    errorCode : error.error_code,
-                                    fieldName : fieldName
+                                    message     : error.message,
+                                    fullMessage : error.full_message,
+                                    errorCode   : error.error_code,
+                                    fieldName   : fieldName
                                 };
                                 if('data' in error)
                                 {

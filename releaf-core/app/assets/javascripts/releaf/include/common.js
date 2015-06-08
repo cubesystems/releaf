@@ -255,7 +255,7 @@ jQuery(function(){
                     {
                         return;
                     }
-                    if (jQuery(this).text() == error.message)
+                    if (jQuery(this).text() == error.fullMessage)
                     {
                         error_node = jQuery(this);
                     }
@@ -269,7 +269,7 @@ jQuery(function(){
                 }
 
                 error_node.attr('data-validation-id', event_params.validation_id);
-                error_node.text( error.message );
+                error_node.text( error.fullMessage );
 
                 if (new_error_node)
                 {
