@@ -128,7 +128,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        expect(page).to have_css('.dialog .form-error-box', text: "Source or descendant node can't be parent of new node")
+        error_text = 'Node with id 3 has error "source or descendant node can\'t be parent of new node"'
+        expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
   end
@@ -163,7 +164,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Move"
         end
 
-        expect(page).to have_css('.dialog .form-error-box', text: "Can't be parent to itself")
+        error_text = 'Node with id 3 has error "can\'t be parent to itself" on attribute "parent_id"'
+        expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
 

@@ -90,9 +90,10 @@ var RemoteValidator = function( form )
                     jQuery.each( fieldErrors, function( index, error )
                     {
                         var error_object = {
-                            message   : error.full_message,
-                            errorCode : error.error_code,
-                            fieldName : fieldName
+                            message         : error.message,
+                            fullMessage     : error.full_message,
+                            errorCode       : error.error_code,
+                            fieldName       : fieldName
                         };
                         if('data' in error)
                         {
@@ -229,7 +230,7 @@ var RemoteValidator = function( form )
             }
 
             error_node.attr('data-validation-id', event_params.validation_id);
-            error_node.text( error.message );
+            error_node.text( error.fullMessage );
 
             if (new_error_node)
             {
