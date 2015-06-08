@@ -2,12 +2,12 @@ module Releaf
   class ErrorFormatter
     attr_reader :errors
 
-    def self.format_errors resource, field_name_prefix="resource"
+    def self.format_errors(resource, field_name_prefix = "resource")
       validator = new(resource, field_name_prefix)
       validator.errors
     end
 
-    def initialize resource, field_name_prefix
+    def initialize(resource, field_name_prefix)
       @resource = resource
       @klass = @resource.class
       @field_name_prefix = field_name_prefix
@@ -28,7 +28,7 @@ module Releaf
       end
     end
 
-    def process_nested_resource_errors attribute
+    def process_nested_resource_errors(attribute)
       association_name = attribute.to_s.split('.', 2).first
       if single_association? association_name
         prefix_template = "#{@field_name_prefix}[#{association_name}_attributes]"
@@ -45,16 +45,16 @@ module Releaf
       end
     end
 
-    def models_attribute? attribute
+    def models_attribute?(attribute)
       attribute !~ /\./
     end
 
-    def add_error attribute, message
+    def add_error(attribute, message)
       @errors[field_id(attribute)] ||= []
       @errors[field_id(attribute)] << error_hash(attribute, message)
     end
 
-    def error_hash attribute, message
+    def error_hash(attribute, message)
       h = {
         error_code: message.error_code,
         message: I18n.t(message, scope: @error_message_i18n_scope),
@@ -77,7 +77,7 @@ module Releaf
       I18n.t(template, options)
     end
 
-    def field_id attribute
+    def field_id(attribute)
       return @field_name_prefix if attribute.to_sym == :base
       field = attribute
       if association(attribute).present?
@@ -87,15 +87,15 @@ module Releaf
       "#{@field_name_prefix}[#{field}]"
     end
 
-    def single_association? association_name
+    def single_association?(association_name)
       [:belongs_to, :has_one].include? association_type(association_name)
     end
 
-    def association_type association_name
+    def association_type(association_name)
       association(association_name).macro
     end
 
-    def association association_name
+    def association(association_name)
       @klass.reflect_on_association(association_name.to_sym)
     end
 
