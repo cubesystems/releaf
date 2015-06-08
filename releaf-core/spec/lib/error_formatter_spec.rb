@@ -46,7 +46,14 @@ describe Releaf::ErrorFormatter do
       b.valid?
       b
     }
-    let(:blank_error) { {error_code: :blank, full_message: "Blank"} }
+
+    def blank_error(attribute, class_name='DummyResourceValidatorBook', id='null')
+      {
+        error_code: :blank,
+        message: "Blank",
+        full_message: "#{class_name} with id #{id} has error \"Blank\" on attribute \"#{attribute}\""
+      }
+    end
 
     it "is called after initialization" do
       expect_any_instance_of( described_class ).to receive(:format_errors)
@@ -60,34 +67,38 @@ describe Releaf::ErrorFormatter do
     end
 
     it "correctly adds errors for fields resource fields" do
-      expect( subject.errors["resource[title]"] ).to eq [blank_error]
+      expect( subject.errors["resource[title]"] ).to eq [blank_error('title')]
     end
 
     it "correclty adds errors for missing associated object (belongs_to)" do
-      expect( subject.errors["resource[author_id]"] ).to eq [blank_error]
+      expect( subject.errors["resource[author_id]"] ).to eq [blank_error('author')]
     end
 
     it "correctly adds error for missing associated object attributes (belongs_to)" do
       book.build_author
       book.valid?
-      expect( subject.errors["resource[author_attributes][name]"] ).to eq [blank_error]
+      expect( subject.errors["resource[author_attributes][name]"] ).to eq [blank_error('name', 'DummyResourceValidatorAuthor')]
     end
 
     it "correctly adds error for missing associated object attributes (has_many)" do
-      book.chapters.new
+      book.chapters.new(id: 12)
       book.chapters.new(:title => 'test')
       book.valid?
-      expect( subject.errors["resource[chapters_attributes][0][title]"] ).to eq [blank_error]
+      expect( subject.errors["resource[chapters_attributes][0][title]"] ).to eq [blank_error('title', 'Chapter', '12')]
       expect( subject.errors["resource[chapters_attributes][1][title]"] ).to be_nil
 
-      expect( subject.errors["resource[chapters_attributes][0][text]"] ).to eq [blank_error]
-      expect( subject.errors["resource[chapters_attributes][1][text]"] ).to eq [blank_error]
+      expect( subject.errors["resource[chapters_attributes][0][text]"] ).to eq [blank_error('text', 'Chapter', '12')]
+      expect( subject.errors["resource[chapters_attributes][1][text]"] ).to eq [blank_error('text', 'Chapter')]
     end
 
     it "handles errors on base" do
       book.add_error_on_base = true
       book.valid?
-      expect( subject.errors["resource"] ).to eq [{error_code: :invalid, full_message: "Error on base"}]
+      expect( subject.errors["resource"] ).to eq [{
+        error_code: :invalid,
+        message: "Error on base",
+        full_message: 'DummyResourceValidatorBook with id null has error "error on base"'
+      }]
     end
   end
 
@@ -165,6 +176,29 @@ describe Releaf::ErrorFormatter do
     end
 
     it "adds error to errors" do
+      expected_result = {
+        'resource[title]' => [
+          {
+            error_code: 'test error',
+            message: 'Error message',
+            full_message: 'Book with id null has error "error message" on attribute "title"'
+          },
+          {
+            error_code: 'test error',
+            message: 'Jet another error message',
+            full_message: 'Book with id null has error "jet another error message" on attribute "title"'
+          }
+        ],
+        'resource[author_id]' => [
+          {
+            error_code: 'invalid',
+            message: 'Invalid author',
+            full_message: 'Book with id null has error "invalid author" on attribute "author"',
+            data: {foo: :bar}
+          }
+        ]
+      }
+
       message = ActiveModel::ErrorMessage.new("error message")
       allow(message).to receive(:error_code).and_return('test error')
       allow(message).to receive(:data).and_return(nil)
@@ -181,15 +215,7 @@ describe Releaf::ErrorFormatter do
         subject.send(:add_error, 'title', message)
         subject.send(:add_error, 'author', other_message)
         subject.send(:add_error, 'title', jet_another_message)
-      end.to change { subject.errors }.from({}).to({
-        'resource[title]' => [
-          {error_code: 'test error', full_message: 'Error message'},
-          {error_code: 'test error', full_message: 'Jet another error message'},
-        ],
-        'resource[author_id]' => [
-          {error_code: 'invalid', full_message: 'Invalid author', data: {foo: :bar}},
-        ],
-      })
+      end.to change { subject.errors }.from({}).to(expected_result)
     end
 
     it "localizes error messages" do
@@ -198,6 +224,16 @@ describe Releaf::ErrorFormatter do
       allow(message).to receive(:data).and_return(nil)
 
       expect( I18n ).to receive(:t).with(message, scope: "activerecord.errors.messages.book").and_call_original
+
+      template = "%{class} with id %{id} has error \"error message\" on attribute \"%{attribute}\""
+      expect( I18n ).to receive(:t).with(template, {
+        default: template,
+        attribute: 'title',
+        class: 'Book',
+        id: 'null',
+        scope: "activerecord.errors.messages.book"
+      }).and_call_original
+
       subject.send(:add_error, 'title', message)
     end
   end

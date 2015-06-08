@@ -51,13 +51,30 @@ module Releaf
 
     def add_error attribute, message
       @errors[field_id(attribute)] ||= []
-      @errors[field_id(attribute)] << error_hash(message)
+      @errors[field_id(attribute)] << error_hash(attribute, message)
     end
 
-    def error_hash message
-      h = {error_code: message.error_code, full_message: I18n.t(message, scope: @error_message_i18n_scope)}
+    def error_hash attribute, message
+      h = {
+        error_code: message.error_code,
+        message: I18n.t(message, scope: @error_message_i18n_scope),
+        full_message: full_error_message(attribute, message)
+      }
       h[:data] = message.data unless message.data.nil?
       h
+    end
+
+    def full_error_message(attribute, message)
+      template = "%{class} with id %{id} has error \"#{message}\""
+      template += ' on attribute "%{attribute}"' unless attribute.to_sym == :base
+      options = {
+        default: template,
+        attribute: attribute,
+        class: @resource.class.name,
+        id: @resource.id ? @resource.id.to_s : 'null',
+        scope: @error_message_i18n_scope
+      }
+      I18n.t(template, options)
     end
 
     def field_id attribute
