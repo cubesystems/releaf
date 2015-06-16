@@ -6,8 +6,8 @@ class Releaf::Builders::EditBuilder
   attr_accessor :form
 
   def section
-    tag(:section) do
-      form_for(resource, template.form_options(action_name, resource, :resource)) do |form|
+    tag(:section, section_attributes) do
+      form_for(resource, form_options) do |form|
         self.form = form
         safe_join do
           [index_url_preserver] + section_blocks
@@ -47,6 +47,10 @@ class Releaf::Builders::EditBuilder
 
   def form_fields
     form.releaf_fields(form.field_names.to_a)
+  end
+
+  def form_options
+    controller.form_options(action_name, resource, :resource)
   end
 
   #-#TODO: improve style/html

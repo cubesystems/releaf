@@ -86,17 +86,12 @@ module Releaf
 
     def self.field_type_name_for_text attribute_name, obj
       case attribute_name.to_s
-      when /_(url|homepage)$/, 'homepage', 'url'
-        return 'url'
-
-      when /_link$/
-        return 'link_or_url'
-
+      when /_(url|homepage|link)$/, 'homepage', 'url'
+        'link'
       when /_html$/, 'html'
-        return 'richtext'
-
+        'richtext'
       else
-        return 'textarea'
+        'textarea'
       end
     end
 
@@ -128,6 +123,5 @@ module Releaf
     def self.field_type_name_for_boolean attribute_name, obj
       return 'boolean'
     end
-
   end
 end

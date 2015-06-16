@@ -1,5 +1,4 @@
 class Releaf::Builders::RefusedDestroyDialogBuilder
-  include Releaf::Builders::View
   include Releaf::Builders::ResourceDialog
 
   def section_body

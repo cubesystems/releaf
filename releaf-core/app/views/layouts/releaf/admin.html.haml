@@ -5,23 +5,13 @@
   body_classes << "view-#{controller.active_view}"  if controller.respond_to? :active_view
   body_classes << "side-compact" if current_admin_user.try(:settings).try(:[], 'releaf.side.compact')
 
-  _assets_path = __FILE__.split('/')[0...-1].join('/') + "/../../../assets"
-  controller_asset = params[:controller]
-
 !!! 5
 %html
   %head
     %title= page_title
     %meta{content: "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
-    = stylesheet_link_tag "releaf/application", media: 'all'
-    - if Releaf::AssetsResolver.stylesheet_exists? controller_asset
-      = stylesheet_link_tag "releaf/controllers/#{controller_asset}", media: 'all'
-    - %w[css.scss.erb scss.erb css.scss scss css.erb css sass.erb sass].each do |ext|
-      - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/controllers/#{controller_asset}.#{ext}")
-        = stylesheet_link_tag "controllers/#{controller_asset}", media: 'all'
-      - if File.exists?(Rails.root.to_s + "/app/assets/stylesheets/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
-        = stylesheet_link_tag "releaf/#{Rails.application.class.parent_name.downcase}", media: 'all'
-
+    - Releaf.assets_resolver.controller_assets(params[:controller], :stylesheets).each do|asset|
+      = stylesheet_link_tag asset, media: 'all'
     = csrf_meta_tags
   %body{class: body_classes}
     - if self.send(:"#{Releaf::ReleafDeviseHelper.devise_admin_model_name}_signed_in?")
@@ -67,11 +57,5 @@
     - else
       = yield
 
-    = javascript_include_tag "releaf/application"
-    - if Releaf::AssetsResolver.javascript_exists? controller_asset
-      = javascript_include_tag "releaf/controllers/#{controller_asset}"
-    - %w[js js.erb].each do |ext|
-      - if File.exists?(Rails.root.to_s + "/app/assets/javascripts/controllers/#{controller_asset}.#{ext}")
-        = javascript_include_tag "controllers/#{controller_asset}"
-      - if File.exists?(Rails.root.to_s + "/app/assets/javascripts/releaf/#{Rails.application.class.parent_name.downcase}.#{ext}")
-        = javascript_include_tag "releaf/#{Rails.application.class.parent_name.downcase}"
+    - Releaf.assets_resolver.controller_assets(params[:controller], :javascripts).each do|asset|
+      = javascript_include_tag asset

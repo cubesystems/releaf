@@ -73,9 +73,8 @@ class Releaf::Builders::TableBuilder
 
   def head_cell_content(column)
     unless column.to_sym == :toolbox
-      tag(:span) do
-        I18n.t(column.to_s, scope: "activerecord.attributes.#{resource_class.name.underscore}")
-      end
+      attribute = column.to_s.gsub(".", "_")
+      I18n.t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
     end
   end
 
@@ -127,22 +126,19 @@ class Releaf::Builders::TableBuilder
   end
 
   def cell_content(resource, column, options)
-    tag(:span) do
-      if options[:content_method]
-        send(options[:content_method], resource)
-      else
-        send(options[:format_method], resource, column)
-      end
+    if options[:content_method]
+      send(options[:content_method], resource)
+    else
+      send(options[:format_method], resource, column)
     end
   end
 
   def format_text_content(resource, column)
-    value = resource.send(column).to_s
-    truncate(value, length: 32, separator: ' ')
+    truncate(column_value(resource, column).to_s, length: 32, separator: ' ')
   end
 
   def format_string_content(resource, column)
-    value = resource.send(column)
+    value = column_value(resource, column)
     if value.respond_to? :to_text
       value.to_text
     else
@@ -151,17 +147,16 @@ class Releaf::Builders::TableBuilder
   end
 
   def format_boolean_content(resource, column)
-    value = resource.send(column)
-    I18n.t(value == true ? 'yes' : 'no', scope: translation_scope)
+    I18n.t(column_value(resource, column) == true ? 'yes' : 'no', scope: translation_scope)
   end
 
   def format_date_content(resource, column)
-    value = resource.send(column)
+    value = column_value(resource, column)
     I18n.l(value, format: :default, default: '%Y-%m-%d') unless value.nil?
   end
 
   def format_datetime_content(resource, column)
-    value = resource.send(column)
+    value = column_value(resource, column)
     I18n.l(value, format: :default, default: '%Y-%m-%d %H:%M:%S') unless value.nil?
   end
 
@@ -198,8 +193,8 @@ class Releaf::Builders::TableBuilder
     end
   end
 
-  def column_type(column)
-    column_description = resource_class.columns_hash[column.to_s]
+  def column_type(klass, column)
+    column_description = klass.columns_hash[column.to_s]
     if column_description
       column_description.type
     else
@@ -208,12 +203,31 @@ class Releaf::Builders::TableBuilder
   end
 
   def column_type_format_method(column)
-    format_method = "format_#{column_type(column)}_content".to_sym
+    klass = column_klass(resource_class, column)
+
+    format_method = "format_#{column_type(klass, column)}_content".to_sym
     if respond_to?(format_method)
       format_method
     else
       :format_string_content
     end
+  end
+
+  def column_klass(klass, column)
+    column.to_s.split(".")[0..-2].each do|part|
+      reflection = klass.reflect_on_association(part)
+      klass = reflection.klass if reflection
+    end
+
+    klass
+  end
+
+  def column_value(resource_or_value, column)
+    column.to_s.split(".").each do|part|
+      resource_or_value = resource_or_value.send(part) if resource_or_value.present?
+    end
+
+    resource_or_value
   end
 
   def cell_format_method(column)

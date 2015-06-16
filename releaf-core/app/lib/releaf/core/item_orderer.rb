@@ -1,21 +1,21 @@
 module Releaf::Core
+  # Utility class for array items reordering.
+  #
+  # There are 4 possible reordering options: <code>:first, :last, :before and :after</code>.
+  #
+  # All reorder methods are chainable, so:
+  #     Releaf::Core::ItemOrderer.new(:a, :b, :c, :d, :e, :f).reorder(:c, :last).reorder([:a, :b], after: :d).result
+  # will return
+  #     [:d, :a, :b, :e, :f, :c]
+  #
+  # For reordering with <code>`first`</code> and <code>`last`</code> options you must give this option as symbols.
+  # Example:
+  #    Releaf::Core::ItemOrderer.new(:a, :b, :c).reorder(:c, :first)
+  #
+  # For reorderind with <code>`before`</code> and <code>`after`</code> options you must give option together with target value as hash.
+  # Example:
+  #    Releaf::Core::ItemOrderer.new(:a, :b, :c).reorder(:a, after: :b)
   class ItemOrderer
-    # Utility class for array items reordering.
-    #
-    # There are 4 possible reordering options: <code>:first, :last, :before and :after</code>.
-    #
-    # All reorder methods are chainable, so:
-    #     Releaf::Core::ItemOrderer.new(:a, :b, :c, :d, :e, :f).reorder(:c, :last).reorder([:a, :b], after: :d).result
-    # will return
-    #     [:d, :a, :b, :e, :f, :c]
-    #
-    # For reordering with <code>`first`</code> and <code>`last`</code> options you must give this option as symbols.
-    # Example:
-    #    Releaf::Core::ItemOrderer.new(:a, :b, :c).reorder(:c, :first)
-    #
-    # For reorderind with <code>`before`</code> and <code>`after`</code> options you must give option together with target value as hash.
-    # Example:
-    #    Releaf::Core::ItemOrderer.new(:a, :b, :c).reorder(:a, after: :b)
 
     attr_accessor :list
 

@@ -50,10 +50,14 @@ class Releaf::Core::ResourceBase
   end
 
   def includable_association?(association)
-    association.macro == :has_many &&
+    includable_association_types.include?(association.macro) &&
       excluded_associations.exclude?(association.name) &&
       association.class != ActiveRecord::Reflection::ThroughReflection &&
       resource_class.nested_attributes_options.has_key?(association.name)
+  end
+
+  def includable_association_types
+    [:has_many, :has_one]
   end
 
   def excluded_associations

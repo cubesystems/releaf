@@ -23,7 +23,7 @@ class Releaf::Builders::Page::MenuBuilder
         item[:active]  = item[:items].find{|i| i[:active] == true }.present?
         item[:url_helper] = item[:items].first[:url_helper] if item[:items].present?
         item
-      elsif access_control.controller_allowed?(item[:controller])
+      elsif access_control.controller_permitted?(item[:controller])
         item[:active] = active_controller?(item[:controller])
         item
       else
