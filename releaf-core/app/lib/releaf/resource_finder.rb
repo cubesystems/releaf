@@ -39,7 +39,7 @@ module Releaf
         if attribute.is_a? Hash
           attribute.each_pair do |key, values|
             reflection = klass.reflect_on_association(key.to_sym)
-            self.collection = collection.joins(join_for_reflection(reflection))
+            join_reflection(reflection)
             join_search_tables(reflection.klass, values)
           end
         end
@@ -83,13 +83,20 @@ module Releaf
         else
           association = item
           reflection = klass.reflect_on_association(association.to_sym)
-          join_for_reflection(reflection)
+          join_reflection(reflection)
         end
       end
     end
 
-    def join_for_reflection(reflection)
-      klass = reflection.active_record
+    def join_reflection(reflection)
+      if reflection.options[:through]
+        join_reflection_with_through(reflection)
+      else
+        join_reflection_without_through(reflection)
+      end
+    end
+
+    def join_reflection_without_through(reflection, klass=reflection.active_record)
       other_class = reflection.klass
 
       table1 = klass.arel_table
@@ -107,7 +114,16 @@ module Releaf
                          raise 'not implemented'
                        end
 
-      arel_join(table1, table2, join_condition)
+      self.collection = collection.joins(arel_join(table1, table2, join_condition))
+    end
+
+    def join_reflection_with_through(reflection)
+      # TODO refactor this method
+      through_reflection = reflection.chain.last
+      rightmost_reflection = through_reflection.klass.reflect_on_association(reflection.options[:source].to_sym)
+
+      join_reflection_without_through(through_reflection)
+      join_reflection_without_through(rightmost_reflection, through_reflection.klass)
     end
 
     def arel_join(table1, table2, join_condition, join_type: Arel::Nodes::OuterJoin)

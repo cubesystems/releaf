@@ -11,6 +11,7 @@ describe Releaf::ResourceFinder do
 
     model do
       has_many :comments
+      has_many :authors, class_name: :CommentAuthor, through: :comments, source: :comment_author
     end
   end
 
@@ -90,8 +91,11 @@ describe Releaf::ResourceFinder do
       comment = Comment.create!(text: "small", comment_author: author2, blog_post: post2)
       comment = Comment.create!(text: "big", comment_author: author2, blog_post: post3)
       comment = Comment.create!(text: "small", comment_author: author2, blog_post: post4)
+      comment = Comment.create!(text: "tiny", comment_author: author1, blog_post: post4)
 
       expect( subject.search('sick big dog paul', [:title, "description", comments: [:text, comment_author: ["name"]]]).to_a ).to eq([post1])
+
+      expect( subject.search('paul', [authors: ["name"]]).to_a ).to eq([post1, post4])
 
       BlogPost.delete_all # hack
     end
