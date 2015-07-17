@@ -154,40 +154,4 @@ describe Releaf::ResourceFinder do
     end
   end
 
-  describe "#joins" do
-    context "when no relation within given fields" do
-      it "returns empty hash" do
-        fields = [:title, "description"]
-        expect(subject.joins(BlogPost, fields)).to eq({})
-      end
-    end
-
-    context "when no relationship exists within given fields" do
-      it "returns hash with supposed joins" do
-        fields = [:title, "description", comments: [:text, comment_author: ["name"]]]
-        expect(subject.joins(BlogPost, fields)).to eq( {comments: {comment_author: {}}} )
-      end
-    end
-  end
-
-  describe "#normalized_joins" do
-    context "when empty hash given" do
-      it "returns empty array" do
-        expect(subject.normalized_joins({})).to eq([])
-      end
-    end
-
-    context "when single level hash given" do
-      it "returns associations in given hash as array" do
-        expect(subject.normalized_joins(comments: {})).to eq([:comments])
-      end
-    end
-
-    context "when nested hash given" do
-      it "returns array with all nested hash associations" do
-        expect(subject.normalized_joins(comments: {comment_author: {}})).to eq([{comments: [:comment_author]}])
-      end
-    end
-  end
-
 end
