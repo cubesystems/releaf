@@ -62,7 +62,7 @@ module Releaf
 
     def add_search_to_collection(text)
       fields = normalize_fields(resource_class, searchable_fields)
-      text.strip.split(" ").each_with_index do |word, i|
+      text.strip.split(" ").each do |word|
         query = fields.map do |field|
           lower_field = Arel::Nodes::NamedFunction.new('LOWER', [field])
           ActiveRecord::Base.send(:sanitize_sql_array, ["(#{lower_field.to_sql} LIKE LOWER(:word))", word: "%#{word}%"])
