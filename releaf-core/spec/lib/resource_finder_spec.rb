@@ -1,7 +1,6 @@
 require "spec_helper"
 
 describe Releaf::ResourceFinder do
-  let(:subject){ described_class.new(BlogPost) }
 
   with_model :BlogPost do
     table do |t|
@@ -39,6 +38,11 @@ describe Releaf::ResourceFinder do
       has_many :comments
     end
   end
+
+  let(:subject){ described_class.new(BlogPost) }
+  let(:blog_posts_table) { BlogPost.arel_table }
+  let(:comments_table) { Comment.arel_table }
+  let(:comment_authors_table) { CommentAuthor.arel_table }
 
   describe "#search" do
     it "escapes search text" do
@@ -113,7 +117,7 @@ describe Releaf::ResourceFinder do
     end
   end
 
-  describe "#normalize_fields" do
+  describe "#normalize_fields", focus: true do
     before do
       subject.collection = BlogPost.all
     end
@@ -122,7 +126,7 @@ describe Releaf::ResourceFinder do
       let(:fields){ [:title, "description"] }
 
       it "returns normalized table fields and unmodified relations" do
-        expect(subject.normalize_fields(BlogPost, fields)).to eq(["#{BlogPost.table_name}.title", "#{BlogPost.table_name}.description"])
+        expect(subject.normalize_fields(BlogPost, fields)).to eq([blog_posts_table[:title], blog_posts_table[:description]])
       end
 
       it "does not modify collection" do
@@ -134,8 +138,12 @@ describe Releaf::ResourceFinder do
       let(:fields){ [:title, "description", comments: [:text, comment_author: ["name"]]] }
 
       it "returns normalized nested table fields" do
-        expect( subject.normalize_fields(BlogPost, fields) ).to eq(["#{BlogPost.table_name}.title", "#{BlogPost.table_name}.description",
-                                      "#{Comment.table_name}.text", "#{CommentAuthor.table_name}.name"])
+        expect( subject.normalize_fields(BlogPost, fields) ).to eq([
+          blog_posts_table[:title],
+          blog_posts_table[:description],
+          comments_table[:text],
+          comment_authors_table[:name]
+        ])
       end
 
       context "when nested fields have has_many relationship" do
@@ -182,9 +190,4 @@ describe Releaf::ResourceFinder do
     end
   end
 
-  describe "#join_references" do
-    it "returns flatten, unique array with relatinship extracted from given hash" do
-      expect(subject.join_references([{comments: [:comment_author, :comments]}])).to eq([:comments, :comment_author])
-    end
-  end
 end
