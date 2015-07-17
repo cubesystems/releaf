@@ -11,7 +11,7 @@ module Releaf
       self.collection = base_collection
       self.searchable_fields = searchable_fields
 
-      add_includes_to_collection
+      join_search_tables(resource_class, searchable_fields)
       add_search_to_collection(text)
 
       collection
@@ -32,41 +32,19 @@ module Releaf
       fields
     end
 
-    # Returns data structure for .includes or .joins that represents resource
-    # associations, beased on given structure of attributes
-    #
-    # This helper is mainly intended for #search
-    def joins klass, attributes
-      join_list = {}
+    private
 
+    def join_search_tables klass, attributes
       attributes.each do |attribute|
         if attribute.is_a? Hash
           attribute.each_pair do |key, values|
-            association = klass.reflect_on_association(key.to_sym)
-            join_list[key] = join_list.fetch(key, {}).deep_merge( joins(association.klass, values) )
+            reflection = klass.reflect_on_association(key.to_sym)
+            self.collection = collection.joins(join_for_reflection(reflection))
+            join_search_tables(reflection.klass, values)
           end
         end
       end
-
-      join_list
     end
-
-    # Normalizes joins results by removing blank hashes
-    def normalized_joins denormalized_joins
-      associations = []
-
-      denormalized_joins.each_pair do |join, sub_joins|
-        if sub_joins.blank?
-          associations << join
-        else
-          associations << {join => normalized_joins(sub_joins)}
-        end
-      end
-
-      associations
-    end
-
-    private
 
     def normalize_fields_hash klass, hash_attribute
       fields = []
@@ -94,14 +72,6 @@ module Releaf
       end
     end
 
-    def add_includes_to_collection
-      joins_list = normalized_joins( joins(resource_class, searchable_fields) )
-
-      if joins_list.present?
-        self.collection = collection.joins(join_query(resource_class, *joins_list))
-      end
-    end
-
     def join_query klass, *joins_list
       joins_list.each do |item|
         if item.is_a? Hash
@@ -113,22 +83,31 @@ module Releaf
         else
           association = item
           reflection = klass.reflect_on_association(association.to_sym)
-          other_class = reflection.klass
-          table1 = klass.arel_table
-          table2 = other_class.arel_table
-          foreign_key = reflection.foreign_key.to_sym
-          primary_key = klass.primary_key.to_sym
-          join_condition = case reflection.macro
-                           when :has_many, :has_one
-                             table1[primary_key].eq(table2[foreign_key])
-                           when :belongs_to
-                             table1[foreign_key].eq(table2[primary_key])
-                           else
-                             raise 'not implemented'
-                           end
-          arel_join(table1, table2, join_condition)
+          join_for_reflection(reflection)
         end
       end
+    end
+
+    def join_for_reflection(reflection)
+      klass = reflection.active_record
+      other_class = reflection.klass
+
+      table1 = klass.arel_table
+      table2 = other_class.arel_table
+
+      foreign_key = reflection.foreign_key.to_sym
+      primary_key = klass.primary_key.to_sym
+
+      join_condition = case reflection.macro
+                       when :has_many, :has_one
+                         table1[primary_key].eq(table2[foreign_key])
+                       when :belongs_to
+                         table1[foreign_key].eq(table2[primary_key])
+                       else
+                         raise 'not implemented'
+                       end
+
+      arel_join(table1, table2, join_condition)
     end
 
     def arel_join(table1, table2, join_condition, join_type: Arel::Nodes::OuterJoin)
