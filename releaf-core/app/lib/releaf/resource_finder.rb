@@ -105,7 +105,10 @@ module Releaf
       primary_key = klass.primary_key.to_sym
 
       join_condition = case reflection.macro
-                       when :has_many, :has_one
+                       when :has_many
+                         table1[primary_key].eq(table2[foreign_key])
+                       when :has_one
+                         # table1[foreign_key].eq(table2[primary_key])
                          table1[primary_key].eq(table2[foreign_key])
                        when :belongs_to
                          table1[foreign_key].eq(table2[primary_key])
@@ -124,7 +127,11 @@ module Releaf
     def join_reflection_with_through(reflection)
       # TODO refactor this method
       through_reflection = reflection.chain.last
-      rightmost_reflection = through_reflection.klass.reflect_on_association(reflection.options[:source].to_sym)
+      if reflection.options[:source]
+        rightmost_reflection = through_reflection.klass.reflect_on_association(reflection.options[:source].to_sym)
+      else
+        rightmost_reflection = reflection.chain.first
+      end
 
       join_reflection_without_through(through_reflection)
       join_reflection_without_through(rightmost_reflection, through_reflection.klass)
