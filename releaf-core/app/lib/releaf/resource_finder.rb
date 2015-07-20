@@ -95,11 +95,12 @@ module Releaf
       end
     end
 
-    def join_reflection_without_through(reflection, klass=reflection.active_record)
-      other_class = reflection.klass
+    def join_reflection_without_through(reflection, klass=reflection.active_record, debug: false)
+      #klass = agreement
+      other_class = reflection.klass # application
 
-      table1 = klass.arel_table
-      table2 = other_class.arel_table
+      table1 = klass.arel_table # agreement
+      table2 = other_class.arel_table # applications
 
       foreign_key = reflection.foreign_key.to_sym
       primary_key = klass.primary_key.to_sym
@@ -126,15 +127,18 @@ module Releaf
 
     def join_reflection_with_through(reflection)
       # TODO refactor this method
-      through_reflection = reflection.chain.last
-      if reflection.options[:source]
-        rightmost_reflection = through_reflection.klass.reflect_on_association(reflection.options[:source].to_sym)
-      else
-        rightmost_reflection = reflection.chain.first
-      end
+      # through_reflection = reflection.chain.last
+      # if reflection.options[:source]
+      #   rightmost_reflection = through_reflection.klass.reflect_on_association(reflection.options[:source].to_sym)
+      # else
+      #   rightmost_reflection = reflection
+      # end
+
+      through_reflection = reflection.through_reflection
+      source_reflection = reflection.source_reflection
 
       join_reflection_without_through(through_reflection)
-      join_reflection_without_through(rightmost_reflection, through_reflection.klass)
+      join_reflection_without_through(source_reflection, debug: true) #, through_reflection.klass, debug: true)
     end
 
     def arel_join(table1, table2, join_condition, join_type: Arel::Nodes::OuterJoin)
