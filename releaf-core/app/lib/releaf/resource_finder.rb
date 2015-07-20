@@ -113,6 +113,11 @@ module Releaf
                          raise 'not implemented'
                        end
 
+      if reflection.scope
+        where_scope = other_class.instance_exec(&reflection.scope).where_values
+        join_condition = join_condition.and(where_scope)
+      end
+
       self.collection = collection.joins(arel_join(table1, table2, join_condition))
     end
 
