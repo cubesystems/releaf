@@ -1,6 +1,6 @@
 module Releaf
   class ResourceFinder
-    attr_accessor :resource_class, :collection, :searchable_fields
+    attr_accessor :resource_class, :collection, :searchable_fields, :searchable_arel_fields, :join_index
 
     def initialize resource_class
       self.resource_class = resource_class
@@ -8,82 +8,42 @@ module Releaf
 
     # Get resources collection for #index
     def search text, searchable_fields, base_collection = resource_class.all
-      self.collection = base_collection
+      self.collection = base_collection.dup
       self.searchable_fields = searchable_fields
+      self.join_index = 0
+      self.searchable_arel_fields = []
 
-      join_search_tables(resource_class, searchable_fields)
+      join_search_tables(resource_class)
       add_search_to_collection(text)
 
       collection
     end
 
-    # Returns array of fields in which to search for string typed in search form
-    def normalize_fields klass, attributes
-      fields = []
-
-      attributes.each do |attribute|
-        if attribute.is_a?(Symbol) || attribute.is_a?(String)
-          fields << klass.arel_table[attribute.to_sym]
-        elsif attribute.is_a? Hash
-          fields += normalize_fields_hash(klass, attribute)
-        end
-      end
-
-      fields
-    end
-
     private
 
-    def join_search_tables klass, attributes
+    def join_search_tables klass, attributes: searchable_fields, table: klass.arel_table
       attributes.each do |attribute|
         if attribute.is_a? Hash
           attribute.each_pair do |key, values|
             reflection = klass.reflect_on_association(key.to_sym)
-            join_reflection(reflection)
-            join_search_tables(reflection.klass, values)
+            joined_table = join_reflection(reflection)
+            join_search_tables(reflection.klass, attributes: values, table: joined_table)
           end
+        elsif attribute.is_a?(Symbol) || attribute.is_a?(String)
+          self.searchable_arel_fields << table[attribute]
+        else
+          raise 'not implemented'
         end
       end
-    end
-
-    def normalize_fields_hash klass, hash_attribute
-      fields = []
-
-      hash_attribute.each_pair do |association_name, association_attributes|
-        association = klass.reflect_on_association(association_name.to_sym)
-        fields += normalize_fields(association.klass, association_attributes)
-        if association.macro == :has_many
-          self.collection = collection.uniq
-        end
-      end
-
-      fields
     end
 
     def add_search_to_collection(text)
-      fields = normalize_fields(resource_class, searchable_fields)
       text.strip.split(" ").each do |word|
-        query = fields.map do |field|
+        query = searchable_arel_fields.map do |field|
           lower_field = Arel::Nodes::NamedFunction.new('LOWER', [field])
           ActiveRecord::Base.send(:sanitize_sql_array, ["(#{lower_field.to_sql} LIKE LOWER(:word))", word: "%#{word}%"])
         end.join(' OR ')
         self.collection = collection.where(query)
-      end
-    end
-
-    def join_query klass, *joins_list
-      joins_list.each do |item|
-        if item.is_a? Hash
-          item.each_pair do |association, sub_associations|
-            join_query(klass, association)
-            association_class = klass.reflect_on_association(association.to_sym).klass
-            join_query(association_class, *sub_associations)
-          end
-        else
-          association = item
-          reflection = klass.reflect_on_association(association.to_sym)
-          join_reflection(reflection)
-        end
       end
     end
 
@@ -95,21 +55,19 @@ module Releaf
       end
     end
 
-    def join_reflection_without_through(reflection, klass=reflection.active_record, debug: false)
-      #klass = agreement
-      other_class = reflection.klass # application
+    def join_reflection_without_through(reflection, table: nil)
+      klass = reflection.active_record
+      other_class = reflection.klass
 
-      table1 = klass.arel_table # agreement
-      table2 = other_class.arel_table # applications
+      table1 = table || klass.arel_table
+      table2 = other_class.arel_table.alias("#{other_class.arel_table.name}_f#{join_index}")
+      self.join_index += 1
 
       foreign_key = reflection.foreign_key.to_sym
       primary_key = klass.primary_key.to_sym
 
       join_condition = case reflection.macro
-                       when :has_many
-                         table1[primary_key].eq(table2[foreign_key])
-                       when :has_one
-                         # table1[foreign_key].eq(table2[primary_key])
+                       when :has_many, :has_one
                          table1[primary_key].eq(table2[foreign_key])
                        when :belongs_to
                          table1[foreign_key].eq(table2[primary_key])
@@ -123,26 +81,23 @@ module Releaf
       end
 
       self.collection = collection.joins(arel_join(table1, table2, join_condition))
+      table2
     end
 
     def join_reflection_with_through(reflection)
-      # TODO refactor this method
-      # through_reflection = reflection.chain.last
-      # if reflection.options[:source]
-      #   rightmost_reflection = through_reflection.klass.reflect_on_association(reflection.options[:source].to_sym)
-      # else
-      #   rightmost_reflection = reflection
-      # end
-
-      through_reflection = reflection.through_reflection
-      source_reflection = reflection.source_reflection
-
-      join_reflection_without_through(through_reflection)
-      join_reflection_without_through(source_reflection, debug: true) #, through_reflection.klass, debug: true)
+      joined_table = join_reflection_without_through(reflection.through_reflection)
+      join_reflection_without_through(reflection.source_reflection, table: joined_table)
     end
 
     def arel_join(table1, table2, join_condition, join_type: Arel::Nodes::OuterJoin)
-      table1.join(table2, join_type).on(join_condition).join_sources
+      source_table = if table1.is_a?(Arel::Nodes::TableAlias)
+                       table = table1.left.dup
+                       table.table_alias = table1.table_alias
+                       table
+                     else
+                       table1
+                     end
+      source_table.join(table2, join_type).on(join_condition).join_sources
     end
   end
 end
