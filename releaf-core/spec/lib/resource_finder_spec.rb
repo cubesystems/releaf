@@ -1,7 +1,6 @@
 require "spec_helper"
 
 describe Releaf::ResourceFinder do
-  let(:subject){ described_class.new(BlogPost) }
 
   with_model :BlogPost do
     table do |t|
@@ -12,6 +11,7 @@ describe Releaf::ResourceFinder do
 
     model do
       has_many :comments
+      has_many :authors, class_name: :CommentAuthor, through: :comments, source: :comment_author
     end
   end
 
@@ -39,6 +39,11 @@ describe Releaf::ResourceFinder do
       has_many :comments
     end
   end
+
+  let(:subject){ described_class.new(BlogPost) }
+  let(:blog_posts_table) { BlogPost.arel_table }
+  let(:comments_table) { Comment.arel_table }
+  let(:comment_authors_table) { CommentAuthor.arel_table }
 
   describe "#search" do
     it "escapes search text" do
@@ -86,8 +91,11 @@ describe Releaf::ResourceFinder do
       comment = Comment.create!(text: "small", comment_author: author2, blog_post: post2)
       comment = Comment.create!(text: "big", comment_author: author2, blog_post: post3)
       comment = Comment.create!(text: "small", comment_author: author2, blog_post: post4)
+      comment = Comment.create!(text: "tiny", comment_author: author1, blog_post: post4)
 
       expect( subject.search('sick big dog paul', [:title, "description", comments: [:text, comment_author: ["name"]]]).to_a ).to eq([post1])
+
+      expect( subject.search('paul', [authors: ["name"]]).to_a ).to eq([post1, post4])
 
       BlogPost.delete_all # hack
     end
@@ -113,7 +121,7 @@ describe Releaf::ResourceFinder do
     end
   end
 
-  describe "#normalize_fields" do
+  describe "#normalize_fields", focus: true do
     before do
       subject.collection = BlogPost.all
     end
@@ -122,7 +130,7 @@ describe Releaf::ResourceFinder do
       let(:fields){ [:title, "description"] }
 
       it "returns normalized table fields and unmodified relations" do
-        expect(subject.normalize_fields(BlogPost, fields)).to eq(["#{BlogPost.table_name}.title", "#{BlogPost.table_name}.description"])
+        expect(subject.normalize_fields(BlogPost, fields)).to eq([blog_posts_table[:title], blog_posts_table[:description]])
       end
 
       it "does not modify collection" do
@@ -134,8 +142,12 @@ describe Releaf::ResourceFinder do
       let(:fields){ [:title, "description", comments: [:text, comment_author: ["name"]]] }
 
       it "returns normalized nested table fields" do
-        expect( subject.normalize_fields(BlogPost, fields) ).to eq(["#{BlogPost.table_name}.title", "#{BlogPost.table_name}.description",
-                                      "#{Comment.table_name}.text", "#{CommentAuthor.table_name}.name"])
+        expect( subject.normalize_fields(BlogPost, fields) ).to eq([
+          blog_posts_table[:title],
+          blog_posts_table[:description],
+          comments_table[:text],
+          comment_authors_table[:name]
+        ])
       end
 
       context "when nested fields have has_many relationship" do
@@ -146,45 +158,4 @@ describe Releaf::ResourceFinder do
     end
   end
 
-  describe "#joins" do
-    context "when no relation within given fields" do
-      it "returns empty hash" do
-        fields = [:title, "description"]
-        expect(subject.joins(BlogPost, fields)).to eq({})
-      end
-    end
-
-    context "when no relationship exists within given fields" do
-      it "returns hash with supposed joins" do
-        fields = [:title, "description", comments: [:text, comment_author: ["name"]]]
-        expect(subject.joins(BlogPost, fields)).to eq( {comments: {comment_author: {}}} )
-      end
-    end
-  end
-
-  describe "#normalized_joins" do
-    context "when empty hash given" do
-      it "returns empty array" do
-        expect(subject.normalized_joins({})).to eq([])
-      end
-    end
-
-    context "when single level hash given" do
-      it "returns associations in given hash as array" do
-        expect(subject.normalized_joins(comments: {})).to eq([:comments])
-      end
-    end
-
-    context "when nested hash given" do
-      it "returns array with all nested hash associations" do
-        expect(subject.normalized_joins(comments: {comment_author: {}})).to eq([{comments: [:comment_author]}])
-      end
-    end
-  end
-
-  describe "#join_references" do
-    it "returns flatten, unique array with relatinship extracted from given hash" do
-      expect(subject.join_references([{comments: [:comment_author, :comments]}])).to eq([:comments, :comment_author])
-    end
-  end
 end
