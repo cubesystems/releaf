@@ -31,10 +31,14 @@ module Releaf
       :feature_available?,
       :builder_class
 
-    def search text
+    def search(text)
       return if text.blank?
       return if @searchable_fields.blank?
-      @collection = Releaf::ResourceFinder.new(resource_class).search(text, @searchable_fields, @collection)
+      @collection = searcher_class.prepare(relation: @collection, fields: @searchable_fields, text: text)
+    end
+
+    def searcher_class
+      Releaf::Search
     end
 
     def index
