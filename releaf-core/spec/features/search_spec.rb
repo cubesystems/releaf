@@ -2,15 +2,30 @@ require "spec_helper"
 
 describe Releaf::Search do
 
+  with_model :Author do
+    table  do |t|
+      t.string :name
+    end
+
+    model do
+      has_many :blog_posts
+      has_many :edited_posts, foreign_key: :editor_id, class_name: :BlogPost
+    end
+  end
+
   with_model :BlogPost do
     table do |t|
       t.string :title
       t.text :description
       t.timestamps(null: true)
+      t.integer :author_id
+      t.integer :editor_id
     end
 
     model do
       has_many :comments
+      belongs_to :author
+      belongs_to :editor, class_name: :Author
     end
   end
 
@@ -38,9 +53,6 @@ describe Releaf::Search do
       has_many :comments
     end
   end
-
-  let(:search_fields) { [:title]}
-      # let(:params) { {relation: BlogPost.all, text: '', fields: search_fields} }
 
   describe "searching" do
     it "escapes search text" do
@@ -91,9 +103,12 @@ describe Releaf::Search do
     it "supports search by nested fields" do
       DatabaseCleaner.clean # hack due to this https://github.com/Casecommons/with_model/pull/18 (nested transactions)
 
-      post1 = BlogPost.create!(title: "sick dog")
-      post2 = BlogPost.create!(title: "sick bird")
-      post3 = BlogPost.create!(title: "sick horse")
+      post_author1 = Author.create(name: 'author1')
+      post_author2 = Author.create(name: 'author2')
+
+      post1 = BlogPost.create!(title: "sick dog", author: post_author1)
+      post2 = BlogPost.create!(title: "sick bird", author: post_author1, editor: post_author1)
+      post3 = BlogPost.create!(title: "sick horse", author: post_author2, editor: post_author1)
       post4 = BlogPost.create!(title: "healty")
 
       author1 = CommentAuthor.create!(name: "Paul")
@@ -109,9 +124,30 @@ describe Releaf::Search do
       params = {
         relation: BlogPost.all,
         text: 'sick big dog paul',
-        fields: [:title, "description", comments: [:text, comment_author: ["name"]]]
+        fields: [
+          :title,
+          "description",
+          comments: [
+            :text,
+            comment_author: [:name],
+          ],
+          editor: [:name],
+          author: [:name]
+        ]
       }
-      expect( described_class.prepare(params).to_a ).to eq([post1])
+      expect( described_class.prepare(params).to_a ).to match_array([post1])
+
+      params.merge!(text: 'sick dog author2')
+      expect( described_class.prepare(params).to_a ).to eq([])
+
+      # fail, because searcher looks up wrong table (alias), cause editor
+      # relation is joined before author relation. And it always searches in first relation
+      params.merge!(text: 'author2')
+      expect( described_class.prepare(params).to_a ).to match_array([post3])
+
+      # fail, because of inner join
+      params.merge!(text: 'author1')
+      expect( described_class.prepare(params).to_a ).to match_array([post1, post2, post3])
 
       BlogPost.delete_all # hack
     end
