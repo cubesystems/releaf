@@ -1,11 +1,10 @@
-# TODO convert to arel
 module Releaf
   class Search
-    attr_accessor :relation, :fields, :text
+    attr_accessor :relation, :fields, :text, :join_index, :searchable_arel_fields
 
     delegate :base_class, to: :relation
 
-    def self.prepare(relation: , fields:, text:)
+    def self.prepare(relation:, fields:, text:)
       searcher = new(relation: relation, fields: fields, text: text)
       searcher.prepare
       searcher.relation
@@ -18,103 +17,102 @@ module Releaf
     end
 
     def prepare
-      add_includes_to_relation
+      self.join_index = 0
+      self.searchable_arel_fields = []
+
+      join_search_tables(base_class)
       add_search_to_relation
     end
 
     private
 
-    def add_search_to_relation
-      fields_to_search = normalize_fields(base_class, fields)
-      text.strip.split(" ").each_with_index do |word, i|
-        query = fields_to_search.map { |field| "LOWER(#{field}) LIKE LOWER(:word#{i})" }.join(' OR ')
-        self.relation = relation.where(query, "word#{i}".to_sym =>'%' + word + '%')
-      end
-    end
-
-    # Returns array of fields in which to search for string typed in search form
-    def normalize_fields klass, attributes
-      fields = []
-
-      attributes.each do |attribute|
-        if attribute.is_a?(Symbol) || attribute.is_a?(String)
-          fields << "#{klass.table_name}.#{attribute.to_s}"
-        elsif attribute.is_a? Hash
-          fields += normalize_fields_hash(klass, attribute)
-        end
-      end
-
-      fields
-    end
-
-    def normalize_fields_hash klass, hash_attribute
-      fields = []
-
-      hash_attribute.each_pair do |association_name, association_attributes|
-        association = klass.reflect_on_association(association_name.to_sym)
-        fields += normalize_fields(association.klass, association_attributes)
-        if association.macro == :has_many
-          self.relation = relation.uniq
-        end
-      end
-
-      fields
-    end
-
-    # Returns data structure for .includes or .joins that represents resource
-    # associations, beased on given structure of attributes
-    def joins klass, attributes
-      join_list = {}
-
+    def join_search_tables klass, attributes: fields, table: klass.arel_table
       attributes.each do |attribute|
         if attribute.is_a? Hash
           attribute.each_pair do |key, values|
-            association = klass.reflect_on_association(key.to_sym)
-            join_list[key] = join_list.fetch(key, {}).deep_merge( joins(association.klass, values) )
+            reflection = klass.reflect_on_association(key.to_sym)
+            joined_table = join_reflection(reflection, table)
+            join_search_tables(reflection.klass, attributes: values, table: joined_table)
           end
-        end
-      end
-
-      join_list
-    end
-
-    def add_includes_to_relation
-      joins_list = normalized_joins( joins(base_class, fields) )
-
-      unless joins_list.empty?
-        self.relation = relation.includes(*joins_list).references(*join_references(joins_list))
-      end
-    end
-
-    # Normalizes joins results by removing blank hashes
-    def normalized_joins denormalized_joins
-      associations = []
-
-      denormalized_joins.each_pair do |join, sub_joins|
-        if sub_joins.blank?
-          associations << join
+        elsif attribute.is_a?(Symbol) || attribute.is_a?(String)
+          self.searchable_arel_fields << table[attribute]
         else
-          associations << {join => normalized_joins(sub_joins)}
+          raise 'not implemented'
         end
       end
-
-      associations
     end
 
-    # get params for references, given structure that is used for includes
-    def join_references denormalized_includes
-      includes = []
+    def add_search_to_relation
+      text.strip.split(" ").each do |word|
+        query = searchable_arel_fields.map do |field|
+          lower_field = Arel::Nodes::NamedFunction.new('LOWER', [field])
+          lower_query = Arel::Nodes::NamedFunction.new('LOWER', [Arel::Nodes::Quoted.new("%#{word}%")])
+          lower_field.matches(lower_query)
+        end.inject { |result, query_part| result.or(query_part) }
 
-      denormalized_includes.each do |incl|
-        if incl.is_a?(Array) || incl.is_a?(Hash)
-          includes << join_references(incl.to_a)
-        else
-          includes << incl
+        self.relation = relation.where(query)
+      end
+    end
+
+    def join_reflection(reflection, table)
+      if reflection.options[:through]
+        join_reflection_with_through(reflection, table)
+      else
+        join_reflection_without_through(reflection, table)
+      end
+    end
+
+    def join_reflection_without_through(reflection, table)
+      klass = reflection.active_record
+      other_class = reflection.klass
+
+      table1 = table || klass.arel_table
+      table2_alias = "#{other_class.arel_table.name}_f#{join_index}"
+      table2 = other_class.arel_table.alias(table2_alias)
+      self.join_index += 1
+
+      foreign_key = reflection.foreign_key.to_sym
+      primary_key = klass.primary_key.to_sym
+
+      join_condition = case reflection.macro
+                       when :has_many
+                         self.relation = relation.uniq
+                         table1[primary_key].eq(table2[foreign_key])
+                       when :has_one
+                         table1[primary_key].eq(table2[foreign_key])
+                       when :belongs_to
+                         table1[foreign_key].eq(table2[primary_key])
+                       else
+                         raise 'not implemented'
+                       end
+
+      if reflection.scope
+        tmp_class = Class.new(other_class) do
+          self.arel_table.table_alias = table2_alias
         end
+
+        where_scope = tmp_class.instance_exec(&reflection.scope).where_values
+        join_condition = join_condition.and(where_scope) if where_scope.present?
       end
 
-      includes.flatten.uniq
+      self.relation = relation.joins(arel_join(table1, table2, join_condition))
+      table2
     end
 
+    def join_reflection_with_through(reflection, table)
+      joined_table = join_reflection_without_through(reflection.through_reflection, table)
+      join_reflection_without_through(reflection.source_reflection, joined_table)
+    end
+
+    def arel_join(table1, table2, join_condition, join_type: Arel::Nodes::OuterJoin)
+      source_table = if table1.is_a?(Arel::Nodes::TableAlias)
+                       table = table1.left.dup
+                       table.table_alias = table1.table_alias
+                       table
+                     else
+                       table1
+                     end
+      source_table.join(table2, join_type).on(join_condition).join_sources
+    end
   end
 end
