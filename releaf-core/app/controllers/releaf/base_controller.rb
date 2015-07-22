@@ -236,7 +236,7 @@ module Releaf
 
     def application_scope
       scope = Releaf.mount_location.capitalize
-      scope if scope.present? && Object.const_defined?(scope)
+      scope if scope.present? && Releaf::Builders.constant_defined_at_scope?(scope, Object)
     end
 
     def builder_scopes

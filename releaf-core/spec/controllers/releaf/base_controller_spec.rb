@@ -119,14 +119,15 @@ describe Releaf::BaseController do
 
   describe "#application_scope" do
     it "returns node builder scope within releaf mount location scope" do
-      allow(Object).to receive(:const_defined?).and_call_original
-
+      allow(Releaf::Builders).to receive(:constant_defined_at_scope?).and_call_original
       allow(Releaf).to receive(:mount_location).and_return("admin")
 
-      allow(Object).to receive(:const_defined?).with("Admin").and_return(true)
+      allow(Releaf::Builders).to receive(:constant_defined_at_scope?)
+        .with("Admin", Object).and_return(true)
       expect(subject.application_scope).to eq("Admin")
 
-      allow(Object).to receive(:const_defined?).with("Admin").and_return(false)
+      allow(Releaf::Builders).to receive(:constant_defined_at_scope?)
+        .with("Admin", Object).and_return(false)
       expect(subject.application_scope).to eq(nil)
 
       allow(Releaf).to receive(:mount_location).and_return("")
