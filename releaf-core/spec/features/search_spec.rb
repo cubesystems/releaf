@@ -15,7 +15,7 @@ describe Releaf::Search do
     end
 
     model do
-      has_many :blog_posts, -> { where(deleted: false) }
+      has_many :blog_posts, -> { where(deleted: false).where('1=1') }
       has_many :edited_posts, foreign_key: :editor_id, class_name: :BlogPost
       has_many :replies, class_name: :Comment, through: :blog_posts, source: :comments
       has_one :profile
@@ -160,11 +160,11 @@ describe Releaf::Search do
 
   it "supports searching in has_many association columns" do
     params = {
-      relation: Author,
-      fields: [{blog_posts: [:title]}],
-      text: 'horse'
+      relation: BlogPost,
+      fields: [{comments: [:text]}],
+      text: 'heavy'
     }
-    expect( described_class.prepare(params) ).to match_array([@post_author2])
+    expect( described_class.prepare(params) ).to match_array([@post1])
 
   end
 
