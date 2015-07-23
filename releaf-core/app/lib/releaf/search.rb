@@ -46,9 +46,8 @@ module Releaf
       text.strip.split(" ").each do |word|
         query = searchable_arel_fields.map do |field|
           lower_field = Arel::Nodes::NamedFunction.new('LOWER', [field])
-          lower_query = Arel::Nodes::NamedFunction.new('LOWER', [Arel::Nodes::Quoted.new("%#{word}%")])
-          lower_field.matches(lower_query)
-        end.inject { |result, query_part| result.or(query_part) }
+          ActiveRecord::Base.send(:sanitize_sql_array, ["(#{lower_field.to_sql} LIKE LOWER(:word))", word: "%#{word}%"])
+        end.join(' OR ')
 
         self.relation = relation.where(query)
       end
