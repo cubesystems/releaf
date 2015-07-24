@@ -4,19 +4,19 @@ describe Releaf::Search do
   with_model :Profile, scope: :all do
     table do |t|
       t.string :real_name
-      t.integer :author_id
+      t.integer :post_author_id
     end
 
   end
 
-  with_model :Author, scope: :all do
+  with_model :PostAuthor, scope: :all do
     table  do |t|
       t.string :name
     end
 
     model do
-      has_many :blog_posts, -> { where(deleted: false) }
-      has_many :edited_posts, foreign_key: :editor_id, class_name: :BlogPost
+      has_many :blog_posts, -> { where(deleted: false).where('1=1') }
+      has_many :edited_posts, foreign_key: :post_editor_id, class_name: :BlogPost
       has_many :replies, class_name: :Comment, through: :blog_posts, source: :comments
       has_one :profile
     end
@@ -27,15 +27,15 @@ describe Releaf::Search do
       t.string :title
       t.text :description
       t.timestamps(null: true)
-      t.integer :author_id
-      t.integer :editor_id
+      t.integer :post_author_id
+      t.integer :post_editor_id
       t.boolean :deleted, default: false, nil: false
     end
 
     model do
       has_many :comments
-      belongs_to :author, -> { order(:name) }
-      belongs_to :editor, class_name: :Author
+      belongs_to :post_author, -> { order(:name) }
+      belongs_to :post_editor, class_name: :PostAuthor
     end
   end
 
@@ -68,14 +68,14 @@ describe Releaf::Search do
     @profile1 = Profile.create!(real_name: 'unknown')
     @profile2 = Profile.create!(real_name: 'classified')
 
-    @post_author1 = Author.create!(name: 'author1', profile: @profile1)
-    @post_author2 = Author.create!(name: 'author2', profile: @profile2)
+    @post_author1 = PostAuthor.create!(name: 'author1', profile: @profile1)
+    @post_author2 = PostAuthor.create!(name: 'author2', profile: @profile2)
 
-    @post1 = BlogPost.create!(title: "sick dog", author: @post_author1)
-    @post2 = BlogPost.create!(title: "sick bird", author: @post_author1, editor: @post_author1)
-    @post3 = BlogPost.create!(title: "sick horse", author: @post_author2, editor: @post_author1)
+    @post1 = BlogPost.create!(title: "sick dog", post_author: @post_author1)
+    @post2 = BlogPost.create!(title: "sick bird", post_author: @post_author1, post_editor: @post_author1)
+    @post3 = BlogPost.create!(title: "sick horse", post_author: @post_author2, post_editor: @post_author1)
     @post4 = BlogPost.create!(title: "healty")
-    @post5 = BlogPost.create!(title: "sick horse that died", author: @post_author1, deleted: true)
+    @post5 = BlogPost.create!(title: "sick horse that died", post_author: @post_author1, deleted: true)
 
     @comment_author1 = CommentAuthor.create!(name: "Paul")
     @comment_author2 = CommentAuthor.create!(name: "John")
@@ -113,7 +113,7 @@ describe Releaf::Search do
   it "searches with LIKE %text% statement" do
     params = {
       text: "thor",
-      relation: Author,
+      relation: PostAuthor,
       fields: [:name]
     }
     expect( described_class.prepare(params) ).to match_array([@post_author1, @post_author2])
@@ -124,7 +124,7 @@ describe Releaf::Search do
 
   it "supports searching in base model columns" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [:name],
       text: 'author1'
     }
@@ -133,7 +133,7 @@ describe Releaf::Search do
 
   it "supports searching in nested association columns" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [{blog_posts: [:title]}],
       text: 'bird'
     }
@@ -143,7 +143,7 @@ describe Releaf::Search do
   it "supports searching in belongs_to association columns" do
     params = {
       relation: BlogPost,
-      fields: [{author: [:name]}],
+      fields: [{post_author: [:name]}],
       text: 'author2'
     }
     expect( described_class.prepare(params) ).to match_array([@post3])
@@ -151,7 +151,7 @@ describe Releaf::Search do
 
   it "supports searching in has_one association columns" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [{profile: [:real_name]}],
       text: 'classified'
     }
@@ -160,17 +160,17 @@ describe Releaf::Search do
 
   it "supports searching in has_many association columns" do
     params = {
-      relation: Author,
-      fields: [{blog_posts: [:title]}],
-      text: 'horse'
+      relation: BlogPost,
+      fields: [{comments: [:text]}],
+      text: 'heavy'
     }
-    expect( described_class.prepare(params) ).to match_array([@post_author2])
+    expect( described_class.prepare(params) ).to match_array([@post1])
 
   end
 
   it "returns unique records even for has_many associations" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [:name, {blog_posts: [:title], edited_posts: [:title]}],
       text: 'author2'
     }
@@ -182,7 +182,7 @@ describe Releaf::Search do
   it "suports searching same table via different associations" do
     params = {
       relation: BlogPost,
-      fields: [author: [:name], editor: [:name]],
+      fields: [post_author: [:name], post_editor: [:name]],
       text: 'author1'
     }
     expect( described_class.prepare(params) ).to match_array([@post1, @post2, @post3, @post5])
@@ -194,18 +194,18 @@ describe Releaf::Search do
   it "doesn't care about order of search associations" do
     params = {
       relation: BlogPost,
-      fields: [author: [:name], editor: [:name]],
+      fields: [post_author: [:name], post_editor: [:name]],
       text: 'author2'
     }
     expect( described_class.prepare(params) ).to match_array([@post3])
 
-    params[:fields] = [editor: [:name], author: [:name]]
+    params[:fields] = [post_editor: [:name], post_author: [:name]]
     expect( described_class.prepare(params) ).to match_array([@post3])
   end
 
   it "supports searching in associations with though option" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [{replies: [:text]}],
       text: 'wide'
     }
@@ -214,7 +214,7 @@ describe Releaf::Search do
 
   it "supports searching in deeply nested association columns" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [edited_posts: [comments: [comment_author: [:name]]]],
       text: 'john'
     }
@@ -223,7 +223,7 @@ describe Releaf::Search do
 
   it "supports associations with scopes" do
     params = {
-      relation: Author,
+      relation: PostAuthor,
       fields: [{blog_posts: [:title]}],
       text: 'horse'
     }
@@ -233,7 +233,7 @@ describe Releaf::Search do
   it "can find record, even even when associated records doesn't exist" do
     params = {
       relation: BlogPost,
-      fields: [:title, editor: [:name], author: [:name]],
+      fields: [:title, post_editor: [:name], post_author: [:name]],
       text: 'healty'
     }
     expect( described_class.prepare(params) ).to match_array([@post4])

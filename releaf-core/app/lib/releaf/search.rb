@@ -87,16 +87,43 @@ module Releaf
                        end
 
       if reflection.scope
-        tmp_class = Class.new(other_class) do
-          self.arel_table.table_alias = table2_alias
-        end
-
-        where_scope = tmp_class.instance_exec(&reflection.scope).where_values
+        where_scope = extract_where_condtion_from_scope(reflection, table2_alias)
         join_condition = join_condition.and(where_scope) if where_scope.present?
       end
 
       self.relation = relation.joins(arel_join(table1, table2, join_condition))
       table2
+    end
+
+    def extract_where_condtion_from_scope(reflection, table_alias)
+      # XXX Hack based on ActiveRecord::Relation#to_sql
+      tmp_relation = build_tmp_relation(reflection, table_alias)
+
+      where_scope = tmp_relation.where_values
+
+      return nil if where_scope.blank?
+
+      connection = tmp_relation.klass.connection
+      visitor    = connection.visitor
+
+      arel  = tmp_relation.arel
+      binds = (arel.bind_values + tmp_relation.bind_values).dup
+      binds.map! { |bv| connection.quote(*bv.reverse) }
+
+      wheres = tmp_relation.arel.ast.cores.first.wheres
+      collect = visitor.accept(wheres, Arel::Collectors::Bind.new)
+      sql = collect.compile(binds)
+      Arel::Nodes::SqlLiteral.new(sql)
+    end
+
+    def build_tmp_relation(reflection, table_alias)
+      # Need to create tmp relation since setting table alias for actual klass
+      # is a bad idea.
+      klass = Class.new(reflection.klass) do
+        self.arel_table.table_alias = table_alias
+      end
+
+      klass.instance_exec(&reflection.scope)
     end
 
     def join_reflection_with_through(reflection, table)
