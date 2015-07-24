@@ -1,4 +1,14 @@
 ## Changelog
+### 2015.07.23
+* Releaf::ResourceFinder was refactored and renamed to Releaf::Search.
+  If you used Releaf::ResourceFinder somewhere, you need to change
+  ```ruby
+  relation = Releaf::ResourceFinder.new(resource_class).search(parsed_query_params[:search], @searchable_fields, relation)
+  ```
+  to
+  ```ruby
+  relation = Releaf::Search.prepare(relation: relation, text: parsed_query_params[:search], fields: @searchable_fields)
+  ```
 
 ### 2014.09.15
 * Releaf controllers now properly resolves namespaced classes
