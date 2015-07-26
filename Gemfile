@@ -1,4 +1,14 @@
 source "http://rubygems.org"
+require 'yaml'
+
+config_file = File.expand_path('../config.yml', __FILE__)
+unless File.exists?(config_file)
+  puts "config.yml is missing"
+  puts "see CONTRIBUTING.md"
+  exit(1)
+end
+
+config = YAML.load_file(config_file)
 
 # Declare your gem's dependencies in releaf.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -15,7 +25,8 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
-case ENV.fetch('RELEAF_DB', 'mysql')
+
+case config["database"]["type"]
 when 'mysql'
   gem 'mysql2', platform: :ruby
   gem 'jdbc-mysql', platform: :jruby

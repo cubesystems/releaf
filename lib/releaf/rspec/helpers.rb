@@ -1,6 +1,18 @@
 module Releaf
   # Releaf::TestHelpers provides a facility to simplify admin functionality testing
   module TestHelpers
+    def postgresql?
+      adapter_name == 'PostgreSQL'
+    end
+
+    def mysql?
+      adapter_name == "Mysql2"
+    end
+
+    def adapter_name
+      ActiveRecord::Base.connection.adapter_name
+    end
+
     def auth_as_user(full_login = false, factory = :user)
       if factory.is_a? Releaf::Permissions::User
         user = factory
@@ -125,7 +137,6 @@ module Releaf
       page.execute_script("jQuery('##{textarea_id}').val(#{html.to_json})")
 
     end
-
 
   end
 end

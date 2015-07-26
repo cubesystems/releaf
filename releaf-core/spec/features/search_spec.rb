@@ -89,9 +89,13 @@ describe Releaf::Search do
   end
 
   it "escapes search text" do
-    mysql_expected_result = /LIKE LOWER\('%SQL\\\'injection%'\)/
-    postgresql_expected_result = /LIKE LOWER\('%SQL''injection%'\)/
-    expected_results = ENV['RELEAF_DB'] == 'postgresql' ? postgresql_expected_result : mysql_expected_result
+    expected_results = if mysql?
+                         /LIKE LOWER\('%SQL\\\'injection%'\)/
+                       elsif postgresql?
+                         /LIKE LOWER\('%SQL''injection%'\)/
+                       else
+                         fail
+                       end
 
     params = {
       text: "SQL'injection",

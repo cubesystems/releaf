@@ -1,0 +1,5 @@
+database:
+  type: mysql
+  name: releaf
+  username: rails
+  password:
