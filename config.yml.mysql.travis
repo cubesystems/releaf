@@ -1,0 +1,5 @@
+database:
+  type: mysql
+  name: myapp
+  username: travis
+  password:
