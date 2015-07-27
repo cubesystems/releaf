@@ -102,7 +102,7 @@ RSpec.configure do |config|
   Releaf::I18nDatabase.create_missing_translations = false
 
   config.before(:each) do
-    if Capybara.current_driver == :rack_test && ENV['RELEAF_DB'] != 'postgresql'
+    if Capybara.current_driver == :rack_test && mysql?
       DatabaseCleaner.strategy = :transaction
     else
       DatabaseCleaner.strategy = :truncation

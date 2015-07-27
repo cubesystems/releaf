@@ -45,9 +45,14 @@ namespace :dummy do
     gem 'railties'
     require 'rails/generators'
     require 'rails/generators/rails/app/app_generator'
+    require 'yaml'
+
+    config_file = File.expand_path('../config.yml', __FILE__)
+    config = YAML.load_file(config_file)
+
     template_path = File.expand_path('../templates/releaf/installer.rb', __FILE__)
     application_name = "spec/dummy"
-    result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-gemfile', "--database=#{ENV.fetch('RELEAF_DB', 'mysql')}", '--skip-bundle', '--skip-test-unit'] | ARGV
+    result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-gemfile', "--database=#{config['database']['type']}", '--skip-bundle', '--skip-test-unit'] | ARGV
   end
 end
 
