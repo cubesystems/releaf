@@ -90,13 +90,12 @@ describe Releaf::Search do
 
   it "escapes search text" do
     expected_results = if mysql?
-                         /LIKE LOWER\('%SQL\\\'injection%'\)/
+                         /LIKE '%SQL\\\'injection%'/
                        elsif postgresql?
-                         /LIKE LOWER\('%SQL''injection%'\)/
+                         /ILIKE '%SQL''injection%'/
                        else
                          fail
                        end
-
     params = {
       text: "SQL'injection",
       relation: BlogPost,

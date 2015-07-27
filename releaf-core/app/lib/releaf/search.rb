@@ -45,9 +45,7 @@ module Releaf
     def add_search_to_relation
       text.strip.split(" ").each do |word|
         query = searchable_arel_fields.map do |field|
-          lower_field = Arel::Nodes::NamedFunction.new('LOWER', [field])
-          lower_query = Arel::Nodes::NamedFunction.new('LOWER', [Arel::Nodes::Quoted.new("%#{word}%")])
-          lower_field.matches(lower_query)
+          field.matches(Arel::Nodes::Quoted.new("%#{word}%"))
         end.inject { |result, query_part| result.or(query_part) }
 
         self.relation = relation.where(query)
