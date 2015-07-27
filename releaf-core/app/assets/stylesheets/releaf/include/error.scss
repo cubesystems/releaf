@@ -1,14 +1,12 @@
 section.error
 {
     font-family: 'robotoregular';
-    padding: 63px 0 0 79px;
 }
-
 section.error h1
 {
     font-size: 32px;
     position: relative;
-    left: -2px;
+    padding-left: 40px;
 }
 
 section.error h1 i
@@ -16,18 +14,17 @@ section.error h1 i
     color: #ef3d64;
     font-size: 25px;
     position: absolute;
-    left: -62px;
-    top: 14px;
+    left: 0px;
+    top: 17px;
     margin-bottom: 11px;
 }
 
 section.error .description
 {
     color: #616161;
-    max-width: 500px;
     font-size: 14px;
     line-height: 25px;
-    margin: 0 0 18px 0;
+    margin: 18px 0;
 }
 
 section.error a.return
@@ -37,3 +34,7 @@ section.error a.return
     text-decoration: none;
 }
 
+body section.error:not(.dialog) > .body
+{
+    border-style: none;
+}
