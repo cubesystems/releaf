@@ -111,7 +111,8 @@ module Releaf
                      else
                        table1
                      end
-      source_table.join(table2, join_type).on(join_condition).join_sources
+      sql = source_table.join(table2, join_type).on(join_condition).join_sources.first.to_sql
+      Arel::Nodes::SqlLiteral.new(sql)
     end
   end
 end
