@@ -85,6 +85,11 @@ module Releaf
                          raise 'not implemented'
                        end
 
+      if reflection.type
+        polymorphic_type_condition = table2[reflection.type.to_sym].eq(klass.name)
+        join_condition = join_condition.and(polymorphic_type_condition)
+      end
+
       if reflection.scope
         tmp_class = Class.new(other_class) do
           self.arel_table.table_alias = table2_alias

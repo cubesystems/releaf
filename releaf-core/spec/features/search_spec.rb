@@ -50,6 +50,7 @@ describe Releaf::Search do
     model do
       belongs_to :blog_post
       belongs_to :comment_author
+      has_one :note, as: :owner
     end
   end
 
@@ -61,6 +62,19 @@ describe Releaf::Search do
 
     model do
       has_many :comments
+      has_many :notes, as: :owner
+    end
+  end
+
+  with_model :Note, scope: :all do
+    table do |t|
+      t.string :owner_type
+      t.integer :owner_id
+      t.string :text
+    end
+
+    model do
+      belongs_to :owner, polymorphic: true
     end
   end
 
@@ -78,14 +92,41 @@ describe Releaf::Search do
     @post5 = BlogPost.create!(title: "sick horse that died", author: @post_author1, deleted: true)
 
     @comment_author1 = CommentAuthor.create!(name: "Paul")
+    @note1 = Note.create!(text: 'Nice guy', owner: @comment_author1)
+    @note2 = Note.create!(text: 'Need to meet him in person', owner: @comment_author1)
     @comment_author2 = CommentAuthor.create!(name: "John")
+    @note3 = Note.create!(text: 'An internet troll', owner: @comment_author2)
 
     @comment1 = Comment.create!(text: "big and heavy", comment_author: @comment_author1, blog_post: @post1)
+    @note4 = Note.create!(text: 'The good guy, but troll', owner: @comment1)
     @comment2 = Comment.create!(text: "big and wide", comment_author: @comment_author1, blog_post: @post1)
+    @note5 = Note.create!(text: 'The bad girl', owner: @comment2)
     @comment3 = Comment.create!(text: "big", comment_author: @comment_author2, blog_post: @post2)
+    @note6 = Note.create!(text: 'The ugly person', owner: @comment3)
     @comment4 = Comment.create!(text: "small", comment_author: @comment_author2, blog_post: @post2)
     @comment5 = Comment.create!(text: "big", comment_author: @comment_author2, blog_post: @post3)
     @comment6 = Comment.create!(text: "small", comment_author: @comment_author2, blog_post: @post4)
+  end
+
+  it "support has_one polymorphic target" do
+    params = {
+      relation: Comment,
+      fields: [{note: [:text]}],
+      text: 'good'
+    }
+    expect( described_class.prepare(params) ).to match_array([@comment1])
+
+    params[:text]  = 'guy'
+    expect( described_class.prepare(params) ).to match_array([@comment1])
+  end
+
+  it "supports has_many polymorphic target" do
+    params = {
+      relation: CommentAuthor,
+      fields: [{notes: [:text]}],
+      text: 'troll'
+    }
+    expect( described_class.prepare(params) ).to match_array([@comment_author2])
   end
 
   it "escapes search text" do
