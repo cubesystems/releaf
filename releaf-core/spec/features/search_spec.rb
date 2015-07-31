@@ -108,6 +108,8 @@ describe Releaf::Search do
     @comment6 = Comment.create!(text: "small", comment_author: @comment_author2, blog_post: @post4)
   end
 
+  it "searchs polymorphic targets by base class"
+
   it "support has_one polymorphic target" do
     params = {
       relation: Comment,

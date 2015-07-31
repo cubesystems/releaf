@@ -85,7 +85,7 @@ module Releaf
                        end
 
       if reflection.type
-        polymorphic_type_condition = table2[reflection.type.to_sym].eq(klass.name)
+        polymorphic_type_condition = table2[reflection.type.to_sym].eq(klass.base_class.name)
         join_condition = join_condition.and(polymorphic_type_condition)
       end
 
