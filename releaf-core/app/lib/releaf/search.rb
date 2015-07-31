@@ -84,6 +84,11 @@ module Releaf
                          raise 'not implemented'
                        end
 
+      if reflection.type
+        polymorphic_type_condition = table2[reflection.type.to_sym].eq(klass.name)
+        join_condition = join_condition.and(polymorphic_type_condition)
+      end
+
       if reflection.scope
         where_scope = extract_where_condtion_from_scope(reflection, table2_alias)
         join_condition = join_condition.and(where_scope) if where_scope.present?
