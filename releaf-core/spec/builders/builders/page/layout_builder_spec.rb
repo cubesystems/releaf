@@ -46,11 +46,27 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
 
   describe "#head_blocks" do
     it "returns array" do
-      {title: :a, meta: :b, favicon: :c, assets: :d, csrf: :e}.each_pair do |method, stub_answer|
+      {
+        title: :title_sym,
+        meta: :meta_sym,
+        favicons: :favicon_sym,
+        ms_tile: :ms_tile_sym,
+        assets: :assets_sym,
+        csrf: :csrf_sym,
+      }.each_pair do |method, stub_answer|
         allow(subject).to receive(method).and_return stub_answer
       end
 
-      expect(subject.head_blocks).to match_array( [:a, :b, :c, :d, :e] )
+      expect(subject.head_blocks).to match_array(
+        [
+          :title_sym,
+          :meta_sym,
+          :favicon_sym,
+          :ms_tile_sym,
+          :assets_sym,
+          :csrf_sym,
+        ]
+      )
     end
   end
 end
