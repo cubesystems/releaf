@@ -220,7 +220,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
   describe "#footer_blocks" do
     before do
       allow(subject).to receive(:footer_primary_block).and_return("a")
-      allow(subject).to receive(:pagination).and_return("b")
+      allow(subject).to receive(:pagination_block).and_return("b")
       allow(subject).to receive(:footer_secondary_block).and_return("c")
       allow(subject).to receive(:pagination?).and_return(true)
     end
@@ -270,14 +270,14 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  describe "#pagination" do
+  describe "#pagination_block" do
     it "returns pagination helper" do
       allow(subject).to receive(:params).and_return(search: "xxx", ajax: true)
       allow(template).to receive(:will_paginate)
         .with(collection, class: "pagination", params: {search: "xxx", ajax: nil},
             renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2)
         .and_return("x")
-      expect(subject.pagination).to eq("x")
+      expect(subject.pagination_block).to eq("x")
     end
   end
 

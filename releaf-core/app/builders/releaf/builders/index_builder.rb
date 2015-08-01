@@ -70,7 +70,7 @@ class Releaf::Builders::IndexBuilder
 
   def footer_blocks
     list = [footer_primary_block]
-    list << pagination if pagination?
+    list << pagination_block if pagination?
     list << footer_secondary_block
     list
   end
@@ -85,7 +85,7 @@ class Releaf::Builders::IndexBuilder
     collection.respond_to?(:page)
   end
 
-  def pagination
+  def pagination_block
     template.will_paginate(collection, class: "pagination", params: params.merge(ajax: nil),
                            renderer: "Releaf::PaginationRenderer::LinkRenderer",
                            outer_window: 0, inner_window: 2)
