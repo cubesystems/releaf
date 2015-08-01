@@ -1,4 +1,12 @@
 ## Changelog
+### 2015.08.01
+* Releaf::Builders::IndexBuilder has been refactored with following changes:
+  - `search` method renamed to `search_block`
+  - `extra_search` method renamed to `extra_search_block`
+  - `pagination` method renamed to `pagination_block`
+  - section header text and resources count translations renamed
+* "global.admin" translation scope has been removed in favour of controller name scope
+
 ### 2015.07.23
 * Releaf::ResourceFinder was refactored and renamed to Releaf::Search.
   If you used Releaf::ResourceFinder somewhere, you need to change
