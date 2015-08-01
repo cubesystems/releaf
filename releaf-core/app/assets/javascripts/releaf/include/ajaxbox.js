@@ -29,12 +29,12 @@ jQuery(document).ready( function()
 
         if (params.type === 'image')
         {
-            magnific_popup_params.items = {src: params.url}
-            magnific_popup_params.type = "image"
+            magnific_popup_params.items = {src: params.url};
+            magnific_popup_params.type = "image";
         }
         else
         {
-            magnific_popup_params.items = {src: params.content, type: "inline"}
+            magnific_popup_params.items = {src: params.content, type: "inline"};
         }
 
         jQuery.magnificPopup.open(magnific_popup_params);
