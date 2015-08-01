@@ -200,12 +200,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#head_cell_content" do
     it "returns translated column scoped to resource class attributes" do
-      allow(I18n).to receive(:t).with("some_long_name", scope: "activerecord.attributes.book").and_return("Taittls")
+      allow(subject).to receive(:t).with("some_long_name", scope: "activerecord.attributes.book").and_return("Taittls")
       expect(subject.head_cell_content("some_long_name")).to eq('Taittls')
     end
 
     it "casts given column to string" do
-      allow(I18n).to receive(:t).with("title", scope: "activerecord.attributes.book").and_return("Taittls")
+      allow(subject).to receive(:t).with("title", scope: "activerecord.attributes.book").and_return("Taittls")
       expect(subject.head_cell_content(:title)).to eq('Taittls')
     end
 
@@ -218,7 +218,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#empty_body" do
     it "returns empty table body content" do
-      content = '<tr><th><div class="nothing-found">Nothing found</div></th></tr>'
+      allow(subject).to receive(:t).with("Nothing found").and_return("ntnn")
+      content = '<tr><th><div class="nothing-found">ntnn</div></th></tr>'
       expect(subject.empty_body).to eq(content)
     end
   end
@@ -362,7 +363,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
   describe "#format_boolean_content" do
     context "when resource column value is 'true'" do
       it "returns localized 'yes' value" do
-        allow(I18n).to receive(:t).with("yes", scope: "admin.global").and_return("Jā")
+        allow(subject).to receive(:t).with("Yes").and_return("Jā")
         allow(subject).to receive(:column_value).with(resource, :active)
           .and_return(true)
 
@@ -372,8 +373,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     context "when resource column value is other than 'true'" do
       it "returns localized 'no' value" do
-        allow(I18n).to receive(:t).with("no", scope: "admin.global").and_return("Nē")
-
+        allow(subject).to receive(:t).with("No").and_return("Nē")
         allow(subject).to receive(:column_value).with(resource, :active)
           .and_return(false)
         expect(subject.format_boolean_content(resource, :active)).to eq("Nē")
@@ -602,12 +602,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
         content = '<td><a href="y">_cell_content_</a></td>'
         expect(subject.cell(resource, :title, {a: "x", url: "y"})).to eq(content)
       end
-    end
-  end
-
-  describe "#translation_scope" do
-    it "returns 'admin.global'" do
-      expect(subject.translation_scope).to eq("admin.global")
     end
   end
 end

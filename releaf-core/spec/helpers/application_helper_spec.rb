@@ -41,11 +41,11 @@ describe Releaf::ApplicationHelper do
 
     before do
 
-      translation = FactoryGirl.create(:translation, :key => "admin.global.colors-red")
+      translation = FactoryGirl.create(:translation, :key => "admin.xx.colors-red")
       FactoryGirl.create(:translation_data, :lang => "en", :localization => "Color red", :translation => translation)
       I18n.backend.reload_cache
 
-      allow(helper).to receive(:controller_scope_name).and_return("admin.global")
+      allow(helper).to receive(:controller_scope_name).and_return("admin.xx")
     end
 
     context "when array of string" do

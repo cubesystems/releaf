@@ -76,8 +76,8 @@ module Releaf::Content::Nodes
     end
 
     def item_position_select_options
-      after_text = t('After', scope: 'admin.global')
-      list = [[t('First', scope: 'admin.global'), 0]]
+      after_text = t("After")
+      list = [[t("First"), 0]]
       order_nodes.each do |node|
         list.push [after_text + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
       end

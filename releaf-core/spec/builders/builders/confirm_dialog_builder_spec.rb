@@ -82,7 +82,7 @@ describe Releaf::Builders::ConfirmDialogBuilder, type: :class do
 
   describe "#confirm_button" do
     it "returns confirm button" do
-      allow(subject).to receive(:t).with("Yes", scope: "admin.global").and_return("Yess")
+      allow(subject).to receive(:t).with("Yes").and_return("Yess")
       allow(subject).to receive(:button).with("Yess", "check", class: "danger", type: "submit").and_return("x")
       expect(subject.confirm_button).to eq("x")
     end
@@ -97,7 +97,7 @@ describe Releaf::Builders::ConfirmDialogBuilder, type: :class do
 
   describe "#cancel_button" do
     it "returns cancel button" do
-      allow(subject).to receive(:t).with("No", scope: "admin.global").and_return("Noo")
+      allow(subject).to receive(:t).with("No").and_return("Noo")
       allow(subject).to receive(:button).with("Noo", "ban", class: "secondary", data: {type: "cancel"}, href: "y").and_return("x")
       expect(subject.cancel_button).to eq("x")
     end

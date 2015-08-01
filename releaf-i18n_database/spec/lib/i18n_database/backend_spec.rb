@@ -75,14 +75,14 @@ describe Releaf::I18nDatabase::Backend do
     end
 
     it "loads all translated data to cache as hash" do
-      translation = FactoryGirl.create(:translation, key: "admin.global.save")
+      translation = FactoryGirl.create(:translation, key: "admin.xx.save")
       FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
       FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
 
       expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:translations].blank? }.from(true).to(false)
 
-      expect(described_class::CACHE[:translations][:lv][:admin][:global][:save]).to eq("saglabāt")
-      expect(described_class::CACHE[:translations][:en][:admin][:global][:save]).to eq("save")
+      expect(described_class::CACHE[:translations][:lv][:admin][:xx][:save]).to eq("saglabāt")
+      expect(described_class::CACHE[:translations][:en][:admin][:xx][:save]).to eq("save")
     end
   end
 
@@ -222,9 +222,9 @@ describe Releaf::I18nDatabase::Backend do
     context "nonexistent translation" do
       context "loading multiple times" do
         it "queries db only for the first time" do
-          I18n.t("save", scope: "admin.global")
+          I18n.t("save", scope: "admin.xx")
           expect(Releaf::I18nDatabase::Translation).not_to receive(:where)
-          I18n.t("save", scope: "admin.global")
+          I18n.t("save", scope: "admin.xx")
         end
       end
 

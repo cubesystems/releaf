@@ -5,7 +5,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
     tag(:div, class: "body") do
       [
         icon("ban"),
-        tag(:div, t("Deletion of %{resource} was refused due to existing relations:", scope: "admin.global", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
+        tag(:div, t("Deletion of %{resource} was refused due to existing relations:", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
         restricted_relations
       ]
     end
@@ -58,11 +58,11 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def footer_primary_tools
     [
-      button(t('Ok', scope: 'admin.global'), "check", href: index_url, data: {type: 'cancel'})
+      button(t("Ok"), "check", href: index_url, data: {type: 'cancel'})
     ]
   end
 
   def section_header_text
-    t('Deletion refused', scope: 'admin.global')
+    t("Deletion refused")
   end
 end

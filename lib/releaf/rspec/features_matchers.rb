@@ -17,7 +17,7 @@ module Capybara
     end
 
     def has_number_of_resources?(count)
-      has_css?("#{primary_header_css_rule} .totals", text: "#{count} Resources found")
+      has_css?("#{primary_header_css_rule} .totals", text: "#{count} resources found")
     end
 
 

@@ -9,7 +9,7 @@ module Releaf::Content::Builders
     end
 
     def cancel_button
-      button(t('Cancel', scope: 'admin.global'), "ban", class: "secondary", data: {type: 'cancel'}, href: url_for( action: 'index' ))
+      button(t('Cancel'), "ban", class: "secondary", data: {type: 'cancel'}, href: url_for( action: 'index' ))
     end
   end
 end

@@ -24,9 +24,9 @@ module Releaf::I18nDatabase::Translations
 
     def save_button
       if import?
-        button_text =  t('Import')
+        button_text = t("Import")
       else
-        button_text =  t('Save', scope: "admin.global")
+        button_text = t("Save")
       end
 
       button(button_text, "check", class: "primary", data: { type: 'ok' }, type: "submit")
@@ -38,7 +38,7 @@ module Releaf::I18nDatabase::Translations
 
     def back_to_index_button
       url = url_for( action: :index, search: params[:search])
-      button(t('Back to list', scope: 'admin.global'), "caret-left", class: "secondary", href: url)
+      button(t("Back to list"), "caret-left", class: "secondary", href: url)
     end
 
     def section_header; end
