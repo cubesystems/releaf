@@ -89,6 +89,22 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
+  describe "#extra_search_available?" do
+    context "when extra search block is present" do
+      it "returns true" do
+        allow(subject).to receive(:extra_search_block).and_return("x")
+        expect(subject.extra_search_available?).to be true
+      end
+    end
+
+    context "when extra search block is nil" do
+      it "returns false" do
+        allow(subject).to receive(:extra_search_block).and_return(nil)
+        expect(subject.extra_search_available?).to be false
+      end
+    end
+  end
+
   describe "#text_search_available?" do
     context "when template variable `searchable_fields` is defined" do
       it "returns true" do

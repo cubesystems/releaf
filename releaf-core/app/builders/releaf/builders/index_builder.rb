@@ -15,7 +15,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def extra_search_available?
-    extra_search.present?
+    extra_search_block.present?
   end
 
   def text_search_block
