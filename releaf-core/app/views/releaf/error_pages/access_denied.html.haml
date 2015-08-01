@@ -1,1 +1,1 @@
-= render 'releaf/error_pages/error', :message => t('You are not authorized to access %{controller}', :controller => controller_name,  :scope => 'admin.global', :default => 'You are not authorized to access %{controller}')
+= render 'releaf/error_pages/error', message: t('You are not authorized to access %{controller}', controller: controller_name, default: 'You are not authorized to access %{controller}', scope: controller_scope_name)

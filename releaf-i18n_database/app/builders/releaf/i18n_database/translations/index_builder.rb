@@ -34,7 +34,7 @@ module Releaf::I18nDatabase::Translations
 
     def edit_button
       url = url_for(action: :edit, search: params[:search])
-      button(t('Edit', scope: 'admin.global'), "edit", class: "primary", href: url)
+      button(t("Edit"), "edit", class: "primary", href: url)
     end
   end
 end

@@ -41,7 +41,7 @@ class Releaf::Builders::ConfirmDialogBuilder
   end
 
   def confirm_button
-    button(t('Yes', scope: 'admin.global'), "check", class: "danger", type: 'submit')
+    button(t("Yes"), "check", class: "danger", type: 'submit')
   end
 
   def cancel_url
@@ -49,6 +49,6 @@ class Releaf::Builders::ConfirmDialogBuilder
   end
 
   def cancel_button
-    button(t('No', scope: 'admin.global'), "ban", class: "secondary", data: {type: 'cancel'}, href: index_url)
+    button(t("No"), "ban", class: "secondary", data: {type: 'cancel'}, href: index_url)
   end
 end

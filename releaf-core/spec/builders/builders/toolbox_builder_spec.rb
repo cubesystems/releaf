@@ -49,8 +49,9 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
 
   describe "#destroy_confirmation_link" do
     it "returns destroy confirmation link" do
+      allow(subject).to receive(:t).with("Delete").and_return("dlt")
       allow(subject).to receive(:destroy_confirmation_url).and_return("www.xxx")
-      content = '<a class="button with-icon ajaxbox danger" title="Delete" href="www.xxx" data-modal="true"><i class="fa fa-trash-o fa-lg"></i>Delete</a>'
+      content = '<a class="button with-icon ajaxbox danger" title="dlt" href="www.xxx" data-modal="true"><i class="fa fa-trash-o fa-lg"></i>dlt</a>'
       expect(subject.destroy_confirmation_link).to eq(content)
     end
   end

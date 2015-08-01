@@ -16,7 +16,7 @@ module Releaf::Builders::Toolbox
   end
 
   def toolbox_button
-    tag(:button, disabled: "disabled", class: %w(button trigger only-icon), type: "button", title: t("Tools", scope: "admin.global")) do
+    tag(:button, disabled: "disabled", class: %w(button trigger only-icon), type: "button", title: t("Tools")) do
       icon("cog lg")
     end
   end

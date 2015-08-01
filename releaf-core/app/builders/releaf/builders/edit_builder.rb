@@ -21,7 +21,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def section_header_text
-    resource.new_record? ? t('Create new resource', scope: 'admin.global') : resource_to_text(resource)
+    resource.new_record? ? t("Create new resource") : resource_to_text(resource)
   end
 
   def section_header_extras
@@ -75,7 +75,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def save_button
-    button(t('Save', scope: "admin.global"), "check", class: "primary", data: { type: 'ok', disable: true }, type: "submit")
+    button(t("Save"), "check", class: "primary", data: { type: 'ok', disable: true }, type: "submit")
   end
 
   def footer_secondary_tools
@@ -89,7 +89,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def back_to_list_button
-    button(t('Back to list', scope: "admin.global"), "caret-left", class: "secondary", href: index_url)
+    button(t("Back to list"), "caret-left", class: "secondary", href: index_url)
   end
 
 end

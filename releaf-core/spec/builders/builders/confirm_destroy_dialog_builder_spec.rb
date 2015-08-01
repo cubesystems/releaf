@@ -31,7 +31,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   describe "#question_content" do
     it "localized destroy question" do
-      allow(subject).to receive(:t).with("Do you want to delete the following object?", scope: "admin.global").and_return("xx")
+      allow(subject).to receive(:t).with("Do you want to delete the following object?").and_return("xx")
       expect(subject.question_content).to eq("xx")
     end
   end
