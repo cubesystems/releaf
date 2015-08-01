@@ -49,7 +49,7 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
       {
         title: :title_sym,
         meta: :meta_sym,
-        favicon: :favicon_sym,
+        favicons: :favicon_sym,
         ms_tile: :ms_tile_sym,
         assets: :assets_sym,
         csrf: :csrf_sym,

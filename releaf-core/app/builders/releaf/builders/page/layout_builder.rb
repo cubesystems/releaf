@@ -82,7 +82,7 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def head_blocks
-    [title, meta, favicon, ms_tile, assets(:stylesheets, :stylesheet_link_tag), csrf]
+    [title, content_type, favicons, ms_tile, assets(:stylesheets, :stylesheet_link_tag), csrf]
   end
 
   def controller_name
@@ -101,8 +101,12 @@ class Releaf::Builders::Page::LayoutBuilder
     template.csrf_meta_tags
   end
 
-  def meta
-    tag(:meta, nil, content: 'text/html; charset=utf-8', 'http-equiv': 'Content-Type')
+  def content_type
+    meta(content: 'text/html; charset=utf-8', 'http-equiv': 'Content-Type')
+  end
+
+  def meta(options)
+    tag(:meta, nil, options)
   end
 
   def title
@@ -116,67 +120,37 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def ms_tile_path
-    File.join('releaf', 'icons')
+    favicon_path
   end
 
   def ms_tile_color
     '#151515'
   end
 
-  def favicon
-    context = controller.view_context
+  def favicon(source, options = {})
+    controller.view_context.favicon_link_tag(File.join(favicon_path, source), options)
+  end
 
-    tags = []
-    tags << context.favicon_link_tag(
-      File.join(favicon_path, 'favicon.png'),
-      rel: 'apple-touch-icon-precomposed',
-      type: 'image/png'
-    )
-    tags << context.favicon_link_tag(
-      File.join(favicon_path, 'apple-touch-icon-152x152-precomposed.png'),
-      rel: 'apple-touch-icon-precomposed',
-      type: 'image/png',
-      sizes: '152x152'
-    )
-    tags << context.favicon_link_tag(
-      File.join(favicon_path, 'apple-touch-icon-114x114-precomposed.png'),
-      rel: 'apple-touch-icon-precomposed',
-      type: 'image/png',
-      sizes: '114x114'
-    )
-    tags << context.favicon_link_tag(
-      File.join(favicon_path, 'apple-touch-icon-72x72-precomposed.png'),
-      rel: 'apple-touch-icon-precomposed',
-      type: 'image/png',
-      sizes: '72x72'
-    )
-    tags << context.favicon_link_tag(
-      File.join(favicon_path, 'favicon.png'),
-      rel: 'icon',
-      type: 'image/png'
-    )
-    tags << (
-      '<!--[if IE]>'.html_safe +
-      context.favicon_link_tag(File.join(favicon_path, 'favicon.ico')) +
-      '<![endif]-->'.html_safe
-    )
+  def apple_favicon(source, options = {})
+    favicon(source, options.merge(rel: 'apple-touch-icon-precomposed', type: 'image/png'))
+  end
+
+  def favicons
+    [
+      apple_favicon("favicon.png"),
+      apple_favicon("apple-touch-icon-152x152-precomposed.png", sizes: "152x152"),
+      apple_favicon("apple-touch-icon-114x114-precomposed.png", sizes: "114x114"),
+      apple_favicon("apple-touch-icon-72x72-precomposed.png", sizes: "72x72"),
+      favicon("favicon.png", type: 'image/png', rel: 'icon'),
+      ('<!--[if IE]>'.html_safe +  favicon('favicon.ico') + '<![endif]-->'.html_safe)
+    ]
   end
 
   def ms_tile
-    tags = []
-    tags << tag(
-      :meta,
-      nil,
-      name: 'msapplication-TileColor',
-      content: ms_tile_color
-    )
-    tags << tag(
-      :meta,
-      nil,
-      name: 'msapplication-TileImage',
-      content: ActionController::Base.helpers.image_path(
-        File.join(ms_tile_path, 'msapplication-tile-144x144.png')
-      )
-    )
+    tile_path = ActionController::Base.helpers.image_path(File.join(ms_tile_path, 'msapplication-tile-144x144.png'))
+    [
+      meta(name: 'msapplication-TileColor', content: ms_tile_color),
+      meta(name: 'msapplication-TileImage', content: tile_path)
+    ]
   end
 end
