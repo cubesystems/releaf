@@ -196,7 +196,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
 
   describe "#section_header_text" do
     it "returns section header text" do
-      allow(subject).to receive(:t).with('all_title').and_return("all")
+      allow(subject).to receive(:t).with('All resources').and_return("all")
       expect(subject.section_header_text).to eq("all")
     end
   end

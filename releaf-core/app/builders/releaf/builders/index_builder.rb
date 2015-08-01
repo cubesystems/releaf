@@ -58,7 +58,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def section_header_text
-    t("all_title") #TODO: translations
+    t("All resources")
   end
 
   def section_header_extras
