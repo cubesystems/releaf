@@ -162,6 +162,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
   describe "#reflect_on_association" do
     it "returns reflection for given reflection name" do
       expect(subject.reflect_on_association(:author)).to eq(object.class.reflections["author"])
+      expect(subject.reflect_on_association("author")).to eq(object.class.reflections["author"])
     end
   end
 
