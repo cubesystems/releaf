@@ -142,7 +142,6 @@ class Releaf::Builders::Page::LayoutBuilder
       apple_favicon("apple-touch-icon-114x114-precomposed.png", sizes: "114x114"),
       apple_favicon("apple-touch-icon-72x72-precomposed.png", sizes: "72x72"),
       favicon("favicon.png", type: 'image/png', rel: 'icon'),
-      ('<!--[if IE]>'.html_safe +  favicon('favicon.ico') + '<![endif]-->'.html_safe)
     ]
   end
 
