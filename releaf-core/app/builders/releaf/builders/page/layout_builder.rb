@@ -33,7 +33,7 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def notifications
-    tag(:div, nil, class: "notifications", 'data-close-text' => t(:close, scope: "admin.global"))
+    tag(:div, nil, class: 'notifications', 'data' => {'close-text' => t("Close")})
   end
 
   def header
@@ -82,7 +82,7 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def head_blocks
-    [title, meta, favicon, assets(:stylesheets, :stylesheet_link_tag), csrf]
+    [title, content_type, favicons, ms_tile, assets(:stylesheets, :stylesheet_link_tag), csrf]
   end
 
   def controller_name
@@ -101,8 +101,12 @@ class Releaf::Builders::Page::LayoutBuilder
     template.csrf_meta_tags
   end
 
-  def meta
-    tag(:meta, nil, content: "text/html; charset=utf-8", "http-equiv" => "Content-Type")
+  def content_type
+    meta(content: 'text/html; charset=utf-8', 'http-equiv' => 'Content-Type')
+  end
+
+  def meta(options)
+    tag(:meta, nil, options)
   end
 
   def title
@@ -111,5 +115,42 @@ class Releaf::Builders::Page::LayoutBuilder
     end
   end
 
-  def favicon; end
+  def favicon_path
+    File.join('releaf', 'icons')
+  end
+
+  def ms_tile_path
+    favicon_path
+  end
+
+  def ms_tile_color
+    '#151515'
+  end
+
+  def favicon(source, options = {})
+    controller.view_context.favicon_link_tag(File.join(favicon_path, source), options)
+  end
+
+  def apple_favicon(source, options = {})
+    favicon(source, options.merge(rel: 'apple-touch-icon-precomposed', type: 'image/png'))
+  end
+
+  def favicons
+    [
+      apple_favicon("favicon.png"),
+      apple_favicon("apple-touch-icon-152x152-precomposed.png", sizes: "152x152"),
+      apple_favicon("apple-touch-icon-114x114-precomposed.png", sizes: "114x114"),
+      apple_favicon("apple-touch-icon-72x72-precomposed.png", sizes: "72x72"),
+      favicon("favicon.png", type: 'image/png', rel: 'icon'),
+      ('<!--[if IE]>'.html_safe +  favicon('favicon.ico') + '<![endif]-->'.html_safe)
+    ]
+  end
+
+  def ms_tile
+    tile_path = ActionController::Base.helpers.image_path(File.join(ms_tile_path, 'msapplication-tile-144x144.png'))
+    [
+      meta(name: 'msapplication-TileColor', content: ms_tile_color),
+      meta(name: 'msapplication-TileImage', content: tile_path)
+    ]
+  end
 end

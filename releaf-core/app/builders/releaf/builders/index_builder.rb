@@ -3,7 +3,7 @@ class Releaf::Builders::IndexBuilder
   include Releaf::Builders::Collection
 
   def header_extras
-    search
+    search_block
   end
 
   def dialog?
@@ -15,62 +15,62 @@ class Releaf::Builders::IndexBuilder
   end
 
   def extra_search_available?
-    extra_search.present?
+    extra_search_block.present?
   end
 
-  def text_search
+  def text_search_block
     return unless text_search_available?
-    tag(:div, class: "text-search") do
-      text_search_content
-    end
+    tag(:div, class: "text-search"){ text_search_content }
   end
 
   def text_search_content
     [tag(:input, "", name: "search", type: "text", value: params[:search], autofocus: true),
-      button(nil, "search", type: "submit", title: t('Search', scope: 'admin.global'))]
+      button(nil, "search", type: "submit", title: t('Search'))]
   end
 
   def extra_search_content; end
 
   def extra_search_button
-    button(t('Filter', scope: 'admin.global'), "search", type: "submit", title: t('Search', scope: 'admin.global'))
+    button(t("Filter"), "search", type: "submit", title: t("Search"))
   end
 
-  def extra_search
-    content = extra_search_content
-    return unless content.present?
-    @extra_search ||= tag(:div, class: "extras clear-inside") do
-      [content, extra_search_button]
+  def extra_search_block
+    if @extra_search
+      @extra_search
+    else
+      content = extra_search_content
+      @extra_search = tag(:div, class: ["extras",  "clear-inside"]){ [content, extra_search_button] } if content.present?
     end
   end
 
-  def search
-    parts = [text_search, extra_search].compact
-    return if parts.empty?
+  def search_block
+    parts = [text_search_block, extra_search_block].compact
+    tag(:form, search_form_attributes){ parts } if parts.present?
+  end
+
+  def search_form_attributes
     classes = ["search", "clear-inside"]
     classes << "has-text-search" if text_search_available?
     classes << "has-extra-search" if extra_search_available?
-
     url = url_for(controller: controller_name, action: "index")
-    tag(:form, class: classes, action: url) do
-      parts
-    end
+
+    {class: classes, action: url}
   end
 
   def section_header_text
-    t("all_title", scope: 'admin.global')
+    t("All resources")
   end
 
   def section_header_extras
     return unless collection.respond_to? :total_entries
     tag(:span, class: "extras totals") do
-      "#{collection.total_entries} #{t("resources_found", scope: 'admin.global')}"
+      t("Resources found", count: collection.total_entries, default: "%{count} resources found", create_plurals: true)
     end
   end
 
   def footer_blocks
-    list = [ footer_primary_block ]
-    list << pagination if pagination?
+    list = [footer_primary_block]
+    list << pagination_block if pagination?
     list << footer_secondary_block
     list
   end
@@ -85,13 +85,16 @@ class Releaf::Builders::IndexBuilder
     collection.respond_to?(:page)
   end
 
-  def pagination
-    template.will_paginate( collection, class: "pagination", params: params.merge({ajax: nil}), renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2 )
+  def pagination_block
+    template.will_paginate(collection, class: "pagination", params: params.merge(ajax: nil),
+                           renderer: "Releaf::PaginationRenderer::LinkRenderer",
+                           outer_window: 0, inner_window: 2)
   end
 
   def resource_creation_button
-    button(t('Create new resource', scope: 'admin.global'), "plus", class: "primary",
-                                      href: url_for(controller: controller_name, action: "new"))
+    url = url_for(controller: controller_name, action: "new")
+    text = t("Create new resource")
+    button(text, "plus", class: "primary", href: url)
   end
 
   def section_body

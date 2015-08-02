@@ -74,7 +74,7 @@ class Releaf::Builders::TableBuilder
   def head_cell_content(column)
     unless column.to_sym == :toolbox
       attribute = column.to_s.gsub(".", "_")
-      I18n.t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
+      t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
     end
   end
 
@@ -82,7 +82,7 @@ class Releaf::Builders::TableBuilder
     tag(:tr) do
       tag(:th) do
         tag(:div, class: "nothing-found") do
-          I18n.t("nothing found", scope: translation_scope)
+          t("Nothing found")
         end
       end
     end
@@ -147,7 +147,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def format_boolean_content(resource, column)
-    I18n.t(column_value(resource, column) == true ? 'yes' : 'no', scope: translation_scope)
+    t(column_value(resource, column) == true ? "Yes" : "No")
   end
 
   def format_date_content(resource, column)
@@ -267,9 +267,5 @@ class Releaf::Builders::TableBuilder
         end
       end
     end
-  end
-
-  def translation_scope
-    "admin.global"
   end
 end

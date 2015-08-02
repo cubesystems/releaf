@@ -41,7 +41,6 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     {
       render_method: field_render_method_name(field),
       field: field,
-      association: object.class.reflections.key?(field.to_sym),
       subfields: subfields
     }
   end
@@ -55,105 +54,114 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def render_field_by_options(options)
     if respond_to? options[:render_method]
       send(options[:render_method])
-    elsif options[:association] == true
-      releaf_association_fields(options[:field], options[:subfields])
     else
-      releaf_field(options[:field])
+      reflection = reflect_on_association(options[:field])
+
+      if reflection
+        releaf_association_fields(reflection, options[:subfields])
+      else
+        releaf_field(options[:field])
+      end
     end
   end
 
-  def reflection(reflection_name)
-    object.class.reflections[reflection_name.to_sym]
+  def reflect_on_association(association_name)
+    object.class.reflections[association_name.to_s]
   end
 
-  def releaf_association_fields(association_name, fields)
-    fields = association_fields(association_name) if fields.nil?
+  def association_reflector(reflection, fields)
+    fields ||= resource_fields.association_attributes(reflection)
+    Releaf::Builders::AssociationReflector.new(reflection, fields, sortable_column_name)
+  end
 
-    case reflection(association_name).macro
+  def releaf_association_fields(reflection, fields)
+    reflector = association_reflector(reflection, fields)
+
+    case reflector.macro
     when :has_many
-      releaf_has_many_association(association_name, fields)
+      releaf_has_many_association(reflector)
     when :belongs_to
-      releaf_belongs_to_association(association_name, fields)
+      releaf_belongs_to_association(reflector)
     when :has_one
-      releaf_has_one_association(association_name, fields)
+      releaf_has_one_association(reflector)
     else
       raise 'not implemented'
     end
   end
 
-  def releaf_belongs_to_association(association_name, fields)
-    releaf_has_one_or_belongs_to_association(association_name, fields)
+  def releaf_belongs_to_association(reflector)
+    releaf_has_one_or_belongs_to_association(reflector)
   end
 
-  def releaf_has_one_association(association_name, fields)
-    object.send("build_#{association_name}") unless object.send(association_name).present?
-    releaf_has_one_or_belongs_to_association(association_name, fields)
+  def releaf_has_one_association(reflector)
+    object.send("build_#{reflector.name}") unless object.send(reflector.name).present?
+    releaf_has_one_or_belongs_to_association(reflector)
   end
 
-  def releaf_has_one_or_belongs_to_association(association_name, fields)
-    tag(:fieldset, class: "type-association", data: {name: association_name}) do
-      tag(:legend, t(association_name)) <<
-      fields_for(association_name, object.send(association_name), relation_name: association_name, builder: self.class) do |builder|
-        builder.releaf_fields(fields)
+  def releaf_has_one_or_belongs_to_association(reflector)
+    tag(:fieldset, class: "type-association", data: {name: reflector.name}) do
+      tag(:legend, translate_attribute(reflector.name)) <<
+      fields_for(reflector.name, object.send(reflector.name), relation_name: reflector.name, builder: self.class) do |builder|
+        builder.releaf_fields(reflector.fields)
       end
     end
   end
 
-  def releaf_has_many_association(association_name, fields)
-    reflection = reflection(association_name)
+  def releaf_has_many_association(reflector)
+    item_template = releaf_has_many_association_fields(reflector, reflector.klass.new, '_template_', true)
 
-    item_template = releaf_has_many_association_fields(association_name, obj: reflection.klass.new, child_index: '_template_', destroyable: true,
-                                                       subfields: fields)
-    item_template = html_escape(item_template.to_str) # make html unsafe and escape afterwards
-
-    tag(:section, class: "nested", data: {name: association_name, "releaf-template" => item_template}) do
-      [releaf_has_many_association_header(association_name),
-       releaf_has_many_association_body(association_name, reflection, fields),
-       releaf_has_many_association_footer(association_name)]
+    tag(:section, class: "nested", data: {name: reflector.name, "releaf-template" => html_escape(item_template.to_str)}) do
+      [
+        releaf_has_many_association_header(reflector),
+        releaf_has_many_association_body(reflector),
+        releaf_has_many_association_footer(reflector)
+      ]
     end
   end
 
-  def releaf_has_many_association_header(association_name)
+  def releaf_has_many_association_header(reflector)
     tag(:header) do
-      tag(:h1, t(association_name))
+      tag(:h1, translate_attribute(reflector.name))
     end
   end
 
-  def releaf_has_many_association_body(association_name, reflection, fields)
-    sortable = sortable_association?(reflection)
-    destroyable = destoyable_association?(reflection)
+  def releaf_has_many_association_body(reflector)
+    attributes = {
+      class: ["body", "list"]
+    }
+    attributes["data"] = {sortable: nil} if reflector.sortable?
 
-    tag(:div, class: "body list", data: {sortable: sortable ? '' : nil}) do
-      association_collection(reflection, sortable).each_with_index.map do |obj, i|
-        releaf_has_many_association_fields(association_name, obj: obj, child_index: i, destroyable: destroyable,
-                                          sortable: sortable, subfields: fields)
-        end
-    end
-  end
-
-  def releaf_has_many_association_footer(association_name)
-    tag(:footer) do
-      field_type_add_nested
-    end
-  end
-
-  def releaf_has_many_association_fields(association_name, obj: nil, subfields: nil, child_index: nil, destroyable: nil, sortable: nil)
-    tag(:fieldset, class: ["item", "type-association"], data: {name: association_name, index: child_index}) do
-      fields_for(association_name, obj, relation_name: association_name, child_index: child_index, builder: self.class) do |builder|
-        builder.releaf_has_many_association_field(association_name, sortable, subfields, destroyable)
+    tag(:div, attributes) do
+      association_collection(reflector).each_with_index.map do |association_object, index|
+        releaf_has_many_association_fields(reflector, association_object, index, reflector.destroyable?)
       end
     end
   end
 
-  def releaf_has_many_association_field(field, sortable, subfields, destroyable)
-    content = ActiveSupport::SafeBuffer.new
+  def releaf_has_many_association_footer(reflector)
+    tag(:footer){ field_type_add_nested }
+  end
 
-    if sortable
+  def releaf_has_many_association_fields(reflector, association_object, association_index, destroyable)
+    tag(:fieldset, class: ["item", "type-association"], data: {name: reflector.name, index: association_index}) do
+      fields_for(reflector.name, association_object, relation_name: reflector.name,
+                 child_index: association_index, builder: self.class) do |builder|
+        builder.releaf_has_many_association_field(reflector, destroyable)
+      end
+    end
+  end
+
+  def releaf_has_many_association_field(reflector, destroyable)
+    content = ActiveSupport::SafeBuffer.new
+    skippable_fields = []
+
+    if reflector.sortable?
+      skippable_fields << sortable_column_name
       content << hidden_field(sortable_column_name.to_sym, class: "item-position")
       content << tag(:div, "&nbsp;".html_safe, class: "handle")
     end
 
-    content << releaf_fields(subfields)
+    content << releaf_fields(reflector.fields - skippable_fields)
     content << field_type_remove_nested if destroyable
 
     content
@@ -504,7 +512,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         tag(:ul, class: "block") do
           object.class.globalize_locales.collect do |locale, i|
             tag(:li) do
-              tag(:button, locale, type: "button", data: {locale: locale})
+              tag(:button, translate_locale(locale), type: "button", data: {locale: locale})
             end
           end
         end
@@ -566,56 +574,23 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         key = name.to_s.sub(/_uid$/, '')
       end
 
-      t(key, scope: object_translation_scope)
+      translate_attribute(key)
     end
+  end
+
+  def translate_attribute(attribute)
+    t(attribute, scope: object_translation_scope)
   end
 
   def object_translation_scope
     "activerecord.attributes.#{object.class.name.underscore}"
   end
 
-  def association_fields(association_name)
-    resource_fields.association_attributes(reflection(association_name))
-  end
-
-  def sortable_association?(reflection)
-    reflection.klass.column_names.include?(sortable_column_name)
-  end
-
-  def destoyable_association?(reflection)
-    reflection.active_record.nested_attributes_options.fetch(reflection.name, {}).fetch(:allow_destroy, false)
-  end
-
-  def association_collection(reflection, sortable)
-    collection = object.send(reflection.name)
-    collection = collection.reorder(sortable_column_name => :asc) if sortable
-    collection
+  def association_collection(reflector)
+    object.send(reflector.name)
   end
 
   def sortable_column_name
     'item_position'
   end
-
-  def releaf_checkbox_group(name, input: {}, label: {}, field: {}, options: {}, &block)
-    options = {field: {type: "boolean-group"}}.deep_merge(options)
-    input_wrapper_with_label(name, releaf_checkbox_group_content(name, options[:items]),
-                             label: label, field: field, options: options, &block)
-  end
-
-  def releaf_checkbox_group_content(name, items)
-    safe_join do
-      [ hidden_field_tag("resource_#{name}", "", name: "resource[#{name}][]") ] +
-
-      items.collect do|item|
-        releaf_checkbox_group_item(name, item)
-      end
-    end
-  end
-
-  def releaf_checkbox_group_item(name, item)
-    wrapper(class: "type-boolean-group-item") do
-      check_box(name, {multiple: true}, item[:value], nil) << label(name, item[:label], value: item[:value])
-    end
-  end
-
 end

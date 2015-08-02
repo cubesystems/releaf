@@ -1,6 +1,6 @@
 class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmDialogBuilder
   def question_content
-    t('Do you want to delete the following object?', scope: 'admin.global')
+    t("Do you want to delete the following object?")
   end
 
   def description_content
@@ -8,7 +8,7 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmD
   end
 
   def section_header_text
-    t('Confirm deletion', scope: 'admin.global')
+    t("Confirm deletion")
   end
 
   def confirm_method
