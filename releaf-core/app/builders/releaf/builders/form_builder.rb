@@ -66,7 +66,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def reflect_on_association(association_name)
-    object.class.reflections[association_name.to_s]
+    object.class.reflect_on_association(association_name)
   end
 
   def association_reflector(reflection, fields)
