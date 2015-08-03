@@ -39,7 +39,7 @@ describe Releaf::Search do
       params = {
         relation: Tester,
         fields: [:name],
-        text: 'janis'
+        text: 'jānis'
       }
       expect( described_class.prepare(params) ).to match_array [@tester1]
     end
@@ -152,7 +152,7 @@ describe Releaf::Search do
       params = {
         relation: Programmer,
         fields: [project_manager: [:name]],
-        text: 'peteris'
+        text: 'pēteris'
       }
       expect( described_class.prepare(params) ).to match_array [@programmer2]
     end
@@ -161,7 +161,7 @@ describe Releaf::Search do
       params = {
         relation: Programmer,
         fields: [project_manager: [:name, :surname]],
-        text: 'janis ozols'
+        text: 'jānis ozols'
       }
       expect( described_class.prepare(params) ).to match_array [@programmer3]
     end
