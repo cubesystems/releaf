@@ -29,7 +29,8 @@ module Releaf
       :page_title,
       :resource_class,
       :feature_available?,
-      :builder_class
+      :builder_class,
+      :searchable_fields
 
     def search(text)
       return if text.blank?
