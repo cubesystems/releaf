@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::TemplateFieldTypeMapper do
+describe Releaf::Core::TemplateFieldTypeMapper do
   let(:object){ double("generic object") }
 
   def file_field_error_message field_name, obj
@@ -19,20 +19,20 @@ describe Releaf::TemplateFieldTypeMapper do
     context "when object translates" do
       context "when given attribute translatable" do
         it "returns true" do
-          expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :description)).to be true
+          expect(described_class.use_i18n?(Book.new, :description)).to be true
         end
       end
 
       context "when attribute does not translatable" do
         it "returns false" do
-          expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Book.new, :title)).to be false
+          expect(described_class.use_i18n?(Book.new, :title)).to be false
         end
       end
     end
 
     context "when object does not translates" do
       it "returns false" do
-        expect(Releaf::TemplateFieldTypeMapper.use_i18n?(Releaf::Permissions::User.new, :password)).to be false
+        expect(described_class.use_i18n?(Releaf::Permissions::User.new, :password)).to be false
       end
     end
   end
