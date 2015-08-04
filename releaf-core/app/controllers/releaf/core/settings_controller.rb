@@ -29,6 +29,10 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
     end
   end
 
+  def searchable_fields
+    [:var]
+  end
+
   protected
 
   def prepare_update
@@ -38,7 +42,6 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
 
   def setup
     super
-    @searchable_fields = [:var]
     @features = {
       edit: true,
       index: true,

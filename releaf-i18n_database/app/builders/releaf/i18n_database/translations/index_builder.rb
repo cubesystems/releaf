@@ -36,5 +36,9 @@ module Releaf::I18nDatabase::Translations
       url = url_for(action: :edit, search: params[:search])
       button(t("Edit"), "edit", class: "primary", href: url)
     end
+
+    def text_search_available?
+      true
+    end
   end
 end

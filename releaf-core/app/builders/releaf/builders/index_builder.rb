@@ -11,7 +11,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def text_search_available?
-    template_variable("searchable_fields").present?
+    controller.searchable_fields.present?
   end
 
   def extra_search_available?

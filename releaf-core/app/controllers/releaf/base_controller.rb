@@ -29,12 +29,13 @@ module Releaf
       :page_title,
       :resource_class,
       :feature_available?,
-      :builder_class
+      :builder_class,
+      :searchable_fields
 
     def search(text)
       return if text.blank?
-      return if @searchable_fields.blank?
-      @collection = searcher_class.prepare(relation: @collection, fields: @searchable_fields, text: text)
+      return if searchable_fields.blank?
+      @collection = searcher_class.prepare(relation: @collection, fields: searchable_fields, text: text)
     end
 
     def searcher_class
@@ -413,8 +414,12 @@ module Releaf
         index:             true,
         toolbox:           true
       }
-      @panel_layout      = true
-      @resources_per_page    = 40
+      @panel_layout = true
+      @resources_per_page = 40
+    end
+
+    def searchable_fields
+      @searchable_fields ||= Releaf::Core::DefaultSearchableFields.new(resource_class).find
     end
 
     def resource_params

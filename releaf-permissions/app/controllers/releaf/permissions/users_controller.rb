@@ -1,11 +1,6 @@
 module Releaf::Permissions
   class UsersController < Releaf::BaseController
 
-    def setup
-      super
-      @searchable_fields = [:name, :surname, :email]
-    end
-
     def self.resource_class
       Releaf::Permissions::User
     end
