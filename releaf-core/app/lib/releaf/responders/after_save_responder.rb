@@ -3,7 +3,7 @@ module Releaf::Responders
     delegate :render_notification, to: :controller
 
     def json_resource_errors
-      {errors: Releaf::ErrorFormatter.format_errors(resource)}
+      {errors: Releaf::Core::ErrorFormatter.format_errors(resource)}
     end
 
     def to_json

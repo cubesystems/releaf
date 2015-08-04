@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   class ErrorFormatter
     attr_reader :errors
 

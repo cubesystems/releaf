@@ -2,6 +2,7 @@
 ### 2015.07.05
 * Renamed `Releaf::TemplateFieldTypeMapper` to `Releaf::Core::TemplateFieldTypeMapper`
 * Renamed `Releaf::AssetsResolver` to `Releaf::Core::AssetsResolver`
+* Renamed `Releaf::ErrorFormatter` to `Releaf::Core::ErrorFormatter`
 
 ### 2015.08.04
 * refactored `@searchable_fields`. Now you should override `#searchable_fields`

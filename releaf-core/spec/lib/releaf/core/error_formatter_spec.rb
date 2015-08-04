@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Releaf::ErrorFormatter do
+describe Releaf::Core::ErrorFormatter do
 
   class DummyResourceValidatorAuthor < Author
     self.table_name = 'authors'
