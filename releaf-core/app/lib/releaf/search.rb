@@ -85,7 +85,7 @@ module Releaf
                        end
 
       if reflection.type
-        polymorphic_type_condition = table2[reflection.type.to_sym].eq(klass.name)
+        polymorphic_type_condition = table2[reflection.type.to_sym].eq(klass.base_class.name)
         join_condition = join_condition.and(polymorphic_type_condition)
       end
 
@@ -135,14 +135,8 @@ module Releaf
     end
 
     def arel_join(table1, table2, join_condition, join_type: Arel::Nodes::OuterJoin)
-      source_table = if table1.is_a?(Arel::Nodes::TableAlias)
-                       table = table1.left.dup
-                       table.table_alias = table1.table_alias
-                       table
-                     else
-                       table1
-                     end
-      source_table.join(table2, join_type).on(join_condition).join_sources
+      on_condition = table1.create_on(join_condition)
+      table1.create_join(table2, on_condition, join_type)
     end
   end
 end
