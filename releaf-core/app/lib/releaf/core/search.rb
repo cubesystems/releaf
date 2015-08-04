@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   class Search
     attr_accessor :relation, :fields, :text, :join_index, :searchable_arel_fields
 

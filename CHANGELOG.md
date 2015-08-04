@@ -1,4 +1,7 @@
 ## Changelog
+### 2015.08.04
+* Renamed `Releaf::Search` to `Releaf::Core::Search`
+
 ### 2015.08.01
 * Releaf::Builders::IndexBuilder has been refactored with following changes:
   - `search` method renamed to `search_block`

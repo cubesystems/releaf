@@ -38,7 +38,7 @@ module Releaf
     end
 
     def searcher_class
-      Releaf::Search
+      Releaf::Core::Search
     end
 
     def index

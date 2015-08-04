@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Search do
+describe Releaf::Core::Search do
 
   describe "searching in models attributes" do
     with_model :Tester, scope: :all do
