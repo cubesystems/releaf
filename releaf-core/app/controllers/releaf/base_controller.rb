@@ -8,7 +8,7 @@ module Releaf
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
-    include Releaf::Responders
+    include Releaf::Core::Responders
 
     before_filter :manage_ajax, :setup, :verify_feature_availability!
 

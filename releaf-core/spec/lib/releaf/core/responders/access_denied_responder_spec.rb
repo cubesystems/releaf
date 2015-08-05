@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Responders::FeatureDisabledResponder, type: :controller do
+describe Releaf::Core::Responders::AccessDeniedResponder, type: :controller do
   controller{}
   subject{ described_class.new(controller, []) }
 

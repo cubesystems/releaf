@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Responders::ConfirmDestroyResponder, type: :controller do
+describe Releaf::Core::Responders::ConfirmDestroyResponder, type: :controller do
   let(:controller){ Releaf::BaseController.new }
   let(:resource){ Book.new}
   subject{ described_class.new(controller, [resource]) }

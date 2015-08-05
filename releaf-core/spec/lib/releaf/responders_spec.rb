@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::Responders, type: :controller do
+describe Releaf::Core::Responders, type: :controller do
   subject{ Releaf::BaseController.new }
 
   describe "#respond_with" do
@@ -12,16 +12,16 @@ describe Releaf::Responders, type: :controller do
 
     context "when no responder defined within options" do
       it "adds active responder to `responder` options" do
-        expect(Releaf::Responders::AfterSaveResponder).to receive(:call)
+        expect(Releaf::Core::Responders::AfterSaveResponder).to receive(:call)
         subject.respond_with(nil)
       end
     end
 
     context "when responder is defined within options" do
       it "adds active responder to `responder` options" do
-        expect(Releaf::Responders::AfterSaveResponder).to_not receive(:call)
-        expect(Releaf::Responders::PageNotFoundResponder).to receive(:call)
-        subject.respond_with(nil, responder: Releaf::Responders::PageNotFoundResponder)
+        expect(Releaf::Core::Responders::AfterSaveResponder).to_not receive(:call)
+        expect(Releaf::Core::Responders::PageNotFoundResponder).to receive(:call)
+        subject.respond_with(nil, responder: Releaf::Core::Responders::PageNotFoundResponder)
       end
     end
   end
@@ -29,13 +29,13 @@ describe Releaf::Responders, type: :controller do
   describe "#action_responders" do
     it "returns hash with action to responders matching" do
       hash = {
-        create: Releaf::Responders::AfterSaveResponder,
-        update: Releaf::Responders::AfterSaveResponder,
-        confirm_destroy: Releaf::Responders::ConfirmDestroyResponder,
-        destroy: Releaf::Responders::DestroyResponder,
-        access_denied: Releaf::Responders::AccessDeniedResponder,
-        feature_disabled: Releaf::Responders::FeatureDisabledResponder,
-        page_not_found: Releaf::Responders::PageNotFoundResponder,
+        create: Releaf::Core::Responders::AfterSaveResponder,
+        update: Releaf::Core::Responders::AfterSaveResponder,
+        confirm_destroy: Releaf::Core::Responders::ConfirmDestroyResponder,
+        destroy: Releaf::Core::Responders::DestroyResponder,
+        access_denied: Releaf::Core::Responders::AccessDeniedResponder,
+        feature_disabled: Releaf::Core::Responders::FeatureDisabledResponder,
+        page_not_found: Releaf::Core::Responders::PageNotFoundResponder,
       }
       expect(subject.action_responders).to eq(hash)
     end
@@ -58,35 +58,3 @@ describe Releaf::Responders, type: :controller do
     end
   end
 end
-
-#module Releaf::Responders
-
-  #def respond_with(resource = nil, options = {}, &block)
-    #options[:responder] = active_responder unless options.has_key? :responder
-    #super
-  #end
-
-  #def action_responders
-    #{
-      #create: Releaf::Responders::AfterSaveResponder,
-      #update: Releaf::Responders::AfterSaveResponder,
-      #confirm_destroy: Releaf::Responders::ConfirmDestroyResponder,
-      #destroy: Releaf::Responders::DestroyResponder,
-      #access_denied: Releaf::Responders::AccessDeniedResponder,
-      #feature_disabled: Releaf::Responders::FeatureDisabledResponder,
-      #page_not_found: Releaf::Responders::PageNotFoundResponder,
-    #}
-  #end
-
-  ## Returns generic view name for given action
-  ## @return String
-  #def action_responder(_action_name)
-    #action_responders[_action_name.to_sym]
-  #end
-
-  ## Returns generic view name for current action
-  ## @return String
-  #def active_responder
-    #action_responder(action_name)
-  #end
-#end
