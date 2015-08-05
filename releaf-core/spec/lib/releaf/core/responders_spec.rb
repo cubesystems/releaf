@@ -5,7 +5,7 @@ describe Releaf::Core::Responders, type: :controller do
 
   describe "#respond_with" do
     before do
-      allow(subject).to receive(:active_responder).and_return(Releaf::Responders::AfterSaveResponder)
+      allow(subject).to receive(:active_responder).and_return(Releaf::Core::Responders::AfterSaveResponder)
       allow(subject).to receive(:request).and_return(request)
       allow(subject).to receive(:content_type).and_return(:html)
     end
