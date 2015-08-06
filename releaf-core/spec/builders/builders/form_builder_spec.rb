@@ -366,7 +366,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
   describe "#label_text" do
     it "returns model attributes scoped translated value" do
-      allow(I18n).to receive(:t).with("color", scope: "activerecord.attributes.book").and_return("x")
+      allow(subject).to receive(:translate_attribute).with("color").and_return("x")
       expect(subject.label_text(:color)).to eq("x")
     end
 
@@ -388,8 +388,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
     context "when :translation_key option exists" do
       context "when :translation_key is not blank" do
         it "passes :translation_key option to translation and return translated value" do
-          allow(subject).to receive(:object_translation_scope).and_return("xxxx")
-          allow(I18n).to receive(:t).with("true_color", scope: "xxxx").and_return("x")
+          allow(subject).to receive(:translate_attribute).with("true_color").and_return("x")
           expect(subject.label_text(:color, translation_key: "true_color")).to eq("x")
         end
       end
@@ -400,12 +399,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
           expect(subject.label_text(:color, translation_key: "")).to eq("Color")
         end
       end
-    end
-  end
-
-  describe "#label_text" do
-    it "returns object translation scope `activerecord.attributes._object_class_`" do
-      expect(subject.object_translation_scope).to eq("activerecord.attributes.book")
     end
   end
 
@@ -562,8 +555,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
   describe "#translate_attribute" do
     it "translates given attribute within object translation scope" do
-      allow(subject).to receive(:object_translation_scope).and_return("y")
-      allow(subject).to receive(:t).with("x", scope: "y").and_return("z")
+      allow(object.class).to receive(:human_attribute_name).with("x", create_default: false).and_return("z")
       expect(subject.translate_attribute("x")).to eq("z")
     end
   end
