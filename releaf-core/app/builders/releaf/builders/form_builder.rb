@@ -579,11 +579,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def translate_attribute(attribute)
-    t(attribute, scope: object_translation_scope)
-  end
-
-  def object_translation_scope
-    "activerecord.attributes.#{object.class.name.underscore}"
+    object.class.human_attribute_name(attribute, create_default: false)
   end
 
   def association_collection(reflector)

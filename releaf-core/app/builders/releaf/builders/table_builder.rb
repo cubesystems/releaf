@@ -74,7 +74,7 @@ class Releaf::Builders::TableBuilder
   def head_cell_content(column)
     unless column.to_sym == :toolbox
       attribute = column.to_s.gsub(".", "_")
-      t(attribute, scope: "activerecord.attributes.#{resource_class.name.underscore}")
+      resource_class.human_attribute_name(attribute, create_default: false)
     end
   end
 

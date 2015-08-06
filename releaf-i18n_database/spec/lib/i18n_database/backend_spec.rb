@@ -30,6 +30,57 @@ describe Releaf::I18nDatabase::Backend do
     end
   end
 
+  describe "#default" do
+    context "when `create_default: false` option exists" do
+      it "adds `create_default: true` option and remove `create_default` option" do
+        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_missing: false)
+        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: false, create_missing: false)
+      end
+
+      it "does not change givem options" do
+        options = {count:1, default: "xxx", fallback: true, create_default: false}
+        expect{ subject.send(:default, "en", "aa", "bb", options) }.to_not change{ options }
+      end
+    end
+
+    context "when `create_default: false` option does not exists" do
+      it "does not modify options" do
+        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true)
+        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true)
+
+        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_default: true)
+        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: true)
+      end
+    end
+  end
+
+  describe "#create_missing_translation?" do
+    before do
+      Releaf::I18nDatabase.create_missing_translations = true
+    end
+
+    context "when missing translation creation is enabled globally by i18n config and not disabled by `create_missing` option" do
+      it "returns true" do
+        expect(subject.send(:create_missing_translation?, {})).to be true
+        expect(subject.send(:create_missing_translation?, create_missing: true)).to be true
+        expect(subject.send(:create_missing_translation?, create_missing: nil)).to be true
+      end
+    end
+
+    context "when missing translation creation is disabled globally by i18n config" do
+      it "returns false" do
+        Releaf::I18nDatabase.create_missing_translations = false
+        expect(subject.send(:create_missing_translation?, {})).to be false
+      end
+    end
+
+    context "when missing translation creation is disabled by `create_missing` option" do
+      it "returns false" do
+        expect(subject.send(:create_missing_translation?, create_missing: false)).to be false
+      end
+    end
+  end
+
   describe ".translations_updated_at" do
     it "returns translations updated_at" do
       Releaf::Settings['releaf.i18n_database.translations.updated_at'] = Time.now
@@ -164,6 +215,23 @@ describe Releaf::I18nDatabase::Backend do
         context "when non pluralized translation requested" do
           it "returns nil" do
             expect(I18n.t("admin.controller.dog")).to eq("Dog")
+          end
+        end
+      end
+
+      context "when translation has default" do
+        context "when default creation is disabled" do
+          it "creates base translation" do
+            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest", create_default: false) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
+              .to(["xxx.test.mest"])
+
+          end
+        end
+
+        context "when default creation is not disabled" do
+          it "creates base and default translations" do
+            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
+              .to(["xxx.mest", "xxx.test.mest"])
           end
         end
       end

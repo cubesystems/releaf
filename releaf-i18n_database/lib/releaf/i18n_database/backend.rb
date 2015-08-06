@@ -102,9 +102,17 @@ module Releaf
 
         # mark translation as missing
         CACHE[:missing][locale_key] = true
-        create_missing_translation(locale, key, options)
+        create_missing_translation(locale, key, options) if create_missing_translation?(options)
 
         return nil
+      end
+
+      def default(locale, object, subject, options = {})
+        if options[:create_default] == false
+          options = options.reject { |key, value| key == :create_default }
+          options[:create_missing] = false
+        end
+        super
       end
 
       def get_all_pluralizations
@@ -119,9 +127,11 @@ module Releaf
         keys.uniq
       end
 
-      def create_missing_translation(locale, key, options)
-        return if Releaf::I18nDatabase.create_missing_translations != true
+      def create_missing_translation?(options)
+        Releaf::I18nDatabase.create_missing_translations == true && options[:create_missing] != false
+      end
 
+      def create_missing_translation(locale, key, options)
         begin
           if options.has_key?(:count) && options[:create_plurals] == true
             get_all_pluralizations.each do|pluralization|
