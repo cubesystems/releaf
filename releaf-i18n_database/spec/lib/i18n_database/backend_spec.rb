@@ -37,7 +37,7 @@ describe Releaf::I18nDatabase::Backend do
         subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: false, create_missing: false)
       end
 
-      it "does not change givem options" do
+      it "does not change given options" do
         options = {count:1, default: "xxx", fallback: true, create_default: false}
         expect{ subject.send(:default, "en", "aa", "bb", options) }.to_not change{ options }
       end
