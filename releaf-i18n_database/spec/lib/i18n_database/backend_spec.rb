@@ -30,6 +30,57 @@ describe Releaf::I18nDatabase::Backend do
     end
   end
 
+  describe "#default" do
+    context "when `create_default: false` option exists" do
+      it "adds `create_default: true` option and remove `create_default` option" do
+        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_missing: false)
+        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: false, create_missing: false)
+      end
+
+      it "does not change givem options" do
+        options = {count:1, default: "xxx", fallback: true, create_default: false}
+        expect{ subject.send(:default, "en", "aa", "bb", options) }.to_not change{ options }
+      end
+    end
+
+    context "when `create_default: false` option does not exists" do
+      it "does not modify options" do
+        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true)
+        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true)
+
+        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_default: true)
+        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: true)
+      end
+    end
+  end
+
+  describe "#create_missing_translation?" do
+    before do
+      Releaf::I18nDatabase.create_missing_translations = true
+    end
+
+    context "when missing translation creation is enabled globally by i18n config and not disabled by `create_missing` option" do
+      it "returns true" do
+        expect(subject.send(:create_missing_translation?, {})).to be true
+        expect(subject.send(:create_missing_translation?, create_missing: true)).to be true
+        expect(subject.send(:create_missing_translation?, create_missing: nil)).to be true
+      end
+    end
+
+    context "when missing translation creation is disabled globally by i18n config" do
+      it "returns false" do
+        Releaf::I18nDatabase.create_missing_translations = false
+        expect(subject.send(:create_missing_translation?, {})).to be false
+      end
+    end
+
+    context "when missing translation creation is disabled by `create_missing` option" do
+      it "returns false" do
+        expect(subject.send(:create_missing_translation?, create_missing: false)).to be false
+      end
+    end
+  end
+
   describe ".translations_updated_at" do
     it "returns translations updated_at" do
       Releaf::Settings['releaf.i18n_database.translations.updated_at'] = Time.now
@@ -75,14 +126,14 @@ describe Releaf::I18nDatabase::Backend do
     end
 
     it "loads all translated data to cache as hash" do
-      translation = FactoryGirl.create(:translation, key: "admin.global.save")
+      translation = FactoryGirl.create(:translation, key: "admin.xx.save")
       FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
       FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
 
       expect{ I18n.backend.reload_cache }.to change{ described_class::CACHE[:translations].blank? }.from(true).to(false)
 
-      expect(described_class::CACHE[:translations][:lv][:admin][:global][:save]).to eq("saglabāt")
-      expect(described_class::CACHE[:translations][:en][:admin][:global][:save]).to eq("save")
+      expect(described_class::CACHE[:translations][:lv][:admin][:xx][:save]).to eq("saglabāt")
+      expect(described_class::CACHE[:translations][:en][:admin][:xx][:save]).to eq("save")
     end
   end
 
@@ -107,6 +158,15 @@ describe Releaf::I18nDatabase::Backend do
           expect(I18n.backend).to_not receive(:reload_cache)
           I18n.t("cancel")
         end
+      end
+    end
+
+    context "when translation exists within higher level key (instead of being scope)" do
+      it "returns nil (Humanize key)" do
+        translation = FactoryGirl.create(:translation, key: "some.food")
+        FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+        expect(I18n.t("some.food", locale: "lv")).to eq("suņi")
+        expect(I18n.t("some.food.asd", locale: "lv")).to eq("Asd")
       end
     end
 
@@ -159,6 +219,23 @@ describe Releaf::I18nDatabase::Backend do
         end
       end
 
+      context "when translation has default" do
+        context "when default creation is disabled" do
+          it "creates base translation" do
+            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest", create_default: false) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
+              .to(["xxx.test.mest"])
+
+          end
+        end
+
+        context "when default creation is not disabled" do
+          it "creates base and default translations" do
+            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
+              .to(["xxx.mest", "xxx.test.mest"])
+          end
+        end
+      end
+
       context "in parent scope" do
         context "nonexistent translation in given scope" do
           it "uses parent scope" do
@@ -166,6 +243,14 @@ describe Releaf::I18nDatabase::Backend do
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
+
+        context "when `inherit_scopes` option is `false`" do
+          it "does not lookup upon higher level scopes" do
+            translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
+            FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+            expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv", inherit_scopes: false)).to eq("Blank")
+          end
+        end
         end
 
         context "and empty translation value in given scope" do
@@ -205,9 +290,9 @@ describe Releaf::I18nDatabase::Backend do
     context "nonexistent translation" do
       context "loading multiple times" do
         it "queries db only for the first time" do
-          I18n.t("save", scope: "admin.global")
+          I18n.t("save", scope: "admin.xx")
           expect(Releaf::I18nDatabase::Translation).not_to receive(:where)
-          I18n.t("save", scope: "admin.global")
+          I18n.t("save", scope: "admin.xx")
         end
       end
 
@@ -235,7 +320,7 @@ describe Releaf::I18nDatabase::Backend do
 
           context "when positive create_plurals option passed" do
             it "creates pluralized translations for all Releaf locales" do
-              result = ["animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
+              result = ["animals.horse.few", "animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
               expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key).sort }.
                 from([]).to(result.sort)
             end
