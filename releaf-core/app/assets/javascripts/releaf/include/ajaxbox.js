@@ -164,11 +164,11 @@ jQuery(document).ready( function()
 
     body.on('ajaxboxdone', function(e, params)
     {
+        jQuery(e.target).find(".dialog").addClass('initialized');
         if (!params || !('trigger' in params))
         {
             return;
         }
-        jQuery(e.target).find(".dialog").addClass('initialized');
         params.trigger.trigger('loadingend');
     });
 
