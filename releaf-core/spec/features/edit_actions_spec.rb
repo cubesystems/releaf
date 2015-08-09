@@ -10,14 +10,14 @@ feature "Base controller edit", js: true do
   scenario "keeps search params after deleting record from edit view" do
     visit admin_books_path(search: "good")
     click_link("good book")
-    open_toolbox("Delete")
+    open_toolbox_dialog("Delete")
     click_button("Yes")
     expect(page).to have_number_of_resources(0)
   end
 
   scenario "when deleting item with restrict relation" do
     visit edit_admin_author_path @author
-    open_toolbox("Delete")
+    open_toolbox_dialog("Delete")
 
     within_dialog do
       expect(page).to have_css('.restricted-relations .relations li', count: 2)
@@ -30,7 +30,7 @@ feature "Base controller edit", js: true do
 
   scenario "when clicking on delete restriction relation, it opens edit for related object" do
     visit edit_admin_author_path @author
-    open_toolbox("Delete")
+    open_toolbox_dialog("Delete")
 
     within_dialog do
       find('.restricted-relations .relations li a', text: "good book").click

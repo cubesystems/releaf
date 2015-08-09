@@ -73,12 +73,16 @@ module Releaf
     end
 
     def within_dialog(&block)
-      if find(".dialog") && first('.dialog form[data-remote-validation=true]')
-        find('.dialog form[data-remote-validation-initialized=true]') # wait for validation to initialize
-      end
-      within(".dialog") do
+      within(".dialog.initialized") do
         yield
       end
+    end
+
+    def close_dialog
+      within_dialog do
+        find("a[data-type='cancel']").click
+      end
+      expect(page).to have_no_css(".dialog")
     end
 
     def save_and_check_response(status_text)
@@ -102,9 +106,9 @@ module Releaf
       end
     end
 
-    def open_toolbox_dialog(item_name, resource = nil)
-      open_toolbox(item_name, resource)
-      expect(page).to have_css('.dialog form[data-remote-validation=true][data-remote-validation-initialized=true]')
+    def open_toolbox_dialog(item_name, resource = nil, resource_selector_scope = ".view-index .table tr")
+      open_toolbox(item_name, resource, resource_selector_scope)
+      expect(page).to have_css('.dialog.initialized')
     end
 
     def open_toolbox(item_name, resource = nil, resource_selector_scope = ".view-index .table tr")

@@ -32,7 +32,7 @@ feature "Users", js: true do
       expect(page).to have_content 'john@example.com'
 
       visit (releaf_permissions_users_path)
-      open_toolbox("Delete", Releaf::Permissions::User.last)
+      open_toolbox_dialog("Delete", Releaf::Permissions::User.last)
       click_button 'Yes'
       expect(page).not_to have_content 'john@example.com'
     end

@@ -90,7 +90,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     context "when going to node from toolbox list" do
       it "navigates to targeted node's edit view" do
         expect(page).to_not have_header(text: 'lv')
-        open_toolbox "Go to"
+        open_toolbox_dialog "Go to"
         click_link "lv"
 
         expect(page).to have_header(text: 'lv')
@@ -174,7 +174,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
   describe "node order", with_tree: false do
     def create_child parent, child_text, position=nil
       visit releaf_content_nodes_path
-      open_toolbox 'Add child', parent, ".view-index .collection li"
+      open_toolbox_dialog 'Add child', parent, ".view-index .collection li"
       within_dialog do
         click_link("Text")
       end

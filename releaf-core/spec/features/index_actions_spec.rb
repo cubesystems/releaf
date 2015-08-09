@@ -49,7 +49,7 @@ feature "Base controller index", js: true do
 
   scenario "keeps search parameters after delete" do
     visit admin_books_path(search: "good")
-    open_toolbox('Delete', Book.first)
+    open_toolbox_dialog('Delete', Book.first)
     click_button("Yes")
     expect(page).to have_number_of_resources(0)
   end
@@ -57,14 +57,14 @@ feature "Base controller index", js: true do
   scenario "when deleting item in edit" do
     visit admin_books_path(search: "good")
     click_link("good book")
-    open_toolbox('Delete')
+    open_toolbox_dialog('Delete')
     click_button("Yes")
     expect(page).to have_number_of_resources(0)
   end
 
   scenario "when deleting item with restrict relation" do
     visit admin_authors_path
-    open_toolbox('Delete', Author.first)
+    open_toolbox_dialog('Delete', Author.first)
 
     within_dialog do
       expect(page).to have_css('.restricted-relations .relations li', count: 2)
