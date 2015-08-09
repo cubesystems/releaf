@@ -10,8 +10,7 @@ feature "Ajaxbox", js: true do
     click_link user.name
     expect(page).to have_header(text: user.to_text)
 
-    open_toolbox "Delete"
-    sleep 1 # wait for form to be initialized
+    open_toolbox_dialog "Delete"
     within_dialog{ click_link "No" }
     expect(page).to_not have_css(".dialog")
     expect(current_path).to eq(edit_releaf_permissions_user_path(user))
@@ -21,7 +20,7 @@ feature "Ajaxbox", js: true do
     node = create(:home_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
-    open_toolbox "Move"
+    open_toolbox_dialog "Move"
     within_dialog{ click_link "Cancel" }
     expect(page).to_not have_css(".dialog")
     expect(current_path).to eq(node_path)
@@ -31,8 +30,7 @@ feature "Ajaxbox", js: true do
     node = create(:home_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
-    open_toolbox "Add child"
-    sleep 1 # wait for form to be initialized
+    open_toolbox_dialog "Add child"
     within_dialog{ find("button.close").click }
     expect(page).to_not have_css(".dialog")
     expect(current_path).to eq(node_path)
@@ -42,8 +40,7 @@ feature "Ajaxbox", js: true do
     node = create(:home_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
-    open_toolbox "Add child"
-    sleep 1 # wait for form to be initialized
+    open_toolbox_dialog "Add child"
     header = find(".dialog > header")
     target = find("body > header a.home")
 
@@ -71,8 +68,7 @@ feature "Ajaxbox", js: true do
     node = create(:home_page_node, name: "MyNode")
     node_path = edit_releaf_content_node_path(node)
     visit node_path
-    open_toolbox "Add child"
-    sleep 1 # wait for form to be initialized
+    open_toolbox_dialog "Add child"
 
     expect(page).to have_css(".mfp-bg")
     page.driver.click(10, 10)
@@ -84,9 +80,7 @@ feature "Ajaxbox", js: true do
     visit releaf_permissions_users_path
     click_link user.name
     expect(page).to have_header(text: user.to_text)
-
-    open_toolbox "Delete"
-    sleep 1 # wait for form to be initialized
+    open_toolbox_dialog "Delete"
 
     expect(page).to have_css(".mfp-bg")
     page.driver.click(10, 10)
