@@ -9,18 +9,21 @@ jQuery(document).ready(function()
             jQuery(instance.dpDiv[0]).find('.ui-datepicker-prev').html('<i class="fa fa-chevron-left"></i>');
             jQuery(instance.dpDiv[0]).find('.ui-datepicker-next').html('<i class="fa fa-chevron-right"></i>');
         }, 0);
-    }
+    };
 
     var get_date_limit = function(value)
     {
-        if (!value) return null;
+        if (!value)
+        {
+            return null;
+        }
         var offset_pattern = /^[+-]?\d+$/;
         if (offset_pattern.test(value))
         {
             return value;
         }
         return null;
-    }
+    };
 
     // initialize date/datetime/time pickers
     body.on('calendarsinit', function(e)
@@ -41,15 +44,15 @@ jQuery(document).ready(function()
             {
                 chevron_icons_show( instance );
             }
-        }
+        };
 
         block.find('.date-picker').each(function() {
             var picker = jQuery(this);
             var opt = options;
 
-            opt['dateFormat'] = picker.data('date-format') || 'yy-mm-dd';
-            opt['minDate'] = get_date_limit(picker.data('min-date'));
-            opt['maxDate'] = get_date_limit(picker.data('max-date'));
+            opt.dateFormat = picker.data('date-format') || 'yy-mm-dd';
+            opt.minDate = get_date_limit(picker.data('min-date'));
+            opt.maxDate = get_date_limit(picker.data('max-date'));
 
             picker.datepicker(opt);
         });
@@ -58,10 +61,10 @@ jQuery(document).ready(function()
             var picker = jQuery(this);
             var opt = options;
 
-            opt['dateFormat'] = picker.data('date-format') || 'yy-mm-dd';
-            opt['pickerTimeFormat'] = picker.data('time-format') || 'HH:mm'
-            opt['minDate'] = get_date_limit(picker.data('min-date'));
-            opt['maxDate'] = get_date_limit(picker.data('max-date'));
+            opt.dateFormat = picker.data('date-format') || 'yy-mm-dd';
+            opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm';
+            opt.minDate = get_date_limit(picker.data('min-date'));
+            opt.maxDate = get_date_limit(picker.data('max-date'));
 
             picker.datetimepicker(opt);
         });
@@ -70,7 +73,7 @@ jQuery(document).ready(function()
              var picker = jQuery(this);
              var opt = options;
 
-             opt['pickerTimeFormat'] = picker.data('time-format') || 'HH:mm'
+             opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm';
 
              picker.timepicker(options);
          });
