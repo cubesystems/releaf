@@ -1,6 +1,13 @@
 require "spec_helper"
 
 describe Releaf::Core::DefaultSearchableFields do
+  # emulate klass::Translations
+  with_model :SearchableObjectTranslations, scope: :all do
+    table do |t|
+      t.string :name
+    end
+  end
+
   with_model :SearchableObject, scope: :all do
     table do |t|
       t.string :email
@@ -19,6 +26,13 @@ describe Releaf::Core::DefaultSearchableFields do
       t.boolean :bool
       t.text :text
     end
+
+    model do
+      # emulate globalize accessors
+      def self.translates?
+        true
+      end
+    end
   end
 
   with_model :NonSearchableObject, scope: :all do
@@ -34,6 +48,11 @@ describe Releaf::Core::DefaultSearchableFields do
       t.integer :title
       t.integer :username
     end
+  end
+
+  before(:all) do
+    # emulate globalize accessors
+    SearchableObject.const_set('Translation', SearchableObjectTranslations)
   end
 
   subject { described_class.new(SearchableObject) }
@@ -69,7 +88,7 @@ describe Releaf::Core::DefaultSearchableFields do
           surname
           title
           username
-        ]
+        ] + [translations: %w[name]]
       end
     end
 
@@ -96,6 +115,47 @@ describe Releaf::Core::DefaultSearchableFields do
         non_searchable
         password
       ]
+    end
+  end
+
+  describe "#has_searchable_translated_string_columns?" do
+    context "when #klass isn't translated" do
+      it "returns false" do
+        allow(SearchableObject).to receive(:translates?).and_return(false)
+        expect( subject.has_searchable_translated_string_columns? ).to eq false
+      end
+    end
+
+    context "when #klass is translated and has translated searchable columns" do
+      it "returns true" do
+        expect( subject.has_searchable_translated_string_columns? ).to eq true
+      end
+    end
+
+    context "when #klass is translated but has no translated searchable columns" do
+      it "returns false" do
+        allow( subject ).to receive(:searchable_translated_string_columns).and_return([])
+        expect( subject.has_searchable_translated_string_columns? ).to eq false
+      end
+    end
+
+  end
+
+  describe "#searchable_translated_string_columns" do
+    it "returns translated string columns of klass::Translation" do
+      expect( subject.searchable_translated_string_columns ).to match_array %w[name]
+    end
+
+    it "caches result" do
+      searchable_fields = double(described_class)
+      expect( searchable_fields ).to receive(:find).once.and_return []
+
+      subject # init subject
+
+      allow( described_class ).to receive(:new).with(SearchableObject::Translation).and_return(searchable_fields)
+
+      subject.searchable_translated_string_columns
+      subject.searchable_translated_string_columns
     end
   end
 end
