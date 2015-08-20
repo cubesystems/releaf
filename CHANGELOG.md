@@ -1,4 +1,10 @@
 ## Changelog
+### 2015.08.04
+* refactored `@searchable_fields`. Now you should override `#searchable_fields`
+  method instead. By default searchable fields will be guessed with help of
+  `Releaf::Core::DefaultSearchableFields`
+* Renamed `Releaf::Search` to `Releaf::Core::Search`
+
 ### 2015.08.01
 * Releaf::Builders::IndexBuilder has been refactored with following changes:
   - `search` method renamed to `search_block`

@@ -149,7 +149,6 @@ module Releaf::I18nDatabase
       @features = {
         index: true
       }
-      @searchable_fields = true
     end
 
     def action_features

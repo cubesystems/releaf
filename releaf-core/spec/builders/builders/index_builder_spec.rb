@@ -6,9 +6,11 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     delegate :resource_class, :table_options, to: :controller
 
     def controller
-      c = Admin::BooksController.new
-      c.setup
-      c
+      @controller ||= begin
+                        c = Admin::BooksController.new
+                        c.setup
+                        c
+                      end
     end
   end
 
@@ -105,17 +107,17 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  describe "#text_search_available?" do
-    context "when template variable `searchable_fields` is defined" do
+  describe "#text_search_available?", focus: true do
+    context "when template variable `searchable_fields` is present" do
       it "returns true" do
-        allow(subject).to receive(:template_variable).with("searchable_fields").and_return([:a])
+        allow( template.controller ).to receive(:searchable_fields).and_return([:a])
         expect(subject.text_search_available?).to be true
       end
     end
 
-    context "when template variable `searchable_fields` is not defined" do
+    context "when template variable `searchable_fields` is blank" do
       it "returns false" do
-        allow(subject).to receive(:template_variable).with("searchable_fields").and_return(nil)
+        allow( template.controller ).to receive(:searchable_fields).and_return([])
         expect(subject.text_search_available?).to be false
       end
     end

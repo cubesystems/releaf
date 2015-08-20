@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   class Search
     attr_accessor :relation, :fields, :text, :join_index, :searchable_arel_fields
 
@@ -92,6 +92,11 @@ module Releaf
       if reflection.scope
         where_scope = extract_where_condtion_from_scope(reflection, table2_alias)
         join_condition = join_condition.and(where_scope) if where_scope.present?
+      end
+
+      if other_class.ancestors.include?(Globalize::ActiveRecord::Translation)
+        # only search in current locale
+        join_condition = join_condition.and(table2[:locale].eq(I18n.locale.to_s))
       end
 
       self.relation = relation.joins(arel_join(table1, table2, join_condition))
