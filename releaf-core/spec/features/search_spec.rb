@@ -773,7 +773,7 @@ describe Releaf::Core::Search do
       end
     end
 
-    with_model :PostTranslation, superclass: Globalize::ActiveRecord::Translation, scope: :all do
+    with_model :PostTranslation, scope: :all do
       table do |t|
         t.integer Post.reflect_on_association(:translations).foreign_key
         t.string :locale
