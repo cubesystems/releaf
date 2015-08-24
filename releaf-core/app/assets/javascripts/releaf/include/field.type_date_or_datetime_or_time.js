@@ -11,20 +11,6 @@ jQuery(document).ready(function()
         }, 0);
     };
 
-    var get_date_limit = function(value)
-    {
-        if (!value)
-        {
-            return null;
-        }
-        var offset_pattern = /^[+-]?\d+$/;
-        if (offset_pattern.test(value))
-        {
-            return value;
-        }
-        return null;
-    };
-
     // initialize date/datetime/time pickers
     body.on('calendarsinit', function(e)
     {
@@ -51,8 +37,8 @@ jQuery(document).ready(function()
             var opt = options;
 
             opt.dateFormat = picker.data('date-format') || 'yy-mm-dd';
-            opt.minDate = get_date_limit(picker.data('min-date'));
-            opt.maxDate = get_date_limit(picker.data('max-date'));
+            opt.minDate = picker.data('min-date');
+            opt.maxDate = picker.data('max-date');
 
             picker.datepicker(opt);
         });
@@ -63,8 +49,8 @@ jQuery(document).ready(function()
 
             opt.dateFormat = picker.data('date-format') || 'yy-mm-dd';
             opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm';
-            opt.minDate = get_date_limit(picker.data('min-date'));
-            opt.maxDate = get_date_limit(picker.data('max-date'));
+            opt.minDate = picker.data('min-date');
+            opt.maxDate = picker.data('max-date');
 
             picker.datetimepicker(opt);
         });
