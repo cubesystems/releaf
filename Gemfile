@@ -28,7 +28,7 @@ gemspec
 
 case config["database"]["type"]
 when 'mysql'
-  gem 'mysql2', platform: :ruby
+  gem 'mysql2', '~> 0.3.18', platform: :ruby
   gem 'jdbc-mysql', platform: :jruby
   gem 'activerecord-jdbc-adapter', platform: :jruby
 when 'postgresql'
