@@ -5,6 +5,7 @@ module Releaf
     class Backend
       include ::I18n::Backend::Base, ::I18n::Backend::Flatten
       CACHE = {updated_at: nil, translations: {}, missing: {}}
+      UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
 
       def reload_cache
         CACHE[:translations] = translations || {}
@@ -17,11 +18,11 @@ module Releaf
       end
 
       def self.translations_updated_at
-        Releaf::Settings['releaf.i18n_database.translations.updated_at']
+        Releaf::Settings[UPDATED_AT_KEY]
       end
 
       def self.translations_updated_at= value
-        Releaf::Settings['releaf.i18n_database.translations.updated_at'] = value
+        Releaf::Settings[UPDATED_AT_KEY] = value
       end
 
       def store_translations locale, data, options = {}

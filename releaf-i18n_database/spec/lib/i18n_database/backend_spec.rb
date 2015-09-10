@@ -82,17 +82,16 @@ describe Releaf::I18nDatabase::Backend do
   end
 
   describe ".translations_updated_at" do
-    it "returns translations updated_at" do
-      Releaf::Settings['releaf.i18n_database.translations.updated_at'] = Time.now
-      expect(described_class.translations_updated_at).to eq(Releaf::Settings['releaf.i18n_database.translations.updated_at'])
+    it "returns translations updated_at from cached settings" do
+      allow(Releaf::Settings).to receive(:[]).with(described_class::UPDATED_AT_KEY).and_return("x")
+      expect(described_class.translations_updated_at).to eq("x")
     end
   end
 
   describe ".translations_updated_at=" do
-    it "stores translations updated_at" do
-      Releaf::Settings['releaf.i18n_database.translations.updated_at'] = nil # always reset before testing
-      expect{ described_class.translations_updated_at = "xx" }.to change{ Releaf::Settings['releaf.i18n_database.translations.updated_at'] }.
-        to("xx")
+    it "stores translations updated_at to cached settings" do
+      expect(Releaf::Settings).to receive(:[]=).with(described_class::UPDATED_AT_KEY, "xx")
+      described_class.translations_updated_at = "xx"
     end
   end
 
