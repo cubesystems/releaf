@@ -26,11 +26,8 @@ describe Node do
 
   describe "after save" do
     it "sets node update to current time" do
-      Releaf::Settings['releaf.content.nodes.updated_at'] = Time.now
-      time_now = Time.parse("2009-02-23 21:00:00 UTC")
-      allow(Time).to receive(:now).and_return(time_now)
-
-      expect{ create(:node) }.to change{ Releaf::Settings['releaf.content.nodes.updated_at'] }.to(time_now)
+      expect( Node ).to receive(:updated).once
+      create(:node)
     end
   end
 
@@ -110,9 +107,8 @@ describe Node do
 
     it "sets node update to current time" do
       node = create(:node)
-      time_now = Time.parse("2009-02-23 21:00:00 UTC")
-      allow(Time).to receive(:now).and_return(time_now)
-      expect{ node.destroy }.to change{ Releaf::Settings['releaf.content.nodes.updated_at'] }.to(time_now)
+      expect( Node ).to receive(:updated).once
+      node.destroy
     end
   end
 
@@ -526,6 +522,14 @@ describe Node do
     it "returns last node update time" do
       expect( Releaf::Settings ).to receive(:[]).with('releaf.content.nodes.updated_at').and_return('test')
       expect( Node.updated_at ).to eq 'test'
+    end
+  end
+
+  describe ".updated" do
+    it "returns last node update time" do
+      allow(Time).to receive(:now).and_return("asd")
+      expect( Releaf::Settings ).to receive(:[]=).with('releaf.content.nodes.updated_at', "asd")
+      Node.updated
     end
   end
 
