@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'globalize-accessors'
   s.add_dependency 'nokogiri'
   s.add_dependency 'rack-cache'
-  s.add_dependency 'axlsx_rails'
+  s.add_dependency 'axlsx_rails', '~> 0.3.0'
   s.add_dependency 'roo'
 
   s.required_ruby_version = '>= 2.1.0'
