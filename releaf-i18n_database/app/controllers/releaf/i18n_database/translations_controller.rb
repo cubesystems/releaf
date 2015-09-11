@@ -108,6 +108,10 @@ module Releaf::I18nDatabase
       end
     end
 
+    def searchable_fields
+      true
+    end
+
     protected
 
     def find_blank_translations

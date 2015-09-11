@@ -8,7 +8,7 @@ module Releaf
     include Releaf.access_control_module
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
-    include Releaf::Responders
+    include Releaf::Core::Responders
 
     before_filter :manage_ajax, :setup, :verify_feature_availability!
 
@@ -29,7 +29,8 @@ module Releaf
       :page_title,
       :resource_class,
       :feature_available?,
-      :builder_class
+      :builder_class,
+      :searchable_fields
 
     def search(text)
       return if text.blank?

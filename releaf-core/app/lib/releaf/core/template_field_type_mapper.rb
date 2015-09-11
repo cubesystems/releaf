@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   module TemplateFieldTypeMapper
 
     # Helps to determinate which template to render in :edit feature

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Releaf::AssetsResolver do
+describe Releaf::Core::AssetsResolver do
   before do
     described_class.class_variable_set(:@@list, nil)
   end

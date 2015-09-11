@@ -1,4 +1,4 @@
-module Releaf
+module Releaf::Core
   class AssetsResolver
     CONTROLLER_ASSET_PATTERN = /app\/assets\/(javascripts|stylesheets)\/((releaf\/)?controllers\/(.*?))\..*/
 

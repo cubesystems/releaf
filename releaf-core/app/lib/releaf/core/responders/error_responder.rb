@@ -1,4 +1,4 @@
-module Releaf::Responders::ErrorResponder
+module Releaf::Core::Responders::ErrorResponder
   def template
     self.class.name.split("::").last.gsub(/Responder$/, "").underscore
   end

@@ -179,8 +179,8 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_type_method(name)
-    type = Releaf::TemplateFieldTypeMapper.field_type_name(object, name)
-    localization = Releaf::TemplateFieldTypeMapper.use_i18n?(object, name)
+    type = Releaf::Core::TemplateFieldTypeMapper.field_type_name(object, name)
+    localization = Releaf::Core::TemplateFieldTypeMapper.use_i18n?(object, name)
 
     "releaf_#{type}_#{'i18n_' if localization}field"
   end

@@ -1,4 +1,4 @@
-module Releaf::Responders
+module Releaf::Core::Responders
   class ConfirmDestroyResponder < ActionController::Responder
     delegate :render_notification, to: :controller
 

@@ -71,7 +71,7 @@ module Releaf
         additional_controllers: [],
         controller_list: {},
         components: [],
-        assets_resolver:  Releaf::AssetsResolver,
+        assets_resolver:  Releaf::Core::AssetsResolver,
         layout_builder: Releaf::Builders::Page::LayoutBuilder,
         access_control_module: Releaf::Permissions
       }
