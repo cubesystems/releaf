@@ -14,6 +14,7 @@ describe Releaf::I18nDatabase::Backend do
       FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
       FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
       I18n.backend.reload_cache
+      allow( I18n.backend ).to receive(:reload_cache?).and_return(false)
 
       expect{ I18n.backend.store_translations(:en, {admin: {profile: "profils"}}) }.to change{ I18n.t("admin.profile") }.
         from("Profile").to("profils")
