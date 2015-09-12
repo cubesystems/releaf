@@ -1,20 +1,11 @@
 require "spec_helper"
 
 describe Releaf::I18nDatabase::Backend do
-  before(:all) do
-    # enable empty translation creation
-    Releaf::I18nDatabase.create_missing_translations = true
-  end
-
-  after(:all) do
-    # disable empty translation creation
-    Releaf::I18nDatabase.create_missing_translations = false
-  end
 
   before do
-    # isolate each test cases
+    allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(true)
+    allow( I18n.backend ).to receive(:reload_cache?).and_return(true)
     I18n.backend.reload_cache
-    described_class::CACHE[:updated_at] = nil
   end
 
   describe "#store_translations" do
@@ -22,6 +13,7 @@ describe Releaf::I18nDatabase::Backend do
       translation = FactoryGirl.create(:translation, key: "admin.content.save")
       FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
       FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
+      I18n.backend.reload_cache
 
       expect{ I18n.backend.store_translations(:en, {admin: {profile: "profils"}}) }.to change{ I18n.t("admin.profile") }.
         from("Profile").to("profils")
@@ -69,7 +61,7 @@ describe Releaf::I18nDatabase::Backend do
 
     context "when missing translation creation is disabled globally by i18n config" do
       it "returns false" do
-        Releaf::I18nDatabase.create_missing_translations = false
+        allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(false)
         expect(subject.send(:create_missing_translation?, {})).to be false
       end
     end
@@ -151,8 +143,9 @@ describe Releaf::I18nDatabase::Backend do
 
       context "when cache timestamp is same as translations update timestamp" do
         it "does not reload cache" do
+          allow( I18n.backend ).to receive(:reload_cache?).and_call_original
           described_class::CACHE[:updated_at] = timestamp
-         allow(described_class).to receive(:translations_updated_at).and_return(timestamp)
+          allow(described_class).to receive(:translations_updated_at).and_return(timestamp)
 
           expect(I18n.backend).to_not receive(:reload_cache)
           I18n.t("cancel")
@@ -243,13 +236,13 @@ describe Releaf::I18nDatabase::Backend do
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
 
-        context "when `inherit_scopes` option is `false`" do
-          it "does not lookup upon higher level scopes" do
-            translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
-            FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
-            expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv", inherit_scopes: false)).to eq("Blank")
+          context "when `inherit_scopes` option is `false`" do
+            it "does not lookup upon higher level scopes" do
+              translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
+              FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+              expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv", inherit_scopes: false)).to eq("Blank")
+            end
           end
-        end
         end
 
         context "and empty translation value in given scope" do

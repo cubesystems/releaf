@@ -99,9 +99,10 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   # disable empty translation creation
-  Releaf::I18nDatabase.create_missing_translations = false
 
   config.before(:each) do
+    allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(false)
+
     if Capybara.current_driver == :rack_test
       DatabaseCleaner.strategy = :transaction
     else
