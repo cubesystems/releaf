@@ -223,7 +223,7 @@ describe Releaf::I18nDatabase::Backend do
         context "when default creation is not disabled" do
           it "creates base and default translations" do
             expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
-              .to(["xxx.mest", "xxx.test.mest"])
+              .to(match_array(["xxx.mest", "xxx.test.mest"]))
           end
         end
       end
