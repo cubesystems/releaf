@@ -1,4 +1,5 @@
 require 'awesome_nested_set'
+require 'stringex'
 
 module Releaf::Content
   require 'releaf/content/builders_autoload'
