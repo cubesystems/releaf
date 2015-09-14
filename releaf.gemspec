@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry-nav'
   s.add_development_dependency 'spring'
   s.add_development_dependency 'spring-commands-rspec'
+  s.add_development_dependency 'roo'
 
   s.required_ruby_version = '>= 2.1.0'
 end

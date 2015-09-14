@@ -24,16 +24,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails-settings-cached'
   s.add_dependency 'ckeditor_rails'
   s.add_dependency 'acts_as_list'
-  s.add_dependency 'awesome_nested_set'
   s.add_dependency 'will_paginate'
   s.add_dependency 'font-awesome-rails'
   s.add_dependency 'gravatar_image_tag'
   s.add_dependency 'jquery-cookie-rails'
   s.add_dependency 'globalize-accessors'
-  s.add_dependency 'nokogiri'
   s.add_dependency 'rack-cache'
-  s.add_dependency 'axlsx_rails', '>= 0.3.0'
-  s.add_dependency 'roo'
 
   s.required_ruby_version = '>= 2.1.0'
 end

@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'releaf-core', Releaf::VERSION
   s.add_dependency 'stringex'
+  s.add_dependency 'awesome_nested_set'
 
   s.required_ruby_version = '>= 2.1.0'
 end
