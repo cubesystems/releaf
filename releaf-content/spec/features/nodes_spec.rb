@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe "Nodes", js: true, with_tree: true, with_root: true do
   before do
+    Rails.cache.clear
     # preload ActsAsNode classes
     Rails.application.eager_load!
     @user = auth_as_user

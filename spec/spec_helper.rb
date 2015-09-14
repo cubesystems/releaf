@@ -100,10 +100,12 @@ RSpec.configure do |config|
 
   # disable empty translation creation
 
-  config.before(:each) do
+  config.before(:each) do |example|
     allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(false)
 
-    if Capybara.current_driver == :rack_test
+    if example.metadata[:db_strategy]
+      DatabaseCleaner.strategy = example.metadata[:db_strategy]
+    elsif Capybara.current_driver == :rack_test
       DatabaseCleaner.strategy = :transaction
     else
       DatabaseCleaner.strategy = :truncation

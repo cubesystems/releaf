@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe "Side menu visual appearance", js: true  do
   before do
+    Rails.cache.clear
     @user = auth_as_user
     visit releaf_permissions_user_profile_path
   end

@@ -32,7 +32,7 @@ describe Releaf::Permissions::ProfileController do
     end
   end
 
-  describe "PUT settings" do
+  describe "PUT settings", db_strategy: :truncation do
     context 'when params[:settings] is not Hash' do
       it "has a 422 status code" do
         put :settings
