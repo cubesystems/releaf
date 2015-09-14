@@ -1,7 +1,6 @@
 require 'gravatar_image_tag'
 require 'jquery-cookie-rails'
 require 'rails-settings-cached'
-require 'stringex'
 require 'ckeditor_rails'
 require 'will_paginate'
 require 'font-awesome-rails'
