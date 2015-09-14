@@ -20,7 +20,13 @@ module Releaf::Permissions
     end
 
     def controllers_to_try
-      [access_control.user.role.default_controller, access_control.user.role.allowed_controllers].flatten.uniq
+      [access_control.user.role.default_controller, allowed_controllers].flatten.uniq
+    end
+
+    def allowed_controllers
+      # Note: This basically sorts allowed controllers in order specified by
+      # Releaf.available_controllers
+      Releaf.available_controllers & access_control.user.role.allowed_controllers
     end
   end
 end
