@@ -11,7 +11,6 @@ require 'jquery-rails'
 require 'jquery-ui-rails'
 require 'acts_as_list'
 require 'dragonfly'
-require 'axlsx_rails'
 require 'globalize'
 require 'globalize-accessors'
 
