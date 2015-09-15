@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'stringex'
   s.add_dependency 'awesome_nested_set'
 
-  s.required_ruby_version = '>= 2.1.0'
+  s.required_ruby_version = '>= 2.2.0'
 end
