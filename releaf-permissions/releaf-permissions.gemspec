@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'releaf-core', Releaf::VERSION
   s.add_dependency 'devise'
 
-  s.required_ruby_version = '>= 2.1.0'
+  s.required_ruby_version = '>= 2.2.0'
 end
