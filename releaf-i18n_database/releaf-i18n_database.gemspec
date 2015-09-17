@@ -18,5 +18,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'axlsx_rails', '>= 0.3.0'
   s.add_dependency 'roo'
 
-  s.required_ruby_version = '>= 2.2.0'
 end
