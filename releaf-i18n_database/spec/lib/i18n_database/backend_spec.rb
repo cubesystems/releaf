@@ -6,6 +6,7 @@ describe Releaf::I18nDatabase::Backend do
     allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(true)
     allow( I18n.backend ).to receive(:reload_cache?).and_return(true)
     I18n.backend.reload_cache
+    Rails.cache.clear
   end
 
   describe "#store_translations" do
