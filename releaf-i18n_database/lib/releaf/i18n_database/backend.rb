@@ -18,7 +18,9 @@ module Releaf
       end
 
       def self.translations_updated_at
-        Releaf::Settings[UPDATED_AT_KEY]
+        Rails.cache.fetch(UPDATED_AT_KEY, expires_in: 20.seconds) do
+          Releaf::Settings[UPDATED_AT_KEY]
+        end
       end
 
       def self.translations_updated_at= value
