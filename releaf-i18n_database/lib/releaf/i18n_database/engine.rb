@@ -17,6 +17,7 @@ module Releaf::I18nDatabase
 
   def self.initialize_component
     I18n.backend = Releaf::I18nDatabase::Backend.new
+    Rails.application.config.middleware.use Releaf::I18nDatabase::CacheReloader
   end
 
   def self.draw_component_routes router

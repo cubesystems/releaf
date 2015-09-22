@@ -13,7 +13,7 @@ module Releaf
         CACHE[:updated_at] = self.class.translations_updated_at
       end
 
-      def reload_cache?
+      def cache_expired?
         CACHE[:updated_at] != self.class.translations_updated_at
       end
 
@@ -79,8 +79,6 @@ module Releaf
 
       # Lookup translation from database
       def lookup(locale, key, scope = [], options = {})
-        # reload cache if cache timestamp differs from last translations update
-        reload_cache if reload_cache?
 
         key = normalize_flat_keys(locale, key, scope, options[:separator])
         locale_key = "#{locale}.#{key}"

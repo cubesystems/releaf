@@ -6,8 +6,16 @@ module Releaf::Content
     end
 
     def call(env)
-      self.class.reload_if_expired
+      self.class.reload_if_expired unless asset_request?(env)
       @app.call(env)
+    end
+
+    def asset_request?(env)
+      env['PATH_INFO'].start_with?(asset_prefix)
+    end
+
+    def asset_prefix
+      @asset_prefix ||= Rails.configuration.assets[:prefix] + '/'
     end
 
     def self.routes_loaded
