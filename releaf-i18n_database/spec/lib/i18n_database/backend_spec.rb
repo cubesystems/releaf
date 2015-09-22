@@ -1,11 +1,14 @@
 require "spec_helper"
 
 describe Releaf::I18nDatabase::Backend do
+  def reload_cache
+    I18n.backend.reload_cache
+  end
 
   before do
     allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(true)
-    allow( I18n.backend ).to receive(:reload_cache?).and_return(true)
-    I18n.backend.reload_cache
+    allow( I18n.backend ).to receive(:cache_expired?).and_return(true)
+    reload_cache
     Rails.cache.clear
   end
 
@@ -14,8 +17,8 @@ describe Releaf::I18nDatabase::Backend do
       translation = FactoryGirl.create(:translation, key: "admin.content.save")
       FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
       FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
-      I18n.backend.reload_cache
-      allow( I18n.backend ).to receive(:reload_cache?).and_return(false)
+      reload_cache
+      allow( I18n.backend ).to receive(:cache_expired?).and_return(false)
 
       expect{ I18n.backend.store_translations(:en, {admin: {profile: "profils"}}) }.to change{ I18n.t("admin.profile") }.
         from("Profile").to("profils")
@@ -89,12 +92,12 @@ describe Releaf::I18nDatabase::Backend do
     end
   end
 
-  describe "#reload_cache?" do
+  describe "#cache_expired?" do
     context "when last translation update differs from last cache load" do
       it "returns true" do
         allow(described_class).to receive(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 2
-        expect(subject.reload_cache?).to be true
+        expect(subject.cache_expired?).to be true
       end
     end
 
@@ -102,7 +105,7 @@ describe Releaf::I18nDatabase::Backend do
       it "returns false" do
         allow(described_class).to receive(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 1
-        expect(subject.reload_cache?).to be false
+        expect(subject.cache_expired?).to be false
       end
     end
   end
@@ -120,6 +123,7 @@ describe Releaf::I18nDatabase::Backend do
 
     it "loads all translated data to cache as hash" do
       translation = FactoryGirl.create(:translation, key: "admin.xx.save")
+
       FactoryGirl.create(:translation_data, translation: translation, localization: "saglabāt", lang: "lv")
       FactoryGirl.create(:translation_data, translation: translation, localization: "save", lang: "en")
 
@@ -131,34 +135,11 @@ describe Releaf::I18nDatabase::Backend do
   end
 
   describe "#lookup" do
-    describe "cache reload" do
-      let(:timestamp){ Time.now }
-
-      context "when cache timestamp differs from translations update timestamp" do
-        it "reloads cache" do
-          described_class::CACHE[:updated_at] = timestamp
-          allow(described_class).to receive(:translations_updated_at).and_return(timestamp + 1.day)
-          expect(I18n.backend).to receive(:reload_cache)
-          I18n.t("cancel")
-        end
-      end
-
-      context "when cache timestamp is same as translations update timestamp" do
-        it "does not reload cache" do
-          allow( I18n.backend ).to receive(:reload_cache?).and_call_original
-          described_class::CACHE[:updated_at] = timestamp
-          allow(described_class).to receive(:translations_updated_at).and_return(timestamp)
-
-          expect(I18n.backend).to_not receive(:reload_cache)
-          I18n.t("cancel")
-        end
-      end
-    end
-
     context "when translation exists within higher level key (instead of being scope)" do
       it "returns nil (Humanize key)" do
         translation = FactoryGirl.create(:translation, key: "some.food")
         FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+        reload_cache
         expect(I18n.t("some.food", locale: "lv")).to eq("suņi")
         expect(I18n.t("some.food.asd", locale: "lv")).to eq("Asd")
       end
@@ -169,6 +150,7 @@ describe Releaf::I18nDatabase::Backend do
         it "returns pluralized translation" do
           translation = FactoryGirl.create(:translation, key: "dog.other")
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+          reload_cache
           expect(I18n.t("dog", locale: "lv", count: 2)).to eq("suņi")
         end
       end
@@ -187,7 +169,7 @@ describe Releaf::I18nDatabase::Backend do
         it "returns existing translation" do
           translation = FactoryGirl.create(:translation, key: "Save")
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
-          I18n.backend.reload_cache
+          reload_cache
 
           expect(I18n.t("save", locale: "lv")).to eq("Saglabāt")
           expect(I18n.t("Save", locale: "lv")).to eq("Saglabāt")
@@ -198,6 +180,7 @@ describe Releaf::I18nDatabase::Backend do
         before do
           translation = FactoryGirl.create(:translation, key: "dog.other")
           FactoryGirl.create(:translation_data, translation: translation, lang: "en", localization: "dogs")
+          reload_cache
         end
 
         context "when pluralized translation requested" do
@@ -235,6 +218,7 @@ describe Releaf::I18nDatabase::Backend do
           it "uses parent scope" do
             translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+            reload_cache
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
 
@@ -242,6 +226,7 @@ describe Releaf::I18nDatabase::Backend do
             it "does not lookup upon higher level scopes" do
               translation = FactoryGirl.create(:translation, key: "validation.admin.blank")
               FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+              reload_cache
               expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv", inherit_scopes: false)).to eq("Blank")
             end
           end
@@ -255,6 +240,8 @@ describe Releaf::I18nDatabase::Backend do
             translation = FactoryGirl.create(:translation, key: "validation.admin.roles.blank")
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "")
 
+            reload_cache
+
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
         end
@@ -267,6 +254,8 @@ describe Releaf::I18nDatabase::Backend do
             translation = FactoryGirl.create(:translation, key: "validation.admin.roles.blank")
             FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Tukša vērtība")
 
+            reload_cache
+
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukša vērtība")
           end
         end
@@ -276,6 +265,7 @@ describe Releaf::I18nDatabase::Backend do
         it "uses given scope" do
           translation = FactoryGirl.create(:translation, key: "admin.content.cancel")
           FactoryGirl.create(:translation_data, translation: translation, lang: "lv", localization: "Atlikt")
+          reload_cache
           expect(I18n.t("cancel", scope: "admin.content", locale: "lv")).to eq("Atlikt")
         end
       end
@@ -329,6 +319,8 @@ describe Releaf::I18nDatabase::Backend do
         FactoryGirl.create(:translation_data, translation: translation1, lang: "lv", localization: "Atlikt")
         translation2 = FactoryGirl.create(:translation, key: "admin.content.save")
         FactoryGirl.create(:translation_data, translation: translation2, lang: "lv", localization: "Saglabāt")
+
+        reload_cache
 
         expect(I18n.t("admin.content", locale: "lv")).to eq({cancel: "Atlikt", save: "Saglabāt"})
         expect(I18n.t("admin.content", locale: "en")).to eq({cancel: nil, save: nil})
