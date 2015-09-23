@@ -258,6 +258,7 @@ module Releaf::Content
       acts_as_list scope: :parent_id, column: :item_position
 
       default_scope { order(:item_position) }
+      scope :active, ->() { where(active: true) }
 
       validates_presence_of :name, :slug, :content_type
       validates_uniqueness_of :slug, scope: :parent_id

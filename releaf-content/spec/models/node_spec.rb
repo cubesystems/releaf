@@ -31,6 +31,13 @@ describe Node do
     end
   end
 
+  describe ".active (scope)" do
+    it "returns active nodes" do
+      expect( Node ).to receive(:where).with(active: true).and_return('foo')
+      expect( Node.active ).to eq 'foo'
+    end
+  end
+
   describe "#content_class" do
     context 'when #content_type is nil' do
       it 'returns nil' do
