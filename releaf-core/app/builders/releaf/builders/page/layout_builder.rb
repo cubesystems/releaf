@@ -33,7 +33,7 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def notifications
-    tag(:div, nil, class: 'notifications', 'data': {'close-text': t("Close")})
+    tag(:div, nil, class: 'notifications', 'data' => {'close-text' => t("Close")})
   end
 
   def header
