@@ -37,7 +37,7 @@ end
 
 group :documentation do
   gem 'yard'
-  gem 'github-markdown', '>= 0.5.3'
-  gem 'redcarpet', '>= 2.2.2'
+  gem 'github-markdown', '>= 0.5.3', platforms: :ruby
+  gem 'redcarpet', '>= 2.2.2', platforms: :ruby
   gem 'yard-activerecord', '~> 0.0.14'
 end
