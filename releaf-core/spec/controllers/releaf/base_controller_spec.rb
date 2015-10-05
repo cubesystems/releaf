@@ -22,6 +22,33 @@ describe Releaf::BaseController do
     end
   end
 
+  describe "#action_features" do
+    before do
+      subject.setup
+    end
+
+    it "returns action > feature mapped hash" do
+      expect(subject.action_features).to eq({
+        index: :index,
+        new: :create,
+        create: :create,
+        show: :edit,
+        edit: :edit,
+        update: :edit,
+        confirm_destroy: :destroy,
+        destroy: :destroy
+      }.with_indifferent_access)
+    end
+
+    context "when `show` feature is available" do
+      it "returns show > show feature mapping" do
+        allow(subject).to receive(:feature_available?).and_call_original
+        allow(subject).to receive(:feature_available?).with(:show).and_return(true)
+        expect(subject.action_features[:show]).to eq(:show)
+      end
+    end
+  end
+
   describe "#action_view" do
     context "when given view does not exists within action views hash" do
       it "returns given action" do
@@ -206,6 +233,27 @@ describe Admin::AuthorsController do
     end
   end
 
+  describe "GET show" do
+    let(:author){ create(:author) }
+
+    context "when show feature is available" do
+      it "assigns all resources to @collection" do
+        allow(subject).to receive(:feature_available?).with(:show).and_return(true)
+        get :show, id: author
+        expect(assigns(:resource)).to eq(author)
+      end
+    end
+
+    context "when show feature is not available" do
+      it "does assign resource" do
+        allow(subject).to receive(:feature_available?).and_call_original
+        allow(subject).to receive(:feature_available?).with(:show).and_return(false)
+        get :show, id: author
+        expect(assigns(:resource)).to be nil
+      end
+    end
+  end
+
   describe "GET index" do
     before do
       21.times do |i|
@@ -229,7 +277,6 @@ describe Admin::AuthorsController do
       end
     end
   end
-
 
   describe "DELETE #destroy" do
     before do

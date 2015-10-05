@@ -5,13 +5,14 @@ files = %w(
   builders/base
   builders/orderer
   builders/template
+  builders/toolbox
   builders/view
   builders/collection
   builders/resource
   builders/resource_dialog
+  builders/resource_view
   builders/confirm_dialog_builder
   builders/confirm_destroy_dialog_builder
-  builders/toolbox
   builders/edit_builder
   builders/form_builder
   builders/index_builder

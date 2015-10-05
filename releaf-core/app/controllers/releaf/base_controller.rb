@@ -53,7 +53,11 @@ module Releaf
     end
 
     def show
-      redirect_to url_for( action: 'edit', id: params[:id])
+      if feature_available?(:show)
+        prepare_show
+      else
+        redirect_to url_for(action: 'edit', id: params[:id])
+      end
     end
 
     def edit
@@ -310,7 +314,15 @@ module Releaf
       @resource.assign_attributes(resource_params)
     end
 
+    def prepare_show
+      prepare_resource_view
+    end
+
     def prepare_edit
+      prepare_resource_view
+    end
+
+    def prepare_resource_view
       # load resource only if is not loaded yet
       load_resource unless resource_given?
       add_resource_breadcrumb(@resource)
@@ -352,6 +364,7 @@ module Releaf
         index: :index,
         new: :create,
         create: :create,
+        show: (feature_available?(:show) ? :show : :edit),
         edit: :edit,
         update: :edit,
         confirm_destroy: :destroy,
@@ -408,6 +421,7 @@ module Releaf
     #   end
     def setup
       @features = {
+        show:              false,
         edit:              true,
         create:            true,
         destroy:           true,

@@ -7,7 +7,7 @@ describe Releaf::Permissions::User do
     it { is_expected.to validate_presence_of(:role) }
     it { is_expected.to validate_presence_of(:locale) }
     it { is_expected.to validate_presence_of(:email) }
-    it { FactoryGirl.create(:user); is_expected.to validate_uniqueness_of(:email) }
+    it { create(:user); is_expected.to validate_uniqueness_of(:email).case_insensitive }
   end
 
   describe 'associations' do

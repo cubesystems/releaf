@@ -34,6 +34,13 @@ require 'with_model'
 require 'timecop'
 require 'releaf/rspec'
 
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
 # To stop these warnings:
 # WARN: tilt autoloading 'sass' in a non thread-safe way; explicit require 'sass' suggested.
 require 'sass'
