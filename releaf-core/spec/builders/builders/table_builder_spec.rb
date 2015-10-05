@@ -244,15 +244,46 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
 
     it "returns edit url for given resource" do
-      allow(controller).to receive(:feature_available?).with(:edit).and_return(true)
-      allow(template).to receive(:url_for).with(action: "edit", id: 77, index_url: "_index_url_").and_return('_url_')
+      allow(subject).to receive(:row_url_action).with(resource).and_return(:show)
+      allow(template).to receive(:url_for).with(action: :show, id: 77, index_url: "_index_url_").and_return('_url_')
       expect(subject.row_url(resource)).to eq('_url_')
     end
 
-    context "when resource do not have edit route/url" do
+    context "when resource do not have row url action" do
       it "returns nil" do
-        allow(controller).to receive(:feature_available?).with(:edit).and_return(false)
+        allow(subject).to receive(:row_url_action).with(resource).and_return(nil)
         expect(subject.row_url(resource)).to be nil
+      end
+    end
+  end
+
+  describe "#row_url_action" do
+    let(:controller){ Releaf::BaseController.new }
+
+    before do
+      allow(subject).to receive(:controller).and_return(controller)
+      allow(controller).to receive(:feature_available?).with(:show).and_return(true)
+      allow(controller).to receive(:feature_available?).with(:edit).and_return(true)
+    end
+
+    context "when show and edit features is available" do
+      it "returns :show" do
+        expect(subject.row_url_action(resource)).to eq(:show)
+      end
+    end
+
+    context "when show feature is not available and edit feature is available" do
+      it "returns :edit" do
+        allow(controller).to receive(:feature_available?).with(:show).and_return(false)
+        expect(subject.row_url_action(resource)).to eq(:edit)
+      end
+    end
+
+    context "when show and edit features is not available" do
+      it "returns nil" do
+        allow(controller).to receive(:feature_available?).with(:show).and_return(false)
+        allow(controller).to receive(:feature_available?).with(:edit).and_return(false)
+        expect(subject.row_url_action(resource)).to be nil
       end
     end
   end

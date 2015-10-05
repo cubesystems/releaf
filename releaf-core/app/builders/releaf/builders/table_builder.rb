@@ -97,7 +97,16 @@ class Releaf::Builders::TableBuilder
   end
 
   def row_url(resource)
-    url_for(action: "edit", id: resource.id, index_url: index_url) if feature_available?(:edit)
+    resource_action = row_url_action(resource)
+    url_for(action: resource_action, id: resource.id, index_url: index_url) if resource_action
+  end
+
+  def row_url_action(resource)
+    if feature_available?(:show)
+      resource_action = :show
+    elsif feature_available?(:edit)
+      resource_action = :edit
+    end
   end
 
   def row_attributes(resource)

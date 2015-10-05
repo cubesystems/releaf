@@ -26,19 +26,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     allow(subject).to receive(:resource).and_return(resource)
   end
 
-  it "includes Releaf::Builders::View" do
-    expect(described_class.ancestors).to include(Releaf::Builders::View)
-  end
-
-  it "includes Releaf::Builders::Resource" do
-    expect(described_class.ancestors).to include(Releaf::Builders::Resource)
-  end
-
-  it "includes Releaf::Builders::Toolbox" do
-    expect(described_class.ancestors).to include(Releaf::Builders::Toolbox)
-  end
-
-  describe "#section" do
+  describe "#section_content" do
     before do
       allow(subject).to receive(:section_attributes).and_return(a: "b")
       allow(subject).to receive(:form_options).and_return(url: "xxx", builder: Releaf::Builders::FormBuilder)
@@ -47,12 +35,75 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
 
     it "returns section with index url preserver and section blocks" do
-      expect(subject.section).to eq('<section a="b"><form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="yyy" value="xxx" />_index_url__section__blocks_</form></section>')
+      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="yyy" value="xxx" />_index_url__section__blocks_</form>')
     end
 
     it "assigns form instance to builder" do
-      expect{ subject.section }.to change{ subject.form }.from(nil)
+      expect{ subject.section_content }.to change{ subject.form }.from(nil)
       expect(subject.form).to be_instance_of Releaf::Builders::FormBuilder
+    end
+  end
+
+  describe "#index_url_preserver" do
+    it "returns hidden index url input" do
+      allow(subject).to receive(:params).and_return(index_url: "?asd=23&lf=dd")
+      result = '<input type="hidden" name="index_url" id="index_url" value="?asd=23&amp;lf=dd" />'
+      expect(subject.index_url_preserver).to eq(result)
+    end
+  end
+
+  describe "#section_body_blocks" do
+    it "returns array with error notices and form fields" do
+      allow(subject).to receive(:error_notices).and_return("err")
+      allow(subject).to receive(:form_fields).and_return("fields")
+      expect(subject.section_body_blocks).to eq(["err", "fields"])
+    end
+  end
+
+  describe "#error_notices" do
+    before do
+      allow(subject).to receive(:error_notices_header).and_return(ActiveSupport::SafeBuffer.new("x"))
+    end
+
+    context "when errors exists" do
+      it "returns errors block" do
+        resource.valid?
+        expect(subject.error_notices).to eq('<div id="error_explanation">x<ul><li>Title Blank</li></ul></div>')
+      end
+    end
+
+    context "when no errors present" do
+      it "returns nil" do
+        expect(subject.error_notices).to be nil
+      end
+    end
+  end
+
+  describe "#error_notices_header" do
+    it "returns validation errors notices header" do
+      resource.valid?
+      expect(subject.error_notices_header).to eq('<strong>1 validation error occured:</strong>')
+
+      resource.title = "xx"
+      resource.valid?
+      expect(subject.error_notices_header).to eq('<strong>0 validation errors occured:</strong>')
+    end
+  end
+
+  describe "#footer_primary_tools" do
+    it "returns array with save button" do
+      allow(subject).to receive(:save_button).and_return("_svbtn_")
+      expect(subject.footer_primary_tools).to eq(["_svbtn_"])
+    end
+  end
+
+  describe "#save_button" do
+    it "returns save button" do
+      allow(subject).to receive(:button)
+        .with("to_list", "check", {class: "primary", data: {type: "ok", disable: true}, type: "submit"})
+        .and_return("_btn_")
+      allow(subject).to receive(:t).with("Save").and_return("to_list")
+      expect(subject.save_button).to eq("_btn_")
     end
   end
 
