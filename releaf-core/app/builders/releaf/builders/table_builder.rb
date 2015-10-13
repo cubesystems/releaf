@@ -23,8 +23,8 @@ class Releaf::Builders::TableBuilder
     data = {}
 
     final_column_names = []
-    final_column_names << :toolbox if options[:toolbox] == true
     final_column_names += column_names
+    final_column_names << :toolbox if options[:toolbox] == true
 
     final_column_names.map do|column|
       if cell_method(column)
