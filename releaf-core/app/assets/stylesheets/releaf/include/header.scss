@@ -16,16 +16,19 @@ body > header form.sign-out
 {
   display: inline-block;
   margin-left: 1px;
+  vertical-align: top;
 }
+
 
 body > header .profile
 {
     position: relative;
     text-decoration: none;
-    height: 60px;
-    width: 237px;
+    height: 20px;
+    text-align: right;
     color: #d8d8d8;
     border-left: 1px solid #242424;
+    padding: 20px 30px;
 }
 
 body > header .profile:hover
@@ -34,20 +37,7 @@ body > header .profile:hover
     color: #fff;
 }
 
-body > header .profile .name
-{
-    position: absolute;
-    top: 20px;
-    left: 25px;
-}
 
-body > header .profile .avatar
-{
-    position: relative;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-}
 
 body > header form.sign-out button
 {

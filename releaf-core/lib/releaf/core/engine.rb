@@ -1,4 +1,3 @@
-require 'gravatar_image_tag'
 require 'jquery-cookie-rails'
 require 'rails-settings-cached'
 require 'ckeditor_rails'
