@@ -14,11 +14,22 @@
     clear: both;
 }
 
-.controller-releaf-content-nodes .collection .toolbox-cell,
 .controller-releaf-content-nodes .collection .collapser-cell
 {
-    border-right: 1px solid #d4d4d4;
     float: left;
+}
+
+.controller-releaf-content-nodes.view-index > main > section .collection .node-cell span
+{
+    margin-right: 50px;
+}
+
+.controller-releaf-content-nodes .collection .toolbox-cell
+{
+    border-left: 1px solid #d4d4d4;
+    float: right;
+    margin-left: -50px;
+    margin-bottom: -1px;
 }
 
 .controller-releaf-content-nodes .collection .toolbox-cell .trigger,
@@ -38,12 +49,7 @@
 {
     position: relative;
 }
-.controller-releaf-content-nodes .dialog .collection .collapser-cell
-{
-    position: absolute;
-    top: 0;
-    z-index: 10;
-}
+
 .controller-releaf-content-nodes .collection .node-cell button
 {
     padding: 7px 10px;
@@ -54,13 +60,14 @@
     text-align: left;
     z-index: 1;
 }
+
 .controller-releaf-content-nodes .dialog .collection .node-cell label,
 .controller-releaf-content-nodes .collection .node-cell a
 {
     display: block;
     color: #999999;
     text-decoration: none;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 10px 5px 0;
     font-weight: bold;
     cursor: pointer;
 }
@@ -88,7 +95,7 @@
 .controller-releaf-content-nodes .collection .node-cell a span
 {
     position: relative;
-    left: 13px
+    left: 7px
 }
 
 .controller-releaf-content-nodes main .collection li  ul ul
@@ -96,102 +103,46 @@
     background: #f3f1f1;
 }
 
-.controller-releaf-content-nodes .collection li ul .toolbox-cell,
-.controller-releaf-content-nodes .dialog .collection li ul .collapser-cell
+.controller-releaf-content-nodes .collection .collapser-cell
 {
-    border-left:  1px solid #d4d4d4;
+    border: 0;
+    margin: 0;
+    width: 25px;
 }
-.controller-releaf-content-nodes .dialog .collection li > .node-cell span
+
+.controller-releaf-content-nodes .collection .node-cell span
 {
+    margin-left: 0;
     display: inline-block;
-}
-.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell label,
-.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell button,
-.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell a
-{
-    padding-left: 0px;
+    padding-right: 30px;
 }
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="1"].has-children > .node-cell span
+@mixin node-tree-nesting( $level )
 {
-    margin-left: 20px;
+    .controller-releaf-content-nodes .collection
+    {
+        li[data-level="#{$level}"]
+        {
+            & > .collapser-cell
+            {
+                $previous: $level - 1;
+                position: absolute;
+                left: #{$previous*25}px;
+            }
+
+            & > .node-cell span
+            {
+                margin-left: #{$level*25}px;
+            }
+        }
+    }
 }
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="1"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="2"].has-children > .toolbox-cell
+@for $i from 1 through 10
 {
-    margin-left: 30px;
+    @include node-tree-nesting($i);
 }
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .node-cell span
-{
-    margin-left: 51px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="3"] > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="2"]:not(.has-children) > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="3"] > .toolbox-cell
-{
-    margin-left: 61px;
-}
-
-.controller-releaf-content-nodes .dialog .collection li[data-level="3"].has-children > .node-cell span
-{
-    margin-left: 82px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="3"]:not(.has-children)  > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="4"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="3"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="4"].has-children > .toolbox-cell
-{
-    margin-left: 92px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="4"].has-children > .node-cell span
-{
-    margin-left: 113px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="4"]:not(.has-children)  > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="5"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="4"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="5"].has-children > .toolbox-cell
-{
-    margin-left: 123px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="5"].has-children > .node-cell span
-{
-    margin-left: 144px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="5"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="6"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="5"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="6"].has-children > .toolbox-cell
-{
-    margin-left: 154px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="6"].has-children > .node-cell span
-{
-    margin-left: 175px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="6"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="7"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="6"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="7"].has-children > .toolbox-cell
-{
-    margin-left: 185px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="7"].has-children > .node-cell span
-{
-    margin-left: 206px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="7"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="8"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="7"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="8"].has-children > .toolbox-cell
-{
-    margin-left: 216px;
-}
 
 .controller-releaf-content-nodes .collection .collapsed ul
 {
