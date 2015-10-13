@@ -108,6 +108,16 @@ jQuery(function()
             textarea.trigger('richtextinit');
             textarea.data('richtext-suspended', false);
         });
+
+        textarea.on('focusprepare', function()
+        {
+            if (textarea.data('richtext-suspended'))
+            {
+                return;
+            }
+
+            CKEDITOR.instances[ textarea.attr('id') ].focus();
+        });
     });
 
     // initialize richtext editor for any new richtext textarea after any content load
