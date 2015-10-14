@@ -1,4 +1,10 @@
 ## Changelog
+### 2015.10.16
+* Main menu no longer has icons. You should remove all :icon keys from menu hash in config/initializers/releaf.rb
+* Toolbox trigger now has a kebab icon and is located at the far right of rows in index views
+* Toolbox items no longer have icons. You should pass nil as the icon argument to the button helper when creating custom toolbox items
+* Gravatar image is no longer displayed in the user box in the header
+
 ### 2015.10.14
 * `Releaf::Core::Application` and `Releaf::Core::Configuration` introduced
 * From now all settings is available through `Releaf.application.config`
