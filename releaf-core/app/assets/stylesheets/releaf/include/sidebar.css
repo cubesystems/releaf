@@ -59,16 +59,6 @@ body > aside nav li .trigger
     padding: 10px 40px 10px 13px;
 }
 
-body > aside nav li li.active .trigger i
-{
-    display: inline;
-    width: auto;
-}
-
-body > aside nav li .trigger i
-{
-    display: inline-block;
-}
 
 body > aside nav > ul > li > .trigger:hover
 {
@@ -97,16 +87,21 @@ body > aside nav > ul > li.active > .trigger .collapser
     color: #111111;
 }
 
+body > aside nav .trigger > abbr
+{
+    display: none;
+}
+
 body > aside nav > ul > li > .trigger > .name
 {
-    padding: 0 0 0 8px;
+    padding: 0;
 }
 
 body > aside nav li li .trigger
 {
     color: #a6a6a6;
     position: relative;
-    padding: 4px 40px 5px 50px;
+    padding: 4px 40px 5px 40px;
 }
 
 body > aside nav li li:first-child .trigger
@@ -119,34 +114,11 @@ body > aside nav li li:last-child .trigger
     padding-bottom: 14px;
 }
 
-body > aside nav li li .trigger i
-{
-    position: absolute;
-    top: 7px;
-    right: 0px;
-    display: none;
-}
-
 body > aside nav li li.active > .trigger
 {
     color: #ffffff;
     background: #383838;
 }
-
-body > aside nav li li.active .trigger i
-{
-    display: block;
-    position: absolute;
-    right: -1px;
-    top: 1px;
-    font-size: 28px;
-}
-
-body > aside nav li li.active:first-child .trigger i
-{
-    top: 6px;
-}
-
 
 body > aside nav li.collapsed ul
 {
@@ -204,6 +176,15 @@ body.side-compact > aside nav li .collapser
 {
     display: none;
 }
+
+body.side-compact > aside nav > ul > li > .trigger > abbr
+{
+    display: inline-block;
+    border: none;
+    text-decoration: none;
+}
+
+
 
 body.side-compact > aside nav li .trigger
 {

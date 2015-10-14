@@ -80,8 +80,20 @@ class Releaf::Builders::Page::MenuBuilder
     attributes
   end
 
+
   def item_name_content(item)
-    icon(item[:icon]) << tag(:span, t(item[:name], scope: "admin.controllers"), class: "name")
+    item_full_name    = t(item[:name], scope: "admin.controllers")
+    item_abbreviation = item_name_abbreviation( item_full_name )
+
+    tag(:abbr, item_abbreviation, title: item_full_name) + tag(:span, item_full_name, class: "name")
+  end
+
+  def item_name_abbreviation( item_full_name )
+    return "" if item_full_name.blank?
+    # use the first two letters after the last slash that is not preceded by a space
+    # to avoid identical abbreviations for namespaced items in case of missing translations
+    # but still use the first word in cases of user-entered slashes, e.g. "Inputs / Outputs"
+    item_full_name.split(/(?<!\s)\//).last.to_s[0..1].mb_chars.capitalize
   end
 
   def item_collapser(item)
