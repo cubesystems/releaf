@@ -37,7 +37,7 @@ class Releaf::Builders::Page::MenuBuilder
   end
 
   def output
-    menu_items = Menu.build(Releaf.menu, access_control)
+    menu_items = Menu.build(Releaf.application.config.menu, access_control)
     compacter << tag(:nav, menu_level(menu_items))
   end
 

@@ -30,7 +30,7 @@ module Releaf::Permissions
     end
 
     def devise_model_name
-      Releaf.devise_for.underscore.tr('/', '_')
+      Releaf.application.config.devise_for.underscore.tr('/', '_')
     end
   end
 end

@@ -1,1 +1,1 @@
-<%= Releaf.layout_builder.new(self).output{ yield }.html_safe %>
+<%= Releaf.application.render_layout(self){ yield } %>

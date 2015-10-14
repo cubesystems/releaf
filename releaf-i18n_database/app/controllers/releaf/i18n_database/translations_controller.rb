@@ -80,7 +80,7 @@ module Releaf::I18nDatabase
         releaf_translation_data AS %s_data ON %s_data.translation_id = releaf_translations.id AND %s_data.lang = '%s'
       "
 
-      Releaf.all_locales.each do |locale|
+      Releaf.application.config.all_locales.each do |locale|
         relation = relation.joins(sql % ([locale] * 4))
       end
 
@@ -191,7 +191,7 @@ module Releaf::I18nDatabase
     end
 
     def search_column_names
-      ['releaf_translations.key'] + Releaf.all_locales.map { |l| "%s_data.localization" % l }
+      ['releaf_translations.key'] + Releaf.application.config.all_locales.map { |l| "%s_data.localization" % l }
     end
 
     def columns_for_select
@@ -199,7 +199,7 @@ module Releaf::I18nDatabase
     end
 
     def localization_columns
-      Releaf.all_locales.map do |l|
+      Releaf.application.config.all_locales.map do |l|
         [
           "%s_data.localization AS %s_localization" % [l, l],
           "%s_data.id AS %s_localization_id" % [l, l]

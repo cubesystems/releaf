@@ -8,7 +8,8 @@ describe Releaf::Permissions::Roles::FormBuilder, type: :class do
 
   describe "#render_default_controller" do
     it "pass localized controller options to releaf item field" do
-      allow(Releaf).to receive(:available_controllers).and_return(["releaf/i18n_database/translations", "releaf/content/nodes"])
+      allow(Releaf.application.config).to receive(:available_controllers)
+        .and_return(["releaf/i18n_database/translations", "releaf/content/nodes"])
       translated_controllers = {"Releaf/i18n database/translations"=>"releaf/i18n_database/translations", "Releaf/content/nodes"=>"releaf/content/nodes"}
 
       allow(subject).to receive(:releaf_item_field).with(:default_controller, options: {select_options: translated_controllers}).and_return("x")
@@ -27,7 +28,8 @@ describe Releaf::Permissions::Roles::FormBuilder, type: :class do
 
   describe "#permission_items" do
     it "returns scoped and translated controller values" do
-      allow(Releaf).to receive(:available_controllers).and_return(["releaf/content/nodes", "admin/chapters"])
+      allow(Releaf.application.config).to receive(:available_controllers)
+        .and_return(["releaf/content/nodes", "admin/chapters"])
       allow(subject).to receive(:t).with("releaf/content/nodes", scope: "admin.controllers").and_return("controller 1")
       allow(subject).to receive(:t).with("admin/chapters", scope: "admin.controllers").and_return("controller 2")
       expect(subject.permission_items).to eq("controller.releaf/content/nodes" => "controller 1", "controller.admin/chapters" => "controller 2")

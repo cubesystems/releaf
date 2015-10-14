@@ -13,8 +13,8 @@ describe Releaf::I18nDatabase::Translation do
 
 
   before do
-    allow(Releaf).to receive(:available_locales) { ["de", "en"] }
-    allow(Releaf).to receive(:available_admin_locales) { ["lv"] }
+    allow(Releaf.application.config).to receive(:available_locales) { ["de", "en"] }
+    allow(Releaf.application.config).to receive(:available_admin_locales) { ["lv"] }
 
     @translation = FactoryGirl.create(:translation, :key => 'test.apple')
     FactoryGirl.create(:translation_data, :localization => 'apple', :translation => @translation, :lang => "en")

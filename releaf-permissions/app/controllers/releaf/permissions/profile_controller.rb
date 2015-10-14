@@ -35,7 +35,7 @@ module Releaf::Permissions
     end
 
     def self.resource_class
-      Releaf.devise_for.classify.constantize
+      Releaf.application.config.devise_for.classify.constantize
     end
 
     def controller_breadcrumb; end

@@ -25,8 +25,8 @@ module Releaf::Permissions
 
     def allowed_controllers
       # Note: This basically sorts allowed controllers in order specified by
-      # Releaf.available_controllers
-      Releaf.available_controllers & access_control.user.role.allowed_controllers
+      # Releaf.application.config.available_controllers
+      Releaf.application.config.available_controllers & access_control.user.role.allowed_controllers
     end
   end
 end

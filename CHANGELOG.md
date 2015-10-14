@@ -1,4 +1,11 @@
 ## Changelog
+### 2015.10.14
+* `Releaf::Core::Application` and `Releaf::Core::Configuration` introduced
+* From now all settings is available through `Releaf.application.config`
+  instead of `Releaf`
+* Releaf initalizer must be updated by changing `Releaf.setup do |conf|` to `Releaf.application.configure do` and
+  replacing all `conf.` with `config.`
+
 ### 2015.08.05
 * Renamed `Releaf::TemplateFieldTypeMapper` to `Releaf::Core::TemplateFieldTypeMapper`
 * Renamed `Releaf::AssetsResolver` to `Releaf::Core::AssetsResolver`

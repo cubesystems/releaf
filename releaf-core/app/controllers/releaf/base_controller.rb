@@ -5,7 +5,7 @@ module Releaf
     respond_to :html
     respond_to :json, only: [:create, :update]
     protect_from_forgery
-    include Releaf.access_control_module
+    include Releaf.application.config.access_control_module
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
     include Releaf::Core::Responders
@@ -127,7 +127,7 @@ module Releaf
     # @return controller name
     def association_controller association
       guessed_name = association.name.to_s.pluralize
-      guessed_name if Releaf.controller_list.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
+      guessed_name if Releaf.application.config.controller_list.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
     end
 
 
@@ -240,7 +240,7 @@ module Releaf
     end
 
     def application_scope
-      scope = Releaf.mount_location.capitalize
+      scope = Releaf.application.config.mount_location.capitalize
       scope if scope.present? && Releaf::Builders.constant_defined_at_scope?(scope, Object)
     end
 

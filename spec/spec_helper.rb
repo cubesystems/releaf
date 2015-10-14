@@ -120,8 +120,8 @@ RSpec.configure do |config|
 
     DatabaseCleaner.start
     # set settings
-    I18n.locale = Releaf.available_locales.first
-    I18n.default_locale = Releaf.available_locales.first
+    I18n.locale = Releaf.application.config.available_locales.first
+    I18n.default_locale = Releaf.application.config.available_locales.first
   end
 
   config.after do

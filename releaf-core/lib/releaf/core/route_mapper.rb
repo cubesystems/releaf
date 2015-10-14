@@ -15,7 +15,7 @@ module Releaf::Core::RouteMapper
   end
 
   def initialize_releaf_components
-    Releaf.components.each do|component_class|
+    Releaf.application.config.components.each do|component_class|
       if component_class.respond_to? :draw_component_routes
         component_class.draw_component_routes(self)
       end
@@ -24,7 +24,7 @@ module Releaf::Core::RouteMapper
 
   def mount_releaf_at(mount_location, options={}, &block)
     mount_location_namespace = mount_location.gsub("/", "").to_sym
-    Releaf.mount_location = mount_location_namespace.to_s
+    Releaf.application.config.mount_location = mount_location_namespace.to_s
     scope mount_location do
       initialize_releaf_components
 

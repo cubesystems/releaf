@@ -1,8 +1,8 @@
-Releaf.setup do |conf|
+Releaf.application.configure do
   # Default settings are commented out
 
   ### setup menu items and therefore available controllers
-  conf.menu = [
+  config.menu = [
     {
       :controller => 'releaf/content/nodes',
       :icon => 'sitemap',
@@ -27,10 +27,9 @@ Releaf.setup do |conf|
     },
    ]
 
-  conf.additional_controllers = %w[admin/chapters releaf/permissions/profile]
-  conf.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content, Releaf::Core::SettingsUIComponent]
-
-  conf.available_locales = ["en", "lv"]
-  # conf.layout_builder = CustomLayoutBuilder
+  config.additional_controllers = %w[admin/chapters releaf/permissions/profile]
+  config.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content, Releaf::Core::SettingsUIComponent]
+  config.available_locales = ["en", "lv"]
+  # conf.layout_builder_class_name = "CustomLayoutBuilder"
   # conf.devise_for 'releaf/admin'
 end

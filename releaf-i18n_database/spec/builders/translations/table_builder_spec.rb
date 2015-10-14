@@ -7,11 +7,11 @@ describe Releaf::I18nDatabase::Translations::TableBuilder, type: :class do
   let(:subject){ described_class.new([], resource_class, template, {}) }
 
   before do
-    allow(Releaf).to receive(:all_locales).and_return(["de", "ze"])
+    allow(Releaf.application.config).to receive(:all_locales).and_return(["de", "ze"])
   end
 
   describe "#column_names" do
-    it "returns key and Releaf.all_locales column names array" do
+    it "returns key and Releaf.application.config column names array" do
       expect(subject.column_names).to eq([:key, "de", "ze"])
     end
   end
@@ -49,17 +49,17 @@ describe Releaf::I18nDatabase::Translations::TableBuilder, type: :class do
 
   describe "#cell_format_method" do
     before do
-      allow(Releaf).to receive(:all_locales).and_return([:de, :ze])
+      allow(Releaf.application.config).to receive(:all_locales).and_return([:de, :ze])
     end
 
-    context "when given column name exists within Releaf.all_locales" do
+    context "when given column name exists within Releaf.application.config.all_locales" do
       it "returns :locale_value" do
         expect(subject.cell_format_method(:de)).to eq(:locale_value)
         expect(subject.cell_format_method(:ze)).to eq(:locale_value)
       end
     end
 
-    context "when given column name does not  exists within Releaf.all_locales" do
+    context "when given column name does not  exists within Releaf.application.config.all_locales" do
       it "return super" do
         expect(subject.cell_format_method(:en)).to eq(:format_string_content)
       end

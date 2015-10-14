@@ -1,7 +1,7 @@
 - if @import
   = hidden_field_tag :import, "true"
 - attributes_scope = "activerecord.attributes.#{resource_class.name.underscore}"
-- locales = Releaf.all_locales
+- locales = Releaf.application.config.all_locales
 - @translation_ids_to_destroy ||= []
 
 - template_html = capture do

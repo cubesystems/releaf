@@ -2,7 +2,7 @@ module Releaf::Permissions::Roles
   class FormBuilder < Releaf::Builders::FormBuilder
     def render_default_controller
       controllers = {}
-      Releaf.available_controllers.each do |controller|
+      Releaf.application.config.available_controllers.each do |controller|
         controllers[I18n.t(controller, scope: 'admin.controllers')] = controller
       end
 
@@ -19,7 +19,7 @@ module Releaf::Permissions::Roles
 
     def permission_items
       list = {}
-      Releaf.available_controllers.each do|controller|
+      Releaf.application.config.available_controllers.each do|controller|
         list["controller.#{controller}"] = t(controller, scope: "admin.controllers")
       end
       list
