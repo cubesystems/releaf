@@ -13,9 +13,9 @@ describe Releaf::Content::Nodes::ToolboxBuilder, type: :class do
   let(:node){ Node.new(content_type: "TextPage", slug: "a", id: 99) }
 
   before do
-    # stub superclass implementation of #items
-    Releaf::Builders::ToolboxBuilder.send(:define_method, :items) { [ :super_item ] }
     allow(subject).to receive(:resource).and_return(node)
+    allow(subject).to receive(:destroy_confirmation_link).and_return(:super_item)
+    allow(subject).to receive(:feature_available?).with(:destroy).and_return true
   end
 
   it "extends Releaf::Builders::ToolboxBuilder" do
