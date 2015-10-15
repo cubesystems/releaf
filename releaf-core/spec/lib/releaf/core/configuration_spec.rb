@@ -20,7 +20,7 @@ describe Releaf::Core::Configuration do
 
   describe "#access_control_module" do
     it "returns access control module class" do
-      allow(subject).to receive(:access_control_module_class_name).and_return("Book")
+      allow(subject).to receive(:access_control_module_name).and_return("Book")
       expect(subject.access_control_module).to eq(Book)
     end
   end
@@ -234,7 +234,7 @@ describe Releaf::Core::Configuration do
         components: [],
         assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
         layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
-        access_control_module_class_name: 'Releaf::Permissions'
+        access_control_module_name: 'Releaf::Permissions'
       }
       expect(subject.default_values).to eq(result)
     end

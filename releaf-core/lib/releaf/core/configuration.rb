@@ -1,7 +1,7 @@
 module Releaf::Core
   class Configuration
     attr_accessor :available_locales, :available_admin_locales, :all_locales
-    attr_accessor :access_control_module_class_name, :assets_resolver_class_name, :layout_builder_class_name
+    attr_accessor :access_control_module_name, :assets_resolver_class_name, :layout_builder_class_name
     attr_accessor :menu, :devise_for, :mount_location, :components,
       :available_controllers, :additional_controllers, :controllers
 
@@ -17,7 +17,7 @@ module Releaf::Core
     end
 
     def access_control_module
-      access_control_module_class_name.constantize
+      access_control_module_name.constantize
     end
 
     def initialize_defaults
@@ -95,7 +95,7 @@ module Releaf::Core
         components: [],
         assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
         layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
-        access_control_module_class_name: 'Releaf::Permissions'
+        access_control_module_name: 'Releaf::Permissions'
       }
     end
   end
