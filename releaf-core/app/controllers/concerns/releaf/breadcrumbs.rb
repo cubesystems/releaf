@@ -15,7 +15,7 @@ module Releaf
     end
 
     def controller_breadcrumb
-      controller_params = Releaf.application.config.controller_list[self.class.name.sub(/Controller$/, '').underscore]
+      controller_params = Releaf.application.config.controllers[self.class.name.sub(/Controller$/, '').underscore]
       if controller_params
         {
           name: I18n.t(controller_params[:name], scope: "admin.controllers"),
