@@ -2,7 +2,7 @@ wb = xlsx_package.workbook
 wb.use_autowidth = true
 header = wb.styles.add_style b: true
 wb.add_worksheet(name: "localization") do |sheet|
-locales = Releaf.all_locales
+locales = Releaf.application.config.all_locales
 
   sheet.add_row [''] + locales, style: header
 

@@ -119,7 +119,7 @@ module Releaf
       def get_all_pluralizations
         keys = []
 
-        ::Releaf.all_locales.each do|locale|
+        ::Releaf.application.config.all_locales.each do|locale|
           if TwitterCldr.supported_locale? locale
             keys += TwitterCldr::Formatters::Plurals::Rules.all_for(locale)
           end
@@ -150,7 +150,7 @@ module Releaf
       def key_hash key, localization_cache
         hash = {}
 
-        ::Releaf.all_locales.each do |locale|
+        ::Releaf.application.config.all_locales.each do |locale|
           localized_key = "#{locale}.#{key}"
           locale_hash = locale_hash(localized_key, localization_cache[localized_key])
           hash.merge! locale_hash

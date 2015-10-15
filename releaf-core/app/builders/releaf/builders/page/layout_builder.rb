@@ -90,11 +90,11 @@ class Releaf::Builders::Page::LayoutBuilder
   end
 
   def stylesheets
-    Releaf.assets_resolver.controller_assets(controller_name, :stylesheets)
+    Releaf.application.config.assets_resolver.controller_assets(controller_name, :stylesheets)
   end
 
   def javascripts
-    Releaf.assets_resolver.controller_assets(controller_name, :javascripts)
+    Releaf.application.config.assets_resolver.controller_assets(controller_name, :javascripts)
   end
 
   def csrf

@@ -74,7 +74,7 @@ describe Releaf::Permissions::AccessControl do
 
   describe "#devise_model_name" do
     it "returns normalized Releaf devise model name" do
-      allow(Releaf).to receive(:devise_for).and_return("asdasd/asdasd")
+      allow(Releaf.application.config).to receive(:devise_for).and_return("asdasd/asdasd")
       expect(subject.devise_model_name).to eq("asdasd_asdasd")
     end
   end

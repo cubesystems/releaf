@@ -5,7 +5,7 @@ module Releaf::Permissions::Users
     end
 
     def render_locale
-      releaf_item_field(:locale, options: {select_options: locale_options(Releaf.available_admin_locales)})
+      releaf_item_field(:locale, options: {select_options: locale_options(Releaf.application.config.available_admin_locales)})
     end
   end
 end

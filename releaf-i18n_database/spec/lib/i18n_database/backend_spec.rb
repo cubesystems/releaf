@@ -291,7 +291,7 @@ describe Releaf::I18nDatabase::Backend do
 
       context "with nonexistent translation" do
         before do
-          allow(Releaf).to receive(:all_locales).and_return(["ru", "lv"])
+          allow(Releaf.application.config).to receive(:all_locales).and_return(["ru", "lv"])
         end
 
         it "creates empty translation" do

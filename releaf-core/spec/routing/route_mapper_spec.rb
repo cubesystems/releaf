@@ -7,18 +7,18 @@ describe Releaf::Core::RouteMapper do
   end
 
   describe "#mount_releaf_at" do
-    it "it assigns normalized mount location to Releaf.mount_location" do
+    it "it assigns normalized mount location to Releaf.application.config.mount_location" do
       expect{
         routes.draw do
           mount_releaf_at '/xxxx'
         end
-      }.to change{ Releaf.mount_location }.to("xxxx")
+      }.to change{ Releaf.application.config.mount_location }.to("xxxx")
 
       expect{
         routes.draw do
           mount_releaf_at '/'
         end
-      }.to change{ Releaf.mount_location }.to("")
+      }.to change{ Releaf.application.config.mount_location }.to("")
     end
   end
 

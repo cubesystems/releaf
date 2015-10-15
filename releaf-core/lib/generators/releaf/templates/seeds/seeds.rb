@@ -10,7 +10,7 @@ end
 
 puts "Creating roles"
 super_admin = Releaf::Permissions::Role.new(name: "super admin", default_controller: "releaf/permissions/users")
-Releaf.available_controllers.each do|controller|
+Releaf.application.config.available_controllers.each do|controller|
   super_admin.permissions.build(permission: "controller.#{controller}")
 end
 super_admin.save!
