@@ -99,10 +99,19 @@ class Releaf::Builders::Page::MenuBuilder
   def item_collapser(item)
     tag(:span, class: "collapser") do
       tag(:button, type: "button") do
-        icon(collapsed_item?(item) ? "chevron-down" : "chevron-up")
+        item_collapser_icon(item)
       end
     end
   end
+
+  def item_collapser_icon(item)
+    if layout_settings('releaf.side.compact')
+      icon("chevron-right")
+    else
+      icon(collapsed_item?(item) ? "chevron-down" : "chevron-up")
+    end
+  end
+
 
   def compacter
     tag(:div, class: "compacter") do

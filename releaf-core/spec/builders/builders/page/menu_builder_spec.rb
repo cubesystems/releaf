@@ -2,11 +2,16 @@ require "spec_helper"
 
 describe Releaf::Builders::Page::MenuBuilder, type: :class do
   class MenuBuilderTestHelper < ActionView::Base
+    include FontAwesome::Rails::IconHelper
   end
 
+  let(:controller){ Releaf::BaseController.new }
   let(:template){ MenuBuilderTestHelper.new }
   subject { described_class.new(template) }
 
+  before do
+    allow(template).to receive(:controller).and_return(controller)
+  end
 
   it "includes Releaf::Builders::Base" do
     expect(described_class.ancestors).to include(Releaf::Builders::Base)
@@ -104,8 +109,49 @@ describe Releaf::Builders::Page::MenuBuilder, type: :class do
   end
 
   describe "#item_collapser" do
-    pending
+
+    it "returns a collapser span with a button and collapser icon" do
+      allow(subject).to receive(:item_collapser_icon).with(:foo).and_return(subject.icon('dummy'))
+      expect(subject.item_collapser(:foo)).to eq '<span class="collapser"><button type="button"><i class="fa fa-dummy"></i></button></span>'
+    end
+
   end
+
+  describe "#item_collapser_icon" do
+
+    before do
+      allow(subject).to receive(:layout_settings).with('releaf.side.compact').and_return(false)
+    end
+
+    let(:item) { {} }
+
+    context "when side is compacted in layout settings" do
+      it "returns a beak pointing right" do
+        allow(subject).to receive(:layout_settings).with('releaf.side.compact').and_return(true)
+        allow(subject).to receive(:icon).with('chevron-right').and_return("icon ok")
+        expect(subject.item_collapser_icon(item)).to eq "icon ok"
+      end
+    end
+
+    context "when side is not compacted in layout settings" do
+      context "when the given item is collapsed" do
+        it "returns a beak pointing down" do
+          allow(subject).to receive(:collapsed_item?).with(item).and_return(true)
+          allow(subject).to receive(:icon).with('chevron-down').and_return("icon ok")
+          expect(subject.item_collapser_icon(item)).to eq "icon ok"
+        end
+      end
+      context "when the given item is expanded" do
+        it "returns a beak pointing up" do
+          allow(subject).to receive(:collapsed_item?).with(item).and_return(false)
+          allow(subject).to receive(:icon).with('chevron-up').and_return("icon ok")
+          expect(subject.item_collapser_icon(item)).to eq "icon ok"
+        end
+      end
+    end
+
+  end
+
 
   describe "#compacter" do
     pending

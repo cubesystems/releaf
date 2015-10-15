@@ -42,7 +42,6 @@ body > aside nav li .collapser button
     display: block;
 }
 
-
 body > aside nav li li
 {
     background: #282828;
@@ -171,11 +170,31 @@ body.side-compact > aside .compacter button
     padding-left: 80px;
 }
 
-body.side-compact > aside nav li .name,
-body.side-compact > aside nav li .collapser
+body.side-compact > aside nav li .name
 {
     display: none;
 }
+
+body.side-compact > aside nav li .trigger .collapser,
+body.side-compact > aside nav > ul > li.active > .trigger .collapser,
+body.side-compact > aside nav li .trigger:hover .collapser,
+body.side-compact > aside nav li .collapser button
+{
+    color: inherit;
+}
+
+body.side-compact > aside nav li .collapser button
+{
+    transform: scale(0.5, 0.5);
+    position: relative;
+    z-index: 1;
+    left: 6px;
+    top: 11px;
+    width: 20px;
+    height: 20px;
+}
+
+
 
 body.side-compact > aside nav > ul > li > .trigger > abbr
 {
