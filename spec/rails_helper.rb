@@ -114,13 +114,6 @@ RSpec.configure do |config|
     Timecop.return
     DatabaseCleaner.clean
   end
-
-  Shoulda::Matchers.configure do |shoulda_config|
-    shoulda_config.integrate do |with|
-      with.test_framework :rspec
-      with.library :rails
-    end
-  end
 end
 
 Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each { |f| require f }
