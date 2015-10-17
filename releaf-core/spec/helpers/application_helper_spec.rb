@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::ApplicationHelper do
   describe "#releaf_table" do

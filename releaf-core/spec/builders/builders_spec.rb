@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::Builders, type: :class do
   module Admin::Advanced

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe "Errors feature" do
   before do
     auth_as_user

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 class ContactFormController < ActionController::Base
   acts_as_node

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe "Side menu visual appearance", js: true  do
   before do
     Rails.cache.clear

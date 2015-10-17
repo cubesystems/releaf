@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::ShowBuilder, type: :class do
   it "includes `Releaf::Builders::ResourceView`" do

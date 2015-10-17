@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Index tables" do
   background do
     auth_as_user

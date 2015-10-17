@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Permissions::Roles::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end

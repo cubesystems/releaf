@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Core::Responders::ErrorResponder, type: :controller do
   class Releaf::Core::Responders::DummyErrorResponder < ActionController::Responder

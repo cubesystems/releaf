@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::Permissions::ProfileController do
   let(:another_role){ FactoryGirl.create(:content_role) }

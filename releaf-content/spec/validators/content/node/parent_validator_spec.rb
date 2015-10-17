@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::Content::Node::ParentValidator do
   let!(:root_node) { FactoryGirl.create(:node, content_type: 'HomePage') }

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::ResourceDialog, type: :class do
   class DialogTestHelper < ActionView::Base

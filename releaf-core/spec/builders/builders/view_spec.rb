@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::View, type: :class do
   class ViewTestHelper < ActionView::Base

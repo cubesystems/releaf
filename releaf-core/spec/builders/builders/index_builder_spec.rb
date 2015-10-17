@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::IndexBuilder, type: :class do
   class IndexBuilderTestHelper < ActionView::Base

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Content::Route do
   let(:node_route) { FactoryGirl.build(:node_route, node_id: 12, locale: "en", path: "/en") }

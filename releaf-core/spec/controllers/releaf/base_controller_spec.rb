@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::BaseController do
   let(:new_resource){ Author.new }

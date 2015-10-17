@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Core::Responders::AfterSaveResponder, type: :controller do
   let(:controller){ Releaf::BaseController.new }

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Controller title" do
   scenario "shows only application title" do
     visit releaf_root_path

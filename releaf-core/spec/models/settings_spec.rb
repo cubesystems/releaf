@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Settings do
   let(:values){ [{key: "a", default: "x"}, {key: "b", default: "y"}] }

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Core::ItemOrderer do
   let(:list){ ["a", "b", "c", "d", {items: "xx"}, "e", "f", "g"] }

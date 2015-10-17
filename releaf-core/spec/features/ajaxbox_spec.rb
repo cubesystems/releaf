@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Ajaxbox", js: true do
   background do
     auth_as_user
