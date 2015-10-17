@@ -10,24 +10,33 @@ describe Releaf::Content::Route do
   end
 
   describe ".for" do
+    before do
+      create(:home_page_node)
+    end
+
     it "returns an array" do
       expect(described_class.for(HomePage).class).to eq(Array)
     end
 
-    context "when no releaf_nodes table defined" do
+    context "when databse doesn't exists" do
       it "returns an empty array" do
-        allow(described_class).to receive(:nodes_available?).and_return(false)
+        allow(described_class.node_class).to receive(:where).and_raise(ActiveRecord::NoDatabaseError.new("xxx"))
         expect(described_class.for(HomePage)).to eq([])
       end
     end
 
-    context "when releaf_nodes table defined and content nodes exist" do
-      before do
-        create(:home_page_node)
+    context "when releaf_nodes table doesn't exists" do
+      it "returns an empty array" do
+        allow(described_class.node_class).to receive(:where).and_raise(ActiveRecord::StatementInvalid.new("xxx"))
+        expect(described_class.for(HomePage)).to eq([])
       end
+    end
 
+    context "when releaf_nodes table exists" do
       it "returns an array of Node::Route objects" do
-        expect(described_class.for(HomePage).first.class).to eq(described_class)
+        result = described_class.for(HomePage)
+        expect(result.count).to eq(1)
+        expect(result.first.class).to eq(described_class)
       end
 
       context "when node is not available" do
@@ -40,7 +49,6 @@ describe Releaf::Content::Route do
   end
 
   describe '#params' do
-
     it "returns a hash with node_id" do
       expect(node_route.params("home#index")[:node_id]).to eq('12')
     end
@@ -70,7 +78,6 @@ describe Releaf::Content::Route do
     end
 
     context "when :as given in args" do
-
       context "when node has a locale" do
         it "prepends locale to :as" do
           expect(node_route.params("home#index", as: "home")[:as]).to eq("en_home")
