@@ -12,7 +12,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def column_names
-    Releaf::Core::ResourceFields.new(resource_class).values(include_associations: false)
+    Releaf::Core::ResourceTableFields.new(resource_class).values(include_associations: false)
   end
 
   def columns
