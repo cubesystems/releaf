@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Core::ResourceFields do
   subject{ described_class.new(Book) }

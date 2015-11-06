@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Settings", js: true do
   scenario "edit settings" do
     values = [

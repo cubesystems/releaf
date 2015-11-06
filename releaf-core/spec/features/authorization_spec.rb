@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Authorization" do
   let(:user){ create(:user) }
 

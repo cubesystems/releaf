@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base
@@ -66,8 +66,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#column_names" do
     it "returns column names for resource_class" do
-      allow(Releaf::Core::ResourceFields).to receive(:new).with(subject.resource_class).and_call_original
-      allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:values)
+      allow(Releaf::Core::ResourceTableFields).to receive(:new).with(subject.resource_class).and_call_original
+      allow_any_instance_of(Releaf::Core::ResourceTableFields).to receive(:values)
         .with(include_associations: false).and_return(["a", "b"])
       expect(subject.column_names).to eq(["a", "b"])
     end

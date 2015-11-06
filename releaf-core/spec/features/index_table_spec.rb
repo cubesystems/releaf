@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Index tables" do
   background do
     auth_as_user
@@ -13,18 +13,18 @@ feature "Index tables" do
     visit admin_books_path
 
     within ".table.books thead tr" do
-      cells = ["Title", "Year", "Author", "Genre", "Summary html", "Active", "Published at", "Price", "Stars", "Cover image uid", "Description", "Author publisher title"]
+      cells = ["Title", "Year", "Author", "Genre", "Active", "Published at", "Price", "Stars", "Cover image uid", "Description", "Author publisher title"]
       expect(page).to have_cells_text(cells, type: "th")
     end
 
     within ".table.books tbody" do
       within "tr[data-id='#{@book_1.id}']" do
-        cells = ["good book", "", "Aleksandrs Lielais", "", "", "No",  "", "", "", "", "", "ABC books"]
+        cells = ["good book", "", "Aleksandrs Lielais", "", "", "No", "", "", "", "", "ABC books"]
         expect(page).to have_cells_text(cells)
       end
 
       within "tr[data-id='#{@book_2.id}']" do
-        cells = ["steevs book", "", "Steve Lielais", "", "", "No",  "", "", "", "", "", ""]
+        cells = ["steevs book", "", "Steve Lielais", "", "", "No", "", "", "", "", ""]
         expect(page).to have_cells_text(cells)
       end
     end

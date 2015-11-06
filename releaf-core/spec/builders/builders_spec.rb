@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::Builders, type: :class do
   module Admin::Advanced
@@ -83,6 +83,11 @@ describe Releaf::Builders, type: :class do
     context "when constant exists at given namespace" do
       it "returns true" do
         expect(described_class.constant_defined_at_scope?("Releaf::Builders::FormBuilder", Releaf)).to be true
+      end
+
+      it "compare constant with constant at given namespace and check whether it exists" do
+        allow(Admin).to receive(:const_get).with("Admin:xx").and_return(true)
+        expect(described_class.constant_defined_at_scope?("Admin:xx", Admin)).to be false
       end
     end
 

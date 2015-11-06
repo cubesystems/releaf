@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Admin::BooksController do
   describe "#current_params" do

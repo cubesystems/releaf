@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::Builders::AssociationReflector, type: :class do
   let(:reflection){ Book.reflect_on_association("chapters") }

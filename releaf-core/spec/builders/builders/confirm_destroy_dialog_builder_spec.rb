@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
   class ConfirmDestroyDialogTestHelper < ActionView::Base

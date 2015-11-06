@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 feature "Users", js: true do
   let!(:user){ create(:user, email: "admin@example.com") }
   let!(:simple_user){ create(:content_user, email: "simple@example.com") }

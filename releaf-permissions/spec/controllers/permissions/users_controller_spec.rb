@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # use Admin::BooksController as it inherit Releaf::BaseController and
 # have no extra methods or overrides

@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Core::TemplateFieldTypeMapper do
   let(:object){ double("generic object") }

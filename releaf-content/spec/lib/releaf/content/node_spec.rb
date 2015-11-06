@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Node do
   class PlainNode < ActiveRecord::Base
@@ -15,7 +15,7 @@ describe Node do
     expect( Node.included_modules ).to include Releaf::Content::Node
   end
 
-  describe 'validations' do
+  describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_presence_of(:content_type) }

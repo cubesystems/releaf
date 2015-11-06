@@ -20,7 +20,7 @@ class Releaf::Builders
     constant_defined = false
 
     begin
-      constant_defined = at.const_get(mapping).present?
+      constant_defined = at.const_get(mapping).present? && mapping.constantize == at.const_get(mapping)
     rescue NameError => error
       raise unless constant_name_error?(error.message, mapping)
     end

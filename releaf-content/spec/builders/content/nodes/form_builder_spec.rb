@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Content::Nodes::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base

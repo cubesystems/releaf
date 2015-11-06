@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe "Nodes", js: true, with_tree: true, with_root: true do
   before do
     Rails.cache.clear

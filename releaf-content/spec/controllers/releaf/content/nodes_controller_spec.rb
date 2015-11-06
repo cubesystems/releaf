@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Releaf::Content::NodesController do
   describe "#builder_scopes" do

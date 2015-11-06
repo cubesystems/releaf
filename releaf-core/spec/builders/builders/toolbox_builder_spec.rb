@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe Releaf::Builders::ToolboxBuilder, type: :class do
   class ToolboxBuilderTestHelper < ActionView::Base
