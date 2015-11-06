@@ -46,7 +46,7 @@ module Releaf::Permissions
       }
 
       # use already loaded admin user instance
-      @resource = access_control.user
+      @resource = access_control.user.becomes(resource_class)
     end
 
     def permitted_params

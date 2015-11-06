@@ -26,6 +26,11 @@ describe Releaf::Permissions::ProfileController do
           "email" => "new.email@example.com",
           "locale" => "lv"
         }
+
+        # This is needed in order to get same instance as we expect.
+        # Otherwise we'll get same record, but different instance and test will fail
+        allow( user ).to receive(:becomes).with(Releaf::Permissions::User).and_return(user)
+
         expect(user).to receive(:update_attributes).with(attributes)
         patch :update, {resource: attributes}
       end
