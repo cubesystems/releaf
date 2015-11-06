@@ -1,0 +1,48 @@
+*
+{
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+html
+{
+    font-size: 100.01%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+main
+{
+    display: block;  /* as of now, not all rendering engines recognize the main element as a block */
+}
+
+
+/* reset native button and link styles */
+button,
+input[type="button"],
+input[type="submit"]
+{
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+button:hover
+{
+    cursor: pointer;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner
+{
+    border: 0;
+    padding: 0;
+}
+
+

@@ -1,0 +1,22 @@
+*
+{
+    font-family: inherit;
+}
+
+body
+{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body
+{
+    // use pixels for font-sizes
+    // there is no longer a real need for ems/rems
+    font-size: 14px;
+
+    // use px for line height, so that the line height remains fixed
+    // when inherited by blocks with a different font-size
+    // (unitless line-heights are relative to the current font-size of the target element.
+    // line-heights with units are relative to the font size of the element where they are defined)
+    line-height: 24px;
+}

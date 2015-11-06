@@ -1,0 +1,32 @@
+@import 'releaf/layout/reset';
+@import 'releaf/layout/base';
+@import 'releaf/layout/main';
+
+@import 'releaf/layout/text';
+
+// :TODO: move these to a proper structure one by one and remove "include" folder
+@import 'include/attachments';
+@import 'include/autocomplete';
+@import 'include/base';
+@import 'include/breadcrumbs';
+@import 'include/controls';
+@import 'include/datepicker';
+@import 'include/dialog';
+@import 'include/error';
+@import 'include/fonts';
+@import 'include/footer';
+@import 'include/forms';
+@import 'include/header';
+@import 'include/layout';
+@import 'include/localization';
+@import 'include/main';
+@import 'include/notifications';
+@import 'include/pagination';
+@import 'include/search';
+@import 'include/sidebar';
+@import 'include/skip_links';
+@import 'include/table';
+@import 'include/toolbox';
+
+
+@import 'releaf/layout/extras';

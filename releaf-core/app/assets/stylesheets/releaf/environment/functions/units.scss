@@ -1,0 +1,34 @@
+@function steps($number)
+{
+    // horizontal step used everywhere for widths and horizontal spacing
+    @return (12px * $number);
+}
+
+@function lines($number)
+{
+    // a single "line" is half of the default line height of the body text
+    // it happens to match the horizontal step
+    // this should only be used with round integers
+    @return steps($number);
+}
+
+@function px2rem( $px )
+{
+    $root-px: 16;
+    @return ( ($px + 0px) / ($root-px + 0px) ) + rem;
+}
+
+@function rem2px( $rem )
+{
+    @return ( $rem * 16 ) + 0px;
+}
+
+@function lines2rem( $lines )
+{
+    @return px2rem( lines($lines) );
+}
+
+@function create-rgba( $color, $opacity )
+{
+    @return rgba( red($color), green($color), blue($color), $opacity );
+}
