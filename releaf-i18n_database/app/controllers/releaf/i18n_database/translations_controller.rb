@@ -122,9 +122,10 @@ module Releaf::I18nDatabase
     end
 
     def search_by_lookup_string lookup_string
+      like = postgresql? ? 'ILIKE' : 'LIKE'
       sql = search_column_names.map do |column|
         column_query = lookup_string.split(' ').map do |part|
-          ActiveRecord::Base.send(:sanitize_sql_array, ["#{column} LIKE ?", "%#{escape_lookup_string(part)}%" ])
+          ActiveRecord::Base.send(:sanitize_sql_array, ["#{column} #{like} ?", "%#{escape_lookup_string(part)}%" ])
         end.join(' AND ')
         "(#{column_query})"
       end.join(' OR ')
@@ -162,6 +163,14 @@ module Releaf::I18nDatabase
     end
 
     private
+
+    def postgresql?
+      adapter_name == 'PostgreSQL'
+    end
+
+    def adapter_name
+      ActiveRecord::Base.connection.adapter_name
+    end
 
     def process_updatables
       resource_class.where(id: @translation_ids_to_destroy).destroy_all unless @translation_ids_to_destroy.empty?
