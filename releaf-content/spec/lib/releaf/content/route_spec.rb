@@ -49,20 +49,8 @@ describe Releaf::Content::Route do
   end
 
   describe '#params' do
-    specify do # TODO test title
+    it "returns params for router method" do
       expect(node_route.params("home#index")).to eq ['/en', {:node_id=>"12", :locale=>"en", :to=>"home#index"}]
-    end
-
-    context "when hash given as first argument" do
-
-      it "adds node_id and locale options" do
-        expect(node_route.params('en/search' => 'home#search')).to eq({
-          'en/search' => 'home#search',
-          node_id: "12",
-          locale: "en"
-        })
-      end
-
     end
 
     context "when :as given in args" do

@@ -12,17 +12,10 @@ module Releaf::Content
     # @param method_or_path [String] string with action and controller for route (Ex. home#index)
     # @param options [Hash] options to merge with internally built params. Passed params overrides route params.
     # @return [Hash] route options. Will return at least node "node_id" and "locale" keys.
-    def params(*args)
-      only_hash = args.first.is_a?(Hash)
-
-      if only_hash
-        options = args.first.dup
-      else
-        method_or_path = args[0].to_s
-        options = args[1].try!(:dup) || {}
-        action_path = path_for(method_or_path, options)
-        options[:to] = controller_and_action_for(method_or_path, options)
-      end
+    def params(method_or_path, options = {})
+      method_or_path = method_or_path.to_s
+      action_path = path_for(method_or_path, options)
+      options[:to] = controller_and_action_for(method_or_path, options)
 
       route_options = options.merge({
         node_id: node_id.to_s,
@@ -34,11 +27,7 @@ module Releaf::Content
         route_options[:as] = "#{locale}_#{route_options[:as]}"
       end
 
-      if only_hash
-        route_options
-      else
-        [action_path, route_options]
-      end
+      [action_path, route_options]
     end
 
     # Return routes for given class that implement ActsAsNode
