@@ -5,6 +5,7 @@
   instead of `Releaf`
 * Releaf initalizer must be updated by changing `Releaf.setup do |conf|` to `Releaf.application.configure do` and
   replacing all `conf.` with `config.`
+* change `conf.layout_builder = CustomLayoutBuilder``` to `config.layout_builder_class_name = 'CustomLayoutBuilder'`
 
 ### 2015.08.05
 * Renamed `Releaf::TemplateFieldTypeMapper` to `Releaf::Core::TemplateFieldTypeMapper`
