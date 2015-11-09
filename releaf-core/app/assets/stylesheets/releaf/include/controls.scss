@@ -3,8 +3,8 @@
 {
     cursor:pointer;
     display: inline-block;
-    background: #37b1a7;
-    color: #fff;
+    background: $color-highlight-normal;
+    color: $color-text-inverted-lightest;
 
     font-weight: normal;
     font-size: 14px;
@@ -37,29 +37,29 @@
 .button:focus,
 .button:active
 {
-    background: #269990;
+    background: $color-highlight-darker;
     text-decoration: none;
 }
 
 .button.secondary
 {
-    background: #d4d4d4;
-    color: #636363;
+    background: $color-background-darker;
+    color: $color-text-lighter;
 }
 
 .button.secondary:hover,
 .button.secondary:focus,
 .button.secondary:active
 {
-    background: #c5c5c5;
-    color: #3c3c3c;
+    background: $color-background-darkest;
+    color: $color-text-light;
 }
 
 .button.danger:hover,
 .button.danger:focus,
 .button.danger:active
 {
-    background: #ee462a;
+    background: $color-alert;
 }
 
 .button[disabled],
@@ -67,8 +67,8 @@
 .button[disabled]:focus,
 .button[disabled]:active
 {
-    color: #c5c5c5;
-    background-color: #d4d4d4;
+    color: $color-text-lightest;
+    background-color: $color-background-darker;
     cursor: default;
 }
 
@@ -109,9 +109,9 @@ input[type="text"],
 input[type="number"],
 input[type="password"]
 {
-    color: #1d1d1d;
-    background-color: #f8f8f8;
-    border: 1px solid #d4d4d4;
+    color: $color-text-normal;
+    background-color: $color-background-lighter;
+    border: 1px solid $color-border-normal;
     outline: none;
     font-weight: bold;
     font-size: 13px;
@@ -157,7 +157,7 @@ input[type="text"]:hover,
 input[type="number"]:hover,
 input[type="password"]:hover
 {
-    border: 1px solid #a6a6a6;
+    border: 1px solid $color-border-darker;
 }
 
 textarea:focus,
@@ -167,6 +167,6 @@ input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="passwod"]:focus
 {
-    background-color: #ffffff;
-    border: 1px solid #636363;
+    background-color: $color-background-lightest;
+    border: 1px solid $color-border-darkest;
 }

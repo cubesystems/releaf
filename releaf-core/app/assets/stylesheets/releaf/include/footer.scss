@@ -12,7 +12,7 @@ footer.main
     left: 0;
     margin: 0 40px 0px 280px;
     z-index: 10;
-    background: #fff;
+    background: $color-background-lightest;
 }
 
 .side-compact footer.main
@@ -23,9 +23,9 @@ footer.main
 footer.main .tools
 {
     height: 40px;
-    background: #e6e6e6;
-    color: #636363;
-    border: 1px solid #c5c5c5;
+    background: $color-background-normal;
+    color: $color-text-lighter;
+    border: 1px solid $color-border-dark;
     border-bottom: 0;
     height: 40px;
 }

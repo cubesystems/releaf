@@ -11,8 +11,8 @@
 {
     padding: 10px 16px;
     display: inline-block;
-    border-left: 1px solid #c5c5c5;
-    border-right: 1px solid #c5c5c5;
+    border-left: 1px solid $color-border-dark;
+    border-right: 1px solid $color-border-dark;
 }
 
 .pagination > .button i
@@ -20,15 +20,11 @@
     padding-right: 0px;
 }
 
-.pagination > .button:hover
+.pagination > .button:not(.disabled):hover
 {
-    color: #307872;
+    color: $color-highlight-darkest;
 }
 
-.pagination > .button[disabled]:hover
-{
-    color: #c5c5c5;
-}
 
 .pagination .pages
 {

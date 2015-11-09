@@ -4,7 +4,8 @@
 {
     margin: 0 auto;
     width: 390px;
-    background-color: white;
+    background-color: $color-background-lightest;
+    color: $color-text-normal;
     box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
 }
 .dialog:not(.initialized)
@@ -30,8 +31,8 @@ main .dialog
 .dialog footer
 {
     position: relative;
-    background-color: #d4d4d4;
-    border-top: #c5c5c5 1px solid;
+    background-color: $color-background-darker;
+    border-top: $color-border-dark 1px solid;
     text-align: right;
 }
 
@@ -42,7 +43,7 @@ main .dialog
 
 .dialog footer .button.secondary
 {
-    border-left: #c5c5c5 1px solid;
+    border-left: $color-border-dark 1px solid;
 }
 
 .ajaxbox-inner .dialog header
@@ -65,6 +66,7 @@ main .dialog
 
 
 /* ui-dialog */
+// :TODO: see if this is actually used anywhere
 .ui-widget-overlay
 {
     background-color: rgba(0, 0, 0, 0.3);
@@ -78,7 +80,7 @@ main .dialog
 
 .ui-dialog
 {
-    background-color: white;
+    background-color: $color-background-lightest;
     box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
     max-width: 700px;
     z-index: 100;
@@ -86,7 +88,7 @@ main .dialog
 
 .ui-dialog > .ui-dialog-titlebar
 {
-    background: #111111;
+    background: $color-background-inverted-darkest;
     height: 38px;
     position: relative;
 }
@@ -94,7 +96,7 @@ main .dialog
 .ui-dialog > .ui-dialog-titlebar .ui-dialog-title
 {
     font-size: 1.215em;
-    color: white;
+    color: $color-text-inverted-lightest;
     line-height: 38px;
     padding-left: 15px;
     margin-right: 55px;
@@ -110,10 +112,10 @@ main .dialog
     width: 39px;
     height: 38px;
     line-height: 38px;
-    color: #269990;
+    color: $color-highlight-darker;
     text-align: center;
     text-decoration: none;
-    border-left: 1px solid #3c3c3c;
+    border-left: 1px solid $color-border-darkest;
     display: block;
     position: absolute;
     font-size: 1.142em;
@@ -123,8 +125,8 @@ main .dialog
 
 .ui-dialog > .ui-dialog-titlebar .ui-dialog-titlebar-close:hover
 {
-    background-color: #3c3c3c;
-    color: #37b1a7;
+    background-color: $color-background-inverted-lightest;
+    color: $color-highlight-normal;
     text-decoration: none;
 }
 
@@ -145,8 +147,8 @@ main .dialog
     margin: 0 auto;
     border-radius: 40px;
     width: 50px;
-    background-color: #d4d4d4;
-    color: white;
+    background-color: $color-background-darker;
+    color: $color-text-inverted-lightest;
     font-size: 3.57em;
     padding: 9px;
     text-align: center;
@@ -165,7 +167,7 @@ main .dialog
 
 .dialog.confirm.confirm-destroy .body .description
 {
-    color: #37b1a7;
+    color: $color-highlight-normal;
     font-size: 1em;
     line-height: 1.4em;
     font-weight: bold;
@@ -175,7 +177,7 @@ main .dialog
 {
     margin-top: 10px;
     overflow-y: auto;
-    color: #37b1a7;
+    color: $color-highlight-normal;
     font-size: 1em;
     line-height: 1.4em;
     font-weight: bold;

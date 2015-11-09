@@ -26,15 +26,15 @@ body > header .profile
     text-decoration: none;
     height: 20px;
     text-align: right;
-    color: #d4d4d4;
-    border-left: 1px solid #282828;
+    color: $color-text-inverted-normal;
+    border-left: 1px solid $color-border-inverted-normal;
     padding: 20px 30px;
 }
 
 body > header .profile:hover
 {
-    background-color: #282828;
-    color: #fff;
+    background-color: $color-background-inverted-normal;
+    color: $color-text-inverted-lightest;
 }
 
 
@@ -42,16 +42,16 @@ body > header .profile:hover
 body > header form.sign-out button
 {
     position: relative;
-    background-color: #282828;
-    color: #37b1a7;
+    background-color: $color-background-inverted-normal;
+    color: $color-highlight-normal;
     width: 60px;
     height: 60px;
 }
 
 body > header form.sign-out button:hover
 {
-    background-color: #37b1a7;
-    color: #282828;
+    background-color: $color-highlight-normal;
+    color: $color-background-inverted-normal;
 }
 
 body > header form.sign-out button i

@@ -8,8 +8,8 @@
 
 .controller-releaf-content-nodes .collection
 {
-    border-left:  1px solid #d4d4d4;
-    border-right: 1px solid #d4d4d4;
+    border-left:  1px solid $color-border-normal;
+    border-right: 1px solid $color-border-normal;
     font-size: 13px;
 }
 
@@ -34,7 +34,7 @@
 
 .controller-releaf-content-nodes .collection .toolbox-cell
 {
-    border-left: 1px solid #d4d4d4;
+    border-left: 1px solid $color-border-normal;
     float: right;
     margin-left: -50px;
     margin-bottom: -1px;
@@ -51,7 +51,7 @@
 
 .controller-releaf-content-nodes .collection .node-cell
 {
-    border-bottom: 1px solid #d4d4d4;
+    border-bottom: 1px solid $color-border-normal;
 }
 .controller-releaf-content-nodes .dialog .collection > ul li
 {
@@ -61,7 +61,7 @@
 .controller-releaf-content-nodes .collection .node-cell button
 {
     padding: 7px 10px;
-    color: #1d1d1d;
+    color: $color-text-normal;
     font-weight: bold;
     position: relative;
     width: 100%;
@@ -73,7 +73,7 @@
 .controller-releaf-content-nodes .collection .node-cell a
 {
     display: block;
-    color: #a6a6a6;
+    color: $color-text-lightest;
     text-decoration: none;
     padding: 5px 10px 5px 0;
     font-weight: bold;
@@ -82,7 +82,7 @@
 .controller-releaf-content-nodes .dialog .collection .node-cell.active label,
 .controller-releaf-content-nodes .collection .node-cell.active a
 {
-    color: #1a1a1a;
+    color: $color-text-normal;
 }
 
 .controller-releaf-content-nodes .dialog .body .node-cell label.selected,
@@ -90,7 +90,7 @@
 .controller-releaf-content-nodes .collection .node-cell button:hover,
 .controller-releaf-content-nodes .collection .node-cell a:hover
 {
-    background: #ccebe9;
+    background: $color-highlight-lightest;
 }
 
 .controller-releaf-content-nodes .dialog .body .node-cell input[type="radio"]
@@ -108,7 +108,7 @@
 
 .controller-releaf-content-nodes main .collection li  ul ul
 {
-    background: #e6e6e6;
+    background: $color-background-normal;
 }
 
 .controller-releaf-content-nodes .collection .collapser-cell
@@ -207,7 +207,7 @@
 
 .controller-releaf-content-nodes.view-edit .node-fields
 {
-    background: #f8f8f8;
+    background: $color-background-lighter;
 }
 
 .controller-releaf-content-nodes.view-edit .node-fields .field[data-name="template"] .value
@@ -235,7 +235,7 @@
 }
 .controller-releaf-content-nodes.view-edit .node-fields .field[data-name="slug"] .link span
 {
-    color: #1D1D1D;
+    color: $color-text-normal;
 }
 
 .controller-releaf-content-nodes.view-edit .node-fields .field[data-name="active"]
@@ -250,7 +250,7 @@
 .controller-releaf-content-nodes.view-edit .node-fields hr
 {
     clear: both;
-    border: 1px solid #d4d4d4;
+    border: 1px solid $color-border-normal;
     margin: 7px 34px 7px 0px;
 }
 
@@ -266,11 +266,11 @@
 .controller-releaf-content-nodes .dialog.copy .form-error-box,
 .controller-releaf-content-nodes .dialog.move .form-error-box
 {
-  border: 1px solid #D4D4D4;
+  border: 1px solid $color-border-normal;
   padding: 15px 25px;
   margin: 0px;
-  color: #b94a48;
-  background-color: #eed3d7;
+  color: $color-notification-error-text;
+  background-color: $color-notification-error-background;
   border-top: none;
   border-bottom: none;
 }

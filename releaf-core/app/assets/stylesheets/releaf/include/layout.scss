@@ -1,8 +1,8 @@
 /* main layout */
 body > header
 {
-    background: #111111;
-    color: #d4d4d4;
+    background: $color-background-inverted-darkest;
+    color: $color-text-inverted-lightest;
     height: 60px;
     position: relative;
     z-index: 10;

@@ -9,8 +9,8 @@ body
     min-height: 100%;
     font-size:   14px;
     line-height: 1.5;
-    background-color: #FFFFFF;
-    color: #1d1d1d;
+    background-color: $color-background-lightest;
+    color: $color-text-normal;
 }
 
 h1, h2, h3, h4, h5, h6, form
@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6, form
 
 a
 {
-    color: #37b1a7;
+    color: $color-highlight-normal;
     text-decoration: underline;
 }
 
@@ -85,7 +85,7 @@ input[type="submit"]:focus
 {
     outline-width: 1px;
     outline-style: dotted;
-    outline-color: #37b1a7;
+    outline-color: $color-highlight-normal;
 }
 
 button:active,

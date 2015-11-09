@@ -19,13 +19,13 @@
 
 #ui-datepicker-div
 {
-    background-color: white;
+    background-color: $color-background-lightest;
     box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
 }
 
 .ui-datepicker .ui-datepicker-header
 {
-    background: #111111;
+    background: $color-background-inverted-darker;
     height: 38px;
     border: none;
     padding: 0;
@@ -38,7 +38,7 @@
     width: 39px;
     height: 38px;
     line-height: 38px;
-    color: white;
+    color: $color-text-inverted-lightest;
     text-align: center;
     text-decoration: none;
     border: none;
@@ -46,8 +46,8 @@
 .ui-datepicker-header .ui-datepicker-next:hover,
 .ui-datepicker-header .ui-datepicker-prev:hover
 {
-    background: #3c3c3c;
-    color: #37b1a7;
+    background: $color-background-inverted-lightest;
+    color: $color-highlight-normal;
     text-decoration: none;
 }
 .ui-datepicker-header .ui-datepicker-prev
@@ -67,7 +67,7 @@
 {
     text-align: center;
     font-size: 1.215em;
-    color: white;
+    color: $color-text-inverted-lightest;
 }
 .ui-datepicker-header .ui-datepicker-title select
 {
@@ -81,9 +81,9 @@
 }
 .ui-datepicker-calendar thead
 {
-    color: #636363;
-    background-color: #e6e6e6;
-    border: 1px solid #e6e6e6;
+    color: $color-text-lighter;
+    background-color: $color-background-normal;
+    border: 1px solid $color-border-light;
 }
 .ui-datepicker-calendar thead th
 {
@@ -92,6 +92,7 @@
     text-transform: uppercase;
     line-height: 1em;
     padding: 7px 11px 6px;
+    // :TODO: set transparency color via variables
     text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.55);
 }
 .ui-datepicker table
@@ -101,7 +102,7 @@
 }
 .ui-datepicker-calendar td
 {
-    border: 1px solid #d4d4d4;
+    border: 1px solid $color-border-normal;
     text-align: center;
     vertical-align: middle;
     padding: 6px 11px;
@@ -109,7 +110,7 @@
 .ui-datepicker .ui-datepicker-calendar td a
 {
     display: inline;
-    color: #111111;
+    color: $color-text-darkest;
     border: 0;
     text-decoration: none;
     text-align: center;
@@ -121,18 +122,18 @@
 }
 .ui-datepicker-calendar td.ui-datepicker-current-day
 {
-    background-color: #d4d4d4;
+    background-color: $color-background-darker;
     text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.55);
 }
 .ui-datepicker-calendar td.ui-datepicker-current-day:hover,
 .ui-datepicker-calendar td:hover
 {
-    background-color: #37b1a7;
+    background-color: $color-highlight-normal;
     text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.55);
 }
 .ui-datepicker-calendar td:hover a
 {
-    color: white;
+    color: $color-background-lightest;
 }
 
 .ui-datepicker-div

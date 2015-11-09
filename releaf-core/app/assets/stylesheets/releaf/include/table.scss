@@ -3,15 +3,15 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
-    border: 1px solid #d4d4d4;
+    border: 1px solid $color-border-normal;
     border-top: none;
 }
 
 .table th,
 .table td
 {
-    border-left: 1px solid #d4d4d4;
-    border-right: 1px solid #d4d4d4;
+    border-left: 1px solid $color-border-normal;
+    border-right: 1px solid $color-border-normal;
 }
 
 /*
@@ -43,19 +43,19 @@ section .body > .table td:last-child
 
 .table tr:nth-child(odd) td
 {
-    background-color: #e6e6e6;
+    background-color: $color-background-normal;
 }
 
 .table tr:hover td
 {
-    background-color: #ccebe9;
+    background-color: $color-highlight-lightest;
 }
 
 .table td a:not(.button),
 .table td > span
 {
     text-decoration: none;
-    color: #1d1d1d;
+    color: $color-text-normal;
     display: inline-block;
     height: 100%;
     width: 100%;

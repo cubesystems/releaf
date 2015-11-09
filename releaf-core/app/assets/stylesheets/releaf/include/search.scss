@@ -1,7 +1,7 @@
 form.search
 {
     min-height: 20px;
-    border-bottom: 2px solid #e6e6e6;
+    border-bottom: 2px solid $color-border-light;
 }
 
 form.search.has-text-search
@@ -21,17 +21,17 @@ form.search .text-search
 
 form.search .text-search input[type="text"]
 {
-    color: #a6a6a6;
+    color: $color-text-lightest;
     font-weight: normal;
     padding: 0 25px 0 10px;
     width: 210px;
     height: 28px;
-    border: 1px solid #e6e6e6;
+    border: 1px solid $color-border-light;
 }
 
 form.search .text-search input[name="search"]
 {
-    border: 2px solid #e6e6e6;
+    border: 2px solid $color-border-light;
     border-bottom: none;
 }
 
@@ -42,22 +42,22 @@ form.search .text-search .button
     top: 0;
     background: transparent;
     padding: 5px 10px;
-    color: #37b1a7;
+    color: $color-highlight-normal;
 }
 
 form.search .text-search .button:hover
 {
-    color: #3c3c3c;
+    color: $color-text-light;
 }
 
 form.search .extras
 {
-    border: 1px solid #e6e6e6;
+    border: 1px solid $color-border-light;
     border-top: none;
-    background-color: #f8f8f8;
+    background-color: $color-background-lighter;
     padding: 23px;
     clear: both;
-    border-top: 2px solid #e6e6e6;
+    border-top: 2px solid $color-border-light;
 }
 
 form.search .extras button

@@ -3,7 +3,7 @@
     display: inline-block;
     background: none;
     padding: 5px;
-    color: #37b1a7;
+    color: $color-highlight-normal;
 }
 
 .toolbox .trigger:hover,
@@ -11,12 +11,12 @@
 .toolbox .trigger:active
 {
     background: none;
-    color: #269990;
+    color: $color-highlight-darker;
 }
 
 .toolbox .trigger[disabled]
 {
-    color: #a6a6a6;
+    color: $color-text-lightest;
     background: none;
 }
 
@@ -40,14 +40,14 @@
 
 .toolbox-items li:not(:last-child) .button
 {
-    border-bottom: 1px solid #3c3c3c;
+    border-bottom: 1px solid $color-border-inverted-lighter;
 }
 
 .toolbox-items .button
 {
     display: block;
-    background: #282828;
-    color: #37b1a7;
+    background: $color-background-inverted-normal;
+    color: $color-highlight-normal;
     white-space: nowrap;
 
     -moz-box-sizing: border-box;
@@ -58,19 +58,19 @@
 
 .toolbox-items .button.danger
 {
-    background: #282828;
-    color: #ee462a;
+    background: $color-background-inverted-normal;
+    color: $color-alert;
 }
 
 .toolbox-items .button:hover
 {
-    background: #37b1a7;
-    color: #ffffff;
+    background: $color-highlight-normal;
+    color: $color-text-inverted-lightest;
 }
 
 .toolbox-items .button.danger:hover
 {
-    background: #ee462a;
+    background: $color-alert;
 }
 
 .toolbox-overlay

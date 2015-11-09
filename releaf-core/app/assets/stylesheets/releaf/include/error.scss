@@ -11,7 +11,7 @@ section.error h1
 
 section.error h1 i
 {
-    color: #ee462a;
+    color: $color-alert;
     font-size: 25px;
     position: absolute;
     left: 0px;
@@ -21,7 +21,7 @@ section.error h1 i
 
 section.error .description
 {
-    color: #636363;
+    color: $color-text-lighter;
     font-size: 14px;
     line-height: 25px;
     margin: 18px 0;

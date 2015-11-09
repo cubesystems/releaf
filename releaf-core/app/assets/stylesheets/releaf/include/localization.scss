@@ -5,7 +5,6 @@
 
 .localization-switch
 {
-    color: #1d1d1d;
     font-size: 12px;
     position: absolute;
     right: 0;
@@ -16,30 +15,30 @@
 {
     display: inline-block;
     padding: 4px 9px 4px 11px;
-    border: 1px solid #d4d4d4;
-    background: #f8f8f8;
+    border: 1px solid $color-border-normal;
+    background: $color-background-lighter;
+    color: $color-text-normal;
     text-transform: uppercase;
 }
 
 .localization-switch .trigger i
 {
-    color: #307872;
+    color: $color-highlight-darkest;
     margin-left: 9px;
 }
 
 .localization-switch .trigger:hover
 {
-    border-color: #a6a6a6;
+    border-color: $color-border-darker;
 }
 
 .localization-switch .trigger:focus,
 .localization-switch .trigger:active
 {
-    background-color: #c5c5c5;
-    border-color: #c5c5c5;
-    color: #1d1d1d;
+    background-color: $color-background-darkest;
+    border-color: $color-background-darkest;
+    color: $color-text-normal;
 }
-
 
 
 .localization-menu-items
@@ -50,7 +49,7 @@
     left: 0;
     text-align: left;
     z-index: 100;
-    border: 1px solid #d4d4d4;
+    border: 1px solid $color-border-normal;
 
     box-shadow: 0 0 2px 2px rgba(0,0,0,0.1);
 }
@@ -63,7 +62,7 @@
 .localization-menu-items button
 {
     display: block;
-    background: #fff;
+    background: $color-background-lightest;
     white-space: nowrap;
 
     -moz-box-sizing: border-box;
@@ -79,7 +78,7 @@
 
 .localization-menu-items button:hover
 {
-    background: #e6e6e6;
+    background: $color-background-normal;
 }
 
 .localization-menu-overlay

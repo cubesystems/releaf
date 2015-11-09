@@ -4,8 +4,8 @@
     top: 0;
     left: 0;
     cursor: default;
-    background-color: #f8f8f8;
-    border: 1px solid #d4d4d4;
+    background-color: $color-background-lighter;
+    border: 1px solid $color-border-normal;
     box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
     border-radius: 0px;
     padding: 0px 0px;
@@ -24,14 +24,14 @@
 .ui-autocomplete > .ui-menu-item a
 {
     font-size: 1em;
-    color: #1d1d1d;
+    color: $color-text-normal;
 }
 
 .ui-autocomplete > .ui-menu-item a.ui-state-active,
 .ui-autocomplete > .ui-menu-item a.ui-state-focus
 {
-    background-color: #37b1a7;
-    color: white;
+    background-color: $color-highlight-normal;
+    color: $color-text-inverted-lightest;
 }
 
 .ui-menu .ui-menu

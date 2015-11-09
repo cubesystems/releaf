@@ -13,8 +13,8 @@ body > .notifications .notification
 {
     position: relative;
 
-    background: #F8F8F8;
-    color: #636363;
+    background: $color-background-lighter;
+    color: $color-text-lighter;
 
     border-radius: 0;
     padding: 7px 35px 0 14px;
@@ -27,14 +27,14 @@ body > .notifications .notification
 
 body > .notifications .notification[data-type="success"]
 {
-    background-color: #ddf4d0;
-    color: #468847;
+    background-color: $color-notification-success-background;
+    color: $color-notification-success-text;
 }
 
 body > .notifications .notification[data-type="error"]
 {
-    background-color: #eed3d7;
-    color: #b94a48;
+    background-color: $color-notification-error-background;
+    color: $color-notification-error-text;
 }
 
 body > .notifications .notification > .icon

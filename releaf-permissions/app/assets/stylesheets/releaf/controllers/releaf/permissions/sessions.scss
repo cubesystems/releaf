@@ -1,14 +1,17 @@
+@import 'releaf/environment';
+
 html, body
 {
     margin: 0;
     padding: 0;
     height: 100%;
-    color: #fff;
 }
 
 body
 {
-    background: #111;
+    // :TODO: inverted mixin
+    background: $color-background-inverted-darkest;
+    color: $color-text-inverted-lightest;
 }
 
 body.controller-releaf-permissions-sessions
@@ -64,7 +67,7 @@ body.controller-releaf-permissions-sessions
     {
         font-weight: normal;
         margin-bottom: 10px;
-        background-color: #fff;
+        background-color: $color-background-lightest;
         box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -77,13 +80,13 @@ body.controller-releaf-permissions-sessions
 
     .control-group button:hover, .control-group button:focus
     {
-        background: #269990;
+        background: $color-highlight-darker;
     }
 
     .control-group button
     {
         margin-top: 23px;
-        background-color: #37b1a7;
+        background-color: $color-highlight-normal;
     }
 
 }

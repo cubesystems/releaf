@@ -1,7 +1,7 @@
 body > aside
 {
-    background: #1d1d1d;
-    color: #d4d4d4;
+    background: $color-background-inverted-darker;
+    color: $color-text-inverted-normal;
     position: absolute;
     width: 240px;
     left: 0;
@@ -21,7 +21,7 @@ body > aside > nav
 
 body > aside nav li
 {
-    border-bottom: 1px solid #282828;
+    border-bottom: 1px solid $color-border-inverted-normal;
     position: relative;
 }
 
@@ -30,7 +30,7 @@ body > aside nav li .collapser
     position: absolute;
     right: 0;
     top: 0;
-    color: #3c3c3c;
+    color: $color-background-inverted-lightest;
 }
 
 body > aside nav li .collapser button
@@ -44,13 +44,13 @@ body > aside nav li .collapser button
 
 body > aside nav li li
 {
-    background: #282828;
+    background: $color-background-inverted-normal;
     border-bottom: none;
 }
 
 body > aside nav li .trigger
 {
-    color: #d4d4d4;
+    color: $color-text-inverted-normal;
     display: block;
     padding: 5px;
     text-decoration: none;
@@ -61,29 +61,29 @@ body > aside nav li .trigger
 
 body > aside nav > ul > li > .trigger:hover
 {
-    background-color: #111111;
-    color: #fff;
+    background-color: $color-background-inverted-darkest;
+    color: $color-text-inverted-lightest;
 }
 
 body > aside nav .trigger:hover
 {
-    color: #fff;
+    color: $color-text-inverted-lightest;
 }
 
 body > aside nav > ul > li > .trigger:hover .collapser
 {
-    color: #a6a6a6;
+    color: $color-text-inverted-darker;
 }
 
 body > aside nav > ul > li.active > .trigger
 {
-    background-color: #37b1a7;
-    color: #111111;
+    background-color: $color-highlight-normal;
+    color: $color-text-darkest;
 }
 
 body > aside nav > ul > li.active > .trigger .collapser
 {
-    color: #111111;
+    color: $color-text-darkest;
 }
 
 body > aside nav .trigger > abbr
@@ -98,7 +98,7 @@ body > aside nav > ul > li > .trigger > .name
 
 body > aside nav li li .trigger
 {
-    color: #a6a6a6;
+    color: $color-text-inverted-darker;
     position: relative;
     padding: 4px 40px 5px 40px;
 }
@@ -115,8 +115,8 @@ body > aside nav li li:last-child .trigger
 
 body > aside nav li li.active > .trigger
 {
-    color: #ffffff;
-    background: #3c3c3c;
+    color: $color-text-inverted-lightest;
+    background: $color-background-inverted-lightest;
 }
 
 body > aside nav li.collapsed ul
@@ -132,7 +132,7 @@ body > aside nav li.collapsed ul
 body > aside .compacter
 {
     text-align: right;
-    border-bottom: 1px solid #282828;
+    border-bottom: 1px solid $color-border-inverted-normal;
 }
 
 body > aside .compacter button
@@ -140,17 +140,17 @@ body > aside .compacter button
     padding: 0;
     height: 39px;
     width: 45px;
-    background: #1d1d1d;
+    background: $color-background-inverted-darker;
 }
 
 body > aside .compacter button:hover
 {
-    background: #282828;
+    background: $color-background-inverted-normal;
 }
 
 body > aside .compacter i
 {
-    color: #37b1a7;
+    color: $color-highlight-normal;
     font-size: 20px;
 }
 
@@ -219,19 +219,19 @@ body.side-compact > aside nav > ul > li.open > .trigger .name
     width: 227px;
     padding: 9px 0 0 14px;
     display: block;
-    background: #111111;
+    background: $color-background-inverted-darkest;
 }
 
 body.side-compact > aside nav > ul > li.open > .trigger
 {
-    background-color: #111111;
-    color: #fff;
+    background-color: $color-background-inverted-darkest;
+    color: $color-text-inverted-lightest;
 }
 
 body.side-compact > aside nav > ul > li.active > .trigger,
 body.side-compact > aside nav > ul > li.active > .trigger .name
 {
-    background-color: #37b1a7;
+    background-color: $color-highlight-normal;
 }
 
 body.side-compact > aside nav > ul > li.open > ul
@@ -241,7 +241,7 @@ body.side-compact > aside nav > ul > li.open > ul
     left: 41px;
     width: 240px;
     display: block;
-    background: #111111;
+    background: $color-background-inverted-darkest;
 }
 
 body.side-compact > aside nav > ul > li > ul
