@@ -30,7 +30,7 @@ main .dialog
 .dialog footer
 {
     position: relative;
-    background-color: #d9d9d9;
+    background-color: #d4d4d4;
     border-top: #c5c5c5 1px solid;
     text-align: right;
 }
@@ -86,7 +86,7 @@ main .dialog
 
 .ui-dialog > .ui-dialog-titlebar
 {
-    background: black;
+    background: #111111;
     height: 38px;
     position: relative;
 }
@@ -113,7 +113,7 @@ main .dialog
     color: #34958d;
     text-align: center;
     text-decoration: none;
-    border-left: 1px solid #515151;
+    border-left: 1px solid #3c3c3c;
     display: block;
     position: absolute;
     font-size: 1.142em;
@@ -123,7 +123,7 @@ main .dialog
 
 .ui-dialog > .ui-dialog-titlebar .ui-dialog-titlebar-close:hover
 {
-    background-color: #3a3a3a;
+    background-color: #3c3c3c;
     color: #37b1a7;
     text-decoration: none;
 }
@@ -132,7 +132,6 @@ main .dialog
 /* confirm_destroy and refused_destroy dialogs */
 .dialog.confirm .body,
 .dialog.refused-destroy .body
-
 {
     padding: 37px 10px 55px;
     text-align: center;
