@@ -49,7 +49,7 @@ module Releaf::I18nDatabase
     end
 
     def resources
-      Releaf::I18nDatabase::TranslationsUtilities.include_local_tables(super)
+      Releaf::I18nDatabase::TranslationsUtilities.include_localizations(super).order(:key)
     end
 
     # overwrite search here
@@ -110,7 +110,7 @@ module Releaf::I18nDatabase
 
       translations_params ||= []
       translations_params.each do |values|
-        translation = Releaf::I18nDatabase::TranslationsUtilities.load_translation(values["key"], values["localizations"])
+        translation = load_translation(values["key"], values["localizations"])
 
         if translation.valid?
           @translations_to_save << translation
@@ -123,6 +123,30 @@ module Releaf::I18nDatabase
       end
 
       valid
+    end
+
+    def load_translation(key, localizations)
+      translation = Releaf::I18nDatabase::Translation.where(key: key).first_or_initialize
+      translation.key = key
+
+      localizations.each_pair do |locale, localization|
+        load_translation_data(translation, locale, localization)
+      end
+
+      translation
+    end
+
+    def load_translation_data(translation, locale, localization)
+      translation_data = translation.translation_data.find{ |x| x.lang == locale }
+      # replace existing locale value only if new one is not blank
+      if translation_data
+        translation_data.localization = localization
+        # always assign value for new locale
+      elsif translation_data.nil?
+        translation_data = translation.translation_data.build(lang: locale, localization: localization)
+      end
+
+      translation_data
     end
 
     def update_response_success
