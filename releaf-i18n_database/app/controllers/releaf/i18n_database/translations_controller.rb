@@ -1,4 +1,3 @@
-# TODO convert to arel
 module Releaf::I18nDatabase
   class TranslationsController < ::Releaf::BaseController
     def self.resource_class
@@ -14,7 +13,6 @@ module Releaf::I18nDatabase
       @collection = resources
       search(params[:search])
 
-
       respond_to do |format|
         format.xlsx do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{export_file_name}\""
@@ -27,28 +25,6 @@ module Releaf::I18nDatabase
 
       if %w[edit update].include?(params[:action]) && !params.has_key?(:import)
         @breadcrumbs << { name: I18n.t("edit translations", scope: controller_scope_name), url: url_for(action: :edit, search: params[:search]) }
-      end
-    end
-
-    def load_translation key, localizations
-      translation = Releaf::I18nDatabase::Translation.where(key: key).first_or_initialize
-      translation.key = key
-
-      localizations.each_pair do |locale, localization|
-        load_translation_data(translation, locale, localization)
-      end
-
-      translation
-    end
-
-    def load_translation_data translation, locale, localization
-      translation_data = translation.translation_data.find{ |x| x.lang == locale }
-      # replace existing locale value only if new one is not blank
-      if translation_data
-        translation_data.localization = localization
-      # always assign value for new locale
-      elsif translation_data.nil?
-        translation_data = translation.translation_data.build(lang: locale, localization: localization)
       end
     end
 
@@ -73,24 +49,12 @@ module Releaf::I18nDatabase
     end
 
     def resources
-      relation = super
-
-      sql = "
-      LEFT OUTER JOIN
-        releaf_translation_data AS %s_data ON %s_data.translation_id = releaf_translations.id AND %s_data.lang = '%s'
-      "
-
-      Releaf.application.config.all_locales.each do |locale|
-        relation = relation.joins(sql % ([locale] * 4))
-      end
-
-      relation.select(columns_for_select).order(:key)
+      Releaf::I18nDatabase::TranslationsUtilities.include_local_tables(super)
     end
 
-    # overwrite leaf base class
-    def search lookup_string
-      search_by_lookup_string lookup_string if lookup_string.present?
-      find_blank_translations if params[:only_blank] == 'true'
+    # overwrite search here
+    def search(lookup_string)
+      @collection = Releaf::I18nDatabase::TranslationsUtilities.search(@collection, lookup_string, params[:only_blank].present?)
     end
 
     def import
@@ -113,35 +77,6 @@ module Releaf::I18nDatabase
     end
 
     protected
-
-    def find_blank_translations
-      sql = search_column_names.map do |column|
-        %[#{column} IS NULL OR #{column} = '']
-      end.join(' OR ')
-      @collection = @collection.where(sql)
-    end
-
-    def search_by_lookup_string lookup_string
-      sql = search_column_names.map do |column|
-        column_query = lookup_string.split(' ').map do |part|
-          ActiveRecord::Base.send(:sanitize_sql_array, ["#{column} LIKE ?", "%#{escape_lookup_string(part)}%" ])
-        end.join(' AND ')
-        "(#{column_query})"
-      end.join(' OR ')
-
-      @collection = @collection.where(sql)
-    end
-
-    def escape_lookup_string string
-      escapable_chars = %w{% _}
-      result = string.dup
-
-      escapable_chars.each do |char|
-        result.gsub! char, '\\' + char
-      end
-
-      result
-    end
 
     def import_view
       @import = true
@@ -175,7 +110,7 @@ module Releaf::I18nDatabase
 
       translations_params ||= []
       translations_params.each do |values|
-        translation = load_translation(values["key"], values["localizations"])
+        translation = Releaf::I18nDatabase::TranslationsUtilities.load_translation(values["key"], values["localizations"])
 
         if translation.valid?
           @translations_to_save << translation
@@ -188,23 +123,6 @@ module Releaf::I18nDatabase
       end
 
       valid
-    end
-
-    def search_column_names
-      ['releaf_translations.key'] + Releaf.application.config.all_locales.map { |l| "%s_data.localization" % l }
-    end
-
-    def columns_for_select
-      (['releaf_translations.*'] + localization_columns).join(', ')
-    end
-
-    def localization_columns
-      Releaf.application.config.all_locales.map do |l|
-        [
-          "%s_data.localization AS %s_localization" % [l, l],
-          "%s_data.id AS %s_localization_id" % [l, l]
-        ]
-      end.flatten
     end
 
     def update_response_success
