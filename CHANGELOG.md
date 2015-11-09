@@ -1,4 +1,106 @@
 ## Changelog
+### 2015.11.09
+* Refactored Releaf node public route definition syntax.
+  Old syntax:
+  ```ruby
+  Rails.application.routes.draw do
+    Releaf::Content::Route.for(HomePage).each do |route|
+      get route.params('home_pages#show')
+    end
+  end
+  ```
+
+  New equivalent:
+  ```ruby
+  Rails.application.routes.draw do
+    releaf_routes_for(HomePage) do
+      get 'show'
+    end
+  end
+  ```
+
+  ```releaf_routes_for``` accepts two parameters: node content class and
+  optional options hash. By default ```releaf_routes_for``` routes requests to
+  pluralized content class name controller (HomePage -> HomePagesController).
+  It is possible to owerride default providing ```:controller``` option with
+  string representation of controllers name (such as ```'text_pages```', which
+  will route to ```TextPagesController```).
+  Example:
+  ```ruby
+  releaf_routes_for(HomePage, controller: 'text_pages') do
+    get 'show'
+  end
+  ```
+
+  ```releaf_routes_for``` supports all simple route definition methos such as
+  ```get```, ```put```, ```patch```, ```post```, ```delete``` etc.
+  ```resources```, ```resource```, ```scope```, ```namespace``` however aren't
+  supported and will cause unexpected behaviour (most likely an exception), if
+  used.
+
+  Old syntax is still supported, however it is advised to migrate to new syntex.
+
+  Here are all possible examples of new syntax (Given node.url is ```/examples```):
+  ```ruby
+  releaf_routes_for(HomePage) do
+    get 'index' # GET '/examples' => HomePagesController#index
+    get ':id' # GET '/examples/12' => HomePagesController#show, id == '12'
+    delete ':id' # DELETE '/examples/12' => HomePagesController#destroy, id == '12'
+    get ':id/details', to: 'details#show' # GET '/examples/12/details' => DetailsController#show, id == '12'
+  end
+
+  releaf_routes_for(TextPage, controller: 'info_pages') do
+    get 'index' # GET '/examples' => InfoPagesController#index
+    delete 'text_pages#destroy' # DELETE '/examples' => TextPagesController#destroy
+    get 'info', to: '#info' # GET '/examples/info' => InfoPagesController#info
+    get 'full-info', to: 'advanced_info_pages#info' # GET '/examples/full-info' => AdvancedInfoPagesController#info
+  end
+  ```
+
+  Naturally you can pass ```:as```, ```:constraints``` and other options supported by regular ```get```, ```put``` and other methods.
+
+  General rules of thumb:
+  1) to create route to default contrller and to url of node, then just create
+    route with string target method name:
+    ```ruby
+    releaf_routes_for(TextPage) do
+      get 'index'
+    end
+    ```
+  2) to create route to different controller, add ```:to``` option and specify
+    controller and action:
+    ```ruby
+    releaf_routes_for(TextPage) do
+      get 'list', to: 'info_pages#index'
+    end
+    ```
+  3) to create route with additonal url, that routes to default controller,
+    don't specify controller controller in ```:to``` option:
+    ```ruby
+    releaf_routes_for(TextPage) do
+      get 'list', to: '#index'
+    end
+    ```
+  4) To route to differnt contrller from node url, just specify controller and
+    action as first argument:
+    ```ruby
+    releaf_routes_for(TextPage) do
+      get 'info_pages#show'
+    end
+    ```
+  5) to change default controller, pass ```:controller``` argument:
+    ```ruby
+    releaf_routes_for(TextPage, controller: 'info_pages') do
+      get 'index'
+    end
+    ```
+
+  Feel free to investigage
+  [pull request](https://github.com/cubesystems/releaf/pull/246)
+  and especially
+  [routing tests](https://github.com/graudeejs/releaf/blob/05e1b7062e4bdc25e8457b338061b2e0bae76159/releaf-content/spec/routing/node_mapper_spec.rb)
+
+
 ### 2015.10.14
 * `Releaf::Core::Application` and `Releaf::Core::Configuration` introduced
 * From now all settings is available through `Releaf.application.config`
