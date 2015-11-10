@@ -7,6 +7,14 @@ module Releaf::Content
       ::Node
     end
 
+    def self.node_class_default_controller(node_class)
+      if node_class <= ActionController::Base
+        node_class.name.underscore.sub(/_controller$/, '')
+      else
+        node_class.name.pluralize.underscore
+      end
+    end
+
     # Return node route params which can be used in Rails route options
     #
     # @param method_or_path [String] string with action and controller for route (Ex. home#index)
