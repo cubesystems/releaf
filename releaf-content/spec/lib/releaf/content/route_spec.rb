@@ -9,6 +9,20 @@ describe Releaf::Content::Route do
     end
   end
 
+  describe ".node_class_default_controller" do
+    context "when given node class inherits `ActionController::Base`" do
+      it "returns undercored, stripped down controller class" do
+        expect(described_class.node_class_default_controller(HomePagesController)).to eq("home_pages")
+      end
+    end
+
+    context "when given node class does not inherit `ActionController::Base`" do
+      it "returns pluralized, underscorized class" do
+        expect(described_class.node_class_default_controller(TextPage)).to eq("text_pages")
+      end
+    end
+  end
+
   describe ".for" do
     before do
       create(:home_page_node)
