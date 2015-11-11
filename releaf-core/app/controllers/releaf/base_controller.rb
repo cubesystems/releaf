@@ -79,7 +79,7 @@ module Releaf
 
     def confirm_destroy
       prepare_destroy
-      @restricted_relations = restricted_relations unless destroyable?
+      @restricted_relations = Releaf::Core::ResourceUtilities.restricted_relations(@resource)
       respond_with(@resource, destroyable: destroyable?)
     end
 
@@ -98,38 +98,8 @@ module Releaf
     #
     # @return boolean true or false
     def destroyable?
-      resource_class.reflect_on_all_associations.all? do |assoc|
-        assoc.options[:dependent] != :restrict_with_exception ||
-          !@resource.send(assoc.name).exists?
-      end
+      Releaf::Core::ResourceUtilities.destroyable?(@resource)
     end
-
-
-    # Lists relations for @resource with dependent: :restrict_with_exception
-    #
-    # @return hash of all related objects, who have dependancy :restrict_with_exception
-    def restricted_relations
-      relations = {}
-      resource_class.reflect_on_all_associations.each do |assoc|
-        if assoc.options[:dependent] == :restrict_with_exception && @resource.send(assoc.name).exists?
-          relations[assoc.name.to_sym] = {
-            objects:    @resource.send(assoc.name),
-            controller: association_controller(assoc)
-          }
-        end
-      end
-
-      relations
-    end
-
-    # Attempts to guess associated controllers name
-    #
-    # @return controller name
-    def association_controller association
-      guessed_name = association.name.to_s.pluralize
-      guessed_name if Releaf.application.config.controllers.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
-    end
-
 
     # Helper methods ##############################################################################
 
