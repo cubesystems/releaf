@@ -38,15 +38,18 @@ jQuery(function () {
         var set_previous_values = function () {
             elements.inputs.each(function () {
                 var input = jQuery(this);
-
-                if (input.is('input[type="checkbox"]:not(:checked)')) {
-                    input.data('previous-value', '');
-                } else if(!(input.is('input[type="checkbox"]:checked'))) {
-                    input.data('previous-value', input.val());
-                } else {
-                    input.data('previous-value', input.val() || '');
-                }
+                input.data('previous-value', get_current_value(input));
             });
+        };
+
+        var get_current_value = function(input) {
+            if (input.is('input[type="checkbox"]:not(:checked)')) {
+                return '';
+            } else if(!(input.is('input[type="checkbox"]:checked'))) {
+                return input.val();
+            } else {
+                return (input.val() || '');
+            }
         };
 
         var start_search = function () {
@@ -93,7 +96,8 @@ jQuery(function () {
         var start_search_if_value_changed = function () {
             var input = jQuery(this);
 
-            if (input.val() === input.data('previous-value')) {
+            if (get_current_value(input) === input.data('previous-value'))
+            {
                 return;
             }
 

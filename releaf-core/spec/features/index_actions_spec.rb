@@ -17,6 +17,12 @@ feature "Base controller index", js: true do
     visit admin_books_path
     search "good"
     expect(page).to have_number_of_resources(1)
+
+    check "Only active"
+    expect(page).to have_number_of_resources(0)
+
+    uncheck "Only active"
+    expect(page).to have_number_of_resources(1)
   end
 
   scenario "search by 2nd level nested fields" do
