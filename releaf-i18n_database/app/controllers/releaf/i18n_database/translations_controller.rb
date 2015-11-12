@@ -88,10 +88,12 @@ module Releaf::I18nDatabase
       }
     end
 
+    def action_views
+      super.merge(import: :edit)
+    end
+
     def action_features
-      {
-        index: :index,
-      }.with_indifferent_access
+      {index: :index}.with_indifferent_access
     end
 
     private
