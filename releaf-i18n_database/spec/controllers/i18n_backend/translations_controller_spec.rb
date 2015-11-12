@@ -95,11 +95,11 @@ describe Releaf::I18nDatabase::TranslationsController do
 
       context "when save without import" do
         before do
-          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], search: "apple and pear"
+          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
         end
 
-        it "redirects to edit view keeping current search params" do
-          expect(subject).to redirect_to(action: :edit, search: "apple and pear")
+        it "redirects to edit view" do
+          expect(subject).to redirect_to(action: :edit)
         end
 
         it "flash success notification" do
