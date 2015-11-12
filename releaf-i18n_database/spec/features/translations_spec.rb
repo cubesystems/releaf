@@ -3,15 +3,47 @@ feature "Translations" do
   background do
     auth_as_user
 
-    @t1 = FactoryGirl.create(:translation, key: 'test.key1')
-    @t2 = FactoryGirl.create(:translation, key: 'great.stuff')
-    @t3 = FactoryGirl.create(:translation, key: 'geek.stuff')
+    t1 = create(:translation, key: 'test.key1')
+    t2 = create(:translation, key: 'great.stuff')
+    t3 = create(:translation, key: 'geek.stuff')
+    create(:translation_data, lang: 'en', localization: 'testa atslēga', translation_id: t1.id)
+    create(:translation_data, lang: 'en', localization: 'awesome stuff', translation_id: t2.id)
+    create(:translation_data, lang: 'lv', localization: 'lieliska manta', translation_id: t2.id)
+    create(:translation_data, lang: 'en', localization: 'geek stuff', translation_id: t3.id)
+    create(:translation_data, lang: 'lv', localization: 'nūģu lieta', translation_id: t3.id)
+  end
 
-    FactoryGirl.create(:translation_data, lang: 'en', localization: 'testa atslēga', translation_id: @t1.id)
-    FactoryGirl.create(:translation_data, lang: 'en', localization: 'awesome stuff', translation_id: @t2.id)
-    FactoryGirl.create(:translation_data, lang: 'lv', localization: 'lieliska manta', translation_id: @t2.id)
-    FactoryGirl.create(:translation_data, lang: 'en', localization: 'geek stuff', translation_id: @t3.id)
-    FactoryGirl.create(:translation_data, lang: 'lv', localization: 'nūģu lieta', translation_id: @t3.id)
+  scenario "blank only filtering", js: true  do
+    visit releaf_i18n_database_translations_path
+    expect(page).to have_number_of_resources(3)
+
+    check "Only blank"
+    expect(page).to have_number_of_resources(1)
+
+    click_link "Edit"
+    expect(page).to have_css(".table tbody.list tr", count: 1)
+
+    within ".table tr.item:first-child" do
+      fill_in "translations[][localizations][lv]", with: "lv tulkojums"
+      fill_in "translations[][localizations][en]", with: "en translation"
+    end
+    click_button "Save"
+    expect(page).to have_notification("Update succeeded")
+
+    # TODO: fix when phantomjs will have file download implemented
+    #click_link "Export"
+    #filename = page.response_headers["Content-Disposition"].split("=")[1].gsub("\"","")
+    #tmp_file = Dir.tmpdir + '/' + filename
+    #File.open(tmp_file, "wb") { |f| f.write(page.body) }
+    #fixture_path = File.expand_path('../fixtures/blank_translations_exported.xlsx', __dir__)
+    #expect(tmp_file).to match_excel(fixture_path)
+    #File.delete(tmp_file)
+
+    click_link "Back to list"
+    expect(page).to have_number_of_resources(0)
+
+    uncheck "Only blank"
+    expect(page).to have_number_of_resources(3)
   end
 
   scenario "index" do

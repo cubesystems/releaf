@@ -22,7 +22,6 @@ module Releaf
       :table_options,
       :ajax?,
       :controller_scope_name,
-      :current_params,
       :current_url,
       :active_view,
       :index_url,
@@ -107,15 +106,7 @@ module Releaf
     #
     # @return String
     def current_url
-      if @current_url.nil?
-        @current_url = request.path
-        real_params = params.except(:action, :controller, :ajax)
-        unless real_params.empty?
-          @current_url += "?#{real_params.to_query}"
-        end
-      end
-
-      @current_url
+      @current_url ||= [request.path, (request.query_parameters.to_query if request.query_parameters.present?)].compact.join("?")
     end
 
     # Returns index url for current request
@@ -424,11 +415,6 @@ module Releaf
       url_for(action: 'edit', id: @resource.id, index_url: index_url)
     end
 
-    # returns all params except :controller, :action and :format
-    def current_params
-      params.except(:controller, :action, :format)
-    end
-
     def feature_disabled exception
       @feature = exception.message
       respond_with(nil, responder: action_responder(:feature_disabled))
@@ -448,7 +434,10 @@ module Releaf
 
     def manage_ajax
       @_ajax = params.has_key? :ajax
-      params.delete(:ajax)
+      if @_ajax
+        request.query_parameters.delete(:ajax)
+        params.delete(:ajax)
+      end
     end
   end
 end

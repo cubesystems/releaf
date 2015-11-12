@@ -156,7 +156,7 @@ module Releaf::I18nDatabase
         redirect_to action: :index
       else
         render_notification true
-        redirect_to action: :edit, search: params[:search]
+        redirect_to({action: :edit}.merge(request.query_parameters))
       end
     end
 
