@@ -1,4 +1,8 @@
 ## Changelog
+### 2015.11.12
+* `current_params` method removed from `Releaf::BaseController`. Is it
+  recommended to simply use `request.query_parameters` instead.
+
 ### 2015.11.09
 * Refactored Releaf node public route definition syntax.
   Old syntax:
