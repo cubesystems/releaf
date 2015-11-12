@@ -76,8 +76,6 @@ module Releaf::I18nDatabase
       true
     end
 
-    protected
-
     def import_view
       @import = true
       @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
@@ -156,7 +154,7 @@ module Releaf::I18nDatabase
         redirect_to action: :index
       else
         render_notification true
-        redirect_to action: :edit, search: params[:search]
+        redirect_to({action: :edit}.merge(request.query_parameters))
       end
     end
 

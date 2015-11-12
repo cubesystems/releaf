@@ -4,10 +4,8 @@ module Releaf::I18nDatabase::Translations
 
     def section
       tag(:section) do
-        form_tag url_for( action: :update, search: params[:search] ) do
-          safe_join do
-            section_blocks
-          end
+        form_tag(action_url(:update)) do
+          safe_join{ section_blocks }
         end
       end
     end
@@ -23,22 +21,19 @@ module Releaf::I18nDatabase::Translations
     end
 
     def save_button
-      if import?
-        button_text = t("Import")
-      else
-        button_text = t("Save")
-      end
+      button(save_button_text, "check", class: "primary", data: { type: 'ok' }, type: "submit")
+    end
 
-      button(button_text, "check", class: "primary", data: { type: 'ok' }, type: "submit")
+    def save_button_text
+      t(import? ? "Import" : "Save")
     end
 
     def footer_secondary_tools
-      [back_to_index_button, (export_button unless import?)]
+      [back_to_index_button, (export_button unless import?)].compact
     end
 
     def back_to_index_button
-      url = url_for( action: :index, search: params[:search])
-      button(t("Back to list"), "caret-left", class: "secondary", href: url)
+      button(t("Back to list"), "caret-left", class: "secondary", href: action_url(:index))
     end
 
     def section_header; end
