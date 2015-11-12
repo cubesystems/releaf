@@ -76,8 +76,6 @@ module Releaf::I18nDatabase
       true
     end
 
-    protected
-
     def import_view
       @import = true
       @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
