@@ -72,10 +72,6 @@ module Releaf::I18nDatabase
       end
     end
 
-    def searchable_fields
-      true
-    end
-
     def import_view
       @import = true
       @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
