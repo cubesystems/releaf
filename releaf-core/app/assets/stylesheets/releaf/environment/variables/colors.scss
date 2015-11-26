@@ -44,6 +44,12 @@ $color-border-inverted-normal:  #282828;
 $color-border-inverted-lighter: #3c3c3c;
 
 
+$color-background-see-through:  create-rgba( #000, 0.6 );
+
+
+$color-shadow-normal:   $color-background-see-through;
+$color-shadow-lighter:  create-rgba( $color-shadow-normal,  0.3 );
+$color-shadow-lightest: create-rgba( $color-shadow-normal,  0.1 );
 
 
 // shades of the highlight color:
@@ -68,8 +74,6 @@ $color-notification-error-text:             #b94a48;
 $color-notification-success-text:           #468847;
 $color-notification-success-background:     #ddf4d0;
 
-
-// :TODO: add semitransparent colors (rgba)
 
 
 // dummy colors for debugging

@@ -20,7 +20,7 @@
 #ui-datepicker-div
 {
     background-color: $color-background-lightest;
-    box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
 }
 
 .ui-datepicker .ui-datepicker-header
@@ -92,8 +92,6 @@
     text-transform: uppercase;
     line-height: 1em;
     padding: 7px 11px 6px;
-    // :TODO: set transparency color via variables
-    text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.55);
 }
 .ui-datepicker table
 {
@@ -123,13 +121,12 @@
 .ui-datepicker-calendar td.ui-datepicker-current-day
 {
     background-color: $color-background-darker;
-    text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.55);
 }
 .ui-datepicker-calendar td.ui-datepicker-current-day:hover,
 .ui-datepicker-calendar td:hover
 {
     background-color: $color-highlight-normal;
-    text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.55);
+    text-shadow: 0px -1px 1px $color-shadow-normal;
 }
 .ui-datepicker-calendar td:hover a
 {

@@ -6,7 +6,7 @@
     width: 390px;
     background-color: $color-background-lightest;
     color: $color-text-normal;
-    box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
 }
 .dialog:not(.initialized)
 {
@@ -69,7 +69,7 @@ main .dialog
 // :TODO: see if this is actually used anywhere
 .ui-widget-overlay
 {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: $color-background-see-through;
     top: 0;
     bottom: 0;
     left: 0;
@@ -81,7 +81,7 @@ main .dialog
 .ui-dialog
 {
     background-color: $color-background-lightest;
-    box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
     max-width: 700px;
     z-index: 100;
 }
