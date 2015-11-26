@@ -206,9 +206,8 @@
 }
 
 // CSS-reset for buttons
-button {
-  &.mfp-close,
-  &.mfp-arrow {
+button.mfp-close,
+button.mfp-arrow {
     overflow: visible;
     cursor: pointer;
     background: transparent;
@@ -220,11 +219,6 @@ button {
     z-index: $mfp-z-index-base + 6;
     -webkit-box-shadow: none;
     box-shadow: none;
-  }
-  &::-moz-focus-inner {
-      padding: 0;
-      border: 0
-  }
 }
 
 
