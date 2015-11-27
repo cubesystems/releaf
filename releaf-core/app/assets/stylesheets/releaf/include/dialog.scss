@@ -94,11 +94,10 @@ main .dialog
 
 .dialog.confirm .body .question
 {
+    @include brand-font;
     font-size: 2.2857em;
     line-height: 1.25em;
     margin-bottom: 40px;
-    font-family: 'robotoregular';
-    font-weight: normal;
 }
 
 .dialog.confirm.confirm-destroy .body .description

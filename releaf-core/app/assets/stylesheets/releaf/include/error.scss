@@ -1,6 +1,6 @@
 section.error
 {
-    font-family: 'robotoregular';
+    @include brand-font;
 }
 section.error h1
 {

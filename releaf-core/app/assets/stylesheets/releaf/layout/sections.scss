@@ -4,8 +4,7 @@ section
 
     header h1
     {
-        font-family: 'robotoregular';
-        font-weight: normal;
+        @include brand-font;
         font-size:   20px;
     }
 
