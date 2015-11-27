@@ -1,0 +1,30 @@
+
+// usage of <ul class="block"> is deprecated as of 2015-11-27
+// use SASS block-list mixin where needed
+// :TODO: remove block class throughout releaf
+.block
+{
+    @include block-list;
+}
+
+
+// usage of <div class="clear-inside"> is deprecated as of 2015-11-27
+// use SASS clear-inside mixin where needed
+// :TODO: remove "clear-inside" class throughout releaf
+.clear-inside
+{
+    @include clear-inside;
+}
+
+// usage of <div class="clear"> is deprecated as of 2015-11-27
+// instead of adding empty elements just to clear something,
+// use clear-inside mixin on the box containing floats
+// :TODO: remove "clear" class throughout releaf
+.clear
+{
+    display: block;
+    clear: both;
+    overflow:   hidden;
+    visibility: hidden;
+    height: 0px;
+}
