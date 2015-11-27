@@ -1,0 +1,304 @@
+body > aside
+{
+    background: $color-background-inverted-darker;
+    color: $color-text-inverted-normal;
+    position: absolute;
+    width: 240px;
+    left: 0;
+    top: 0;
+    z-index: 5;
+
+    > *:first-child
+    {
+        padding-top: 60px;
+    }
+
+    > nav
+    {
+        margin-bottom: 50px;
+
+        // all menu items
+        li
+        {
+            border-bottom: 1px solid $color-border-inverted-normal;
+            position: relative;
+
+            .collapser
+            {
+                position: absolute;
+                right: 0;
+                top: 0;
+                color: $color-background-inverted-lightest;
+
+                button
+                {
+                    width:   40px;
+                    height:  40px;
+                    display: block;
+                }
+            }
+
+            .trigger
+            {
+                color: $color-text-inverted-normal;
+                display: block;
+                padding: 5px;
+                text-decoration: none;
+                cursor: pointer;
+                padding: 10px 40px 10px 13px;
+
+                &:hover
+                {
+                    color: $color-text-inverted-lightest;
+                }
+
+                abbr
+                {
+                    display: none;
+                }
+
+            }
+
+            &.collapsed ul
+            {
+                display: none;
+            }
+
+        }
+
+        // only first level menu items
+        > ul > li
+        {
+            > .trigger
+            {
+                &:hover
+                {
+                    background-color: $color-background-inverted-darkest;
+                    color: $color-text-inverted-lightest;
+
+                    .collapser
+                    {
+                        color: $color-text-inverted-darker;
+                    }
+                }
+
+                > .name
+                {
+                    padding: 0;
+                }
+            }
+
+            &.active > .trigger
+            {
+                background-color: $color-highlight-normal;
+                color: $color-text-darkest;
+
+                .collapser
+                {
+                    color: $color-text-darkest;
+                }
+
+            }
+
+        }
+
+
+        // nested menu items
+        li li
+        {
+            background: $color-background-inverted-normal;
+            border-bottom: none;
+
+            .trigger
+            {
+                color: $color-text-inverted-darker;
+                position: relative;
+                padding: 4px 40px 5px 40px;
+            }
+
+            &:first-child .trigger
+            {
+                padding-top: 10px;
+            }
+
+            &:last-child .trigger
+            {
+                padding-bottom: 14px;
+            }
+
+            &.active > .trigger
+            {
+                color: $color-text-inverted-lightest;
+                background: $color-background-inverted-lightest;
+            }
+        }
+
+    }
+
+}
+
+
+
+// menu hiding and compacting stuff
+
+body > aside .compacter
+{
+    text-align: right;
+    border-bottom: 1px solid $color-border-inverted-normal;
+
+    button
+    {
+        padding: 0;
+        height: 39px;
+        width: 45px;
+        background: $color-background-inverted-darker;
+
+        &:hover
+        {
+            background: $color-background-inverted-normal;
+        }
+    }
+
+    i
+    {
+        color: $color-highlight-normal;
+        font-size: 20px;
+    }
+
+}
+
+
+
+// compact sidebar stuff
+body.side-compact > main
+{
+    padding-left: 80px;
+}
+
+body.side-compact > aside
+{
+    width: 40px;
+
+    .compacter button
+    {
+        width: 40px;
+    }
+
+    > nav
+    {
+        // all menu items
+        li
+        {
+            .name
+            {
+                display: none;
+            }
+
+            .collapser button
+            {
+                transform: scale(0.5, 0.5);
+                position: relative;
+                z-index: 1;
+                left: 6px;
+                top: 11px;
+                width: 20px;
+                height: 20px;
+            }
+
+            > .trigger
+            {
+                padding-right: 20px;
+            }
+
+        }
+
+        li .collapser button,
+        li .trigger .collapser,
+        li .trigger:hover .collapser,
+        > ul > li.active > .trigger .collapser
+        {
+            color: inherit;
+        }
+
+        // first level menu items
+        > ul > li
+        {
+            > .trigger
+            {
+                abbr
+                {
+                    display: inline-block;
+                    border: none;
+                    text-decoration: none;
+                }
+            }
+
+            > ul
+            {
+                display: none;
+            }
+
+        }
+
+
+        // expanded second level
+        > ul > li.open
+        {
+            > .trigger
+            {
+                background-color: $color-background-inverted-darkest;
+                color: $color-text-inverted-lightest;
+
+                .name
+                {
+                    position: absolute;
+                    top: 0;
+                    left: 40px;
+                    height: 30px;
+                    width: 227px;
+                    padding: 9px 0 0 14px;
+                    display: block;
+                    background: $color-background-inverted-darkest;
+                }
+            }
+
+            > ul
+            {
+                position: absolute;
+                top: 39px;
+                left: 41px;
+                width: 240px;
+                display: block;
+                background: $color-background-inverted-darkest;
+
+                .name
+                {
+                    display: block;
+                }
+            }
+
+        }
+
+        > ul > li.active
+        {
+            > .trigger,
+            > .trigger .name
+            {
+                background-color: $color-highlight-normal;
+            }
+        }
+
+    }
+}
+
+
+body > .side-compact-overlay
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: none;
+}

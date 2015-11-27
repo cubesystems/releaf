@@ -8,6 +8,8 @@
 
 @import 'releaf/layout/header';
 @import 'releaf/layout/footer';
+@import 'releaf/layout/sidebar';
+
 
 @import 'releaf/layout/sections';
 
@@ -33,7 +35,6 @@
 @import 'include/notifications';
 @import 'include/pagination';
 @import 'include/search';
-@import 'include/sidebar';
 @import 'include/skip_links';
 @import 'include/table';
 @import 'include/toolbox';
