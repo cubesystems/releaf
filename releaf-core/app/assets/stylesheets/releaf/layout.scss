@@ -6,6 +6,8 @@
 @import 'releaf/layout/links';
 @import 'releaf/layout/images';
 
+@import 'releaf/layout/header';
+@import 'releaf/layout/footer';
 
 @import 'releaf/layout/sections';
 
@@ -26,9 +28,7 @@
 @import 'include/datepicker';
 @import 'include/dialog';
 @import 'include/error';
-@import 'include/footer';
 @import 'include/forms';
-@import 'include/header';
 @import 'include/localization';
 @import 'include/notifications';
 @import 'include/pagination';

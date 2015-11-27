@@ -1,0 +1,60 @@
+body > header
+{
+    text-align: right;
+
+    .home
+    {
+        display: block;
+        text-decoration: none;
+        float: left;
+        margin: 13px 0 0 13px;
+    }
+
+    .profile,
+    form.sign-out
+    {
+        display: inline-block;
+        margin-left: 1px;
+        vertical-align: top;
+    }
+
+    .profile
+    {
+        position: relative;
+        text-decoration: none;
+        height: 20px;
+        text-align: right;
+        color: $color-text-inverted-normal;
+        border-left: 1px solid $color-border-inverted-normal;
+        padding: 20px 30px;
+
+        &:hover
+        {
+            background-color: $color-background-inverted-normal;
+            color: $color-text-inverted-lightest;
+        }
+    }
+
+    form.sign-out button
+    {
+        position: relative;
+        background-color: $color-background-inverted-normal;
+        color: $color-highlight-normal;
+        width: 60px;
+        height: 60px;
+
+        &:hover
+        {
+            background-color: $color-highlight-normal;
+            color: $color-background-inverted-normal;
+        }
+
+        i
+        {
+            font-size: 18px;
+        }
+    }
+
+}
+
+
