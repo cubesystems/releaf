@@ -99,7 +99,9 @@ feature "Ajaxbox", js: true do
     expect(page).to_not have_css(".mfp-bg")
 
     find(".field[data-name='cover_image'] .value-preview img").click
-    image_url = find(".field[data-name='cover_image'] .value-preview a.ajaxbox")["href"] + "&ajax=1"
+    full_image_url = find(".field[data-name='cover_image'] .value-preview a.ajaxbox")["href"]
+    image_url = full_image_url.match(/(\/media\/.*)/)[1] + "&ajax=1"
+
     expect(page).to have_css(".ajaxbox-inner img[src='#{image_url}']")
     find(".ajaxbox-inner button.close").click
     expect(page).to_not have_css(".mfp-bg")
