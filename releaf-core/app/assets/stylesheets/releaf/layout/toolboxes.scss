@@ -1,0 +1,90 @@
+.toolbox
+{
+    .trigger
+    {
+        display: inline-block;
+        background: none;
+        padding: 5px;
+        color: $color-highlight-normal;
+
+        &:hover,
+        &:focus,
+        &:active
+        {
+            background: none;
+            color: $color-highlight-darker;
+        }
+
+        // :TODO: turn this around. instead of rendering the triggers as disabled,
+        // add "initialized" class to toolboxes after js is done - same pattern as with dialogs.
+        &[disabled]
+        {
+            color: $color-text-lightest;
+            background: none;
+        }
+
+    }
+}
+
+
+.toolbox-items
+{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 170px;
+    text-align: left;
+    z-index: 100;
+    margin: -3px 0 0 2px;
+
+    > ul
+    {
+        position: relative;
+        top: -16px;
+    }
+
+    .button
+    {
+        display: block;
+        background: $color-background-inverted-normal;
+        color: $color-highlight-normal;
+        white-space: nowrap;
+
+        width: 100%;
+        text-align: left;
+
+        // :TODO: see if these can be done automatically when a button is inside an inverted context
+        &:hover
+        {
+            background: $color-highlight-normal;
+            color: $color-text-inverted-lightest;
+        }
+
+        &.danger
+        {
+            background: $color-background-inverted-normal;
+            color: $color-alert;
+
+            &:hover
+            {
+                background: $color-alert;
+            }
+        }
+
+    }
+
+    li:not(:last-child) .button
+    {
+        border-bottom: 1px solid $color-border-inverted-lighter;
+    }
+
+}
+
+
+.toolbox-overlay
+{
+    @include full-screen-overlay;
+}
+
+

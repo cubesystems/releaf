@@ -83,16 +83,7 @@
 
 .localization-menu-overlay
 {
-    position: absolute;
-
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-
-    z-index: 90;
-
-    display: none;
+    @include full-screen-overlay;
 }
 
 

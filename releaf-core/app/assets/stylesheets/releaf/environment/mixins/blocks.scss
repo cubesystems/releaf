@@ -40,4 +40,16 @@
 
 }
 
+@mixin full-screen-overlay
+{
+    // used for displaying a clickable closing layer over the whole page when opening a menu etc
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: none;
+}
+
 
