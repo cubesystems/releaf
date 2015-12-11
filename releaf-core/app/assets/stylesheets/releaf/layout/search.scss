@@ -1,0 +1,85 @@
+form.search
+{
+    min-height: 20px;
+    border-bottom: 2px solid $color-border-light;
+
+    &.has-text-search
+    {
+        position: relative;
+        margin-top: -29px;
+    }
+
+    &.has-extra-search
+    {
+        border-bottom: none;
+    }
+
+    .text-search
+    {
+        float: right;
+
+        input[type="text"]
+        {
+            color: $color-text-lightest;
+            font-weight: normal;
+            padding: 0 25px 0 10px;
+            width: 210px;
+            height: 28px;
+            border: 1px solid $color-border-light;
+        }
+
+        input[name="search"]
+        {
+            border: 2px solid $color-border-light;
+            border-bottom: none;
+        }
+
+        .button
+        {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: transparent;
+            padding: 5px 10px;
+            color: $color-highlight-normal;
+
+            &:hover
+            {
+                color: $color-text-light;
+            }
+        }
+
+    }
+
+    .extras
+    {
+        border: 1px solid $color-border-light;
+        border-top: none;
+        background-color: $color-background-lighter;
+        padding: 23px;
+        clear: both;
+        border-top: 2px solid $color-border-light;
+
+        button
+        {
+            padding: 6px 17px;
+        }
+
+        input,
+        select
+        {
+            width: 135px;
+            font-size: 13px;
+            font-weight: normal;
+            margin-right: 22px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"]
+        {
+            width: auto;
+        }
+
+    }
+
+}

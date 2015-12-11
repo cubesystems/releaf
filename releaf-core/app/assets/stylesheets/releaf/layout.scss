@@ -25,13 +25,10 @@
 @import 'releaf/layout/tables';
 @import 'releaf/layout/toolboxes';
 @import 'releaf/layout/dialogs';
+@import 'releaf/layout/search';
 @import 'releaf/layout/pagination';
 
 @import 'releaf/layout/errors';
-
-// :TODO: move these to a proper structure one by one and remove "include" folder
-
-@import 'include/search';
 
 
 @import 'releaf/layout/extras';
