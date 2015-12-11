@@ -1,0 +1,26 @@
+// full page errors (access denied, feature disabled etc)
+
+section.error
+{
+    .description
+    {
+        color: $color-text-lighter;
+        font-size: 14px;
+        line-height: 25px;
+        margin: 18px 0;
+    }
+
+    a.return
+    {
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    &:not(.dialog) > .body
+    {
+        border: none;
+    }
+}
+
+

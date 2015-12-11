@@ -26,10 +26,11 @@
 @import 'releaf/layout/toolboxes';
 @import 'releaf/layout/dialogs';
 
+@import 'releaf/layout/errors';
+
 // :TODO: move these to a proper structure one by one and remove "include" folder
 
 @import 'include/datepicker';
-@import 'include/error';
 @import 'include/pagination';
 @import 'include/search';
 
