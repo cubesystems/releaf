@@ -22,8 +22,8 @@
 @import 'releaf/layout/localization';
 
 @import 'releaf/layout/notifications';
+@import 'releaf/layout/tables';
 @import 'releaf/layout/dialogs';
-
 
 // :TODO: move these to a proper structure one by one and remove "include" folder
 
@@ -31,7 +31,6 @@
 @import 'include/error';
 @import 'include/pagination';
 @import 'include/search';
-@import 'include/table';
 @import 'include/toolbox';
 
 

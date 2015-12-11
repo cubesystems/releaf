@@ -1,0 +1,84 @@
+.table
+{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    border: 1px solid $color-border-normal;
+    border-top: none;
+
+    th, td
+    {
+        border-left:  1px solid $color-border-normal;
+        border-right: 1px solid $color-border-normal;
+    }
+
+    tr th
+    {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    tr:nth-child(odd) td
+    {
+        background-color: $color-background-normal;
+    }
+
+    tr:hover td
+    {
+        background-color: $color-highlight-lightest;
+    }
+
+    td a:not(.button),
+    td > span
+    {
+        text-decoration: none;
+        color: $color-text-normal;
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+    }
+
+
+    th,
+    td:not(.toolbox-cell) a:not(.button),
+    td > span
+    {
+        padding: 5px 6px;
+    }
+
+    th span
+    {
+        display: block;
+    }
+
+
+    .toolbox-cell   // :TODO: change this to a more generic class such as .only-icon
+    {
+        text-align: center;
+        width: 46px;
+    }
+
+
+
+    // remove outer table borders if the table is directly inside a section body
+    // because the body will have its own border
+    section .body > &
+    {
+        border: none;
+
+        th:first-child,
+        td:first-child
+        {
+            border-left: none;
+        }
+        th:last-child,
+        td:last-child
+        {
+            border-right: none;
+        }
+
+    }
+}
+
+
+
