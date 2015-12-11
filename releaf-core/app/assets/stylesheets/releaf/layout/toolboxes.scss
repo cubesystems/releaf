@@ -54,7 +54,8 @@
         width: 100%;
         text-align: left;
 
-        // :TODO: see if these can be done automatically when a button is inside an inverted context
+        // :TODO: see if this button color redundancy can be reduced
+        // perhaps these can be done automatically when a button is inside an inverted context
         &:hover
         {
             background: $color-highlight-normal;
@@ -63,8 +64,11 @@
 
         &.danger
         {
-            background: $color-background-inverted-normal;
-            color: $color-alert;
+            &:not(:hover)
+            {
+                background: $color-background-inverted-normal;
+                color: $color-alert;
+            }
 
             &:hover
             {
