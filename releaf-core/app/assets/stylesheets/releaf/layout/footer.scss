@@ -36,12 +36,23 @@ footer.main
         > .primary
         {
             float: right;
+
+            .button
+            {
+                margin-left: 2px;
+            }
         }
 
         > .secondary
         {
             float: left;
+
+            .button
+            {
+                margin-right: 2px;
+            }
         }
+
 
         input,
         select

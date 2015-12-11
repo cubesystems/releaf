@@ -4,3 +4,97 @@ input[type="submit"]
 {
     @include clickable-element;
 }
+
+.button
+{
+    cursor:pointer;
+    display: inline-block;
+    background: $color-highlight-normal;
+    color: $color-text-inverted-lightest;
+
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px 17px;
+
+    text-decoration: none;
+    position: relative;
+
+    &:not(.only-icon) i
+    {
+        padding-right: 9px;
+    }
+
+    &:hover,
+    &:focus,
+    &:active
+    {
+        background: $color-highlight-darker;
+        text-decoration: none;
+    }
+
+    &.secondary
+    {
+        background: $color-background-darker;
+        color: $color-text-lighter;
+
+        &:hover,
+        &:focus,
+        &:active
+        {
+            background: $color-background-darkest;
+            color: $color-text-light;
+        }
+    }
+
+    &.danger
+    {
+        &:hover,
+        &:focus,
+        &:active,
+        {
+            background: $color-alert;
+        }
+    }
+
+    // :TODO: change to .disabled class instead of attribtue selector when JS disabling code has been updated
+    &[disabled]
+    {
+        &,
+        &:hover,
+        &:focus,
+        &:active
+        {
+            color: $color-text-lightest;
+            background-color: $color-background-darker;
+            cursor: default;
+        }
+    }
+
+    // :TODO: update loading code
+    &.loading
+    {
+        *
+        {
+            visibility: hidden;
+        }
+
+        .loader
+        {
+            visibility: visible;
+            padding: 0;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -0.5em;
+            margin-top:  -0.5em;
+        }
+
+    }
+
+
+}
+
+
+
+
