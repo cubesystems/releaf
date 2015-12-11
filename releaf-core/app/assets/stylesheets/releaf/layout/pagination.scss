@@ -1,0 +1,43 @@
+.pagination
+{
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+
+    > .button
+    {
+        padding: 10px 16px;
+        display: inline-block;
+        border-left:  1px solid $color-border-dark;
+        border-right: 1px solid $color-border-dark;
+
+        i
+        {
+            padding-right: 0px;
+        }
+
+        &:not(.disabled):hover
+        {
+            color: $color-highlight-darkest;
+        }
+    }
+
+    .pages
+    {
+        display: inline-block;
+        padding: 5px 4px 0px;
+        width: 96px;
+        vertical-align: top;
+
+        > select
+        {
+            width: 96px;
+            margin: 0px;
+        }
+    }
+
+}
+
+
