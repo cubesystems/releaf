@@ -1,0 +1,66 @@
+body > .notifications
+{
+    position: fixed;
+    z-index: 60;
+    top: -5px;
+    left: 30%;
+    width: 40%;
+
+    .notification
+    {
+        position: relative;
+
+        background: $color-background-lighter;
+        color: $color-text-lighter;
+
+        border-radius: 0;
+        padding: 7px 35px 0 14px;
+        margin-top: 15px;
+        text-shadow: none;
+        line-height: 24px;
+
+        box-shadow: 0 0 10px 5px $color-shadow-lighter;
+
+        &[data-type="success"]
+        {
+            background-color: $color-notification-success-background;
+            color: $color-notification-success-text;
+        }
+
+        &[data-type="error"]
+        {
+            background-color: $color-notification-error-background;
+            color: $color-notification-error-text;
+        }
+
+        > .icon
+        {
+            float: left;
+            margin-left: 10px;
+        }
+
+        > .content
+        {
+            margin-left: 40px;
+            margin-right: 30px;
+            padding-bottom: 9px;
+            text-align: center;
+        }
+
+        > .close
+        {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+    }
+
+}
+
+.flash
+{
+    display: none;
+}
+
+
