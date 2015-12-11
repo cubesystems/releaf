@@ -1,6 +1,8 @@
 @import 'releaf/layout/base';
 @import 'releaf/layout/main';
 
+@import 'releaf/layout/deprecated';
+
 @import 'releaf/layout/fonts';
 @import 'releaf/layout/text';
 @import 'releaf/layout/links';
@@ -20,14 +22,12 @@
 @import 'releaf/layout/localization';
 
 @import 'releaf/layout/notifications';
-
-@import 'releaf/layout/deprecated';
+@import 'releaf/layout/dialogs';
 
 
 // :TODO: move these to a proper structure one by one and remove "include" folder
 
 @import 'include/datepicker';
-@import 'include/dialog';
 @import 'include/error';
 @import 'include/pagination';
 @import 'include/search';

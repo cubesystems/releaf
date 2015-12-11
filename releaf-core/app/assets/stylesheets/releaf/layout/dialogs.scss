@@ -1,0 +1,143 @@
+@import 'releaf/vendor/magnific-popup/main';
+
+.dialog
+{
+    margin: 0 auto;
+    width: 390px;
+    background-color: $color-background-lightest;
+    color: $color-text-normal;
+    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
+
+    main &
+    {
+        margin-top: 40px;
+    }
+
+    &:not(.initialized)
+    {
+        visibility: hidden;
+    }
+
+    header
+    {
+        padding-right: 50px;
+    }
+
+    section.body
+    {
+        position: relative;
+    }
+
+    footer
+    {
+        position: relative;
+        background-color: $color-background-darker;
+        border-top: $color-border-dark 1px solid;
+        text-align: right;
+
+        form
+        {
+            display: inline-block;
+        }
+
+        .button.secondary
+        {
+            border-left: $color-border-dark 1px solid;
+        }
+
+    }
+
+}
+
+
+.ajaxbox-inner
+{
+    .dialog header .close,
+    > .close
+    {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+    }
+
+    .dialog header
+    {
+        margin-top: 0;
+    }
+
+    > .close
+    {
+        top: 40px;
+    }
+
+}
+
+
+
+@mixin dialog-with-icon
+{
+    .body
+    {
+        padding: 37px 10px 55px;
+        text-align: center;
+
+        i
+        {
+            display: block;
+            margin: 0 auto;
+            border-radius: 40px;
+            width: 50px;
+            background-color: $color-background-darker;
+            color: $color-text-inverted-lightest;
+            font-size: 3.57em;
+            padding: 9px;
+            text-align: center;
+            line-height: 1em;
+            margin-bottom: 22px;
+        }
+
+        .question
+        {
+            @include brand-font;
+            font-size: 2.2857em;
+            line-height: 1.25em;
+            margin-bottom: 40px;
+        }
+
+        .description
+        {
+            color: $color-highlight-normal;
+            font-size: 1em;
+            line-height: 1.4em;
+            font-weight: bold;
+        }
+
+    }
+
+}
+
+
+.dialog.confirm
+{
+    @include dialog-with-icon;
+}
+
+.dialog.refused-destroy
+{
+    @include dialog-with-icon;
+
+    .body .restricted-relations
+    {
+        margin-top: 10px;
+        overflow-y: auto;
+        color: $color-highlight-normal;
+        font-size: 1em;
+        line-height: 1.4em;
+        font-weight: bold;
+    }
+
+}
+
+
+
