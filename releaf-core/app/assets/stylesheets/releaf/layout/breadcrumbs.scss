@@ -1,0 +1,35 @@
+// :TODO: remove "ul" from this selector when "block" class is removed from releaf
+// the "ul" tag is here so that "ul.breadcrumbs li" is more specific than ".block li"
+ul.breadcrumbs
+{
+    padding: 14px 0px;
+    border-bottom: 1px solid $color-border-light;
+
+    li
+    {
+        display: inline-block;
+
+        i
+        {
+            padding: 0px 8px;
+            font-size: 10px;
+        }
+    }
+
+    a
+    {
+        position: relative;
+        z-index: 100;
+        font-size: 1em;
+        color: inherit;
+        text-decoration: none;
+
+        &:hover
+        {
+            text-decoration: none;
+            color: $color-highlight-darker;
+        }
+    }
+
+}
+
