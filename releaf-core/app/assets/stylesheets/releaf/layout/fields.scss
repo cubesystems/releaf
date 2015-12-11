@@ -1,0 +1,184 @@
+// :TODO: introduce input.text to avoid listing type attribtues
+$text-inputs: 'input[type="text"], input[type="email"], input[type="number"], input[type="password"]';
+
+select,
+textarea,
+#{$text-inputs}
+{
+    color: $color-text-normal;
+    background-color: $color-background-lighter;
+    border: 1px solid $color-border-normal;
+    outline: none;
+    font-weight: bold;
+    font-size: 13px;
+
+    &:hover
+    {
+        border: 1px solid $color-border-darker;
+    }
+
+    &:focus
+    {
+        background-color: $color-background-lightest;
+        border: 1px solid $color-border-darkest;
+    }
+
+    .field &
+    {
+        width: 100%;
+    }
+}
+
+select
+{
+    height: 35px;
+    padding: 7px 0 7px 7px;
+
+    option
+    {
+        padding: 0 0 0 7px;
+    }
+
+}
+
+textarea
+{
+    padding: 8px;
+}
+
+#{$text-inputs}
+{
+    padding: 0 9px;
+    height: 35px;
+}
+
+
+.field
+{
+    padding: 8px 0;
+    float: left;
+    width: 410px;
+    position: relative;
+    min-height: 66px;
+    margin-left: 30px;
+
+    &.has-error:not(.i18n),
+    &.i18n.has-error .localization.has-error
+    {
+        select,
+        textarea,
+        #{$text-inputs},
+        .mceLayout
+        {
+             border: 1px solid $color-alert;
+        }
+    }
+
+    &.type-boolean .value
+    {
+        padding-top: 35px;
+    }
+
+    &.type-associated-set
+    {
+        width: auto;
+        margin-right: 0;
+
+        .type-associated-set-item
+        {
+            float: left;
+            width: 250px;
+        }
+    }
+
+    &.type-richtext
+    {
+        width: 854px;
+    }
+
+
+    &.type-richtext,
+    &.type-textarea
+    {
+        float: none;
+        clear: both;
+    }
+
+
+    .label-wrap
+    {
+        padding: 5px 0;
+
+        label
+        {
+            font-size: 13px;
+        }
+
+        .description
+        {
+            font-size: 11px;
+        }
+    }
+
+    label
+    {
+        font-size: 13px;
+    }
+
+    .value
+    {
+        position: relative;
+
+        .error-box
+        {
+            position: absolute;
+            right: 4px;
+            bottom: -20px;
+            color: $color-alert;
+            font-size: 11px;
+            font-style: italic;
+        }
+    }
+
+}
+
+
+section.nested
+{
+    // :TODO: figure out a way to avoid having to re-specify explicit widths for nested fields
+    .field
+    {
+        width: 380px;
+
+        &.type-richtext
+        {
+            width: 790px;
+        }
+    }
+
+    section.nested .field
+    {
+        width: 340px;
+        &.type-richtext
+        {
+            width: 720px;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -69,3 +69,83 @@ section:not(.dialog) > form
     }
 }
 
+section > form,
+section > form > footer
+{
+    max-width: 920px;
+}
+
+.side-compact section:not(.dialog) > form > footer
+{
+    margin-left: 80px;
+}
+
+
+section.nested
+{
+    clear: both;
+    padding: 30px;
+
+    h1
+    {
+        margin-bottom: 18px;
+    }
+
+    .list
+    {
+        .item:not(tr)
+        {
+            border: 1px solid $color-border-normal;
+            padding: 30px 0;
+            margin: 0 0 20px 0;
+            position: relative;
+            background: $color-background-lightest;
+            @include clear-inside;
+        }
+
+        .item.template
+        {
+            display: none;
+        }
+
+        &[data-sortable] .item
+        {
+            padding-top: 30px;
+
+            .handle
+            {
+                position: absolute;
+                background: $color-background-darker;
+                height: 35px;
+                left: 0;
+                right: 0;
+                top: 0;
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+    .remove-item-box
+    {
+        position: absolute;
+        right: -1px;
+        top: -1px;
+        width: auto;
+
+        .button
+        {
+            padding: 8px 11px;
+        }
+    }
+
+    section.nested
+    {
+        padding-right: 0px;
+    }
+
+}
+
+
+

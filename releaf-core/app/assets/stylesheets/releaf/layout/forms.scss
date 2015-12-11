@@ -5,3 +5,22 @@ form, fieldset
     margin:  0;
     padding: 0;
 }
+
+form fieldset
+{
+    padding: 0 0 20px 0;
+    margin: 30px;
+    clear: both;
+    @include clear-inside;
+}
+
+.form-error-box
+{
+    border: 1px solid $color-border-normal;
+    padding: 15px 25px;
+    margin: 0px;
+    color: $color-notification-error-text;
+    background-color: $color-notification-error-background;
+    border-top: none;
+    border-bottom: none;
+}
