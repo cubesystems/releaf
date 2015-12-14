@@ -155,12 +155,11 @@ jQuery(document).ready( function()
 
     body.on('ajaxboxdone', function(e, params)
     {
-        jQuery(e.target).find(".dialog").addClass('initialized');
-        if (!params || !('trigger' in params))
+        if (params && ('trigger' in params))
         {
-            return;
+            params.trigger.trigger('loadingend');
         }
-        params.trigger.trigger('loadingend');
+        jQuery(e.target).find('.dialog').trigger('contentdone');
     });
 
     body.on('ajaxboxclose', function()

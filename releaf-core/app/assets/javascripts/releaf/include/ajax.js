@@ -61,5 +61,6 @@ jQuery(document).ready( function()
     setTimeout( function()
     {
         body.trigger('contentloaded');
+        body.trigger('contentdone');
     }, 0);
 });
