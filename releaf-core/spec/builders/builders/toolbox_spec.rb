@@ -31,7 +31,7 @@ describe Releaf::Builders::Toolbox, type: :class do
         allow(subject).to receive(:action_name).and_return("edit")
         allow(subject).to receive(:url_for).with({action: :toolbox, id: 212, context: "edit", some_param: 89}).and_return("/toolbox_action")
 
-        expect(subject.toolbox(resource, some_param: 89).gsub(/\s/,'')).to eq(%Q{<divclass=\"toolboxuninitialized\"data-url=\"/toolbox_action\"><buttondisabled=\"disabled\"class=\"buttontriggeronly-icon\"type=\"button\"title=\"tls\">kebab_icon</button><menuclass=\"blocktoolbox-items\"type=\"toolbar\">caret_icon<ulclass=\"block\"></ul></menu></div>}.gsub(/\s/,''))
+        expect(subject.toolbox(resource, some_param: 89).gsub(/\s/,'')).to eq(%Q{<divclass=\"toolboxuninitialized\"data-url=\"/toolbox_action\"><buttondisabled=\"disabled\"class=\"buttontriggeronly-icon\"type=\"button\"title=\"tls\">kebab_icon</button><menuclass=\"toolbox-items\"type=\"toolbar\">caret_icon<ul></ul></menu></div>}.gsub(/\s/,''))
       end
     end
   end

@@ -25,6 +25,12 @@ module Releaf::Content
       slices
     end
 
+    def section_attributes
+      attributes = super
+      attributes['data-columns'] = content_types_slices.length
+      attributes
+    end
+
     def section_body
       tag(:div, class: "body") do
         [section_body_description, content_types_list]

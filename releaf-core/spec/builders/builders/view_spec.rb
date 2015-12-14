@@ -120,7 +120,7 @@ describe Releaf::Builders::View, type: :class do
         allow(subject).to receive(:breadcrumb_item).with(:a, false).and_return(">a")
         allow(subject).to receive(:breadcrumb_item).with(:b, false).and_return(ActiveSupport::SafeBuffer.new(">b"))
         allow(subject).to receive(:breadcrumb_item).with(:c, true).and_return(">c")
-        content = '<nav><ul class="block breadcrumbs">&gt;a>b&gt;c</ul></nav>'
+        content = '<nav><ul class="breadcrumbs">&gt;a>b&gt;c</ul></nav>'
         expect(subject.breadcrumbs).to eq(content)
       end
     end

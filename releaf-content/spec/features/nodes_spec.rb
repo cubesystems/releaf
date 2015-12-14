@@ -90,10 +90,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
     context "when going to node from toolbox list" do
       it "navigates to targeted node's edit view" do
-        expect(page).to_not have_header(text: 'lv')
+        expect(page).to have_no_header(text: 'lv')
         open_toolbox_dialog "Go to"
-        click_link "lv"
 
+        click_link "lv"
         expect(page).to have_header(text: 'lv')
       end
     end
@@ -199,7 +199,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       visit releaf_content_nodes_path
       find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
 
-      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul.block") do
+      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul") do
         expect( page ).to have_content 'e a b d c'
       end
     end
@@ -212,7 +212,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       visit releaf_content_nodes_path
       find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
 
-      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul.block") do
+      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul") do
         expect( page ).to have_content 'a b c'
       end
     end

@@ -43,7 +43,7 @@ module Releaf::Content::Builders
     def tree_resource_collapser(resource, expanded)
       return if resource.children.empty?
       tag(:div, class: "collapser-cell") do
-        button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser), title: t(expanded ? "collapse" : "expand"))
+        button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser trigger), title: t(expanded ? "collapse" : "expand"))
       end
     end
 
@@ -63,7 +63,7 @@ module Releaf::Content::Builders
 
     def tree_resource_name_button(resource)
       title = resource.content_id.present? ? "#{resource.content_type} ##{resource.content_id}" : resource.content_type
-      tag(:a, href: url_for(action: "edit", id: resource.id), title: title) do
+      tag(:a, class: "trigger", href: url_for(action: "edit", id: resource.id), title: title) do
         tag(:span, resource.name)
       end
     end

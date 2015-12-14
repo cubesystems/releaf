@@ -25,7 +25,7 @@ module Releaf::Content::Builders
       field_id = "new_parent_id_0"
       tag(:div, class: "node-cell") do
         [radio_button_tag(:new_parent_id, '', false, id: 'new_parent_id_0'),
-           tag(:label, t("Root node"), for: field_id)]
+           tag(:label, t("Root node"), class: "trigger", for: field_id)]
       end
     end
 
@@ -33,7 +33,7 @@ module Releaf::Content::Builders
       field_id = "new_parent_id_#{resource.id}"
 
       [radio_button_tag(:new_parent_id, resource.id, false, id: field_id),
-         tag(:label, tag(:span, resource.name), for: field_id)]
+         tag(:label, tag(:span, resource.name), class: "trigger", for: field_id)]
     end
 
     def section_blocks
