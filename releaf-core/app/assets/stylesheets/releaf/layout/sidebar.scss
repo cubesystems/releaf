@@ -17,6 +17,11 @@ body > aside
     {
         margin-bottom: 50px;
 
+        ul
+        {
+            @include block-list;
+        }
+
         // all menu items
         li
         {

@@ -45,6 +45,7 @@
 
 .localization-menu-items
 {
+    @include block-list;
     display: none;
     position: absolute;
     top: 0;
@@ -58,6 +59,7 @@
     > ul
     {
         position: relative;
+        @include block-list;
     }
 
     button

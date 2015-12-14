@@ -29,6 +29,9 @@
 
 .toolbox-items
 {
+    // :TODO: see if something can be extracted for reuse (this is similar to localization menu)
+    @include block-list;
+
     display: none;
     position: absolute;
     top: 0;
@@ -40,6 +43,7 @@
 
     > ul
     {
+        @include block-list;
         position: relative;
         top: -16px;
     }

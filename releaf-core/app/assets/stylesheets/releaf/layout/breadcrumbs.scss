@@ -1,7 +1,6 @@
-// :TODO: remove "ul" from this selector when "block" class is removed from releaf
-// the "ul" tag is here so that "ul.breadcrumbs li" is more specific than ".block li"
-ul.breadcrumbs
+.breadcrumbs
 {
+    @include block-list;
     padding: 14px 0px;
     border-bottom: 1px solid $color-border-light;
 

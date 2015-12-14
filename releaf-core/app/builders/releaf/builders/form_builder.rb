@@ -508,8 +508,8 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
       button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])
       end <<
-      tag(:menu, class: ["block", "localization-menu-items"], type: 'toolbar') do
-        tag(:ul, class: "block") do
+      tag(:menu, class: ["localization-menu-items"], type: 'toolbar') do
+        tag(:ul) do
           object.class.globalize_locales.collect do |locale, i|
             tag(:li) do
               tag(:button, translate_locale(locale), type: "button", data: {locale: locale})

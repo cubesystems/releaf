@@ -14,7 +14,7 @@ module Releaf::Content::Builders
     end
 
     def root_level
-      tag(:ul, class: "block", "data-level" => 0) do
+      tag(:ul, "data-level" => 0) do
         tag(:li, class: "root") do
           [tree_root_resource, super]
         end

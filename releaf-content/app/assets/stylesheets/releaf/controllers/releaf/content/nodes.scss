@@ -13,6 +13,11 @@
     font-size: 13px;
 }
 
+.controller-releaf-content-nodes .collection ul
+{
+    @include block-list;
+}
+
 .controller-releaf-content-nodes .collection li
 {
     clear: both;
@@ -194,6 +199,11 @@
 {
   height: 25em;
   overflow-y: auto;
+}
+
+.controller-releaf-content-nodes .dialog.content-type .body .content-types ul
+{
+    @include block-list;
 }
 
 .controller-releaf-content-nodes .dialog.content-type .body .content-types ul:first-child

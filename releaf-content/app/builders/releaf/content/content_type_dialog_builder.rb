@@ -40,7 +40,7 @@ module Releaf::Content
     end
 
     def content_type_slice(slice)
-      tag(:ul, class: "block") do
+      tag(:ul) do
         slice.collect do|content_type|
           content_type_item(content_type)
         end

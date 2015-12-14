@@ -42,7 +42,7 @@ class Releaf::Builders::Page::MenuBuilder
   end
 
   def menu_level(items)
-    tag(:ul, class: "block") do
+    tag(:ul) do
       items.collect{|item| menu_item(item) }
     end
   end

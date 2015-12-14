@@ -129,12 +129,18 @@
 
     .body .restricted-relations
     {
+        @include block-list;
         margin-top: 10px;
         overflow-y: auto;
         color: $color-highlight-normal;
         font-size: 1em;
         line-height: 1.4em;
         font-weight: bold;
+    }
+
+    .body .relations
+    {
+        @include block-list;
     }
 
 }

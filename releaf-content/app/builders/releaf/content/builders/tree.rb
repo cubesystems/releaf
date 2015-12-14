@@ -17,7 +17,7 @@ module Releaf::Content::Builders
     end
 
     def tree_level(list, level)
-      tag(:ul, class: "block", "data-level" => level) do
+      tag(:ul, "data-level" => level) do
         list.collect do |resource|
           tree_resource(resource, level)
         end

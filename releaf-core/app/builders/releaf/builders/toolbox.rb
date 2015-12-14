@@ -10,8 +10,8 @@ module Releaf::Builders::Toolbox
   end
 
   def toolbox_menu
-    tag(:menu, class: %w(block toolbox-items), type: "toolbar") do
-      [icon("caret-up lg"), tag(:ul, "", class: "block")]
+    tag(:menu, class: %w(toolbox-items), type: "toolbar") do
+      [icon("caret-up lg"), tag(:ul, "")]
     end
   end
 

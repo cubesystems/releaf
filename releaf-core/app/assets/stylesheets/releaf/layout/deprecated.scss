@@ -1,7 +1,7 @@
 
 // usage of <ul class="block"> is deprecated as of 2015-11-27
 // use SASS block-list mixin where needed
-// :TODO: remove block class throughout releaf
+// :TODO: remove this class definition no later than on 2016-05-27
 .block
 {
     @include block-list;
