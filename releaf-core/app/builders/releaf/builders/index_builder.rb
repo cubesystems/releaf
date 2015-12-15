@@ -39,7 +39,7 @@ class Releaf::Builders::IndexBuilder
       @extra_search
     else
       content = extra_search_content
-      @extra_search = tag(:div, class: ["extras",  "clear-inside"]){ [content, extra_search_button] } if content.present?
+      @extra_search = tag(:div, class: ["extras"]){ [content, extra_search_button] } if content.present?
     end
   end
 
@@ -49,7 +49,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def search_form_attributes
-    classes = ["search", "clear-inside"]
+    classes = ["search"]
     classes << "has-text-search" if text_search_available?
     classes << "has-extra-search" if extra_search_available?
     url = url_for(controller: controller_name, action: "index")

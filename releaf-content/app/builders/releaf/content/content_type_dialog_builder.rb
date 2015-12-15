@@ -38,7 +38,7 @@ module Releaf::Content
     end
 
     def content_types_list
-      tag(:div, class: "content-types clear-inside") do
+      tag(:div, class: "content-types") do
         content_types_slices.collect do |slice|
           content_type_slice(slice)
         end

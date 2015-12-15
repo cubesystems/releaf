@@ -171,6 +171,8 @@
 
             .content-types
             {
+                @include clear-inside;
+
                 ul
                 {
                     @include block-list;
@@ -197,6 +199,8 @@
     {
         .node-fields
         {
+            @include clear-inside;
+
             background: $color-background-lighter;
 
             .field[data-name="template"] .value

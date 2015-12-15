@@ -9,7 +9,7 @@ module Releaf::Content::Nodes
     end
 
     def render_node_fields_block
-      tag(:div, class: ["section", "node-fields", "clear-inside"]) do
+      tag(:div, class: ["section", "node-fields"]) do
         releaf_fields(node_fields)
       end
     end

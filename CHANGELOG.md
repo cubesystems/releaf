@@ -1,7 +1,7 @@
 ## Changelog
 
-### 2015.12.14
-* CSS class "block" for block lists has been deprecated and will be removed soon. It is no longer used by releaf. Use `@include block-list;` in SASS instead.
+### 2015.12.15
+* HTML classes "block", "clear" and "clear-inside" have been deprecated and will be removed soon. They are no longer used by releaf. Use `@include block-list;`, and `@include clear-inside;` in SASS instead.
 
 ### 2015.10.16
 * Main menu no longer has icons. You should remove all :icon keys from menu hash in config/initializers/releaf.rb

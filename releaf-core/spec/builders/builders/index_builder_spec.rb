@@ -65,7 +65,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
 
     it "returns url and css classes for search form" do
-      classes = ["search", "clear-inside", "has-text-search", "has-extra-search"]
+      classes = ["search", "has-text-search", "has-extra-search"]
       expect(subject.search_form_attributes).to eq(class: classes, action: "x")
     end
 
@@ -179,7 +179,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
 
     it "returns extra search block" do
-      expect(subject.extra_search_block).to eq('<div class="extras clear-inside">xxbtn</div>')
+      expect(subject.extra_search_block).to eq('<div class="extras">xxbtn</div>')
     end
 
     it "caches extra search content" do

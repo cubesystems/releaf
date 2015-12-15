@@ -31,7 +31,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     it "renders node fields" do
       allow(subject).to receive(:node_fields).and_return([1, 2])
       allow(subject).to receive(:releaf_fields).with([1, 2]).and_return("x")
-      content = '<div class="section node-fields clear-inside">x</div>'
+      content = '<div class="section node-fields">x</div>'
       expect(subject.render_node_fields_block).to eq(content)
     end
   end

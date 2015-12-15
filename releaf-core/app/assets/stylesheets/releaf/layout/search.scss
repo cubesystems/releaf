@@ -1,5 +1,7 @@
 form.search
 {
+    @include clear-inside;
+
     min-height: 20px;
     border-bottom: 2px solid $color-border-light;
 
@@ -53,6 +55,8 @@ form.search
 
     .extras
     {
+        @include clear-inside;
+
         border: 1px solid $color-border-light;
         border-top: none;
         background-color: $color-background-lighter;
