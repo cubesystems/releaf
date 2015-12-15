@@ -302,7 +302,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def date_or_time_fields_input_attributes(name, type, attributes)
     value = object.send(name)
     {
-      class: "#{type}-picker",
+      class: "text #{type}-picker",
       data: {
         "date-format" => date_format_for_jquery,
         "time-format" => time_format_for_jquery
@@ -434,11 +434,13 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "text"}}.deep_merge(options)
+    input = {class: "text"}.deep_merge(input)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
   end
 
   def releaf_link_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "link"}}.deep_merge(options)
+    input = {class: "text"}.deep_merge(input)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
   end
 
