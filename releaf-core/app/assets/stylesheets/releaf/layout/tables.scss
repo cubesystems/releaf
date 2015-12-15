@@ -40,7 +40,7 @@
 
 
     th,
-    td:not(.toolbox-cell) a:not(.button),
+    td:not(.only-icon) a:not(.button),
     td > span
     {
         padding: 5px 6px;
@@ -52,10 +52,15 @@
     }
 
 
-    .toolbox-cell   // :TODO: change this to a more generic class such as .only-icon
+    td.only-icon
     {
         text-align: center;
         width: 46px;
+
+        .trigger
+        {
+            width: 100%;
+        }
     }
 
 
