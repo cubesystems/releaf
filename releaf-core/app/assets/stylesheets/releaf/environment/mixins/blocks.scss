@@ -40,9 +40,36 @@
 
 }
 
+@mixin pop-up-menu
+{
+    // used for floating pop-up menus (toolboxes, localization menus etc)
+    @include block-list;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    text-align: left;
+
+    > ul
+    {
+        @include block-list;
+        position: relative;
+    }
+
+    button, a, .button
+    {
+        display: block;
+        white-space: nowrap;
+        width: 100%;
+        text-align: left;
+    }
+
+}
+
 @mixin full-screen-overlay
 {
-    // used for displaying a clickable closing layer over the whole page when opening a menu etc
+    // used for displaying a clickable closing layer over the whole page under a pop-up-menu
     position: absolute;
     left: 0;
     top: 0;

@@ -43,33 +43,19 @@
 }
 
 
+
+
+
 .localization-menu-items
 {
-    @include block-list;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: left;
-    z-index: 100;
+    @include pop-up-menu;
+
     border: 1px solid $color-border-normal;
-
     box-shadow: 0 0 2px 2px $color-shadow-lightest;
-
-    > ul
-    {
-        position: relative;
-        @include block-list;
-    }
 
     button
     {
-        display: block;
         background: $color-background-lightest;
-        white-space: nowrap;
-
-        width: 100%;
-        text-align: left;
 
         text-transform: uppercase;
         font-size: 14px;
