@@ -1,9 +1,6 @@
-// :TODO: introduce input.text to avoid listing type attribtues
-$text-inputs: 'input[type="text"], input[type="email"], input[type="number"], input[type="password"]';
-
 select,
 textarea,
-#{$text-inputs}
+input.text
 {
     color: $color-text-normal;
     background-color: $color-background-lighter;
@@ -46,7 +43,7 @@ textarea
     padding: 8px;
 }
 
-#{$text-inputs}
+input.text
 {
     padding: 0 9px;
     height: 35px;
@@ -67,7 +64,7 @@ textarea
     {
         select,
         textarea,
-        #{$text-inputs},
+        input.text,
         .mceLayout
         {
              border: 1px solid $color-alert;

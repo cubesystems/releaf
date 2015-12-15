@@ -315,7 +315,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
   describe "#releaf_number_field" do
     it "returns input with type 'number'" do
-      expect(subject).to receive(:number_field).with("title", { value: nil, step: "any" }).and_return("x")
+      expect(subject).to receive(:number_field).with("title", { value: nil, step: "any", class: "text" }).and_return("x")
       expect(subject).to receive(:input_wrapper_with_label).with("title", "x", { label: {}, field: {}, options: { field: { type: "number" }}}).and_return("y")
       expect(subject.releaf_number_field("title")).to eq("y")
     end
