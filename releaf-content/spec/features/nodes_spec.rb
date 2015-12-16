@@ -174,19 +174,22 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
   describe "node order", with_tree: false do
     def create_child parent, child_text, position=nil
+
       visit releaf_content_nodes_path
       open_toolbox_dialog 'Add child', parent, ".view-index .collection li"
       within_dialog do
-        click_link("Text")
+        click_link("Text page")
       end
 
-      fill_in 'Name', with: child_text
-      fill_in "Slug", with: child_text
-      fill_in_richtext 'Text', with: child_text
-      if position
-        select position, from: 'Item position'
+      create_resource do
+        fill_in 'Name', with: child_text
+        fill_in "Slug", with: child_text
+        fill_in_richtext 'Text', with: child_text
+        if position
+          select position, from: 'Item position'
+        end
       end
-      save_and_check_response "Create succeeded"
+
     end
 
     it "creates nodes in correct order" do

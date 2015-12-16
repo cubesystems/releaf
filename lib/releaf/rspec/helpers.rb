@@ -85,9 +85,20 @@ module Releaf
       expect(page).to have_no_css(".dialog")
     end
 
+    def wait_for_all_richtexts
+      # wait for all ckeditors to fully initialize before moving on.
+      # otherwise the page sometimes produces random js errors in fast tests
+      number_of_richtexts = page.all('.field.type-richtext').length
+      if (number_of_richtexts > 0)
+        expect(page).to have_css(".ckeditor-initialized", visible: false, count: number_of_richtexts)
+      end
+    end
+
     def save_and_check_response(status_text)
+      wait_for_all_richtexts
       click_button 'Save'
       expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: status_text)
+      wait_for_all_richtexts
     end
 
     # As there is no visual UI for settings update being successful
@@ -144,8 +155,7 @@ module Releaf
       textarea_id = textareas.first[:id].to_s
       expect(page).to have_css("##{textarea_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
       html = options[:with].to_s
-      page.execute_script("jQuery('##{textarea_id}').val(#{html.to_json})")
-
+      page.execute_script("CKEDITOR.instances['#{textarea_id}'].setData('#{html.to_json}');")
     end
 
   end
