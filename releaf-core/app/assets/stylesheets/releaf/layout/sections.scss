@@ -26,13 +26,9 @@ section > form
 {
     > header
     {
-        @include inverted;
+        @include section-header;
 
-        // :TODO: think about introducing a "heading" mixin (that includes "inverted" mixin)
-
-        padding: 5px 17px;
         margin-top: 20px;
-        position: relative;
 
         .extras
         {

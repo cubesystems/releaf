@@ -83,7 +83,7 @@
 
 @mixin inverted( $background-color: $color-background-inverted-normal, $text-color: $color-text-inverted-lightest )
 {
-    background-color: $background-color;
+    background: $background-color;
     color: $text-color;
 
     .button,
@@ -112,5 +112,14 @@
             }
         }
     }
+
+}
+
+@mixin section-header
+{
+    @include inverted;
+
+    padding: 5px 17px;
+    position: relative;
 
 }
