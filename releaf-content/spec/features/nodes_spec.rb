@@ -129,7 +129,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        error_text = 'Node with id 3 has error "source or descendant node can\'t be parent of new node"'
+        error_text = "Node with id #{@about_us.id} has error \"source or descendant node can't be parent of new node\""
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
@@ -189,7 +189,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       save_and_check_response "Create succeeded"
     end
 
-    it "creates nodes is correct order" do
+    it "creates nodes in correct order" do
       create_child @lv_root, 'a'
       create_child @lv_root, 'b', 'After a'
       create_child @lv_root, 'c', 'After b'
