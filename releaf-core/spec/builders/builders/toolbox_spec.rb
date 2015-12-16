@@ -31,7 +31,7 @@ describe Releaf::Builders::Toolbox, type: :class do
         allow(subject).to receive(:action_name).and_return("edit")
         allow(subject).to receive(:url_for).with({action: :toolbox, id: 212, context: "edit", some_param: 89}).and_return("/toolbox_action")
 
-        expect(subject.toolbox(resource, some_param: 89).strip.gsub(/\s+/,' ')).to eq(%Q[
+        expect(subject.toolbox(resource, some_param: 89)).to match_html(%Q[
           <div class="toolbox" data-url="/toolbox_action">
             <button class="button trigger only-icon" type="button" title="tls">
               <kebab_icon />
@@ -41,7 +41,7 @@ describe Releaf::Builders::Toolbox, type: :class do
               <ul></ul>
             </menu>
         </div>
-        ].strip.gsub(/\s+/,' ').gsub('> <', '><'))
+        ])
       end
     end
   end

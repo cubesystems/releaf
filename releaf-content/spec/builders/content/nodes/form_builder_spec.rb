@@ -182,9 +182,9 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
                   </div>
              </div>
          </div>
-      '.strip.gsub(/\s+/,' ').gsub('> <', '><')
+      '
 
-      expect(subject.render_slug).to eq(content)
+      expect(subject.render_slug).to match_html(content)
     end
   end
 
