@@ -43,6 +43,7 @@ feature "Base controller index", js: true do
   scenario "keeps search parameters when navigating to edit and back" do
     visit admin_books_path(search: "good")
     click_link("good book")
+    wait_for_all_richtexts
     click_link("Back to list")
     expect(page).to have_number_of_resources(1)
   end
