@@ -3,16 +3,13 @@
     .trigger
     {
         display: inline-block;
-        background: none;
         padding: 5px;
         color: $color-highlight-normal;
 
-        &:hover,
-        &:focus,
-        &:active
+        &,
+        &:hover
         {
-            background: none;
-            color: $color-highlight-darker;
+            background-color: transparent;
         }
 
         // :TODO: turn this around. instead of rendering the triggers as disabled,
@@ -20,7 +17,6 @@
         &[disabled]
         {
             color: $color-text-lightest;
-            background: none;
         }
 
     }
@@ -36,38 +32,16 @@
 
     > ul
     {
+        @include inverted;
         top: -16px;
-    }
 
-    .button
-    {
-        background: $color-background-inverted-normal;
-        color: $color-highlight-normal;
-
-
-
-        // :TODO: see if this button color redundancy can be reduced
-        // perhaps these can be done automatically when a button is inside an inverted context
-        &:hover
+        .button
         {
-            background: $color-highlight-normal;
-            color: $color-text-inverted-lightest;
-        }
-
-        &.danger
-        {
-            &:not(:hover)
-            {
-                background: $color-background-inverted-normal;
-                color: $color-alert;
-            }
-
             &:hover
             {
-                background: $color-alert;
+                background-color: $color-highlight-normal;
             }
         }
-
     }
 
     li:not(:last-child) .button

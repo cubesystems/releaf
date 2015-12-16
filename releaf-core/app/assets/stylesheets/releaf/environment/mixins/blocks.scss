@@ -64,8 +64,8 @@
         width: 100%;
         text-align: left;
     }
-
 }
+
 
 @mixin full-screen-overlay
 {
@@ -80,3 +80,37 @@
 }
 
 
+
+@mixin inverted( $background-color: $color-background-inverted-normal, $text-color: $color-text-inverted-lightest )
+{
+    background-color: $background-color;
+    color: $text-color;
+
+    .button,
+    .button.secondary
+    {
+        background-color: inherit;
+        color: $color-highlight-normal;
+
+        &:hover
+        {
+            background-color: inherit;
+            color: $text-color;
+        }
+
+        &.danger
+        {
+            &:not(:hover)
+            {
+                background-color: $background-color;
+                color: $color-alert;
+            }
+
+            &:hover
+            {
+                background-color: $color-alert;
+            }
+        }
+    }
+
+}

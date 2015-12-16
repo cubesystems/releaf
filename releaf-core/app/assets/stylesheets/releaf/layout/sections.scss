@@ -26,9 +26,10 @@ section > form
 {
     > header
     {
+        @include inverted;
+
         // :TODO: think about introducing a "heading" mixin (that includes "inverted" mixin)
-        color: $color-text-inverted-lightest;
-        background-color: $color-background-inverted-normal;
+
         padding: 5px 17px;
         margin-top: 20px;
         position: relative;
@@ -53,7 +54,6 @@ section > form
             text-align: center;
             line-height: 40px;
             padding: 0;
-            background: $color-background-inverted-normal;
         }
     }
 

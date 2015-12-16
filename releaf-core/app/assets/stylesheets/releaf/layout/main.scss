@@ -2,8 +2,6 @@
 // :TODO: see whether the main layout can be done with flexbox
 body > header
 {
-    background: $color-background-inverted-darkest;
-    color: $color-text-inverted-lightest;
     height: 60px;
     position: relative;
     z-index: 10;

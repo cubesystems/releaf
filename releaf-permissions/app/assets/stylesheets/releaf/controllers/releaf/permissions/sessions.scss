@@ -2,8 +2,7 @@
 
 .controller-releaf-permissions-sessions
 {
-    background: $color-background-inverted-darkest;
-    color: $color-text-inverted-lightest;
+    @include inverted( $background-color: $color-background-inverted-darkest );
 
     .container
     {
@@ -58,7 +57,6 @@
         {
             font-weight: normal;
             margin-bottom: 10px;
-            background-color: $color-background-lightest;
 
             &:hover
             {
@@ -66,15 +64,15 @@
             }
         }
 
-        button
+        .button
         {
             margin-top: 23px;
             background-color: $color-highlight-normal;
+            color: $color-text-inverted-lightest;
 
-            &:hover,
-            &:focus
+            &:hover
             {
-                background: $color-highlight-darker;
+                background-color: $color-highlight-darker;
             }
         }
 

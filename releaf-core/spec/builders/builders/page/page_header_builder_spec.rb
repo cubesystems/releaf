@@ -97,7 +97,7 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
       allow(subject).to receive(:profile_user_name).and_return("neim")
       allow(subject).to receive(:profile_settings_url).and_return("url_a")
       allow(subject).to receive(:profile_url).and_return("url_b")
-      content = '<a class="profile" href="url_b" data-settings-url="url_a"><span class="name">neim</span></a>'
+      content = '<a class="button profile" href="url_b" data-settings-url="url_a"><span class="name">neim</span></a>'
       expect(subject.profile_block).to eq(content)
     end
   end
@@ -128,7 +128,7 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
   describe "#sign_out_form" do
     it "returns sign out form" do
       allow(subject).to receive(:sign_out_url).and_return("url_a")
-      content = '<form class="sign-out" action="url_a" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button type="submit"><i class="fa fa-power-off fa-icon-header"></i></button></form>'
+      content = '<form class="sign-out" action="url_a" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button class="button" type="submit"><i class="fa fa-power-off fa-icon-header"></i></button></form>'
       expect(subject.sign_out_form).to eq(content)
     end
   end

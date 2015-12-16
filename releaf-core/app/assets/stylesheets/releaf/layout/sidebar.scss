@@ -1,7 +1,7 @@
 body > aside
 {
-    background: $color-background-inverted-darker;
-    color: $color-text-inverted-normal;
+    @include inverted( $background-color: $color-background-inverted-darker );
+
     position: absolute;
     width: 240px;
     left: 0;
