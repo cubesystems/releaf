@@ -4,7 +4,7 @@ module Releaf::Builders::Toolbox
 
     url = url_for({action: :toolbox, id: resource.id, context: action_name}.merge(extra_params))
 
-    tag(:div, class: "toolbox uninitialized", data: {url: url}) do
+    tag(:div, class: "toolbox", data: {url: url}) do
       [toolbox_button, toolbox_menu]
     end
   end
@@ -16,7 +16,7 @@ module Releaf::Builders::Toolbox
   end
 
   def toolbox_button
-    tag(:button, disabled: "disabled", class: %w(button trigger only-icon), type: "button", title: t("Tools")) do
+    tag(:button, class: %w(button trigger only-icon), type: "button", title: t("Tools")) do
       icon("ellipsis-v lg")
     end
   end

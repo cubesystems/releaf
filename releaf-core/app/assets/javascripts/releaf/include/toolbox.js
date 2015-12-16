@@ -32,8 +32,6 @@ jQuery(function()
             return;
         }
 
-        target.find('.toolbox > .trigger').prop("disabled", false);
-
         toolboxes.bind('toolboxopen', function()
         {
             var toolbox   = jQuery(this);
@@ -197,6 +195,8 @@ jQuery(function()
 
             var items_container = toolbox.find('.toolbox-items ul');
             items_container.data('toolbox', toolbox);
+
+            toolbox.addClass('initialized');
         });
 
     });

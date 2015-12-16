@@ -6,19 +6,18 @@
         padding: 5px;
         color: $color-highlight-normal;
 
-        &,
-        &:hover
+        &, &:hover
         {
             background-color: transparent;
         }
+    }
 
-        // :TODO: turn this around. instead of rendering the triggers as disabled,
-        // add "initialized" class to toolboxes after js is done - same pattern as with dialogs.
-        &[disabled]
+    &:not(.initialized)
+    {
+        .trigger
         {
             color: $color-text-lightest;
         }
-
     }
 }
 

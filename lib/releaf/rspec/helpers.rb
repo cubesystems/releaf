@@ -113,9 +113,9 @@ module Releaf
 
     def open_toolbox(item_name, resource = nil, resource_selector_scope = ".view-index .table tr")
       if resource
-        find(resource_selector_scope + '[data-id="' + resource.id.to_s  + '"] .toolbox button.trigger:not([disabled])').click
+        find(resource_selector_scope + '[data-id="' + resource.id.to_s  + '"] .toolbox.initialized button.trigger').click
       else
-        find('main section header .toolbox-wrap .toolbox button.trigger:not([disabled])').click
+        find('main section header .toolbox-wrap .toolbox.initialized button.trigger').click
       end
 
       click_link item_name
