@@ -1,26 +1,28 @@
 *
 {
-    font-family: inherit;
+    @include reset-font;
 }
 
-body
+html
 {
-    font-family: Arial, Helvetica, sans-serif;
+    @include body-font;
+    @include font-size-normal;
 
-    // use pixels for font-sizes
-    // there is no longer a real need for ems/rems
-    font-size: 14px;
-
-    // use px for line height, so that the line height remains fixed
-    // when inherited by blocks with a different font-size
-    // (unitless line-heights are relative to the current font-size of the target element.
-    // line-heights with units are relative to the font size of the element where they are defined)
-    line-height: 24px;
+    -webkit-text-size-adjust: 100%;
+       -moz-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
 }
+
 
 // :TODO: unify font-sizes/line-heights throughout releaf,
 // so that font-size/line-height changes can be restricted to using a few predefined mixins
 // such as heading-text, small-text etc
+
+h1, h2, h3, h4, h5, h6, p
+{
+    font-size:   inherit;
+    font-weight: inherit;
+}
 
 h1, h2, h3, h4, h5, h6
 {

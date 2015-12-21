@@ -73,9 +73,7 @@ form.search
         select
         {
             width: 135px;
-            font-size: 13px;
-            font-weight: normal;
-            margin-right: 22px;
+            margin-right: steps(2);
         }
 
         input[type="checkbox"],

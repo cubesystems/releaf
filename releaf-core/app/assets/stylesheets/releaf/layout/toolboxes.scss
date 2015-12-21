@@ -10,6 +10,11 @@
         {
             background-color: transparent;
         }
+
+        .fa
+        {
+            @include icon-large;
+        }
     }
 
     &:not(.initialized)

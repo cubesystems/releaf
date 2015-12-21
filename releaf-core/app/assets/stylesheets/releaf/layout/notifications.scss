@@ -2,7 +2,7 @@ body > .notifications
 {
     position: fixed;
     z-index: 60;
-    top: -5px;
+    top: 0;
     left: 30%;
     width: 40%;
 
@@ -14,10 +14,12 @@ body > .notifications
         color: $color-text-lighter;
 
         border-radius: 0;
-        padding: 7px 35px 0 14px;
-        margin-top: 15px;
+
+        @include font-size-larger;
+
+        padding: steps(0.5) steps(3) 0 steps(1);
+        margin-top: steps(1);
         text-shadow: none;
-        line-height: 24px;
 
         box-shadow: 0 0 10px 5px $color-shadow-lighter;
 

@@ -92,7 +92,9 @@
         background-color: inherit;
         color: $color-highlight-normal;
 
-        &:hover
+        &:hover,
+        &:focus,
+        &:active
         {
             background-color: inherit;
             color: $text-color;
@@ -100,13 +102,15 @@
 
         &.danger
         {
-            &:not(:hover)
+            &:not(:hover):not(:focus):not(:active)
             {
                 background-color: $background-color;
                 color: $color-alert;
             }
 
-            &:hover
+            &:hover,
+            &:focus,
+            &:active
             {
                 background-color: $color-alert;
             }
@@ -119,7 +123,7 @@
 {
     @include inverted;
 
-    padding: 5px 17px;
+    padding: steps(0.5) steps(2);
     position: relative;
 
 }

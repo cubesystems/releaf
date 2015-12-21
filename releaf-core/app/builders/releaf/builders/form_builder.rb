@@ -170,7 +170,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def field_type_remove_nested
     button_attributes = {title: t('Remove item'), class: "danger only-icon remove-nested-item"}
     wrapper(class: "remove-item-box") do
-      button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
+      button(nil, "trash-o", button_attributes) << hidden_field("_destroy", class: "destroy")
     end
   end
 

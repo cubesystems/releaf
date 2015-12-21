@@ -26,8 +26,8 @@ describe Releaf::Builders::Toolbox, type: :class do
         resource.id = 212
         allow(resource).to receive(:new_record?).and_return(false)
         allow(subject).to receive(:t).with("Tools").and_return("tls")
-        allow(subject).to receive(:icon).with("ellipsis-v lg").and_return("<kebab_icon />".html_safe)
-        allow(subject).to receive(:icon).with("caret-up lg").and_return("<caret_icon />".html_safe)
+        allow(subject).to receive(:icon).with("ellipsis-v").and_return("<kebab_icon />".html_safe)
+        allow(subject).to receive(:icon).with("caret-up").and_return("<caret_icon />".html_safe)
         allow(subject).to receive(:action_name).and_return("edit")
         allow(subject).to receive(:url_for).with({action: :toolbox, id: 212, context: "edit", some_param: 89}).and_return("/toolbox_action")
 

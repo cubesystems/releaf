@@ -34,8 +34,31 @@
 }
 
 
-@mixin brand-font
+@mixin icon-small
 {
-    font-family: Roboto;
-    font-weight: normal;
+    display: inline;
+    font-size:      10px;
+    line-height:    steps(2);
 }
+
+@mixin icon
+{
+    display: inline;
+    font-size:      14px;
+    line-height:    steps(2);
+}
+
+@mixin icon-large
+{
+    display: inline;
+    font-size:      18px;
+    line-height:    steps(2);
+}
+
+
+
+
+
+
+
+

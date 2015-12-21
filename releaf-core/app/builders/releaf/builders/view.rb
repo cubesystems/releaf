@@ -60,7 +60,7 @@ module Releaf::Builders::View
       content << item[:name]
     end
 
-    content << icon("small chevron-right") unless last
+    content << icon("chevron-right") unless last
 
     tag(:li) do
       safe_join{ content }

@@ -2,7 +2,7 @@
 // :TODO: see whether the main layout can be done with flexbox
 body > header
 {
-    height: 60px;
+    height:  steps(5);
     position: relative;
     z-index: 10;
 }
@@ -18,7 +18,6 @@ main
 {
     display: block;  /* as of now, not all rendering engines recognize the main element as a block */
     position: relative;
-    padding: 0 40px 50px 280px;
+    padding: 0 steps(4) steps(4) steps(23);
     z-index: 1;
 }
-

@@ -1,21 +1,22 @@
 body > aside
 {
     @include inverted( $background-color: $color-background-inverted-darker );
+    @include font-size-larger;
 
     position: absolute;
-    width: 240px;
+    width: steps(20);
     left: 0;
     top: 0;
     z-index: 5;
 
     > *:first-child
     {
-        padding-top: 60px;
+        padding-top: steps(5);
     }
 
     > nav
     {
-        margin-bottom: 50px;
+        margin-bottom: steps(4);
 
         ul
         {
@@ -164,10 +165,10 @@ body > aside .compacter
         }
     }
 
-    i
+    .fa
     {
         color: $color-highlight-normal;
-        font-size: 20px;
+        @include icon-large;
     }
 
 }
@@ -177,12 +178,12 @@ body > aside .compacter
 // compact sidebar stuff
 body.side-compact > main
 {
-    padding-left: 80px;
+    padding-left: steps(7);
 }
 
 body.side-compact > aside
 {
-    width: 40px;
+    width: steps(4);
 
     .compacter button
     {

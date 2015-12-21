@@ -1,6 +1,8 @@
 body > header
 {
     @include inverted( $background-color: $color-background-inverted-darkest );
+    @include font-size-larger;
+
     text-align: right;
 
     .home
@@ -36,9 +38,9 @@ body > header
         height: 60px;
         border-left: 1px solid $color-border-inverted-normal;
 
-        i
+        .fa
         {
-            font-size: 18px;
+            @include icon-large;
         }
     }
 

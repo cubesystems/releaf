@@ -7,7 +7,6 @@ input.text
     border: 1px solid $color-border-normal;
     outline: none;
     font-weight: bold;
-    font-size: 13px;
 
     &:hover
     {
@@ -28,36 +27,37 @@ input.text
 
 select
 {
-    height: 35px;
-    padding: 7px 0 7px 7px;
+    height: steps(3);
+    padding: steps(0.5) 0 steps(0.5) steps(1);
 
     option
     {
-        padding: 0 0 0 7px;
+        padding: 0 0 0 steps(1);
     }
 
 }
 
 textarea
 {
-    padding: 8px;
+    height:  steps(10);
+    padding: steps(0.5) steps(1);
 }
 
 input.text
 {
-    padding: 0 9px;
-    height: 35px;
+    height: steps(3);
+    padding: 0 steps(1);
 }
 
 
 .field
 {
-    padding: 8px 0;
+    padding: steps(0.5) 0;
     float: left;
     width: 410px;
     position: relative;
-    min-height: 66px;
-    margin-left: 30px;
+    min-height: steps(7);
+    margin-left: steps(2);
 
     &.has-error:not(.i18n),
     &.i18n.has-error .localization.has-error
@@ -74,6 +74,11 @@ input.text
     &.type-boolean .value
     {
         padding-top: 35px;
+
+        label
+        {
+            margin-left: steps(1);
+        }
     }
 
     &.type-associated-set
@@ -104,22 +109,12 @@ input.text
 
     .label-wrap
     {
-        padding: 5px 0;
-
-        label
-        {
-            font-size: 13px;
-        }
+        padding: steps(0.5) 0;
 
         .description
         {
-            font-size: 11px;
+            @include font-size-smaller;
         }
-    }
-
-    label
-    {
-        font-size: 13px;
     }
 
     .value
@@ -129,10 +124,11 @@ input.text
         .error-box
         {
             position: absolute;
-            right: 4px;
-            bottom: -20px;
+            right: steps(0.5);
+            bottom: steps(-2);
             color: $color-alert;
-            font-size: 11px;
+
+            @include font-size-smaller;
             font-style: italic;
         }
     }
@@ -167,8 +163,7 @@ section.nested
 
 .ui-widget
 {
-    font-family: inherit;
-    font-size: 100%;
+    @include reset-font;
     padding: 0;
     border: 0;
     width: auto;
@@ -177,8 +172,8 @@ section.nested
 
     button, select
     {
-        font-family: inherit;
-        font-size: 14px;
+        @include reset-font;
+        @include font-size-normal;
     }
 
     .ui-corner-all
@@ -229,9 +224,8 @@ section.nested
                 border: 0;
                 text-decoration: none;
                 text-align: center;
-                font-size: 14px;
+                @include font-size-normal;
                 font-weight: bold;
-                line-height: 1em;
                 background: 0;
                 padding: 0;
             }
@@ -265,11 +259,9 @@ section.nested
 
         th
         {
-            font-weight: normal;
-            font-size: 9px;
+            @include font-size-smaller;
             text-transform: uppercase;
-            line-height: 9px;
-            padding: 7px 11px 6px;
+            padding: 0;
         }
 
     }
@@ -289,15 +281,14 @@ section.nested
         dt
         {
             display: inline-block;
-            font-size: 9px;
+            @include font-size-smaller;
             text-transform: uppercase;
         }
 
         dd
         {
             display: inline-block;
-            font-weight: bold;
-            font-size: 14px;
+            @include font-size-larger;
         }
 
         .ui_tpicker_time

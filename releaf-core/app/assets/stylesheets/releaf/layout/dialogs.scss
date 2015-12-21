@@ -58,17 +58,11 @@
         position: absolute;
         right: 0;
         top: 0;
-        height: 40px;
     }
 
     .dialog header
     {
         margin-top: 0;
-    }
-
-    > .close
-    {
-        top: 40px;
     }
 
 }
@@ -82,35 +76,31 @@
         padding: 37px 10px 55px;
         text-align: center;
 
-        i
+        .fa
         {
             display: block;
             margin: 0 auto;
-            border-radius: 40px;
-            width: 50px;
+            border-radius: steps(4);
+            width: steps(6);
             background-color: $color-background-darker;
             color: $color-text-inverted-lightest;
-            font-size: 3.57em;
-            padding: 9px;
+            font-size:   steps(4);
+            line-height: steps(4);
+            padding:     steps(1);
             text-align: center;
-            line-height: 1em;
-            margin-bottom: 22px;
+            margin-bottom: steps(2)
         }
 
         .question
         {
-            @include brand-font;
-            font-size: 2.2857em;
-            line-height: 1.25em;
+            @include heading-text;
             margin-bottom: 40px;
         }
 
         .description
         {
             color: $color-highlight-normal;
-            font-size: 1em;
-            line-height: 1.4em;
-            font-weight: bold;
+            @include font-size-larger;
         }
 
     }
@@ -133,9 +123,7 @@
         margin-top: 10px;
         overflow-y: auto;
         color: $color-highlight-normal;
-        font-size: 1em;
-        line-height: 1.4em;
-        font-weight: bold;
+        @include font-size-larger;
     }
 
     .body .relations

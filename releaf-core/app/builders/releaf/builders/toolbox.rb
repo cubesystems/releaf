@@ -11,13 +11,13 @@ module Releaf::Builders::Toolbox
 
   def toolbox_menu
     tag(:menu, class: %w(toolbox-items), type: "toolbar") do
-      [icon("caret-up lg"), tag(:ul, "")]
+      [icon("caret-up"), tag(:ul, "")]
     end
   end
 
   def toolbox_button
     tag(:button, class: %w(button trigger only-icon), type: "button", title: t("Tools")) do
-      icon("ellipsis-v lg")
+      icon("ellipsis-v")
     end
   end
 end

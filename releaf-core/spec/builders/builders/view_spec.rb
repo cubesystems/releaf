@@ -148,7 +148,7 @@ describe Releaf::Builders::View, type: :class do
 
     it "adds breadcrumb icon after except when last element given" do
       expect(subject.breadcrumb_item({name: "x"}, true)).to eq('<li>x</li>')
-      expect(subject.breadcrumb_item({name: "x"}, false)).to eq('<li>x<i class="fa fa-small fa-chevron-right"></i></li>')
+      expect(subject.breadcrumb_item({name: "x"}, false)).to eq('<li>x<i class="fa fa-chevron-right"></i></li>')
     end
   end
 

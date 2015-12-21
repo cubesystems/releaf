@@ -5,15 +5,12 @@ section.error
     .description
     {
         color: $color-text-lighter;
-        font-size: 14px;
-        line-height: 25px;
-        margin: 18px 0;
+        @include font-size-larger;
+        margin: lines(1.5) 0;
     }
 
     a.return
     {
-        font-size: 13px;
-        font-weight: bold;
         text-decoration: none;
     }
 

@@ -1,33 +1,48 @@
 .breadcrumbs
 {
     @include block-list;
-    padding: 14px 0px;
+    @include font-size-larger;
+    padding: steps(1) 0px;
     border-bottom: 1px solid $color-border-light;
+    margin-bottom: -1px;
 
     li
     {
-        display: inline-block;
+        display: inline;
 
-        i
+        a
         {
-            padding: 0px 8px;
-            font-size: 10px;
-        }
-    }
+            position: relative;
+            z-index: 100;
+            vertical-align: top;
+            padding: 0 steps(1);
 
-    a
-    {
-        position: relative;
-        z-index: 100;
-        font-size: 1em;
-        color: inherit;
-        text-decoration: none;
-
-        &:hover
-        {
+            color: inherit;
             text-decoration: none;
-            color: $color-highlight-darker;
+
+            &:hover,
+            &:focus
+            {
+                color: $color-highlight-darker;
+            }
         }
+
+        &:first-child
+        {
+            a
+            {
+                padding-left: 0;
+            }
+        }
+
+        .fa
+        {
+            @include icon-small;
+            vertical-align: top;
+            position: relative;
+            top: 1px;
+        }
+
     }
 
 }
