@@ -2,9 +2,9 @@
 // :TODO: see whether the main layout can be done with flexbox
 body > header
 {
-    height:  steps(5);
+    height:   steps(5);
     position: relative;
-    z-index: 10;
+    z-index:  10;
 }
 
 body > aside,

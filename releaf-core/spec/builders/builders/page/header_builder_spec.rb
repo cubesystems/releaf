@@ -128,8 +128,16 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
   describe "#sign_out_form" do
     it "returns sign out form" do
       allow(subject).to receive(:sign_out_url).and_return("url_a")
-      content = '<form class="sign-out" action="url_a" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="yyy" value="xxx" /><button class="button" type="submit"><i class="fa fa-power-off fa-icon-header"></i></button></form>'
-      expect(subject.sign_out_form).to eq(content)
+      content = %Q[
+        <form class="sign-out" action="url_a" accept-charset="UTF-8" method="post">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input type="hidden" name="_method" value="delete" />
+          <input type="hidden" name="yyy" value="xxx" />
+          <button class="button only-icon" type="submit" title="Sign out">
+            <i class="fa fa-power-off fa-icon-header"></i>
+          </button>
+      </form>]
+      expect(subject.sign_out_form).to match_html( content )
     end
   end
 end

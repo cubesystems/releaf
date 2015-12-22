@@ -9,38 +9,44 @@ body > header
     {
         display: block;
         text-decoration: none;
+        text-align: left;
         float: left;
-        margin: 13px 0 0 13px;
+        margin: steps(1) 0 0 steps(1);
     }
+
 
     .profile,
     form.sign-out
     {
         display: inline-block;
-        margin-left: 1px;
-        vertical-align: top;
     }
 
-    .profile
+    .profile.button,
+    form.sign-out .button
     {
         position: relative;
-        text-decoration: none;
-        height: 20px;
-        text-align: right;
-        border-left: 1px solid $color-border-inverted-normal;
-        padding: 20px 30px;
+        padding-top: steps(1.5);
+        padding-bottom: steps(1.5);
+        border-left: 1px solid $color-border-inverted-lighter;
+        margin-left: -1px;
     }
 
-    form.sign-out button
+    .profile.button
+    {
+        padding-left:  steps(2);
+        padding-right: steps(2);
+    }
+
+    form.sign-out .button
     {
         position: relative;
-        width: 60px;
-        height: 60px;
-        border-left: 1px solid $color-border-inverted-normal;
+        width:  steps(5);
+        height: auto;
 
         .fa
         {
             @include icon-large;
+            vertical-align: top;
         }
     }
 
