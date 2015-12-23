@@ -18,6 +18,13 @@ main
 {
     display: block;  /* as of now, not all rendering engines recognize the main element as a block */
     position: relative;
-    padding: 0 steps(4) steps(4) steps(23);
+    padding: 0 steps(4) steps(4) steps(20 + 3);
     z-index: 1;
+
+    .side-compact &
+    {
+        padding-left: steps(4 + 3);
+    }
+
 }
+

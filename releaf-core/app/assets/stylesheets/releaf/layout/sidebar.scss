@@ -176,11 +176,6 @@ body > aside .compacter
 
 
 // compact sidebar stuff
-body.side-compact > main
-{
-    padding-left: steps(7);
-}
-
 body.side-compact > aside
 {
     width: steps(4);
