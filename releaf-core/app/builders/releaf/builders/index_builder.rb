@@ -85,10 +85,12 @@ class Releaf::Builders::IndexBuilder
     collection.respond_to?(:page)
   end
 
+  def pagination_builder_class
+    Releaf::Builders::PaginationBuilder
+  end
+
   def pagination_block
-    template.will_paginate(collection, class: "pagination", params: params.merge(ajax: nil),
-                           renderer: "Releaf::PaginationRenderer::LinkRenderer",
-                           outer_window: 0, inner_window: 2)
+    pagination_builder_class.new(template, collection: collection, params: params).output
   end
 
   def resource_creation_button

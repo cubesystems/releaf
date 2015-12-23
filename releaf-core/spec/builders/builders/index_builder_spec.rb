@@ -272,16 +272,39 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  describe "#pagination_block" do
-    it "returns pagination helper" do
-      allow(subject).to receive(:params).and_return(search: "xxx", ajax: true)
-      allow(template).to receive(:will_paginate)
-        .with(collection, class: "pagination", params: {search: "xxx", ajax: nil},
-            renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2)
-        .and_return("x")
-      expect(subject.pagination_block).to eq("x")
+  describe "#pagination_builder_class" do
+    it "returns a builder class" do
+      expect(subject.pagination_builder_class).to be_a Class
     end
   end
+
+  describe "#pagination_block" do
+
+    before do
+      allow(subject).to receive(:params).and_return(page: "2")
+    end
+
+    it "constructs a new pagination builder and returns its output" do
+      builder_args = [ template, { collection: collection, params: { page: "2" } } ]
+      builder = Releaf::Builders::PaginationBuilder.new( *builder_args )
+
+      expect(builder.class).to receive(:new).with( *builder_args ).and_return( builder )
+      expect(builder).to receive(:output).and_return("xx")
+
+      expect(subject.pagination_block).to eq("xx")
+    end
+
+    it "uses pagination builder class" do
+      dummy = double
+      allow(dummy).to receive(:new).and_return(dummy)
+      allow(dummy).to receive(:output).and_return(:ok)
+      expect(subject).to receive(:pagination_builder_class).and_return(dummy)
+      expect( subject.pagination_block).to eq :ok
+    end
+
+  end
+
+
 
   describe "#resource_creation_button" do
     it "returns resource creation button" do
