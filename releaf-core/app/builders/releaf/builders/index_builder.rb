@@ -24,9 +24,20 @@ class Releaf::Builders::IndexBuilder
   end
 
   def text_search_content
-    [tag(:input, "", name: "search", type: "text", value: params[:search], autofocus: true),
-      button(nil, "search", type: "submit", title: t('Search'))]
+    search_field "search" do
+      [
+        tag(:input, "", name: "search", type: "search", class: "text", value: params[:search], autofocus: true),
+        button(nil, "search", type: "submit", title: t('Search'))
+      ]
+    end
   end
+
+  def search_field( name )
+    tag(:div, class: "search-field", data: { name: name } ) do
+      yield
+    end
+  end
+
 
   def extra_search_content; end
 

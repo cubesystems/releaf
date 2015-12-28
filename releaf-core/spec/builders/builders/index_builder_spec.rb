@@ -144,14 +144,31 @@ describe Releaf::Builders::IndexBuilder, type: :class do
   end
 
   describe "#text_search_content" do
-    it "returnsu array with text search input and button" do
+
+    it "returns text search field and button" do
       allow(subject).to receive(:t).with('Search').and_return("sss")
       allow(subject).to receive(:params).and_return(search: "xxx")
       allow(subject).to receive(:button)
         .with(nil, "search", type: "submit", title: 'sss')
-        .and_return("btn")
-      expect(subject.text_search_content).to eq(['<input name="search" type="text" value="xxx" autofocus="autofocus"></input>',
-                                                 "btn"])
+        .and_return("<search_button />".html_safe)
+      expect(subject).to receive(:search_field).with("search").and_call_original
+      expect(subject.text_search_content).to match_html(%Q[
+        <div class="search-field" data-name="search">
+          <input name="search" type="search" class="text" value="xxx" autofocus="autofocus"></input>
+          <search_button />
+        </div>
+      ])
+    end
+
+  end
+
+  describe "#search_field" do
+    it "returns the given block in a search field wrapper" do
+      expect(subject.search_field("foo") { '<block_html>'.html_safe }).to match_html(%Q[
+        <div class="search-field" data-name="foo">
+          <block_html>
+        </div>
+      ])
     end
   end
 

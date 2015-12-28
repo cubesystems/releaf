@@ -2,9 +2,7 @@
 {
     @include block-list;
     @include font-size-larger;
-    padding: steps(1) 0px;
-    border-bottom: 1px solid $color-border-light;
-    margin-bottom: -1px;
+    padding: steps(0.5) 0;
 
     li
     {

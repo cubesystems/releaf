@@ -1,55 +1,47 @@
 form.search
 {
-    @include clear-inside;
+    text-align: right;
 
-    min-height: 20px;
-    border-bottom: 2px solid $color-border-light;
-
-    &.has-text-search
+    .search-field
     {
-        position: relative;
-        margin-top: -29px;
-    }
+        display: inline-block;
+        margin-left: steps(2);
 
-    &.has-extra-search
-    {
-        border-bottom: none;
+        label,
+        input,
+        select
+        {
+            margin-left: steps(1);
+        }
     }
 
     .text-search
     {
-        float: right;
-
-        input[type="text"]
+        .search-field[data-name="search"]
         {
-            color: $color-text-lightest;
-            font-weight: normal;
-            padding: 0 25px 0 10px;
-            width: 210px;
-            height: 28px;
-            border: 1px solid $color-border-light;
-        }
+            position: relative;
 
-        input[name="search"]
-        {
-            border: 2px solid $color-border-light;
-            border-bottom: none;
-        }
-
-        .button
-        {
-            position: absolute;
-            right: 0;
-            top: 0;
-            background: transparent;
-            padding: 5px 10px;
-            color: $color-highlight-normal;
-
-            &:hover
+            input[type="search"]
             {
-                color: $color-text-light;
+                width: steps(18);
+                border-color: $color-border-light;
+            }
+
+            .button
+            {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: transparent;
+                color: $color-highlight-normal;
+
+                &:hover
+                {
+                    color: $color-text-light;
+                }
             }
         }
+
 
     }
 
@@ -57,29 +49,20 @@ form.search
     {
         @include clear-inside;
 
-        border: 1px solid $color-border-light;
-        border-top: none;
         background-color: $color-background-lighter;
-        padding: 23px;
-        clear: both;
-        border-top: 2px solid $color-border-light;
+        border: 1px solid $color-border-light;
+        margin: -1px 0 (steps(-1) - 1px) 0;
+        padding: steps(2);
 
-        button
-        {
-            padding: 6px 17px;
-        }
-
-        input,
+        input:not([type="checkbox"]):not([type="radio"]),
         select
         {
-            width: 135px;
-            margin-right: steps(2);
+            width: steps(14);
         }
 
-        input[type="checkbox"],
-        input[type="radio"]
+        .button
         {
-            width: auto;
+            margin-left: steps(2);
         }
 
     }

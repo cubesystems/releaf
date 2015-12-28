@@ -1,5 +1,4 @@
 // main layout
-// :TODO: see whether the main layout can be done with flexbox
 body > header
 {
     height:   steps(5);
@@ -26,5 +25,19 @@ main
         padding-left: steps(4 + 3);
     }
 
+    > header
+    {
+        border-bottom: 1px solid $color-border-light;
+        margin-bottom: -1px;
+
+        padding: steps(1) 0;
+
+        @include clear-inside;
+
+        > nav
+        {
+            float: left;
+        }
+    }
 }
 
