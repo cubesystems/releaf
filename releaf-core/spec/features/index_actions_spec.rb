@@ -3,7 +3,7 @@ feature "Base controller index", js: true do
   background do
     auth_as_user
     author = FactoryGirl.create(:author)
-    good_book = FactoryGirl.create(:book, title: "good book", author: author)
+    good_book = FactoryGirl.create(:book, title: "good book", author: author, published_at: Date.parse("2015-12-12"))
     FactoryGirl.create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: good_book)
     FactoryGirl.create(:book, title: "bad book", author: author)
   end
@@ -16,6 +16,15 @@ feature "Base controller index", js: true do
   scenario "search resources dynamically" do
     visit admin_books_path
     search "good"
+    expect(page).to have_number_of_resources(1)
+  end
+
+  scenario "search using extra fields" do
+    visit admin_books_path
+    within_search do
+      fill_in "Published between", with: "2015-11-11"
+      click_button "Filter"
+    end
     expect(page).to have_number_of_resources(1)
   end
 
