@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2015.12.28
+* Extra search fields should now be wrapped in a container with a "search-field" class using the search_field method of IndexBuilder unless a custom layout is needed.
+
 ### 2015.12.15
 * HTML classes "block", "clear" and "clear-inside" have been deprecated and will be removed soon. They are no longer used by releaf. Use `@include block-list;`, and `@include clear-inside;` in SASS instead.
 * Custom input fields with text, email, password or number types now need to have a "text" class to be styled correctly.
