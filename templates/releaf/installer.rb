@@ -12,7 +12,7 @@ if config["database"]["password"].present?
 end
 
 gsub_file 'config/boot.rb', "'../../Gemfile'", "'../../../../Gemfile'"
-append_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w( releaf/*.css releaf/*.js )"
+append_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w( releaf/application.css releaf/controllers/*.css releaf/*.js )"
 
 files_to_remove = %w[
   public/index.html
