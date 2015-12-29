@@ -9,11 +9,13 @@
     {
         border-left:  1px solid $color-border-normal;
         border-right: 1px solid $color-border-normal;
+        padding: 0;
+        vertical-align: top;
     }
 
     tr th
     {
-        text-align: center;
+        text-align:  left;
         font-weight: bold;
     }
 
@@ -35,6 +37,14 @@
         display: inline-block;
         height: 100%;
         width: 100%;
+
+        &:empty
+        {
+            // attempt to stretch empty links to full cell height
+            // at least if the cell contents in the row do not wrap to multiple lines
+            min-height: steps(3);
+            margin-bottom: steps(-1);
+        }
     }
 
 
@@ -42,26 +52,27 @@
     td:not(.only-icon) a:not(.button),
     td > span
     {
-        padding: 5px 6px;
+        padding: steps(0.5) steps(1);
     }
+
+    th:first-child,
+    td:first-child:not(.only-icon) a:not(.button),
+    td:first-child > span
+    {
+        padding-left: steps(2); // align first column with table heading
+    }
+
 
     th span
     {
         display: block;
     }
 
-
     td.only-icon
     {
         text-align: center;
-        width: 46px;
-
-        .trigger
-        {
-            width: 100%;
-        }
+        width: steps(3);
     }
-
 
 
     // remove outer table borders if the table is directly inside a section body
