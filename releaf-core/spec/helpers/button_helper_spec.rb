@@ -5,7 +5,7 @@ describe Releaf::ButtonHelper do
   describe "#releaf_button" do
 
     it "returns an HTML button element with title, icon, text and optional extra attributes" do
-      output = '<button class="button with-icon danger secondary" title="escape&gt;&lt;this" type="button" data-x="escape&lt;this&gt;too"><i class="fa fa-plus"></i>escape&gt;&lt;this</button>'
+      output = '<button class="button with-icon danger secondary" title="escape&gt;&lt;this" type="button" autocomplete="off" data-x="escape&lt;this&gt;too"><i class="fa fa-plus"></i>escape&gt;&lt;this</button>'
       expect(helper.releaf_button("escape><this", "plus", class: [ :danger, "secondary" ], 'data-x' => 'escape<this>too' )).to eq(output)
     end
 

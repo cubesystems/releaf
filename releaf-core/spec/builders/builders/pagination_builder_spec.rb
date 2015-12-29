@@ -196,7 +196,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
 
       it "returns a disabled button with correct class" do
         expect(subject.page_button( -1, 'bar', 'bar-icon' )).to match_html %Q[
-          <button class="button only-icon secondary bar" title="Bar page label" type="button" disabled="disabled">
+          <button class="button only-icon secondary bar" title="Bar page label" type="button" autocomplete="off" disabled="disabled">
             <i class="fa fa-bar-icon"></i>
           </button>
         ]

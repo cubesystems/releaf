@@ -174,7 +174,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
               </div>
               <div class="value">
                   <input value="b" class="text" data-generator-url="http://localhost/slug-generation-url" type="text" name="resource[slug]" id="resource_slug" />
-                  <button class="button only-icon secondary generate" title="Suggest slug" type="button">
+                  <button class="button only-icon secondary generate" title="Suggest slug" type="button" autocomplete="off">
                       <i class="fa fa-keyboard-o"></i>
                   </button>
                   <div class="link">
