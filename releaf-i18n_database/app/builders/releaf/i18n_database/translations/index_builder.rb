@@ -9,7 +9,7 @@ module Releaf::I18nDatabase::Translations
     def search_only_blank_ui
       search_field "only-blank" do
         [
-          check_box_tag(:only_blank, 'true', params['only_blank'].present? ),
+          check_box_tag(:only_blank, 'true', params[:only_blank].present? ),
           label_tag(:only_blank, t("Only blank"))
         ]
       end

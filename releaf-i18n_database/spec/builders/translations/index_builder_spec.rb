@@ -25,8 +25,7 @@ describe Releaf::I18nDatabase::Translations::IndexBuilder, type: :class do
       allow(subject).to receive(:params).and_return(search: "xx")
       allow(subject).to receive(:button).and_return("btn")
       allow(subject).to receive(:search_only_blank_ui).and_return("_blank_ui_")
-      expect(subject.text_search_content.size).to eq(3)
-      expect(subject.text_search_content).to include("_blank_ui_")
+      expect(subject.text_search_content).to start_with("_blank_ui_")
     end
   end
 
@@ -37,12 +36,22 @@ describe Releaf::I18nDatabase::Translations::IndexBuilder, type: :class do
 
     it "returns only blank translation search ui" do
       allow(subject).to receive(:params).and_return(search: "xx")
-      expect(subject.search_only_blank_ui).to eq("<div class=\"search-field-wrapper search-only-blank\"><input type=\"checkbox\" name=\"only_blank\" id=\"only_blank\" value=\"true\" /><label for=\"only_blank\">trnls</label></div>")
+      expect(subject.search_only_blank_ui).to match_html(%Q[
+          <div class="search-field" data-name="only-blank">
+              <input type="checkbox" name="only_blank" id="only_blank" value="true" />
+              <label for="only_blank">trnls</label>
+          </div>
+      ])
     end
 
     it "reflects `only_blank` params to checkbox state" do
       allow(subject).to receive(:params).and_return(only_blank: "1", search: true)
-      expect(subject.search_only_blank_ui).to eq("<div class=\"search-field-wrapper search-only-blank\"><input type=\"checkbox\" name=\"only_blank\" id=\"only_blank\" value=\"true\" checked=\"checked\" /><label for=\"only_blank\">trnls</label></div>")
+      expect(subject.search_only_blank_ui).to match_html(%Q[
+          <div class="search-field" data-name="only-blank">
+              <input type="checkbox" name="only_blank" id="only_blank" value="true" checked="checked" />
+              <label for=\"only_blank\">trnls</label>
+          </div>
+      ])
     end
   end
 
