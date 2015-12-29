@@ -90,10 +90,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
     context "when going to node from toolbox list" do
       it "navigates to targeted node's edit view" do
-        expect(page).to_not have_header(text: 'lv')
+        expect(page).to have_no_header(text: 'lv')
         open_toolbox_dialog "Go to"
-        click_link "lv"
 
+        click_link "lv"
         expect(page).to have_header(text: 'lv')
       end
     end
@@ -129,7 +129,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        error_text = 'Node with id 3 has error "source or descendant node can\'t be parent of new node"'
+        error_text = "Node with id #{@about_us.id} has error \"source or descendant node can't be parent of new node\""
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
@@ -174,22 +174,25 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
   describe "node order", with_tree: false do
     def create_child parent, child_text, position=nil
+
       visit releaf_content_nodes_path
       open_toolbox_dialog 'Add child', parent, ".view-index .collection li"
       within_dialog do
-        click_link("Text")
+        click_link("Text page")
       end
 
-      fill_in 'Name', with: child_text
-      fill_in "Slug", with: child_text
-      fill_in_richtext 'Text', with: child_text
-      if position
-        select position, from: 'Item position'
+      create_resource do
+        fill_in 'Name', with: child_text
+        fill_in "Slug", with: child_text
+        fill_in_richtext 'Text', with: child_text
+        if position
+          select position, from: 'Item position'
+        end
       end
-      save_and_check_response "Create succeeded"
+
     end
 
-    it "creates nodes is correct order" do
+    it "creates nodes in correct order" do
       create_child @lv_root, 'a'
       create_child @lv_root, 'b', 'After a'
       create_child @lv_root, 'c', 'After b'
@@ -199,7 +202,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       visit releaf_content_nodes_path
       find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
 
-      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul.block") do
+      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul") do
         expect( page ).to have_content 'e a b d c'
       end
     end
@@ -212,7 +215,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       visit releaf_content_nodes_path
       find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
 
-      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul.block") do
+      within(".collection li[data-level='1'][data-id='#{@lv_root.id}'] ul") do
         expect( page ).to have_content 'a b c'
       end
     end

@@ -30,11 +30,11 @@ class Releaf::Builders::EditBuilder
 
   def error_notices
     return unless resource.errors.any?
-    tag(:div, id: "error_explanation") do
+    tag(:div, class: "form-error-box") do
       error_notices_header <<
       tag(:ul) do
         resource.errors.full_messages.collect do|message|
-          tag(:li, message)
+          tag(:li, message, class: "error")
         end
       end
     end

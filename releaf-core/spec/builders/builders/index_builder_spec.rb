@@ -65,7 +65,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
 
     it "returns url and css classes for search form" do
-      classes = ["search", "clear-inside", "has-text-search", "has-extra-search"]
+      classes = ["search", "has-text-search", "has-extra-search"]
       expect(subject.search_form_attributes).to eq(class: classes, action: "x")
     end
 
@@ -144,14 +144,31 @@ describe Releaf::Builders::IndexBuilder, type: :class do
   end
 
   describe "#text_search_content" do
-    it "returnsu array with text search input and button" do
+
+    it "returns text search field and button" do
       allow(subject).to receive(:t).with('Search').and_return("sss")
       allow(subject).to receive(:params).and_return(search: "xxx")
       allow(subject).to receive(:button)
         .with(nil, "search", type: "submit", title: 'sss')
-        .and_return("btn")
-      expect(subject.text_search_content).to eq(['<input name="search" type="text" value="xxx" autofocus="autofocus"></input>',
-                                                 "btn"])
+        .and_return("<search_button />".html_safe)
+      expect(subject).to receive(:search_field).with("search").and_call_original
+      expect(subject.text_search_content).to match_html(%Q[
+        <div class="search-field" data-name="search">
+          <input name="search" type="search" class="text" value="xxx" autofocus="autofocus"></input>
+          <search_button />
+        </div>
+      ])
+    end
+
+  end
+
+  describe "#search_field" do
+    it "returns the given block in a search field wrapper" do
+      expect(subject.search_field("foo") { '<block_html>'.html_safe }).to match_html(%Q[
+        <div class="search-field" data-name="foo">
+          <block_html>
+        </div>
+      ])
     end
   end
 
@@ -179,7 +196,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
 
     it "returns extra search block" do
-      expect(subject.extra_search_block).to eq('<div class="extras clear-inside">xxbtn</div>')
+      expect(subject.extra_search_block).to eq('<div class="extras">xxbtn</div>')
     end
 
     it "caches extra search content" do
@@ -208,7 +225,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
       allow(subject).to receive(:t)
         .with("Resources found", count: 0, default: "%{count} resources found", create_plurals: true)
         .and_return("sss")
-      expect(subject.section_header_extras).to eq('<span class="extras totals">sss</span>')
+      expect(subject.section_header_extras).to eq('<span class="extras totals only-text">sss</span>')
     end
 
     context "when collection does not respond to total_entries" do
@@ -272,16 +289,39 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  describe "#pagination_block" do
-    it "returns pagination helper" do
-      allow(subject).to receive(:params).and_return(search: "xxx", ajax: true)
-      allow(template).to receive(:will_paginate)
-        .with(collection, class: "pagination", params: {search: "xxx", ajax: nil},
-            renderer: "Releaf::PaginationRenderer::LinkRenderer", outer_window: 0, inner_window: 2)
-        .and_return("x")
-      expect(subject.pagination_block).to eq("x")
+  describe "#pagination_builder_class" do
+    it "returns a builder class" do
+      expect(subject.pagination_builder_class).to be_a Class
     end
   end
+
+  describe "#pagination_block" do
+
+    before do
+      allow(subject).to receive(:params).and_return(page: "2")
+    end
+
+    it "constructs a new pagination builder and returns its output" do
+      builder_args = [ template, { collection: collection, params: { page: "2" } } ]
+      builder = Releaf::Builders::PaginationBuilder.new( *builder_args )
+
+      expect(builder.class).to receive(:new).with( *builder_args ).and_return( builder )
+      expect(builder).to receive(:output).and_return("xx")
+
+      expect(subject.pagination_block).to eq("xx")
+    end
+
+    it "uses pagination builder class" do
+      dummy = double
+      allow(dummy).to receive(:new).and_return(dummy)
+      allow(dummy).to receive(:output).and_return(:ok)
+      expect(subject).to receive(:pagination_builder_class).and_return(dummy)
+      expect( subject.pagination_block).to eq :ok
+    end
+
+  end
+
+
 
   describe "#resource_creation_button" do
     it "returns resource creation button" do

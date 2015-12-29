@@ -497,7 +497,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:toolbox)
         .with(resource, index_url: "_index_url_").and_return("_toolbox_")
 
-      content = '<td class="toolbox-cell">_toolbox_</td>'
+      content = '<td class="only-icon toolbox-cell">_toolbox_</td>'
       expect(subject.toolbox_cell(resource, {})).to eq(content)
     end
 

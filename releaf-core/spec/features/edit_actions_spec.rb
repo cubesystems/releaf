@@ -47,6 +47,7 @@ feature "Base controller edit", js: true do
     within(".localization-menu-items") do
       click_button "Lv"
     end
+    wait_for_all_richtexts
 
     visit admin_book_path(id: @good_book.id)
     expect(page).to have_css('#resource_description_lv[value="in lv"]')
@@ -61,6 +62,7 @@ feature "Base controller edit", js: true do
     visit admin_books_path(search: "good")
     click_link("good book")
     expect(page).to have_link("Back to list")
+    wait_for_all_richtexts
 
     visit admin_book_path(Book.first)
     expect(page).to_not have_link("Back to list")

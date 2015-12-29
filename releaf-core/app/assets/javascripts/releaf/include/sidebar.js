@@ -88,6 +88,7 @@ jQuery(function(){
         {
             var button = jQuery(this);
             var icon = button.find('i').first();
+            var title_attribute;
 
             if (body.hasClass('side-compact'))
             {
@@ -95,13 +96,16 @@ jQuery(function(){
                 body.trigger( 'settingssave', [ "releaf.side.compact", false ] );
                 body.removeClass('side-compact');
                 icon.addClass('fa-angle-double-left').removeClass('fa-angle-double-right');
+                title_attribute = 'title-collapse';
             }
             else
             {
                 body.trigger( 'settingssave', [ "releaf.side.compact", true ] );
                 body.addClass('side-compact');
                 icon.addClass('fa-angle-double-right').removeClass('fa-angle-double-left');
+                title_attribute = 'title-expand';
             }
+            button.attr('title', button.data(title_attribute));
             body.trigger('sidecompactchange');
         });
 

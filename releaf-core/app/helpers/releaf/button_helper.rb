@@ -16,7 +16,10 @@ module Releaf
         title: text
       }
 
-      default_attributes[:type] = :button unless attributes.key? :href
+      unless attributes.key? :href
+        default_attributes[:type] = :button
+        default_attributes[:autocomplete] = "off"
+      end
 
       if icon.present?
         icon_class = (text.present?) ? "with-icon" : "only-icon"

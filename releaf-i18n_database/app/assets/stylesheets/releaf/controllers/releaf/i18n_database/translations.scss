@@ -1,104 +1,90 @@
-.controller-releaf-i18n-database-translations.view-edit section
-{
-    padding: 0;
-}
+@import 'releaf/environment';
 
-.controller-releaf-i18n-database-translations.view-edit section form,
-.controller-releaf-i18n-database-translations.view-edit section form > footer
+.controller-releaf-i18n-database-translations
 {
-    max-width: none;
-}
+    &.view-edit,
+    &.view-import
+    {
+        section
+        {
+            padding: 0;
 
-.controller-releaf-i18n-database-translations.view-edit section form > .body
-{
-    border: none;
-}
+            form
+            {
+                &,
+                > footer
+                {
+                    max-width: none;
+                }
 
-/* header */
-.controller-releaf-i18n-database-translations.view-edit .table .code-header,
-.controller-releaf-i18n-database-translations.view-import .table .code-header
-{
-    width: 200px;
-}
-.controller-releaf-i18n-database-translations.view-edit .table .delete-header,
-.controller-releaf-i18n-database-translations.view-import .table .delete-header
-{
-    min-width: 20px;
-    max-width: 20px;
-    width: 20px;
-}
+                > .body
+                {
+                    border: none;
+                }
+            }
+        }
 
-/* body */
-.controller-releaf-i18n-database-translations.view-edit .header,
-.controller-releaf-i18n-database-translations.view-import .header
-{
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-.controller-releaf-i18n-database-translations.view-edit .header .value input,
-.controller-releaf-i18n-database-translations.view-import .header .value input
-{
+        .table
+        {
+            .code
+            {
+                width: steps(24);
+            }
 
-    font-weight: normal;
-}
+            td
+            {
+                padding: 0;
+                background-color: $color-background-lightest;
+                border: 1px solid $color-border-normal;
 
-.controller-releaf-i18n-database-translations.view-edit .table td,
-.controller-releaf-i18n-database-translations.view-import .table td
-{
-    padding: 0;
-    border-style: solid;
-    border-width: 1px;
-    text-align: center;
-    background-color: white;
-}
-.controller-releaf-i18n-database-translations.view-edit .table td,
-.controller-releaf-i18n-database-translations.view-import .table td
-{
-    border-color: #DDDDDD;
-}
-.controller-releaf-i18n-database-translations.view-edit .table td.translation-name,
-.controller-releaf-i18n-database-translations.view-import .table td.translation-name
-{
-    background: #f5f7f8;
-}
-.controller-releaf-i18n-database-translations.view-edit .table input,
-.controller-releaf-i18n-database-translations.view-import .table input
-{
-    border-width: 0;
-    font-weight: normal;
-    padding: 5px 3px;
-    background: transparent none;
-    width: 100%;
-}
+                &.translation-name
+                {
+                    background: $color-background-normal;
 
-.controller-releaf-i18n-database-translations.view-edit .table .button.danger,
-.controller-releaf-i18n-database-translations.view-import .table .button.danger
-{
-    background: inherit;
-    color: inherit;
-}
-.controller-releaf-i18n-database-translations.view-edit .table .changed input,
-.controller-releaf-i18n-database-translations.view-import .table .changed input
-{
-    background-color: #7AD528;
-    border-color: #C1AD2F;
-}
-.controller-releaf-i18n-database-translations.view-edit .table input:focus,
-.controller-releaf-i18n-database-translations.view-import .table input:focus
-{
-    border-width: 1px;
-    margin: -1px;
-}
-.controller-releaf-i18n-database-translations.view-edit .table .delete-column,
-.controller-releaf-i18n-database-translations.view-import .table .delete-column
-{
-    border-right: none;
-}
+                    input.text
+                    {
+                        padding-left: steps(2);
+                    }
+                }
+            }
 
+            input.text
+            {
+                border-width: 0;
+                font-weight: normal;
+                background: transparent none;
+                width: 100%;
 
-.controller-releaf-i18n-database-translations.view-index form.search .search-only-blank
-{
-    float: left;
-    margin-right: 20px;
-    margin-top: 3px;
+                &:focus
+                {
+                    border-width: 1px;
+                    margin-left: -1px;
+                    margin-right: -1px;
+                }
+            }
+
+            .button.danger:not(:hover)
+            {
+                background: inherit;
+                color: inherit;
+            }
+
+            .changed input
+            {
+                background-color: $color-highlight-lighter;
+                border-color: $color-highlight-normal;
+            }
+
+            .delete-column
+            {
+                border-right: none;
+            }
+
+            + .tools
+            {
+                margin-top: steps(2);
+            }
+        }
+
+    }
 }

@@ -168,9 +168,9 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_type_remove_nested
-    button_attributes = {title: t('Remove item'), class: "danger only-icon remove-nested-item"}
+    button_attributes = {title: t('Remove item'), class: "danger remove-nested-item"}
     wrapper(class: "remove-item-box") do
-      button(nil, "trash-o lg", button_attributes) << hidden_field("_destroy", class: "destroy")
+      button(nil, "trash-o", button_attributes) << hidden_field("_destroy", class: "destroy")
     end
   end
 
@@ -302,7 +302,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   def date_or_time_fields_input_attributes(name, type, attributes)
     value = object.send(name)
     {
-      class: "#{type}-picker",
+      class: "text #{type}-picker",
       data: {
         "date-format" => date_format_for_jquery,
         "time-format" => time_format_for_jquery
@@ -405,7 +405,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_password_field(name, input: {}, label: {}, field: {}, options: {}, &block)
-    attributes = input_attributes(name, {autocomplete: "off"}.merge(input), options)
+    attributes = input_attributes(name, {autocomplete: "off", class: "text"}.merge(input), options)
     options = {field: {type: "password"}}.deep_merge(options)
     content = password_field(name, attributes)
 
@@ -413,7 +413,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def releaf_number_field(name, input: {}, label: {}, field: {}, options: {}, &block)
-    attributes = input_attributes(name, {value: object.send(name), step: "any"}.merge(input), options)
+    attributes = input_attributes(name, {value: object.send(name), step: "any", class: "text" }.merge(input), options)
     options = {field: {type: "number"}}.deep_merge(options)
     content = number_field(name, attributes)
 
@@ -425,7 +425,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   alias_method :releaf_decimal_field, :releaf_number_field
 
   def releaf_text_field(name, input: {}, label: {}, field: {}, options: {}, &block)
-    attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
+    attributes = input_attributes(name, {value: object.send(name), class: "text"}.merge(input), options)
     options = {field: {type: "text"}}.deep_merge(options)
     content = text_field(name, attributes)
 
@@ -434,11 +434,13 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
 
   def releaf_text_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "text"}}.deep_merge(options)
+    input = {class: "text"}.deep_merge(input)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
   end
 
   def releaf_link_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "link"}}.deep_merge(options)
+    input = {class: "text"}.deep_merge(input)
     localized_field(name, :text_field, input: input, label: label, field: field, options: options)
   end
 
@@ -508,8 +510,8 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
       button_tag(type: 'button', title: t('Switch locale'), class: "trigger") do
         tag(:span, default_locale, class: "label") + tag(:i, nil, class: ["fa", "fa-chevron-down"])
       end <<
-      tag(:menu, class: ["block", "localization-menu-items"], type: 'toolbar') do
-        tag(:ul, class: "block") do
+      tag(:menu, class: ["localization-menu-items"], type: 'toolbar') do
+        tag(:ul) do
           object.class.globalize_locales.collect do |locale, i|
             tag(:li) do
               tag(:button, translate_locale(locale), type: "button", data: {locale: locale})

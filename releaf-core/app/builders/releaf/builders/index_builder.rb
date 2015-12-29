@@ -24,9 +24,20 @@ class Releaf::Builders::IndexBuilder
   end
 
   def text_search_content
-    [tag(:input, "", name: "search", type: "text", value: params[:search], autofocus: true),
-      button(nil, "search", type: "submit", title: t('Search'))]
+    search_field "search" do
+      [
+        tag(:input, "", name: "search", type: "search", class: "text", value: params[:search], autofocus: true),
+        button(nil, "search", type: "submit", title: t('Search'))
+      ]
+    end
   end
+
+  def search_field( name )
+    tag(:div, class: "search-field", data: { name: name } ) do
+      yield
+    end
+  end
+
 
   def extra_search_content; end
 
@@ -39,7 +50,7 @@ class Releaf::Builders::IndexBuilder
       @extra_search
     else
       content = extra_search_content
-      @extra_search = tag(:div, class: ["extras",  "clear-inside"]){ [content, extra_search_button] } if content.present?
+      @extra_search = tag(:div, class: ["extras"]){ [content, extra_search_button] } if content.present?
     end
   end
 
@@ -49,7 +60,7 @@ class Releaf::Builders::IndexBuilder
   end
 
   def search_form_attributes
-    classes = ["search", "clear-inside"]
+    classes = ["search"]
     classes << "has-text-search" if text_search_available?
     classes << "has-extra-search" if extra_search_available?
     url = url_for(controller: controller_name, action: "index")
@@ -63,7 +74,7 @@ class Releaf::Builders::IndexBuilder
 
   def section_header_extras
     return unless collection.respond_to? :total_entries
-    tag(:span, class: "extras totals") do
+    tag(:span, class: "extras totals only-text") do
       t("Resources found", count: collection.total_entries, default: "%{count} resources found", create_plurals: true)
     end
   end
@@ -85,10 +96,12 @@ class Releaf::Builders::IndexBuilder
     collection.respond_to?(:page)
   end
 
+  def pagination_builder_class
+    Releaf::Builders::PaginationBuilder
+  end
+
   def pagination_block
-    template.will_paginate(collection, class: "pagination", params: params.merge(ajax: nil),
-                           renderer: "Releaf::PaginationRenderer::LinkRenderer",
-                           outer_window: 0, inner_window: 2)
+    pagination_builder_class.new(template, collection: collection, params: params).output
   end
 
   def resource_creation_button

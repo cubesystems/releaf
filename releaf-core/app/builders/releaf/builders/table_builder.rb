@@ -259,7 +259,7 @@ class Releaf::Builders::TableBuilder
 
   def toolbox_cell(resource, options)
     toolbox_args = {index_url: controller.index_url}.merge(options.fetch(:toolbox, {}))
-    tag(:td, class: "toolbox-cell") do
+    tag(:td, class: "only-icon toolbox-cell") do
       toolbox(resource, toolbox_args)
     end
   end

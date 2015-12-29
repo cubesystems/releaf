@@ -1,10 +1,9 @@
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *= require_self
- *= require jquery-ui
- *= require_tree ./include
- *= require font-awesome
- *= require_tree ./3rd_party
-*/
+//= require jquery-ui
+//= require font-awesome
+// :TODO: get rid of the icon font and use svg spritesheet
+
+
+// releaf path prefix is used so that any overrides in the project's folder
+// can be placed in stylesheets/releaf folder and not clash with other stylesheets of the project
+@import 'releaf/environment';  // import sass variables, functions and mixins
+@import 'releaf/layout';       // import releaf styling rules
