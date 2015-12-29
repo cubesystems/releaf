@@ -2,11 +2,13 @@
 
 .controller-releaf-content-nodes
 {
+    main > section:not(.dialog) > .body
+    {
+        border-bottom: none;
+    }
+
     .collection
     {
-        border-left:  1px solid $color-border-normal;
-        border-right: 1px solid $color-border-normal;
-
         ul
         {
             @include block-list;
@@ -25,17 +27,12 @@
         .collapser-cell
         {
             float: left;
-            border: 0;
-            margin: 0;
-            width: 25px;
         }
 
         .toolbox-cell
         {
             border-left: 1px solid $color-border-normal;
             float: right;
-            margin-left: -50px;
-            margin-bottom: -1px;
         }
 
         .collapser-cell,
@@ -43,9 +40,6 @@
         {
             .trigger
             {
-                width:  30px;
-                height: 30px;
-                padding: 4px 5px;
                 background: transparent;
             }
         }
@@ -59,9 +53,8 @@
                 display: block;
                 color: $color-text-lightest;
                 text-decoration: none;
-                padding: 5px 10px 5px 0;
+                padding: steps(0.5) steps(3);
                 font-weight: bold;
-                cursor: pointer;
 
                 &.selected,
                 &:hover
@@ -72,7 +65,6 @@
                 span
                 {
                     position: relative;
-                    left: 7px
                 }
             }
 
@@ -85,7 +77,6 @@
             {
                 margin-left: 0;
                 display: inline-block;
-                padding-right: 30px;
             }
 
             input[type="radio"]
@@ -104,12 +95,12 @@
                 {
                     $previous: $i - 1;
                     position: absolute;
-                    left: #{$previous*25}px;
+                    left: $previous * steps(2);
                 }
 
                 & > .node-cell span
                 {
-                    margin-left: #{$i*25}px;
+                    margin-left: ($i - 1) * steps(2);
                 }
             }
         }
@@ -130,40 +121,35 @@
     &.view-index > main > section
     {
         display: inline-block;
-        min-width: 360px;
-
-        .collection .node-cell span
-        {
-            margin-right: 50px;
-        }
+        min-width: steps(30);
     }
 
 
     .dialog
     {
-        width: 500px;
+        width: steps(40);
 
         &.content-type
         {
             &[data-columns="1"]
             {
-                width: 280px;
+                width: steps(24);
             }
 
             .body
             {
-                padding: 20px 40px;
+                padding: steps(2) steps(3);
                 text-align: center;
 
                 .description
                 {
-                    padding: 0 0 20px 0;
+                    padding: 0 0 steps(2) 0;
                 }
 
                 ul
                 {
-                    width: 200px;
-                    margin-left: 20px;
+                    width: steps(18);
+                    margin-left: steps(2);
                     float: left;
                 }
             }
@@ -178,7 +164,7 @@
 
                     li
                     {
-                        margin-bottom: 0.5em;
+                        margin-bottom: steps(1);
                     }
                 }
             }
@@ -188,7 +174,7 @@
         {
             .body
             {
-                height: 25em;
+                height: steps(24);
                 overflow-y: auto;
             }
         }
@@ -202,32 +188,23 @@
 
             background: $color-background-lighter;
 
-            .field[data-name="template"] .value
-            {
-                height: 35px;
-                font-weight: bold;
-            }
-
             .field[data-name="slug"]
             {
                 .button.generate
                 {
                     position: absolute;
-                    right: 1px;
-                    top: 1px;
-                    padding: 6px 11px;
-                    width: 38px;
-                    height: 33px;
+                    right: 0;
+                    top: 0;
                 }
 
                 input[type="text"]
                 {
-                    padding-right: 40px;
+                    padding-right: steps(4);
                 }
 
                 .link
                 {
-                    margin-top: 0.5em;
+                    padding: steps(0.5) 0;
                     span
                     {
                         color: $color-text-normal;
@@ -246,18 +223,8 @@
                 }
             }
 
-            hr
-            {
-                clear: both;
-                border: 1px solid $color-border-normal;
-                margin: 7px 34px 7px 0px;
-            }
         }
 
-        .content-fields
-        {
-            border-top: none;
-        }
     }
 }
 
