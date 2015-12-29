@@ -62,13 +62,20 @@ describe Releaf::Builders::EditBuilder, type: :class do
 
   describe "#error_notices" do
     before do
-      allow(subject).to receive(:error_notices_header).and_return(ActiveSupport::SafeBuffer.new("x"))
+      allow(subject).to receive(:error_notices_header).and_return("<error_notice_header />".html_safe)
     end
 
     context "when errors exists" do
       it "returns errors block" do
         resource.valid?
-        expect(subject.error_notices).to eq('<div id="error_explanation">x<ul><li>Title Blank</li></ul></div>')
+        expect(subject.error_notices).to match_html(%Q[
+          <div class="form-error-box">
+              <error_notice_header />
+              <ul>
+                <li class="error">Title Blank</li>
+              </ul>
+          </div>
+        ])
       end
     end
 

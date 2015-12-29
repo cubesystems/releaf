@@ -8,19 +8,16 @@ form, fieldset
 
 form fieldset
 {
-    padding: 0 0 20px 0;
-    margin: 30px;
+    padding: 0 0 steps(2) 0;
+    margin: steps(3);
     clear: both;
     @include clear-inside;
 }
 
 .form-error-box
 {
-    border: 1px solid $color-border-normal;
-    padding: 15px 25px;
-    margin: 0px;
+    padding: steps(1) steps(2);
+    margin: 0;
     color: $color-notification-error-text;
     background-color: $color-notification-error-background;
-    border-top: none;
-    border-bottom: none;
 }

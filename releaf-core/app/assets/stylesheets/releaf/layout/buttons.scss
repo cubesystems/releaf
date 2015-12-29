@@ -20,7 +20,7 @@ input[type="submit"]
 
     &:not(.only-icon) i
     {
-        padding-right: 9px;
+        padding-right: steps(1)
     }
 
     &:hover,
@@ -92,7 +92,7 @@ input[type="submit"]
             padding: 0;
             position: absolute;
             left: 50%;
-            top: 50%;
+            top:  50%;
             margin-left: -0.5em;
             margin-top:  -0.5em;
         }

@@ -218,10 +218,13 @@ module Releaf
 
     def form_attributes(form_type, object, object_name)
       action = object.respond_to?(:persisted?) && object.persisted? ? :edit : :new
+      action_object_name = "#{action}-#{object_name}"
+      classes = [ action_object_name ]
+      classes << "has-error" if object.errors.any?
       {
         multipart: true,
-        id: "#{action}-#{object_name}",
-        class: "#{action}-#{object_name}",
+        id: action_object_name,
+        class: classes,
         data: {
           "remote" => true,
           "remote-validation" => true,
@@ -230,6 +233,8 @@ module Releaf
         novalidate: ''
       }
     end
+
+
 
     def builder_class(builder_type)
       Releaf::Builders.builder_class(builder_scopes, builder_type)
