@@ -26,49 +26,44 @@
 
         .table
         {
-            .code-header
+            .code
             {
-                width: 200px;
-            }
-
-            .delete-header
-            {
-                min-width: 20px;
-                max-width: 20px;
-                width: 20px;
+                width: steps(24);
             }
 
             td
             {
                 padding: 0;
-                border-style: solid;
-                border-width: 1px;
-                text-align: center;
                 background-color: $color-background-lightest;
-                border-color: $color-border-normal;
+                border: 1px solid $color-border-normal;
 
                 &.translation-name
                 {
                     background: $color-background-normal;
+
+                    input.text
+                    {
+                        padding-left: steps(2);
+                    }
                 }
             }
 
-            input
+            input.text
             {
                 border-width: 0;
                 font-weight: normal;
-                padding: 5px 3px;
                 background: transparent none;
                 width: 100%;
 
                 &:focus
                 {
                     border-width: 1px;
-                    margin: -1px;
+                    margin-left: -1px;
+                    margin-right: -1px;
                 }
             }
 
-            .button.danger
+            .button.danger:not(:hover)
             {
                 background: inherit;
                 color: inherit;
@@ -84,17 +79,12 @@
             {
                 border-right: none;
             }
-        }
 
-        .header
-        {
-            padding-top: 3px;
-            padding-bottom: 3px;
-
-            .value input
+            + .tools
             {
-                font-weight: normal;
+                margin-top: steps(2);
             }
         }
+
     }
 }
