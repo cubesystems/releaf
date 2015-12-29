@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::Builders::EditBuilder, type: :class do
-  class EditBuilderTestHelper < ActionView::Base
+  class TranslationsEditBuilderTestHelper < ActionView::Base
     include Releaf::ApplicationHelper
     def protect_against_forgery?
       true
@@ -15,7 +15,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
-  let(:template){ EditBuilderTestHelper.new }
+  let(:template){ TranslationsEditBuilderTestHelper.new }
   let(:subject){ described_class.new(template) }
   let(:controller){ Releaf::BaseController.new }
   let(:resource){ Book.new }

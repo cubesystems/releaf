@@ -234,9 +234,60 @@ describe Admin::AuthorsController do
   end
 
   describe "#current_url" do
-    it "returns current url without internal params" do
+    it "returns current url without `ajax` param" do
       get :index, ajax: 1, search: "something", page: 1
       expect(subject.current_url).to eq("/admin/authors?page=1&search=something")
+    end
+
+    context "when no query parameters exists" do
+      it "returns only request path" do
+        get :index
+        expect(subject.current_url).to eq("/admin/authors")
+      end
+    end
+
+    it "caches current url value" do
+      get :index
+      expect(subject).to receive(:request).twice.and_call_original
+      subject.current_url
+      subject.current_url
+      subject.current_url
+      subject.current_url
+    end
+  end
+
+  describe "#ajax?" do
+    it "returns @_ajax instance variable value" do
+      subject.instance_variable_set("@_ajax", "ll")
+      expect(subject.ajax?).to eq("ll")
+    end
+
+    context "when @_ajax instance variable has not been set" do
+      it "returns false" do
+        expect(subject.ajax?).to be false
+      end
+    end
+  end
+
+  describe "#manage_ajax" do
+    context "when `ajax` params does not exists within params" do
+      it "assigns `false` to @_ajax instance variable" do
+        expect{ get :index }.to change{ subject.instance_variable_get("@_ajax") }.from(nil).to(false)
+      end
+    end
+
+    context "when `ajax` params exists within params" do
+      it "assigns `true` to @_ajax instance variable" do
+        expect{ get :index, ajax: 1 }.to change{ subject.instance_variable_get("@_ajax") }.from(nil).to(true)
+      end
+
+      it "removes ajax from `params`" do
+        expect{ get :index, ajax: 1 }.to_not change{ subject.params[:ajax] }.from(nil)
+      end
+
+      it "removes ajax from `request.query_parameters`" do
+        expect{ get :index, ajax: 1 }.to_not change{ subject.request.query_parameters[:ajax] }.from(nil)
+      end
     end
   end
 

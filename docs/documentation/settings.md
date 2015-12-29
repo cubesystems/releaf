@@ -31,7 +31,7 @@ To enable simple controller for changing existing Releaf::Settings values, make 
 
 * Add "Releaf::SettingsComponent" to releaf components definition:
 ```
-conf.components = [Releaf::Core::SettingsUIComponent]
+config.components = [Releaf::Core::SettingsUIComponent]
 ```
 * Add "releaf/core/controller" to releaf menu definition:
 ```

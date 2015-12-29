@@ -8,11 +8,11 @@ SimpleCov.command_name 'rspec'
 Coveralls.wear!('rails')
 
 if ENV["COVERAGE"]
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::RcovFormatter,
     Coveralls::SimpleCov::Formatter
-  ]
+  ])
   SimpleCov.start do
     add_filter '/config/'
     add_filter '/lib/tasks'

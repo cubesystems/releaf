@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::Builders::IndexBuilder, type: :class do
-  class IndexBuilderTestHelper < ActionView::Base
+  class TranslationsIndexBuilderTestHelper < ActionView::Base
     include Releaf::ApplicationHelper
     delegate :resource_class, :table_options, to: :controller
 
@@ -14,7 +14,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  let(:template){ IndexBuilderTestHelper.new }
+  let(:template){ TranslationsIndexBuilderTestHelper.new }
   let(:subject){ described_class.new(template) }
   let(:collection){ Book.page(1).per_page(2) }
 

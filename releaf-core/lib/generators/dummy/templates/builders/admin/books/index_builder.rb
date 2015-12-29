@@ -2,7 +2,16 @@ module Admin::Books
   class IndexBuilder < Releaf::Builders::IndexBuilder
 
     def extra_search_content
-      publishing_date_search_fields
+      active_search_field + publishing_date_search_fields
+    end
+
+    def active_search_field
+      search_field :only_active do
+        [
+          check_box_tag(:only_active, 'true', params['only_active'].present?),
+          label_tag(:only_active, t("Only active"))
+        ]
+      end
     end
 
     def publishing_date_search_fields
@@ -18,6 +27,4 @@ module Admin::Books
 
   end
 end
-
-
 

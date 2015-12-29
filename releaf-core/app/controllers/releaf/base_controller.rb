@@ -22,7 +22,6 @@ module Releaf
       :table_options,
       :ajax?,
       :controller_scope_name,
-      :current_params,
       :current_url,
       :active_view,
       :index_url,
@@ -79,7 +78,7 @@ module Releaf
 
     def confirm_destroy
       prepare_destroy
-      @restricted_relations = restricted_relations unless destroyable?
+      @restricted_relations = Releaf::Core::ResourceUtilities.restricted_relations(@resource)
       respond_with(@resource, destroyable: destroyable?)
     end
 
@@ -98,38 +97,8 @@ module Releaf
     #
     # @return boolean true or false
     def destroyable?
-      resource_class.reflect_on_all_associations.all? do |assoc|
-        assoc.options[:dependent] != :restrict_with_exception ||
-          !@resource.send(assoc.name).exists?
-      end
+      Releaf::Core::ResourceUtilities.destroyable?(@resource)
     end
-
-
-    # Lists relations for @resource with dependent: :restrict_with_exception
-    #
-    # @return hash of all related objects, who have dependancy :restrict_with_exception
-    def restricted_relations
-      relations = {}
-      resource_class.reflect_on_all_associations.each do |assoc|
-        if assoc.options[:dependent] == :restrict_with_exception && @resource.send(assoc.name).exists?
-          relations[assoc.name.to_sym] = {
-            objects:    @resource.send(assoc.name),
-            controller: association_controller(assoc)
-          }
-        end
-      end
-
-      relations
-    end
-
-    # Attempts to guess associated controllers name
-    #
-    # @return controller name
-    def association_controller association
-      guessed_name = association.name.to_s.pluralize
-      guessed_name if Releaf.application.config.controllers.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
-    end
-
 
     # Helper methods ##############################################################################
 
@@ -137,15 +106,7 @@ module Releaf
     #
     # @return String
     def current_url
-      if @current_url.nil?
-        @current_url = request.path
-        real_params = params.except(:action, :controller, :ajax)
-        unless real_params.empty?
-          @current_url += "?#{real_params.to_query}"
-        end
-      end
-
-      @current_url
+      @current_url ||= [request.path, (request.query_parameters.to_query if request.query_parameters.present?)].compact.join("?")
     end
 
     # Returns index url for current request
@@ -459,11 +420,6 @@ module Releaf
       url_for(action: 'edit', id: @resource.id, index_url: index_url)
     end
 
-    # returns all params except :controller, :action and :format
-    def current_params
-      params.except(:controller, :action, :format)
-    end
-
     def feature_disabled exception
       @feature = exception.message
       respond_with(nil, responder: action_responder(:feature_disabled))
@@ -483,7 +439,10 @@ module Releaf
 
     def manage_ajax
       @_ajax = params.has_key? :ajax
-      params.delete(:ajax)
+      if @_ajax
+        request.query_parameters.delete(:ajax)
+        params.delete(:ajax)
+      end
     end
   end
 end

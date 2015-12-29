@@ -10,8 +10,8 @@ weight: 7
 in ```config/initializers/releaf.rb``` set
 
 ```ruby
-Releaf.setup do |conf|
-  conf.devise_for = 'custom_admin'
+Releaf.application.config do
+  config.devise_for = 'custom_admin'
 end
 ```
 Where custom_admin is underscored name of you custom admin model.

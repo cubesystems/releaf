@@ -33,4 +33,8 @@ module Releaf::Content
       end
     end
   end
+
+  ActiveSupport.on_load :action_controller do
+    ActionDispatch::Routing::Mapper.send(:include, Releaf::Content::NodeMapper)
+  end
 end

@@ -9,7 +9,7 @@ module Releaf::I18nDatabase::Translations
     def search_only_blank_ui
       search_field "only-blank" do
         [
-          check_box_tag(:only_blank, 'true', params['only_blank'] == 'true'),
+          check_box_tag(:only_blank, 'true', params['only_blank'].present? ),
           label_tag(:only_blank, t("Only blank"))
         ]
       end
@@ -28,15 +28,13 @@ module Releaf::I18nDatabase::Translations
     end
 
     def import_form
-      form_attributes = {multipart: true, id: nil, class: 'import', style: 'display:none', method: :post}
-      form_tag(url_for(action: 'import'), form_attributes) do
+      form_tag(url_for(action: 'import'), multipart: true, class: 'import') do
         file_field_tag :import_file
       end
     end
 
     def edit_button
-      url = url_for(action: :edit, search: params[:search])
-      button(t("Edit"), "edit", class: "primary", href: url)
+      button(t("Edit"), "edit", class: "primary", href: action_url(:edit))
     end
 
     def text_search_available?

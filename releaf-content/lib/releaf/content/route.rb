@@ -1,62 +1,92 @@
 module Releaf::Content
   class Route
-    attr_accessor :path, :node, :locale, :node_id
+    attr_accessor :path, :node, :locale, :node_id, :default_controller
 
     def self.node_class
       # TODO model should be configurable
       ::Node
     end
 
+    def self.node_class_default_controller(node_class)
+      if node_class <= ActionController::Base
+        node_class.name.underscore.sub(/_controller$/, '')
+      else
+        node_class.name.pluralize.underscore
+      end
+    end
+
     # Return node route params which can be used in Rails route options
     #
-    # @param controller_action [String] optional string with action and controller for route (Ex. home#index)
-    # @param args [Hash] options to merge with internally built params. Passed params overrides route params.
+    # @param method_or_path [String] string with action and controller for route (Ex. home#index)
+    # @param options [Hash] options to merge with internally built params. Passed params overrides route params.
     # @return [Hash] route options. Will return at least node "node_id" and "locale" keys.
-    def params(controller_action, args = {})
-      route_params = {
+    def params(method_or_path, options = {})
+      method_or_path = method_or_path.to_s
+      action_path = path_for(method_or_path, options)
+      options[:to] = controller_and_action_for(method_or_path, options)
+
+      route_options = options.merge({
         node_id: node_id.to_s,
-        locale: locale
-      }
-
-      if controller_action.is_a? Hash
-        args = controller_action.merge(args)
-        controller_action = nil
-      end
-
-      route_params.merge!(args)
+        locale: locale,
+      })
 
       # normalize as with locale
-      if locale.present? && route_params[:as].present?
-        route_params[:as] = "#{locale}_#{route_params[:as]}"
+      if locale.present? && route_options[:as].present?
+        route_options[:as] = "#{locale}_#{route_options[:as]}"
       end
 
-      route_params[path] = controller_action if controller_action.present?
-
-      route_params
+      [action_path, route_options]
     end
 
     # Return routes for given class that implement ActsAsNode
     #
-    # @param content_type [Class] content type to load related nodes
+    # @param class_name [Class] class name to load related nodes
+    # @param default_controller [String]
     # @return [Array] array of Content::Route objects
-    def self.for(content_type)
-      begin
-        node_class.where(content_type: content_type).each.inject([]) do |routes, node|
-          routes << build_route_object(node) if node.available?
-          routes
-        end
-      rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
-        []
+    def self.for(content_type, default_controller)
+      node_class.where(content_type: content_type).each.inject([]) do |routes, node|
+        routes << build_route_object(node, default_controller) if node.available?
+        routes
       end
+    rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
+      []
     end
 
     # Build Content::Route from Node object
-    def self.build_route_object node
+    def self.build_route_object(node, default_controller)
       route = new
       route.node_id = node.id.to_s
       route.path = node.url
       route.locale = node.root.locale
+      route.default_controller = default_controller
+
       route
+    end
+
+    private
+
+    def path_for(method_or_path, options)
+      if method_or_path.include?('#')
+        path
+      elsif options.key?(:to)
+        "#{path}/#{method_or_path}"
+      else
+        path
+      end
+    end
+
+    def controller_and_action_for(method_or_path, options)
+      if method_or_path.start_with?('#')
+        "#{default_controller}#{method_or_path}"
+      elsif method_or_path.include?('#')
+        method_or_path
+      elsif options[:to].try!(:start_with?, '#')
+        "#{default_controller}#{options[:to]}"
+      elsif options[:to].try!(:include?, '#')
+        options[:to]
+      else
+        "#{default_controller}##{method_or_path}"
+      end
     end
 
   end

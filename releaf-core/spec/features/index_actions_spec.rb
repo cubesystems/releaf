@@ -17,14 +17,16 @@ feature "Base controller index", js: true do
     visit admin_books_path
     search "good"
     expect(page).to have_number_of_resources(1)
-  end
 
-  scenario "search using extra fields" do
-    visit admin_books_path
-    within_search do
-      fill_in "Published between", with: "2015-11-11"
-      click_button "Filter"
-    end
+    check "Only active"
+    expect(page).to have_number_of_resources(0)
+
+    uncheck "Only active"
+    expect(page).to have_number_of_resources(1)
+
+    fill_in "Published between", with: "2015-11-11"
+    click_button "Filter"
+
     expect(page).to have_number_of_resources(1)
   end
 
