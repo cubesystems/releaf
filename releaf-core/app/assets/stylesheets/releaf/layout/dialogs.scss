@@ -2,11 +2,12 @@
 
 .dialog
 {
+    @include pop-up-shadow;
+
     margin: 0 auto;
     width: 390px;
     background-color: $color-background-lightest;
     color: $color-text-normal;
-    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
 
     main &
     {

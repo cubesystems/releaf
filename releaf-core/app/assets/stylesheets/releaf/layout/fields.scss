@@ -54,7 +54,7 @@ input.text
 {
     padding: steps(0.5) 0;
     float: left;
-    width: 410px;
+    width: steps(36);
     position: relative;
     min-height: steps(7);
     margin-left: steps(2);
@@ -73,7 +73,7 @@ input.text
 
     &.type-boolean .value
     {
-        padding-top: 35px;
+        padding-top: steps(3);
 
         label
         {
@@ -89,13 +89,13 @@ input.text
         .type-associated-set-item
         {
             float: left;
-            width: 250px;
+            width: steps(24);
         }
     }
 
     &.type-richtext
     {
-        width: 854px;
+        width: steps(74);
     }
 
 
@@ -124,7 +124,7 @@ input.text
         .error-box
         {
             position: absolute;
-            right: steps(0.5);
+            right:  steps(0.5);
             bottom: steps(-2);
             color: $color-alert;
 
@@ -141,20 +141,20 @@ section.nested
     // :TODO: figure out a way to avoid having to re-specify explicit widths for nested fields
     .field
     {
-        width: 380px;
+        width: steps(33);
 
         &.type-richtext
         {
-            width: 790px;
+            width: steps(68);
         }
     }
 
     section.nested .field
     {
-        width: 340px;
+        width: steps(30);
         &.type-richtext
         {
-            width: 720px;
+            width: steps(62);
         }
     }
 }
@@ -164,11 +164,12 @@ section.nested
 .ui-widget
 {
     @include reset-font;
+    @include pop-up-shadow;
+
     padding: 0;
     border: 0;
     width: auto;
     background-color: $color-background-lightest;
-    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
 
     button, select
     {
@@ -215,7 +216,7 @@ section.nested
             border: 1px solid $color-border-normal;
             text-align: center;
             vertical-align: middle;
-            padding: 6px 11px;
+            padding: steps(0.5);
 
             a
             {
@@ -270,12 +271,12 @@ section.nested
     {
         > dl
         {
-            margin: 8px 0 0 0;
+            margin: steps(0.5) 0 0 0;
         }
 
         dt, dd
         {
-            margin: 0 5px;
+            margin: 0 steps(0.5);
         }
 
         dt
@@ -293,8 +294,8 @@ section.nested
 
         .ui_tpicker_time
         {
-            margin-right: 5px;
-            margin-left: 5px;
+            margin-right: steps(0.5);
+            margin-left:  steps(0.5);
         }
 
     }

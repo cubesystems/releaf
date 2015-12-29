@@ -125,5 +125,9 @@
 
     padding: steps(0.5) steps(2);
     position: relative;
+}
 
+@mixin pop-up-shadow
+{
+    box-shadow: 1px 3px 5px 0px $color-shadow-normal;
 }
