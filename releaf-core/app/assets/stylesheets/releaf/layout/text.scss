@@ -13,11 +13,6 @@ html
         -ms-text-size-adjust: 100%;
 }
 
-
-// :TODO: unify font-sizes/line-heights throughout releaf,
-// so that font-size/line-height changes can be restricted to using a few predefined mixins
-// such as heading-text, small-text etc
-
 h1, h2, h3, h4, h5, h6, p
 {
     font-size:   inherit;
