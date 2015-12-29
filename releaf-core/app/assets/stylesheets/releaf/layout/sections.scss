@@ -9,8 +9,9 @@ section
 
     > form .body
     {
-        padding-bottom: 30px;
+        padding-bottom: steps(3);
     }
+
 }
 
 section.nested,
@@ -26,19 +27,18 @@ section > form
     > header
     {
         @include section-header;
+        @include clear-inside;
 
         margin-top: steps(2);
 
+        h1
+        {
+            float: left;
+        }
+
         .extras
         {
-            position: absolute;
-            right: 0px;
-            top: 0px;
-
-            &.totals
-            {
-                margin: 10px 17px;
-            }
+            float: right;
         }
     }
 
@@ -52,24 +52,30 @@ section:not(.dialog) > form
         border-width: 0 1px 1px 1px;
         border-style: solid;
         border-color: $color-border-normal;
+        margin-bottom: -1px;
     }
 }
 
 section > form,
 section > form > footer
 {
-    max-width: 920px;
+    max-width: steps(76);
 }
 
 
 section.nested
 {
     clear: both;
-    padding: 30px;
+    padding: steps(2);
 
     h1
     {
-        margin-bottom: 18px;
+        margin-bottom: steps(1);
+    }
+
+    .body
+    {
+        padding-bottom: 0;
     }
 
     .list
@@ -77,8 +83,8 @@ section.nested
         .item:not(tr)
         {
             border: 1px solid $color-border-normal;
-            padding: 30px 0;
-            margin: 0 0 20px 0;
+            padding: steps(2) 0;
+            margin: 0 0 steps(2) 0;
             position: relative;
             background: $color-background-lightest;
             @include clear-inside;
@@ -91,13 +97,13 @@ section.nested
 
         &[data-sortable] .item
         {
-            padding-top: 30px;
+            padding-top: steps(3);
 
             .handle
             {
                 position: absolute;
                 background: $color-background-darker;
-                height: 35px;
+                height: steps(3);
                 left: 0;
                 right: 0;
                 top: 0;
@@ -111,19 +117,14 @@ section.nested
     .remove-item-box
     {
         position: absolute;
-        right: -1px;
-        top: -1px;
+        right: 0;
+        top:   0;
         width: auto;
-
-        .button
-        {
-            padding: 8px 11px;
-        }
     }
 
     section.nested
     {
-        padding-right: 0px;
+        padding-right: 0;
     }
 
 }
