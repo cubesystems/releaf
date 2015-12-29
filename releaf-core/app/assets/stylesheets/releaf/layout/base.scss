@@ -4,15 +4,20 @@
     box-sizing: inherit;
 }
 
-html
+html, body
 {
     min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html
+{
     height: 100%;
 
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-
 
 body
 {
@@ -20,14 +25,8 @@ body
 
     background-color: $color-background-lightest;
     color: $color-text-normal;
-
-    min-height: 100%;
 }
 
-html, body
-{
-    margin: 0;
-    padding: 0;
-}
+
 
 

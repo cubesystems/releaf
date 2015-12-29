@@ -16,6 +16,9 @@ body > aside
 
     > nav
     {
+        border-top: 1px solid $color-border-inverted-normal;
+        margin-top: -1px;
+
         margin-bottom: steps(4);
 
         ul
@@ -26,7 +29,12 @@ body > aside
         // all menu items
         li
         {
-            border-bottom: 1px solid $color-border-inverted-normal;
+            &:not(:active)
+            {
+                border-bottom: 1px solid $color-border-inverted-normal;
+                margin-bottom: -1px;
+            }
+
             position: relative;
 
             .collapser
@@ -34,13 +42,12 @@ body > aside
                 position: absolute;
                 right: 0;
                 top: 0;
-                color: $color-background-inverted-lightest;
+                color: $color-text-inverted-darkest;
 
                 button
                 {
-                    width:   40px;
-                    height:  40px;
-                    display: block;
+                    width:  steps(4);
+                    height: steps(4);
                 }
             }
 
@@ -48,12 +55,13 @@ body > aside
             {
                 color: $color-text-inverted-normal;
                 display: block;
-                padding: 5px;
                 text-decoration: none;
                 cursor: pointer;
-                padding: 10px 40px 10px 13px;
+                padding: steps(1) steps(4) steps(1) steps(1);
 
-                &:hover
+                &:hover,
+                &:focus,
+                &:active
                 {
                     color: $color-text-inverted-lightest;
                 }
@@ -77,7 +85,9 @@ body > aside
         {
             > .trigger
             {
-                &:hover
+                &:hover,
+                &:focus,
+                &:active
                 {
                     background-color: $color-background-inverted-darkest;
                     color: $color-text-inverted-lightest;
@@ -119,17 +129,17 @@ body > aside
             {
                 color: $color-text-inverted-darker;
                 position: relative;
-                padding: 4px 40px 5px 40px;
+                padding: steps(0.5) steps(4) steps(0.5) steps(2);
             }
 
             &:first-child .trigger
             {
-                padding-top: 10px;
+                padding-top: steps(1);
             }
 
             &:last-child .trigger
             {
-                padding-bottom: 14px;
+                padding-bottom: steps(1);
             }
 
             &.active > .trigger
@@ -150,25 +160,17 @@ body > aside
 body > aside .compacter
 {
     text-align: right;
-    border-bottom: 1px solid $color-border-inverted-normal;
 
-    button
+    .button
     {
-        padding: 0;
-        height: 39px;
-        width: 45px;
-        background: $color-background-inverted-darker;
+        width:  steps(4);
+        height: steps(4);
 
-        &:hover
+        .fa
         {
-            background: $color-background-inverted-normal;
+            @include icon-large;
         }
-    }
 
-    .fa
-    {
-        color: $color-highlight-normal;
-        @include icon-large;
     }
 
 }
@@ -180,11 +182,6 @@ body.side-compact > aside
 {
     width: steps(4);
 
-    .compacter button
-    {
-        width: 40px;
-    }
-
     > nav
     {
         // all menu items
@@ -195,20 +192,9 @@ body.side-compact > aside
                 display: none;
             }
 
-            .collapser button
-            {
-                transform: scale(0.5, 0.5);
-                position: relative;
-                z-index: 1;
-                left: 6px;
-                top: 11px;
-                width: 20px;
-                height: 20px;
-            }
-
             > .trigger
             {
-                padding-right: 20px;
+                padding-right: steps(1);
             }
 
         }
@@ -216,6 +202,8 @@ body.side-compact > aside
         li .collapser button,
         li .trigger .collapser,
         li .trigger:hover .collapser,
+        li .trigger:focus .collapser,
+        li .trigger:active .collapser,
         > ul > li.active > .trigger .collapser
         {
             color: inherit;
@@ -224,6 +212,7 @@ body.side-compact > aside
         // first level menu items
         > ul > li
         {
+
             > .trigger
             {
                 abbr
@@ -231,6 +220,19 @@ body.side-compact > aside
                     display: inline-block;
                     border: none;
                     text-decoration: none;
+                }
+
+                > .collapser button
+                {
+                    position: relative;
+                    left: -2px;
+                    z-index: 1;
+                    width:  steps(1);
+
+                    .fa
+                    {
+                        @include icon-small;
+                    }
                 }
             }
 
@@ -252,26 +254,30 @@ body.side-compact > aside
 
                 .name
                 {
-                    position: absolute;
-                    top: 0;
-                    left: 40px;
-                    height: 30px;
-                    width: 227px;
-                    padding: 9px 0 0 14px;
                     display: block;
+                    position: absolute;
+                    top:    0;
+                    left:   100%;
+                    width:  steps(20);
+                    padding: steps(1) steps(1.5);
                     background: $color-background-inverted-darkest;
                 }
             }
 
             > ul
             {
-                position: absolute;
-                top: 39px;
-                left: 41px;
-                width: 240px;
                 display: block;
+                position: absolute;
+                top:    100%;
+                left:   100%;
+                width:  steps(20);
                 background: $color-background-inverted-darkest;
 
+                .trigger
+                {
+                    padding-left: steps(3);
+                    padding-right: steps(2);
+                }
                 .name
                 {
                     display: block;
@@ -295,11 +301,6 @@ body.side-compact > aside
 
 body > .side-compact-overlay
 {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    @include full-screen-overlay;
     z-index: 3;
-    display: none;
 }

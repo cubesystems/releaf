@@ -104,20 +104,37 @@ class Releaf::Builders::Page::MenuBuilder
     end
   end
 
+  def compact_side?
+    layout_settings('releaf.side.compact')
+  end
+
   def item_collapser_icon(item)
-    if layout_settings('releaf.side.compact')
+    if compact_side?
       icon("chevron-right")
     else
       icon(collapsed_item?(item) ? "chevron-down" : "chevron-up")
     end
   end
 
-
   def compacter
     tag(:div, class: "compacter") do
-      tag(:button, type: "button") do
-        icon("angle-double-" + (layout_settings('releaf.side.compact') ? "right" : "left"))
+      if compact_side?
+        icon_name = "angle-double-right"
+        title_attribute = 'title-expand'
+      else
+        icon_name = "angle-double-left"
+        title_attribute = 'title-collapse'
       end
+      button(nil, icon_name, title: compacter_data[title_attribute], data: compacter_data )
     end
   end
+
+  def compacter_data
+    {
+      'title-expand'   => t("Expand", scope: :admin),
+      'title-collapse' => t("Collapse", scope: :admin)
+    }
+  end
+
+
 end
