@@ -5,13 +5,13 @@
     @include pop-up-shadow;
 
     margin: 0 auto;
-    width: 390px;
+    width: steps(33);
     background-color: $color-background-lightest;
     color: $color-text-normal;
 
     main &
     {
-        margin-top: 40px;
+        margin-top: steps(4);
     }
 
     &:not(.initialized)
@@ -21,7 +21,7 @@
 
     header
     {
-        padding-right: 50px;
+        padding-right: steps(4);
     }
 
     section.body
@@ -95,7 +95,7 @@
         .question
         {
             @include heading-text;
-            margin-bottom: 40px;
+            margin-bottom: steps(3);
         }
 
         .description
@@ -121,7 +121,7 @@
     .body .restricted-relations
     {
         @include block-list;
-        margin-top: 10px;
+        margin-top: steps(1);
         overflow-y: auto;
         color: $color-highlight-normal;
         @include font-size-larger;

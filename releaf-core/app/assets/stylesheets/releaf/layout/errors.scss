@@ -6,12 +6,17 @@ section.error
     {
         color: $color-text-lighter;
         @include font-size-larger;
-        margin: lines(1.5) 0;
+        margin: steps(1.5) 0;
     }
 
     a.return
     {
         text-decoration: none;
+
+        .fa
+        {
+           @include icon-small;
+        }
     }
 
     &:not(.dialog) > .body
