@@ -39,6 +39,11 @@ section > form
         .extras
         {
             float: right;
+
+            &:not(.only-text)
+            {
+                margin: steps(-0.5) steps(-2) steps(-0.5) 0;
+            }
         }
     }
 

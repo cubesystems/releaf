@@ -136,7 +136,7 @@ jQuery(function()
                 });
                 beak.css(
                 {
-                    left : 16
+                    left : 18
                 });
             }
             else
@@ -148,7 +148,7 @@ jQuery(function()
                 });
                 beak.css(
                 {
-                    left : menuWidth - 27,
+                    left : menuWidth - 24,
                 });
             }
 

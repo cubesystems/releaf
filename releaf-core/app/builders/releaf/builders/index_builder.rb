@@ -74,7 +74,7 @@ class Releaf::Builders::IndexBuilder
 
   def section_header_extras
     return unless collection.respond_to? :total_entries
-    tag(:span, class: "extras totals") do
+    tag(:span, class: "extras totals only-text") do
       t("Resources found", count: collection.total_entries, default: "%{count} resources found", create_plurals: true)
     end
   end

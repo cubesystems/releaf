@@ -225,7 +225,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
       allow(subject).to receive(:t)
         .with("Resources found", count: 0, default: "%{count} resources found", create_plurals: true)
         .and_return("sss")
-      expect(subject.section_header_extras).to eq('<span class="extras totals">sss</span>')
+      expect(subject.section_header_extras).to eq('<span class="extras totals only-text">sss</span>')
     end
 
     context "when collection does not respond to total_entries" do
