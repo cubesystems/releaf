@@ -25,7 +25,7 @@ module Releaf::Core
   class Engine < ::Rails::Engine
     initializer 'precompile', group: :all do |app|
       app.config.assets.precompile += %w(ckeditor/*)
-      app.config.assets.precompile += %w(releaf/*)
+      app.config.assets.precompile += %w(releaf/application.css releaf/controllers/*.css releaf/*.js releaf/*.png releaf/*.gif releaf/*.ico)
     end
   end
 
