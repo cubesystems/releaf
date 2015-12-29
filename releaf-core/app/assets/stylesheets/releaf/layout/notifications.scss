@@ -3,7 +3,7 @@ body > .notifications
     position: fixed;
     z-index: 60;
     top: 0;
-    left: 30%;
+    left:  30%;
     width: 40%;
 
     .notification
@@ -16,12 +16,11 @@ body > .notifications
         border-radius: 0;
 
         @include font-size-larger;
+        @include pop-up-shadow;
 
-        padding: steps(0.5) steps(3) 0 steps(1);
+        padding:    steps(0.5) steps(3) steps(0.5) steps(1);
         margin-top: steps(1);
         text-shadow: none;
-
-        box-shadow: 0 0 10px 5px $color-shadow-lighter;
 
         &[data-type="success"]
         {
@@ -38,14 +37,13 @@ body > .notifications
         > .icon
         {
             float: left;
-            margin-left: 10px;
+            margin-left: steps(1);
         }
 
         > .content
         {
-            margin-left: 40px;
-            margin-right: 30px;
-            padding-bottom: 9px;
+            margin-left:  steps(3);
+            margin-right: steps(3);
             text-align: center;
         }
 
@@ -53,7 +51,7 @@ body > .notifications
         {
             position: absolute;
             right: 0;
-            top: 0;
+            top:   0;
         }
 
     }
