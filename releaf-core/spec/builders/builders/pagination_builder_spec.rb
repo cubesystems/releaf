@@ -98,7 +98,10 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
     it "returns pagination parts wrapped in a container" do
       allow(subject).to receive(:pagination_parts).and_return [ "<strong>weak</strong>".html_safe, "<escape_me>" ]
       expect(subject.pagination_block).to match_html %Q[
-        <div class="pagination"><strong>weak</strong>&lt;escape_me&gt;</div>
+          <div class="pagination">
+              <strong>weak</strong>
+              &lt;escape_me&gt;
+          </div>
       ]
     end
 
@@ -285,7 +288,10 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
     it "returns select tag with pagination options" do
       allow(subject).to receive(:pagination_options).and_return [ "<option>1-2</option>".html_safe, "<escape_me>" ]
       expect(subject.pagination_select).to match_html %Q[
-        <select name="page"><option>1-2</option>&lt;escape_me&gt;</select>
+          <select name="page">
+              <option>1-2</option>
+              &lt;escape_me&gt;
+          </select>
       ]
     end
 

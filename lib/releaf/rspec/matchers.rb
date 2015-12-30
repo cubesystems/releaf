@@ -5,7 +5,7 @@ RSpec::Matchers.define :match_html do |expected|
   end
 
   def normalize_html string
-    string.strip.gsub(/\s+/,' ').gsub('> <', '><')
+    string.strip.gsub(/\s+/,' ').gsub(/((>)\s+|\s+(<))/, '\2\3')
   end
 
   failure_message do |actual|
