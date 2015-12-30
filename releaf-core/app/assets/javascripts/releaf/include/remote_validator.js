@@ -381,6 +381,23 @@ var RemoteValidator = function( form )
 RemoteValidator.prototype.submit_form = function()
 {
     var v = this;
+
+    // add originally clicked submit button to form as a hidden field
+    if (v.clicked_button)
+    {
+        var button = v.clicked_button.first();
+        var name = button.attr('name');
+        if (name)
+        {
+            var input = v.form.find('input[type="hidden"][name="' + name + '"]');
+            if (input.length < 1)
+            {
+                input = jQuery('<input />').attr('type', 'hidden').attr('name', button.attr('name'));
+                input.appendTo(v.form);
+            }
+            input.val(button.val());
+        }
+    }
     v.form[0].submit();
 };
 
