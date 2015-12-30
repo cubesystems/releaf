@@ -22,11 +22,14 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
   end
 
   describe "new node" do
+
     context "when creating node under root" do
       it "creates new node in content tree" do
         @en_root.destroy
         click_link "Create new resource"
         click_link "Home page"
+        expect(page).to have_css('.button',    text: 'Save')
+        expect(page).to have_no_css('.button', text: 'Save and create another')
         create_resource do
           fill_in "resource_name", with: "en"
           select "en", from: "Locale"
@@ -41,6 +44,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
         click_link "Add child"
         click_link "Contacts controller"
+        expect(page).to have_css('.button',    text: 'Save')
+        expect(page).to have_no_css('.button', text: 'Save and create another')
         create_resource do
           fill_in "resource_name", with: "Contacts"
         end

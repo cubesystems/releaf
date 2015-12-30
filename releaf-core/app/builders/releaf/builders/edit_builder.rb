@@ -45,10 +45,22 @@ class Releaf::Builders::EditBuilder
   end
 
   def footer_primary_tools
-    [save_button]
+    tools = []
+    tools << save_and_create_another_button if create_another_available?
+    tools << save_button
+    tools
+  end
+
+  def create_another_available?
+    resource.present? && resource.new_record? && controller.feature_available?(:create_another)
+  end
+
+  def save_and_create_another_button
+    button(t("Save and create another"), "plus", name: "after_save", value: "create_another", class: "secondary", data: { type: 'ok', disable: true }, type: "submit")
   end
 
   def save_button
     button(t("Save"), "check", class: "primary", data: { type: 'ok', disable: true }, type: "submit")
   end
+
 end

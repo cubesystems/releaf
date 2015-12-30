@@ -3,6 +3,9 @@ require "rails_helper"
 describe Releaf::Builders::EditBuilder, type: :class do
   class TranslationsEditBuilderTestHelper < ActionView::Base
     include Releaf::ApplicationHelper
+    include Releaf::ButtonHelper
+    include FontAwesome::Rails::IconHelper
+
     def protect_against_forgery?
       true
     end
@@ -61,13 +64,16 @@ describe Releaf::Builders::EditBuilder, type: :class do
   end
 
   describe "#error_notices" do
+
     before do
       allow(subject).to receive(:error_notices_header).and_return("<error_notice_header />".html_safe)
     end
 
     context "when errors exists" do
+
       it "returns errors block" do
         resource.valid?
+
         expect(subject.error_notices).to match_html(%Q[
           <div class="form-error-box">
               <error_notice_header />
@@ -98,11 +104,86 @@ describe Releaf::Builders::EditBuilder, type: :class do
   end
 
   describe "#footer_primary_tools" do
-    it "returns array with save button" do
+    before do
       allow(subject).to receive(:save_button).and_return("_svbtn_")
-      expect(subject.footer_primary_tools).to eq(["_svbtn_"])
+      allow(subject).to receive(:save_and_create_another_button).and_return("_svacrbtn_")
+    end
+
+    context "when create_another is availble" do
+      it "returns an array with save_and_create_another and save buttons" do
+        allow(subject).to receive(:create_another_available?).and_return true
+        expect(subject.footer_primary_tools).to eq(["_svacrbtn_", "_svbtn_"])
+      end
+    end
+
+    context "when create_another is not available" do
+      it "returns an array with save button" do
+        allow(subject).to receive(:create_another_available?).and_return false
+        expect(subject.footer_primary_tools).to eq(["_svbtn_"])
+      end
+    end
+
+  end
+
+  describe "#create_another_available?" do
+
+    before do
+      controller.setup
+    end
+
+    context "when editing an existing record" do
+      let(:resource){ FactoryGirl.create(:book) }
+
+      context "when controller has create_another feature enabled" do
+        it "returns false" do
+          expect(subject.create_another_available?).to be false
+        end
+      end
+
+      context "when controller has create_another feature disabled" do
+        it "returns false" do
+          expect(subject.create_another_available?).to be false
+        end
+      end
+    end
+
+    context "when creating a new record" do
+      context "when controller has create_another feature enabled" do
+        it "returns true" do
+          expect(subject.create_another_available?).to be true
+        end
+      end
+
+      context "when controller has create_another feature disabled" do
+        it "returns false" do
+          allow(controller).to receive(:feature_available?).with(:create_another).and_return false
+          expect(subject.create_another_available?).to be false
+        end
+      end
+    end
+
+    context "when resource is not present" do
+      let(:resource){ nil }
+      it "returns false" do
+        expect(subject.create_another_available?).to be false
+      end
+    end
+
+  end
+
+  describe "#save_and_create_another_button" do
+    it "returns save and create button" do
+      allow(template).to receive(:fa_icon).with("plus").and_return('<plus_icon />'.html_safe)
+      allow(subject).to receive(:t).with("Save and create another").and_return("Save and ccrr")
+      expect(subject.save_and_create_another_button).to match_html(%Q[
+          <button class="button with-icon secondary" title="Save and ccrr" type="submit" autocomplete="off" name="after_save" value="create_another" data-type="ok" data-disable="true">
+              <plus_icon />
+              Save and ccrr
+          </button>
+      ])
     end
   end
+
 
   describe "#save_button" do
     it "returns save button" do

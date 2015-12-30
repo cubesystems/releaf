@@ -2,6 +2,11 @@ module Releaf::Content
   class NodesController < Releaf::BaseController
     respond_to :json, only: [:create, :update, :copy, :move]
 
+    def setup
+      super
+      @features[:create_another] = false
+    end
+
     def generate_url
       tmp_resource = prepare_resource
       tmp_resource.name = params[:name]
