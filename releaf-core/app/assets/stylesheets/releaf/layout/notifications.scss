@@ -37,7 +37,8 @@ body > .notifications
         > .icon
         {
             float: left;
-            margin-left: steps(1);
+            margin-left: steps(0.5);
+            @include icon-large;
         }
 
         > .content
