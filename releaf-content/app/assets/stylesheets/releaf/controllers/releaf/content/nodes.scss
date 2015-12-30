@@ -2,7 +2,7 @@
 
 .controller-releaf-content-nodes
 {
-    main > section:not(.dialog) > .body
+    main > section:not(.dialog) > .body:not(.empty)
     {
         border-bottom: none;
     }
@@ -105,6 +105,10 @@
             }
         }
 
+        .nothing-found
+        {
+            padding: steps(0.5) steps(2);
+        }
     }
 
     main .collection li ul ul

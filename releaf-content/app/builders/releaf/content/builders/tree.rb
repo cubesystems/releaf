@@ -1,9 +1,15 @@
 module Releaf::Content::Builders
   module Tree
     def section_body
-      tag(:div, class: "body") do
+      tag(:div, class: body_classes) do
         tree
       end
+    end
+
+    def body_classes
+      classes = [:body]
+      classes << :empty if collection.size < 1
+      classes
     end
 
     def tree
@@ -13,7 +19,14 @@ module Releaf::Content::Builders
     end
 
     def root_level
-      tree_level(collection, 1) unless collection.size < 1
+      return empty_body if collection.size < 1
+      tree_level(collection, 1)
+    end
+
+    def empty_body
+      tag(:div, class: "nothing-found") do
+        t("Nothing found")
+      end
     end
 
     def tree_level(list, level)
