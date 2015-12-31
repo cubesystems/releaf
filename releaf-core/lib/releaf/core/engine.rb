@@ -30,7 +30,5 @@ module Releaf::Core
     end
   end
 
-  ActiveSupport.on_load :action_controller do
-    ActionDispatch::Routing::Mapper.send(:include, Releaf::Core::RouteMapper)
-  end
+  ActionDispatch::Routing::Mapper.send(:include, Releaf::Core::RouteMapper)
 end
