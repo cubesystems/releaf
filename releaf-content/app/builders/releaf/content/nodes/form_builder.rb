@@ -90,11 +90,11 @@ module Releaf::Content::Nodes
     end
 
     def slug_base_url
-      "#{request.protocol}#{request.host_with_port}#{object.parent.try(:url)}/"
+      "#{request.protocol}#{request.host_with_port}#{object.parent.try(:path)}/"
     end
 
     def slug_link
-      link_to(object.url) do
+      link_to(object.path) do
         safe_join do
           [slug_base_url, tag(:span, object.slug), '/']
         end

@@ -56,7 +56,7 @@ module Releaf::Content
     def self.build_route_object(node, default_controller)
       route = new
       route.node_id = node.id.to_s
-      route.path = node.url
+      route.path = node.path
       route.locale = node.root.locale
       route.default_controller = default_controller
 
