@@ -768,12 +768,12 @@ describe Node do
     end
   end
 
-  describe "#url" do
-    it "returns path of node" do
-      node = create(:node, slug: 'foo')
-      node2 = create(:text_page_node, slug: 'bar', parent: node)
-      expect( node.url ).to eq '/foo'
-      expect( node2.url ).to eq '/foo/bar'
+  describe "#path" do
+    it "returns relative path of node" do
+      node = described_class.new(slug: 'foo')
+      node2 = described_class.new(slug: 'bar', parent: node)
+      expect( node.path ).to eq '/foo'
+      expect( node2.path ).to eq '/foo/bar'
     end
   end
 end

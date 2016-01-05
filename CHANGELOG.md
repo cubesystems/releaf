@@ -1,4 +1,7 @@
 ## Changelog
+### 2016.01.05
+* Node#url has been renamed to Node#path.
+
 ### 2015.11.12
 * `current_params` method removed from `Releaf::BaseController`. Is it
   recommended to simply use `request.query_parameters` instead.
