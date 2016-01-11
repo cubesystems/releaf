@@ -15,6 +15,7 @@
   to be explicitly loaded by the child controller.
 
   Updating applications that use custom `Admin::Nodes` builder scope:
+  (see Dummy application for a working example)
 
   1) Create `Admin::NodesController < Releaf::Content::NodesController`
 
@@ -33,20 +34,122 @@
      { :controller => 'admin/nodes' }
      ```
 
-  3) Create `app/assets/javascripts/controllers/admin/nodes.js` with the following content:
+  3) Override node resource configuration in `config/initializers/releaf.rb`:
+
+     Add the following:
+     ```ruby
+     config.content_resources = { 'Node' => { controller: 'Admin::NodesController' } }
+     ```
+
+  4) Create `app/assets/javascripts/controllers/admin/nodes.js` with the following content:
     ```
     //= require releaf/controllers/releaf/content/nodes
     ```
 
-  4) Create `app/assets/stylesheets/controllers/admin/nodes.css` with the following content:
+  5) Create `app/assets/stylesheets/controllers/admin/nodes.css` with the following content:
     ```
     //= require releaf/controllers/releaf/content/nodes
     ```
 
-  5) Update `default_controller` of existing users in DB to use the new controller name
+  6) Update `default_controller` of existing users in DB to use the new controller name
 
-  6) Update existing role permissions in DB to use the new controller name
+  7) Update existing role permissions in DB to use the new controller name
 
+* Dummy application now uses an extended `Admin::Nodes` controller
+  instead of the default `Releaf::Content::NodesController`
+
+* `releaf_routes_for` helper has been renamed to `node_routes_for`.
+* Multiple node models and controllers are now supported.
+
+  Node resource configuration can be overriden via `content_resources` key
+  in `config/initializers/releaf.rb`
+
+  There are three typical scenarios:
+
+  1) Default configuration
+
+    Node model is called `Node` and handled by `Releaf::Content::NodesController`
+
+    Nothing needs to be changed for this to work
+    except renaming `releaf_routes_for` to `node_routes_for` in `routes.rb`
+
+  2) Custom node model and/or controller
+
+    For example, if a model called `SomeOtherNode` needs to be used instead of `Node`
+    and it will be handled in admin by `Admin::NodesController`, then the configuration
+    looks as follows:
+
+    ```ruby
+    config.content_resources = { 'SomeOtherNode' => { controller: 'Admin::NodesController' } }
+    ```
+
+  3) Multiple per-site node models in separate content trees
+
+    When a single application needs to handle multiple separate websites
+    with separate content trees, multiple node models can be used.
+
+    An example configuration would look as follows.
+
+    In `config/initializers/releaf.rb`:
+
+    ```ruby
+    config.content_resources = {
+      'Node' => {
+        controller: 'Releaf::Content::NodesController',
+        routing: {
+          site: "main_site",
+          constraints: { host: /^releaf\.local$/ }
+        }
+      },
+      'OtherSite::OtherNode' => {
+        controller: 'Admin::OtherSite::OtherNodesController',
+        routing: {
+          site: "other_site",
+          constraints: { host: /^other\.releaf\.local$/ }
+        }
+      }
+    }
+    ```
+
+    In `routes.rb`:
+
+    ```ruby
+    node_routing( Releaf::Content.routing ) do
+
+      node_routes_for(HomePage) do
+        get 'show', as: "home_page"
+      end
+
+      node_routes_for(TextPage) do
+        get 'show'
+      end
+    end
+    ```
+
+    This configuration would mean that all `HomePage` and `TextPage` nodes
+    with `Node` class would have their routes drawn
+    constrained to `http:://releaf.local/" host name
+    and all `HomePage` and `TextPage` nodes using `OtherSite::OtherNode` node class
+    would only have routes for `http://other.releaf.local/` website.
+
+    The drawn routes will have extra parameters `site` and `node_class` passed to them
+    that can be used in the public website if needed. See `#node_class` and `#site`
+    methods in `application_controller.rb` of Dummy application for example usage.
+
+    Each node tree can have its own structure and content types. Add structure validations
+    to specific node models as needed.
+
+    If a node content type needs to only be available in a single site,
+    the `node_routing` automation block can be omitted and the corresponding routes
+    can be drawn for a specific node class and constrained manually:
+
+    ```ruby
+    constraints Releaf::Content.routing['OtherSite::OtherNode'][:constraints] do
+      node_routes_for(ContactsController, node_class: 'OtherSite::OtherNode') do
+        get 'show', as: "contacts_page"
+      end
+    end
+    ```
 
 ### 2015.11.12
 * `current_params` method removed from `Releaf::BaseController`. Is it
