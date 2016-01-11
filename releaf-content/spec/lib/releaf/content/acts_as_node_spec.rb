@@ -35,14 +35,6 @@ describe ActsAsNode do
       end
     end
 
-    describe "#node" do
-      it "returns corresponding node object" do
-        allow_any_instance_of(Releaf::Content::Node::RootValidator).to receive(:validate)
-        node = create(:node, content_type: "Book", content_attributes: {title: "xx"})
-        expect(Book.last.node).to eq(node)
-      end
-    end
-
     context ".acts_as_node_params" do
       before do
         allow_any_instance_of(Releaf::Core::ResourceParams).to receive(:values).and_return(["a", "b"])
@@ -85,16 +77,6 @@ describe ActsAsNode do
       end
     end
 
-    context ".nodes" do
-      it "loads tree nodes" do
-        expect(Node).to receive(:where).with(content_type: Book.name)
-        Book.nodes
-      end
-
-      it "returns relation" do
-        expect(Book.nodes.class).to eq(Node::ActiveRecord_Relation)
-      end
-    end
   end
 
   describe ActionController::Acts::Node do
@@ -104,15 +86,5 @@ describe ActsAsNode do
       end
     end
 
-    context ".nodes" do
-      it "loads tree nodes" do
-        expect(Node).to receive(:where).with(content_type: ContactFormController.name)
-        ContactFormController.nodes
-      end
-
-      it "returns array" do
-        expect(ContactFormController.nodes.class).to eq(Node::ActiveRecord_Relation)
-      end
-    end
   end
 end

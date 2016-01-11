@@ -43,12 +43,6 @@ module ActiveRecord
       # All the methods available to a record that has had <tt>acts_as_node</tt> specified.
       module InstanceMethods
 
-        # Return object corresponding node object
-        # @return [::Node]
-        def node
-          ::Node.find_by(content_type: self.class.name, content_id: id)
-        end
-
       end
     end
   end

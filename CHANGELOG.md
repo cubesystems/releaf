@@ -1,4 +1,7 @@
 ## Changelog
+### 2016.01.11
+* `.nodes` and `#node` methods removed from default `acts_as_node` models and controllers due to implementing support for multiple node classes. If reverse node lookup from content classes is needed, reimplement it in the specific application where the needed node class name is known.
+
 ### 2015.11.12
 * `current_params` method removed from `Releaf::BaseController`. Is it
   recommended to simply use `request.query_parameters` instead.
