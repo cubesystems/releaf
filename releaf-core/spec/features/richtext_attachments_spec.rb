@@ -7,7 +7,7 @@ feature "Richtext attachments", js: true do
   end
 
   scenario "Upload image and insert it within text" do
-    visit new_releaf_content_node_path(content_type: 'HomePage')
+    visit new_admin_node_path(content_type: 'HomePage')
     fill_in("Name", with: "Image test")
     select('en', from: 'Locale')
 
@@ -35,7 +35,7 @@ feature "Richtext attachments", js: true do
   end
 
   scenario "Upload file and insert url to it" do
-    visit new_releaf_content_node_path(content_type: 'HomePage')
+    visit new_admin_node_path(content_type: 'HomePage')
     fill_in("Name", with: "Link test")
     select('en', from: 'Locale')
 

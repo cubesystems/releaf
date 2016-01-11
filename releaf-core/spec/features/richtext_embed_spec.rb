@@ -7,7 +7,7 @@ feature "Richtext embed", js: true do
   end
 
   scenario "Add embed to richtext" do
-    visit new_releaf_content_node_path(content_type: 'HomePage')
+    visit new_admin_node_path(content_type: 'HomePage')
     fill_in("Name", with: "Embed test")
     select('en', from: 'Locale')
 

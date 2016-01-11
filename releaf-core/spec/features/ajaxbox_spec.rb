@@ -18,7 +18,7 @@ feature "Ajaxbox", js: true do
 
   scenario "Close ajaxbox with footer 'cancel' button (wrapped within form) without reloading page" do
     node = create(:home_page_node, name: "MyNode")
-    node_path = edit_releaf_content_node_path(node)
+    node_path = edit_admin_node_path(node)
     visit node_path
     open_toolbox_dialog "Move"
     within_dialog{ click_link "Cancel" }
@@ -28,7 +28,7 @@ feature "Ajaxbox", js: true do
 
   scenario "Close ajaxbox with header 'close' button without reloading page" do
     node = create(:home_page_node, name: "MyNode")
-    node_path = edit_releaf_content_node_path(node)
+    node_path = edit_admin_node_path(node)
     visit node_path
     open_toolbox_dialog "Add child"
     within_dialog{ find("button.close").click }
@@ -38,7 +38,7 @@ feature "Ajaxbox", js: true do
 
   scenario "Drag ajaxbox within header" do
     node = create(:home_page_node, name: "MyNode")
-    node_path = edit_releaf_content_node_path(node)
+    node_path = edit_admin_node_path(node)
     visit node_path
     open_toolbox_dialog "Add child"
     header = find(".dialog > header")
@@ -66,7 +66,7 @@ feature "Ajaxbox", js: true do
 
   scenario "Ajaxbox without modality (background is clickable)" do
     node = create(:home_page_node, name: "MyNode")
-    node_path = edit_releaf_content_node_path(node)
+    node_path = edit_admin_node_path(node)
     visit node_path
     open_toolbox_dialog "Add child"
 

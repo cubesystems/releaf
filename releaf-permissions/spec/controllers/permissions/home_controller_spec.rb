@@ -22,7 +22,7 @@ describe Releaf::Permissions::HomeController do
 
         it "redirects to first available controller" do
           get :home
-          expect(response).to redirect_to(url_for(action: 'index', controller: "releaf/content/nodes", only_path: true))
+          expect(response).to redirect_to(url_for(action: 'index', controller: "admin/nodes", only_path: true))
         end
 
         context "when no releaf controller is available" do
