@@ -54,7 +54,7 @@ module Releaf::Content::Nodes
     end
 
     def render_slug
-      url = url_for(controller: "/releaf/content/nodes", action: "generate_url", parent_id: object.parent_id, id: object.id)
+      url = url_for(controller: controller.controller_path, action: "generate_url", parent_id: object.parent_id, id: object.id)
       input = {
         data: {'generator-url' => url}
       }

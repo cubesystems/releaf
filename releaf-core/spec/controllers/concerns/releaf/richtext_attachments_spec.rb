@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Releaf::Content::NodesController, type: :controller do
+describe Admin::NodesController, type: :controller do
   before do
     sign_in create(:user)
   end

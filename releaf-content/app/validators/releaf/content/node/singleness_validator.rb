@@ -67,7 +67,7 @@ module Releaf
         # return some other parent, than @node.parent.ancestors, even though
         # both return same node.
         # Seams like a bug in AwesomeNestedSet (in case of @node.parent.ancestors).
-        parent_node = Node.find(@node.parent_id)
+        parent_node = @node.class.find(@node.parent_id)
 
         ancestor_node = parent_node.self_and_ancestors.where(content_type: ancestor_class_names).reorder(:depth).last
         if ancestor_node.nil?

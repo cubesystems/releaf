@@ -7,6 +7,18 @@ module Dummy
 
       source_root File.expand_path('../templates', __FILE__)
 
+      def install_seeds
+        super
+        # add seeds from dummy folder also
+        seed_path = File.expand_path('../templates', __FILE__) + "/seeds/seeds.rb"
+        append_to_file 'db/seeds.rb', File.read(seed_path)
+      end
+
+      def install_assets
+        copy_files 'assets', 'app/assets'
+        append_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w( controllers/*.css controllers/*.js )\n"
+      end
+
       private
 
       def get_current_dir

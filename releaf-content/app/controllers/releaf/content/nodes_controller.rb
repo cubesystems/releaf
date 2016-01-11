@@ -69,7 +69,9 @@ module Releaf::Content
     end
 
     def self.resource_class
-      ::Node
+      # find first key in content resources config that has this class as controller
+      model_class_name = Releaf::Content.resources.find { |model_name, options| options[:controller] == name }.first
+      model_class_name.constantize
     end
 
     protected

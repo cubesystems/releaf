@@ -15,7 +15,7 @@ Releaf.application.config.available_controllers.each do|controller|
 end
 super_admin.save!
 
-content_manager = Releaf::Permissions::Role.new(name: "content mager", default_controller: "releaf/content/nodes")
+content_manager = Releaf::Permissions::Role.new(name: "content manager", default_controller: "releaf/content/nodes")
 content_manager.permissions.build(permission: "controller.releaf/content/nodes")
 content_manager.save!
 

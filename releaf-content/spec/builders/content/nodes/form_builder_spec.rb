@@ -161,10 +161,10 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
 
   describe "#render_slug" do
     it "renders customized field" do
-      controller = Releaf::BaseController.new
+      controller = Admin::NodesController.new
       allow(subject).to receive(:controller).and_return(controller)
       allow(subject).to receive(:slug_base_url).and_return("http://localhost/parent")
-      allow(subject).to receive(:url_for).with(controller: "/releaf/content/nodes", action: "generate_url", parent_id: 1, id: 2)
+      allow(subject).to receive(:url_for).with(controller: "admin/nodes", action: "generate_url", parent_id: 1, id: 2)
         .and_return("http://localhost/slug-generation-url")
 
       content = '<div class="field type-text" data-name="slug"><div class="label-wrap"><label for="resource_slug">Slug</label></div><div class="value"><input value="b" data-generator-url="http://localhost/slug-generation-url" type="text" name="resource[slug]" id="resource_slug" /><button class="button only-icon secondary generate" title="Suggest slug" type="button"><i class="fa fa-keyboard-o"></i></button><div class="link"><a href="/a/b">http://localhost/parent<span>b</span>/</a></div></div></div>'

@@ -12,9 +12,9 @@ FactoryGirl.define do
     end
 
     factory :content_role do
-      default_controller "releaf/content/nodes"
+      default_controller "admin/nodes"
       after(:create) do |role|
-        role.permissions.create!(permission: "controller.releaf/content/nodes")
+        role.permissions.create!(permission: "controller.admin/nodes")
       end
     end
   end

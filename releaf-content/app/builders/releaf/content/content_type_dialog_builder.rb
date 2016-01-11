@@ -48,7 +48,7 @@ module Releaf::Content
     end
 
     def content_type_item(content_type)
-      url = url_for(controller: "/releaf/content/nodes", action: "new", parent_id: params[:parent_id], content_type: content_type.name)
+      url = url_for(controller: controller.controller_path, action: "new", parent_id: params[:parent_id], content_type: content_type.name)
       tag(:li) do
         link_to(I18n.t(content_type.name.underscore, scope: 'admin.content_types'), url)
       end
