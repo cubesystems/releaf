@@ -4,11 +4,18 @@ describe Releaf::BaseController do
   let(:new_resource){ Author.new }
   let(:resource){ create(:author) }
   let(:subject){ DummyController.new }
+
+  module DummyControllerModule; end;
+
   class DummyController < Releaf::BaseController
+    include DummyControllerModule
     def resource_class
       Author
     end
   end
+  class Dummy::ChildDummyController < DummyController; end;
+  class Dummy::GrandChildDummyController < Dummy::ChildDummyController; end;
+
   class FooFormBuilder; end
 
   describe "#action_views"  do
@@ -125,11 +132,51 @@ describe Releaf::BaseController do
   end
 
   describe "#builder_scopes" do
-    it "returns array with normalized controller class name scope and project builder scope" do
-      allow(subject).to receive(:application_builder_scope).and_return("xxx")
-      expect(subject.builder_scopes).to eq(["Dummy", "xxx"])
+
+    context "when controller is a direct child of Releaf::BaseController" do
+      it "returns an array with own and application builder scopes" do
+        allow(subject).to receive(:application_builder_scope).and_return("xxx")
+        expect(subject.builder_scopes).to eq(["Dummy", "xxx"])
+      end
+    end
+
+    context "when controller is a deeper descendant of Releaf::BaseController" do
+      let(:subject) { Dummy::GrandChildDummyController.new }
+      it "includes ancestor scopes up to but not including Releaf::BaseController" do
+        allow(subject).to receive(:application_builder_scope).and_return("xxx")
+        expect(subject.class).to receive(:ancestor_controllers).and_call_original
+        expect(subject.builder_scopes).to eq(["Dummy::GrandChildDummy", "Dummy::ChildDummy", "Dummy", "xxx"])
+      end
+    end
+
+  end
+
+  describe ".own_builder_scope" do
+    it "returns controller class name without 'Controller'" do
+      expect(DummyController.own_builder_scope).to eq "Dummy"
     end
   end
+
+  describe ".ancestor_controllers" do
+
+    it "return all ancestor controllers up to but not including Releaf::BaseController" do
+      expect(DummyController.ancestor_controllers).to eq []
+      expect(Dummy::GrandChildDummyController.ancestor_controllers).to eq([Dummy::ChildDummyController, DummyController])
+    end
+
+  end
+
+  describe ".ancestor_builder_scopes" do
+
+    it "return builder scopes for all ancestor controllers" do
+      allow(Dummy::ChildDummyController).to receive(:own_builder_scope).and_call_original
+      allow(DummyController).to receive(:own_builder_scope).and_call_original
+
+      expect(Dummy::GrandChildDummyController.ancestor_builder_scopes).to eq(['Dummy::ChildDummy', 'Dummy'])
+    end
+  end
+
+
 
   describe "#application_builder_scope" do
     it "returns node builder scope within releaf mount location scope" do

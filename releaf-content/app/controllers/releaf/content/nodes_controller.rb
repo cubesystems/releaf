@@ -18,14 +18,6 @@ module Releaf::Content
       end
     end
 
-    def builder_scopes
-      [node_builder_scope] + super
-    end
-
-    def node_builder_scope
-      [application_scope, "Nodes"].reject(&:blank?).join("::")
-    end
-
     def copy_dialog
       copy_move_dialog_common
     end

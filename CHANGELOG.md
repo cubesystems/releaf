@@ -1,6 +1,52 @@
 ## Changelog
 ### 2016.01.11
-* `.nodes` and `#node` methods removed from default `acts_as_node` models and controllers due to implementing support for multiple node classes. If reverse node lookup from content classes is needed, reimplement it in the specific application where the needed node class name is known.
+* `.nodes` and `#node` methods removed from default `acts_as_node` models and controllers
+  due to implementing support for multiple node classes.
+
+  If reverse node lookup from content classes is needed, reimplement it
+  in the specific application where the needed node class name is known.
+* Builder scopes in admin controllers are now inherited from parent controllers up to Releaf::BaseController.
+* Magic `Admin::Nodes` builder scope is no longer prepended by `Releaf::Content::NodesController`.
+
+  This is no longer needed because releaf controllers can now be extended
+  and the child controllers can have their own builders.
+
+  Note that controller assets are not automatically inherited and need
+  to be explicitly loaded by the child controller.
+
+  Updating applications that use custom `Admin::Nodes` builder scope:
+
+  1) Create `Admin::NodesController < Releaf::Content::NodesController`
+
+  2) Change releaf menu in `config/initializers/releaf.rb`:
+
+     Instead of
+     ```ruby
+     {
+       :controller => 'releaf/content/nodes',
+       :icon => 'sitemap',
+     }
+     ```
+
+     Use
+     ```ruby
+     { :controller => 'admin/nodes' }
+     ```
+
+  3) Create `app/assets/javascripts/controllers/admin/nodes.js` with the following content:
+    ```
+    //= require releaf/controllers/releaf/content/nodes
+    ```
+
+  4) Create `app/assets/stylesheets/controllers/admin/nodes.css` with the following content:
+    ```
+    //= require releaf/controllers/releaf/content/nodes
+    ```
+
+  5) Update `default_controller` of existing users in DB to use the new controller name
+
+  6) Update existing role permissions in DB to use the new controller name
+
 
 ### 2015.11.12
 * `current_params` method removed from `Releaf::BaseController`. Is it
