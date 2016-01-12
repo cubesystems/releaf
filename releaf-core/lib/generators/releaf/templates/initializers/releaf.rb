@@ -5,16 +5,13 @@ Releaf.application.configure do
   config.menu = [
     {
       :controller => 'releaf/content/nodes',
-      :icon => 'sitemap',
     },
     {
       :name => "permissions",
       :items =>   %w[releaf/permissions/users releaf/permissions/roles],
-      :icon => 'user',
     },
     {
       :controller => 'releaf/i18n_database/translations',
-      :icon => 'group',
     },
   ]
 

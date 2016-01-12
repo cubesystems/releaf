@@ -4,26 +4,21 @@ Releaf.application.configure do
   ### setup menu items and therefore available controllers
   config.menu = [
     {
-      :controller => 'admin/nodes',
-      :icon => 'sitemap',
+      :controller => 'admin/nodes'
     },
     {
       :name => "inventory",
       :items =>   %w[admin/books admin/authors admin/publishers],
-      :icon => 'briefcase',
     },
     {
       :name => "permissions",
       :items =>   %w[releaf/permissions/users releaf/permissions/roles],
-      :icon => 'user',
     },
     {
       :controller => "releaf/core/settings",
-      :icon => 'cog',
     },
     {
       :controller => 'releaf/i18n_database/translations',
-      :icon => 'group',
     },
    ]
 
