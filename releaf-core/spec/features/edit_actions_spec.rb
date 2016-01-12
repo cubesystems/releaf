@@ -33,7 +33,7 @@ feature "Base controller edit", js: true do
     visit new_admin_book_path
     wait_for_all_richtexts
     fill_in "Title", with: "Another ipsum"
-    find('#resource_title').native.send_keys(:return)
+    find('#resource_title').native.send_key(:Enter)
     expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Create succeeded")
     expect(page).to have_css('header h1', text: 'Create new resource')
 
