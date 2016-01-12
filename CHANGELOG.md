@@ -47,9 +47,9 @@
     //= require releaf/controllers/releaf/content/nodes
     ```
 
-  5) Create `app/assets/stylesheets/controllers/admin/nodes.css` with the following content:
+  5) Create `app/assets/stylesheets/controllers/admin/nodes.scss` with the following content:
     ```
-    //= require releaf/controllers/releaf/content/nodes
+    @import 'releaf/controllers/releaf/content/nodes';
     ```
 
   6) Update `default_controller` of existing users in DB to use the new controller name
