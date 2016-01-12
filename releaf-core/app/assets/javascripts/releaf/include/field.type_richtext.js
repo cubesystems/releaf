@@ -54,7 +54,7 @@ jQuery(function()
 
 
         var config = ckeditor_config;
-        config.width = textarea.outerWidth();
+        config.width = '100%';
         config.height = textarea.outerHeight();
 
         if( !textarea.attr( 'id' ) )
