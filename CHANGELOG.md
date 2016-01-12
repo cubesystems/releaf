@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2016.01.05
+* Node#url has been renamed to Node#path.
+
 ### 2015.12.29
 * Extra search fields should now be wrapped in a container with a "search-field" class using the search_field method of IndexBuilder unless a custom layout is needed.
 * HTML classes "block", "clear" and "clear-inside" have been deprecated and will be removed soon. They are no longer used by releaf. Use `@include block-list;`, and `@include clear-inside;` in SASS instead.

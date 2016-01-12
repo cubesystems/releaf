@@ -271,11 +271,13 @@ module Releaf
     end
 
     def prepare_new
+      # load resource only if is not initialized yet
       new_resource unless resource_given?
       add_resource_breadcrumb(@resource)
     end
 
     def prepare_create
+      # load resource only if is not initialized yet
       new_resource unless resource_given?
       @resource.assign_attributes(resource_params)
     end
@@ -308,7 +310,6 @@ module Releaf
     end
 
     def new_resource
-      # load resource only if is not initialized yet
       @resource = resource_class.new
     end
 
