@@ -61,6 +61,26 @@
 
 * `releaf_routes_for` helper has been renamed to `node_routes_for`.
 * `node_class` param is now always added to generated node routes along with `node_id` and `locale`
+* The signature of the old `Releaf::Content::Route.for` helper has changed
+  and now it expects node model class name as the first argument.
+
+  If it is still used directly somewhere in `routes.rb`
+  instead of the now preferred `node_routes_for`, then it should be changed from
+
+  ```ruby
+  Releaf::Content::Route.for(TextPage).each do|route|
+     ...
+  end
+  ```
+
+  to
+
+  ```ruby
+  Releaf::Content::Route.for(Node, TextPage).each do|route|
+     ...
+  end
+  ```
+
 * Multiple node models and controllers are now supported.
 
   Node resource configuration can be overriden via `content_resources` key
