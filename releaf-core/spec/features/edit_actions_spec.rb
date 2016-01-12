@@ -7,6 +7,38 @@ feature "Base controller edit", js: true do
     FactoryGirl.create(:book, title: "bad book", author: @author)
   end
 
+  scenario "creation of new resources" do
+
+    # normal save button redirects to edit view of the newly created resource
+    visit admin_books_path
+    click_link "Create new resource"
+    wait_for_all_richtexts
+    fill_in "Title", with: "Lorem ipsum"
+    click_button 'Save'
+    expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Create succeeded")
+    wait_for_all_richtexts
+    expect(page).to have_css('header h1', text: 'Lorem ipsum')
+
+    # "save and create another" button redirects to new resource view
+    visit new_admin_book_path
+    wait_for_all_richtexts
+    fill_in "Title", with: "Other ipsum"
+    click_button "Save and create another"
+    expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Create succeeded")
+    wait_for_all_richtexts
+    expect(current_path).to eq new_admin_book_path
+    expect(page).to have_css('header h1', text: 'Create new resource')
+
+    # ENTER key in a field defaults to "save and create another"
+    visit new_admin_book_path
+    wait_for_all_richtexts
+    fill_in "Title", with: "Another ipsum"
+    find('#resource_title').native.send_key(:Enter)
+    expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Create succeeded")
+    expect(page).to have_css('header h1', text: 'Create new resource')
+
+  end
+
   scenario "keeps search params after deleting record from edit view" do
     visit admin_books_path(search: "good")
     click_link("good book")
@@ -47,6 +79,7 @@ feature "Base controller edit", js: true do
     within(".localization-menu-items") do
       click_button "Lv"
     end
+    wait_for_all_richtexts
 
     visit admin_book_path(id: @good_book.id)
     expect(page).to have_css('#resource_description_lv[value="in lv"]')
@@ -61,6 +94,7 @@ feature "Base controller edit", js: true do
     visit admin_books_path(search: "good")
     click_link("good book")
     expect(page).to have_link("Back to list")
+    wait_for_all_richtexts
 
     visit admin_book_path(Book.first)
     expect(page).to_not have_link("Back to list")

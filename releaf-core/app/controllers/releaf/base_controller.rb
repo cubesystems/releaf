@@ -179,10 +179,13 @@ module Releaf
 
     def form_attributes(form_type, object, object_name)
       action = object.respond_to?(:persisted?) && object.persisted? ? :edit : :new
+      action_object_name = "#{action}-#{object_name}"
+      classes = [ action_object_name ]
+      classes << "has-error" if object.errors.any?
       {
         multipart: true,
-        id: "#{action}-#{object_name}",
-        class: "#{action}-#{object_name}",
+        id: action_object_name,
+        class: classes,
         data: {
           "remote" => true,
           "remote-validation" => true,
@@ -191,6 +194,8 @@ module Releaf
         novalidate: ''
       }
     end
+
+
 
     def builder_class(builder_type)
       Releaf::Builders.builder_class(builder_scopes, builder_type)
@@ -364,7 +369,7 @@ module Releaf
     # It sets various instance variables, that are later used in views and # controllers
     #
     # == Defines
-    # @fetures::
+    # @features::
     #   Hash with symbol keys and boolean values. Each key represents action
     #   (currently only `:edit`, `:create`, `:destroy` are supported). If one
     #   of features is disabled, then routing to it will raise <tt>Releaf::FeatureDisabled</tt>
@@ -378,7 +383,7 @@ module Releaf
     # @example
     #   def setup
     #     super
-    #     @fetures[:edit] = false
+    #     @features[:edit] = false
     #     @resources_per_page = 20
     #   end
     def setup
@@ -386,6 +391,7 @@ module Releaf
         show:              false,
         edit:              true,
         create:            true,
+        create_another:    true,
         destroy:           true,
         index:             true,
         toolbox:           true
@@ -413,7 +419,15 @@ module Releaf
     #
     # @return [String] url
     def success_url
-      url_for(action: 'edit', id: @resource.id, index_url: index_url)
+      if create_another?
+        url_for(action: 'new')
+      else
+        url_for(action: 'edit', id: @resource.id, index_url: index_url)
+      end
+    end
+
+    def create_another?
+      params[:after_save] == "create_another" && feature_available?(:create_another)
     end
 
     def feature_disabled exception

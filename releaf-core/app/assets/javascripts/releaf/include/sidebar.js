@@ -17,18 +17,7 @@ jQuery(function(){
 
     body.on('sidecompactchange', function()
     {
-        if (body.hasClass('side-compact'))
-        {
-            first_level_side_items.each(function()
-            {
-                var trigger = jQuery(this).children('.trigger');
-                trigger.attr( 'title', trigger.children('.name').text() );
-            });
-        }
-        else
-        {
-            first_level_side_items.children('.trigger').removeAttr('title');
-        }
+        first_level_side_items.trigger('collapsericonupdate');
     });
 
     body.on('contentloaded', function(e)
@@ -83,10 +72,23 @@ jQuery(function(){
             item.trigger( event );
         });
 
+        first_level_side_items.on('collapsericonupdate', function()
+        {
+            var item = jQuery(this);
+            var collapsed = item.hasClass('collapsed');
+            var compact = body.hasClass('side-compact');
+            var collapser_icon = item.find('.collapser i');
+
+            collapser_icon.toggleClass('fa-chevron-down',  !compact && collapsed);
+            collapser_icon.toggleClass('fa-chevron-up',    !compact && !collapsed);
+            collapser_icon.toggleClass('fa-chevron-right', compact);
+        });
+
         sidebar.find('.compacter button').on('click', function()
         {
             var button = jQuery(this);
             var icon = button.find('i').first();
+            var title_attribute;
 
             if (body.hasClass('side-compact'))
             {
@@ -94,13 +96,16 @@ jQuery(function(){
                 body.trigger( 'settingssave', [ "releaf.side.compact", false ] );
                 body.removeClass('side-compact');
                 icon.addClass('fa-angle-double-left').removeClass('fa-angle-double-right');
+                title_attribute = 'title-collapse';
             }
             else
             {
                 body.trigger( 'settingssave', [ "releaf.side.compact", true ] );
                 body.addClass('side-compact');
                 icon.addClass('fa-angle-double-right').removeClass('fa-angle-double-left');
+                title_attribute = 'title-expand';
             }
+            button.attr('title', button.data(title_attribute));
             body.trigger('sidecompactchange');
         });
 
@@ -108,17 +113,19 @@ jQuery(function(){
 
         sidebar.find('> nav .collapser button').on('click', function(e)
         {
+            if (body.hasClass('side-compact'))
+            {
+                return; // allow click to bubble up to trigger
+            }
+
             var item = jQuery(this).closest('li');
             e.stopPropagation();
-
             item.toggleClass('collapsed');
             jQuery(this).blur();
 
-            var collapser_icon = item.find('.collapser i');
-            var collapsed = item.hasClass('collapsed');
+            item.trigger('collapsericonupdate');
 
-            collapser_icon.toggleClass('fa-chevron-down', collapsed);
-            collapser_icon.toggleClass('fa-chevron-up',  !collapsed);
+            var collapsed = item.hasClass('collapsed');
 
             var setting_key = 'releaf.menu.collapsed.' + item.data('name');
             body.trigger( 'settingssave', [ setting_key, collapsed ]  );

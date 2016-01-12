@@ -42,7 +42,7 @@ class Releaf::Builders::Page::MenuBuilder
   end
 
   def menu_level(items)
-    tag(:ul, class: "block") do
+    tag(:ul) do
       items.collect{|item| menu_item(item) }
     end
   end
@@ -80,23 +80,61 @@ class Releaf::Builders::Page::MenuBuilder
     attributes
   end
 
+
   def item_name_content(item)
-    icon(item[:icon]) << tag(:span, t(item[:name], scope: "admin.controllers"), class: "name")
+    item_full_name    = t(item[:name], scope: "admin.controllers")
+    item_abbreviation = item_name_abbreviation( item_full_name )
+
+    tag(:abbr, item_abbreviation, title: item_full_name) + tag(:span, item_full_name, class: "name")
+  end
+
+  def item_name_abbreviation( item_full_name )
+    return "" if item_full_name.blank?
+    # use the first two letters after the last slash that is not preceded by a space
+    # to avoid identical abbreviations for namespaced items in case of missing translations
+    # but still use the first word in cases of user-entered slashes, e.g. "Inputs / Outputs"
+    item_full_name.split(/(?<!\s)\//).last.to_s[0..1].mb_chars.capitalize
   end
 
   def item_collapser(item)
     tag(:span, class: "collapser") do
       tag(:button, type: "button") do
-        icon(collapsed_item?(item) ? "chevron-down" : "chevron-up")
+        item_collapser_icon(item)
       end
+    end
+  end
+
+  def compact_side?
+    layout_settings('releaf.side.compact')
+  end
+
+  def item_collapser_icon(item)
+    if compact_side?
+      icon("chevron-right")
+    else
+      icon(collapsed_item?(item) ? "chevron-down" : "chevron-up")
     end
   end
 
   def compacter
     tag(:div, class: "compacter") do
-      tag(:button, type: "button") do
-        icon("angle-double-" + (layout_settings('releaf.side.compact') ? "right" : "left"))
+      if compact_side?
+        icon_name = "angle-double-right"
+        title_attribute = 'title-expand'
+      else
+        icon_name = "angle-double-left"
+        title_attribute = 'title-collapse'
       end
+      button(nil, icon_name, title: compacter_data[title_attribute], data: compacter_data )
     end
   end
+
+  def compacter_data
+    {
+      'title-expand'   => t("Expand", scope: :admin),
+      'title-collapse' => t("Collapse", scope: :admin)
+    }
+  end
+
+
 end

@@ -1,89 +1,70 @@
-html, body
-{
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    color: #fff;
-}
+@import 'releaf/environment';
 
-body
+.controller-releaf-permissions-sessions
 {
-    background: #111;
-}
+    @include inverted( $background-color: $color-background-inverted-darkest );
 
-body.controller-releaf-permissions-sessions
-{
     .container
     {
         position: absolute;
         top: 0;
         bottom: 0;
-        width: 100%;
+        width:  100%;
         height: 100%;
+
+        > .box
+        {
+            width: steps(26);
+            margin: 0 auto;
+            position: relative;
+            top: 15%;
+
+            .logo
+            {
+                width:  steps(5);
+                height: steps(11);
+                background-repeat: no-repeat;
+                background-image: image-url("releaf/logo-login.png");
+            }
+
+        }
+
     }
 
-    .container > .box
+    .field
     {
-        width: 290px;
-        margin: 0 auto;
-        position: relative;
-        top: 15%;
-    }
+        margin-left: steps(1);
+        width: steps(24);
 
-    .container > .box .logo
-    {
-        padding-bottom: 70px;
-        width: 60px;
-        height: 72px;
-        background-repeat: no-repeat;
-        background-image: image-url("releaf/logo-login.png");
-    }
+        label
+        {
+            display: block;
+        }
 
-    .control-group
-    {
-        margin-bottom: 9px;
-        margin-left: 10px;
-    }
+        .button
+        {
+            width: 100%;
+        }
 
-    .control-group .control-label
-    {
-        display: block;
-        margin-bottom: 5px;
-        cursor: pointer;
-    }
+        input
+        {
+            font-weight: normal;
+            border: none;
 
-    .control-group input, .control-group button
-    {
-        width: 280px;
-        height: 35px;
-        border: 0;
-        padding: 6px;
-    }
+        }
 
-    .control-group input
-    {
-        font-weight: normal;
-        margin-bottom: 10px;
-        background-color: #fff;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-    }
+        .button
+        {
+            margin-top: steps(2);
+            background-color: $color-highlight-normal;
+            color: $color-text-inverted-lightest;
 
-    .control-group input:hover
-    {
-        border: 0;
-    }
+            &:hover
+            {
+                background-color: $color-highlight-darker;
+            }
+        }
 
-    .control-group button:hover, .control-group button:focus
-    {
-        background: #269990;
-    }
-
-    .control-group button
-    {
-        margin-top: 23px;
-        background-color: #37b1a7;
     }
 
 }

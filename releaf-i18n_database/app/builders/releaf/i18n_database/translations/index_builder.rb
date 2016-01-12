@@ -3,12 +3,15 @@ module Releaf::I18nDatabase::Translations
     include Releaf::I18nDatabase::Translations::BuildersCommon
 
     def text_search_content
-      [search_only_blank_ui] + super
+      search_only_blank_ui + super
     end
 
     def search_only_blank_ui
-      tag(:div, class: "search-field-wrapper search-only-blank") do
-        [check_box_tag(:only_blank, 'true', params[:only_blank].present?), label_tag(:only_blank, t("Only blank"))]
+      search_field "only-blank" do
+        [
+          check_box_tag(:only_blank, 'true', params[:only_blank].present? ),
+          label_tag(:only_blank, t("Only blank"))
+        ]
       end
     end
 

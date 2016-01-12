@@ -1,6 +1,16 @@
 ## Changelog
+
 ### 2016.01.05
 * Node#url has been renamed to Node#path.
+
+### 2015.12.29
+* Extra search fields should now be wrapped in a container with a "search-field" class using the search_field method of IndexBuilder unless a custom layout is needed.
+* HTML classes "block", "clear" and "clear-inside" have been deprecated and will be removed soon. They are no longer used by releaf. Use `@include block-list;`, and `@include clear-inside;` in SASS instead.
+* Custom input fields with text, email, password or number types now need to have a "text" class to be styled correctly.
+* Main menu no longer has icons. You should remove all :icon keys from menu hash in config/initializers/releaf.rb
+* Toolbox trigger now has a kebab icon and is located at the far right of rows in index views
+* Toolbox items no longer have icons. You should pass nil as the icon argument to the button helper when creating custom toolbox items
+* Gravatar image is no longer displayed in the user box in the header
 
 ### 2015.11.12
 * `current_params` method removed from `Releaf::BaseController`. Is it
@@ -106,7 +116,6 @@
   [pull request](https://github.com/cubesystems/releaf/pull/246)
   and especially
   [routing tests](https://github.com/graudeejs/releaf/blob/05e1b7062e4bdc25e8457b338061b2e0bae76159/releaf-content/spec/routing/node_mapper_spec.rb)
-
 
 ### 2015.10.14
 * `Releaf::Core::Application` and `Releaf::Core::Configuration` introduced

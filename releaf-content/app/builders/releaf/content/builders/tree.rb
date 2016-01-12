@@ -1,9 +1,15 @@
 module Releaf::Content::Builders
   module Tree
     def section_body
-      tag(:div, class: "body") do
+      tag(:div, class: body_classes) do
         tree
       end
+    end
+
+    def body_classes
+      classes = [:body]
+      classes << :empty if collection.size < 1
+      classes
     end
 
     def tree
@@ -13,11 +19,18 @@ module Releaf::Content::Builders
     end
 
     def root_level
-      tree_level(collection, 1) unless collection.size < 1
+      return empty_body if collection.size < 1
+      tree_level(collection, 1)
+    end
+
+    def empty_body
+      tag(:div, class: "nothing-found") do
+        t("Nothing found")
+      end
     end
 
     def tree_level(list, level)
-      tag(:ul, class: "block", "data-level" => level) do
+      tag(:ul, "data-level" => level) do
         list.collect do |resource|
           tree_resource(resource, level)
         end
@@ -43,7 +56,7 @@ module Releaf::Content::Builders
     def tree_resource_collapser(resource, expanded)
       return if resource.children.empty?
       tag(:div, class: "collapser-cell") do
-        button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser), title: t(expanded ? "collapse" : "expand"))
+        button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser trigger), title: t(expanded ? "collapse" : "expand"))
       end
     end
 
@@ -63,7 +76,7 @@ module Releaf::Content::Builders
 
     def tree_resource_name_button(resource)
       title = resource.content_id.present? ? "#{resource.content_type} ##{resource.content_id}" : resource.content_type
-      tag(:a, href: url_for(action: "edit", id: resource.id), title: title) do
+      tag(:a, class: "trigger", href: url_for(action: "edit", id: resource.id), title: title) do
         tag(:span, resource.name)
       end
     end

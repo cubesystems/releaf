@@ -1,317 +1,234 @@
-.controller-releaf-content-nodes .collection
-{
-    border-left:  1px solid #d4d4d4;
-    border-right: 1px solid #d4d4d4;
-    font-size: 13px;
-}
+@import 'releaf/environment';
 
-.controller-releaf-content-nodes .collection li
+.controller-releaf-content-nodes
 {
-    clear: both;
-}
-.controller-releaf-content-nodes .collection li ul
-{
-    clear: both;
-}
+    main > section:not(.dialog) > .body:not(.empty)
+    {
+        border-bottom: none;
+    }
 
-.controller-releaf-content-nodes .collection .toolbox-cell,
-.controller-releaf-content-nodes .collection .collapser-cell
-{
-    border-right: 1px solid #d4d4d4;
-    float: left;
-}
+    .collection
+    {
+        ul
+        {
+            @include block-list;
+        }
 
-.controller-releaf-content-nodes .collection .toolbox-cell .trigger,
-.controller-releaf-content-nodes .collection .collapser-cell .button
-{
-    width:  30px;
-    height: 30px;
-    padding: 4px 5px;
-    background: transparent;
-}
+        .collapsed ul
+        {
+            display: none;
+        }
 
-.controller-releaf-content-nodes .collection .node-cell
-{
-    border-bottom: 1px solid #d4d4d4;
-}
-.controller-releaf-content-nodes .dialog .collection > ul li
-{
-    position: relative;
-}
-.controller-releaf-content-nodes .dialog .collection .collapser-cell
-{
-    position: absolute;
-    top: 0;
-    z-index: 10;
-}
-.controller-releaf-content-nodes .collection .node-cell button
-{
-    padding: 7px 10px;
-    color: #1a1a1a;
-    font-weight: bold;
-    position: relative;
-    width: 100%;
-    text-align: left;
-    z-index: 1;
-}
-.controller-releaf-content-nodes .dialog .collection .node-cell label,
-.controller-releaf-content-nodes .collection .node-cell a
-{
-    display: block;
-    color: #999999;
-    text-decoration: none;
-    padding: 5px 10px 5px 10px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.controller-releaf-content-nodes .dialog .collection .node-cell.active label,
-.controller-releaf-content-nodes .collection .node-cell.active a
-{
-    color: #1a1a1a;
-}
+        li
+        {
+            @include clear-inside;
+        }
 
-.controller-releaf-content-nodes .dialog .body .node-cell label.selected,
-.controller-releaf-content-nodes .dialog .body .node-cell label:hover,
-.controller-releaf-content-nodes .collection .node-cell button:hover,
-.controller-releaf-content-nodes .collection .node-cell a:hover
-{
-    background: #d0eeec;
-}
+        .collapser-cell
+        {
+            float: left;
+        }
 
-.controller-releaf-content-nodes .dialog .body .node-cell input[type="radio"]
-{
-    display: none;
-}
+        .toolbox-cell
+        {
+            border-left: 1px solid $color-border-normal;
+            float: right;
+        }
 
-.controller-releaf-content-nodes .dialog .body .node-cell label span,
-.controller-releaf-content-nodes .collection .node-cell button span,
-.controller-releaf-content-nodes .collection .node-cell a span
-{
-    position: relative;
-    left: 13px
-}
+        .collapser-cell,
+        .toolbox-cell
+        {
+            .trigger
+            {
+                background: transparent;
+            }
+        }
 
-.controller-releaf-content-nodes main .collection li  ul ul
-{
-    background: #f3f1f1;
-}
+        .node-cell
+        {
+            border-bottom: 1px solid $color-border-normal;
 
-.controller-releaf-content-nodes .collection li ul .toolbox-cell,
-.controller-releaf-content-nodes .dialog .collection li ul .collapser-cell
-{
-    border-left:  1px solid #d4d4d4;
-}
-.controller-releaf-content-nodes .dialog .collection li > .node-cell span
-{
-    display: inline-block;
-}
-.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell label,
-.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell button,
-.controller-releaf-content-nodes .dialog .collection li:not(.has-children) > .node-cell a
-{
-    padding-left: 0px;
-}
+            .trigger
+            {
+                display: block;
+                color: $color-text-lightest;
+                text-decoration: none;
+                padding: steps(0.5) steps(3);
+                font-weight: bold;
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="1"].has-children > .node-cell span
-{
-    margin-left: 20px;
-}
+                &.selected,
+                &:hover
+                {
+                    background: $color-highlight-lightest;
+                }
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="1"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="2"].has-children > .toolbox-cell
-{
-    margin-left: 30px;
-}
+                span
+                {
+                    position: relative;
+                }
+            }
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"].has-children > .node-cell span
-{
-    margin-left: 51px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="2"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="3"] > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="2"]:not(.has-children) > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="3"] > .toolbox-cell
-{
-    margin-left: 61px;
-}
+            &.active .trigger
+            {
+                color: $color-text-normal;
+            }
 
-.controller-releaf-content-nodes .dialog .collection li[data-level="3"].has-children > .node-cell span
-{
-    margin-left: 82px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="3"]:not(.has-children)  > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="4"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="3"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="4"].has-children > .toolbox-cell
-{
-    margin-left: 92px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="4"].has-children > .node-cell span
-{
-    margin-left: 113px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="4"]:not(.has-children)  > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="5"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="4"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="5"].has-children > .toolbox-cell
-{
-    margin-left: 123px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="5"].has-children > .node-cell span
-{
-    margin-left: 144px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="5"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="6"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="5"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="6"].has-children > .toolbox-cell
-{
-    margin-left: 154px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="6"].has-children > .node-cell span
-{
-    margin-left: 175px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="6"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="7"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="6"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="7"].has-children > .toolbox-cell
-{
-    margin-left: 185px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="7"].has-children > .node-cell span
-{
-    margin-left: 206px;
-}
-.controller-releaf-content-nodes .dialog .collection li[data-level="7"]:not(.has-children) > .node-cell span,
-.controller-releaf-content-nodes .dialog .collection li[data-level="8"].has-children > .collapser-cell,
-.controller-releaf-content-nodes .collection li[data-level="7"]:not(.has-children)  > .toolbox-cell,
-.controller-releaf-content-nodes .collection li[data-level="8"].has-children > .toolbox-cell
-{
-    margin-left: 216px;
-}
+            span
+            {
+                margin-left: 0;
+                display: inline-block;
+            }
 
-.controller-releaf-content-nodes .collection .collapsed ul
-{
-    display: none;
-}
+            input[type="radio"]
+            {
+                display: none;
+            }
 
-.controller-releaf-content-nodes .dialog.copy,
-.controller-releaf-content-nodes .dialog.move,
-.controller-releaf-content-nodes .dialog.go-to,
-.controller-releaf-content-nodes .dialog.content-type
-{
-    width: 500px;
-}
-.controller-releaf-content-nodes .dialog.content-type[data-columns="1"]
-{
-    width: 280px;
-}
+        }
 
-.controller-releaf-content-nodes .dialog.content-type .body
-{
-    padding: 20px 40px;
-    text-align: center;
-}
+        // nested item indentation
+        @for $i from 1 through 10
+        {
+            li[data-level="#{$i}"]
+            {
+                & > .collapser-cell
+                {
+                    $previous: $i - 1;
+                    position: absolute;
+                    left: $previous * steps(2);
+                }
 
-.controller-releaf-content-nodes .dialog.content-type .body .description
-{
-    padding: 0 0 20px 0;
-}
+                & > .node-cell span
+                {
+                    margin-left: ($i - 1) * steps(2);
+                }
+            }
+        }
+
+        .nothing-found
+        {
+            padding: steps(0.5) steps(2);
+        }
+    }
+
+    main .collection li ul ul
+    {
+        background: $color-background-normal;
+    }
+
+    .dialog .collection > ul li
+    {
+        position: relative;
+    }
 
 
-.controller-releaf-content-nodes .dialog.content-type .body ul
-{
-    width: 200px;
-    margin-left: 20px;
-    float: left;
+    &.view-index > main > section
+    {
+        display: inline-block;
+        min-width: steps(40);
+    }
+
+
+    .dialog
+    {
+        width: steps(40);
+
+        &.content-type
+        {
+            &[data-columns="1"]
+            {
+                width: steps(24);
+            }
+
+            .body
+            {
+                padding: steps(2) steps(3);
+                text-align: center;
+
+                .description
+                {
+                    padding: 0 0 steps(2) 0;
+                }
+
+                ul
+                {
+                    width: steps(18);
+                    margin-left: steps(2);
+                    float: left;
+                }
+            }
+
+            .content-types
+            {
+                @include clear-inside;
+
+                ul
+                {
+                    @include block-list;
+
+                    li
+                    {
+                        margin-bottom: steps(1);
+                    }
+                }
+            }
+        }
+
+        &:not(.content-type)
+        {
+            .body
+            {
+                height: steps(24);
+                overflow-y: auto;
+            }
+        }
+    }
+
+    &.view-edit
+    {
+        .node-fields
+        {
+            @include clear-inside;
+
+            background: $color-background-lighter;
+
+            .field[data-name="slug"]
+            {
+                .button.generate
+                {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+
+                input[type="text"]
+                {
+                    padding-right: steps(4);
+                }
+
+                .link
+                {
+                    padding: steps(0.5) 0;
+                    span
+                    {
+                        color: $color-text-normal;
+                    }
+                }
+            }
+
+            .field[data-name="active"]
+            {
+                min-height: initial;
+                clear: both;
+
+                .value
+                {
+                    padding-top: initial;
+                }
+            }
+
+        }
+
+    }
 }
 
-.controller-releaf-content-nodes .dialog.goto .body,
-.controller-releaf-content-nodes .dialog.copy .body
-.controller-releaf-content-nodes .dialog.move .body
-{
-  height: 25em;
-  overflow-y: auto;
-}
-
-.controller-releaf-content-nodes .dialog.content-type .body .content-types ul:first-child
-{
-    margin-left: 0;
-}
-.controller-releaf-content-nodes .dialog.content-type .body .content-types ul li
-{
-    margin-bottom: 0.5em;
-}
-
-.controller-releaf-content-nodes.view-edit .node-fields
-{
-    background: #f8f8f8;
-}
-
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="template"] .value
-{
-    height: 35px;
-    font-weight: bold;
-}
-
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="slug"] .button.generate
-{
-    position: absolute;
-    right: 1px;
-    top: 1px;
-    padding: 6px 11px;
-    width: 38px;
-    height: 33px;
-}
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="slug"] input[type="text"]
-{
-    padding-right: 40px;
-}
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="slug"] .link
-{
-    margin-top: 0.5em;
-}
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="slug"] .link span
-{
-    color: #1D1D1D;
-}
-
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="active"]
-{
-    min-height: initial;
-    clear: both;
-}
-.controller-releaf-content-nodes.view-edit .node-fields .field[data-name="active"] .value
-{
-    padding-top: initial;
-}
-.controller-releaf-content-nodes.view-edit .node-fields hr
-{
-    clear: both;
-    border: 1px solid #d4d4d4;
-    margin: 7px 34px 7px 0px;
-}
-
-.controller-releaf-content-nodes.view-edit .content-fields
-{
-    border-top: none;
-}
-
-/*
- * TODO this style should be removed and applied automatically.
- * For this to work correclty styles in edit-view.css should be refactored.
- */
-.controller-releaf-content-nodes .dialog.copy .form-error-box,
-.controller-releaf-content-nodes .dialog.move .form-error-box
-{
-  border: 1px solid #D4D4D4;
-  padding: 15px 25px;
-  margin: 0px;
-  color: #f00a0a;
-  background-color: #FAF0F0;
-  border-top: none;
-  border-bottom: none;
-}

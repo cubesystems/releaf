@@ -31,7 +31,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     it "renders node fields" do
       allow(subject).to receive(:node_fields).and_return([1, 2])
       allow(subject).to receive(:releaf_fields).with([1, 2]).and_return("x")
-      content = '<div class="section node-fields clear-inside">x</div>'
+      content = '<div class="section node-fields">x</div>'
       expect(subject.render_node_fields_block).to eq(content)
     end
   end
@@ -167,9 +167,24 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
       allow(subject).to receive(:url_for).with(controller: "/releaf/content/nodes", action: "generate_url", parent_id: 1, id: 2)
         .and_return("http://localhost/slug-generation-url")
 
-      content = '<div class="field type-text" data-name="slug"><div class="label-wrap"><label for="resource_slug">Slug</label></div><div class="value"><input value="b" data-generator-url="http://localhost/slug-generation-url" type="text" name="resource[slug]" id="resource_slug" /><button class="button only-icon secondary generate" title="Suggest slug" type="button"><i class="fa fa-keyboard-o"></i></button><div class="link"><a href="/a/b">http://localhost/parent<span>b</span>/</a></div></div></div>'
+      content = '
+          <div class="field type-text" data-name="slug">
+              <div class="label-wrap">
+                  <label for="resource_slug">Slug</label>
+              </div>
+              <div class="value">
+                  <input value="b" class="text" data-generator-url="http://localhost/slug-generation-url" type="text" name="resource[slug]" id="resource_slug" />
+                  <button class="button only-icon secondary generate" title="Suggest slug" type="button" autocomplete="off">
+                      <i class="fa fa-keyboard-o"></i>
+                  </button>
+                  <div class="link">
+                      <a href="/a/b">http://localhost/parent<span>b</span>/</a>
+                  </div>
+             </div>
+         </div>
+      '
 
-      expect(subject.render_slug).to eq(content)
+      expect(subject.render_slug).to match_html(content)
     end
   end
 
