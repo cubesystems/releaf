@@ -60,6 +60,7 @@
   instead of the default `Releaf::Content::NodesController`
 
 * `releaf_routes_for` helper has been renamed to `node_routes_for`.
+* `node_class` param is now always added to generated node routes along with `node_id` and `locale`
 * Multiple node models and controllers are now supported.
 
   Node resource configuration can be overriden via `content_resources` key
@@ -152,6 +153,36 @@
       end
     end
     ```
+
+    If multiple `node_routes_for` blocks are needed with the same `node_class` argument,
+    they can be wrapped inside a `for_node_class` block.
+
+    ```ruby
+    for_node_class 'OtherSite::OtherNode' do
+
+      node_routes_for(HomePage) do
+        get 'show', as: "home_page"
+      end
+
+      node_routes_for(TextPage) do
+        get 'show'
+      end
+
+    end
+    ```
+
+    is the same as
+
+    ```
+    node_routes_for(HomePage, node_class: 'OtherSite::OtherNode') do
+      get 'show', as: "home_page"
+    end
+
+    node_routes_for(TextPage, node_class: 'OtherSite::OtherNode') do
+      get 'show'
+    end
+    ```
+
 
 ### 2016.01.05
 * Node#url has been renamed to Node#path.
