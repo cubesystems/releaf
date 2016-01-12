@@ -14,11 +14,10 @@ module Releaf::Content
         content_type.constantize unless content_type.blank?
       end
 
-      ##
-      # Return node public url
-      def url
-        if parent_id
-          parent.url + "/" + slug.to_s
+      # Return node public path
+      def path
+        if parent
+          parent.path + "/" + slug.to_s
         else
           "/" + slug.to_s
         end

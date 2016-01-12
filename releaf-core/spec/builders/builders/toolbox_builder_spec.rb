@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe Releaf::Builders::ToolboxBuilder, type: :class do
   class ToolboxBuilderTestHelper < ActionView::Base
-    include FontAwesome::Rails::IconHelper
     include Releaf::ButtonHelper
     include Releaf::ApplicationHelper
   end
@@ -51,7 +50,7 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
     it "returns destroy confirmation link" do
       allow(subject).to receive(:t).with("Delete").and_return("dlt")
       allow(subject).to receive(:destroy_confirmation_url).and_return("www.xxx")
-      content = '<a class="button with-icon ajaxbox danger" title="dlt" href="www.xxx" data-modal="true"><i class="fa fa-trash-o fa-lg"></i>dlt</a>'
+      content = '<a class="button ajaxbox danger" title="dlt" href="www.xxx" data-modal="true">dlt</a>'
       expect(subject.destroy_confirmation_link).to eq(content)
     end
   end

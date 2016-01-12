@@ -70,7 +70,7 @@ module Releaf::Content
       route = new
       route.node_class = node.class
       route.node_id = node.id.to_s
-      route.path = node.url
+      route.path = node.path
       route.locale = node.root.locale
       route.default_controller = default_controller
       route.site = Releaf::Content.routing[node.class.name][:site]

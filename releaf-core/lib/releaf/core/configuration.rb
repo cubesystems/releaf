@@ -81,7 +81,6 @@ module Releaf::Core
         item[:url_helper] = item[:controller].gsub('/', '_').to_sym
       end
 
-      item[:icon] = "caret-left" if item[:icon].nil?
       item[:items] = normalize_controllers(item[:items]) if item.has_key?(:items)
 
       item

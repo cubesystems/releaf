@@ -103,7 +103,7 @@ describe Releaf::BaseController do
       attributes = {
          multipart: true,
          novalidate: "",
-         class: "new-user",
+         class: ["new-user"],
          id: "new-user",
          data: {
            "remote"=>true,
@@ -116,11 +116,18 @@ describe Releaf::BaseController do
 
     it "changes class/id depending whether given object is persisted" do
       expect(subject.form_attributes(:edit, new_resource, :user)[:id]).to eq("new-user")
-      expect(subject.form_attributes(:edit, new_resource, :user)[:class]).to eq("new-user")
+      expect(subject.form_attributes(:edit, new_resource, :user)[:class]).to eq(["new-user"])
 
       expect(subject.form_attributes(:edit, resource, :user)[:id]).to eq("edit-user")
-      expect(subject.form_attributes(:edit, resource, :user)[:class]).to eq("edit-user")
+      expect(subject.form_attributes(:edit, resource, :user)[:class]).to eq(["edit-user"])
     end
+
+    it "adds has-error class if object has any errors" do
+      resource.name = nil
+      expect(resource.valid?).to be false
+      expect(subject.form_attributes(:edit, resource, :user)[:class]).to eq(["edit-user", "has-error"])
+    end
+
   end
 
   describe "#builder_class" do

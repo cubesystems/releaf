@@ -41,7 +41,7 @@ module Releaf::Builders::View
     return unless breadcrumb_items.present?
 
     tag(:nav) do
-      tag(:ul, class: "block breadcrumbs") do
+      tag(:ul, class: "breadcrumbs") do
         safe_join do
           last_item = breadcrumb_items.last
           breadcrumb_items.each.collect do |item, index|
@@ -60,7 +60,7 @@ module Releaf::Builders::View
       content << item[:name]
     end
 
-    content << icon("small chevron-right") unless last
+    content << icon("chevron-right") unless last
 
     tag(:li) do
       safe_join{ content }

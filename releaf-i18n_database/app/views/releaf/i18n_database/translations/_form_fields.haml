@@ -8,32 +8,33 @@
   %tr.item{ data: { name: :translations }, style: 'display:none' }
     %td.translation-name
       .wrap
-        %input{type: "text", name: "translations[][key]"}
+        %input{type: "text", class: "text", name: "translations[][key]"}
     - locales.each_with_index do |locale, j|
       %td.translationCell{data: {locale: locale}}
-        %input{type: "text", name: "translations[][localizations][#{locale}]"}
-    %td.delete-column
+        %input{type: "text", class: "text", name: "translations[][localizations][#{locale}]"}
+    %td.delete-column.only-icon
       = releaf_button(nil, "times", class: %w(danger remove-nested-item), title: t("Remove item", scope: controller_scope_name))
 %section.nested{data: {name: "translations", releaf: {template: html_escape(template_html)}}}
   %table.table
     %thead
       %tr
-        %th.code-header= t("key", scope: attributes_scope)
+        %th.code= t("key", scope: attributes_scope)
         - locales.each do |locale|
           %th{"data-locale" => locale}
             %span.name= builder.translate_locale(locale)
-        %th.delete-header  
+        %th.delete
     %tbody#variables.list
       - @collection.each_with_index do |translation, index|
         - @translation_ids_to_destroy << translation.id
         %tr.item{ id: "translation_#{translation.id}", data: { name: :translations, index: index } }
           %td.translation-name{title: translation.key}
             .wrap
-              %input{type: "text", name: "translations[][key]", value: translation.key }
+              %input{type: "text", class: "text", name: "translations[][key]", value: translation.key }
           - locales.each_with_index do |locale, j|
             %td.translationCell{data: {locale: locale}}
-              %input{type: "text", name: "translations[][localizations][#{locale}]", value: translation.locale_value(locale) }
-          %td.delete-column
+              %input{type: "text", class: "text", name: "translations[][localizations][#{locale}]", value: translation.locale_value(locale) }
+          %td.delete-column.only-icon
             = releaf_button(nil, "times", class: %w(danger remove-nested-item), title: t("Remove item", scope: controller_scope_name))
-  = releaf_button(t('Add item', :scope => 'admin.releaf_translations'), "plus", class: "add-nested-item")
+  %div.tools
+    = releaf_button(t('Add item', :scope => 'admin.releaf_translations'), "plus", class: "add-nested-item")
 = hidden_field_tag :existing_translations, @translation_ids_to_destroy.join(",")

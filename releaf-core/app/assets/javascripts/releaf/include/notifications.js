@@ -4,7 +4,7 @@ jQuery(function()
 
     var container = body.children('.notifications').first();
 
-    var icon_base_class = 'icon fa fa-2x';
+    var icon_base_class = 'icon fa';
 
     var icons_by_type =
     {

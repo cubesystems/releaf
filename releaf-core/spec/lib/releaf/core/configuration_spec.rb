@@ -191,21 +191,7 @@ describe Releaf::Core::Configuration do
       end
     end
 
-    describe ":icon" do
-      context "when controller hash does not have icon value" do
-        it "assigns `caret-left` as default icon" do
-          expect(subject.normalize_controller_item(x: "x")[:icon]).to eq("caret-left")
-        end
-      end
-
-      context "when controller hash has icon value" do
-        it "does not change icon value" do
-          expect(subject.normalize_controller_item(controller: "x", icon: "b")[:icon]).to eq("b")
-        end
-      end
-    end
-
-    describe ":icon" do
+    describe ":items" do
       before do
         allow(subject).to receive(:normalize_controllers).with(["a", "b"]).and_return(["c", "d"])
       end
@@ -216,7 +202,7 @@ describe Releaf::Core::Configuration do
         end
       end
 
-      context "when controller hash has icon value" do
+      context "when controller hash has items value" do
         it "does normalizes items" do
           expect(subject.normalize_controller_item(x: "x", items: ["a", "b"])[:items]).to eq(["c", "d"])
         end

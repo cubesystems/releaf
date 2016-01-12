@@ -12,7 +12,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   end
 
   def restricted_relations
-    tag(:ul, class: "block restricted-relations") do
+    tag(:ul, class: "restricted-relations") do
       template_variable("restricted_relations").collect do|key, relation|
         tag(:li) do
           restricted_relation(relation, key)
@@ -32,7 +32,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   end
 
   def relation_objects(relation)
-    tag(:ul, class: "block relations") do
+    tag(:ul, class: "relations") do
       relation[:objects][0..2].collect do |item|
           relation_objects_item(item, relation)
       end + [(tag(:li, "...") if relation[:objects].count > 3)]

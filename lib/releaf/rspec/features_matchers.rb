@@ -16,6 +16,11 @@ module Capybara
       has_css?("#{primary_header_css_rule} h1", *args)
     end
 
+    def has_no_header?(*args)
+      has_no_css?("#{primary_header_css_rule} h1", *args)
+    end
+
+
     def has_number_of_resources?(count)
       has_css?("#{primary_header_css_rule} .totals", text: "#{count} resources found")
     end

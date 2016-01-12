@@ -100,8 +100,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     context "when options[:toolbox] value is 'true'" do
       let(:options){ {toolbox: true} }
-      it "adds toolbox as first column" do
-        expect(subject.columns_schema.keys.first).to eq(:toolbox)
+      it "adds toolbox as last column" do
+        expect(subject.columns_schema.keys.last).to eq(:toolbox)
       end
 
       it "uses #toolbox_cell for toolbox cell rendering" do
@@ -497,7 +497,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:toolbox)
         .with(resource, index_url: "_index_url_").and_return("_toolbox_")
 
-      content = '<td class="toolbox-cell">_toolbox_</td>'
+      content = '<td class="only-icon toolbox-cell">_toolbox_</td>'
       expect(subject.toolbox_cell(resource, {})).to eq(content)
     end
 

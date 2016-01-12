@@ -1,29 +1,50 @@
 module Releaf
   module ButtonHelper
+
     def releaf_button(text, icon, attributes = {})
+      attributes = releaf_button_attributes( text, icon, attributes )
+      tag = attributes.key?(:href) ? :a : :button
+      content_tag(tag, attributes) do
+        releaf_button_content( text, icon, attributes )
+      end
+    end
+
+
+    def releaf_button_attributes( text, icon, attributes = {} )
       default_attributes = {
         class: ["button"],
         title: text
       }
 
-      if attributes.key? :href
-        tag = :a
-      else
-        default_attributes[:type] = "button"
-        tag = :button
+      unless attributes.key? :href
+        default_attributes[:type] = :button
+        default_attributes[:autocomplete] = "off"
       end
 
-      if text.blank?
-        default_attributes[:class] << "only-icon"
-        # title is required for only-icon buttons / links
-        raise ArgumentError, "Title missing for icon-only button/link" if attributes[:title].blank?
-      else
-        default_attributes[:class] << "with-icon"
+      if icon.present?
+        icon_class = (text.present?) ? "with-icon" : "only-icon"
+        default_attributes[:class] << icon_class
       end
 
-      content_tag(tag, merge_attributes(default_attributes, attributes)) do
-        fa_icon(icon) << text
-      end
+      merge_attributes(default_attributes, attributes)
     end
+
+
+    def releaf_button_content( text, icon, attributes = {} )
+      if text.blank? && icon.present?
+        raise ArgumentError, "Title is required for icon-only buttons" if attributes[:title].blank?
+      end
+
+      html = "".html_safe
+      html << fa_icon(icon) if icon.present?
+      html << text if text.present?
+
+      if html.length < 1
+        raise ArgumentError, "Either text or icon is required for buttons"
+      end
+
+      html
+    end
+
   end
 end

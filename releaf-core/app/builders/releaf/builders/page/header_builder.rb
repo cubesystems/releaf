@@ -43,14 +43,9 @@ class Releaf::Builders::Page::HeaderBuilder
   end
 
   def profile_block
-    tag(:a, class: "profile", href: profile_url, "data-settings-url" => profile_settings_url) do
-      [tag(:span, profile_user_name, class: "name"), profile_user_image]
+    tag(:a, class: "button profile", href: profile_url, "data-settings-url" => profile_settings_url) do
+      [tag(:span, profile_user_name, class: "name")]
     end
-  end
-
-  def profile_user_image
-    template.gravatar_image_tag(user.email, alt: profile_user_name,
-                                gravatar: { size: 36, secure: request.ssl?, default: 'mm' }, class: "avatar")
   end
 
   def user
@@ -67,7 +62,7 @@ class Releaf::Builders::Page::HeaderBuilder
 
   def sign_out_form
     form_tag(sign_out_url, method: :delete, class: "sign-out") do
-      tag(:button, type: "submit") do
+      tag(:button, class: "button only-icon", type: "submit", title: t('Sign out', scope: "admin.sessions")) do
         icon("power-off icon-header")
       end
     end
