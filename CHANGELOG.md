@@ -6,7 +6,7 @@
 
   If reverse node lookup from content classes is needed, reimplement it
   in the specific application where the needed node class name is known.
-* Builder scopes in admin controllers are now inherited from parent controllers up to Releaf::BaseController.
+* Builder scopes in admin controllers are now inherited from parent controllers up to `Releaf::BaseController`.
 * Magic `Admin::Nodes` builder scope is no longer prepended by `Releaf::Content::NodesController`.
 
   This is no longer needed because releaf controllers can now be extended
@@ -124,12 +124,13 @@
       node_routes_for(TextPage) do
         get 'show'
       end
+
     end
     ```
 
     This configuration would mean that all `HomePage` and `TextPage` nodes
     with `Node` class would have their routes drawn
-    constrained to `http:://releaf.local/" host name
+    constrained to `http:://releaf.local/` host name
     and all `HomePage` and `TextPage` nodes using `OtherSite::OtherNode` node class
     would only have routes for `http://other.releaf.local/` website.
 
