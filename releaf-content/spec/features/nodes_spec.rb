@@ -170,7 +170,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Move"
         end
 
-        error_text = 'Node with id 3 has error "can\'t be parent to itself" on attribute "parent_id"'
+        error_text = "Node with id #{@about_us.id} has error \"can't be parent to itself\" on attribute \"parent_id\""
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
