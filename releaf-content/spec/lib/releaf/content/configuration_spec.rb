@@ -68,22 +68,32 @@ describe Releaf::Content::Configuration do
 
   end
 
-  describe ".models" do
+  describe "#models" do
 
-    it "returns an array of defined node classes" do
-      stub_config( 'ContentConfigurationDummyNode' => { controller: 'Releaf::Content::NodesController' } )
-      expect(subject.models).to eq [ ContentConfigurationDummyNode ]
-    end
-
-    it "caches the result" do
-      expect(subject).to receive(:resources).once.and_call_original
-      subject.models
-      subject.models
+    it "returns an array of node model classes" do
+      expect(subject).to receive(:model_names).and_return(['ContentConfigurationDummyNode', 'Object'])
+      expect(subject.models).to eq [ContentConfigurationDummyNode, Object]
     end
 
   end
 
-  describe ".default_model" do
+  describe "#model_names" do
+
+    it "returns an array of defined node class names" do
+      stub_config( 'ContentConfigurationDummyNode' => { controller: 'Releaf::Content::NodesController' } )
+      expect(subject.model_names).to eq [ 'ContentConfigurationDummyNode' ]
+    end
+
+    it "caches the result" do
+      expect(subject).to receive(:resources).once.and_call_original
+      subject.model_names
+      subject.model_names
+    end
+
+  end
+
+
+  describe "#default_model" do
 
     it "returns the first model from #models" do
       expect(subject).to receive(:models).and_return [ :foo, :bar ]
@@ -92,22 +102,33 @@ describe Releaf::Content::Configuration do
 
   end
 
-  describe ".controllers" do
+  describe "#controllers" do
 
-    it "returns an array of defined node controllers" do
+    it "returns an array of node controller classes" do
+      expect(subject).to receive(:controller_names).and_return([
+        'Releaf::Content::NodesController', 'Admin::OtherSite::OtherNodesController'
+      ])
+      expect(subject.controllers).to eq [Releaf::Content::NodesController, Admin::OtherSite::OtherNodesController]
+    end
+
+
+  end
+
+  describe "#controller_names" do
+
+    it "returns an array of defined node controller class names" do
       stub_config( {
         'Node' => { controller: 'Releaf::Content::NodesController' },
         'ContentConfigurationDummyNode' => { controller: 'ContentConfigurationDummyNodesController' }
       })
-      expect(subject.controllers).to eq [ Releaf::Content::NodesController, ContentConfigurationDummyNodesController ]
+      expect(subject.controller_names).to eq [ 'Releaf::Content::NodesController', 'ContentConfigurationDummyNodesController' ]
     end
 
     it "caches the result" do
       expect(subject).to receive(:resources).once.and_call_original
-      subject.controllers
-      subject.controllers
+      subject.controller_names
+      subject.controller_names
     end
-
   end
 
   describe ".routing" do

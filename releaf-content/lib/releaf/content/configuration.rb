@@ -27,7 +27,11 @@ module Releaf::Content
     end
 
     def models
-      @models ||= resources.keys.map(&:constantize)
+      model_names.map(&:constantize)
+    end
+
+    def model_names
+      @model_names ||= resources.keys
     end
 
     def default_model
@@ -35,7 +39,11 @@ module Releaf::Content
     end
 
     def controllers
-      @controllers ||= resources.values.map { |options| options[:controller].constantize }
+      controller_names.map(&:constantize)
+    end
+
+    def controller_names
+      @controller_names ||=  resources.values.map { |options| options[:controller] }
     end
 
     def routing
