@@ -1,6 +1,6 @@
 ---
-title: Settings
-weight: 6
+title: "OLD: Settings"
+weight: 1006
 ---
 
 ## Settings

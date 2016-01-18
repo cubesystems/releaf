@@ -17,11 +17,10 @@
 
       <div id="docs" class="page">
         <div class="content with-nav">
-          <ul class="nav">
-            {% assign pages_list = site.pages | sort:"weight" %}
-            {% assign group = "documentation" %}
-            {% include documentation_list.html %}
-          </ul>
+          <nav>
+          {% include navigation.html context="/documentation/" %}
+          </nav>
+
           <div class="text">
             {{ content }}
           </div>

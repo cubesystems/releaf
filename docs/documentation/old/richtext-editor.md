@@ -1,6 +1,6 @@
 ---
-title: Richtext editor
-weight: 4
+title: "OLD: Richtext editor"
+weight: 1004
 ---
 
 ## Richtext editor

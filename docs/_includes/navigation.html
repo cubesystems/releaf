@@ -1,0 +1,40 @@
+{% capture html %}
+<ul class="nav">
+    {% assign page_slug   = page.url | split: "/" | last %}
+    {% assign page_folder = page.url | remove: page_slug %}
+
+    {% assign entries = site.pages | sort: "weight" %}
+
+    {% for entry in entries %}
+
+        {% assign entry_slug = entry.url | split: "/" | last %}
+        {% assign entry_folder = entry.url | remove: entry_slug %}
+        {% assign entry_subfolder = entry.url | remove: ".html" | append: "/" %}
+
+        {% if entry_folder == include.context %}
+
+            {% assign subentries = "" | split : "|" %}
+            {% for subentry in entries %}
+            {% assign subentry_slug = subentry.url | split: "/" | last %}
+            {% assign subentry_folder = subentry.url | remove: subentry_slug %}
+
+            {% if subentry_folder == entry_subfolder %}
+            {% assign subentries = subentries | push: subentry %}
+            {% endif %}
+
+            {% endfor %}
+
+            <li class="{% if page.url contains entry.url or page_folder contains entry_subfolder %}active{% endif %}">
+                <a href="{{ site.baseurl }}{{ entry.url }}">{{ entry.title }}</a>
+
+                {% if subentries.size > 0 %}
+                    {% include navigation.html context=entry_subfolder %}
+                {% endif %}
+            </li>
+
+        {% endif %}
+
+    {% endfor %}
+
+</ul>
+{% endcapture %}{{ html | strip_newlines | replace:'    ','' | replace:'    ','' | replace:'  ',' ' }}

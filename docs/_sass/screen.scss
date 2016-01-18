@@ -120,7 +120,7 @@ nav,
 header
 {
   background: $color-inv;
-  padding: 3.3em 0 1em;
+  padding: 0.5em 0 0.5em;
   .content
   {
     overflow: visible;
@@ -197,7 +197,7 @@ header
 {
   display: block;
   position: absolute;
-  top: -12px;
+  top: 0;
   right: 0px;
   padding-left: 1em;
   @include retina-image("../images/icons/fork", no-repeat, left center, 5px, 20px);
@@ -232,14 +232,7 @@ pre
     font-size: 1em;
   }
 }
-ul,
-ul li,
-{
-  list-style: none;
-  list-style-image: none;
-  margin: 0;
-  padding: 0;
-}
+
 .clear {
   clear: both;
   height: 1px;
@@ -269,9 +262,20 @@ ul li,
       width: auto;
     }
   }
-  > .nav
+  nav
   {
-    margin-top: 4em;
+    ul,
+    ul li,
+    {
+      list-style: none;
+      list-style-image: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  nav > .nav
+  {
     font-size: 0.9375em;
     line-height: 1.3em;
     float: left;
@@ -280,11 +284,17 @@ ul li,
     li
     {
       padding: 0.5em 0.4em 0.4em 1.6em;
-      &.active
+      &.active > a
       {
-        @include retina-image("../images/leaf", no-repeat, left 0.4em, 15px, 18px);
+          font-weight: bold;
       }
     }
+
+    > li.active
+    {
+        @include retina-image("../images/leaf", no-repeat, left 0.4em, 15px, 18px);
+    }
+
     .nav
     {
       display: none;
