@@ -1,28 +1,5 @@
 module Releaf
   module Content::Node
-    # Validator to test if node is valid, when created under given parrent node
-    #
-    # validator needs :for and :under options, both can be either array of classes
-    # or single class.
-    #
-    # :for option specifies for which nodes validation should be applied
-    #
-    # :under option specifies under which nodes only single node of given type
-    # should be valid.
-    # If under is unspecified, then only single node with given class can be
-    # created under entrie content tree.
-    #
-    # @example
-    #
-    #   class Node < ActiveRecord::Base
-    #     includes Releaf::Content::Node
-    #     validates_with Releaf::Content::Node::ParentValidator, for: [Text, Book], under: Store
-    #   end
-    #
-    # In the example above, Text node or book node can be added in any leve
-    # under Store node, but only once.
-    # However they can be added to any other node as many times as needed, as
-    # long as none of ancestors are Store node.
     class SinglenessValidator < ActiveModel::Validator
 
       def validate node
