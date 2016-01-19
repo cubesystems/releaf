@@ -16,4 +16,4 @@ before_script:
   - 'if [ "$DB" = "pg" ]; then psql -c "create database myapp;" -U postgres; fi'
   - bundle exec rake dummy:setup
 
-script: xvfb-run rake ci
+script: xvfb-run bundle exec rake ci
