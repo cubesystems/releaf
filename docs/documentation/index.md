@@ -22,3 +22,5 @@ It consists of four components:
 * __Website content tree__ (optional)
   * Public website tree structure administration
   * Dynamic page routes with user-editable slugs
+
+See [Installation](installation.html) chapter for instructions on setting it up.

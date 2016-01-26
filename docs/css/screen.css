@@ -270,7 +270,12 @@ pre pre {
   font-size: 1em;
 }
 
-/* line 236, ../_sass/screen.scss */
+/* line 235, ../_sass/screen.scss */
+code {
+  display: inline;
+}
+
+/* line 240, ../_sass/screen.scss */
 .clear {
   clear: both;
   height: 1px;
@@ -279,7 +284,7 @@ pre pre {
   margin-top: -1px;
 }
 
-/* line 243, ../_sass/screen.scss */
+/* line 247, ../_sass/screen.scss */
 .with-nav:after {
   content: '.';
   display: block;
@@ -288,19 +293,19 @@ pre pre {
   visibility: hidden;
 }
 
-/* line 255, ../_sass/screen.scss */
+/* line 259, ../_sass/screen.scss */
 .with-nav .text {
   float: right;
   width: 70%;
 }
 @media screen and (max-width: 630px) {
-  /* line 255, ../_sass/screen.scss */
+  /* line 259, ../_sass/screen.scss */
   .with-nav .text {
     float: none;
     width: auto;
   }
 }
-/* line 267, ../_sass/screen.scss */
+/* line 271, ../_sass/screen.scss */
 .with-nav nav ul,
 .with-nav nav ul li {
   list-style: none;
@@ -308,7 +313,7 @@ pre pre {
   margin: 0;
   padding: 0;
 }
-/* line 277, ../_sass/screen.scss */
+/* line 281, ../_sass/screen.scss */
 .with-nav nav > .nav {
   font-size: 0.9375em;
   line-height: 1.3em;
@@ -316,15 +321,15 @@ pre pre {
   width: 30%;
   padding-right: 1em;
 }
-/* line 284, ../_sass/screen.scss */
+/* line 288, ../_sass/screen.scss */
 .with-nav nav > .nav li {
   padding: 0.5em 0.4em 0.4em 1.6em;
 }
-/* line 287, ../_sass/screen.scss */
+/* line 291, ../_sass/screen.scss */
 .with-nav nav > .nav li.active > a {
   font-weight: bold;
 }
-/* line 293, ../_sass/screen.scss */
+/* line 297, ../_sass/screen.scss */
 .with-nav nav > .nav > li.active {
   background: url("../images/leaf.png") no-repeat left 0.4em;
 }
@@ -335,16 +340,16 @@ pre pre {
     -webkit-background-size: 15px 18px;
   }
 }
-/* line 298, ../_sass/screen.scss */
+/* line 302, ../_sass/screen.scss */
 .with-nav nav > .nav .nav {
   display: none;
 }
-/* line 302, ../_sass/screen.scss */
+/* line 306, ../_sass/screen.scss */
 .with-nav nav > .nav .active .nav {
   display: block;
 }
 @media screen and (max-width: 630px) {
-  /* line 277, ../_sass/screen.scss */
+  /* line 281, ../_sass/screen.scss */
   .with-nav nav > .nav {
     margin-top: 0;
     padding-bottom: 1em;
@@ -354,34 +359,34 @@ pre pre {
     float: none;
     width: auto;
   }
-  /* line 315, ../_sass/screen.scss */
+  /* line 319, ../_sass/screen.scss */
   .with-nav nav > .nav li a {
     margin-bottom: 0.5em;
   }
 }
-/* line 321, ../_sass/screen.scss */
+/* line 325, ../_sass/screen.scss */
 .with-nav .nav a {
   display: block;
 }
 
-/* line 327, ../_sass/screen.scss */
+/* line 331, ../_sass/screen.scss */
 .hero {
   color: #f6f6f6;
   background: #111111;
 }
-/* line 331, ../_sass/screen.scss */
+/* line 335, ../_sass/screen.scss */
 .hero h1,
 .hero .hero-image img {
   text-align: center;
   max-width: 99.5%;
 }
 @media screen and (max-width: 630px) {
-  /* line 337, ../_sass/screen.scss */
+  /* line 341, ../_sass/screen.scss */
   .hero .hero-image {
     padding-bottom: 4em;
   }
 }
-/* line 344, ../_sass/screen.scss */
+/* line 348, ../_sass/screen.scss */
 .hero .hero-buttons {
   background: rgba(34, 34, 34, 0.9);
   position: absolute;
@@ -389,33 +394,33 @@ pre pre {
   width: 100%;
   text-align: center;
 }
-/* line 352, ../_sass/screen.scss */
+/* line 356, ../_sass/screen.scss */
 .hero .hero-buttons .content {
   padding-top: 2.55em;
   padding-bottom: 2.6em;
   text-align: center;
 }
 @media screen and (max-width: 630px) {
-  /* line 352, ../_sass/screen.scss */
+  /* line 356, ../_sass/screen.scss */
   .hero .hero-buttons .content {
     padding-top: 1em;
     padding-bottom: 1em;
   }
 }
-/* line 363, ../_sass/screen.scss */
+/* line 367, ../_sass/screen.scss */
 .hero .hero-buttons .content li {
   margin: 1% 1.77%;
   display: inline-block;
   width: 22%;
 }
 @media screen and (max-width: 830px) {
-  /* line 363, ../_sass/screen.scss */
+  /* line 367, ../_sass/screen.scss */
   .hero .hero-buttons .content li {
     width: 29%;
   }
 }
 @media screen and (max-width: 630px) {
-  /* line 363, ../_sass/screen.scss */
+  /* line 367, ../_sass/screen.scss */
   .hero .hero-buttons .content li {
     display: block;
     width: 60%;
@@ -423,29 +428,29 @@ pre pre {
   }
 }
 
-/* line 381, ../_sass/screen.scss */
+/* line 385, ../_sass/screen.scss */
 footer {
   position: relative;
   margin-top: -208px;
   height: 208px;
 }
-/* line 386, ../_sass/screen.scss */
+/* line 390, ../_sass/screen.scss */
 footer .content {
   padding: 5.4em 0;
 }
-/* line 390, ../_sass/screen.scss */
+/* line 394, ../_sass/screen.scss */
 footer .copyright {
   font-size: 0.85em;
   float: left;
   width: 45%;
 }
-/* line 396, ../_sass/screen.scss */
+/* line 400, ../_sass/screen.scss */
 footer .logo {
   text-align: right;
   float: right;
   width: 40%;
 }
-/* line 402, ../_sass/screen.scss */
+/* line 406, ../_sass/screen.scss */
 footer .logo img {
   margin-top: 3px;
   max-width: 100%;
