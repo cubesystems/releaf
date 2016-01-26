@@ -83,14 +83,16 @@ h2, h3, h4
 
 h1
 {
-  margin:0 0 1em;
+  margin:0 0 0.7em;
   font-weight: normal;
   font-size: 2.125em;
 }
 h2
 {
-  font-size: 1.875em;
-  margin-bottom: 1em;
+  font-size: 1.6em;
+  margin-bottom: 0.7em;
+  margin-top: 1.5em;
+  font-weight: normal;
 }
 h3
 {
@@ -231,10 +233,16 @@ pre
   {
     font-size: 1em;
   }
+
+  code
+  {
+      padding: 0;
+  }
 }
 code
 {
     display: inline;
+    padding: 0.2em 0.5em;
 }
 
 .clear {
