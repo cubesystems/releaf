@@ -9,8 +9,8 @@ Releaf requires Rails 4.2 or higher.
 
 There are two ways of installing Releaf.
 
-* use a prepared [automatic installation template](#automatic) to generate a new application
-* [run the installer manually](#manual)
+* Use a prepared [automatic installation template](#automatic) to generate a new application
+* [Run the installer manually](#manual)
 
 ## Automatically installing Releaf from a template {#automatic}
 
