@@ -11,13 +11,27 @@ Various aspects of Releaf can be configured via the releaf initializer file loca
 config/initializers/releaf.rb
 ```
 
-* [Defining controllers and main menu items](#menu)
 * [Defining locales](#locales)
+* [Defining controllers and main menu items](#menu)
 * [Customizing used components](#components)
 * [Using a custom layout](#layout)
 * [Customizing node tree model and controller](#content)
 
 {% comment %} :TODO: write about config.devise_for {% endcomment %}
+
+## Defining locales {#locales}
+
+Locales used by Releaf can be defined as an array:
+
+```ruby
+config.available_locales = ["en", "lv"]
+```
+
+Note that locales defined here are not necessarily all the locales used by the application.
+
+These are just the locales in which the Releaf admin interface itself will be available.
+{% comment %} :TODO: link to description of how users can change their admin interface locale. {% endcomment %}
+
 
 ## Defining controllers and main menu items {#menu}
 
@@ -39,19 +53,6 @@ config.menu = [
 Controllers that should not be included in the main menu but should still be accessible may be added to `config.additional_controllers` array.
 
 See [Usage basics](usage-basics.html) for the general principles of how the Releaf main menu works.
-
-## Defining locales {#locales}
-
-Locales used by Releaf can be defined as an array:
-
-```ruby
-config.available_locales = ["en", "lv"]
-```
-
-Note that locales defined here are not necessarily all the locales used by the application.
-
-These are just the locales in which the Releaf admin interface itself will be available.
-{% comment %} :TODO: link to description of how users can change their admin interface locale. {% endcomment %}
 
 
 ## Customizing used components {#components}
