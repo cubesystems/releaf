@@ -78,12 +78,12 @@ body .page-wrap {
 
 /* line 69, ../_sass/screen.scss */
 a {
-  color: #37afa7;
+  color: #269990;
   text-decoration: none;
 }
 /* line 73, ../_sass/screen.scss */
 a:hover {
-  color: #1e8e85;
+  color: #307872;
 }
 
 /* line 78, ../_sass/screen.scss */
@@ -94,7 +94,7 @@ h2, h3, h4 {
 
 /* line 84, ../_sass/screen.scss */
 h1 {
-  margin: 0 0 0.71em;
+  margin: 0 0 0.7em;
   font-weight: normal;
   font-size: 2.125em;
 }
@@ -182,7 +182,7 @@ header nav a .active {
 /* line 161, ../_sass/screen.scss */
 .button {
   font-family: 'TililliumWeb Regular', sans-serif;
-  background: #37afa7;
+  background: #269990;
   color: #f6f6f6;
   text-transform: uppercase;
   font-size: 0.875em;
@@ -195,7 +195,7 @@ header nav a .active {
 }
 /* line 174, ../_sass/screen.scss */
 .button:hover {
-  background: #1e8e85;
+  background: #307872;
   color: #f6f6f6;
 }
 /* line 179, ../_sass/screen.scss */
