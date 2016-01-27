@@ -7,7 +7,7 @@ weight: 1100
 
 Releaf requires Rails 4.2 or higher.
 
-There are two ways of installing Releaf.
+There are two ways of installing Releaf:
 
 * Use a prepared [automatic installation template](#automatic) to generate a new application
 * [Run the installer manually](#manual)
@@ -16,7 +16,7 @@ There are two ways of installing Releaf.
 
 Visit <https://github.com/cubesystems/releaf-bootstrap> and run the setup command provided.
 
-It will create a new Git repository, set up Rails and Releaf and install a few often used things for the public website.
+It will create a new Git repository, set up Rails and Releaf and include a few things often needed in a typical public website.
 
 ## Manually installing Releaf {#manual}
 

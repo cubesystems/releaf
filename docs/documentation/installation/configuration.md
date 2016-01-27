@@ -52,7 +52,7 @@ config.menu = [
 
 Controllers that should not be included in the main menu but should still be accessible may be added to `config.additional_controllers` array.
 
-See [Usage basics](usage-basics.html) for the general principles of how the Releaf main menu works.
+See the [Creating controllers](/documentation/creating-controllers.html) chapter for the general principles of how the Releaf main menu works.
 
 
 ## Customizing used components {#components}

@@ -10,17 +10,17 @@ Releaf is an administration interface for Rails applications.
 It consists of four components:
 
 * __Releaf core__
-  * Automatic CRUD views and actions
-  * Full customization of controllers and views when defaults are not enough
+  * [Automatic CRUD views and actions](usage-basics.html)
+  * Full customization of [controllers](customizing-controllers.html) and [views](customizing-views.html) when defaults are not enough
 * __Permission system__ (optional)
   * User management and authentication
   * Role-based access control to admin controllers
   * Easily replaceable with a different access control mechanism if needed
 * __I18n database backend__ (optional)
   * I18n translation texts stored in a database
-  * User-editable translations via admin interface instead of YAML files
+  * Translations editable by users via admin interface instead of YAML files
 * __Website content tree__ (optional)
-  * Public website tree structure administration
+  * [Public website tree structure administration](public-website-tree.html)
   * Dynamic page routes with user-editable slugs
 
 See [Installation](installation.html) chapter for instructions on setting it up.
