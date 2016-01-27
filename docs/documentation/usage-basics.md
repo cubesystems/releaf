@@ -13,11 +13,11 @@ Every aspect of the initial default behaviour can be fully customized later.
 
 The simplest typical case goes as follows:
 
-* Create an ActiveRecord model with some attributes
-* Create a controller for the model by extending Releaf's base controller (1 line of code)
-* Add the controller to Releaf routes (1 line of code)
-* Add the controller to Releaf navigation menu (1 line of code)
-* Grant access to the controller to an administrator role (1 tick in the permissions panel)
+1. Create an ActiveRecord model with some attributes.
+2. Create a controller for the model by extending Releaf's base controller (1 line of code).
+3. Add the controller to Releaf routes (1 line of code).
+4. Add the controller to Releaf navigation menu (1 line of code).
+5. Grant access to the controller to an administrator role (1 tick in the permissions panel).
 
 These steps are described in more detail in the [Creating controllers](creating-controllers.html) chapter.
 
@@ -30,6 +30,7 @@ It will immediately have the following actions and views working out of the box:
 * __Index__
   * A table listing all existing records of the respective model
   * All attributes of the model displayed as columns
+  * Built in search through all displayed text attributes
   * Pagination
 * __Creation and editing__
   * Automatically generated forms
@@ -41,7 +42,7 @@ It will immediately have the following actions and views working out of the box:
   * Delete buttons available from both index and edit views
   * Confirmation dialog before deletion
 
-{% comment %}  :TODO: is search enabled by default? add to index bullets if it is. {% endcomment %}
+{% comment %} :TODO: which attributes are searchable by default? {% endcomment %}
 
 It will then be possible to start [customizing the controller](customizing-controllers.html) and its [views](customizing-views.html) as needed.
 
