@@ -1,10 +1,10 @@
 require 'devise'
 
 module Releaf::Permissions
-  require 'releaf/permissions/devise_component'
-  require 'releaf/permissions/profile_component'
-  require 'releaf/permissions/roles_component'
-  require 'releaf/permissions/users_component'
+  require 'releaf/permissions/devise'
+  require 'releaf/permissions/profile'
+  require 'releaf/permissions/roles'
+  require 'releaf/permissions/users'
   require 'releaf/permissions/builders_autoload'
 
   class Engine < ::Rails::Engine
@@ -15,10 +15,10 @@ module Releaf::Permissions
 
   def self.components
     [
-      Releaf::Permissions::DeviseComponent,
-      Releaf::Permissions::RolesComponent,
-      Releaf::Permissions::UsersComponent,
-      Releaf::Permissions::ProfileComponent
+      Releaf::Permissions::Devise,
+      Releaf::Permissions::Roles,
+      Releaf::Permissions::Users,
+      Releaf::Permissions::Profile
     ]
   end
 end

@@ -1,4 +1,4 @@
-module Releaf::Core::SettingsUIComponent
+module Releaf::Core::SettingsUI
   extend Releaf::Core::Component
 
   def self.draw_component_routes router
