@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2016.01.28
+* *Component suffix has been removed. Releaf initializer needs to be
+  updated if components has been specified.
+
 ### 2016.01.11
 * `.nodes` and `#node` methods removed from default `acts_as_node` models and controllers
   due to implementing support for multiple node classes.
@@ -210,7 +214,6 @@
     get 'show'
   end
   ```
-
 
 ### 2016.01.05
 * Node#url has been renamed to Node#path.

@@ -1,4 +1,4 @@
-module Releaf::Permissions::RolesComponent
+module Releaf::Permissions::Roles
   extend Releaf::Core::Component
 
   def self.draw_component_routes router

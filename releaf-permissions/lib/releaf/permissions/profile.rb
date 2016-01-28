@@ -1,4 +1,4 @@
-module Releaf::Permissions::ProfileComponent
+module Releaf::Permissions::Profile
   def self.draw_component_routes router
     router.namespace :releaf, path: nil do
       router.get "profile", to: "permissions/profile#edit", as: :permissions_user_profile
