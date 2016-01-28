@@ -14,12 +14,12 @@ require 'globalize-accessors'
 
 module Releaf::Core
   require 'releaf/core/component'
-  require 'releaf/core/settings_ui_component'
+  require 'releaf/core/settings_ui'
   require 'releaf/core/route_mapper'
   require 'releaf/core/builders_autoload'
 
   def self.components
-    [Releaf::Core::SettingsUIComponent]
+    [Releaf::Core::SettingsUI]
   end
 
   class Engine < ::Rails::Engine
