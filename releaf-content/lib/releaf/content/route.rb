@@ -1,17 +1,12 @@
 module Releaf::Content
   class Route
-    attr_accessor :path, :node, :locale, :node_id, :default_controller
+    attr_accessor :path, :node, :locale, :node_class, :node_id, :default_controller, :site
 
-    def self.node_class
-      # TODO model should be configurable
-      ::Node
-    end
-
-    def self.node_class_default_controller(node_class)
-      if node_class <= ActionController::Base
-        node_class.name.underscore.sub(/_controller$/, '')
+    def self.default_controller(node_content_class)
+      if node_content_class <= ActionController::Base
+        node_content_class.name.underscore.sub(/_controller$/, '')
       else
-        node_class.name.pluralize.underscore
+        node_content_class.name.pluralize.underscore
       end
     end
 
@@ -22,29 +17,47 @@ module Releaf::Content
     # @return [Hash] route options. Will return at least node "node_id" and "locale" keys.
     def params(method_or_path, options = {})
       method_or_path = method_or_path.to_s
-      action_path = path_for(method_or_path, options)
-      options[:to] = controller_and_action_for(method_or_path, options)
+      [
+        path_for(method_or_path, options),
+        options_for(method_or_path, options)
+      ]
+    end
 
+    def options_for( method_or_path, options )
       route_options = options.merge({
-        node_id: node_id.to_s,
-        locale: locale,
+        to:         controller_and_action_for(method_or_path, options),
+        node_class: node_class.name,
+        node_id:    node_id.to_s,
+        locale:     locale
       })
 
-      # normalize as with locale
-      if locale.present? && route_options[:as].present?
-        route_options[:as] = "#{locale}_#{route_options[:as]}"
-      end
+      route_options[:site] = site if site.present?
+      route_options[:as] = name( route_options )
 
-      [action_path, route_options]
+      route_options
+    end
+
+    def name( route_options )
+      return nil unless route_options[:as].present?
+
+      # prepend :as with locale and site to prevent duplicate route names
+      name_parts = [ route_options[:as] ]
+
+      name_parts.unshift( route_options[:locale] ) if route_options[:locale].present?
+      name_parts.unshift( route_options[:site] ) if route_options[:site].present?
+
+      name_parts.join('_')
     end
 
     # Return routes for given class that implement ActsAsNode
     #
-    # @param class_name [Class] class name to load related nodes
+    # @param node_class [Class] class name to load related nodes
+    # @param node_content_class [Class] class name to load related nodes
     # @param default_controller [String]
     # @return [Array] array of Content::Route objects
-    def self.for(content_type, default_controller)
-      node_class.where(content_type: content_type).each.inject([]) do |routes, node|
+    def self.for(node_class, node_content_class, default_controller)
+      node_class = node_class.constantize if node_class.is_a? String
+      node_class.where(content_type: node_content_class).each.inject([]) do |routes, node|
         routes << build_route_object(node, default_controller) if node.available?
         routes
       end
@@ -55,15 +68,14 @@ module Releaf::Content
     # Build Content::Route from Node object
     def self.build_route_object(node, default_controller)
       route = new
+      route.node_class = node.class
       route.node_id = node.id.to_s
       route.path = node.path
       route.locale = node.root.locale
       route.default_controller = default_controller
-
+      route.site = Releaf::Content.routing[node.class.name][:site]
       route
     end
-
-    private
 
     def path_for(method_or_path, options)
       if method_or_path.include?('#')

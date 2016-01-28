@@ -13,7 +13,15 @@
     #body_wrap
       #content_wrap
         #header
-          Header
+          %p
+            Site:
+            = site
+          %p
+            Node class:
+            = node_class
+          %p
+            Node name:
+            = @node.name if @node.present?
         #content= yield
       #footer
         Footer

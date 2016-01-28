@@ -211,7 +211,21 @@ module Releaf
     end
 
     def builder_scopes
-      [self.class.name.gsub(/Controller$/, ""), application_builder_scope]
+      [self.class.own_builder_scope, self.class.ancestor_builder_scopes, application_builder_scope].flatten
+    end
+
+    def self.own_builder_scope
+      name.gsub(/Controller$/, "")
+    end
+
+    def self.ancestor_controllers
+      # return all ancestor controllers up to but not including Releaf::BaseController
+      ancestor_classes = ancestors - included_modules
+      ancestor_classes.slice( 0...ancestor_classes.index(Releaf::BaseController) ) - [ self ]
+    end
+
+    def self.ancestor_builder_scopes
+      ancestor_controllers.map(&:own_builder_scope)
     end
 
     def form_options(form_type, object, object_name)

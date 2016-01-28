@@ -23,14 +23,6 @@ module Releaf::Content
       end
     end
 
-    def builder_scopes
-      [node_builder_scope] + super
-    end
-
-    def node_builder_scope
-      [application_scope, "Nodes"].reject(&:blank?).join("::")
-    end
-
     def copy_dialog
       copy_move_dialog_common
     end
@@ -82,7 +74,9 @@ module Releaf::Content
     end
 
     def self.resource_class
-      ::Node
+      # find first key in content resources config that has this class as controller
+      model_class_name = Releaf::Content.resources.find { |model_name, options| options[:controller] == name }.first
+      model_class_name.constantize
     end
 
     protected

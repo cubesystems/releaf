@@ -27,7 +27,7 @@ describe Releaf::Core::Configuration do
 
   describe "#initialize_defaults" do
     it "ovewrites only nil values with default ones" do
-      allow(subject).to receive(:default_values).and_return(menu: "aa", components: "lk")
+      allow(described_class).to receive(:default_values).and_return(menu: "aa", components: "lk")
       subject.menu = "x"
       subject.components = nil
       expect{ subject.initialize_defaults }.to change{ [subject.menu, subject.components] }.to(["x", "lk"])
@@ -210,20 +210,19 @@ describe Releaf::Core::Configuration do
     end
   end
 
-  describe "#default_values" do
-    it "returns default configuration key, value hash" do
-      result = {
-        menu: [],
-        devise_for: 'releaf/permissions/user',
-        additional_controllers: [],
-        controllers: {},
-        components: [],
-        assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
-        layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
-        access_control_module_name: 'Releaf::Permissions'
-      }
-      expect(subject.default_values).to eq(result)
+  describe ".default_values" do
+
+    it "returns a hash" do
+      expect(described_class.default_values).to be_a Hash
     end
+
+    it "has read/write accessors for all default value keys" do
+      described_class.default_values.keys.each do |key|
+        subject.send("#{key}=", "foo_value")
+        expect(subject.send(key)).to eq "foo_value"
+      end
+    end
+
   end
 end
 

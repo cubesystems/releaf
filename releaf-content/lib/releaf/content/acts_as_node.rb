@@ -10,11 +10,6 @@ module ActsAsNode
 
   module ClassMethods
 
-    # Load all nodes for class
-    def nodes
-      ::Node.where(content_type: self.name)
-    end
-
     # There are no configuration options yet.
     #
     def acts_as_node(params: nil, fields: nil)

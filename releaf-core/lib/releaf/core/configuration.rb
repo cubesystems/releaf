@@ -4,6 +4,7 @@ module Releaf::Core
     attr_accessor :access_control_module_name, :assets_resolver_class_name, :layout_builder_class_name
     attr_accessor :menu, :devise_for, :mount_location, :components,
       :available_controllers, :additional_controllers, :controllers
+    attr_accessor :content_resources
 
     def configure
       initialize_defaults
@@ -21,7 +22,7 @@ module Releaf::Core
     end
 
     def initialize_defaults
-      default_values.each_pair do|key, value|
+      self.class.default_values.each_pair do|key, value|
         send("#{key}=", value) if send(key).nil?
       end
     end
@@ -85,17 +86,20 @@ module Releaf::Core
       item
     end
 
-    def default_values
+    def self.default_values
       {
         menu: [],
         devise_for: 'releaf/permissions/user',
         additional_controllers: [],
         controllers: {},
         components: [],
-        assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
-        layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
-        access_control_module_name: 'Releaf::Permissions'
+        assets_resolver_class_name: 'Releaf::Core::AssetsResolver',
+        layout_builder_class_name:  'Releaf::Builders::Page::LayoutBuilder',
+        access_control_module_name: 'Releaf::Permissions',
+        content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
       }
     end
+
+
   end
 end

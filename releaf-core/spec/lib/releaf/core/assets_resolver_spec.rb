@@ -54,6 +54,10 @@ describe Releaf::Core::AssetsResolver do
   describe ".noncompiled_assets" do
     it "returns array with controller scoped stylesheets and javascripts" do
       list = {
+        "admin/nodes"=>{:stylesheets=>["controllers/admin/nodes"],
+                                 :javascripts=>["controllers/admin/nodes"]},
+        "admin/other_site/other_nodes"=>{:stylesheets=>["controllers/admin/other_site/other_nodes"],
+                                 :javascripts=>["controllers/admin/other_site/other_nodes"]},
         "releaf/content/nodes"=>{:stylesheets=>["releaf/controllers/releaf/content/nodes"],
                                  :javascripts=>["releaf/controllers/releaf/content/nodes"]},
         "releaf/i18n_database/translations"=>{:stylesheets=>["releaf/controllers/releaf/i18n_database/translations"],

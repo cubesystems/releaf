@@ -19,7 +19,7 @@ feature "Roles management", js: true do
     visit releaf_permissions_roles_path
     create_resource do
       fill_in("Name", with: "second role")
-      select('Releaf/content/nodes', from: 'Default controller')
+      select('Admin/nodes', from: 'Default controller')
     end
     visit releaf_permissions_roles_path
     expect(page).to have_content "second role"

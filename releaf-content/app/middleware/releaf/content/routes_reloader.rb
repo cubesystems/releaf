@@ -6,7 +6,7 @@ module Releaf::Content
     end
 
     def call(env)
-      self.class.reload_if_expired
+      self.class.reload_if_needed
       @app.call(env)
     end
 
@@ -14,11 +14,17 @@ module Releaf::Content
       @updated_at = Time.now
     end
 
-    def self.reload_if_expired
-      # TODO Node class should be configurable
-      return unless ::Node.updated_at.present? && @updated_at && @updated_at < ::Node.updated_at
+    def self.reload_if_needed
+      return unless needs_reload?
       Rails.application.reload_routes!
       routes_loaded
+    end
+
+    def self.needs_reload?
+      return false unless @updated_at.present?
+      Releaf::Content.models.any? do | node_class |
+        node_class.updated_at.present? && @updated_at < node_class.updated_at
+      end
     end
 
   end

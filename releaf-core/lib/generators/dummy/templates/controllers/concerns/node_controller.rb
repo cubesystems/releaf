@@ -18,6 +18,16 @@ module NodeController
     @menu ||= root_node.children.where(active: true)
   end
 
+  def node_class
+    # for node routes the node class can be detected from params
+    @node_class ||= params[:node_class].constantize
+  end
+
+  def site
+    # for node routes site can be detected from params
+    @site ||= params[:site]
+  end
+
   def node_active? node
     @active_nodes.include? node
   end
@@ -25,12 +35,12 @@ module NodeController
   private
 
   def load_node
-    @node = Node.find(params[:node_id])
+    @node = node_class.find(params[:node_id])
     @content  = @node.content unless @node.nil?
 
     @active_nodes = []
     if @node.present?
-      @active_nodes += @node.ancestors.reorder(Node.arel_table[:depth])
+      @active_nodes += @node.ancestors.reorder(node_class.arel_table[:depth])
       @active_nodes << @node
     end
   end

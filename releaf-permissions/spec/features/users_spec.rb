@@ -57,7 +57,7 @@ feature "Users", js: true do
 
     scenario "user page content" do
       expect(page).to have_css('body > header form.sign-out button')
-      expect(page).to have_content 'Releaf/content'
+      expect(page).to have_content 'Admin/nodes'
       expect(page).to have_content 'Permissions'
       expect(page).to have_content 'Releaf/i18n database/translations'
       # admin/users index view
@@ -87,7 +87,7 @@ feature "Users", js: true do
 
     scenario "user page content" do
       expect(page).to have_css('body > header form.sign-out button')
-      expect(page).to have_content 'Releaf/content'
+      expect(page).to have_content 'Admin/nodes'
     end
 
     scenario "translations module access denied" do

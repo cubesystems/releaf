@@ -5,7 +5,7 @@ feature "Richtext editing", js: true do
   end
 
   scenario "Image toolbar available when controller support attachments" do
-    visit new_releaf_content_node_path(content_type: 'TextPage')
+    visit new_admin_node_path(content_type: 'TextPage')
     fill_in_richtext 'Text', with: "some text"
     expect(page).to have_css("a.cke_button__image")
   end

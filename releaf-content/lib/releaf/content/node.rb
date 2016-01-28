@@ -1,7 +1,6 @@
 module Releaf::Content
   module Node
     extend ActiveSupport::Concern
-    # TODO Node should be configurable
 
       def locale_selection_enabled?
         false
