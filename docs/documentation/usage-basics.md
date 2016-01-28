@@ -30,7 +30,7 @@ It will immediately have the following actions and views working out of the box:
 * __Index__
   * A table listing all existing records of the respective model
   * All attributes of the model displayed as columns
-  * Built in search through all displayed text attributes
+  * Built-in search through all displayed text attributes
   * Pagination
 * __Creation and editing__
   * Automatically generated forms

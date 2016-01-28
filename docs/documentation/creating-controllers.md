@@ -53,7 +53,9 @@ This will generate all the default releaf routes for this controller, e.g. `admi
 
 {% comment %} :TODO: link to a list of generated routes and their names {% endcomment %}
 
-The `releaf_resources` helper accepts multiple arguments, so more controllers can be later added to the same line, e.g.:
+The `releaf_resources` routing helper is a wrapper around the `resources` helper native to Rails, so it can accept any additional arguments that the built-in one supports.
+
+More resources can be later added to the same line, e.g.:
 
 ```ruby
 mount_releaf_at '/admin' do
@@ -69,6 +71,16 @@ mount_releaf_at '/admin' do
   releaf_resources :authors
 end
 ```
+
+Some routes can be disabled:
+
+```ruby
+mount_releaf_at '/admin' do
+  releaf_resources :books, except: :destroy
+end
+```
+
+And so on, just like normally in Rails.
 
 ## Add the controller to Releaf navigation menu {#menu}
 
