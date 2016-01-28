@@ -1,34 +1,32 @@
-module Releaf::Permissions
-  class SessionsController < Devise::SessionsController
-    layout "releaf/admin"
-    helper_method :page_title
+class Releaf::Permissions::SessionsController < Devise::SessionsController
+  layout "releaf/admin"
+  helper_method :page_title
 
-    def page_title
-      Rails.application.class.parent_name
+  def page_title
+    Rails.application.class.parent_name
+  end
+
+  def access_control
+    @access_control ||= Releaf::Permissions::AccessControl.new(controller: self)
+  end
+
+  def layout_settings(key)
+    access_control.user.try(:settings).try(:[], 'releaf.side.compact')
+  end
+
+  protected
+
+  def after_sign_in_path_for resource
+    if custom_redirect_path
+      custom_redirect_path
+    else
+      stored_location_for(resource) || releaf_root_path
     end
+  end
 
-    def access_control
-      @access_control ||= Releaf::Permissions::AccessControl.new(controller: self)
-    end
-
-    def layout_settings(key)
-      access_control.user.try(:settings).try(:[], 'releaf.side.compact')
-    end
-
-    protected
-
-    def after_sign_in_path_for resource
-      if custom_redirect_path
-        custom_redirect_path
-      else
-        stored_location_for(resource) || releaf_root_path
-      end
-    end
-
-    def custom_redirect_path
-      return nil if params[:redirect_to].blank?
-      return nil if params[:redirect_to][0] != '/'
-      return params[:redirect_to]
-    end
+  def custom_redirect_path
+    return nil if params[:redirect_to].blank?
+    return nil if params[:redirect_to][0] != '/'
+    return params[:redirect_to]
   end
 end

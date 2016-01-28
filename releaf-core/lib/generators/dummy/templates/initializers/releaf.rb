@@ -23,7 +23,7 @@ Releaf.application.configure do
    ]
 
   config.additional_controllers = %w[admin/chapters releaf/permissions/profile]
-  config.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content, Releaf::Core::SettingsUIComponent]
+  config.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content, Releaf::Core::SettingsUI]
   config.available_locales = ["en", "lv"]
   # config.layout_builder_class_name = "CustomLayoutBuilder"
   # config.devise_for 'releaf/admin'

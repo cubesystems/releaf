@@ -25,6 +25,15 @@ form.search
             {
                 width: steps(18);
                 border-color: $color-border-light;
+
+                &::-webkit-search-decoration,
+                &::-webkit-search-cancel-button,
+                &::-webkit-search-results-button,
+                &::-webkit-search-results-decoration
+                {
+                    display: none;
+                }
+
             }
 
             .button

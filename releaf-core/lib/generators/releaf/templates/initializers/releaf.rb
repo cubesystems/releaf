@@ -23,5 +23,5 @@ Releaf.application.configure do
 
   config.available_locales = ["en"]
   # config.layout_builder_class_name = 'CustomLayoutBuilder'
-  # config.devise_for 'releaf/admin'
+  # config.devise_for 'releaf/permissions/user'
 end

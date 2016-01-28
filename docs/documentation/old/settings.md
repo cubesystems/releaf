@@ -29,9 +29,9 @@ Releaf::Settings.register([
 ### UI
 To enable simple controller for changing existing Releaf::Settings values, make following changes in releaf initializer:
 
-* Add "Releaf::SettingsComponent" to releaf components definition:
+* Add "Releaf::Core::SettingsUI" to releaf components definition:
 ```
-config.components = [Releaf::Core::SettingsUIComponent]
+config.components = [Releaf::Core::SettingsUI]
 ```
 * Add "releaf/core/controller" to releaf menu definition:
 ```
