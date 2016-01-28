@@ -7,7 +7,7 @@ weight: 1000
 
 Releaf is an administration interface for Rails applications.
 
-It consists of four components:
+It consists of four main components:
 
 * __Releaf core__
   * [Automatic CRUD views and actions](usage-basics.html)

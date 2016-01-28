@@ -64,7 +64,7 @@ config.components = [
   Releaf::I18nDatabase,
   Releaf::Permissions,
   Releaf::Content,
-  Releaf::Core::SettingsUIComponent
+  Releaf::Core::SettingsUI
 ]
 ```
 
