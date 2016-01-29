@@ -138,6 +138,13 @@ describe Releaf::BaseController do
     end
   end
 
+  describe "#short_name" do
+    it "returns undercored class name with  Controller suffix removed" do
+      allow(subject).to receive(:class).and_return(Admin::BooksController)
+      expect(subject.short_name).to eq("admin/books")
+    end
+  end
+
   describe "#builder_scopes" do
 
     context "when controller is a direct child of Releaf::BaseController" do

@@ -3,6 +3,26 @@ require 'i18n/backend/base'
 module Releaf
   module I18nDatabase
     class Backend
+      def self.initialize_component
+        I18n.backend = new
+        Releaf.application.config.i18n_database.create_missing_translations = true
+      end
+
+      def self.draw_component_routes router
+        router.namespace :releaf, path: nil do
+          router.namespace :i18n_database, path: nil do
+            router.resources :translations, only: [:index] do
+              router.collection do
+                router.get :edit
+                router.post :update
+                router.get :export
+                router.post :import
+              end
+            end
+          end
+        end
+      end
+
       include ::I18n::Backend::Base, ::I18n::Backend::Flatten
       CACHE = {updated_at: nil, translations: {}, missing: {}}
       UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
@@ -129,7 +149,7 @@ module Releaf
       end
 
       def create_missing_translation?(options)
-        Releaf::I18nDatabase.create_missing_translations == true && options[:create_missing] != false
+        Releaf.application.config.i18n_database.create_missing_translations == true && options[:create_missing] != false
       end
 
       def create_missing_translation(locale, key, options)

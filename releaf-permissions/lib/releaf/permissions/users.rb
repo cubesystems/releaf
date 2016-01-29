@@ -1,6 +1,10 @@
 module Releaf::Permissions::Users
   extend Releaf::Core::Component
 
+  def self.initialize_component
+    Releaf.application.config.permissions.devise_for = 'releaf/permissions/user'
+  end
+
   def self.draw_component_routes(router)
     resource_route(router, :permissions, :users)
   end

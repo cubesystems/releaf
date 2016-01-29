@@ -2,13 +2,15 @@ require "rails_helper"
 
 describe Releaf::Core::Application do
   describe "#configure" do
-    it "assigns new `Releaf::Core::Configuration` instance, evaluate block and call instance configuration" do
+    it "assigns new `Releaf::Core::Configuration` instance, initialize defaults, evaluate block, initialize config locales and controllers" do
       configuration = Releaf::Core::Configuration.new
       allow(Releaf::Core::Configuration).to receive(:new).and_return(configuration)
 
       expect(subject).to receive(:config=).with(configuration).and_call_original.ordered
+      expect(configuration).to receive(:initialize_defaults).ordered
       expect(configuration).to receive(:menu=).with("x").ordered
-      expect(configuration).to receive(:configure)
+      expect(configuration).to receive(:initialize_locales).ordered
+      expect(configuration).to receive(:initialize_controllers).ordered
       subject.configure{ config.menu = "x" }
     end
   end

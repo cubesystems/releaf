@@ -6,17 +6,9 @@ class Releaf::Permissions::SessionsController < Devise::SessionsController
     Rails.application.class.parent_name
   end
 
-  def access_control
-    @access_control ||= Releaf::Permissions::AccessControl.new(controller: self)
-  end
-
-  def layout_settings(key)
-    access_control.user.try(:settings).try(:[], 'releaf.side.compact')
-  end
-
   protected
 
-  def after_sign_in_path_for resource
+  def after_sign_in_path_for(resource)
     if custom_redirect_path
       custom_redirect_path
     else

@@ -1,29 +1,38 @@
 module Releaf::Core
   class Configuration
+    attr_reader :components
     attr_accessor :available_locales, :available_admin_locales, :all_locales
-    attr_accessor :access_control_module_name, :assets_resolver_class_name, :layout_builder_class_name
-    attr_accessor :menu, :devise_for, :mount_location, :components,
-      :available_controllers, :additional_controllers, :controllers
+    attr_accessor :assets_resolver_class_name, :layout_builder_class_name, :settings_manager
+    attr_accessor :menu, :mount_location, :available_controllers, :additional_controllers, :controllers
     attr_accessor :content_resources
 
-    def configure
-      initialize_defaults
-      initialize_locales
-      initialize_controllers
-      initialize_components
+    def components=(_components)
+      @components = flatten_components(_components)
+      components.each do|component_class|
+        component_class.configure_component if component_class.respond_to? :configure_component
+      end
+    end
+
+    def initialize_components
+      components.each do|component_class|
+        component_class.initialize_component if component_class.respond_to? :initialize_component
+      end
+    end
+
+    def add_configuration(configuration)
+      configuration_name = configuration.class.name.gsub(/Configuration$/, "").split("::").last.underscore
+
+      self.class.send(:attr_accessor, configuration_name)
+      send("#{configuration_name}=", configuration)
     end
 
     def assets_resolver
       assets_resolver_class_name.constantize
     end
 
-    def access_control_module
-      access_control_module_name.constantize
-    end
-
     def initialize_defaults
       self.class.default_values.each_pair do|key, value|
-        send("#{key}=", value) if send(key).nil?
+        send("#{key}=", value)
       end
     end
 
@@ -31,13 +40,6 @@ module Releaf::Core
       ::I18n.available_locales = available_locales
       self.available_admin_locales = available_locales if available_admin_locales.nil?
       self.all_locales = (available_locales + available_admin_locales).map(&:to_s).uniq
-    end
-
-    def initialize_components
-      self.components = flatten_components(components)
-      components.each do|component_class|
-        component_class.initialize_component if component_class.respond_to? :initialize_component
-      end
     end
 
     def flatten_components(raw_components)
@@ -89,17 +91,13 @@ module Releaf::Core
     def self.default_values
       {
         menu: [],
-        devise_for: 'releaf/permissions/user',
         additional_controllers: [],
         controllers: {},
         components: [],
-        assets_resolver_class_name: 'Releaf::Core::AssetsResolver',
-        layout_builder_class_name:  'Releaf::Builders::Page::LayoutBuilder',
-        access_control_module_name: 'Releaf::Permissions',
+        assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
+        layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
         content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
       }
     end
-
-
   end
 end

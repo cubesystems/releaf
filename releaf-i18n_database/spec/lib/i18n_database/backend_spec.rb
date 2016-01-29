@@ -3,9 +3,24 @@ require "rails_helper"
 describe Releaf::I18nDatabase::Backend do
 
   before do
-    allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(true)
+    allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
     allow( I18n.backend ).to receive(:reload_cache?).and_return(true)
     I18n.backend.reload_cache
+  end
+
+  describe ".initialize_component" do
+    it "adds itself as i18n backend" do
+      allow(described_class).to receive(:new).and_return("x")
+      allow(Releaf.application.config.i18n_database).to receive(:create_missing_translations=)
+      expect(I18n).to receive(:backend=).with("x")
+      described_class.initialize_component
+    end
+
+    it "enable mission translation creation within configuration" do
+      allow(I18n).to receive(:backend=)
+      expect(Releaf.application.config.i18n_database).to receive(:create_missing_translations=).with(true)
+      described_class.initialize_component
+    end
   end
 
   describe "#store_translations" do
@@ -49,7 +64,7 @@ describe Releaf::I18nDatabase::Backend do
 
   describe "#create_missing_translation?" do
     before do
-      Releaf::I18nDatabase.create_missing_translations = true
+      allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
     end
 
     context "when missing translation creation is enabled globally by i18n config and not disabled by `create_missing` option" do
@@ -62,7 +77,7 @@ describe Releaf::I18nDatabase::Backend do
 
     context "when missing translation creation is disabled globally by i18n config" do
       it "returns false" do
-        allow( Releaf::I18nDatabase ).to receive(:create_missing_translations).and_return(false)
+        allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
         expect(subject.send(:create_missing_translation?, {})).to be false
       end
     end

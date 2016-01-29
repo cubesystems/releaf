@@ -9,10 +9,14 @@ module Releaf::Builders::Base
     :select_tag, :text_field_tag,
     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
 
-  delegate :layout_settings, :access_control, :controller_scope_name,
+  delegate :controller_scope_name,
     :feature_available?, :index_url, to: :controller
 
   alias_method :button, :releaf_button
+
+  def layout_settings(key)
+    Releaf.application.config.settings_manager.read(controller: controller, key: key)
+  end
 
   def wrapper(content_or_attributes_with_block, attributes = {}, &block)
     if block_given?
