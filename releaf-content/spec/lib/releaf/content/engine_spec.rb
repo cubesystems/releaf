@@ -39,7 +39,7 @@ describe Releaf::Content do
       Dummy::Application.reload_routes!
     end
 
-    after do
+    after(:all) do
       Dummy::Application.reload_routes!
     end
 
