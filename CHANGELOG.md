@@ -1,5 +1,18 @@
 ## Changelog
 
+### 2016.01.30
+* Releaf core fully decoupled from any authentication and user/role dependancies. It is possible to not use "releaf-permissions" at all and have userless system or swap with other authorization subsystem.
+* Configuration refactored to be more component-centric.
+* `virtus` gem added for simple model creation. Service classes can be created by adding `include Releaf::Core::Service`. Service call is accessable by `call` with all arguments defined within service
+* `config/intializers/releaf.rb` updates:
+  * Add `Releaf::Core` as first component to `config.components` configuration
+  * Remove `Releaf::Core::SettingsUI` from `config.components` configuration
+  * Remove `releaf/permissions/profile` from `config.additional_controllers` configuration
+* `spec/rails_helper.rb` updates
+  * Remove `Releaf::I18nDatabase.create_missing_translations = false`
+  * Add `allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(false)` within `before(:each)` block
+
+
 ### 2016.01.28
 * *Component suffix has been removed. Releaf initializer needs to be
   updated if components has been specified.
