@@ -5,7 +5,12 @@ module Releaf
     class Backend
       def self.initialize_component
         I18n.backend = new
-        Releaf.application.config.i18n_database.create_missing_translations = true
+      end
+
+      def self.configure_component
+        Releaf.application.config.add_configuration(
+          Releaf::I18nDatabase::Configuration.new(create_missing_translations: true)
+        )
       end
 
       def self.draw_component_routes router

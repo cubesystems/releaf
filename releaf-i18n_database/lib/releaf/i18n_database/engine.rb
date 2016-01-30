@@ -16,6 +16,6 @@ module Releaf::I18nDatabase
   end
 
   def self.components
-    [Releaf::I18nDatabase::Configuration, Releaf::I18nDatabase::Backend, Releaf::I18nDatabase::HumanizeMissingTranslations]
+    [Releaf::I18nDatabase::Backend, Releaf::I18nDatabase::HumanizeMissingTranslations]
   end
 end

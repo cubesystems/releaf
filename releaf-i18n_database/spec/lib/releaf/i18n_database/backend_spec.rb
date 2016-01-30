@@ -8,17 +8,19 @@ describe Releaf::I18nDatabase::Backend do
     I18n.backend.reload_cache
   end
 
+  describe ".configure_component" do
+    it "adds new `Releaf::I18nDatabase::Configuration` configuration with enabled missing translation creation" do
+      allow(Releaf::I18nDatabase::Configuration).to receive(:new)
+        .with(create_missing_translations: true).and_return("_new")
+      expect(Releaf.application.config).to receive(:add_configuration).with("_new")
+      described_class.configure_component
+    end
+  end
+
   describe ".initialize_component" do
     it "adds itself as i18n backend" do
       allow(described_class).to receive(:new).and_return("x")
-      allow(Releaf.application.config.i18n_database).to receive(:create_missing_translations=)
       expect(I18n).to receive(:backend=).with("x")
-      described_class.initialize_component
-    end
-
-    it "enable mission translation creation within configuration" do
-      allow(I18n).to receive(:backend=)
-      expect(Releaf.application.config.i18n_database).to receive(:create_missing_translations=).with(true)
       described_class.initialize_component
     end
   end

@@ -1,7 +1,7 @@
 module Releaf::Permissions
   class DefaultControllerResolver < Releaf::Core::Root::DefaultControllerResolver
 
-    def self.initialize_component
+    def self.configure_component
       Releaf.application.config.root.default_controller_resolver = self
     end
 

@@ -13,11 +13,13 @@ module Releaf::Permissions
       devise_for.classify.constantize
     end
 
-    def self.component_configuration
-      new(
-        devise_for: "releaf/permissions/user",
-        access_control: Releaf::Permissions::AccessControl,
-        permanent_allowed_controllers: ['releaf/core/root', 'releaf/core/errors']
+    def self.configure_component
+      Releaf.application.config.add_configuration(
+        new(
+          devise_for: "releaf/permissions/user",
+          access_control: Releaf::Permissions::AccessControl,
+          permanent_allowed_controllers: ['releaf/core/root', 'releaf/core/errors']
+        )
       )
     end
   end

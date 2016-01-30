@@ -8,6 +8,7 @@ module Releaf::Core
       instance_eval(&block)
       config.initialize_locales
       config.initialize_controllers
+      config.initialize_components
     end
 
     def render_layout(template, &block)

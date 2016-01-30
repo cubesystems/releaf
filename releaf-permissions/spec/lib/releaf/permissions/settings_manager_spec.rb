@@ -9,10 +9,10 @@ describe Releaf::Permissions::SettingsManager do
     allow(controller).to receive(:user).and_return(user)
   end
 
-  describe ".initialize_component" do
+  describe ".configure_component" do
     it "registers itself as settings manager" do
       expect(Releaf.application.config).to receive(:settings_manager=).and_return(described_class)
-      described_class.initialize_component
+      described_class.configure_component
     end
   end
 

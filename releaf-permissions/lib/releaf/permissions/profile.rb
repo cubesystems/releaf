@@ -1,6 +1,6 @@
 module Releaf::Permissions::Profile
 
-  def self.initialize_component
+  def self.configure_component
     Releaf.application.config.additional_controllers.push('releaf/permissions/profile')
   end
 

@@ -23,10 +23,16 @@ describe Releaf::Permissions::Configuration do
     end
   end
 
-  describe ".component_configuration" do
-    it "returns instance of itself" do
-      allow(described_class).to receive(:new).and_return("_a")
-      expect(described_class.component_configuration).to eq("_a")
+  describe ".configure_component" do
+    it "adds `Releaf::Permissions::Configuration` configuration with devise, access_control and permanent allowed controllers configured" do
+      allow(Releaf::Permissions::Configuration).to receive(:new)
+        .with(
+          devise_for: "releaf/permissions/user",
+          access_control: Releaf::Permissions::AccessControl,
+          permanent_allowed_controllers: ['releaf/core/root', 'releaf/core/errors']
+      ).and_return("_new")
+      expect(Releaf.application.config).to receive(:add_configuration).with("_new")
+      described_class.configure_component
     end
   end
 end

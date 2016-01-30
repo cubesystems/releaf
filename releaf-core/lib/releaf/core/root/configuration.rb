@@ -1,5 +1,6 @@
 module Releaf::Core::Root
   class Configuration
-    attr_accessor :default_controller_resolver
+    include Virtus.model(strict: true)
+    attribute :default_controller_resolver, Class
   end
 end

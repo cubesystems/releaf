@@ -1,10 +1,10 @@
 require "rails_helper"
 
 describe Releaf::Permissions::Users do
-  describe ".initialize_component" do
+  describe ".configure_component" do
     it "sets `releaf/permissions/user` as devise model" do
       expect(Releaf.application.config.permissions).to receive(:devise_for=).with("releaf/permissions/user")
-      described_class.initialize_component
+      described_class.configure_component
     end
   end
 

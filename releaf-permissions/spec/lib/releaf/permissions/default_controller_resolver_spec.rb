@@ -7,10 +7,10 @@ describe Releaf::Permissions::DefaultControllerResolver do
     expect(described_class.ancestors.include?(Releaf::Core::Root::DefaultControllerResolver)).to be true
   end
 
-  describe ".initialize_component" do
+  describe ".configure_component" do
     it "adds itself as default controller resolver" do
       expect(Releaf.application.config.root).to receive(:default_controller_resolver=).with(described_class)
-      described_class.initialize_component
+      described_class.configure_component
     end
   end
 

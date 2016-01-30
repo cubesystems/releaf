@@ -1,6 +1,6 @@
 module Releaf::Permissions
   class SettingsManager
-    def self.initialize_component
+    def self.configure_component
       Releaf.application.config.settings_manager = self
     end
 
