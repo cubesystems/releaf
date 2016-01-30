@@ -43,7 +43,7 @@
 
   Add the following:
   ```ruby
-  config.content_resources = { 'Node' => { controller: 'Admin::NodesController' } }
+  config.content.resources = { 'Node' => { controller: 'Admin::NodesController' } }
   ```
 
   4) Create `app/assets/javascripts/controllers/admin/nodes.js` with the following content:
@@ -114,7 +114,7 @@
   looks as follows:
 
   ```ruby
-  config.content_resources = { 'SomeOtherNode' => { controller: 'Admin::NodesController' } }
+  config.content.resources = { 'SomeOtherNode' => { controller: 'Admin::NodesController' } }
   ```
 
   3) Multiple per-site node models in separate content trees
@@ -127,7 +127,7 @@
   In `config/initializers/releaf.rb`:
 
   ```ruby
-  config.content_resources = {
+  config.content.resources = {
     'Node' => {
       controller: 'Releaf::Content::NodesController',
       routing: {

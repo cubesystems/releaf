@@ -267,14 +267,8 @@ describe Releaf::Content::Route do
     end
 
     it "assigns site from content routing configuration" do
-      routing = Releaf::Content.routing
-      routing['Node'][:site] = 'some_site'
-
-      allow( Releaf::Content).to receive(:routing).and_return( routing )
+      allow( Releaf::Content).to receive(:routing).and_return('Node' => {site: 'some_site'})
       expect(route.site).to eq 'some_site'
     end
-
   end
-
-
 end

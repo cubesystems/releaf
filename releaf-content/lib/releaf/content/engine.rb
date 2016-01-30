@@ -1,8 +1,8 @@
 require 'awesome_nested_set'
 require 'stringex'
-require 'releaf/content/configuration'
 
 module Releaf::Content
+  require 'releaf/content/configuration'
   require 'releaf/content/builders_autoload'
   require 'releaf/content/router_proxy'
   require 'releaf/content/node_mapper'
@@ -22,15 +22,19 @@ module Releaf::Content
   # can be used instead of
   # Releaf::Content.configuration.models
   class << self
-    delegate :resources, :models, :default_model, :controllers, :routing, :to => :configuration
+    delegate :resources, :models, :default_model, :controllers, :routing, to: :configuration
   end
 
   def self.configuration
-    @configuration ||= Releaf::Content::Configuration.new
+    Releaf.application.config.content
   end
 
-  def self.reset_configuration
-    @configuration = nil
+  def self.configure_component
+    Releaf.application.config.add_configuration(
+      Releaf::Content::Configuration.new(
+        content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
+      )
+    )
   end
 
   def self.initialize_component

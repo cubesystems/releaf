@@ -4,7 +4,6 @@ module Releaf::Core
     attr_accessor :available_locales, :available_admin_locales, :all_locales
     attr_accessor :assets_resolver_class_name, :layout_builder_class_name, :settings_manager
     attr_accessor :menu, :mount_location, :available_controllers, :additional_controllers, :controllers
-    attr_accessor :content_resources
 
     def components=(_components)
       @components = flatten_components(_components)
@@ -93,9 +92,8 @@ module Releaf::Core
         menu: [],
         additional_controllers: [],
         controllers: {},
-        assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
+        assets_resolver_class_name: 'Releaf::Core::AssetsResolver',
         layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
-        content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
       }
     end
   end
