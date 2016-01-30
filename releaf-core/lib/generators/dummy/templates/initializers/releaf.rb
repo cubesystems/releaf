@@ -28,10 +28,10 @@ Releaf.application.configure do
   # conf.layout_builder_class_name = "CustomLayoutBuilder"
   # conf.permissions.devise_for 'releaf/admin'
 
-  config.content_resources = { 'Node' => { controller: 'Admin::NodesController' } }
+  config.content.resources = { 'Node' => { controller: 'Admin::NodesController' } }
 
   # MULTIPLE NODES CASE:
-  # config.content_resources = {
+  # config.content.resources = {
     # 'Node' => {
       # controller: 'Releaf::Content::NodesController',
       # routing: {
@@ -49,5 +49,5 @@ Releaf.application.configure do
   # }
 
   # DEFAULT SINGLE NODE CASE:
-  # config.content_resources = { 'Node' => { controller: 'Releaf::Content::NodesController' } }
+  # config.content.resources = { 'Node' => { controller: 'Releaf::Content::NodesController' } }
 end
