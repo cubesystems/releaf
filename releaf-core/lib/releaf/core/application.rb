@@ -4,10 +4,8 @@ module Releaf::Core
 
     def configure(&block)
       self.config = Releaf::Core::Configuration.new
-      config.initialize_defaults
       instance_eval(&block)
       config.initialize_locales
-      config.initialize_controllers
       config.initialize_components
     end
 

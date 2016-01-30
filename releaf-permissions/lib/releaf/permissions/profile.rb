@@ -1,7 +1,7 @@
 module Releaf::Permissions::Profile
 
   def self.configure_component
-    Releaf.application.config.additional_controllers.push('releaf/permissions/profile')
+    Releaf.application.config.additional_controllers = Releaf.application.config.additional_controllers + ['releaf/permissions/profile']
   end
 
   def self.draw_component_routes router
