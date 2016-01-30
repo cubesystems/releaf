@@ -1,9 +1,15 @@
 module Releaf::Core
   class Configuration
-    attr_reader :components
-    attr_accessor :available_locales, :available_admin_locales, :all_locales
-    attr_accessor :assets_resolver_class_name, :layout_builder_class_name, :settings_manager
-    attr_accessor :menu, :mount_location, :available_controllers, :additional_controllers, :controllers
+    include Virtus.model(strict: true)
+    attribute :components, Array, default: []
+    attribute :available_locales, Array, default: []
+    attribute :available_admin_locales, Array, default: []
+    attribute :assets_resolver_class_name, String, default: 'Releaf::Core::AssetsResolver'
+    attribute :layout_builder_class_name, String, default: 'Releaf::Builders::Page::LayoutBuilder'
+    attribute :settings_manager, Class
+    attribute :menu, Array, default: []
+    attribute :mount_location, String, default: ""
+    attribute :additional_controllers, Array, default: []
 
     def components=(_components)
       @components = flatten_components(_components)
@@ -37,8 +43,11 @@ module Releaf::Core
 
     def initialize_locales
       ::I18n.available_locales = available_locales
-      self.available_admin_locales = available_locales if available_admin_locales.nil?
-      self.all_locales = (available_locales + available_admin_locales).map(&:to_s).uniq
+      self.available_admin_locales = available_locales if available_admin_locales.empty?
+    end
+
+    def all_locales
+      @all_locales ||= (available_locales + available_admin_locales).map(&:to_s).uniq
     end
 
     def flatten_components(raw_components)
@@ -48,11 +57,20 @@ module Releaf::Core
       end
     end
 
-    def initialize_controllers
-      self.menu = normalize_controllers(menu)
-      self.additional_controllers = normalize_controllers(additional_controllers)
-      self.controllers = extract_controllers(menu + additional_controllers)
-      self.available_controllers = controllers.keys
+    def available_controllers
+      @available_controllers ||= controllers.keys
+    end
+
+    def controllers
+      @controllers ||= extract_controllers(menu + additional_controllers)
+    end
+
+    def menu=(value)
+      super(self.class.normalize_controllers(value))
+    end
+
+    def additional_controllers=(value)
+      super(self.class.normalize_controllers(value))
     end
 
     def extract_controllers(list)
@@ -63,11 +81,11 @@ module Releaf::Core
       end
     end
 
-    def normalize_controllers(list)
+    def self.normalize_controllers(list)
      list.map{|item| normalize_controller_item(item)}
     end
 
-    def normalize_controller_item(item_data)
+    def self.normalize_controller_item(item_data)
       if item_data.is_a? String
         item = {controller: item_data}
       elsif item_data.is_a? Hash
@@ -85,16 +103,6 @@ module Releaf::Core
       item[:items] = normalize_controllers(item[:items]) if item.has_key?(:items)
 
       item
-    end
-
-    def self.default_values
-      {
-        menu: [],
-        additional_controllers: [],
-        controllers: {},
-        assets_resolver_class_name: 'Releaf::Core::AssetsResolver',
-        layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
-      }
     end
   end
 end

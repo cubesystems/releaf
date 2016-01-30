@@ -24,8 +24,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         item.dup
       end
     end
-    allow( Releaf.application.config ).to receive(:menu).and_return( stubbed_menu_config )
-    Releaf.application.config.initialize_controllers
+    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Core::Configuration.normalize_controllers(stubbed_menu_config) )
+    # reset cached values
+    Releaf.application.config.instance_variable_set(:@controllers, nil)
+    Releaf.application.config.instance_variable_set(:@available_controllers, nil)
 
     Dummy::Application.reload_routes!
   end
@@ -62,8 +64,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     content_index = stubbed_menu_config.index( { :controller => 'releaf/content/nodes' } )
     stubbed_menu_config.insert( content_index + 1,  { :controller => 'admin/other_site/other_nodes' } )
 
-    allow( Releaf.application.config ).to receive(:menu).and_return( stubbed_menu_config )
-    Releaf.application.config.initialize_controllers
+    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Core::Configuration.normalize_controllers(stubbed_menu_config) )
+    # reset cached values
+    Releaf.application.config.instance_variable_set(:@controllers, nil)
+    Releaf.application.config.instance_variable_set(:@available_controllers, nil)
 
     Dummy::Application.reload_routes!
   end
@@ -112,7 +116,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     if example.metadata[:with_releaf_node_controller].present? || example.metadata[:with_multiple_node_classes].present?
       allow( Releaf.application.config ).to receive(:content).and_call_original
       allow( Releaf.application.config ).to receive(:menu).and_return(@default_menu_config)
-      Releaf.application.config.initialize_controllers
+
+      # reset cached values
+      Releaf.application.config.instance_variable_set(:@controllers, nil)
+      Releaf.application.config.instance_variable_set(:@available_controllers, nil)
       Dummy::Application.reload_routes!
     end
 

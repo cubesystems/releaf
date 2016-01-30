@@ -13,7 +13,6 @@ require 'globalize'
 require 'virtus'
 require 'globalize-accessors'
 
-
 module Releaf::Core
   require 'releaf/core/service'
   require 'releaf/core/component'
