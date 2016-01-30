@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Releaf::Content::NodeMapper do
 
-  let(:multiple_node_config) {{
+  let(:multiple_node_resources) {{
     'Node' => {
       controller: 'Releaf::Content::NodesController',
       routing: { site: "main_site", constraints: { host: /^releaf\.local$/ } }
@@ -14,21 +14,21 @@ describe Releaf::Content::NodeMapper do
   }}
 
   before do
-    Releaf::Content.reset_configuration
-    @text_page = FactoryGirl.create(:text_page)
+    @text_page = create(:text_page)
     @lv_root_node = create(:home_page_node, name: "lv", locale: "lv", slug: 'lv')
-    @node = FactoryGirl.create(:node, slug: 'test-page', content: @text_page, parent: @lv_root_node)
+    @node = create(:node, slug: 'test-page', content: @text_page, parent: @lv_root_node)
   end
 
   before with_multiple_node_classes: true do
-    allow( Releaf.application.config ).to receive(:content_resources).and_return( multiple_node_config )
-    @other_text_page = FactoryGirl.create(:text_page)
+    allow( Releaf.application.config ).to receive(:content).and_return(
+      Releaf::Content::Configuration.new(resources: multiple_node_resources)
+    )
+    @other_text_page = create(:text_page)
     @other_lv_root_node = create(:other_home_page_node, name: "lv", locale: "lv", slug: 'lv')
-    @other_node = FactoryGirl.create(:other_node, slug: 'test-page', content: @other_text_page, parent: @other_lv_root_node)
+    @other_node = create(:other_node, slug: 'test-page', content: @other_text_page, parent: @other_lv_root_node)
   end
 
   after do
-    Releaf::Content.reset_configuration
     Dummy::Application.reload_routes!
   end
 
@@ -36,7 +36,6 @@ describe Releaf::Content::NodeMapper do
     # without this the test environent remains polluted with test node class config.
     # the routing configuration gets already reset after each test in the after block above
     # but that seems to not be enough
-    Releaf::Content.reset_configuration
     Dummy::Application.reload_routes!
   end
 

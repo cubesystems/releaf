@@ -1,71 +1,45 @@
 require "rails_helper"
 
 describe Releaf::Content do
+  let(:configuration){ Releaf::Content::Configuration.new(resources: {}) }
 
-  # since configuration is cached
-  # reset it before and after each test
-  # so that the tests always start fresh
-  # and leave the general environment intact
-  before do
-    described_class.reset_configuration
-  end
-  after do
-    described_class.reset_configuration
-  end
-
-  after(:all) do
-    # without this the test environent remains polluted with test node class config.
-    # the routing configuration gets already reset after each test in the after block above
-    # but that seems to not be enough
-    described_class.reset_configuration
-    Dummy::Application.reload_routes!
+  describe ".configure_component" do
+    it "adds new `Releaf::Content::Configuration` configuration with default resources" do
+      allow(Releaf::Content::Configuration).to receive(:new)
+        .with(content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }).and_return("_new")
+      expect(Releaf.application.config).to receive(:add_configuration).with("_new")
+      described_class.configure_component
+    end
   end
 
   describe ".configuration" do
-
     it "returns a configuration instance" do
-      expect(Releaf::Content::Configuration).to receive(:new).and_return :ok
+      expect(Releaf.application.config).to receive(:content).and_return(:ok)
       expect(described_class.configuration).to eq :ok
-    end
-
-    it "caches the configuration instance" do
-      expect(Releaf::Content::Configuration).to receive(:new).once.and_call_original
-      described_class.configuration
-      described_class.configuration
-    end
-  end
-
-  describe ".reset_configuration" do
-    it "clears the cached configuration instance" do
-      expect(Releaf::Content::Configuration).to receive(:new).twice.and_call_original
-      described_class.configuration
-      described_class.reset_configuration
-      described_class.configuration
     end
   end
 
   [ :resources, :models, :default_model, :controllers, :routing ].each do |method|
     describe ".#{method}" do
       it "returns the method result from the configuration instance" do
-        configuration = Releaf::Content::Configuration.new
-        allow(Releaf::Content::Configuration).to receive(:new).and_return(configuration)
-        expect(configuration).to receive(method).and_return(:ok)
+        allow(described_class).to receive(:configuration).and_return(configuration)
+        allow(configuration).to receive(method).and_return(:ok)
         expect(described_class.send(method)).to eq :ok
       end
     end
   end
 
-  describe ".draw_component_routes", :type => :routing do
-
+  describe ".draw_component_routes", type: :routing do
     before do
-      allow( Releaf.application.config ).to receive(:content_resources).and_return( {
+      allow(described_class).to receive(:configuration).and_return(configuration)
+      allow(configuration).to receive(:resources).and_return(
         'Node' => { controller: 'Releaf::Content::NodesController' },
         'OtherSite::OtherNode' => { controller: 'Admin::OtherSite::OtherNodesController' }
-      })
+      )
       Dummy::Application.reload_routes!
     end
 
-    after do
+    after(:all) do
       Dummy::Application.reload_routes!
     end
 
