@@ -1,11 +1,10 @@
 jQuery(function(){
-
     var body = jQuery('body');
+    var settings_path = body.data('settings-path');
 
-    var settings_url = jQuery('header .profile').data('settings-url');
     body.on('settingssave', function( event, key_or_settings, value )
     {
-        if (!settings_url)
+        if (!settings_path)
         {
             return;
         }
@@ -19,7 +18,7 @@ jQuery(function(){
 
         jQuery.ajax
         ({
-            url:  settings_url,
+            url:  settings_path,
             data: { "settings": settings},
             type: 'POST',
             dataType: 'json'

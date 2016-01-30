@@ -1,13 +1,53 @@
 require "rails_helper"
 
 describe Releaf::Core::Configuration do
-  describe "#configure" do
-    it "calls all initializators" do
-      expect(subject).to receive(:initialize_defaults).ordered
-      expect(subject).to receive(:initialize_locales).ordered
-      expect(subject).to receive(:initialize_controllers).ordered
-      expect(subject).to receive(:initialize_components).ordered
-      subject.configure
+  class DummyComponentA
+    def self.configure_component; end
+  end
+  class DummyComponentB
+    def self.initialize_component; end
+  end
+  class DummyComponentC
+    def self.initialize_component; end
+    def self.configure_component; end
+  end
+
+  describe "#components=" do
+    before do
+      allow(subject).to receive(:flatten_components).with(["x", "s"])
+        .and_return([DummyComponentA, DummyComponentB, DummyComponentC])
+    end
+
+    it "assigns normalized components" do
+      expect{ subject.components = ["x", "s"] }.to change{ subject.components }.to([DummyComponentA, DummyComponentB, DummyComponentC])
+    end
+
+    it "calls component configuration if available" do
+      expect(DummyComponentA).to receive(:configure_component).ordered
+      expect(DummyComponentC).to receive(:configure_component).ordered
+      subject.components = ["x", "s"]
+    end
+  end
+
+  describe "#initialize_components" do
+    it "adds component configuration and calls component initializing method if available" do
+      allow(subject).to receive(:components).and_return([DummyComponentA, DummyComponentB, DummyComponentC])
+      expect(DummyComponentB).to receive(:initialize_component).ordered
+      expect(DummyComponentC).to receive(:initialize_component).ordered
+      subject.initialize_components
+    end
+  end
+
+  describe "#add_configuration" do
+    it "creates configuration class accessor for given configuration instance, and assigns given instance to it" do
+      class Releaf::Core::Configuration::DummySampleConfiguration; end
+      configuration = Releaf::Core::Configuration::DummySampleConfiguration.new
+
+      expect(subject.respond_to?(:dummy_sample)).to be false
+      subject.add_configuration(configuration)
+
+      expect(subject.respond_to?(:dummy_sample)).to be true
+      expect(subject.dummy_sample).to eq(configuration)
     end
   end
 
@@ -18,19 +58,10 @@ describe Releaf::Core::Configuration do
     end
   end
 
-  describe "#access_control_module" do
-    it "returns access control module class" do
-      allow(subject).to receive(:access_control_module_name).and_return("Book")
-      expect(subject.access_control_module).to eq(Book)
-    end
-  end
-
   describe "#initialize_defaults" do
-    it "ovewrites only nil values with default ones" do
-      allow(described_class).to receive(:default_values).and_return(menu: "aa", components: "lk")
-      subject.menu = "x"
-      subject.components = nil
-      expect{ subject.initialize_defaults }.to change{ [subject.menu, subject.components] }.to(["x", "lk"])
+    it "assigns default values" do
+      allow(described_class).to receive(:default_values).and_return(menu: "aa", controllers: "lk")
+      expect{ subject.initialize_defaults }.to change{ [subject.menu, subject.controllers] }.to(["aa", "lk"])
     end
   end
 
@@ -57,27 +88,6 @@ describe Releaf::Core::Configuration do
 
     it "merges unique locales form admin and available locales, casts it to strings and assign to `all_locales`" do
       expect{ subject.initialize_locales }.to change{ subject.all_locales }.to eq(["a", "b", "c"])
-    end
-  end
-
-  describe "#initialize_components" do
-    before do
-      class DummyComponentA; end
-      class DummyComponentB
-        def self.initialize_component; end
-      end
-      allow(subject).to receive(:flatten_components).with(["x", "s"])
-        .and_return([DummyComponentA, DummyComponentB])
-      subject.components = ["x", "s"]
-    end
-
-    it "reassign normalized components" do
-      expect{ subject.initialize_components }.to change{ subject.components }.to([DummyComponentA, DummyComponentB])
-    end
-
-    it "calls component initializing method if available" do
-      expect(DummyComponentB).to receive(:initialize_component)
-      subject.initialize_components
     end
   end
 
@@ -211,19 +221,11 @@ describe Releaf::Core::Configuration do
   end
 
   describe ".default_values" do
-
-    it "returns a hash" do
-      expect(described_class.default_values).to be_a Hash
-    end
-
     it "has read/write accessors for all default value keys" do
       described_class.default_values.keys.each do |key|
         subject.send("#{key}=", "foo_value")
         expect(subject.send(key)).to eq "foo_value"
       end
     end
-
   end
 end
-
-

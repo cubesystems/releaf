@@ -32,11 +32,20 @@ describe Releaf::Builders::Base, type: :module do
       end
     end
 
-    [:layout_settings, :access_control, :controller_scope_name, :feature_available?,
-     :index_url].each do|method_name|
+    [:controller_scope_name, :feature_available?, :index_url].each do|method_name|
       it "delegates #{method_name} to controller" do
         expect(subject).to delegate_method(method_name).to(:controller)
       end
+    end
+  end
+
+  describe "#layout_settings" do
+    it "returns settings manager setting for given key" do
+      allow(Releaf.application.config.settings_manager).to receive(:read)
+        .with(controller: "_ctrl_", key: "a.x").and_return("xxxxx")
+      allow(subject).to receive(:controller).and_return("_ctrl_")
+
+      expect(subject.layout_settings("a.x")).to eq("xxxxx")
     end
   end
 
@@ -46,7 +55,6 @@ describe Releaf::Builders::Base, type: :module do
       expect(subject.html_escape("a")).to eq("b")
     end
   end
-
 
   it "aliases #button to #releaf_button" do
     allow(subject.template).to receive(:releaf_button).with("x", a: "y", b: "z").and_return("xx")

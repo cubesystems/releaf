@@ -4,6 +4,12 @@ require 'releaf/content/configuration'
 
 module Releaf::Content
   require 'releaf/content/builders_autoload'
+  require 'releaf/content/router_proxy'
+  require 'releaf/content/node_mapper'
+  require 'releaf/content/acts_as_node'
+  require 'releaf/content/node'
+  require 'releaf/content/route'
+
   class Engine < ::Rails::Engine
     initializer 'precompile', group: :all do |app|
       app.config.assets.precompile += %w(releaf/controllers/releaf/content/*)

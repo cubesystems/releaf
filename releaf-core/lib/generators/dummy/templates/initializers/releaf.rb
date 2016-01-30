@@ -4,29 +4,29 @@ Releaf.application.configure do
   ### setup menu items and therefore available controllers
   config.menu = [
     {
-      :controller => 'admin/nodes'
+      controller: 'admin/nodes',
     },
     {
-      :name => "inventory",
-      :items =>   %w[admin/books admin/authors admin/publishers],
+      name: "inventory",
+      items: %w[admin/books admin/authors admin/publishers],
     },
     {
-      :name => "permissions",
-      :items =>   %w[releaf/permissions/users releaf/permissions/roles],
+      name: "permissions",
+      items: %w[releaf/permissions/users releaf/permissions/roles],
     },
     {
-      :controller => "releaf/core/settings",
+      controller: "releaf/core/settings",
     },
     {
-      :controller => 'releaf/i18n_database/translations',
+      controller: 'releaf/i18n_database/translations',
     },
    ]
 
-  config.additional_controllers = %w[admin/chapters releaf/permissions/profile]
-  config.components = [Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content, Releaf::Core::SettingsUI]
+  config.additional_controllers = %w[admin/chapters]
+  config.components = [Releaf::Core, Releaf::I18nDatabase, Releaf::Permissions, Releaf::Content]
   config.available_locales = ["en", "lv"]
-  # config.layout_builder_class_name = "CustomLayoutBuilder"
-  # config.devise_for 'releaf/admin'
+  # conf.layout_builder_class_name = "CustomLayoutBuilder"
+  # conf.permissions.devise_for 'releaf/admin'
 
   config.content_resources = { 'Node' => { controller: 'Admin::NodesController' } }
 
@@ -50,5 +50,4 @@ Releaf.application.configure do
 
   # DEFAULT SINGLE NODE CASE:
   # config.content_resources = { 'Node' => { controller: 'Releaf::Content::NodesController' } }
-
 end

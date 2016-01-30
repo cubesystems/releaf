@@ -5,7 +5,6 @@ module Releaf
     respond_to :html
     respond_to :json, only: [:create, :update]
     protect_from_forgery
-    include Releaf.application.config.access_control_module
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
     include Releaf::Core::Responders
@@ -251,6 +250,10 @@ module Releaf
       @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
     end
 
+    def short_name
+      self.class.name.gsub("Controller", "").underscore
+    end
+
     def feature_available? feature
       @features[feature].present?
     end
@@ -469,4 +472,6 @@ module Releaf
       end
     end
   end
+
+  ActiveSupport.run_load_hooks(:base_controller, self)
 end
