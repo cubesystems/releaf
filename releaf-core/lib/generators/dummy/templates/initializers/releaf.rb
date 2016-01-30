@@ -4,7 +4,7 @@ Releaf.application.configure do
   ### setup menu items and therefore available controllers
   config.menu = [
     {
-      controller: 'releaf/content/nodes',
+      controller: 'admin/nodes',
     },
     {
       name: "inventory",

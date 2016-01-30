@@ -93,7 +93,6 @@ module Releaf::Core
         menu: [],
         additional_controllers: [],
         controllers: {},
-        components: [],
         assets_resolver_class_name:  'Releaf::Core::AssetsResolver',
         layout_builder_class_name: 'Releaf::Builders::Page::LayoutBuilder',
         content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }

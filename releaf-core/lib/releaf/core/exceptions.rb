@@ -1,4 +1,4 @@
 module Releaf::Core
-  class AccessDenied < StandardError
-  end
+  class Error < StandardError; end
+  class AccessDenied < Error; end
 end
