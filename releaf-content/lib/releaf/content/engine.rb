@@ -32,7 +32,7 @@ module Releaf::Content
   def self.configure_component
     Releaf.application.config.add_configuration(
       Releaf::Content::Configuration.new(
-        content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
+        resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
       )
     )
   end

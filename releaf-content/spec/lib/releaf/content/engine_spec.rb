@@ -6,7 +6,7 @@ describe Releaf::Content do
   describe ".configure_component" do
     it "adds new `Releaf::Content::Configuration` configuration with default resources" do
       allow(Releaf::Content::Configuration).to receive(:new)
-        .with(content_resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }).and_return("_new")
+        .with(resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }).and_return("_new")
       expect(Releaf.application.config).to receive(:add_configuration).with("_new")
       described_class.configure_component
     end

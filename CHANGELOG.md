@@ -108,7 +108,7 @@
 
 * Multiple node models and controllers are now supported.
 
-  Node resource configuration can be overriden via `content_resources` key
+  Node resource configuration can be overriden via `content.resources` key
   in `config/initializers/releaf.rb`
 
   There are three typical scenarios:
