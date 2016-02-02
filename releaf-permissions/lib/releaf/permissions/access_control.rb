@@ -9,6 +9,10 @@ module Releaf::Permissions
       end
     end
 
+    def self.draw_component_routes(router)
+      router.devise_for(Releaf.application.config.permissions.devise_for, path: "", controllers: { sessions: "releaf/permissions/sessions" })
+    end
+
     def controller_permitted?(controller_name)
       allowed_controllers.include?(controller_name)
     end

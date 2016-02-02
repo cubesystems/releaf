@@ -7,7 +7,6 @@ module Releaf::Permissions
   require 'releaf/permissions/layout'
   require 'releaf/permissions/access_control'
   require 'releaf/permissions/controller_support'
-  require 'releaf/permissions/devise'
   require 'releaf/permissions/profile'
   require 'releaf/permissions/roles'
   require 'releaf/permissions/users'
@@ -26,7 +25,6 @@ module Releaf::Permissions
       Releaf::Permissions::Configuration,
       Releaf::Permissions::Layout,
       Releaf::Permissions::AccessControl,
-      Releaf::Permissions::Devise,
       Releaf::Permissions::Roles,
       Releaf::Permissions::Users,
       Releaf::Permissions::Profile
