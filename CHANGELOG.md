@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2016.02.02
+* `Releaf.application.config.assets_resolver_class_name` configuration option removed in favour of custom builder. If there are need for custom assets resolver, create new page layout builder and override assets resolver in builder.
+
 ### 2016.01.30
 * Releaf core fully decoupled from any authentication and user/role dependancies. It is possible to not use "releaf-permissions" at all and have userless system or swap with other authorization subsystem.
 * Configuration refactored to be more component-centric.

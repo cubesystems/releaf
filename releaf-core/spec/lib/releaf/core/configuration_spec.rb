@@ -51,13 +51,6 @@ describe Releaf::Core::Configuration do
     end
   end
 
-  describe "#assets_resolver" do
-    it "returns assets resolver class" do
-      allow(subject).to receive(:assets_resolver_class_name).and_return("Book")
-      expect(subject.assets_resolver).to eq(Book)
-    end
-  end
-
   describe "#initialize_locales" do
     before do
       subject.available_locales = [:a, :b]

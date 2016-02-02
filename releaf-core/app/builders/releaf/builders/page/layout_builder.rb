@@ -94,12 +94,16 @@ module Releaf::Builders::Page
       params[:controller]
     end
 
+    def assets_resolver
+      Releaf::Core::AssetsResolver
+    end
+
     def stylesheets
-      Releaf.application.config.assets_resolver.controller_assets(controller_name, :stylesheets)
+      assets_resolver.controller_assets(controller_name, :stylesheets)
     end
 
     def javascripts
-      Releaf.application.config.assets_resolver.controller_assets(controller_name, :javascripts)
+      assets_resolver.controller_assets(controller_name, :javascripts)
     end
 
     def csrf

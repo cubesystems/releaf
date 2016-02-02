@@ -7,6 +7,10 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
     def output; end
   end
 
+  class DummyAssetsResolver
+    def self.controller_assets(_a, _b); end
+  end
+
   class PageHeaderBuilderTestHelper < ActionView::Base
     include Rails.application.routes.url_helpers
     include FontAwesome::Rails::IconHelper
@@ -49,7 +53,33 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
     end
   end
 
-  describe "#menu" do
+  describe "#assets_resolver" do
+    it "returns `Releaf::Core::AssetsResolver` class" do
+      expect(subject.assets_resolver).to eq(Releaf::Core::AssetsResolver)
+    end
+  end
+
+  describe "#stylesheets" do
+    it "returns stylesheets from assets resolver for given controller" do
+      allow(subject).to receive(:assets_resolver).and_return(DummyAssetsResolver)
+      allow(subject).to receive(:controller_name).and_return("_controller")
+      allow(DummyAssetsResolver).to receive(:controller_assets).with("_controller", :stylesheets)
+        .and_return("x")
+      expect(subject.stylesheets).to eq("x")
+    end
+  end
+
+  describe "#javascripts" do
+    it "returns javascripts from assets resolver for given controller" do
+      allow(subject).to receive(:assets_resolver).and_return(DummyAssetsResolver)
+      allow(subject).to receive(:controller_name).and_return("_controller")
+      allow(DummyAssetsResolver).to receive(:controller_assets).with("_controller", :javascripts)
+        .and_return("y")
+      expect(subject.javascripts).to eq("y")
+    end
+  end
+
+  describe "#header" do
     it "returns menu builder output wrapped within `aside` tag" do
       menu_builder = DummyBuilder.new(template)
       allow(menu_builder).to receive(:output).and_return("_header")

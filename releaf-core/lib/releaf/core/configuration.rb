@@ -4,7 +4,6 @@ module Releaf::Core
     attribute :components, Array, default: []
     attribute :available_locales, Array, default: []
     attribute :available_admin_locales, Array, default: []
-    attribute :assets_resolver_class_name, String, default: 'Releaf::Core::AssetsResolver'
     attribute :layout_builder_class_name, String, default: 'Releaf::Builders::Page::LayoutBuilder'
     attribute :settings_manager, Class
     attribute :menu, Array, default: []
@@ -29,10 +28,6 @@ module Releaf::Core
 
       self.class.send(:attr_accessor, configuration_name)
       send("#{configuration_name}=", configuration)
-    end
-
-    def assets_resolver
-      assets_resolver_class_name.constantize
     end
 
     def initialize_defaults
