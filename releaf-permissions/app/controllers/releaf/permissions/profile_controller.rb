@@ -21,7 +21,7 @@ module Releaf::Permissions
     def controller_breadcrumb; end
 
     def setup
-      @features = {
+      self.features = {
         edit: true,
       }
 

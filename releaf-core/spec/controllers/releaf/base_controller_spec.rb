@@ -373,7 +373,7 @@ describe Admin::AuthorsController do
       end
     end
 
-    context "when @resources_per_page is nil" do
+    context "when resources_per_page is nil" do
       it "assigns all resources to @collection" do
         get :index, show_all: 1
         expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
@@ -381,7 +381,7 @@ describe Admin::AuthorsController do
       end
     end
 
-    context "when @resources_per_page is not nil" do
+    context "when resources_per_page is not nil" do
       it "assigns maximum 20 resources to @collection" do
         get :index
         expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
@@ -500,14 +500,14 @@ describe Admin::BooksController do
   end
 
   describe "#feature_available?" do
-    it "returns whether feature is defined within @features variable" do
-      subject.instance_variable_set(:@features, edit: true)
+    it "returns whether feature is defined within features variable" do
+      allow(subject).to receive(:features).and_return(edit: true)
       expect(subject.feature_available?(:create)).to be false
 
-      subject.instance_variable_set(:@features, create: false, edit: true)
+      allow(subject).to receive(:features).and_return(create: false, edit: true)
       expect(subject.feature_available?(:create)).to be false
 
-      subject.instance_variable_set(:@features, create: true, edit: true)
+      allow(subject).to receive(:features).and_return(create: true, edit: true)
       expect(subject.feature_available?(:create)).to be true
     end
 
@@ -515,17 +515,17 @@ describe Admin::BooksController do
       it "also checks whether `create` feature is enabled" do
         allow(subject).to receive(:feature_available?).with(:create).and_return(false)
         allow(subject).to receive(:feature_available?).and_call_original
+        allow(subject).to receive(:features).and_return(edit: true)
         subject.instance_variable_set(:@features, edit: true)
         expect(subject.feature_available?(:create_another)).to be false
 
-        subject.instance_variable_set(:@features, create_another: false, edit: true)
+        allow(subject).to receive(:features).and_return(create_another: false, edit: true)
         expect(subject.feature_available?(:create_another)).to be false
 
-        subject.instance_variable_set(:@features, create_another: true, edit: true)
+        allow(subject).to receive(:features).and_return(create_another: true, edit: true)
         expect(subject.feature_available?(:create_another)).to be false
 
         allow(subject).to receive(:feature_available?).with(:create).and_return(true)
-        subject.instance_variable_set(:@features, create_another: true, edit: true)
         expect(subject.feature_available?(:create_another)).to be true
       end
     end

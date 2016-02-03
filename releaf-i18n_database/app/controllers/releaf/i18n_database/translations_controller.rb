@@ -79,7 +79,7 @@ module Releaf::I18nDatabase
 
     def setup
       super
-      @features = {
+      self.features = {
         index: true
       }
     end

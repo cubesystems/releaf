@@ -4,7 +4,7 @@ module Releaf::Content
 
     def setup
       super
-      @features[:create_another] = false
+      features[:create_another] = false
     end
 
     def generate_url

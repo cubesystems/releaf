@@ -7,6 +7,6 @@ class Admin::AuthorsController < Releaf::BaseController
 
   def setup
     super
-    @resources_per_page = params.has_key?(:show_all) ? nil : 20
+    self.resources_per_page = params.has_key?(:show_all) ? nil : 20
   end
 end

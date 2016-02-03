@@ -14,6 +14,8 @@ module Releaf
     rescue_from Releaf::Core::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
 
+    attr_accessor :features, :resources_per_page
+
     layout :layout
 
     helper_method \
@@ -194,8 +196,6 @@ module Releaf
       }
     end
 
-
-
     def builder_class(builder_type)
       Releaf::Builders.builder_class(builder_scopes, builder_type)
     end
@@ -256,7 +256,7 @@ module Releaf
 
     def feature_available?(feature)
       return false if feature == :create_another && !feature_available?(:create)
-      @features[feature].present?
+      features[feature].present?
     end
 
     def page_title
@@ -283,8 +283,8 @@ module Releaf
 
       search(params[:search])
 
-      unless @resources_per_page.nil?
-        @collection = @collection.page( params[:page] ).per_page( @resources_per_page )
+      unless resources_per_page.nil?
+        @collection = @collection.page( params[:page] ).per_page( resources_per_page )
       end
     end
 
@@ -387,13 +387,13 @@ module Releaf
     # It sets various instance variables, that are later used in views and # controllers
     #
     # == Defines
-    # @features::
+    # features::
     #   Hash with symbol keys and boolean values. Each key represents action
     #   (currently only `:edit`, `:create`, `:destroy` are supported). If one
     #   of features is disabled, then routing to it will raise <tt>Releaf::FeatureDisabled</tt>
     #   error
     #
-    # @resources_per_page::
+    # resources_per_page::
     #   Integer - sets the number of resources to display on `#index` view
     #
     # To change controller settings `setup` method should be overriden like this
@@ -401,11 +401,11 @@ module Releaf
     # @example
     #   def setup
     #     super
-    #     @features[:edit] = false
-    #     @resources_per_page = 20
+    #     features[:edit] = false
+    #     self.resources_per_page = 20
     #   end
     def setup
-      @features = {
+      self.features = {
         show:              false,
         edit:              true,
         create:            true,
@@ -414,7 +414,7 @@ module Releaf
         index:             true,
         toolbox:           true
       }
-      @resources_per_page = 40
+      self.resources_per_page = 40
     end
 
     def searchable_fields
