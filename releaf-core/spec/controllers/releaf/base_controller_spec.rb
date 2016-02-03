@@ -498,4 +498,36 @@ describe Admin::BooksController do
       end
     end
   end
+
+  describe "#feature_available?" do
+    it "returns whether feature is defined within @features variable" do
+      subject.instance_variable_set(:@features, edit: true)
+      expect(subject.feature_available?(:create)).to be false
+
+      subject.instance_variable_set(:@features, create: false, edit: true)
+      expect(subject.feature_available?(:create)).to be false
+
+      subject.instance_variable_set(:@features, create: true, edit: true)
+      expect(subject.feature_available?(:create)).to be true
+    end
+
+    context "when `create_another` feature requested" do
+      it "also checks whether `create` feature is enabled" do
+        allow(subject).to receive(:feature_available?).with(:create).and_return(false)
+        allow(subject).to receive(:feature_available?).and_call_original
+        subject.instance_variable_set(:@features, edit: true)
+        expect(subject.feature_available?(:create_another)).to be false
+
+        subject.instance_variable_set(:@features, create_another: false, edit: true)
+        expect(subject.feature_available?(:create_another)).to be false
+
+        subject.instance_variable_set(:@features, create_another: true, edit: true)
+        expect(subject.feature_available?(:create_another)).to be false
+
+        allow(subject).to receive(:feature_available?).with(:create).and_return(true)
+        subject.instance_variable_set(:@features, create_another: true, edit: true)
+        expect(subject.feature_available?(:create_another)).to be true
+      end
+    end
+  end
 end

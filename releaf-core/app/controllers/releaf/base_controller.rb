@@ -254,7 +254,8 @@ module Releaf
       self.class.name.gsub("Controller", "").underscore
     end
 
-    def feature_available? feature
+    def feature_available?(feature)
+      return false if feature == :create_another && !feature_available?(:create)
       @features[feature].present?
     end
 
@@ -413,7 +414,6 @@ module Releaf
         index:             true,
         toolbox:           true
       }
-      @panel_layout = true
       @resources_per_page = 40
     end
 
