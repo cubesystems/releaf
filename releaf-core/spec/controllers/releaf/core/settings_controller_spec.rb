@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Releaf::Core::SettingsController do
+describe Releaf::SettingsController do
   login_as_user :user
 
   describe "GET index" do

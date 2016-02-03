@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::ResourceUtilities do
+describe Releaf::ResourceUtilities do
   let(:resource){ Releaf::Permissions::Role.new }
   let(:users_association){ resource.class.reflect_on_association(:users) }
   let(:permissions_association){ resource.class.reflect_on_association(:permissions) }

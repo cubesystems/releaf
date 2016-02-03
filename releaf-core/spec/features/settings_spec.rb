@@ -11,7 +11,7 @@ feature "Settings", js: true do
     Releaf::Settings.register(values)
     auth_as_user
 
-    visit releaf_core_settings_path
+    visit releaf_settings_path
     expect(page).to have_number_of_resources(4)
 
     search "content.updated"
@@ -29,7 +29,7 @@ feature "Settings", js: true do
     expect(page).to have_field("Content is updated?")
     expect(page).to have_css(".field input[type='checkbox'][checked='checked']")
 
-    visit releaf_core_settings_path
+    visit releaf_settings_path
 
     click_link "content.rating"
     expect(page).to have_field("Value")

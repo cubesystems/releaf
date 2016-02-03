@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::ItemOrderer do
+describe Releaf::ItemOrderer do
   let(:list){ ["a", "b", "c", "d", {items: "xx"}, "e", "f", "g"] }
   subject{ described_class.new(*list) }
 

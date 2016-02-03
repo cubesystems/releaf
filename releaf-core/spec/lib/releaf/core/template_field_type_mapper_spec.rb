@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::TemplateFieldTypeMapper do
+describe Releaf::TemplateFieldTypeMapper do
   let(:object){ double("generic object") }
 
   def file_field_error_message field_name, obj

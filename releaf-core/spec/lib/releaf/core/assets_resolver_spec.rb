@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::AssetsResolver do
+describe Releaf::AssetsResolver do
   describe ".base_assets" do
     it "returns array with `releaf/application`" do
       expect(described_class.base_assets).to eq(["releaf/application"])

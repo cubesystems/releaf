@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Settings::FormBuilder, type: :class do
+describe Releaf::Settings::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
   before do
     Releaf::Settings.register([

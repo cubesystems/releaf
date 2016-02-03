@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::ResourceParams do
+describe Releaf::ResourceParams do
   subject{ described_class.new(Book) }
 
   describe "#file_attributes" do

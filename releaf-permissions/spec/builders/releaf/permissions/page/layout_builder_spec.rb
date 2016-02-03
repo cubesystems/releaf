@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Releaf::Permissions::Page::LayoutBuilder, type: :class do
   class PermissionsLayoutBuilderView < ActionView::Base; end
-  let(:controller){ Releaf::Core::RootController.new }
+  let(:controller){ Releaf::RootController.new }
   let(:template){ PermissionsLayoutBuilderView.new }
   subject { described_class.new(template) }
 

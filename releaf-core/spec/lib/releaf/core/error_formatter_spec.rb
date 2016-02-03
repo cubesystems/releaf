@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Releaf::Core::ErrorFormatter do
+describe Releaf::ErrorFormatter do
 
   class DummyResourceValidatorAuthor < Author
     self.table_name = 'authors'

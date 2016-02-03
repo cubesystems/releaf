@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Responders::FeatureDisabledResponder, type: :controller do
+describe Releaf::Responders::FeatureDisabledResponder, type: :controller do
   controller{}
   subject{ described_class.new(controller, []) }
 

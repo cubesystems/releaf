@@ -12,7 +12,7 @@ module Releaf::Permissions
 
     def verify_controller_access!
       unless Releaf.application.config.permissions.access_control.new(user: user).controller_permitted?(short_name)
-        raise Releaf::Core::AccessDenied
+        raise Releaf::AccessDenied
       end
     end
 

@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2016.02.04
+* All `Releaf::Core::` namespaces replaced with `Releaf::` except Releaf::Core component.
+  To update site, you need to:
+    * Replace all `Releaf::Core::` to `Releaf::` with only exception
+      `Releaf::Core` component within `config/initializer/releaf.rb`
+      componets section. Replacement script:
+      ``perl -p -i -e 's/Releaf::Core/Releaf/g' `grep -ril "Releaf::Core" * | grep -v "config/initializers/releaf.rb"` ``
+    * Replace `releaf/core/settings` to `releaf/settings` within `config/initializer/releaf.rb` menu config.
+
 ### 2016.02.02
 * `Releaf.application.config.assets_resolver_class_name` configuration option removed in favour of custom builder. If there are need for custom assets resolver, create new page layout builder and override assets resolver in builder.
 

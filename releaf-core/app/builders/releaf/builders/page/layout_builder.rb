@@ -30,7 +30,7 @@ module Releaf::Builders::Page
     end
 
     def settings_path
-      url_for(action: "store_settings", controller: "releaf/core/root", only_path: true)
+      url_for(action: "store_settings", controller: "/releaf/root", only_path: true)
     end
 
     def body_content(&block)
@@ -95,7 +95,7 @@ module Releaf::Builders::Page
     end
 
     def assets_resolver
-      Releaf::Core::AssetsResolver
+      Releaf::AssetsResolver
     end
 
     def stylesheets

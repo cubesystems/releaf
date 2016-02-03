@@ -7,11 +7,11 @@ module Releaf
     protect_from_forgery
     include Releaf::Breadcrumbs
     include Releaf::RichtextAttachments
-    include Releaf::Core::Responders
+    include Releaf::Responders
 
     before_filter :manage_ajax, :setup, :verify_feature_availability!
 
-    rescue_from Releaf::Core::AccessDenied, with: :access_denied
+    rescue_from Releaf::AccessDenied, with: :access_denied
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
 
     attr_accessor :features, :resources_per_page
@@ -39,7 +39,7 @@ module Releaf
     end
 
     def searcher_class
-      Releaf::Core::Search
+      Releaf::Search
     end
 
     def index
@@ -79,7 +79,7 @@ module Releaf
 
     def confirm_destroy
       prepare_destroy
-      @restricted_relations = Releaf::Core::ResourceUtilities.restricted_relations(@resource)
+      @restricted_relations = Releaf::ResourceUtilities.restricted_relations(@resource)
       respond_with(@resource, destroyable: destroyable?)
     end
 
@@ -98,7 +98,7 @@ module Releaf
     #
     # @return boolean true or false
     def destroyable?
-      Releaf::Core::ResourceUtilities.destroyable?(@resource)
+      Releaf::ResourceUtilities.destroyable?(@resource)
     end
 
     # Helper methods ##############################################################################
@@ -418,7 +418,7 @@ module Releaf
     end
 
     def searchable_fields
-      @searchable_fields ||= Releaf::Core::DefaultSearchableFields.new(resource_class).find
+      @searchable_fields ||= Releaf::DefaultSearchableFields.new(resource_class).find
     end
 
     def resource_params
@@ -429,7 +429,7 @@ module Releaf
     #
     # The resulting array will be passed to strong_parameters ``permit``
     def permitted_params
-      Releaf::Core::ResourceParams.new(resource_class).values
+      Releaf::ResourceParams.new(resource_class).values
     end
 
     # Returns url to redirect after successul resource create/update actions

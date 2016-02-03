@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe  Releaf::Core::Root::SettingsManager do
-  let(:controller){ Releaf::Core::RootController.new }
+describe  Releaf::Root::SettingsManager do
+  let(:controller){ Releaf::RootController.new }
   let(:cookies){ {"asd.a" => "lalal"} }
 
   before do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Responders::PageNotFoundResponder, type: :controller do
+describe Releaf::Responders::PageNotFoundResponder, type: :controller do
   controller{}
   subject{ described_class.new(controller, []) }
 

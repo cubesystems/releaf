@@ -1,15 +1,15 @@
 require "rails_helper"
 
-describe Releaf::Core::Responders::ErrorResponder, type: :controller do
-  class Releaf::Core::Responders::DummyErrorResponder < ActionController::Responder
-    include Releaf::Core::Responders::ErrorResponder
+describe Releaf::Responders::ErrorResponder, type: :controller do
+  class Releaf::Responders::DummyErrorResponder < ActionController::Responder
+    include Releaf::Responders::ErrorResponder
     def status_code
       401
     end
   end
 
   controller{}
-  subject{ Releaf::Core::Responders::DummyErrorResponder.new(controller, []) }
+  subject{ Releaf::Responders::DummyErrorResponder.new(controller, []) }
 
   describe "#template" do
     it "returns template based on class name" do
