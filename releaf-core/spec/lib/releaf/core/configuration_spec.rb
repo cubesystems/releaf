@@ -1,36 +1,53 @@
 require "rails_helper"
 
 describe Releaf::Core::Configuration do
-  describe "#configure" do
-    it "calls all initializators" do
-      expect(subject).to receive(:initialize_defaults).ordered
-      expect(subject).to receive(:initialize_locales).ordered
-      expect(subject).to receive(:initialize_controllers).ordered
-      expect(subject).to receive(:initialize_components).ordered
-      subject.configure
+  class DummyComponentA
+    def self.configure_component; end
+  end
+  class DummyComponentB
+    def self.initialize_component; end
+  end
+  class DummyComponentC
+    def self.initialize_component; end
+    def self.configure_component; end
+  end
+
+  describe "#components=" do
+    before do
+      allow(subject).to receive(:flatten_components).with(["x", "s"])
+        .and_return([DummyComponentA, DummyComponentB, DummyComponentC])
+    end
+
+    it "assigns normalized components" do
+      expect{ subject.components = ["x", "s"] }.to change{ subject.components }.to([DummyComponentA, DummyComponentB, DummyComponentC])
+    end
+
+    it "calls component configuration if available" do
+      expect(DummyComponentA).to receive(:configure_component).ordered
+      expect(DummyComponentC).to receive(:configure_component).ordered
+      subject.components = ["x", "s"]
     end
   end
 
-  describe "#assets_resolver" do
-    it "returns assets resolver class" do
-      allow(subject).to receive(:assets_resolver_class_name).and_return("Book")
-      expect(subject.assets_resolver).to eq(Book)
+  describe "#initialize_components" do
+    it "adds component configuration and calls component initializing method if available" do
+      allow(subject).to receive(:components).and_return([DummyComponentA, DummyComponentB, DummyComponentC])
+      expect(DummyComponentB).to receive(:initialize_component).ordered
+      expect(DummyComponentC).to receive(:initialize_component).ordered
+      subject.initialize_components
     end
   end
 
-  describe "#access_control_module" do
-    it "returns access control module class" do
-      allow(subject).to receive(:access_control_module_name).and_return("Book")
-      expect(subject.access_control_module).to eq(Book)
-    end
-  end
+  describe "#add_configuration" do
+    it "creates configuration class accessor for given configuration instance, and assigns given instance to it" do
+      class Releaf::Core::Configuration::DummySampleConfiguration; end
+      configuration = Releaf::Core::Configuration::DummySampleConfiguration.new
 
-  describe "#initialize_defaults" do
-    it "ovewrites only nil values with default ones" do
-      allow(described_class).to receive(:default_values).and_return(menu: "aa", components: "lk")
-      subject.menu = "x"
-      subject.components = nil
-      expect{ subject.initialize_defaults }.to change{ [subject.menu, subject.components] }.to(["x", "lk"])
+      expect(subject.respond_to?(:dummy_sample)).to be false
+      subject.add_configuration(configuration)
+
+      expect(subject.respond_to?(:dummy_sample)).to be true
+      expect(subject.dummy_sample).to eq(configuration)
     end
   end
 
@@ -54,30 +71,23 @@ describe Releaf::Core::Configuration do
         expect{ subject.initialize_locales }.to change{ subject.available_admin_locales }.to eq([:a, :b])
       end
     end
-
-    it "merges unique locales form admin and available locales, casts it to strings and assign to `all_locales`" do
-      expect{ subject.initialize_locales }.to change{ subject.all_locales }.to eq(["a", "b", "c"])
-    end
   end
 
-  describe "#initialize_components" do
+  describe "#all_locales" do
     before do
-      class DummyComponentA; end
-      class DummyComponentB
-        def self.initialize_component; end
-      end
-      allow(subject).to receive(:flatten_components).with(["x", "s"])
-        .and_return([DummyComponentA, DummyComponentB])
-      subject.components = ["x", "s"]
+      subject.available_locales = [:a, :b]
+      subject.available_admin_locales = [:b, :c]
     end
 
-    it "reassign normalized components" do
-      expect{ subject.initialize_components }.to change{ subject.components }.to([DummyComponentA, DummyComponentB])
+    it "merges unique locales form admin and available locales, casts it to strings and assign to `all_locales`" do
+      expect( subject.all_locales ).to eq(["a", "b", "c"])
     end
 
-    it "calls component initializing method if available" do
-      expect(DummyComponentB).to receive(:initialize_component)
-      subject.initialize_components
+    it "caches resolved locales" do
+      expect(subject).to receive(:available_locales).and_call_original.once
+      expect(subject).to receive(:available_admin_locales).and_call_original.once
+      subject.all_locales
+      subject.all_locales
     end
   end
 
@@ -96,29 +106,48 @@ describe Releaf::Core::Configuration do
     end
   end
 
-  describe "#initialize_controllers" do
+  describe "#menu=" do
+    it "normalizes menu before assigning" do
+      allow(described_class).to receive(:normalize_controllers).with(["a"]).and_return(["aa"])
+      expect{ subject.menu = ["a"] }.to change{ subject.menu }.to(["aa"])
+    end
+  end
+
+  describe "#additional_controllers=" do
+    it "normalizes additional controllers before assigning" do
+      allow(described_class).to receive(:normalize_controllers).with(["b"]).and_return(["bb"])
+      expect{ subject.additional_controllers = ["b"] }.to change{ subject.additional_controllers }.to(["bb"])
+    end
+  end
+
+  describe "#controllers" do
+    it "returns extracted controllers from menu and additional controllers attributes" do
+      allow(subject).to receive(:menu).and_return(["a", "b"])
+      allow(subject).to receive(:additional_controllers).and_return(["c", "d"])
+      allow(subject).to receive(:extract_controllers).with(["a", "b", "c", "d"]).and_return("xxx")
+      expect( subject.controllers ).to eq("xxx")
+    end
+
+    it "caches resolved controllers" do
+      expect(subject).to receive(:extract_controllers).and_call_original.once
+      subject.controllers
+      subject.controllers
+    end
+  end
+
+  describe "#available_controllers" do
     before do
-      subject.menu = ["a"]
-      subject.additional_controllers = ["b"]
-      allow(subject).to receive(:normalize_controllers).with(["a"]).and_return(["aa"])
-      allow(subject).to receive(:normalize_controllers).with(["b"]).and_return(["bb"])
-      allow(subject).to receive(:extract_controllers).with(["aa", "bb"]).and_return({"c" => "d"})
+      allow(subject).to receive(:controllers).and_return("c" => "d", "l" => "k")
     end
 
-    it "normalizes menu" do
-      expect{ subject.initialize_controllers }.to change{ subject.menu }.from(["a"]).to(["aa"])
+    it "returns controller names" do
+      expect( subject.available_controllers ).to eq(["c", "l"])
     end
 
-    it "normalizes additional controllers" do
-      expect{ subject.initialize_controllers }.to change{ subject.additional_controllers }.from(["b"]).to(["bb"])
-    end
-
-    it "extract controller items from menu and additional controllers and assign then to controllers" do
-      expect{ subject.initialize_controllers }.to change{ subject.controllers }.from(nil).to("c" => "d")
-    end
-
-    it "extract controller names and assign to available controllers" do
-      expect{ subject.initialize_controllers }.to change{ subject.available_controllers }.from(nil).to(["c"])
+    it "caches resolved controller names" do
+      expect(subject).to receive(:controllers).and_call_original.once
+      subject.available_controllers
+      subject.available_controllers
     end
   end
 
@@ -130,29 +159,29 @@ describe Releaf::Core::Configuration do
     end
   end
 
-  describe "#normalize_controllers" do
+  describe ".normalize_controllers" do
     it "returns list of normalized controllers" do
-      allow(subject).to receive(:normalize_controller_item).with(:a).and_return("ab")
-      allow(subject).to receive(:normalize_controller_item).with(:b).and_return("bc")
-      expect(subject.normalize_controllers([:a, :b])).to eq(["ab", "bc"])
+      allow(described_class).to receive(:normalize_controller_item).with(:a).and_return("ab")
+      allow(described_class).to receive(:normalize_controller_item).with(:b).and_return("bc")
+      expect(described_class.normalize_controllers([:a, :b])).to eq(["ab", "bc"])
     end
   end
 
-  describe "#normalize_controller_item" do
+  describe ".normalize_controller_item" do
     describe ":controller" do
       context "when given value is instance of `String`" do
         it "use value as controller name" do
-          expect(subject.normalize_controller_item("a")[:controller]).to eq("a")
+          expect(described_class.normalize_controller_item("a")[:controller]).to eq("a")
         end
       end
 
       context "when given value is hash" do
         it "does not add controller value" do
-          expect(subject.normalize_controller_item(a: "x")[:controller]).to be nil
+          expect(described_class.normalize_controller_item(a: "x")[:controller]).to be nil
         end
 
         it "does not modify controller value" do
-          expect(subject.normalize_controller_item(controller: "x")[:controller]).to eq("x")
+          expect(described_class.normalize_controller_item(controller: "x")[:controller]).to eq("x")
         end
       end
     end
@@ -160,13 +189,13 @@ describe Releaf::Core::Configuration do
     describe ":name" do
       context "when controller hash does not have name value" do
         it "assigns controller value as name" do
-          expect(subject.normalize_controller_item(controller: "x")[:name]).to eq("x")
+          expect(described_class.normalize_controller_item(controller: "x")[:name]).to eq("x")
         end
       end
 
       context "when controller hash has name value" do
         it "does not change existing name value" do
-          expect(subject.normalize_controller_item(controller: "x", name: "b")[:name]).to eq("b")
+          expect(described_class.normalize_controller_item(controller: "x", name: "b")[:name]).to eq("b")
         end
       end
     end
@@ -174,56 +203,39 @@ describe Releaf::Core::Configuration do
     describe ":url_helper" do
       context "when controller hash does not have neither helper or controller values" do
         it "does not add url helper value" do
-          expect(subject.normalize_controller_item(x: "x")[:url_helper]).to be nil
+          expect(described_class.normalize_controller_item(x: "x")[:url_helper]).to be nil
         end
       end
 
       context "when controller hash has helper value" do
         it "assigns symbolized helper value" do
-          expect(subject.normalize_controller_item(controller: "x", helper: "b")[:url_helper]).to eq(:b)
+          expect(described_class.normalize_controller_item(controller: "x", helper: "b")[:url_helper]).to eq(:b)
         end
       end
 
       context "when controller hash has controller value" do
         it "assigns convert controller name to url helper" do
-          expect(subject.normalize_controller_item(controller: "a/b")[:url_helper]).to eq(:a_b)
+          expect(described_class.normalize_controller_item(controller: "a/b")[:url_helper]).to eq(:a_b)
         end
       end
     end
 
     describe ":items" do
       before do
-        allow(subject).to receive(:normalize_controllers).with(["a", "b"]).and_return(["c", "d"])
+        allow(described_class).to receive(:normalize_controllers).with(["a", "b"]).and_return(["c", "d"])
       end
 
       context "when controller hash does not have items value" do
         it "does not add items value" do
-          expect(subject.normalize_controller_item(x: "x")[:items]).to be nil
+          expect(described_class.normalize_controller_item(x: "x")[:items]).to be nil
         end
       end
 
       context "when controller hash has items value" do
         it "does normalizes items" do
-          expect(subject.normalize_controller_item(x: "x", items: ["a", "b"])[:items]).to eq(["c", "d"])
+          expect(described_class.normalize_controller_item(x: "x", items: ["a", "b"])[:items]).to eq(["c", "d"])
         end
       end
     end
   end
-
-  describe ".default_values" do
-
-    it "returns a hash" do
-      expect(described_class.default_values).to be_a Hash
-    end
-
-    it "has read/write accessors for all default value keys" do
-      described_class.default_values.keys.each do |key|
-        subject.send("#{key}=", "foo_value")
-        expect(subject.send(key)).to eq "foo_value"
-      end
-    end
-
-  end
 end
-
-

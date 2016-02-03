@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-cookie-rails'
   s.add_dependency 'globalize-accessors'
   s.add_dependency 'rack-cache'
+  s.add_dependency 'virtus'
 
   s.required_ruby_version = '>= 2.2.0'
 end

@@ -11,9 +11,9 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
   before with_releaf_node_controller: true do
     # stub node config and admin menu to use default releaf node controller
 
-    default_resources_config = Releaf::Core::Configuration.default_values[:content_resources]
-    Releaf::Content.reset_configuration
-    allow( Releaf.application.config ).to receive(:content_resources).and_return( default_resources_config )
+    allow( Releaf.application.config).to receive(:content).and_return(Releaf::Content::Configuration.new(
+      resources: { 'Node' => { controller: 'Releaf::Content::NodesController' } }
+    ))
 
     # preserve default config because it will be needed in after block
     @default_menu_config = Releaf.application.config.menu.dup
@@ -24,8 +24,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         item.dup
       end
     end
-    allow( Releaf.application.config ).to receive(:menu).and_return( stubbed_menu_config )
-    Releaf.application.config.initialize_controllers
+    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Core::Configuration.normalize_controllers(stubbed_menu_config) )
+    # reset cached values
+    Releaf.application.config.instance_variable_set(:@controllers, nil)
+    Releaf.application.config.instance_variable_set(:@available_controllers, nil)
 
     Dummy::Application.reload_routes!
   end
@@ -37,19 +39,18 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
     # stub node config and admin menu to use two node classes with separate controllers
 
-    multiple_node_resources_config = {
-      'Node' => {
-        controller: 'Releaf::Content::NodesController',
-        routing: { site: "main_site", constraints: { host: Regexp.new( "^" + Regexp.escape("releaf.127.0.0.1.xip.io") + "$" ) } }
-      },
-      'OtherSite::OtherNode' => {
-       controller: 'Admin::OtherSite::OtherNodesController',
-       routing: { site: "other_site", constraints: { host: Regexp.new( "^" + Regexp.escape("other.releaf.127.0.0.1.xip.io") + "$" ) } }
+    allow( Releaf.application.config).to receive(:content).and_return(Releaf::Content::Configuration.new(
+      resources: {
+        'Node' => {
+          controller: 'Releaf::Content::NodesController',
+          routing: { site: "main_site", constraints: { host: Regexp.new( "^" + Regexp.escape("releaf.127.0.0.1.xip.io") + "$" ) } }
+        },
+        'OtherSite::OtherNode' => {
+         controller: 'Admin::OtherSite::OtherNodesController',
+         routing: { site: "other_site", constraints: { host: Regexp.new( "^" + Regexp.escape("other.releaf.127.0.0.1.xip.io") + "$" ) } }
+        }
       }
-    }
-
-    Releaf::Content.reset_configuration
-    allow( Releaf.application.config ).to receive(:content_resources).and_return( multiple_node_resources_config )
+    ))
 
     # preserve default config because it will be needed in after block
     @default_menu_config = Releaf.application.config.menu.dup
@@ -63,8 +64,10 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     content_index = stubbed_menu_config.index( { :controller => 'releaf/content/nodes' } )
     stubbed_menu_config.insert( content_index + 1,  { :controller => 'admin/other_site/other_nodes' } )
 
-    allow( Releaf.application.config ).to receive(:menu).and_return( stubbed_menu_config )
-    Releaf.application.config.initialize_controllers
+    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Core::Configuration.normalize_controllers(stubbed_menu_config) )
+    # reset cached values
+    Releaf.application.config.instance_variable_set(:@controllers, nil)
+    Releaf.application.config.instance_variable_set(:@available_controllers, nil)
 
     Dummy::Application.reload_routes!
   end
@@ -111,17 +114,18 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
   after do |example|
 
     if example.metadata[:with_releaf_node_controller].present? || example.metadata[:with_multiple_node_classes].present?
-      Releaf::Content.reset_configuration
-      allow( Releaf.application.config ).to receive(:content_resources).and_call_original
+      allow( Releaf.application.config ).to receive(:content).and_call_original
       allow( Releaf.application.config ).to receive(:menu).and_return(@default_menu_config)
-      Releaf.application.config.initialize_controllers
+
+      # reset cached values
+      Releaf.application.config.instance_variable_set(:@controllers, nil)
+      Releaf.application.config.instance_variable_set(:@available_controllers, nil)
       Dummy::Application.reload_routes!
     end
 
   end
 
   after(:all) do
-    Releaf::Content.reset_configuration
     Dummy::Application.reload_routes!
   end
 

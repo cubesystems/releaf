@@ -1,29 +1,30 @@
 module Releaf::Content
   class Configuration
+    include Virtus.model(strict: true)
+    attribute :resources, Hash
 
-    def resources
-      @resources ||= verify_config( Releaf.application.config.content_resources )
+    def resources=(value)
+      verify_resources_config(value)
+      super
     end
 
-    def verify_config resource_config
+    def verify_resources_config(resource_config)
       # perform some basic config structure validation
       unless resource_config.is_a? Hash
-        raise Releaf::Core::Error, "Releaf.application.config.content_resources must be a Hash"
+        raise Releaf::Core::Error, "Releaf.application.config.content.resources must be a Hash"
       end
 
       resource_config.each do | key, values |
         unless key.is_a? String
-          raise Releaf::Core::Error, "Releaf.application.config.content_resources must have string keys"
+          raise Releaf::Core::Error, "Releaf.application.config.content.resources must have string keys"
         end
         unless values.is_a? Hash
-          raise Releaf::Core::Error, "#{key} in Releaf.application.config.content_resources must have a hash value"
+          raise Releaf::Core::Error, "#{key} in Releaf.application.config.content.resources must have a hash value"
         end
         unless values[:controller].is_a? String
-          raise Releaf::Core::Error, "#{key} in Releaf.application.config.content_resources must have controller class specified as a string"
+          raise Releaf::Core::Error, "#{key} in Releaf.application.config.content.resources must have controller class specified as a string"
         end
       end
-
-      resource_config
     end
 
     def models

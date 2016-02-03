@@ -1,32 +1,29 @@
-require 'releaf/permissions/engine'
+require 'devise'
 
 module Releaf::Permissions
-  extend ActiveSupport::Concern
+  require 'releaf/permissions/engine'
+  require 'releaf/permissions/default_controller_resolver'
+  require 'releaf/permissions/settings_manager'
+  require 'releaf/permissions/configuration'
+  require 'releaf/permissions/layout'
+  require 'releaf/permissions/access_control'
+  require 'releaf/permissions/controller_support'
+  require 'releaf/permissions/profile'
+  require 'releaf/permissions/roles'
+  require 'releaf/permissions/users'
+  require 'releaf/permissions/builders_autoload'
 
-  included do
-    before_filter :authenticate!, :verify_controller_access!, :set_locale
-  end
-
-  # set locale for interface translating from current admin user
-  def set_locale
-    I18n.locale = access_control.user.locale
-  end
-
-  def layout_settings(key)
-    access_control.user.try(:settings).try(:[], key)
-  end
-
-  def authenticate!
-    access_control.authenticate!
-  end
-
-  def verify_controller_access!
-    unless access_control.controller_permitted?(access_control.current_controller_name)
-      raise Releaf::Core::AccessDenied.new(access_control.current_controller_name)
-    end
-  end
-
-  def access_control
-    @access_control ||= Releaf::Permissions::AccessControl.new(controller: self)
+  def self.components
+    [
+      Releaf::Permissions::DefaultControllerResolver,
+      Releaf::Permissions::SettingsManager,
+      Releaf::Permissions::Configuration,
+      Releaf::Permissions::Layout,
+      Releaf::Permissions::AccessControl,
+      Releaf::Permissions::Roles,
+      Releaf::Permissions::Users,
+      Releaf::Permissions::Profile
+    ]
   end
 end
+

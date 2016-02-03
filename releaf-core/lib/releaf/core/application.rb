@@ -5,7 +5,8 @@ module Releaf::Core
     def configure(&block)
       self.config = Releaf::Core::Configuration.new
       instance_eval(&block)
-      config.configure
+      config.initialize_locales
+      config.initialize_components
     end
 
     def render_layout(template, &block)

@@ -42,7 +42,7 @@ class Releaf::Core::SettingsController < ::Releaf::BaseController
 
   def setup
     super
-    @features = {
+    self.features = {
       edit: true,
       index: true,
     }
