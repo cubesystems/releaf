@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Responders::AccessDeniedResponder, type: :controller do
+describe Releaf::Responders::AccessDeniedResponder, type: :controller do
   controller{}
   subject{ described_class.new(controller, []) }
 

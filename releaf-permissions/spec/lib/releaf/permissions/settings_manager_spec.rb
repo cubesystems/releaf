@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::Permissions::SettingsManager do
-  let(:controller){ Releaf::Core::RootController.new }
+  let(:controller){ Releaf::RootController.new }
   let(:user){ Releaf::Permissions::User.new }
 
   before do

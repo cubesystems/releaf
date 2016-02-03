@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Settings::TableBuilder, type: :class do
+describe Releaf::Settings::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end
   let(:template){ TableBuilderTestHelper.new }
   let(:resource_class){ Releaf::Settings }

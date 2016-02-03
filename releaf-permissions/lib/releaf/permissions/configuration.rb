@@ -18,7 +18,7 @@ module Releaf::Permissions
         new(
           devise_for: "releaf/permissions/user",
           access_control: Releaf::Permissions::AccessControl,
-          permanent_allowed_controllers: ['releaf/core/root', 'releaf/core/errors']
+          permanent_allowed_controllers: ['releaf/root', 'releaf/errors']
         )
       )
     end

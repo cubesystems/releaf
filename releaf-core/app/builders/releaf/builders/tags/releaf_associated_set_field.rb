@@ -1,4 +1,4 @@
-module Releaf::Tags
+module Releaf::Builders::Tags
   module AssociatedSetField
     def releaf_associated_set_field(name, input: {}, label: {}, field: {}, options: {}, &block)
       options = {field: {type: "associated-set"}}.deep_merge(options)

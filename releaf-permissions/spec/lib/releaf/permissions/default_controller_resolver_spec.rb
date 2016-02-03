@@ -1,10 +1,10 @@
 require "rails_helper"
 
 describe Releaf::Permissions::DefaultControllerResolver do
-  subject{ described_class.new(current_controller: Releaf::Core::RootController.new) }
+  subject{ described_class.new(current_controller: Releaf::RootController.new) }
 
-  it "inherit `Releaf::Core::Root::DefaultControllerResolver`" do
-    expect(described_class.ancestors.include?(Releaf::Core::Root::DefaultControllerResolver)).to be true
+  it "inherit `Releaf::Root::DefaultControllerResolver`" do
+    expect(described_class.ancestors.include?(Releaf::Root::DefaultControllerResolver)).to be true
   end
 
   describe ".configure_component" do

@@ -1,13 +1,13 @@
 require "rails_helper"
 
-describe Releaf::Core::Responders::AfterSaveResponder, type: :controller do
+describe Releaf::Responders::AfterSaveResponder, type: :controller do
   let(:controller){ Releaf::BaseController.new }
   let(:resource){ Book.new}
   subject{ described_class.new(controller, [resource]) }
 
   describe "#json_resource_errors" do
     it "returns resource errors formatted with `Releaf::Releaf::ErrorFormatter`" do
-      allow(Releaf::Core::ErrorFormatter).to receive(:format_errors).with(resource).and_return(a: "b")
+      allow(Releaf::ErrorFormatter).to receive(:format_errors).with(resource).and_return(a: "b")
       expect(subject.json_resource_errors).to eq(errors: {a: "b"})
     end
   end

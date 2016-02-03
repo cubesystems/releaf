@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Releaf::Core::RootController do
+describe Releaf::RootController do
   login_as_user :user
 
   describe "GET home" do

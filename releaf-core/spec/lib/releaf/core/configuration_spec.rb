@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Configuration do
+describe Releaf::Configuration do
   class DummyComponentA
     def self.configure_component; end
   end
@@ -40,8 +40,8 @@ describe Releaf::Core::Configuration do
 
   describe "#add_configuration" do
     it "creates configuration class accessor for given configuration instance, and assigns given instance to it" do
-      class Releaf::Core::Configuration::DummySampleConfiguration; end
-      configuration = Releaf::Core::Configuration::DummySampleConfiguration.new
+      class Releaf::Configuration::DummySampleConfiguration; end
+      configuration = Releaf::Configuration::DummySampleConfiguration.new
 
       expect(subject.respond_to?(:dummy_sample)).to be false
       subject.add_configuration(configuration)

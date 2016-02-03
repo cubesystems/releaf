@@ -1,6 +1,6 @@
-shared_examples "an Releaf::Core::Service includer" do
+shared_examples "an Releaf::Service includer" do
   it "includes InternalUpdate module" do
-    expect(described_class.included_modules).to include Releaf::Core::Service
+    expect(described_class.included_modules).to include Releaf::Service
   end
 
   it "has instance #call method" do

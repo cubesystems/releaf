@@ -54,8 +54,8 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
   end
 
   describe "#assets_resolver" do
-    it "returns `Releaf::Core::AssetsResolver` class" do
-      expect(subject.assets_resolver).to eq(Releaf::Core::AssetsResolver)
+    it "returns `Releaf::AssetsResolver` class" do
+      expect(subject.assets_resolver).to eq(Releaf::AssetsResolver)
     end
   end
 
@@ -127,7 +127,7 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
 
   describe "#settings_path" do
     it "returns root controller settings path" do
-      allow(subject).to receive(:url_for).with(action: "store_settings", controller: "releaf/core/root", only_path: true)
+      allow(subject).to receive(:url_for).with(action: "store_settings", controller: "/releaf/root", only_path: true)
         .and_return("asdasdasd")
       expect(subject.settings_path).to eq("asdasdasd")
     end

@@ -1,5 +1,5 @@
 module Releaf::Permissions::Users
-  extend Releaf::Core::Component
+  extend Releaf::Component
 
   def self.configure_component
     Releaf.application.config.permissions.devise_for = 'releaf/permissions/user'

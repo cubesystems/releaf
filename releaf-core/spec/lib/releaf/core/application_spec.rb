@@ -1,10 +1,10 @@
 require "rails_helper"
 
-describe Releaf::Core::Application do
+describe Releaf::Application do
   describe "#configure" do
     it "assigns new configuration instance, evaluate block, initialize locales and components" do
-      configuration = Releaf::Core::Configuration.new
-      allow(Releaf::Core::Configuration).to receive(:new).and_return(configuration)
+      configuration = Releaf::Configuration.new
+      allow(Releaf::Configuration).to receive(:new).and_return(configuration)
 
       expect(subject).to receive(:config=).with(configuration).and_call_original.ordered
       expect(configuration).to receive(:menu=).with("x").ordered
@@ -25,7 +25,7 @@ describe Releaf::Core::Application do
         end
       end
 
-      subject.config = Releaf::Core::Configuration.new
+      subject.config = Releaf::Configuration.new
       allow(subject.config).to receive(:layout_builder_class_name).and_return("DummyBuilder")
       builder = DummyBuilder.new("xx")
       allow(DummyBuilder).to receive(:new).with("tmpl").and_return(builder)

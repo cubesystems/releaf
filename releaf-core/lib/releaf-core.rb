@@ -15,28 +15,28 @@ require 'globalize-accessors'
 
 module Releaf
   module Core
-    require 'releaf/core/engine'
-    require 'releaf/core/service'
-    require 'releaf/core/component'
-    require 'releaf/core/settings_ui'
-    require 'releaf/core/route_mapper'
-    require 'releaf/core/builders_autoload'
-    require 'releaf/core/configuration'
-    require 'releaf/core/root'
-    require 'releaf/core/root/configuration'
-    require 'releaf/core/root/default_controller_resolver'
-    require 'releaf/core/root/settings_manager'
-    require 'releaf/core/application'
-    require 'releaf/core/route_mapper'
-    require 'releaf/core/exceptions'
-    require 'releaf/core/validation_error_codes'
+    require 'releaf/engine'
+    require 'releaf/service'
+    require 'releaf/component'
+    require 'releaf/settings_ui'
+    require 'releaf/route_mapper'
+    require 'releaf/builders_autoload'
+    require 'releaf/configuration'
+    require 'releaf/root'
+    require 'releaf/root/configuration'
+    require 'releaf/root/default_controller_resolver'
+    require 'releaf/root/settings_manager'
+    require 'releaf/application'
+    require 'releaf/route_mapper'
+    require 'releaf/exceptions'
+    require 'releaf/validation_error_codes'
 
     def self.components
-      [Releaf::Core::SettingsUI, Releaf::Core::Root]
+      [Releaf::SettingsUI, Releaf::Root]
     end
   end
 
   def self.application
-    @@application ||= Releaf::Core::Application.new
+    @@application ||= Releaf::Application.new
   end
 end

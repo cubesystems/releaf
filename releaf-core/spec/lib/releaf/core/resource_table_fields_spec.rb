@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::ResourceTableFields do
+describe Releaf::ResourceTableFields do
   subject{ described_class.new(Book) }
 
   describe "#excluded_attributes" do

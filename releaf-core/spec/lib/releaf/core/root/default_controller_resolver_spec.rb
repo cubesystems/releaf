@@ -1,8 +1,8 @@
 require "rails_helper"
 
-describe Releaf::Core::Root::DefaultControllerResolver do
-  subject{ described_class.new(current_controller: Releaf::Core::RootController.new) }
-  it_behaves_like "an Releaf::Core::Service includer"
+describe Releaf::Root::DefaultControllerResolver do
+  subject{ described_class.new(current_controller: Releaf::RootController.new) }
+  it_behaves_like "an Releaf::Service includer"
 
   describe "#call" do
     it "iterates through each controllers and return first matching index path" do

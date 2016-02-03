@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::ResourceBase do
+describe Releaf::ResourceBase do
   subject{ described_class.new(Book) }
 
   describe "#initialize" do

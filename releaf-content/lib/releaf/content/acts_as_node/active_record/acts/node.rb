@@ -22,7 +22,7 @@ module ActiveRecord
 
         def acts_as_node_params
           if acts_as_node_configuration[:params].nil?
-            Releaf::Core::ResourceParams.new(self).values << :id
+            Releaf::ResourceParams.new(self).values << :id
           else
             acts_as_node_configuration[:params] << :id
           end
@@ -33,7 +33,7 @@ module ActiveRecord
         # @return [Array] list of fields to display
         def acts_as_node_fields
           if acts_as_node_configuration[:fields].nil?
-            Releaf::Core::ResourceFields.new(self).values
+            Releaf::ResourceFields.new(self).values
           else
             acts_as_node_configuration[:fields]
           end

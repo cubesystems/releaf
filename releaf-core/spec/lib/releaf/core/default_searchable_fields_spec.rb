@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::DefaultSearchableFields do
+describe Releaf::DefaultSearchableFields do
   # emulate klass::Translations
   with_model :SearchableObjectTranslations, scope: :all do
     table do |t|

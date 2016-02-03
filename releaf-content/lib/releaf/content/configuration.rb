@@ -11,18 +11,18 @@ module Releaf::Content
     def verify_resources_config(resource_config)
       # perform some basic config structure validation
       unless resource_config.is_a? Hash
-        raise Releaf::Core::Error, "Releaf.application.config.content.resources must be a Hash"
+        raise Releaf::Error, "Releaf.application.config.content.resources must be a Hash"
       end
 
       resource_config.each do | key, values |
         unless key.is_a? String
-          raise Releaf::Core::Error, "Releaf.application.config.content.resources must have string keys"
+          raise Releaf::Error, "Releaf.application.config.content.resources must have string keys"
         end
         unless values.is_a? Hash
-          raise Releaf::Core::Error, "#{key} in Releaf.application.config.content.resources must have a hash value"
+          raise Releaf::Error, "#{key} in Releaf.application.config.content.resources must have a hash value"
         end
         unless values[:controller].is_a? String
-          raise Releaf::Core::Error, "#{key} in Releaf.application.config.content.resources must have controller class specified as a string"
+          raise Releaf::Error, "#{key} in Releaf.application.config.content.resources must have controller class specified as a string"
         end
       end
     end

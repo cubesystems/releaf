@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Core::Search do
+describe Releaf::Search do
 
   describe "searching in models attributes" do
     with_model :Tester, scope: :all do

@@ -16,35 +16,35 @@ describe Releaf::Content::Configuration do
     context "when config is not a hash" do
       it "raises an error" do
         config = :foo
-        expect{  subject.verify_resources_config(config) }.to raise_error Releaf::Core::Error, "Releaf.application.config.content.resources must be a Hash"
+        expect{  subject.verify_resources_config(config) }.to raise_error Releaf::Error, "Releaf.application.config.content.resources must be a Hash"
       end
     end
 
     context "when any of the hash keys are not strings" do
       it "raises an error" do
         config = {Node => { controller: 'Releaf::Content::NodesController', foo: "wat"}}
-        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Core::Error, "Releaf.application.config.content.resources must have string keys"
+        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Error, "Releaf.application.config.content.resources must have string keys"
       end
     end
 
     context "when any of the entries does not have a hash as a value" do
       it "raises an error" do
         config = {'Node' => :foo}
-        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Core::Error, "Node in Releaf.application.config.content.resources must have a hash value"
+        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Error, "Node in Releaf.application.config.content.resources must have a hash value"
       end
     end
 
     context "when any of the entries does not have controller class name set" do
       it "raises an error" do
         config = {'Node' => { foo: "wat" }}
-        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Core::Error, "Node in Releaf.application.config.content.resources must have controller class specified as a string"
+        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Error, "Node in Releaf.application.config.content.resources must have controller class specified as a string"
       end
     end
 
     context "when any of the entries does not have a string for the controller class name" do
       it "raises an error" do
         config = {'Node' => { controller: Releaf::Content::NodesController, foo: "wat" }}
-        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Core::Error, "Node in Releaf.application.config.content.resources must have controller class specified as a string"
+        expect{ subject.verify_resources_config(config) }.to raise_error Releaf::Error, "Node in Releaf.application.config.content.resources must have controller class specified as a string"
       end
     end
   end

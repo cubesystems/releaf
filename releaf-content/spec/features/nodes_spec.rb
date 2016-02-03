@@ -24,7 +24,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
         item.dup
       end
     end
-    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Core::Configuration.normalize_controllers(stubbed_menu_config) )
+    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Configuration.normalize_controllers(stubbed_menu_config) )
     # reset cached values
     Releaf.application.config.instance_variable_set(:@controllers, nil)
     Releaf.application.config.instance_variable_set(:@available_controllers, nil)
@@ -64,7 +64,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     content_index = stubbed_menu_config.index( { :controller => 'releaf/content/nodes' } )
     stubbed_menu_config.insert( content_index + 1,  { :controller => 'admin/other_site/other_nodes' } )
 
-    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Core::Configuration.normalize_controllers(stubbed_menu_config) )
+    allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Configuration.normalize_controllers(stubbed_menu_config) )
     # reset cached values
     Releaf.application.config.instance_variable_set(:@controllers, nil)
     Releaf.application.config.instance_variable_set(:@available_controllers, nil)

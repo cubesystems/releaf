@@ -1,8 +1,8 @@
 require "rails_helper"
 
-describe Releaf::Core::Service do
+describe Releaf::Service do
   class DummyServiceIncluder
-    include Releaf::Core::Service
+    include Releaf::Service
     attribute :some, String
     attribute :thing, String
 
