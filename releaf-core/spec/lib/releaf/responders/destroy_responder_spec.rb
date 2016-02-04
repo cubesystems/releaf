@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::Responders::DestroyResponder, type: :controller do
-  let(:controller){ Releaf::BaseController.new }
+  let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new}
   subject{ described_class.new(controller, [resource]) }
 

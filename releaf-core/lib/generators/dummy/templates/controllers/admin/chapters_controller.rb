@@ -1,3 +1,3 @@
-class Admin::ChaptersController < Releaf::BaseController
+class Admin::ChaptersController < Releaf::ActionController
 end
 

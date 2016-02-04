@@ -1,5 +1,35 @@
 ## Changelog
 
+### 2016.02.05
+* Releaf::ActionController `setup` has been removed in favour of `features` and `resources_per_page` methods.
+* Releaf::ActionController `features` must return array with allowed features instead of Hash with
+  true/false values.
+```
+def setup
+  super
+  self.features = {
+    edit: true,
+    index: true,
+  }
+  self.resources_per_page = 15
+end
+```
+can be rewritted as:
+```
+def features
+  [:index, :edit]
+end
+
+def resources_per_page
+  15
+end
+  ```
+* `Releaf::BaseController` renamed to `Releaf::ActionController`. Update
+  all your code with:
+```
+perl -p -i -e 's/Releaf::BaseController/Releaf::ActionController/g' `grep -ril "Releaf::ActionController" *`
+```
+
 ### 2016.02.04
 * All `Releaf::Core::` namespaces replaced with `Releaf::` except Releaf::Core component.
   To update site, you need to:

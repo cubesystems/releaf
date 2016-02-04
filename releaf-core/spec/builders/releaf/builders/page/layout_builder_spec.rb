@@ -120,8 +120,8 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
 
   describe "#controller_body_classes" do
     it "returns normalized html classes from controller classes" do
-      allow(subject).to receive(:controller_classes).and_return([Releaf::BaseController, Releaf::Permissions::RolesController])
-      expect(subject.controller_body_classes).to eq(["controller-releaf-base", "controller-releaf-permissions-roles"])
+      allow(subject).to receive(:controller_classes).and_return([Releaf::ActionController, Releaf::Permissions::RolesController])
+      expect(subject.controller_body_classes).to eq(["controller-releaf-action", "controller-releaf-permissions-roles"])
     end
   end
 

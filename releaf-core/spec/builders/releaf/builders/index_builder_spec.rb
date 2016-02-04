@@ -6,11 +6,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     delegate :resource_class, :table_options, to: :controller
 
     def controller
-      @controller ||= begin
-                        c = Admin::BooksController.new
-                        c.setup
-                        c
-                      end
+      @controller ||= Admin::BooksController.new
     end
   end
 

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe Releaf::BaseController do
+describe Releaf::ActionController do
   let(:new_resource){ Author.new }
   let(:resource){ create(:author) }
   let(:subject){ DummyController.new }
 
   module DummyControllerModule; end;
 
-  class DummyController < Releaf::BaseController
+  class DummyController < Releaf::ActionController
     include DummyControllerModule
     def resource_class
       Author
@@ -30,10 +30,6 @@ describe Releaf::BaseController do
   end
 
   describe "#action_features" do
-    before do
-      subject.setup
-    end
-
     it "returns action > feature mapped hash" do
       expect(subject.action_features).to eq({
         index: :index,
@@ -147,16 +143,16 @@ describe Releaf::BaseController do
 
   describe "#builder_scopes" do
 
-    context "when controller is a direct child of Releaf::BaseController" do
+    context "when controller is a direct child of Releaf::ActionController" do
       it "returns an array with own and application builder scopes" do
         allow(subject).to receive(:application_builder_scope).and_return("xxx")
         expect(subject.builder_scopes).to eq(["Dummy", "xxx"])
       end
     end
 
-    context "when controller is a deeper descendant of Releaf::BaseController" do
+    context "when controller is a deeper descendant of Releaf::ActionController" do
       let(:subject) { Dummy::GrandChildDummyController.new }
-      it "includes ancestor scopes up to but not including Releaf::BaseController" do
+      it "includes ancestor scopes up to but not including Releaf::ActionController" do
         allow(subject).to receive(:application_builder_scope).and_return("xxx")
         expect(subject.class).to receive(:ancestor_controllers).and_call_original
         expect(subject.builder_scopes).to eq(["Dummy::GrandChildDummy", "Dummy::ChildDummy", "Dummy", "xxx"])
@@ -173,7 +169,7 @@ describe Releaf::BaseController do
 
   describe ".ancestor_controllers" do
 
-    it "return all ancestor controllers up to but not including Releaf::BaseController" do
+    it "return all ancestor controllers up to but not including Releaf::ActionController" do
       expect(DummyController.ancestor_controllers).to eq []
       expect(Dummy::GrandChildDummyController.ancestor_controllers).to eq([Dummy::ChildDummyController, DummyController])
     end
@@ -253,7 +249,7 @@ describe Releaf::BaseController do
   end
 end
 
-# use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::BaseController and
+# use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::ActionController and
 # have no extra methods or overrides
 describe Admin::AuthorsController do
   before do
@@ -501,32 +497,29 @@ describe Admin::BooksController do
 
   describe "#feature_available?" do
     it "returns whether feature is defined within features variable" do
-      allow(subject).to receive(:features).and_return(edit: true)
+      allow(subject).to receive(:features).and_return([:edit])
       expect(subject.feature_available?(:create)).to be false
 
-      allow(subject).to receive(:features).and_return(create: false, edit: true)
-      expect(subject.feature_available?(:create)).to be false
-
-      allow(subject).to receive(:features).and_return(create: true, edit: true)
+      allow(subject).to receive(:features).and_return([:edit, :create])
       expect(subject.feature_available?(:create)).to be true
     end
 
     context "when `create_another` feature requested" do
       it "also checks whether `create` feature is enabled" do
+        allow(subject).to receive(:feature_available?).with(:create_another).and_call_original
         allow(subject).to receive(:feature_available?).with(:create).and_return(false)
-        allow(subject).to receive(:feature_available?).and_call_original
-        allow(subject).to receive(:features).and_return(edit: true)
-        subject.instance_variable_set(:@features, edit: true)
+
+        allow(subject).to receive(:features).and_return([:edit])
         expect(subject.feature_available?(:create_another)).to be false
 
-        allow(subject).to receive(:features).and_return(create_another: false, edit: true)
-        expect(subject.feature_available?(:create_another)).to be false
-
-        allow(subject).to receive(:features).and_return(create_another: true, edit: true)
+        allow(subject).to receive(:features).and_return([:edit, :create_another])
         expect(subject.feature_available?(:create_another)).to be false
 
         allow(subject).to receive(:feature_available?).with(:create).and_return(true)
         expect(subject.feature_available?(:create_another)).to be true
+
+        allow(subject).to receive(:features).and_return([:edit])
+        expect(subject.feature_available?(:create_another)).to be false
       end
     end
   end

@@ -1,3 +1,3 @@
-class Admin::PublishersController < Releaf::BaseController
+class Admin::PublishersController < Releaf::ActionController
 end
 

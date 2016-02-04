@@ -3,7 +3,7 @@ require "rails_helper"
 describe Releaf::Permissions::ControllerSupport do
   let(:user){ Releaf::Permissions::User.new(locale: "de") }
 
-  class AcessControllDummyController < Releaf::BaseController
+  class AcessControllDummyController < Releaf::ActionController
     include Releaf::Permissions::ControllerSupport
   end
 
