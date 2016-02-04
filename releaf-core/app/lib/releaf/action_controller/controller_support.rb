@@ -11,15 +11,16 @@ module Releaf::ActionController::ControllerSupport
     include Releaf::ActionController::Urls
     include Releaf::ActionController::Breadcrumbs
     include Releaf::ActionController::RichtextAttachments
+    include Releaf::ActionController::Views
     include Releaf::Responders
 
-    helper_method :controller_scope_name, :active_view, :page_title
-      rescue_from Releaf::AccessDenied, with: :access_denied
+    helper_method :controller_scope_name, :page_title
+    rescue_from Releaf::AccessDenied, with: :access_denied
 
-      respond_to :html
-      respond_to :json, only: [:create, :update]
-      protect_from_forgery
-      layout :layout
+    respond_to :html
+    respond_to :json, only: [:create, :update]
+    protect_from_forgery
+    layout :layout
 
     def short_name
       self.class.name.gsub("Controller", "").underscore
@@ -29,11 +30,6 @@ module Releaf::ActionController::ControllerSupport
   # Returns true if @collection is assigned (even if it's nil)
   def collection_given?
     !!defined? @collection
-  end
-
-  # Returns notice scope name
-  def notice_scope_name
-    'notices.' + controller_scope_name
   end
 
   def required_params
@@ -46,28 +42,6 @@ module Releaf::ActionController::ControllerSupport
 
   def access_denied
     respond_with(nil, responder: action_responder(:access_denied))
-  end
-
-  # Returns action > view translation hash
-  # @return Hash
-  def action_views
-    {
-      new: :edit,
-      update: :edit,
-      create: :edit,
-    }
-  end
-
-  # Returns generic view name for given action
-  # @return String
-  def action_view(_action_name)
-    action_views[_action_name.to_sym] || _action_name
-  end
-
-  # Returns generic view name for current action
-  # @return String
-  def active_view
-    action_view(action_name)
   end
 
   # Check if @resource has existing restrict relation and it can be deleted

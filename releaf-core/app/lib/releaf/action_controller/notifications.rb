@@ -20,4 +20,9 @@ module Releaf::ActionController::Notifications
       flash_target["error"] = { "id" => "resource_status", "message" => I18n.t(failure_message_key, scope: notice_scope_name) }
     end
   end
+
+  # Returns notice scope name
+  def notice_scope_name
+    'notices.' + controller_scope_name
+  end
 end
