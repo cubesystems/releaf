@@ -1,6 +1,6 @@
 class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::Builders::Base
-  include Releaf::Tags::AssociatedSetField
+  include Releaf::Builders::Tags::AssociatedSetField
   include Releaf::Builders::Orderer
   attr_accessor :template
 
@@ -9,7 +9,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def resource_fields
-    Releaf::Core::ResourceFields.new(object.class)
+    Releaf::ResourceFields.new(object.class)
   end
 
   def field_render_method_name(name)
@@ -179,8 +179,8 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_type_method(name)
-    type = Releaf::Core::TemplateFieldTypeMapper.field_type_name(object, name)
-    localization = Releaf::Core::TemplateFieldTypeMapper.use_i18n?(object, name)
+    type = Releaf::TemplateFieldTypeMapper.field_type_name(object, name)
+    localization = Releaf::TemplateFieldTypeMapper.use_i18n?(object, name)
 
     "releaf_#{type}_#{'i18n_' if localization}field"
   end

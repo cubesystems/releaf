@@ -145,8 +145,8 @@ describe Releaf::Content do
       end
 
       it "does not draw #show route" do
-        expect(get: "/admin/nodes/1").to route_to("releaf/core/errors#page_not_found", "path" => "nodes/1")
-        expect(get: "/admin/other_nodes/1").to route_to("releaf/core/errors#page_not_found", "path" => "other_nodes/1")
+        expect(get: "/admin/nodes/1").to route_to("releaf/errors#page_not_found", "path" => "nodes/1")
+        expect(get: "/admin/other_nodes/1").to route_to("releaf/errors#page_not_found", "path" => "other_nodes/1")
       end
 
     end

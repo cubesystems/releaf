@@ -37,13 +37,13 @@ describe ActsAsNode do
 
     context ".acts_as_node_params" do
       before do
-        allow_any_instance_of(Releaf::Core::ResourceParams).to receive(:values).and_return(["a", "b"])
+        allow_any_instance_of(Releaf::ResourceParams).to receive(:values).and_return(["a", "b"])
       end
 
       context "when `params` configuration is nil" do
         it "returns model params with `id` param" do
           allow(Book).to receive(:acts_as_node_configuration).and_return(params: nil)
-          expect(Releaf::Core::ResourceParams).to receive(:new).with(Book).and_call_original
+          expect(Releaf::ResourceParams).to receive(:new).with(Book).and_call_original
           expect(Book.acts_as_node_params).to eq(["a", "b", :id])
         end
       end
@@ -58,13 +58,13 @@ describe ActsAsNode do
 
     context ".acts_as_node_fields" do
       before do
-        allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:values).and_return(["a", "b"])
+        allow_any_instance_of(Releaf::ResourceFields).to receive(:values).and_return(["a", "b"])
       end
 
       context "when `fields` configuration is nil" do
         it "returns model fields" do
           allow(Book).to receive(:acts_as_node_configuration).and_return(fields: nil)
-          expect(Releaf::Core::ResourceFields).to receive(:new).with(Book).and_call_original
+          expect(Releaf::ResourceFields).to receive(:new).with(Book).and_call_original
           expect(Book.acts_as_node_fields).to eq(["a", "b"])
         end
       end

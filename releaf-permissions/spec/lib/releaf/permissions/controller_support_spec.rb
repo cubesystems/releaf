@@ -39,14 +39,14 @@ describe Releaf::Permissions::ControllerSupport do
     end
 
     context "when controller is not permitted" do
-      it "raises `Releaf::Core::AccessDenied exception`" do
+      it "raises `Releaf::AccessDenied exception`" do
         allow(access_control).to receive(:controller_permitted?).with("some_controller").and_return(false)
-        expect{ subject.verify_controller_access! }.to raise_error(Releaf::Core::AccessDenied)
+        expect{ subject.verify_controller_access! }.to raise_error(Releaf::AccessDenied)
       end
     end
 
     context "when controller is permitted" do
-      it "does not raise `Releaf::Core::AccessDenied exception`" do
+      it "does not raise `Releaf::AccessDenied exception`" do
         allow(access_control).to receive(:controller_permitted?).with("some_controller").and_return(true)
         expect{ subject.verify_controller_access! }.to_not raise_error
       end

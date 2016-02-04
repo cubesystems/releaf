@@ -107,8 +107,8 @@ module Releaf::Content
 
     def action_responders
       super.merge(
-        copy: Releaf::Core::Responders::AfterSaveResponder,
-        move: Releaf::Core::Responders::AfterSaveResponder
+        copy: Releaf::Responders::AfterSaveResponder,
+        move: Releaf::Responders::AfterSaveResponder
       )
     end
 

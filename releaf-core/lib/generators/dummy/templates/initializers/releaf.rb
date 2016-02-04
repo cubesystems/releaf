@@ -15,7 +15,7 @@ Releaf.application.configure do
       items: %w[releaf/permissions/users releaf/permissions/roles],
     },
     {
-      controller: "releaf/core/settings",
+      controller: "releaf/settings",
     },
     {
       controller: 'releaf/i18n_database/translations',

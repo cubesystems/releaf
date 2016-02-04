@@ -45,8 +45,8 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
   describe "#field_names" do
     it "returns field names for object class" do
-      allow(Releaf::Core::ResourceFields).to receive(:new).with(object.class).and_call_original
-      allow_any_instance_of(Releaf::Core::ResourceFields).to receive(:values).and_return(["a", "b"])
+      allow(Releaf::ResourceFields).to receive(:new).with(object.class).and_call_original
+      allow_any_instance_of(Releaf::ResourceFields).to receive(:values).and_return(["a", "b"])
       expect(subject.field_names).to eq(["a", "b"])
     end
   end
