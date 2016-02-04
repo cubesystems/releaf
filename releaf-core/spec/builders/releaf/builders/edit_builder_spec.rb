@@ -20,7 +20,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
 
   let(:template){ TranslationsEditBuilderTestHelper.new }
   let(:subject){ described_class.new(template) }
-  let(:controller){ Releaf::BaseController.new }
+  let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new }
 
   before do

@@ -25,7 +25,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   before do
     subject.resource = object
-    allow(subject.template).to receive(:controller).and_return(Releaf::BaseController.new)
+    allow(subject.template).to receive(:controller).and_return(Releaf::ActionController.new)
     allow(subject.controller).to receive(:index_url).and_return("y")
   end
 

@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2016.02.05
+* `Releaf::ActionController` renamed to `Releaf::ActionController`. Update
+  all your code with: ``perl -p -i -e 's/Releaf::ActionController/Releaf::ActionController/g' `grep -ril "Releaf::ActionController" *` ``
+
 ### 2016.02.04
 * All `Releaf::Core::` namespaces replaced with `Releaf::` except Releaf::Core component.
   To update site, you need to:

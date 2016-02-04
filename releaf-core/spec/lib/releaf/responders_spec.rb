@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::Responders, type: :controller do
-  subject{ Releaf::BaseController.new }
+  subject{ Releaf::ActionController.new }
 
   describe "#respond_with" do
     before do

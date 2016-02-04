@@ -35,9 +35,9 @@ module Releaf::ControllerSupport
     end
 
     def self.ancestor_controllers
-      # return all ancestor controllers up to but not including Releaf::BaseController
+      # return all ancestor controllers up to but not including Releaf::ActionController
       ancestor_classes = ancestors - included_modules
-      ancestor_classes.slice( 0...ancestor_classes.index(Releaf::BaseController) ) - [ self ]
+      ancestor_classes.slice( 0...ancestor_classes.index(Releaf::ActionController) ) - [ self ]
     end
 
     def self.ancestor_builder_scopes

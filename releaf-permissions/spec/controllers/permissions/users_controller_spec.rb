@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# use Admin::BooksController as it inherit Releaf::BaseController and
+# use Admin::BooksController as it inherit Releaf::ActionController and
 # have no extra methods or overrides
 describe Releaf::Permissions::UsersController do
   before do

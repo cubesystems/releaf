@@ -275,7 +275,7 @@ describe Releaf::Builders::Base, type: :module do
 
   describe "#default_translation_scope" do
     it "returns controller scope" do
-      controller = Releaf::BaseController.new
+      controller = Releaf::ActionController.new
       allow(subject).to receive(:controller).and_return(controller)
       allow(controller).to receive(:controller_scope_name).and_return("x")
       expect(subject.default_translation_scope).to eq("x")

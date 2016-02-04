@@ -1,5 +1,5 @@
 module Releaf
-  class BaseController < ActionController::Base
+  class ActionController < ActionController::Base
     include Releaf::ControllerSupport
 
     def index

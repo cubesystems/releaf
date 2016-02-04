@@ -12,7 +12,7 @@ describe Releaf::Builders::ResourceView, type: :class do
   let(:described_class){ ResourceViewIncluder }
   let(:template){ ResourceViewTestHelper.new }
   let(:subject){ described_class.new(template) }
-  let(:controller){ Releaf::BaseController.new }
+  let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new }
 
   before do

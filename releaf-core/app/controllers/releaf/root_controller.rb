@@ -1,4 +1,4 @@
-class Releaf::RootController < Releaf::BaseController
+class Releaf::RootController < Releaf::ActionController
   def home
     respond_to do |format|
       format.html do

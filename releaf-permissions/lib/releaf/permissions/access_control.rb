@@ -5,7 +5,7 @@ module Releaf::Permissions
 
     def self.initialize_component
       ActiveSupport.on_load :base_controller do
-        Releaf::BaseController.send(:include, Releaf::Permissions::ControllerSupport)
+        Releaf::ActionController.send(:include, Releaf::Permissions::ControllerSupport)
       end
     end
 

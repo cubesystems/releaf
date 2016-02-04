@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe Releaf::BaseController do
+describe Releaf::ActionController do
   let(:new_resource){ Author.new }
   let(:resource){ create(:author) }
   let(:subject){ DummyController.new }
 
   module DummyControllerModule; end;
 
-  class DummyController < Releaf::BaseController
+  class DummyController < Releaf::ActionController
     include DummyControllerModule
     def resource_class
       Author
@@ -147,16 +147,16 @@ describe Releaf::BaseController do
 
   describe "#builder_scopes" do
 
-    context "when controller is a direct child of Releaf::BaseController" do
+    context "when controller is a direct child of Releaf::ActionController" do
       it "returns an array with own and application builder scopes" do
         allow(subject).to receive(:application_builder_scope).and_return("xxx")
         expect(subject.builder_scopes).to eq(["Dummy", "xxx"])
       end
     end
 
-    context "when controller is a deeper descendant of Releaf::BaseController" do
+    context "when controller is a deeper descendant of Releaf::ActionController" do
       let(:subject) { Dummy::GrandChildDummyController.new }
-      it "includes ancestor scopes up to but not including Releaf::BaseController" do
+      it "includes ancestor scopes up to but not including Releaf::ActionController" do
         allow(subject).to receive(:application_builder_scope).and_return("xxx")
         expect(subject.class).to receive(:ancestor_controllers).and_call_original
         expect(subject.builder_scopes).to eq(["Dummy::GrandChildDummy", "Dummy::ChildDummy", "Dummy", "xxx"])
@@ -173,7 +173,7 @@ describe Releaf::BaseController do
 
   describe ".ancestor_controllers" do
 
-    it "return all ancestor controllers up to but not including Releaf::BaseController" do
+    it "return all ancestor controllers up to but not including Releaf::ActionController" do
       expect(DummyController.ancestor_controllers).to eq []
       expect(Dummy::GrandChildDummyController.ancestor_controllers).to eq([Dummy::ChildDummyController, DummyController])
     end
@@ -253,7 +253,7 @@ describe Releaf::BaseController do
   end
 end
 
-# use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::BaseController and
+# use Admin::BooksController / Admin::AuthorsController as it inherit Releaf::ActionController and
 # have no extra methods or overrides
 describe Admin::AuthorsController do
   before do

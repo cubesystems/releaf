@@ -32,7 +32,7 @@ describe Releaf::ApplicationHelper do
   describe "#i18n_options_for_select" do
     Color = Struct.new(:id, :to_s)
     let(:helper) do
-      helper = instance_double(Releaf::BaseController)
+      helper = instance_double(Releaf::ActionController)
       helper.extend Releaf::ApplicationHelper
       helper.extend ActionView::Helpers
 

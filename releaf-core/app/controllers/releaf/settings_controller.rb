@@ -1,4 +1,4 @@
-class Releaf::SettingsController < ::Releaf::BaseController
+class Releaf::SettingsController < Releaf::ActionController
 
   def self.resource_class
     ::Releaf::Settings
