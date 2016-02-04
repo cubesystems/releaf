@@ -27,7 +27,7 @@ end
 * `Releaf::BaseController` renamed to `Releaf::ActionController`. Update
   all your code with:
 ```
-perl -p -i -e 's/Releaf::ActionController/Releaf::ActionController/g' `grep -ril "Releaf::ActionController" *`
+perl -p -i -e 's/Releaf::BaseController/Releaf::ActionController/g' `grep -ril "Releaf::BaseController" *`
 ```
 
 ### 2016.02.04
