@@ -23,7 +23,7 @@ Creating a controller for it consists of the following steps:
 
 ## Create the controller {#controller}
 
-Create an empty controller class that inherits from `Releaf::BaseController`.
+Create an empty controller class that inherits from `Releaf::ActionController`.
 
 Create a new file at
 
@@ -34,7 +34,7 @@ app/controllers/admin/books_controller.rb
 with the following content:
 
 ```ruby
-class Admin::BooksController < Releaf::BaseController; end
+class Admin::BooksController < Releaf::ActionController; end
 ```
 
 The `Admin` namespace is just an example and is not required, but it might be a good idea to keep your administrative controllers in a separate namespace if your application also has a public website side that may have its own `BooksController` for displaying the books to non-administrators.
