@@ -15,7 +15,6 @@ config/initializers/releaf.rb
 * [Defining controllers and main menu items](#menu)
 * [Customizing used components](#components)
 * [Using a custom layout](#layout)
-* [Customizing node tree model and controller](#content)
 
 {% comment %} :TODO: write about config.devise_for {% endcomment %}
 
@@ -57,20 +56,25 @@ See the [Creating controllers](/documentation/creating-controllers.html) chapter
 
 ## Customizing used components {#components}
 
-By default, Releaf comes with all its components enabled:
+By default, Releaf comes with its four main components enabled:
 
 ```ruby
 config.components = [
+  Releaf::Core,
   Releaf::I18nDatabase,
   Releaf::Permissions,
-  Releaf::Content,
-  Releaf::Core::SettingsUI
+  Releaf::Content
 ]
 ```
 
-Any of these may be removed if not needed. When removing a component, make sure to also remove its related entries from `config.menu`.
+Any of these, except `Releaf::Core`, may be removed if not needed. When removing a component, make sure to also remove its related entries from `config.menu`.
+
+A component may have its own specific configuration keys. These are scoped under the respective component key, e.g. the `resources` configuration option of `Releaf::Content` component can be set via `config.content.resources` key.
+
+Component-specific configuration options are described in the Configuration chapters of each bundled component.
 
 {% comment %} :TODO: links to respective documentation sections for disabling each component {% endcomment %}
+{% comment %} :TODO: link to chapters about using optional components and writing new ones {% endcomment %}
 
 ## Using a custom layout {#layout}
 
@@ -81,19 +85,6 @@ config.layout_builder_class_name = "CustomLayoutBuilder"
 ```
 
 {% comment %} :TODO: link to documentation section about customizing layout {% endcomment %}
-
-
-## Customizing node tree model and controller {#content}
-
-When using the `Releaf::Content` component, the content tree node model and controller may be overridden via `config.content_resources` setting, e.g.:
-
-```ruby
-config.content_resources = {
-  'Node' => { controller: 'Admin::NodesController' }
-}
-```
-
-{% comment %} :TODO: link to documentation section about overriding node model and/or controller and setting up a multinode system {% endcomment %}
 
 
 

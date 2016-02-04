@@ -23,4 +23,6 @@ It consists of four main components:
   * [Public website tree structure administration](public-website-tree.html)
   * Dynamic page routes with user-editable slugs
 
+{% comment %} :TODO: mention other optional components like releaf-sidekiq and releaf-settings-ui {% endcomment %}
+
 See [Installation](installation.html) chapter for instructions on setting it up.
