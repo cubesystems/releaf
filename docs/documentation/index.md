@@ -11,7 +11,7 @@ It consists of four main components:
 
 * __Releaf core__
   * [Automatic CRUD views and actions](usage-basics.html)
-  * Full customization of [controllers](customizing-controllers.html) and [views](customizing-views.html) when defaults are not enough
+  * Full customization of [controllers](controllers.html) and [views](views.html) when defaults are not enough
 * __Permission system__ (optional)
   * User management and authentication
   * Role-based access control to admin controllers
