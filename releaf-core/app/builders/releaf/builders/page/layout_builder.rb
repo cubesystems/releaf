@@ -76,7 +76,7 @@ module Releaf::Builders::Page
 
     def controller_classes
       ancestors = controller.class.ancestors.grep(Class)
-      slice_index = ancestors.index(Releaf::BaseController) || (ancestors.index(controller.class) + 1)
+      slice_index = ancestors.index(Releaf::ActionController) || (ancestors.index(controller.class) + 1)
       ancestors[0, slice_index].reverse
     end
 

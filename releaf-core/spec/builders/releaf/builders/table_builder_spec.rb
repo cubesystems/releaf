@@ -236,7 +236,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#row_url" do
-    let(:controller){ Releaf::BaseController.new }
+    let(:controller){ Releaf::ActionController.new }
 
     before do
       allow(subject).to receive(:controller).and_return(controller)
@@ -258,7 +258,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#row_url_action" do
-    let(:controller){ Releaf::BaseController.new }
+    let(:controller){ Releaf::ActionController.new }
 
     before do
       allow(subject).to receive(:controller).and_return(controller)

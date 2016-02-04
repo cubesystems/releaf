@@ -42,7 +42,7 @@ describe Releaf::Builders::View, type: :class do
   end
 
   describe "#dialog?" do
-    let(:controller){ Releaf::BaseController.new }
+    let(:controller){ Releaf::ActionController.new }
 
     before do
       allow(template).to receive(:controller).and_return(controller)

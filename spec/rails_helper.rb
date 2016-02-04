@@ -94,6 +94,7 @@ RSpec.configure do |config|
   # disable empty translation creation
 
   config.before(:each) do |example|
+    Rails.cache.clear
     allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
 
     if example.metadata[:db_strategy]

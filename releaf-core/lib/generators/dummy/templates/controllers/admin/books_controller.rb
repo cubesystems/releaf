@@ -1,4 +1,4 @@
-class Admin::BooksController < Releaf::BaseController
+class Admin::BooksController < Releaf::ActionController
 
   def searchable_fields
     [:title, :genre, author: [:name] ]

@@ -1,4 +1,4 @@
-module Releaf::RichtextAttachments
+module Releaf::ActionController::RichtextAttachments
   extend ActiveSupport::Concern
 
   included do

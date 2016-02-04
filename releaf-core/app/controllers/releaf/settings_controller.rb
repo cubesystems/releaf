@@ -1,4 +1,4 @@
-class Releaf::SettingsController < ::Releaf::BaseController
+class Releaf::SettingsController < Releaf::ActionController
 
   def self.resource_class
     ::Releaf::Settings
@@ -40,11 +40,7 @@ class Releaf::SettingsController < ::Releaf::BaseController
     params[:resource][:value] = normalize_value(params[:resource][:value])
   end
 
-  def setup
-    super
-    self.features = {
-      edit: true,
-      index: true,
-    }
+  def features
+    [:index, :edit]
   end
 end

@@ -59,7 +59,7 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
     it "returns resource destroy confirmation url with index_url param" do
       subject.resource = Book.new(id: 99)
       allow(subject.template).to receive(:url_for).with(action: :confirm_destroy, id: 99, index_url: "y").and_return("x")
-      allow(subject.template).to receive(:controller).and_return(Releaf::BaseController.new)
+      allow(subject.template).to receive(:controller).and_return(Releaf::ActionController.new)
       allow(subject.controller).to receive(:index_url).and_return("y")
       expect(subject.destroy_confirmation_url).to eq("x")
     end

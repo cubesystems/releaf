@@ -5,7 +5,7 @@ describe Releaf::Builders::Page::MenuBuilder, type: :class do
     include FontAwesome::Rails::IconHelper
   end
 
-  let(:controller){ Releaf::BaseController.new }
+  let(:controller){ Releaf::ActionController.new }
   let(:template){ MenuBuilderTestHelper.new }
   subject { described_class.new(template) }
 
