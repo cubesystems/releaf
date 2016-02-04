@@ -76,11 +76,8 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
     @breadcrumbs << { name: I18n.t("import", scope: controller_scope_name) }
   end
 
-  def setup
-    super
-    self.features = {
-      index: true
-    }
+  def features
+    [:index]
   end
 
   def action_views

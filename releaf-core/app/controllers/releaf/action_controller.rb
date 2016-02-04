@@ -1,6 +1,6 @@
 module Releaf
   class ActionController < ActionController::Base
-    include Releaf::ControllerSupport
+    include Releaf::ActionController::ControllerSupport
 
     def index
       prepare_index

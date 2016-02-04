@@ -126,11 +126,6 @@ describe Releaf::Builders::EditBuilder, type: :class do
   end
 
   describe "#create_another_available?" do
-
-    before do
-      controller.setup
-    end
-
     context "when editing an existing record" do
       let(:resource){ FactoryGirl.create(:book) }
 

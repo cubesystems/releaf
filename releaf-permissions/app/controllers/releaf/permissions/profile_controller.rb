@@ -1,9 +1,15 @@
 class Releaf::Permissions::ProfileController < Releaf::ActionController
+  def load_resource
+    # assign current user
+    @resource = user.becomes(resource_class)
+  end
+
   def success_url
     url_for(action: :edit)
   end
 
   def update
+    load_resource
     old_password = @resource.password
     super
 
@@ -19,13 +25,8 @@ class Releaf::Permissions::ProfileController < Releaf::ActionController
 
   def controller_breadcrumb; end
 
-  def setup
-    self.features = {
-      edit: true,
-    }
-
-    # use already loaded admin user instance
-    @resource = user.becomes(resource_class)
+  def features
+    [:edit]
   end
 
   def permitted_params

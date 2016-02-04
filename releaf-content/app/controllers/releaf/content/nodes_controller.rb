@@ -1,9 +1,8 @@
 class Releaf::Content::NodesController < Releaf::ActionController
   respond_to :json, only: [:create, :update, :copy, :move]
 
-  def setup
-    super
-    features[:create_another] = false
+  def features
+    super - [:create_another]
   end
 
   def generate_url

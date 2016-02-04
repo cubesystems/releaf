@@ -30,10 +30,6 @@ describe Releaf::ActionController do
   end
 
   describe "#action_features" do
-    before do
-      subject.setup
-    end
-
     it "returns action > feature mapped hash" do
       expect(subject.action_features).to eq({
         index: :index,
@@ -501,32 +497,29 @@ describe Admin::BooksController do
 
   describe "#feature_available?" do
     it "returns whether feature is defined within features variable" do
-      allow(subject).to receive(:features).and_return(edit: true)
+      allow(subject).to receive(:features).and_return([:edit])
       expect(subject.feature_available?(:create)).to be false
 
-      allow(subject).to receive(:features).and_return(create: false, edit: true)
-      expect(subject.feature_available?(:create)).to be false
-
-      allow(subject).to receive(:features).and_return(create: true, edit: true)
+      allow(subject).to receive(:features).and_return([:edit, :create])
       expect(subject.feature_available?(:create)).to be true
     end
 
     context "when `create_another` feature requested" do
       it "also checks whether `create` feature is enabled" do
+        allow(subject).to receive(:feature_available?).with(:create_another).and_call_original
         allow(subject).to receive(:feature_available?).with(:create).and_return(false)
-        allow(subject).to receive(:feature_available?).and_call_original
-        allow(subject).to receive(:features).and_return(edit: true)
-        subject.instance_variable_set(:@features, edit: true)
+
+        allow(subject).to receive(:features).and_return([:edit])
         expect(subject.feature_available?(:create_another)).to be false
 
-        allow(subject).to receive(:features).and_return(create_another: false, edit: true)
-        expect(subject.feature_available?(:create_another)).to be false
-
-        allow(subject).to receive(:features).and_return(create_another: true, edit: true)
+        allow(subject).to receive(:features).and_return([:edit, :create_another])
         expect(subject.feature_available?(:create_another)).to be false
 
         allow(subject).to receive(:feature_available?).with(:create).and_return(true)
         expect(subject.feature_available?(:create_another)).to be true
+
+        allow(subject).to receive(:features).and_return([:edit])
+        expect(subject.feature_available?(:create_another)).to be false
       end
     end
   end
