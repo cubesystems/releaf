@@ -9,20 +9,15 @@ module Releaf::ActionController::Features
 
   def verify_feature_availability!
     feature = action_feature(params[:action])
-    raise Releaf::FeatureDisabled, feature.to_s if (feature.present? && !feature_available?(feature))
+    raise Releaf::FeatureDisabled, feature.to_s if feature.present? && !feature_available?(feature)
   end
 
-  def action_feature action
-    action_features[action]
+  def action_feature(action)
+    action_features[action.to_sym]
   end
 
-  # == Defines
-  # features::
-  #   Array with symbol keys. If one
-  #   of features is disabled, then routing to it will raise <tt>Releaf::FeatureDisabled</tt>
-  #   error
   def features
-    [:edit, :create, :create_another, :destroy, :index, :toolbox]
+    [:edit, :create, :create_another, :destroy, :index, :toolbox, :search]
   end
 
   def action_features
@@ -35,16 +30,18 @@ module Releaf::ActionController::Features
       update: :edit,
       confirm_destroy: :destroy,
       destroy: :destroy
-    }.with_indifferent_access
+    }
   end
 
-  def feature_disabled exception
+  def feature_disabled(exception)
     @feature = exception.message
     respond_with(nil, responder: action_responder(:feature_disabled))
   end
 
   def feature_available?(feature)
+    return false if feature.blank?
     return false if feature == :create_another && !feature_available?(:create)
+    return false if feature == :search && !feature_available?(:index)
     features.include? feature
   end
 end

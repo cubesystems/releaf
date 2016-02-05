@@ -3,7 +3,7 @@ class Releaf::Builders::IndexBuilder
   include Releaf::Builders::Collection
 
   def header_extras
-    search_block
+    search_block if feature_available?(:search)
   end
 
   def dialog?
@@ -88,7 +88,7 @@ class Releaf::Builders::IndexBuilder
 
   def footer_primary_tools
     items = []
-    items << resource_creation_button if feature_available? :create
+    items << resource_creation_button if feature_available?(:create)
     items
   end
 

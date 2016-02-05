@@ -81,9 +81,22 @@ describe Releaf::Builders::IndexBuilder, type: :class do
   end
 
   describe "#header_extras" do
-    it "returns search block" do
+    before do
       allow(subject).to receive(:search_block).and_return("x")
-      expect(subject.header_extras).to eq("x")
+    end
+
+    context "when search feature is enabled" do
+      it "returns search block" do
+        allow(subject).to receive(:feature_available?).with(:search).and_return(true)
+        expect(subject.header_extras).to eq("x")
+      end
+    end
+
+    context "when search feature is disabled" do
+      it "returns nil" do
+        allow(subject).to receive(:feature_available?).with(:search).and_return(false)
+        expect(subject.header_extras).to be nil
+      end
     end
   end
 
