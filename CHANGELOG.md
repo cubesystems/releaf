@@ -1,6 +1,8 @@
 ## Changelog
 
 ### 2016.02.05
+* `:search` feature added. When custom `features` method provided, add `:search`
+  to returned array if search is needed.
 * `Releaf::BaseController` renamed to `Releaf::ActionController`. Update
   all your code with:
 ```
