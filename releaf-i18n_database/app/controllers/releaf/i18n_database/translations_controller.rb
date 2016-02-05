@@ -77,7 +77,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def features
-    [:index]
+    [:index, :search]
   end
 
   def action_views

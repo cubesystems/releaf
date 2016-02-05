@@ -29,29 +29,6 @@ describe Releaf::ActionController do
     end
   end
 
-  describe "#action_features" do
-    it "returns action > feature mapped hash" do
-      expect(subject.action_features).to eq({
-        index: :index,
-        new: :create,
-        create: :create,
-        show: :edit,
-        edit: :edit,
-        update: :edit,
-        confirm_destroy: :destroy,
-        destroy: :destroy
-      }.with_indifferent_access)
-    end
-
-    context "when `show` feature is available" do
-      it "returns show > show feature mapping" do
-        allow(subject).to receive(:feature_available?).and_call_original
-        allow(subject).to receive(:feature_available?).with(:show).and_return(true)
-        expect(subject.action_features[:show]).to eq(:show)
-      end
-    end
-  end
-
   describe "#action_view" do
     context "when given view does not exists within action views hash" do
       it "returns given action" do
@@ -491,35 +468,6 @@ describe Admin::BooksController do
         breadcrumbs = @breadcrumbs_base + [{name: "Edit resource", url: edit_admin_book_path(@resource.id)}]
 
         expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
-      end
-    end
-  end
-
-  describe "#feature_available?" do
-    it "returns whether feature is defined within features variable" do
-      allow(subject).to receive(:features).and_return([:edit])
-      expect(subject.feature_available?(:create)).to be false
-
-      allow(subject).to receive(:features).and_return([:edit, :create])
-      expect(subject.feature_available?(:create)).to be true
-    end
-
-    context "when `create_another` feature requested" do
-      it "also checks whether `create` feature is enabled" do
-        allow(subject).to receive(:feature_available?).with(:create_another).and_call_original
-        allow(subject).to receive(:feature_available?).with(:create).and_return(false)
-
-        allow(subject).to receive(:features).and_return([:edit])
-        expect(subject.feature_available?(:create_another)).to be false
-
-        allow(subject).to receive(:features).and_return([:edit, :create_another])
-        expect(subject.feature_available?(:create_another)).to be false
-
-        allow(subject).to receive(:feature_available?).with(:create).and_return(true)
-        expect(subject.feature_available?(:create_another)).to be true
-
-        allow(subject).to receive(:features).and_return([:edit])
-        expect(subject.feature_available?(:create_another)).to be false
       end
     end
   end

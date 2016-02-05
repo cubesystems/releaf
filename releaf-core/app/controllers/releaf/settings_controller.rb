@@ -41,6 +41,6 @@ class Releaf::SettingsController < Releaf::ActionController
   end
 
   def features
-    [:index, :edit]
+    [:index, :edit, :search]
   end
 end
