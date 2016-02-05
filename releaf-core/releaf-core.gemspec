@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files`.split("\n")
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency 'rails', '~> 4.2.0'
+  s.add_dependency 'rails', '5.0.0.beta2'
   s.add_dependency 'i18n', '>= 0.7.0'
   s.add_dependency 'sprockets-rails', '>= 3.0.0'
   s.add_dependency 'sass-rails'
