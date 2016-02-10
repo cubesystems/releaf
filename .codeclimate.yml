@@ -1,0 +1,31 @@
+---
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+      - javascript
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+ratings:
+  paths:
+  - Gemfile.lock
+  - "**.css"
+  - "**.js"
+  - "**.jsx"
+  - "**.rb"
+exclude_paths:
+- config/
+- script/
+- spec/
+- releaf-core/spec/
+- releaf-permissions/spec/
+- releaf-content/spec/
+- releaf-i18n_database/spec/
