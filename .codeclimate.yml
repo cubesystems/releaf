@@ -29,3 +29,4 @@ exclude_paths:
 - releaf-permissions/spec/
 - releaf-content/spec/
 - releaf-i18n_database/spec/
+- releaf-core/app/assets/javascripts/releaf/3rd_party/
