@@ -85,7 +85,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
 
   private
 
-  def copy_move_common(&block)
+  def copy_move_common
     @resource = resource_class.find(params[:id])
 
     if params[:new_parent_id].nil?

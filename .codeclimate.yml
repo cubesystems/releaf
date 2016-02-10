@@ -22,9 +22,14 @@ ratings:
   - "**.jsx"
   - "**.rb"
 exclude_paths:
+- .codeclimate.yml
+- .csslintrc
+- .eslintrc
+- .rubocop.yml
 - config/
 - script/
 - spec/
+- docs/
 - releaf-core/spec/
 - releaf-permissions/spec/
 - releaf-content/spec/

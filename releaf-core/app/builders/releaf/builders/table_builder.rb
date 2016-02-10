@@ -57,7 +57,7 @@ class Releaf::Builders::TableBuilder
     tag(:thead) do
       tag(:tr) do
         content = ActiveSupport::SafeBuffer.new
-        columns.each_pair do|column, options|
+        columns.each_pair do|column, _options|
           content << head_cell(column)
         end
         content
@@ -73,7 +73,7 @@ class Releaf::Builders::TableBuilder
 
   def head_cell_content(column)
     unless column.to_sym == :toolbox
-      attribute = column.to_s.gsub(".", "_")
+      attribute = column.to_s.tr(".", "_")
       resource_class.human_attribute_name(attribute, create_default: false)
     end
   end
@@ -101,11 +101,11 @@ class Releaf::Builders::TableBuilder
     url_for(action: resource_action, id: resource.id, index_url: index_url) if resource_action
   end
 
-  def row_url_action(resource)
+  def row_url_action(_resource)
     if feature_available?(:show)
-      resource_action = :show
+      :show
     elsif feature_available?(:edit)
-      resource_action = :edit
+      :edit
     end
   end
 

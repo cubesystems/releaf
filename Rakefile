@@ -23,7 +23,7 @@ end
 
 desc "Run specs and generate coverage report."
 task :ci do
-  rm_rf "coverage" if File.exists? 'coverage'
+  rm_rf "coverage" if File.exist? 'coverage'
   ENV['RAILS_ENV'] = 'test'
   ENV['COVERAGE'] ||= 'y'
   Rake::Task[:spec].invoke
@@ -33,15 +33,14 @@ desc 'Dummy test app tasks'
 namespace :dummy do
   desc 'Remove current dummy app'
   task :remove do
-    dummy = File.expand_path('../spec/dummy', __FILE__)
+    File.expand_path('../spec/dummy', __FILE__)
     sh "rake db:drop"
     sh "rm -rf #{dummy}"
   end
 
   desc 'Setup new dummy app'
   task :setup do
-    dummy = File.expand_path('../spec/dummy', __FILE__)
-
+    File.expand_path('../spec/dummy', __FILE__)
     gem 'railties'
     require 'rails/generators'
     require 'rails/generators/rails/app/app_generator'
@@ -57,7 +56,7 @@ namespace :dummy do
 end
 
 APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
-if FileTest.exists?(APP_RAKEFILE)
+if FileTest.exist?(APP_RAKEFILE)
   load 'rails/tasks/engine.rake'
 end
 

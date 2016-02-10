@@ -2,7 +2,7 @@ source "http://rubygems.org"
 require 'yaml'
 
 config_file = File.expand_path('../config.yml', __FILE__)
-unless File.exists?(config_file)
+unless File.exist?(config_file)
   puts "config.yml is missing"
   puts "see CONTRIBUTING.md"
   exit(1)

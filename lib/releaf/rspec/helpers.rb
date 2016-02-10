@@ -45,14 +45,14 @@ module Releaf
       end
     end
 
-    def update_resource(&block)
+    def update_resource
       within "form.edit-resource" do
         yield
       end
       save_and_check_response "Update succeeded"
     end
 
-    def create_resource(&block)
+    def create_resource
       click_link "Create new resource" unless first("form.new-resource")
       within "form.new-resource" do
         yield
@@ -60,7 +60,7 @@ module Releaf
       save_and_check_response "Create succeeded"
     end
 
-    def within_search(&block)
+    def within_search
       within("form.search") do
         yield
       end
@@ -72,7 +72,7 @@ module Releaf
       end
     end
 
-    def within_dialog(&block)
+    def within_dialog
       within(".dialog.initialized") do
         yield
       end
