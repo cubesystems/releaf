@@ -7,21 +7,31 @@ class Releaf::Settings < RailsSettings::CachedSettings
     var
   end
 
+  def input_type
+    metadata[:type] || :text
+  end
+
+  def description
+    metadata[:description]
+  end
+
+  def metadata
+    self.class.registry.fetch(var, {})
+  end
+
+  def self.register_scoped
+    where(var: registered_keys)
+  end
+
   def self.registered_keys
     @@registry.keys
   end
 
-  def self.register(args)
-    if args.is_a? Hash
-      list = [args]
-    else
-      list = args
-    end
+  def self.register(*args)
+    Releaf::Settings::Register.call(settings: args)
+  end
 
-    list.each do|item|
-      @@registry[item[:key]] = item
-      @@defaults[item[:key]] = item[:default]
-      self[item[:key]] = item[:default] if table_exists? && !where(var: item[:key], thing_type: nil).exists?
-    end
+  def self.supported_types
+    [:boolean, :date, :time, :datetime, :integer, :float, :decimal, :email, :text]
   end
 end
