@@ -8,7 +8,7 @@ feature "Settings", js: true do
       {key: "content.title", default: "some"}
     ]
     Releaf::Settings.destroy_all
-    Releaf::Settings.register(values)
+    Releaf::Settings.register(*values)
     auth_as_user
 
     visit releaf_settings_path
