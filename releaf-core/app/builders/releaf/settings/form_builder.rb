@@ -4,16 +4,15 @@ class Releaf::Settings::FormBuilder < Releaf::Builders::FormBuilder
   end
 
   def render_value
-    method_name = "releaf_#{settings_field_type}_field"
-    send(method_name, :value, options: { label: { label_text: settings_field_label_text }})
+    send(value_render_method_name, :value, options: { label: { label_text: value_label_text }})
   end
 
-  def settings_field_label_text
-    label_text = Releaf::Settings.registry[object.var][:description]
+  def value_render_method_name
+    "releaf_#{object.input_type}_field"
+  end
+
+  def value_label_text
+    label_text = object.description
     label_text.present? ? t(label_text, scope: "settings") : "Value"
-  end
-
-  def settings_field_type
-    Releaf::Settings.registry[object.var].fetch(:type, :text)
   end
 end

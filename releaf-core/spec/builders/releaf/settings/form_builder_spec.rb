@@ -2,68 +2,46 @@ require "rails_helper"
 
 describe Releaf::Settings::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
-  before do
-    Releaf::Settings.register([
-      { key: "myapp.rating", default: 5.65, description: "x", type: :decimal },
-      { key: "myapp.confirmed", default: true, type: :boolean },
-      { key: "myapp.intro" }
-    ])
-  end
-
+  let(:resource){ Releaf::Settings.new }
   let(:template){ FormBuilderTestHelper.new }
+  let(:subject){ described_class.new(:resource, resource, template, {}) }
 
   describe "#field_names" do
-    let(:subject){ described_class.new(:resource, Releaf::Settings.first, template, {}) }
-
     it "returns :value as only editable field within array" do
       expect(subject.field_names).to eq([:value])
     end
   end
 
   describe "#render_value" do
-    let(:subject){ described_class.new(:resource, Releaf::Settings.first, template, {}) }
-
-    it "renders text field for value" do
-      allow(subject).to receive(:settings_field_label_text).and_return("x")
-      allow(subject).to receive(:settings_field_type).and_return("text")
-      allow(subject).to receive(:releaf_text_field).with(:value, { options: { label: { label_text: "x" }}}).and_return("y")
+    it "renders with resolved label text and render method" do
+      allow(subject).to receive(:value_label_text).and_return("x")
+      allow(subject).to receive(:value_render_method_name).and_return("releaf_integer_field")
+      allow(subject).to receive(:releaf_integer_field).with(:value, { options: { label: { label_text: "x" }}}).and_return("y")
       expect(subject.render_value).to eq("y")
     end
   end
 
-  describe "#settings_field_label_text" do
-    context "when description is available" do
-      let(:subject){ described_class.new(:resource, Releaf::Settings.first, template, {}) }
+  describe "#value_render_method_name" do
+    it "returns render method built from input type" do
+      allow(resource).to receive(:input_type).and_return(:superdate)
+      expect(subject.value_render_method_name).to eq("releaf_superdate_field")
+    end
+  end
 
+  describe "#value_label_text" do
+    context "when description is available" do
       it "returns translated description text" do
+        allow(resource).to receive(:description).and_return("x")
         allow(subject).to receive(:t).with("x", { scope: "settings"}).and_return("y")
-        expect(subject.settings_field_label_text).to eq("y")
+        expect(subject.value_label_text).to eq("y")
       end
     end
 
     context "when description is not available" do
-      let(:subject){ described_class.new(:resource, Releaf::Settings.last, template, {}) }
-
       it "returns 'Value'" do
-        expect(subject.settings_field_label_text).to eq("Value")
+        allow(resource).to receive(:description).and_return(nil)
+        expect(subject.value_label_text).to eq("Value")
       end
-    end
-  end
-
-  describe "#settings_field_type" do
-    it "returns correct field type for the first setting" do
-      subject = described_class.new(:resource, Releaf::Settings.first, template, {})
-      expect(subject.settings_field_type).to eq(:decimal)
-    end
-
-    it "returns correct field type for the second setting" do
-      subject = described_class.new(:resource, Releaf::Settings.second, template, {})
-      expect(subject.settings_field_type).to eq(:boolean)
-    end
-
-    it "returns correct default field type" do
-      subject = described_class.new(:resource, Releaf::Settings.last, template, {})
-      expect(subject.settings_field_type).to eq(:text)
     end
   end
 end

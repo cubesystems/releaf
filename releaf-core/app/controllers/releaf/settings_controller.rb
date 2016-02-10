@@ -1,43 +1,19 @@
 class Releaf::SettingsController < Releaf::ActionController
 
   def self.resource_class
-    ::Releaf::Settings
+    Releaf::Settings
   end
 
   def resources
-    super.where(thing_type: nil, var: resource_class.registered_keys)
-  end
-
-  def normalize_value(value)
-    case resource_class.registry[@resource.var][:type]
-    when :boolean
-      value == '1'
-    when :date
-      Date.parse(value)
-    when :time
-      Time.parse(value)
-    when :datetime
-      DateTime.parse(value)
-    when :integer
-      value.to_i
-    when :float
-      value.to_s.sub(",", ".").to_f
-    when :decimal
-      value.to_s.sub(",", ".").to_d
-    else
-      value
-    end
+    resource_class.where(var: resource_class.registered_keys)
   end
 
   def searchable_fields
-    [:var]
+    [:var, :value]
   end
 
-  protected
-
-  def prepare_update
-    @resource = resource_class.find(params[:id]) unless resource_given?
-    params[:resource][:value] = normalize_value(params[:resource][:value])
+  def resource_params
+    {value: Releaf::Settings::NormalizeValue.call(value: super.fetch(:value, nil), input_type: @resource.input_type)}
   end
 
   def features
