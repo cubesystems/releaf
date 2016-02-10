@@ -132,7 +132,9 @@ module Releaf
         find('main section header .toolbox-wrap .toolbox.initialized button.trigger').click
       end
 
-      click_link item_name
+      within('menu.toolbox-items') do
+        click_on(item_name)
+      end
     end
 
     def fill_in_richtext(locator, options = {} )
