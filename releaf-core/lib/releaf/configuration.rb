@@ -10,8 +10,8 @@ module Releaf
     attribute :mount_location, String, default: ""
     attribute :additional_controllers, Array, default: []
 
-    def components=(_components)
-      @components = flatten_components(_components)
+    def components=(value)
+      super(flatten_components(value))
       components.each do|component_class|
         component_class.configure_component if component_class.respond_to? :configure_component
       end
@@ -80,22 +80,17 @@ module Releaf
      list.map{|item| normalize_controller_item(item)}
     end
 
-    def self.normalize_controller_item(item_data)
-      if item_data.is_a? String
-        item = {controller: item_data}
-      elsif item_data.is_a? Hash
-        item = item_data
-      end
-
-      item[:name] = item[:controller] unless item.has_key? :name
+    def self.normalize_controller_item(item)
+      item = {controller: item} if item.is_a? String
+      item[:name] ||= item[:controller]
 
       if item.has_key? :helper
         item[:url_helper] = item[:helper].to_sym
       elsif item.has_key? :controller
-        item[:url_helper] = item[:controller].gsub('/', '_').to_sym
+        item[:url_helper] = item[:controller].tr('/', '_').to_sym
+      elsif item.has_key?(:items)
+        item[:items] = normalize_controllers(item[:items])
       end
-
-      item[:items] = normalize_controllers(item[:items]) if item.has_key?(:items)
 
       item
     end
