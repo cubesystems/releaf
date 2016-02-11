@@ -6,8 +6,10 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby
-      - javascript
+        ruby:
+          mass_threshold: 20
+        javascript:
+          mass_threshold: 40
   eslint:
     enabled: true
   fixme:
@@ -35,3 +37,4 @@ exclude_paths:
 - releaf-content/spec/
 - releaf-i18n_database/spec/
 - releaf-core/app/assets/javascripts/releaf/3rd_party/
+- releaf-core/lib/generators/
