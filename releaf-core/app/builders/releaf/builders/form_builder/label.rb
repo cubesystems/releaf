@@ -28,7 +28,7 @@ module Releaf::Builders::FormBuilder::Label
     end
   end
 
-  def label_attributes(name, attributes, options)
+  def label_attributes(_name, attributes, _options)
     attributes
   end
 end

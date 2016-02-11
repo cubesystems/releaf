@@ -76,7 +76,7 @@ module Releaf::Builders::FormBuilder::Associations
     end
   end
 
-  def releaf_has_many_association_footer(reflector)
+  def releaf_has_many_association_footer(_reflector)
     tag(:footer){ field_type_add_nested }
   end
 

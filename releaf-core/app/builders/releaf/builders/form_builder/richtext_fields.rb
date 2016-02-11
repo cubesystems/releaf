@@ -11,7 +11,7 @@ module Releaf::Builders::FormBuilder::RichtextFields
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def richtext_input_attributes(name)
+  def richtext_input_attributes(_name)
     {
       rows: 5,
       cols: 50,
