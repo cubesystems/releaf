@@ -1,7 +1,8 @@
 class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::Builders::Base
-  include Releaf::Builders::Tags::AssociatedSetField
   include Releaf::Builders::Orderer
+  include Releaf::Builders::FormBuilder::AssociatedSetField
+  include Releaf::Builders::FormBuilder::DateFields
   attr_accessor :template
 
   def field_names
@@ -291,79 +292,6 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
         check_box(name, attributes) << releaf_label(name, label, options.deep_merge(label: {minimal: true}))
       end
     end
-  end
-
-  def date_or_time_fields(name, type, input: {}, label: {}, field: {}, options: {})
-    input = date_or_time_fields_input_attributes(name, type, input)
-    options = {field: {type: type.to_s}}.deep_merge(options)
-    releaf_text_field(name, input: input, label: label, field: field, options: options)
-  end
-
-  def date_or_time_fields_input_attributes(name, type, attributes)
-    value = object.send(name)
-    {
-      class: "text #{type}-picker",
-      data: {
-        "date-format" => date_format_for_jquery,
-        "time-format" => time_format_for_jquery
-      },
-      value: (format_date_or_time_value(value, type) if value)
-    }.merge(attributes)
-  end
-
-  def normalize_date_or_time_value(value, type)
-    case type
-    when :date
-      value.to_date
-    when :datetime
-      value.to_datetime
-    when :time
-      value.to_time
-    end
-  end
-
-  def format_date_or_time_value(value, type)
-    default_format = date_or_time_default_format(type)
-    value = normalize_date_or_time_value(value, type)
-
-    if type == :time
-      value.strftime(default_format)
-    else
-      I18n.l(value, default: default_format)
-    end
-  end
-
-  def time_format_for_jquery
-    format = date_or_time_default_format(:time)
-    jquery_date_format(format)
-  end
-
-  def date_format_for_jquery
-    format = date_or_time_default_format(:date)
-    jquery_date_format(t("default", scope: "date.formats", default: format))
-  end
-
-  def date_or_time_default_format(type)
-    case type
-    when :date
-      "%Y-%m-%d"
-    when :datetime
-      "%Y-%m-%d %H:%M"
-    when :time
-      "%H:%M"
-    end
-  end
-
-  def releaf_datetime_field(name, input: {}, label: {}, field: {}, options: {})
-    date_or_time_fields(name, :datetime, input: input, label: label, field: field, options: options)
-  end
-
-  def releaf_time_field(name, input: {}, label: {}, field: {}, options: {})
-    date_or_time_fields(name, :time, input: input, label: label, field: field, options: options)
-  end
-
-  def releaf_date_field(name, input: {}, label: {}, field: {}, options: {})
-    date_or_time_fields(name, :date, input: input, label: label, field: field, options: options)
   end
 
   def releaf_richtext_field(name, input: {}, label: {}, field: {}, options: {}, &block)

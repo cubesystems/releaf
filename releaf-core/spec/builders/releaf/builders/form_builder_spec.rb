@@ -461,37 +461,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
   end
 
-  describe "#format_date_or_time_value" do
-    context "when given value type is :time" do
-      it "format normalized value to default format with `strftime`" do
-        value = Date.parse("15 Jan 2015")
-        time = Time.parse("15 Jan 2015 12:10:04")
-        allow(subject).to receive(:date_or_time_default_format).with(:time).and_return("%H:%M")
-        allow(subject).to receive(:normalize_date_or_time_value).with(value, :time).and_return(time)
-
-        expect(subject.format_date_or_time_value(value, :time)).to eq("12:10")
-      end
-    end
-
-    context "when given value type is other than :time" do
-      it "format normalized value to default format  with `I18n.l`" do
-        value = Date.parse("15 Jan 2015")
-        time = Time.parse("15 Jan 2015 12:10:04")
-
-        allow(subject).to receive(:date_or_time_default_format).with(:date).and_return("_format_")
-        allow(subject).to receive(:normalize_date_or_time_value).with(value, :date).and_return(time)
-        allow(I18n).to receive(:l).with(time, default: "_format_").and_return("x")
-        expect(subject.format_date_or_time_value(value, :date)).to eq("x")
-
-
-        allow(subject).to receive(:date_or_time_default_format).with(:datetime).and_return("_format_")
-        allow(subject).to receive(:normalize_date_or_time_value).with(value, :datetime).and_return(time)
-        allow(I18n).to receive(:l).with(time, default: "_format_").and_return("y")
-        expect(subject.format_date_or_time_value(value, :datetime)).to eq("y")
-      end
-    end
-  end
-
   describe "#locales" do
     it "returns object globalize locales" do
       allow(subject.object.class).to receive(:globalize_locales).and_return([:de, :ru])
@@ -523,32 +492,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
       it "returns first form locale" do
         allow(subject).to receive(:locales).and_return([:lv, :en])
         expect(subject.default_locale).to eq(:lv)
-      end
-    end
-  end
-
-  describe "#normalize_date_or_time_value" do
-    context "when :time type given" do
-      it "casts value to time" do
-        value = Date.parse("15 Jan 2015")
-        expect(subject.normalize_date_or_time_value(value, :time)).to be_instance_of Time
-        expect(subject.normalize_date_or_time_value(value, :time)).to eq(value.to_time)
-      end
-    end
-
-    context "when :datetime type given" do
-      it "casts value to datetime" do
-        value = Time.parse("15 Jan 2015 12:10:04")
-        expect(subject.normalize_date_or_time_value(value, :datetime)).to be_instance_of DateTime
-        expect(subject.normalize_date_or_time_value(value, :datetime)).to eq(value.to_datetime)
-      end
-    end
-
-    context "when :time type given" do
-      it "casts value to date" do
-        value = DateTime.parse("15 Jan 2015 12:10:04")
-        expect(subject.normalize_date_or_time_value(value, :date)).to be_instance_of Date
-        expect(subject.normalize_date_or_time_value(value, :date)).to eq(value.to_date)
       end
     end
   end

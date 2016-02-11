@@ -7,7 +7,7 @@ module Releaf::Builders::Base
     :render, :link_to, :flash, :truncate, :radio_button_tag,
     :options_for_select, :action_name, :options_from_collection_for_select,
     :select_tag, :text_field_tag,
-    :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
+    :image_tag, :cookies, :button_tag, :merge_attributes, to: :template
 
   delegate :controller_scope_name,
     :feature_available?, :index_url, to: :controller
