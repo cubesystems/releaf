@@ -1,11 +1,11 @@
 module Releaf::Builders::FormBuilder::AssociatedSetField
   def releaf_associated_set_field(name, input: {}, label: {}, field: {}, options: {}, &block)
     options = {field: {type: "associated-set"}}.deep_merge(options)
-    content = releaf_associated_set_content(name, input: input, options: options)
+    content = releaf_associated_set_content(name, options: options)
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
   end
 
-  def releaf_associated_set_content(name, input: {}, options: {})
+  def releaf_associated_set_content(name, options: {})
     association_options = options[:association]
     association = object.send(name)
     key_field = association_options[:field]
@@ -24,7 +24,6 @@ module Releaf::Builders::FormBuilder::AssociatedSetField
       list
     end
   end
-
 
   def releaf_associated_set_item(association_options, label_text)
     wrapper(class: "type-associated-set-item") do
