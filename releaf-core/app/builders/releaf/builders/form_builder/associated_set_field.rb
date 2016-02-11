@@ -1,5 +1,5 @@
 module Releaf::Builders::FormBuilder::AssociatedSetField
-  def releaf_associated_set_field(name, input: {}, label: {}, field: {}, options: {}, &block)
+  def releaf_associated_set_field(name, label: {}, field: {}, options: {}, &block)
     options = {field: {type: "associated-set"}}.deep_merge(options)
     content = releaf_associated_set_content(name, options: options)
     input_wrapper_with_label(name, content, label: label, field: field, options: options, &block)
