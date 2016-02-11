@@ -7,7 +7,7 @@ engines:
     config:
       languages:
         ruby:
-          mass_threshold: 20
+          mass_threshold: 25
         javascript:
           mass_threshold: 40
   eslint:
