@@ -25,7 +25,7 @@ describe Releaf::Builders::Base, type: :module do
      :render, :link_to, :flash, :truncate, :radio_button_tag,
      :options_for_select, :action_name, :options_from_collection_for_select,
      :select_tag, :text_field_tag,
-     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes
+     :image_tag, :cookies, :button_tag, :merge_attributes
     ].each do|method_name|
       it "deletages #{method_name} to template" do
         expect(subject).to delegate_method(method_name).to(:template)

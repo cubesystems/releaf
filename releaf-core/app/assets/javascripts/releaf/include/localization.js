@@ -137,9 +137,7 @@ jQuery(function()
             trigger_label.text( locale );
 
 
-            jQuery.cookie( 'releaf.i18n.locale', locale, { path: '/' } );
-
-
+            body.trigger( 'settingssave', [ "releaf.i18n.locale", locale ] );
         });
 
 

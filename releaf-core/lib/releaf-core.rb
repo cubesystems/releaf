@@ -20,7 +20,6 @@ module Releaf
     require 'releaf/component'
     require 'releaf/settings_ui'
     require 'releaf/route_mapper'
-    require 'releaf/builders_autoload'
     require 'releaf/configuration'
     require 'releaf/root'
     require 'releaf/root/configuration'
