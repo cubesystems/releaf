@@ -7,14 +7,7 @@ module Releaf::Builders::FormBuilder::I18nFields
 
   def releaf_link_i18n_field(name, input: {}, label: {}, field: {}, options: {})
     options = {field: {type: "link"}}.deep_merge(options)
-    input = {class: "text"}.deep_merge(input)
-    localized_field(name, :text_field, input: input, label: label, field: field, options: options)
-  end
-
-  def releaf_richtext_i18n_field(name, input: {}, label: {}, field: {}, options: {})
-    input = richtext_input_attributes(name).merge(input)
-    options = richtext_options(name, options)
-    localized_field(name, :text_area, input: input, label: label, field: field, options: options)
+    releaf_text_i18n_field(name, input: input, label: label, field: field, options: options)
   end
 
   def releaf_textarea_i18n_field(name, input: {}, label: {}, field: {}, options: {})
@@ -24,6 +17,12 @@ module Releaf::Builders::FormBuilder::I18nFields
     }.merge(input)
     options = {field: {type: "textarea"}}.deep_merge(options)
     localized_field(name, :text_area, input: input, label: label, field: field, options: options)
+  end
+
+  def releaf_richtext_i18n_field(name, input: {}, label: {}, field: {}, options: {})
+    input = richtext_input_attributes(name).merge(input)
+    options = richtext_options(name, options)
+    releaf_textarea_i18n_field(name, input: input, label: label, field: field, options: options)
   end
 
   def localized_field(name, field_type, input: {}, label: {}, field: {}, options: {})
@@ -55,7 +54,7 @@ module Releaf::Builders::FormBuilder::I18nFields
       end <<
       tag(:menu, class: ["localization-menu-items"], type: 'toolbar') do
         tag(:ul) do
-          object.class.globalize_locales.collect do |locale, i|
+          object.class.globalize_locales.collect do |locale|
             tag(:li) do
               tag(:button, translate_locale(locale), type: "button", data: {locale: locale})
             end
