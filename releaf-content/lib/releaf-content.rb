@@ -4,7 +4,6 @@ require 'stringex'
 module Releaf::Content
   require 'releaf/content/engine'
   require 'releaf/content/configuration'
-  require 'releaf/content/builders_autoload'
   require 'releaf/content/router_proxy'
   require 'releaf/content/node_mapper'
   require 'releaf/content/acts_as_node'
