@@ -129,26 +129,22 @@ jQuery(function()
 
             if (openToRight)
             {
-                menu.css
-                ({
+                menu.css({
                     left:  triggerCenterX - 23,
-                    top :  triggerOffset.top  + trigger.outerHeight(),
+                    top :  triggerOffset.top  + trigger.outerHeight()
                 });
-                beak.css(
-                {
+                beak.css({
                     left : 18
                 });
             }
             else
             {
-                menu.css
-                ({
+                menu.css({
                     left:  triggerCenterX - menuWidth + 20,
-                    top :  triggerOffset.top  + trigger.outerHeight(),
+                    top :  triggerOffset.top  + trigger.outerHeight()
                 });
-                beak.css(
-                {
-                    left : menuWidth - 24,
+                beak.css({
+                    left : menuWidth - 24
                 });
             }
 

@@ -35,7 +35,7 @@ jQuery(document).ready(function()
                 update: function( event, ui )
                 {
                     ui.item.trigger('sortableupdate');
-                },
+                }
             });
 
             list.on('sortablereindex', function()
