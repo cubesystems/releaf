@@ -159,81 +159,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
   end
 
-  describe "#reflect_on_association" do
-    it "returns reflection for given reflection name" do
-      expect(subject.reflect_on_association(:author)).to eq(object.class.reflections["author"])
-      expect(subject.reflect_on_association("author")).to eq(object.class.reflections["author"])
-    end
-  end
-
-  describe "#association_reflector" do
-    before do
-      resource_fields = subject.resource_fields
-      allow(resource_fields).to receive(:association_attributes).with(:x).and_return([:c, :d])
-
-      allow(subject).to receive(:resource_fields).and_return(resource_fields)
-      allow(subject).to receive(:sortable_column_name).and_return("sortable column name")
-    end
-
-    it "returns association reflector for given reflection" do
-      expect(subject.association_reflector(:x, [:a, :b])).to be_instance_of Releaf::Builders::AssociationReflector
-    end
-
-    it "pass reflection, fields and sortable column name to association reflector constructor" do
-      expect(Releaf::Builders::AssociationReflector).to receive(:new)
-        .with(:x, [:a, :b], "sortable column name")
-      subject.association_reflector(:x, [:a, :b])
-    end
-
-    context "when given fields is nil" do
-      it "uses resource fields returned association fields instead" do
-        expect(Releaf::Builders::AssociationReflector).to receive(:new)
-          .with(:x, [:c, :d], "sortable column name")
-        subject.association_reflector(:x, nil)
-      end
-    end
-  end
-
-  describe "#releaf_association_fields" do
-    let(:reflector){ Releaf::Builders::AssociationReflector.new(:a, :b, :c) }
-    let(:fields){ ["a"] }
-
-    before do
-      allow(subject).to receive(:association_reflector).with(:author, fields).and_return(reflector)
-      allow(subject).to receive(:releaf_has_many_association).with(reflector).and_return("_has_many_content_")
-      allow(subject).to receive(:releaf_belongs_to_association).with(reflector).and_return("_belongs_to_content_")
-      allow(subject).to receive(:releaf_has_one_association).with(reflector).and_return("_has_one_content_")
-    end
-
-    context "when reflector macro is :has_many" do
-      it "renders association with #releaf_has_many_association" do
-        allow(reflector).to receive(:macro).and_return(:has_many)
-        expect(subject.releaf_association_fields(:author, fields)).to eq("_has_many_content_")
-      end
-    end
-
-    context "when :belongs_to association given" do
-      it "renders association with #releaf_belongs_to_association" do
-        allow(reflector).to receive(:macro).and_return(:belongs_to)
-        expect(subject.releaf_association_fields(:author, fields)).to eq("_belongs_to_content_")
-      end
-    end
-
-    context "when :has_one association given" do
-      it "renders association with #releaf_has_one_association" do
-        allow(reflector).to receive(:macro).and_return(:has_one)
-        expect(subject.releaf_association_fields(:author, fields)).to eq("_has_one_content_")
-      end
-    end
-
-    context "when non implemented assocation type given" do
-      it "raises error" do
-        allow(reflector).to receive(:macro).and_return(:new_macro_type)
-        expect{ subject.releaf_association_fields(:author, fields) }.to raise_error("not implemented")
-      end
-    end
-  end
-
   describe "#input_wrapper_with_label" do
     before do
       allow(subject).to receive(:wrapper).with("input_content", class: "value").and_return("input_content")
@@ -263,80 +188,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
   end
 
-  describe "#releaf_label" do
-    it "passes options :label value to #label_text and use returned value for label text content" do
-      allow(subject).to receive(:label_text).with(:color, a: "b").and_return("xx")
-      result = '<div class="label-wrap"><label for="book_color">xx</label></div>'
-
-      expect(subject.releaf_label(:color, {}, label: {a: "b"})).to eq(result)
-    end
-
-    it "uses #label_attributes for label attributes" do
-      allow(subject).to receive(:label_attributes).with(:color, {class: "red"}, {a: "b"}).and_return(class: "red blue")
-      result = '<div class="label-wrap"><label class="red blue" for="book_color">Color</label></div>'
-
-      expect(subject.releaf_label(:color, {class: "red"}, {a: "b"})).to eq(result)
-    end
-
-    context "when options[:label][:description] is not blank" do
-      context "when label has full version" do
-        it "includes description" do
-          result = '<div class="label-wrap"><label for="book_color">Color</label><div class="description">xxx</div></div>'
-          expect(subject.releaf_label(:color, {}, label: {description: "xxx"})).to eq(result)
-        end
-      end
-
-      context "when label has minimal version" do
-        it "does not include description" do
-          result = '<label for="book_color">Color</label>'
-          expect(subject.releaf_label(:color, {}, label: {minimal: true})).to eq(result)
-        end
-      end
-    end
-
-    context "when options[:label][:minimal] is true" do
-      it "returns label tag without wrap element" do
-        result = '<label for="book_color">Color</label>'
-        expect(subject).to_not receive(:wrapper)
-        expect(subject.releaf_label(:color, {}, label: {minimal: true})).to eq(result)
-      end
-    end
-
-    context "when options[:label][:minimal] is not true" do
-      it "returns label tag with wrap element" do
-        allow(subject).to receive(:wrapper).with('<label for="book_color">Color</label>', class: "label-wrap").and_return("x")
-        expect(subject.releaf_label(:color, {}, label: {minimal: false})).to eq("x")
-        expect(subject.releaf_label(:color, {}, label: {minimal: nil})).to eq("x")
-        expect(subject.releaf_label(:color, {}, label: {adasd: "xx"})).to eq("x")
-      end
-    end
-
-  end
-
-  describe "#releaf_number_field" do
-    it "returns input with type 'number'" do
-      expect(subject).to receive(:number_field).with("title", { value: nil, step: "any", class: "text" }).and_return("x")
-      expect(subject).to receive(:input_wrapper_with_label).with("title", "x", { label: {}, field: {}, options: { field: { type: "number" }}}).and_return("y")
-      expect(subject.releaf_number_field("title")).to eq("y")
-    end
-
-    context "aliases" do
-      let(:releaf_number_field_method) { subject.method(:releaf_number_field) }
-
-      it "is aliased by #releaf_integer_field" do
-        expect(subject.method(:releaf_integer_field)).to eq(releaf_number_field_method)
-      end
-
-      it "is aliased by #releaf_float_field" do
-        expect(subject.method(:releaf_float_field)).to eq(releaf_number_field_method)
-      end
-
-      it "is aliased by #releaf_decimal_field" do
-        expect(subject.method(:releaf_decimal_field)).to eq(releaf_number_field_method)
-      end
-    end
-  end
-
   describe "#field_attributes" do
     it "adds field data and class attributes" do
       expect(subject.field_attributes(:color, {}, {field: {type: "text"}})).to eq(data: {name: :color}, class: ["field", "type-text"])
@@ -352,112 +203,15 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
   end
 
-  describe "#label_attributes" do
-    it "returns unmodified attributes (allow further override by other builders)" do
-      expect(subject.label_attributes(:color, {data: "x"}, {})).to eq(data: "x")
-    end
-  end
-
   describe "#input_attributes" do
     it "returns unmodified attributes (allow further override by other builders)" do
       expect(subject.input_attributes(:color, {data: "x"}, {})).to eq(data: "x")
     end
   end
 
-  describe "#label_text" do
-    it "returns model attributes scoped translated value" do
-      allow(subject).to receive(:translate_attribute).with("color").and_return("x")
-      expect(subject.label_text(:color)).to eq("x")
-    end
-
-    context "when :label_text option exists" do
-      context "when :label_text is not blank" do
-        it "returns :label_text option" do
-          expect(subject.label_text(:color, label_text: "krāsa")).to eq("krāsa")
-        end
-      end
-
-      context "when :label_text is blank" do
-        it "returns translated value" do
-          expect(subject.label_text(:color, label_text: nil)).to eq("Color")
-          expect(subject.label_text(:color, label_text: "")).to eq("Color")
-        end
-      end
-    end
-
-    context "when :translation_key option exists" do
-      context "when :translation_key is not blank" do
-        it "passes :translation_key option to translation and return translated value" do
-          allow(subject).to receive(:translate_attribute).with("true_color").and_return("x")
-          expect(subject.label_text(:color, translation_key: "true_color")).to eq("x")
-        end
-      end
-
-      context "when :translation_key is blank" do
-        it "returns translated value" do
-          expect(subject.label_text(:color, translation_key: nil)).to eq("Color")
-          expect(subject.label_text(:color, translation_key: "")).to eq("Color")
-        end
-      end
-    end
-  end
-
   describe "#sortable_column_name" do
     it "returns 'item_position'" do
       expect( subject.sortable_column_name ).to eq 'item_position'
-    end
-  end
-
-  describe "#releaf_item_field_collection" do
-    context "when collection exists within options" do
-      it "returns collection" do
-        expect(subject.releaf_item_field_collection(:author_id, collection: "x")).to eq("x")
-      end
-    end
-
-    context "when collection does not exist within options" do
-      it "returns all relation objects" do
-        allow(Author).to receive(:all).and_return("y")
-        expect(subject.releaf_item_field_collection(:author_id)).to eq("y")
-      end
-    end
-  end
-
-  describe "#releaf_item_field_choices" do
-    before do
-      subject.object.author_id = 3
-    end
-
-    context "when no select_options passed within options" do
-      it "prefills select_options with corresponding collection array" do
-        collection = [Author.new(name: "a", surname: "b", id: 1), Author.new(name: "c", surname: "d", id: 2)]
-        allow(subject).to receive(:releaf_item_field_collection)
-          .with(:author_id, x: "a").and_return(collection)
-        allow(subject).to receive(:options_for_select).with([["a b", 1], ["c d", 2]], 3).and_return("xx")
-        expect(subject.releaf_item_field_choices(:author_id, x: "a")).to eq("xx")
-      end
-    end
-
-    context "when options have select_options passed" do
-      context "when select_options is array" do
-        it "process and return select options with `options_for_select` rails helper" do
-          collection = [["a b", 1], ["c d", 2]]
-          allow(subject).to receive(:options_for_select).with(collection, 3).and_return("xx")
-          expect(subject.releaf_item_field_choices(:author_id, select_options: collection)).to eq("xx")
-        end
-      end
-
-      context "when select_options is not array" do
-        it "returns select_options value" do
-          expect(subject.releaf_item_field_choices(:author_id, select_options: "xx")).to eq("xx")
-        end
-      end
-    end
-  end
-
-  describe "#relation_name" do
-    it "strips _id from given string and returns it as symbol" do
-      expect(subject.relation_name("admin_id")).to eq(:admin)
     end
   end
 
