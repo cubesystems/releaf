@@ -89,10 +89,9 @@ jQuery(function()
 
             var triggerOffset  = trigger.offset();
 
-            menu.css
-            ({
+            menu.css({
                 left:  triggerOffset.left + trigger.outerWidth() - menu.outerWidth() ,
-                top :  triggerOffset.top + trigger.outerHeight(),
+                top :  triggerOffset.top + trigger.outerHeight()
             });
 
         });

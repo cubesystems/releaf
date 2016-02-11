@@ -16,8 +16,7 @@ jQuery(function(){
             settings[key_or_settings] = value;
         }
 
-        jQuery.ajax
-        ({
+        jQuery.ajax({
             url:  settings_path,
             data: { "settings": settings},
             type: 'POST',
