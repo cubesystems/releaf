@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2016.02.11
+* `Releaf::Settings.register` method refactored to accepts list of hashes as arguments.
+  ex. `Releaf::Settings.register({key: "some.thing", default: "some day"}, {key: "color", default: "red"})`
+
 ### 2016.02.05
 * `:search` feature added. When custom `features` method provided, add `:search`
   to returned array if search is needed.
