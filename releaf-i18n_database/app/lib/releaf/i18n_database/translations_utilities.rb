@@ -30,7 +30,7 @@ module Releaf::I18nDatabase
     end
 
     def self.search_columns
-      [Releaf::I18nDatabase::Translation.arel_table[:key]] + locale_tables.map{|locale, table| table[:localization] }
+      [Releaf::I18nDatabase::Translation.arel_table[:key]] + locale_tables.map{|_locale, table| table[:localization] }
     end
 
     def self.escape_search_string(string)

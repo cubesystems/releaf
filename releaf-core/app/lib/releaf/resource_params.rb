@@ -16,7 +16,7 @@ class Releaf::ResourceParams < Releaf::ResourceBase
   def base_attributes
     super.inject([]) do|list, attribute|
       if file_attribute?(attribute)
-        list += file_attribute_params(attribute)
+        list + file_attribute_params(attribute)
       else
         list << attribute
       end
@@ -25,7 +25,7 @@ class Releaf::ResourceParams < Releaf::ResourceBase
 
   def localized_attributes
     super.inject([]) do |list, column|
-      list += localized_attribute_params(column)
+      list + localized_attribute_params(column)
     end
   end
 

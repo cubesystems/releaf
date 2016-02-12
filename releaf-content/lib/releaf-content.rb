@@ -39,9 +39,9 @@ module Releaf::Content
     end
   end
 
-  def self.draw_component_routes router
-    resources.each do |model_name, options|
-      draw_resource_routes router, options
+  def self.draw_component_routes(router)
+    resources.each do |_model_name, options|
+      draw_resource_routes(router, options)
     end
   end
 

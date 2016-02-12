@@ -44,7 +44,7 @@ module Releaf::Builders::View
       tag(:ul, class: "breadcrumbs") do
         safe_join do
           last_item = breadcrumb_items.last
-          breadcrumb_items.each.collect do |item, index|
+          breadcrumb_items.each.collect do |item, _index|
             breadcrumb_item(item, item == last_item)
           end
         end
@@ -74,7 +74,10 @@ module Releaf::Builders::View
   end
 
   def flash_item(name, item)
-    tag(:div, class: "flash", 'data-type' => name, :'data-id' => (item.is_a? (Hash)) && (item.has_key? "id") ? item["id"] : nil) do
+    item_data = {type: name}
+    item_data[:id] = item["id"] if item.is_a?(Hash)
+
+    tag(:div, class: "flash", data: item_data) do
       item.is_a?(Hash) ? item["message"] : item
     end
   end

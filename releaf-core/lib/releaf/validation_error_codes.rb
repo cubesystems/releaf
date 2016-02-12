@@ -23,7 +23,7 @@ module ActiveModel
       self[attribute] << ErrorMessage.new(message, error_code, options[:data])
     end
 
-    def normalize_error_code(attribute, message, options)
+    def normalize_error_code(_attribute, message, options)
       if !options[:error_code].blank?
         options[:error_code]
       elsif message.class == Symbol

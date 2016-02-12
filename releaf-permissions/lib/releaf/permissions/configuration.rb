@@ -6,7 +6,7 @@ module Releaf::Permissions
     attribute :permanent_allowed_controllers, Array
 
     def devise_model_name
-      devise_for.gsub("/", "_")
+      devise_for.tr("/", "_")
     end
 
     def devise_model_class

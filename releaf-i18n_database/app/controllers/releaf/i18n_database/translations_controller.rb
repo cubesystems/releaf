@@ -57,7 +57,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def import
-    if File.exists?(import_file_path) && !import_file_extension.blank?
+    if File.exist?(import_file_path) && !import_file_extension.blank?
       begin
         @collection = Releaf::I18nDatabase::TranslationsImporter.new(import_file_path, import_file_extension).parsed_output
         import_view
@@ -161,6 +161,6 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def import_file_extension
-    File.extname(params[:import_file].original_filename).gsub(".", "")
+    File.extname(params[:import_file].original_filename).tr(".", "")
   end
 end

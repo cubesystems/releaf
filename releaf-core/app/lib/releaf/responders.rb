@@ -19,8 +19,8 @@ module Releaf::Responders
 
   # Returns generic view name for given action
   # @return String
-  def action_responder(_action_name)
-    action_responders[_action_name.to_sym]
+  def action_responder(name_of_action)
+    action_responders[name_of_action.to_sym]
   end
 
   # Returns generic view name for current action

@@ -51,6 +51,14 @@ describe Releaf::Builders::FormBuilder, type: :class do
     end
   end
 
+  describe "#field_type_method" do
+    it "returns field type method resolved with ``" do
+      allow(Releaf::Builders::Helpers::ResolveAttributeFieldMethod).to receive(:call)
+        .with(object: object, attribute_name: "color").and_return("some_method")
+      expect(subject.field_type_method(:color)).to eq("some_method")
+    end
+  end
+
   describe "#field_render_method_name" do
     it "returns method name for given field" do
       expect(subject.field_render_method_name(:title)).to eq("render_title")

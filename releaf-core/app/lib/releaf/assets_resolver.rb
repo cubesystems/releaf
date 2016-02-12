@@ -30,7 +30,7 @@ module Releaf
     def self.compiled_assets
       list = {}
 
-      Rails.application.assets_manifest.files.each_pair do|asset_path, asset|
+      Rails.application.assets_manifest.files.each_pair do|_asset_path, asset|
         match = asset["logical_path"].match(COMPILED_PATTERN)
         if match
           controller = match[2]

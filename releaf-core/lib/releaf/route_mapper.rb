@@ -1,8 +1,8 @@
 module Releaf::RouteMapper
   # Pass given resource to "resources" mount method and
   # add extra routes for members and collections needed by releaf
-  def releaf_resources(*args, &block)
-    resources *args do
+  def releaf_resources(*args)
+    resources(*args) do
       yield if block_given?
       member do
         get :confirm_destroy if route_enabled?(:destroy, args.last)
@@ -22,8 +22,8 @@ module Releaf::RouteMapper
     end
   end
 
-  def mount_releaf_at(mount_location, options={}, &block)
-    mount_location_namespace = mount_location.gsub("/", "").to_sym
+  def mount_releaf_at(mount_location)
+    mount_location_namespace = mount_location.delete("/").to_sym
     Releaf.application.config.mount_location = mount_location_namespace.to_s
     scope mount_location do
       initialize_releaf_components

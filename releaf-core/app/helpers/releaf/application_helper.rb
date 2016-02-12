@@ -30,7 +30,7 @@ module Releaf
 
       container.each do|element|
         text, value = i18n_option_text_and_value(element).map { |item| item.to_s }
-        text = I18n.t("#{prefix.to_s}-#{text}", i18n_options.merge(default: text))
+        text = I18n.t("#{prefix}-#{text}", i18n_options.merge(default: text))
         translated_container << [text, value]
       end
 
