@@ -68,7 +68,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_type_method(name)
-    Releaf::Builders::Utilities::ResolveAttributeFieldMethod.call(object: object, attribute_name: name.to_s)
+    Releaf::Builders::Utilities::ResolveAttributeFieldMethodName.call(object: object, attribute_name: name.to_s)
   end
 
   def releaf_field(name, input: {}, label: {}, field: {}, options: {}, &block)

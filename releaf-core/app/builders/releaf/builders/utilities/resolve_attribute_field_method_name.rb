@@ -1,5 +1,5 @@
 module Releaf::Builders::Utilities
-  class ResolveAttributeFieldMethod
+  class ResolveAttributeFieldMethodName
     include Releaf::Service
     attribute :object, Object
     attribute :attribute_name, String
