@@ -5,16 +5,16 @@ module Releaf::Root
 
     def call
       controllers.each do |controller_name|
-        path = controller_index_path(controller_name)
-        return path if path.present?
+        return controller_index_path(controller_name) if controller_index_exists?(controller_name)
       end
     end
 
     def controller_index_path(controller_name)
-      begin
-        Rails.application.routes.url_helpers.url_for(action: "index", controller: controller_name, only_path: true)
-      rescue ActionController::UrlGenerationError
-      end
+      Rails.application.routes.url_helpers.url_for(action: "index", controller: controller_name, only_path: true)
+    end
+
+    def controller_index_exists?(controller_name)
+      Rails.application.routes.routes.map{|route| route.defaults}.include?(controller: controller_name, action: "index")
     end
 
     def controllers
