@@ -149,7 +149,7 @@ class Releaf::ActionController < ActionController::Base
   # with I18.translation call within hash params
   # ex. t("save", scope: controller_scope_name)
   def controller_scope_name
-    @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
+    @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.tr('/', '_')
   end
 
   def page_title
