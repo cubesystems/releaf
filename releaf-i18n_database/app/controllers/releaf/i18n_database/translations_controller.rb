@@ -62,7 +62,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
         @collection = Releaf::I18nDatabase::ParseSpreadsheetTranslations.call(file_path: import_file_path, extension: import_file_extension)
         import_view
         render :edit
-      rescue Releaf::I18nDatabase::TranslationsImporter::UnsupportedFileFormatError
+      rescue Releaf::I18nDatabase::ParseSpreadsheetTranslations::UnsupportedFileFormatError
         flash["error"] = { "id" => "resource_status", "message" => I18n.t("Unsupported file format", scope: notice_scope_name) }
         redirect_to action: :index
       end
