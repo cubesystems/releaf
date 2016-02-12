@@ -158,21 +158,18 @@ module Releaf
       end
 
       def create_missing_translation(key, options)
-        begin
-          if options.has_key?(:count) && options[:create_plurals] == true
-            get_all_pluralizations.each do|pluralization|
-              Translation.create(key: "#{key}.#{pluralization}")
-            end
-          else
-            Translation.create(key: key)
+        if options.has_key?(:count) && options[:create_plurals] == true
+          get_all_pluralizations.each do|pluralization|
+            Translation.create(key: "#{key}.#{pluralization}")
           end
-        rescue ActiveRecord::RecordNotUnique
+        else
+          Translation.create(key: key)
         end
       end
 
       private
 
-      def key_hash key, localization_cache
+      def key_hash(key, localization_cache)
         hash = {}
 
         ::Releaf.application.config.all_locales.each do |locale|
@@ -184,7 +181,7 @@ module Releaf
         hash
       end
 
-      def locale_hash localized_key, localization
+      def locale_hash(localized_key, localization)
         localized_key.to_s.split(".").reverse.inject(localization) do |value, key|
           {key.to_sym => value}
         end
