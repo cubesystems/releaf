@@ -1,6 +1,7 @@
 require 'axlsx_rails'
 require 'twitter_cldr'
 require 'i18n'
+require 'roo'
 
 module Releaf::I18nDatabase
   require 'releaf/i18n_database/engine'
