@@ -50,7 +50,7 @@ module Releaf
         Releaf::Settings[UPDATED_AT_KEY] = value
       end
 
-      def store_translations locale, data, options = {}
+      def store_translations(locale, data, _options = {})
         new_hash = {}
         new_hash[locale] = data
 
@@ -128,14 +128,14 @@ module Releaf
 
         # mark translation as missing
         CACHE[:missing][locale_key] = true
-        create_missing_translation(locale, key, options) if create_missing_translation?(options)
+        create_missing_translation(key, options) if create_missing_translation?(options)
 
         return nil
       end
 
       def default(locale, object, subject, options = {})
         if options[:create_default] == false
-          options = options.reject { |key, value| key == :create_default }
+          options = options.except(:create_default)
           options[:create_missing] = false
         end
         super
@@ -157,7 +157,7 @@ module Releaf
         Releaf.application.config.i18n_database.create_missing_translations == true && options[:create_missing] != false
       end
 
-      def create_missing_translation(locale, key, options)
+      def create_missing_translation(key, options)
         begin
           if options.has_key?(:count) && options[:create_plurals] == true
             get_all_pluralizations.each do|pluralization|

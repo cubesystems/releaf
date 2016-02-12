@@ -17,8 +17,8 @@ module Releaf::ActionController::Views
 
   # Returns generic view name for given action
   # @return String
-  def action_view(_action_name)
-    action_views[_action_name.to_sym] || _action_name
+  def action_view(name_of_action)
+    action_views[name_of_action.to_sym] || name_of_action
   end
 
   # Returns generic view name for current action

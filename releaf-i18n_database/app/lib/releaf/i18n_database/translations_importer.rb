@@ -19,7 +19,7 @@ module Releaf::I18nDatabase
     end
 
     def parsed_output
-      @excel.each_with_pagename do |name, sheet|
+      @excel.each_with_pagename do |_name, sheet|
         detect_sheet_locales(sheet)
         parse_sheet(sheet)
       end
@@ -56,7 +56,7 @@ module Releaf::I18nDatabase
       translation
     end
 
-    def load_translation_data translation, locale, localization
+    def load_translation_data(translation, locale, localization)
       translation_data = translation.translation_data.find{ |x| x.lang == locale }
       value = localization.nil? ? '' : localization
 

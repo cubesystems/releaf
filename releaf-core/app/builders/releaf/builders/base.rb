@@ -30,7 +30,7 @@ module Releaf::Builders::Base
     ERB::Util.html_escape(value)
   end
 
-  def tag(*args, &block)
+  def tag(*args)
     return content_tag(*args) unless block_given?
 
     content_tag(*args) do
@@ -53,7 +53,7 @@ module Releaf::Builders::Base
     template.fa_icon(name)
   end
 
-  def safe_join(&block)
+  def safe_join
     template.safe_join(yield)
   end
 

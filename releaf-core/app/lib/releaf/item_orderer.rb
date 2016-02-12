@@ -36,7 +36,7 @@ module Releaf
       deleted_values = delete(values)
       index = reorder_index(options)
 
-      values.reverse.each do|value|
+      values.reverse_each do|value|
         list.insert(index, deleted_values[value])
       end
 
@@ -45,13 +45,13 @@ module Releaf
 
     def reorder_index(options)
       if options == :first
-        index = 0
+        0
       elsif options == :last
-        index = list.length
+        list.length
       elsif options[:after]
-        index = index(options[:after]) + 1
+        index(options[:after]) + 1
       elsif options[:before]
-        index = index(options[:before])
+        index(options[:before])
       else
         raise ArgumentError, "unknown reorder option"
       end

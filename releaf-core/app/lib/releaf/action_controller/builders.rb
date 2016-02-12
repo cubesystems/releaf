@@ -19,11 +19,11 @@ module Releaf::ActionController::Builders
     end
   end
 
-  def form_url(form_type, object)
+  def form_url(_form_type, object)
     url_for(action: object.new_record? ? 'create' : 'update', id: object.id)
   end
 
-  def form_attributes(form_type, object, object_name)
+  def form_attributes(_form_type, object, object_name)
     action = object.respond_to?(:persisted?) && object.persisted? ? :edit : :new
     action_object_name = "#{action}-#{object_name}"
     classes = [ action_object_name ]

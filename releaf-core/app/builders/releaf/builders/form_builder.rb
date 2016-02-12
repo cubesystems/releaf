@@ -68,10 +68,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field_type_method(name)
-    type = Releaf::TemplateFieldTypeMapper.field_type_name(object, name)
-    localization = Releaf::TemplateFieldTypeMapper.use_i18n?(object, name)
-
-    "releaf_#{type}_#{'i18n_' if localization}field"
+    Releaf::Builders::Helpers::ResolveAttributeFieldMethod.call(object: object, attribute_name: name.to_s)
   end
 
   def releaf_field(name, input: {}, label: {}, field: {}, options: {}, &block)
@@ -99,7 +96,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     merge_attributes({class: classes, data: {name: name}}, attributes)
   end
 
-  def input_attributes(name, attributes, options)
+  def input_attributes(_name, attributes, _options)
     attributes
   end
 

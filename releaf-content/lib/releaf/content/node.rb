@@ -6,7 +6,7 @@ module Releaf::Content
         false
       end
 
-      def build_content(params = {}, assignment_options = nil)
+      def build_content(params = {})
         self.content = content_class.new(params)
       end
 
@@ -169,7 +169,7 @@ module Releaf::Content
         save!
       end
 
-      def prevent_auto_update_settings_timestamp &block
+      def prevent_auto_update_settings_timestamp
         original = @prevent_auto_update_settings_timestamp
         @prevent_auto_update_settings_timestamp = true
         yield

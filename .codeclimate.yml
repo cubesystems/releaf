@@ -28,6 +28,7 @@ exclude_paths:
 - .csslintrc
 - .eslintrc
 - .rubocop.yml
+- Rakefile
 - config/
 - script/
 - spec/
