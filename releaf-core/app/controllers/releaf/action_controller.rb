@@ -1,4 +1,8 @@
 class Releaf::ActionController < ActionController::Base
+  # must be first other in stange way non-text env will
+  # have CSRF on richtext attachment upload
+  protect_from_forgery
+
   include Releaf::ActionController::Notifications
   include Releaf::ActionController::Resources
   include Releaf::ActionController::Builders
@@ -16,7 +20,6 @@ class Releaf::ActionController < ActionController::Base
 
   respond_to :html
   respond_to :json, only: [:create, :update]
-  protect_from_forgery
   layout :layout
 
   def index
