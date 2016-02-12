@@ -28,15 +28,15 @@ class Releaf::Settings::NormalizeValue
   end
 
   def self.normalize_time(value)
-    Time.parse(value)
+    Time.parse(value) if value.present?
   end
 
   def self.normalize_datetime(value)
-    DateTime.parse(value)
+    DateTime.parse(value) if value.present?
   end
 
   def self.normalize_date(value)
-    Date.parse(value)
+    Date.parse(value) if value.present?
   end
 
   def self.normalize_boolean(value)

@@ -55,6 +55,13 @@ describe Releaf::Settings::NormalizeValue do
       allow(Time).to receive(:parse).with("a").and_return("b")
       expect(described_class.normalize_time("a")).to eq("b")
     end
+
+    context "when empty value given" do
+      it "returns nil" do
+        expect(described_class.normalize_time(" ")).to be nil
+        expect(described_class.normalize_time("")).to be nil
+      end
+    end
   end
 
   describe ".normalize_date" do
@@ -62,12 +69,26 @@ describe Releaf::Settings::NormalizeValue do
       allow(Date).to receive(:parse).with("a").and_return("b")
       expect(described_class.normalize_date("a")).to eq("b")
     end
+
+    context "when empty value given" do
+      it "returns nil" do
+        expect(described_class.normalize_date(" ")).to be nil
+        expect(described_class.normalize_date("")).to be nil
+      end
+    end
   end
 
   describe ".normalize_datetime" do
     it "returns value normalized with `DateTime.parse`" do
       allow(DateTime).to receive(:parse).with("a").and_return("b")
       expect(described_class.normalize_datetime("a")).to eq("b")
+    end
+
+    context "when empty value given" do
+      it "returns nil" do
+        expect(described_class.normalize_datetime(" ")).to be nil
+        expect(described_class.normalize_datetime("")).to be nil
+      end
     end
   end
 
