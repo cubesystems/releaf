@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Builders::Helpers::DateFields do
+describe Releaf::Builders::Utilities::DateFields do
   describe ".jquery_date_format" do
     it "returns Ruby date formaters converted to jQuery date formaters" do
       expect(described_class.jquery_date_format("% %3N %L %M %-d")).to eq("% l l mm d")

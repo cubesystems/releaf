@@ -8,10 +8,10 @@ module Releaf::Builders::FormBuilder::DateFields
   def date_or_time_field_input_attributes(name, type, attributes)
     {
       class: "text #{type}-picker",
-      value: Releaf::Builders::Helpers::DateFields.format_date_or_time_value(object.send(name), type),
+      value: Releaf::Builders::Utilities::DateFields.format_date_or_time_value(object.send(name), type),
       data: {
-        "date-format" => Releaf::Builders::Helpers::DateFields.date_format_for_jquery,
-        "time-format" => Releaf::Builders::Helpers::DateFields.time_format_for_jquery
+        "date-format" => Releaf::Builders::Utilities::DateFields.date_format_for_jquery,
+        "time-format" => Releaf::Builders::Utilities::DateFields.time_format_for_jquery
       }
     }.deep_merge(attributes)
   end

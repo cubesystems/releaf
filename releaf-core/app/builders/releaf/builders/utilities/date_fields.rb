@@ -1,4 +1,4 @@
-module Releaf::Builders::Helpers
+module Releaf::Builders::Utilities
   class DateFields
     RUBY_TO_JQUERY_DATE_FORMAT_MAP = {
       '-d' => 'd',

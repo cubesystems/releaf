@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::Builders::Helpers::ResolveAttributeFieldMethod do
+describe Releaf::Builders::Utilities::ResolveAttributeFieldMethod do
   let(:object){ Book.new }
   subject{ described_class.new(object: object, attribute_name: "title") }
 

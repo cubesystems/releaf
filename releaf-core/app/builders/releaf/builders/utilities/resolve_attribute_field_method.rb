@@ -1,4 +1,4 @@
-module Releaf::Builders::Helpers
+module Releaf::Builders::Utilities
   class ResolveAttributeFieldMethod
     include Releaf::Service
     attribute :object, Object

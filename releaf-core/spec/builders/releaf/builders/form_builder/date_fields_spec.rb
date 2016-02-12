@@ -28,10 +28,10 @@ describe Releaf::Builders::FormBuilder::DateFields, type: :class do
   describe "#date_or_time_field_input_attributes" do
     before do
       allow(object).to receive(:published_at).and_return("_val")
-      allow(Releaf::Builders::Helpers::DateFields).to receive(:format_date_or_time_value)
+      allow(Releaf::Builders::Utilities::DateFields).to receive(:format_date_or_time_value)
         .with("_val", :datetime).and_return("_frmt_val")
-      allow(Releaf::Builders::Helpers::DateFields).to receive(:date_format_for_jquery).and_return("_date_frm")
-      allow(Releaf::Builders::Helpers::DateFields).to receive(:time_format_for_jquery).and_return("_time_frm")
+      allow(Releaf::Builders::Utilities::DateFields).to receive(:date_format_for_jquery).and_return("_date_frm")
+      allow(Releaf::Builders::Utilities::DateFields).to receive(:time_format_for_jquery).and_return("_time_frm")
     end
 
     it "returns date or time field input attributes" do
