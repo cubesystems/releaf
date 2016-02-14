@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     # use first root
     target_root = available_roots.first
     if target_root
-      redirect_to target_root.url
+      redirect_to target_root.path
     else
       render text: "Welcome to Releaf", layout: true
     end
