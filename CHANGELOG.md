@@ -1,5 +1,12 @@
 ## Changelog
 
+### 2016.02.16
+* all Releaf controller assets (javascripts and stylesheets) moved from `releaf/controllers/releaf/controller_name`
+  pattern to `controllers/releaf/controller_name`.
+  If you have existing controller assets that inherit Releaf controller
+  assets simply remove first `releaf/` part.
+  ex. `//= require releaf/controllers/releaf/content/nodes` to `//= require controllers/releaf/content/nodes`
+
 ### 2016.02.11
 * `Releaf::Settings.register` method refactored to accepts list of hashes as arguments.
   ex. `Releaf::Settings.register({key: "some.thing", default: "some day"}, {key: "color", default: "red"})`
