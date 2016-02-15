@@ -1,1 +1,1 @@
-//= require releaf/controllers/releaf/content/nodes
+//= require controllers/releaf/content/nodes
