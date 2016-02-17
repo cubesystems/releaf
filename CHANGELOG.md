@@ -1,5 +1,25 @@
 ## Changelog
 
+### 2016.02.17
+* Remove db level uniqueness index for translations key.
+
+create migration `rails g migration ChangeReleafTranslationsKeyIndexType`
+and put following content in migration file:
+```
+class ChangeReleafTranslationsKeyIndexType < ActiveRecord::Migration
+  def up
+    remove_index :releaf_translations, :key
+    add_index :releaf_translations, :key
+  end
+
+  def down
+    remove_index :releaf_translations, :key
+    add_index :releaf_translations, :key, unique: true
+  end
+end
+
+```
+
 ### 2016.02.16
 * all Releaf controller assets (javascripts and stylesheets) moved from `releaf/controllers/releaf/controller_name`
   pattern to `controllers/releaf/controller_name`.
