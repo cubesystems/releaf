@@ -134,9 +134,6 @@ jQuery(function()
             var trigger_label = field.find('.localization-switch .trigger .label');
 
             trigger_label.text( locale );
-
-
-            body.trigger( 'settingssave', [ "releaf.i18n.locale", locale ] );
         });
 
 
@@ -149,6 +146,7 @@ jQuery(function()
 
             form.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
 
+            body.trigger( 'settingssave', [ "releaf.i18n.locale", locale ] );
         });
 
 
