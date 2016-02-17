@@ -5,6 +5,6 @@ class Releaf::ResourceTableFields < Releaf::ResourceFields
   end
 
   def table_excluded_attributes
-    resource_class.column_names.select{|c| c.match(/.*_html$/) }
+    (base_attributes + localized_attributes).select{|c| c.match(/.*(_uid|_html)$/) }
   end
 end

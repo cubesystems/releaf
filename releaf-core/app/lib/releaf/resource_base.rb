@@ -14,20 +14,18 @@ class Releaf::ResourceBase
   end
 
   def localized_attributes
-    resource_class.translated_attribute_names.collect { |a| a.to_s }
+    @localized_attributes ||= localized_attributes? ? resource_class.translated_attribute_names.map(&:to_s) : []
   end
 
   def base_attributes
-    resource_class.column_names - excluded_attributes
+    resource_class.column_names
   end
 
   def values(include_associations: true)
-    list = base_attributes
-    list += localized_attributes if localized_attributes?
+    list = base_attributes + localized_attributes - excluded_attributes
     list += associations_attributes if include_associations
     list
   end
-
 
   def associations_attributes
     associations.collect do |association|
