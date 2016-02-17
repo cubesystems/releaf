@@ -5,7 +5,7 @@ class CreateReleafTranslations < ActiveRecord::Migration
 
       t.timestamps(null: false)
     end
-    add_index :releaf_translations, :key, :unique => true
+    add_index :releaf_translations, :key
 
     create_table :releaf_translation_data do |t|
       t.integer :translation_id, :null => false

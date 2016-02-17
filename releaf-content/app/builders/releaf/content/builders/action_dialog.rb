@@ -53,8 +53,16 @@ module Releaf::Content::Builders
       super << confirm_button
     end
 
+    def confirm_button_text
+      t(action.to_s.humanize)
+    end
+
+    def confirm_button_attributes
+      {class: "primary", type: "submit", data: { type: 'ok', disable: true}}
+    end
+
     def confirm_button
-      button(t(action), "check", class: "primary", type: "submit", data: { type: 'ok', disable: true })
+      button(confirm_button_text, "check", confirm_button_attributes)
     end
   end
 end
