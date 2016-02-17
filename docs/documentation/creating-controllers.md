@@ -80,6 +80,16 @@ mount_releaf_at '/admin' do
 end
 ```
 
+Routes can be namespaced:
+
+```ruby
+mount_releaf_at '/admin' do
+  namespace :library do
+    releaf_resources :books
+    end
+end
+```
+
 And so on, just like normally in Rails.
 
 ## Add the controller to Releaf navigation menu {#menu}
