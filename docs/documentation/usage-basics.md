@@ -30,7 +30,6 @@ It will immediately have the following actions and views working out of the box:
 * __Index__
   * A table listing all existing records of the respective model
   * All attributes of the model displayed as columns
-  * Built-in search through all displayed text attributes
   * Pagination
 * __Creation and editing__
   * Automatically generated forms
@@ -41,8 +40,6 @@ It will immediately have the following actions and views working out of the box:
 * __Deletion__
   * Delete buttons available from both index and edit views
   * Confirmation dialog before deletion
-
-{% comment %} :TODO: which attributes are searchable by default? {% endcomment %}
 
 It will then be possible to start [customizing the controller](controllers.html) and its [views](views.html) as needed.
 

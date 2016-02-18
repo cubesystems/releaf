@@ -43,7 +43,7 @@ class Admin::BooksController < Releaf::ActionController
 end
 ```
 
-Note that a text search feature is provided by Releaf, and there is no need to override the `resources` method just for that. See [Customizing search](search.html) for more on how it works.
+Note that a text search feature is provided by Releaf, and there is no need to override the `resources` method just for that. See [Using search](search.html) for more on how it works.
 
 
 ## Changing the number of items displayed per page

@@ -162,10 +162,6 @@ The sidebar menu should now have the newly added controller link visible.
 4. If your model has any required attributes, the error messages should appear next to the empty required fields. Fill out the form and click "Save" again.
 5. Go to the index view via menu or breadcrumbs at the top of the page. The table should now show your newly created record.
 
-A built-in search is available at the top of the page. By default, it filters records by matching the entered text against all text attributes of the model.
-
-{% comment %} :TODO: link to instructions about customizing search {% endcomment %}
-
 To delete a record, click on the toolbox icon in the row of the deletable record, choose "Delete" and confirm the deletion in the dialog.
 
 The toolbox widget is also available on the top right of the the edit view.

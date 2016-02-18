@@ -1,8 +1,8 @@
 ---
-title: "Customizing search"
+title: "Using search"
 weight: 1100
 ---
 
-# Customizing the built-in search feature
+# Using the built-in text search feature
 
 {% comment %} :TODO: write this {% endcomment %}
