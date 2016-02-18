@@ -114,7 +114,16 @@ describe Releaf::I18nDatabase::Backend do
       end
     end
 
-    context "when last translation update differs from last cache load" do
+    context "when last translation update does not differ from last cache load but translations has not been loaded" do
+      it "returns true" do
+        allow(described_class).to receive(:translations_updated_at).and_return(1)
+        described_class::CACHE[:updated_at] = 1
+        described_class::CACHE[:translations] = nil
+        expect(subject.reload_cache?).to be true
+      end
+    end
+
+    context "when last translation update does not differ from last cache load" do
       it "returns false" do
         allow(described_class).to receive(:translations_updated_at).and_return(1)
         described_class::CACHE[:updated_at] = 1

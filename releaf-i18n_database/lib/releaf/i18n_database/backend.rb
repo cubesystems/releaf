@@ -29,7 +29,7 @@ module Releaf
       end
 
       include ::I18n::Backend::Base, ::I18n::Backend::Flatten
-      CACHE = {updated_at: nil, translations: {}, missing: {}}
+      CACHE = {updated_at: nil, translations: nil, missing: {}}
       UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
 
       def reload_cache
@@ -39,7 +39,7 @@ module Releaf
       end
 
       def reload_cache?
-        CACHE[:updated_at] != self.class.translations_updated_at
+        (CACHE[:updated_at] != self.class.translations_updated_at)|| CACHE[:translations].nil?
       end
 
       def self.translations_updated_at
