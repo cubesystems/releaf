@@ -12,7 +12,7 @@ All aspects of the default functionality can be fully customized, extended or di
 These chapters describe the general principles of working with the default actions:
 
 * [Index action](controllers/index.html)
-* [Create and Edit actions](controllers/edit.html)
+* [New and Edit actions](controllers/edit.html)
 * [Destroy action](controllers/destroy.html)
 * [Disabling default actions](controllers/features.html)
 * [Adding custom actions](controllers/custom-actions.html)
