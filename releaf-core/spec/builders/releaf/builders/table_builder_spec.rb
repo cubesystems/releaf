@@ -513,28 +513,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
-  describe "#format_image_content" do
-    context "when resource value is not blank" do
-      let(:resource){ create(:book, cover_image: File.expand_path('../fixtures/cs.png', __dir__)) }
-
-      it "returns thumnail image" do
-        pattern = /\<img alt=\"\" src=\"\/media\/.*\" \/\>/
-        expect(subject.format_image_content(resource, :cover_image_uid)).to match(pattern)
-      end
-
-      it "uses 16px height for thumbnail" do
-        expect(resource.cover_image).to receive(:thumb).with('x16').and_call_original
-        subject.format_image_content(resource, :cover_image_uid)
-      end
-    end
-
-    context "when resource value is blank" do
-      it "returns nil" do
-        expect(subject.format_image_content(resource, :cover_image_uid)).to be nil
-      end
-    end
-  end
-
   describe "#column_type" do
     it "returns database column type for given column" do
       expect(subject.column_type(resource_class, :active)).to eq(:boolean)
@@ -573,7 +551,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
   describe "#cell_format_method" do
     before do
       allow(subject).to receive(:association_column?).with(:title).and_return(false)
-      allow(subject).to receive(:image_column?).with(:title).and_return(false)
       allow(subject).to receive(:column_type_format_method).with(:title).and_return(:format_crazy_shit)
     end
 
@@ -585,13 +562,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
       it "returns :format_association_content" do
         allow(subject).to receive(:association_column?).with(:title).and_return(true)
         expect(subject.cell_format_method(:title)).to eq(:format_association_content)
-      end
-    end
-
-    context "when #association_column? returns true for given column" do
-      it "returns :format_association_content" do
-        allow(subject).to receive(:image_column?).with(:title).and_return(true)
-        expect(subject.cell_format_method(:title)).to eq(:format_image_content)
       end
     end
   end

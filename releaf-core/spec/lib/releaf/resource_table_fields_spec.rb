@@ -11,8 +11,10 @@ describe Releaf::ResourceTableFields do
   end
 
   describe "#table_excluded_attributes" do
-    it "returns array with attributes matching *_html pattern" do
-      expect(subject.table_excluded_attributes).to eq(%w(summary_html))
+    it "returns array with all base and localized attributes matching *_html and *_uid pattern" do
+      allow(subject).to receive(:localized_attributes).and_return(["color", "body_html", "some_uid"])
+      allow(subject).to receive(:base_attributes).and_return(["image_uid", "title", "price", "description_html"])
+      expect(subject.table_excluded_attributes).to eq(%w(image_uid description_html body_html some_uid))
     end
   end
 end

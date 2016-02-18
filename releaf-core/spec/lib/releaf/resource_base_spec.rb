@@ -31,9 +31,28 @@ describe Releaf::ResourceBase do
   end
 
   describe "#localized_attributes" do
-    it "returns array of all localized attributes params" do
+    before do
       allow(subject.resource_class).to receive(:translated_attribute_names).and_return([:title, :summary])
-      expect(subject.localized_attributes).to eq(["title", "summary"])
+    end
+
+    it "caches returned result" do
+      expect(subject).to receive(:localized_attributes?).and_return(true).once
+      subject.localized_attributes
+      subject.localized_attributes
+    end
+
+    context "when resource has localized attributes" do
+      it "returns array of all localized attributes params" do
+        allow(subject).to receive(:localized_attributes?).and_return(true)
+        expect(subject.localized_attributes).to eq(["title", "summary"])
+      end
+    end
+
+    context "when resource has no localized attributes" do
+      it "returns empty array" do
+        allow(subject).to receive(:localized_attributes?).and_return(false)
+        expect(subject.localized_attributes).to eq([])
+      end
     end
   end
 
@@ -75,36 +94,29 @@ describe Releaf::ResourceBase do
     before do
       allow(subject).to receive(:associations_attributes).and_return(["x", "y"])
       allow(subject).to receive(:base_attributes).and_return(["a", "b"])
-      allow(subject).to receive(:localized_attributes?).and_return(false)
+      allow(subject).to receive(:localized_attributes).and_return(["c", "d"])
     end
 
-    it "returns resource params array alongside associations params" do
-      expect(subject.values).to eq(["a", "b", "x", "y"])
+    it "returns resource base and localized attributes array alongside associations params" do
+      expect(subject.values).to eq(["a", "b", "c", "d", "x", "y"])
+    end
+
+    it "excludes all excludable base and localized attributes from returned array" do
+      allow(subject).to receive(:excluded_attributes).and_return(["a", "d", "x"])
+      expect(subject.values).to eq(["b", "c", "x", "y"])
     end
 
     context "when `include_associations` is false" do
       it "does not include association params" do
-        expect(subject.values(include_associations: false)).to eq(["a", "b"])
-      end
-    end
-
-    context "when resource has localized attributes" do
-      it "returns resource base attributes array alongside localized attributes" do
-        allow(subject).to receive(:localized_attributes?).and_return(true)
-        allow(subject).to receive(:localized_attributes).and_return(["c", "d"])
-        expect(subject.values).to eq(["a", "b", "c", "d", "x", "y"])
+        expect(subject.values(include_associations: false)).to eq(["a", "b", "c", "d"])
       end
     end
   end
 
   describe "#base_attributes" do
-    it "returns array with non-excluded attributes" do
+    it "returns array of resource columns" do
       allow(subject.resource_class).to receive(:column_names).and_return(["a", "b", "c"])
-      allow(subject).to receive(:excluded_attributes).and_return(["a"])
-      expect(subject.base_attributes).to eq(["b", "c"])
-
-      allow(subject).to receive(:excluded_attributes).and_return(["c"])
-      expect(subject.base_attributes).to eq(["a", "b"])
+      expect(subject.base_attributes).to eq(["a", "b", "c"])
     end
   end
 

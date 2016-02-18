@@ -169,13 +169,6 @@ class Releaf::Builders::TableBuilder
     I18n.l(value, format: :default, default: '%Y-%m-%d %H:%M:%S') unless value.nil?
   end
 
-  def format_image_content(resource, column)
-    if resource.send(column).present?
-      association_name = column.to_s.sub(/_uid$/, '')
-      image_tag(resource.send(association_name).thumb('x16').url, alt: '')
-    end
-  end
-
   def format_association_content(resource, column)
     format_string_content(resource, association_name(column))
   end
@@ -242,15 +235,9 @@ class Releaf::Builders::TableBuilder
   def cell_format_method(column)
     if association_column?(column)
       :format_association_content
-    elsif image_column?(column)
-      :format_image_content
     else
       column_type_format_method(column)
     end
-  end
-
-  def image_column?(column)
-    column =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
   end
 
   def association_column?(column)
