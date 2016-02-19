@@ -23,4 +23,4 @@ Some more customizations:
 
 The last chapter about controllers covers some [Common usage patterns](controllers/resource-class.html).
 
-Further interface customizations for each action are described in the [Customizing views](views.html) chapter.
+Further interface customizations for each action are described in the [Customizing views](builders.html) chapter.

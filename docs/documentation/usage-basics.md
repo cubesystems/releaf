@@ -41,7 +41,7 @@ It will immediately have the following actions and views working out of the box:
   * Delete buttons available from both index and edit views
   * Confirmation dialog before deletion
 
-It will then be possible to start [customizing the controller](controllers.html) and its [views](views.html) as needed.
+It will then be possible to start [customizing the controller](controllers.html) and its [views](builders.html) as needed.
 
 ## Building a public website CMS
 

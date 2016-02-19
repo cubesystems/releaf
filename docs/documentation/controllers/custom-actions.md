@@ -49,7 +49,7 @@ The new action will probably need some way of getting to it from the view.
 
 In the Export action example, the Index view would need an additional Export button in the footer.
 
-Doing this is described in the [Customizing views chapter](../views.html)
+Doing this is described in the [Customizing views chapter](../builders.html)
 
 {% comment %} :TODO: link to the correct section about customizing views {% endcomment %}
 

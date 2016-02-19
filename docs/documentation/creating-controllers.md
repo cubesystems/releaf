@@ -168,7 +168,7 @@ The toolbox widget is also available on the top right of the the edit view.
 
 {% comment %} :TODO: link to instructions about customizing toolboxes {% endcomment %}
 
-To customize the functionality, read further chapters on [controllers](controllers.html) and [views](views.html).
+To customize the functionality, read further chapters on [controllers](controllers.html) and [views](builders.html).
 
 
 

@@ -65,7 +65,7 @@ If `resources_per_page` returns `nil`, no pagination will be performed.
 
 ## Changing the displayed table columns {#resources}
 
-Customization of table columns in Index view is described in the [Customizing views chapter](../views.html)
+Customization of table columns in Index view is described in the [Customizing views chapter](../builders.html)
 
 {% comment %} :TODO: link to the specific section of views chapter {% endcomment %}
 

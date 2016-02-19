@@ -1,5 +1,5 @@
 ---
-title: "Common usage patterns"
+title: Common usage patterns
 weight: 1700
 ---
 
