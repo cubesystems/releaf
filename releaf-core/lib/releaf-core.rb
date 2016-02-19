@@ -17,6 +17,7 @@ module Releaf
   module Core
     require 'releaf/engine'
     require 'releaf/service'
+    require 'releaf/instance_cache'
     require 'releaf/component'
     require 'releaf/settings_ui'
     require 'releaf/route_mapper'
