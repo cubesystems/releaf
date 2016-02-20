@@ -65,5 +65,5 @@ Open `/admin` path on your development server, e.g. `http://localhost:3000/admin
 
 Sign in with `admin@example.com` as email and `password` as password.
 
-
+{% comment %} :TODO: describe installing component gems separately {% endcomment %}
 

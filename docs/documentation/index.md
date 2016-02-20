@@ -18,7 +18,7 @@ It consists of four main components:
   * Role-based access control to admin controllers
   * Easily replaceable with a different access control mechanism if needed
 * __I18n database backend__ (optional)
-  * I18n translation texts stored in a database
+  * [I18n translation texts stored in a database](i18n-database/)
   * Translations editable by users via admin interface instead of YAML files
 * __Website content tree__ (optional)
   * [Public website tree structure administration](public-website-tree/)
