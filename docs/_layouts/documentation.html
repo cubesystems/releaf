@@ -18,7 +18,8 @@
       <div id="docs" class="page">
         <div class="content with-nav">
           <nav>
-          {% include navigation.html context="/documentation/" %}
+          {% assign entries = site.pages | sort: "weight" %}
+          {% include navigation.html context="/documentation/" entries=entries %}
           </nav>
 
           <div class="text">
