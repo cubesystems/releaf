@@ -18,7 +18,19 @@
       <div id="docs" class="page">
         <div class="content with-nav">
           <nav>
-          {% assign entries = site.pages | sort: "weight" %}
+
+          {% assign entries = "" | split : "|" %}
+
+          {% for entry in site.pages %}
+            {% unless entry.show_in_menu == false %}
+              {% assign entries = entries | push : entry %}
+            {% endunless %}
+          {% endfor %}
+
+
+          {% assign entries = entries | sort: "weight" %}
+
+
           {% include navigation.html context="/documentation/" entries=entries %}
           </nav>
 
