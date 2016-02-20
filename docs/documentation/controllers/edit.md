@@ -11,7 +11,7 @@ By default, Releaf renders fields for all attributes of the model, except `id`, 
 
 The input control types used for each field are automatically detected from the model's attributes.
 
-See the [Customizing views chapter](../builders.html) for instructions on customizing the fields.
+See the [Customizing views chapter](../../builders/) for instructions on customizing the fields.
 
 When the resource is being saved, all model validations are performed and any errors are displayed under the respective fields.
 

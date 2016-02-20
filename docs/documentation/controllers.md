@@ -11,16 +11,16 @@ All aspects of the default functionality can be fully customized, extended or di
 
 These chapters describe the general principles of working with the default actions:
 
-* [Index action](controllers/index.html)
-* [New and Edit actions](controllers/edit.html)
-* [Destroy action](controllers/destroy.html)
-* [Disabling default actions](controllers/features.html)
-* [Adding custom actions](controllers/custom-actions.html)
+* [Index action](index/)
+* [New and Edit actions](edit/)
+* [Destroy action](destroy/)
+* [Disabling default actions](features/)
+* [Adding custom actions](custom-actions/)
 
 Some more customizations:
 
-* [Changing the resource class](controllers/resource-class.html)
+* [Changing the resource class](resource-class/)
 
-The last chapter about controllers covers some [Common usage patterns](controllers/resource-class.html).
+The last chapter about controllers covers some [Common usage patterns](resource-class/).
 
-Further interface customizations for each action are described in the [Customizing views](builders.html) chapter.
+Further interface customizations for each action are described in the [Customizing views](../../builders/) chapter.

@@ -1,33 +1,36 @@
 {% capture html %}
 <ul class="nav">
-    {% assign page_slug   = page.url | split: "/" | last %}
-    {% assign page_folder = page.url | remove: page_slug %}
+    {% assign page_folder = page.url | split: "/" | pop | join: "/" | append: "/"  %}
 
     {% assign entries = include.entries %}
 
     {% for entry in entries %}
 
-        {% assign entry_slug = entry.url | split: "/" | last %}
-        {% assign entry_folder = entry.url | remove: entry_slug %}
+        {% assign entry_folder = entry.url | split: "/" | pop | join: "/" | append: "/" %}
 
-        {% if entry_folder == include.context %}
+        {% if include.root == true and entry.url == include.context %}
+            {% assign root_entry = true %}
+        {% else %}
+            {% assign root_entry = false %}
+        {% endif %}
 
-            {% assign entry_subfolder = entry.url | remove: ".html" | append: "/" %}
 
-            {% if page.url contains entry.url or page_folder contains entry_subfolder %}
+        {% if entry_folder == include.context or root_entry == true %}
+
+            {% assign entry_subfolder = entry.url %}
+
+            {% if page.url == entry.url or (root_entry != true and page_folder contains entry_subfolder) %}
               {% assign entry_active = true %}
             {% else %}
               {% assign entry_active = false %}
             {% endif %}
 
-            {% if entry_active == true %}
+            {% assign subentries = "" | split : "|" %}
+            {% if entry_active == true and root_entry != true %}
 
-                {% assign subentries = "" | split : "|" %}
                 {% for subentry in entries %}
-                  {% assign subentry_slug = subentry.url | split: "/" | last %}
-                  {% assign subentry_folder = subentry.url | remove: subentry_slug %}
 
-                  {% if subentry_folder contains entry_subfolder %}
+                  {% if subentry.url contains entry_subfolder and subentry.url != entry.url %}
                     {% assign subentries = subentries | push: subentry %}
                   {% endif %}
 
@@ -41,6 +44,7 @@
                 {% if entry_active == true and subentries.size > 0 %}
                     {% include navigation.html context=entry_subfolder entries=subentries %}
                 {% endif %}
+
             </li>
 
         {% endif %}

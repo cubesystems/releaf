@@ -1,6 +1,7 @@
 ---
 title: "Index action"
 weight: 1000
+permalink: "/documentation/controllers/index/"
 ---
 
 # Working with Index action
@@ -43,7 +44,7 @@ class Admin::BooksController < Releaf::ActionController
 end
 ```
 
-Note that a text search feature is provided by Releaf, and there is no need to override the `resources` method just for that. See [Using search](search.html) for more on how it works.
+Note that a text search feature is provided by Releaf, and there is no need to override the `resources` method just for that. See [Using search](../search/) for more on how it works.
 
 
 ## Changing the number of items displayed per page
@@ -65,7 +66,7 @@ If `resources_per_page` returns `nil`, no pagination will be performed.
 
 ## Changing the displayed table columns {#resources}
 
-Customization of table columns in Index view is described in the [Customizing views chapter](../builders.html)
+Customization of table columns in Index view is described in the [Customizing views chapter](../../builders/)
 
 {% comment %} :TODO: link to the specific section of views chapter {% endcomment %}
 

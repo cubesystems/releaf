@@ -19,7 +19,7 @@ The simplest typical case goes as follows:
 4. Add the controller to Releaf navigation menu (1 line of code).
 5. Grant access to the controller to an administrator role (1 tick in the permissions panel).
 
-These steps are described in more detail in the [Creating controllers](creating-controllers.html) chapter.
+These steps are described in more detail in the [Creating controllers](../creating-controllers/) chapter.
 
 After doing this, the new controller will become available as an item in Releaf's sidebar menu.
 
@@ -41,13 +41,13 @@ It will immediately have the following actions and views working out of the box:
   * Delete buttons available from both index and edit views
   * Confirmation dialog before deletion
 
-It will then be possible to start [customizing the controller](controllers.html) and its [views](builders.html) as needed.
+It will then be possible to start [customizing the controller](../controllers/) and its [views](../builders/) as needed.
 
 ## Building a public website CMS
 
 If the application has a public website side as well (i.e., some non-administrative views available to other users), Releaf can be used to create and manage the tree structure of that part of the application as well.
 
-For more on that, read the [Public website tree](public-website-tree.html) chapter.
+For more on that, read the [Public website tree](../public-website-tree/) chapter.
 
 
 

@@ -25,7 +25,7 @@ class Admin::BooksController < Releaf::ActionController
 end
 ```
 
-If your application does not have a public website, and therefore does not use a top-level namespace like `Admin::` for its controllers, you can [define your own intermediate controller](common-patterns.html#intermediate-controller) that includes its own automatic model detection for all your controllers:
+If your application does not have a public website, and therefore does not use a top-level namespace like `Admin::` for its controllers, you can [define your own intermediate controller](../common-patterns/#intermediate-controller) that includes its own automatic model detection for all your controllers:
 
 ```ruby
 class AdminController < Releaf::ActionController
