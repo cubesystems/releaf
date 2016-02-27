@@ -11,7 +11,8 @@ module Releaf::I18nDatabase
 
     def locale_value(locale)
       # search against all values to cache
-      translation_data.find{ |x| x.lang == locale.to_s }.try(:localization)
+      localized_value = translation_data.find{|item| item.lang == locale.to_s }
+      localized_value[:localization] if localized_value
     end
   end
 end
