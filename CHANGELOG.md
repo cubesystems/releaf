@@ -1,5 +1,30 @@
 ## Changelog
 
+### 2016.02.28
+* Translations models and tables renamed.
+
+create migration `rails g migration RenameReleafI18nBackendTables`
+and put following content in migration file:
+```
+class RenameReleafI18nBackendTables < ActiveRecord::Migration
+  def up
+    rename_table :releaf_translations, :releaf_i18n_entries
+    rename_table :releaf_translation_data, :releaf_i18n_entry_translations
+    rename_column :releaf_i18n_entry_translations, :translation_id, :i18n_entry_id
+    rename_column :releaf_i18n_entry_translations, :lang, :locale
+    rename_column :releaf_i18n_entry_translations, :localization, :text
+  end
+
+  def down
+    rename_table :releaf_i18n_entries, :releaf_translations
+    rename_table :releaf_i18n_entry_translations, :releaf_translation_data
+    rename_column :releaf_translation_data, :i18n_entry_id, :translation_id
+    rename_column :releaf_translation_data, :locale, :lang
+    rename_column :releaf_translation_data, :text, :localization
+  end
+end
+```
+
 ### 2016.02.17
 * Remove db level uniqueness index for translations key.
 

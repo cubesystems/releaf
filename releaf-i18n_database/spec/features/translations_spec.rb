@@ -3,14 +3,14 @@ feature "Translations" do
   background(create_translations: true) do
     auth_as_user
 
-    t1 = create(:translation, key: 'test.key1')
-    t2 = create(:translation, key: 'great.stuff')
-    t3 = create(:translation, key: 'geek.stuff')
-    create(:translation_data, lang: 'en', localization: 'testa atslēga', translation_id: t1.id)
-    create(:translation_data, lang: 'en', localization: 'awesome stuff', translation_id: t2.id)
-    create(:translation_data, lang: 'lv', localization: 'lieliska manta', translation_id: t2.id)
-    create(:translation_data, lang: 'en', localization: 'geek stuff', translation_id: t3.id)
-    create(:translation_data, lang: 'lv', localization: 'nūģu lieta', translation_id: t3.id)
+    translation_1 = Releaf::I18nDatabase::I18nEntry.create(key: 'test.key1')
+    translation_2 = Releaf::I18nDatabase::I18nEntry.create(key: 'great.stuff')
+    translation_3 = Releaf::I18nDatabase::I18nEntry.create(key: 'geek.stuff')
+    translation_1.i18n_entry_translation.create(locale: 'en', text: 'testa atslēga')
+    translation_2.i18n_entry_translation.create(locale: 'en', text: 'awesome stuff')
+    translation_2.i18n_entry_translation.create(locale: 'lv', text: 'lieliska manta')
+    translation_3.i18n_entry_translation.create(locale: 'en', text: 'geek stuff')
+    translation_3.i18n_entry_translation.create(locale: 'lv', text: 'nūģu lieta')
   end
 
   scenario "blank only filtering", js: true, create_translations: true  do
@@ -168,8 +168,9 @@ feature "Translations" do
 
     context "when translation exists within higher level key (instead of being scope)" do
       it "returns nil (Humanize key)" do
-        translation = create(:translation, key: "some.food")
-        create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+        translation = Releaf::I18nDatabase::I18nEntry.create(key: "some.food")
+        translation.i18n_entry_translation.create(locale: "lv", text: "suņi")
+
         expect(I18n.t("some.food", locale: "lv")).to eq("suņi")
         expect(I18n.t("some.food.asd", locale: "lv")).to eq("Asd")
       end
@@ -178,16 +179,18 @@ feature "Translations" do
     context "when pluralized translation requested" do
       context "when valid pluralized data matched" do
         it "returns pluralized translation" do
-          translation = create(:translation, key: "dog.other")
-          create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+          translation = Releaf::I18nDatabase::I18nEntry.create(key: "dog.other")
+          translation.i18n_entry_translation.create(locale: "lv", text: "suņi")
+
           expect(I18n.t("dog", locale: "lv", count: 2)).to eq("suņi")
         end
       end
 
       context "when invalid pluralized data matched" do
         it "returns nil (Humanize key)" do
-          translation = create(:translation, key: "dog.food")
-          create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
+          translation = Releaf::I18nDatabase::I18nEntry.create(key: "dog.food")
+          translation.i18n_entry_translation.create(locale: "lv", text: "suņi")
+
           expect(I18n.t("dog", locale: "lv", count: 2)).to eq("Dog")
         end
       end
@@ -195,8 +198,8 @@ feature "Translations" do
 
     context "when same translations with different cases exists" do
       it "returns case sensitive translation" do
-        translation = create(:translation, key: "Save")
-        create(:translation_data, translation: translation, lang: "lv", localization: "Saglabāt")
+        translation = Releaf::I18nDatabase::I18nEntry.create(key: "Save")
+        translation.i18n_entry_translation.create(locale: "lv", text: "Saglabāt")
 
         expect(I18n.t("save", locale: "lv")).to eq("Save")
         expect(I18n.t("Save", locale: "lv")).to eq("Saglabāt")
@@ -206,8 +209,8 @@ feature "Translations" do
     context "existing translation" do
       context "when translations hash exists in parent scope" do
         before do
-          translation = create(:translation, key: "dog.other")
-          create(:translation_data, translation: translation, lang: "en", localization: "dogs")
+          translation = Releaf::I18nDatabase::I18nEntry.create(key: "dog.other")
+          translation.i18n_entry_translation.create(locale: "en", text: "dogs")
         end
 
         context "when pluralized translation requested" do
@@ -226,14 +229,14 @@ feature "Translations" do
       context "when translation has default" do
         context "when default creation is disabled" do
           it "creates base translation" do
-            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest", create_default: false) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
+            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest", create_default: false) }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key) }
               .to(["xxx.test.mest"])
           end
         end
 
         context "when default creation is not disabled" do
           it "creates base and default translations" do
-            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::Translation.pluck(:key) }
+            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key) }
               .to(match_array(["xxx.mest", "xxx.test.mest"]))
           end
         end
@@ -242,15 +245,15 @@ feature "Translations" do
       context "in parent scope" do
         context "nonexistent translation in given scope" do
           it "uses parent scope" do
-            translation = create(:translation, key: "validation.admin.blank")
-            create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+            translation = Releaf::I18nDatabase::I18nEntry.create(key: "validation.admin.blank")
+            translation.i18n_entry_translation.create(locale: "lv", text: "Tukšs")
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
 
           context "when `inherit_scopes` option is `false`" do
             it "does not lookup upon higher level scopes" do
-              translation = create(:translation, key: "validation.admin.blank")
-              create(:translation_data, translation: translation, lang: "lv", localization: "Tukšs")
+              translation = Releaf::I18nDatabase::I18nEntry.create(key: "validation.admin.blank")
+              translation.i18n_entry_translation.create(locale: "lv", text: "Tukšs")
               expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv", inherit_scopes: false)).to eq("Blank")
             end
           end
@@ -258,11 +261,11 @@ feature "Translations" do
 
         context "and empty translation value in given scope" do
           it "uses parent scope" do
-            parent_translation = create(:translation, key: "validation.admin.blank")
-            create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
+            translation = Releaf::I18nDatabase::I18nEntry.create(key: "validation.admin.roles.blank")
+            translation.i18n_entry_translation.create(locale: "lv", text: "")
 
-            translation = create(:translation, key: "validation.admin.roles.blank")
-            create(:translation_data, translation: translation, lang: "lv", localization: "")
+            parent_translation = Releaf::I18nDatabase::I18nEntry.create(key: "validation.admin.blank")
+            parent_translation.i18n_entry_translation.create(locale: "lv", text: "Tukšs")
 
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukšs")
           end
@@ -270,11 +273,11 @@ feature "Translations" do
 
         context "and existing translation value in given scope" do
           it "uses given scope" do
-            parent_translation = create(:translation, key: "validation.admin.blank")
-            create(:translation_data, translation: parent_translation, lang: "lv", localization: "Tukšs")
+            translation = Releaf::I18nDatabase::I18nEntry.create(key: "validation.admin.roles.blank")
+            translation.i18n_entry_translation.create(locale: "lv", text: "Tukša vērtība")
 
-            translation = create(:translation, key: "validation.admin.roles.blank")
-            create(:translation_data, translation: translation, lang: "lv", localization: "Tukša vērtība")
+            parent_translation = Releaf::I18nDatabase::I18nEntry.create(key: "validation.admin.blank")
+            parent_translation.i18n_entry_translation.create(locale: "lv", text: "Tukšs")
 
             expect(I18n.t("blank", scope: "validation.admin.roles", locale: "lv")).to eq("Tukša vērtība")
           end
@@ -283,8 +286,8 @@ feature "Translations" do
 
       context "when scope defined" do
         it "uses given scope" do
-          translation = create(:translation, key: "admin.content.cancel")
-          create(:translation_data, translation: translation, lang: "lv", localization: "Atlikt")
+          translation = Releaf::I18nDatabase::I18nEntry.create(key: "admin.content.cancel")
+          translation.i18n_entry_translation.create(locale: "lv", text: "Atlikt")
           expect(I18n.t("cancel", scope: "admin.content", locale: "lv")).to eq("Atlikt")
         end
       end
@@ -294,7 +297,7 @@ feature "Translations" do
       context "loading multiple times" do
         it "queries db only for the first time" do
           I18n.t("save", scope: "admin.xx")
-          expect(Releaf::I18nDatabase::Translation).not_to receive(:where)
+          expect(Releaf::I18nDatabase::I18nEntry).not_to receive(:where)
           I18n.t("save", scope: "admin.xx")
         end
       end
@@ -305,26 +308,26 @@ feature "Translations" do
         end
 
         it "creates empty translation" do
-          expect { I18n.t("save") }.to change { Releaf::I18nDatabase::Translation.where(key: "save").count }.by(1)
+          expect { I18n.t("save") }.to change { Releaf::I18nDatabase::I18nEntry.where(key: "save").count }.by(1)
         end
 
         context "when count option passed" do
           context "when create_plurals option not passed" do
             it "creates empty translation" do
-              expect { I18n.t("animals.horse", count: 1) }.to change { Releaf::I18nDatabase::Translation.where(key: "animals.horse").count }.by(1)
+              expect { I18n.t("animals.horse", count: 1) }.to change { Releaf::I18nDatabase::I18nEntry.where(key: "animals.horse").count }.by(1)
             end
           end
 
           context "when negative create_plurals option passed" do
             it "creates empty translation" do
-              expect { I18n.t("animals.horse", create_plurals: false, count: 1) }.to change { Releaf::I18nDatabase::Translation.where(key: "animals.horse").count }.by(1)
+              expect { I18n.t("animals.horse", create_plurals: false, count: 1) }.to change { Releaf::I18nDatabase::I18nEntry.where(key: "animals.horse").count }.by(1)
             end
           end
 
           context "when positive create_plurals option passed" do
             it "creates pluralized translations for all Releaf locales" do
               result = ["animals.horse.few", "animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
-              expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::I18nDatabase::Translation.pluck(:key).sort }.
+              expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key).sort }.
                 from([]).to(result.sort)
             end
           end
@@ -334,13 +337,14 @@ feature "Translations" do
 
     context "when scope requested" do
       it "returns all scope translations" do
-        translation1 = create(:translation, key: "admin.content.cancel")
-        create(:translation_data, translation: translation1, lang: "lv", localization: "Atlikt")
-        translation2 = create(:translation, key: "admin.content.save")
-        create(:translation_data, translation: translation2, lang: "lv", localization: "Saglabāt")
+        translation_1 = Releaf::I18nDatabase::I18nEntry.create(key: "admin.content.cancel")
+        translation_1.i18n_entry_translation.create(locale: "lv", text: "Atlikt")
 
-        expect(I18n.t("admin.content", locale: "lv")).to eq({cancel: "Atlikt", save: "Saglabāt"})
-        expect(I18n.t("admin.content", locale: "en")).to eq({cancel: nil, save: nil})
+        translation_2 = Releaf::I18nDatabase::I18nEntry.create(key: "admin.content.save")
+        translation_2.i18n_entry_translation.create(locale: "lv", text: "Saglabāt")
+
+        expect(I18n.t("admin.content", locale: "lv")).to eq(cancel: "Atlikt", save: "Saglabāt")
+        expect(I18n.t("admin.content", locale: "en")).to eq(cancel: nil, save: nil)
       end
     end
   end

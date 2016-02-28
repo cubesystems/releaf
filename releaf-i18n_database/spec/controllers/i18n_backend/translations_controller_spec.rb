@@ -14,19 +14,15 @@ describe Releaf::I18nDatabase::TranslationsController do
   end
 
   before build_translations: true do
-    @t1 = FactoryGirl.create(:translation, key: 'test.key1')
-    @t2 = FactoryGirl.create(:translation, key: 'great.stuff')
-    @t3 = FactoryGirl.create(:translation, key: 'geek.stuff')
-
-    @t1_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'testa atslēga', translation_id: @t1.id)
-
-    @t2_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'awesome stuff', translation_id: @t2.id)
-    @t2_lv = FactoryGirl.create(:translation_data, lang: 'lv', localization: 'lieliska manta', translation_id: @t2.id)
-
-    @t3_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'geek stuff', translation_id: @t3.id)
-    @t3_lv = FactoryGirl.create(:translation_data, lang: 'lv', localization: 'nūģu lieta', translation_id: @t3.id)
+    @t1 = Releaf::I18nDatabase::I18nEntry.create(key: 'test.key1')
+    @t2 = Releaf::I18nDatabase::I18nEntry.create(key: 'great.stuff')
+    @t3 = Releaf::I18nDatabase::I18nEntry.create(key: 'geek.stuff')
+    @t1.i18n_entry_translation.create(locale: 'en', text: 'testa atslēga')
+    @t2.i18n_entry_translation.create(locale: 'en', text: 'awesome stuff')
+    @t2.i18n_entry_translation.create(locale: 'lv', text: 'lieliska manta')
+    @t3.i18n_entry_translation.create(locale: 'en', text: 'geek stuff')
+    @t3.i18n_entry_translation.create(locale: 'lv', text: 'nūģu lieta')
   end
-
 
   describe "GET #index", build_translations: true do
     context "when not searching" do

@@ -40,9 +40,8 @@ describe Releaf::ApplicationHelper do
     end
 
     before do
-
-      translation = create(:translation, key: "admin.xx.colors-red")
-      create(:translation_data, lang: "en", localization: "Color red", translation: translation)
+      translation = Releaf::I18nDatabase::I18nEntry.create(key: "admin.xx.colors-red")
+      translation.i18n_entry_translation.create(locale: "en", text: "Color red")
       I18n.backend.translations_cache = nil
 
       allow(helper).to receive(:controller_scope_name).and_return("admin.xx")

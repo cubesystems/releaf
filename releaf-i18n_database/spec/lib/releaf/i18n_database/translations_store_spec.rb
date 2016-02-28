@@ -289,12 +289,14 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#localization_data" do
     it "returns hash with all non empty translations with locale prefixed key and localization as value" do
-      translation = create(:translation, key: "some.food")
-      create(:translation_data, translation: translation, lang: "lv", localization: "suņi")
-      create(:translation_data, translation: translation, lang: "en", localization: "dogs")
-      translation = create(:translation, key: "some.good")
-      create(:translation_data, translation: translation, lang: "lv", localization: "xx")
-      create(:translation_data, translation: translation, lang: "en", localization: "")
+      i18n_entry_1 = Releaf::I18nDatabase::I18nEntry.create(key: "some.food")
+      i18n_entry_1.i18n_entry_translation.create(locale: "lv", text: "suņi")
+      i18n_entry_1.i18n_entry_translation.create(locale: "en", text: "dogs")
+
+      i18n_entry_2 = Releaf::I18nDatabase::I18nEntry.create(key: "some.good")
+      i18n_entry_2.i18n_entry_translation.create(locale: "lv", text: "xx")
+      i18n_entry_2.i18n_entry_translation.create(locale: "en", text: "")
+
       expect(subject.localization_data).to eq("lv.some.food" => "suņi", "en.some.food" => "dogs",
                                               "lv.some.good" => "xx")
     end
@@ -306,8 +308,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#stored_keys" do
     it "returns hash with existing translation keys" do
-      create(:translation, key: "some.food")
-      create(:translation, key: "some.good")
+      Releaf::I18nDatabase::I18nEntry.create(key: "some.food")
+      Releaf::I18nDatabase::I18nEntry.create(key: "some.good")
       expect(subject.stored_keys).to eq("some.food" => true, "some.good" => true)
     end
 
@@ -481,9 +483,9 @@ describe Releaf::I18nDatabase::TranslationsStore do
     context "when pluralizable translation given" do
       it "creates translation for each pluralization form" do
         allow(subject).to receive(:pluralizable_translation?).with(a: "b").and_return(true)
-        expect(Releaf::I18nDatabase::Translation).to receive(:create).with(key: "aasd.oihgja.sd.one")
-        expect(Releaf::I18nDatabase::Translation).to receive(:create).with(key: "aasd.oihgja.sd.many")
-        expect(Releaf::I18nDatabase::Translation).to receive(:create).with(key: "aasd.oihgja.sd.other")
+        expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.one")
+        expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.many")
+        expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.other")
         subject.create_missing("aasd.oihgja.sd", a: "b")
       end
     end
@@ -491,7 +493,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
     context "when non pluralizable translation given" do
       it "creates translation" do
         allow(subject).to receive(:pluralizable_translation?).with(a: "b").and_return(false)
-        expect(Releaf::I18nDatabase::Translation).to receive(:create).with(key: "aasd.oihgja.sd")
+        expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd")
         subject.create_missing("aasd.oihgja.sd", a: "b")
       end
     end

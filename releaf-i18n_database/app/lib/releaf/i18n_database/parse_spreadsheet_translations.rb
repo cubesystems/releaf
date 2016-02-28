@@ -44,7 +44,7 @@ module Releaf::I18nDatabase
     end
 
     def translation_instance(key, localizations)
-      translation = Releaf::I18nDatabase::Translation.where(key: key).first_or_initialize
+      translation = Releaf::I18nDatabase::I18nEntry.where(key: key).first_or_initialize
       maintain_translation_locales(translation, localizations)
 
       translation
@@ -52,9 +52,9 @@ module Releaf::I18nDatabase
 
     def maintain_translation_locales(translation, localizations)
       locales.each_with_index do|locale, i|
-        translation_data = translation.translation_data.find{|item| item.lang == locale }
-        translation_data ||= translation.translation_data.build(lang: locale, localization: "")
-        translation_data.localization = localizations[i] if localizations[i].present?
+        locale_translation = translation.i18n_entry_translation.find{|item| item.locale == locale }
+        locale_translation ||= translation.i18n_entry_translation.build(locale: locale, text: "")
+        locale_translation.text = localizations[i] if localizations[i].present?
       end
     end
   end

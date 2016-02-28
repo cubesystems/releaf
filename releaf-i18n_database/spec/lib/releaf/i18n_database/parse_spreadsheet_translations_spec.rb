@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
-  let(:translation){ Releaf::I18nDatabase::Translation.new }
+  let(:translation){ Releaf::I18nDatabase::I18nEntry.new }
   let(:fixture_path){ File.expand_path('../../../fixtures/translations_import.xlsx', __dir__) }
   let(:error_message){ "Don't know how to open file #{fixture_path}" }
   subject{ described_class.new(file_path: fixture_path, extension: "xlsx") }
@@ -102,8 +102,8 @@ describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
 
   describe "#translation_instance" do
     it "returns first or initialized translation for given key and given localizations built" do
-      where_scope = Releaf::I18nDatabase::Translation.where(key: ["sommmmquery"])
-      allow(Releaf::I18nDatabase::Translation).to receive(:where).with(key: "as.ld").and_return(where_scope)
+      where_scope = Releaf::I18nDatabase::I18nEntry.where(key: ["sommmmquery"])
+      allow(Releaf::I18nDatabase::I18nEntry).to receive(:where).with(key: "as.ld").and_return(where_scope)
       allow(where_scope).to receive(:first_or_initialize).and_return(translation)
 
       expect(subject).to receive(:maintain_translation_locales).with(translation, ["x", "y"])
@@ -114,18 +114,18 @@ describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
   describe "#maintain_translation_locales" do
     before do
       allow(subject).to receive(:locales).and_return(["en", "de", "ge", "lv"])
-      translation.translation_data.build(lang: "de", localization: "po")
-      translation.translation_data.build(lang: "ge", localization: "x")
+      translation.i18n_entry_translation.build(locale: "de", text: "po")
+      translation.i18n_entry_translation.build(locale: "ge", text: "x")
     end
 
     it "builds translation data for all missing locales" do
       expect{ subject.maintain_translation_locales(translation, ["ent", "det", "get", "lvt"]) }
-        .to change{ translation.translation_data.map{|td| td.lang } }.from(["de", "ge"]).to(["de", "ge", "en", "lv"])
+        .to change{ translation.i18n_entry_translation.map{|td| td.locale } }.from(["de", "ge"]).to(["de", "ge", "en", "lv"])
     end
 
     it "overwrites existing translation data localizations only if new localizations is not empty" do
       expect{ subject.maintain_translation_locales(translation, ["ent", "", "get", "lvt"]) }
-        .to change{ translation.translation_data.map{|td| [td.lang, td.localization] } }.to([["de", "po"], ["ge", "get"], ["en", "ent"], ["lv", "lvt"]])
+        .to change{ translation.i18n_entry_translation.map{|td| [td.locale, td.text] } }.to([["de", "po"], ["ge", "get"], ["en", "ent"], ["lv", "lvt"]])
     end
   end
 end
