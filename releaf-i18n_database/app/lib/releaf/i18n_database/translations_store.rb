@@ -73,14 +73,15 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def localization_data
-    Releaf::I18nDatabase::TranslationData.where("localization <> ''").
-      joins("LEFT JOIN releaf_translations ON releaf_translations.id = translation_id").
-      pluck("CONCAT(lang, '.', releaf_translations.key) AS translation_key", "localization").
-      to_h
+    Releaf::I18nDatabase::I18nEntryTranslation
+      .joins(:i18n_entry)
+      .where.not(text: '')
+      .pluck("CONCAT(locale, '.', releaf_i18n_entries.key) AS translation_key", "text")
+      .to_h
   end
 
   def stored_keys
-    Releaf::I18nDatabase::Translation.pluck("releaf_translations.key").inject({}) do|h, key|
+    Releaf::I18nDatabase::I18nEntry.pluck(:key).inject({}) do|h, key|
       h.update(key => true)
     end
   end
@@ -125,10 +126,10 @@ class Releaf::I18nDatabase::TranslationsStore
   def create_missing(key, options)
     if pluralizable_translation?(options)
       locales_pluralizations.each do|pluralization|
-        Releaf::I18nDatabase::Translation.create(key: "#{key}.#{pluralization}")
+        Releaf::I18nDatabase::I18nEntry.create(key: "#{key}.#{pluralization}")
       end
     else
-      Releaf::I18nDatabase::Translation.create(key: key)
+      Releaf::I18nDatabase::I18nEntry.create(key: key)
     end
   end
 

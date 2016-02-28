@@ -3,7 +3,7 @@ require "rails_helper"
 describe Releaf::I18nDatabase::Translations::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end
   let(:template){ TableBuilderTestHelper.new }
-  let(:resource_class){ Releaf::I18nDatabase::Translation }
+  let(:resource_class){ Releaf::I18nDatabase::I18nEntry }
   let(:subject){ described_class.new([], resource_class, template, {}) }
 
   before do

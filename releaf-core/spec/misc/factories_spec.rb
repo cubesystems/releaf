@@ -14,18 +14,6 @@ describe "FactoryGirl factories" do
     end
   end
 
-  describe "translation factory" do
-    it "creates new translation" do
-      expect { create(:translation) }.to change { Releaf::I18nDatabase::Translation.count }.by(1)
-    end
-  end
-
-  describe "translation data factory" do
-    it "creates new translation data" do
-      expect { create(:translation_data) }.to change { Releaf::I18nDatabase::TranslationData.count }.by(1)
-    end
-  end
-
   describe "node factory" do
     it "creates new content node" do
       expect { create(:node) }.to change { Node.count }.by(1)

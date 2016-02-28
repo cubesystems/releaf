@@ -1,6 +1,6 @@
 class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   def self.resource_class
-    Releaf::I18nDatabase::Translation
+    Releaf::I18nDatabase::I18nEntry
   end
 
   def edit
@@ -118,7 +118,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def load_translation(key, localizations)
-    translation = Releaf::I18nDatabase::Translation.where(key: key).first_or_initialize
+    translation = Releaf::I18nDatabase::I18nEntry.where(key: key).first_or_initialize
     translation.key = key
 
     localizations.each_pair do |locale, localization|
@@ -129,13 +129,13 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def load_translation_data(translation, locale, localization)
-    translation_data = translation.translation_data.find{ |x| x.lang == locale }
+    translation_data = translation.i18n_entry_translation.find{ |x| x.locale == locale }
     # replace existing locale value only if new one is not blank
     if translation_data
-      translation_data.localization = localization
+      translation_data.text = localization
       # always assign value for new locale
     elsif translation_data.nil?
-      translation_data = translation.translation_data.build(lang: locale, localization: localization)
+      translation_data = translation.i18n_entry_translation.build(locale: locale, text: localization)
     end
 
     translation_data

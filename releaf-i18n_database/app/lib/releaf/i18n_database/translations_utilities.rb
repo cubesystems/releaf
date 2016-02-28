@@ -8,7 +8,7 @@ module Releaf::I18nDatabase
     end
 
     def self.filter_only_blank_translations(collection)
-      blank_where_collection = Releaf::I18nDatabase::Translation
+      blank_where_collection = Releaf::I18nDatabase::I18nEntry
       search_columns.each do |column|
         blank_where_collection = blank_where_collection.where(column.eq('').or(column.eq(nil)))
       end
@@ -30,7 +30,7 @@ module Releaf::I18nDatabase
     end
 
     def self.search_columns
-      [Releaf::I18nDatabase::Translation.arel_table[:key]] + locale_tables.map{|_locale, table| table[:localization] }
+      [Releaf::I18nDatabase::I18nEntry.arel_table[:key]] + locale_tables.map{|_locale, table| table[:text] }
     end
 
     def self.escape_search_string(string)
@@ -39,7 +39,7 @@ module Releaf::I18nDatabase
 
     def self.locale_tables
       Releaf.application.config.all_locales.inject({}) do|h, locale|
-        h.update(locale => Releaf::I18nDatabase::TranslationData.arel_table.alias("#{locale}_data"))
+        h.update(locale => Releaf::I18nDatabase::I18nEntryTranslation.arel_table.alias("#{locale}_data"))
       end
     end
 
@@ -49,17 +49,17 @@ module Releaf::I18nDatabase
 
     def self.localization_include_joins
       locale_tables.map do |locale, table|
-        "LEFT JOIN #{table.relation.name} AS #{table.name} ON #{locale}_data.translation_id = releaf_translations.id AND #{locale}_data.lang = '#{locale}'"
+        "LEFT JOIN #{table.relation.name} AS #{table.name} ON #{locale}_data.i18n_entry_id = releaf_i18n_entries.id AND #{locale}_data.locale = '#{locale}'"
       end
     end
 
     def self.localization_include_selects
-      (['releaf_translations.*'] + localization_include_locales_columns).join(', ')
+      (['releaf_i18n_entries.*'] + localization_include_locales_columns).join(', ')
     end
 
     def self.localization_include_locales_columns
       locale_tables.map do |locale, table|
-        ["#{table.name}.localization AS #{locale}_localization", "#{table.name}.id AS #{locale}_localization_id"]
+        ["#{table.name}.text AS #{locale}_localization", "#{table.name}.id AS #{locale}_localization_id"]
       end.flatten
     end
   end
