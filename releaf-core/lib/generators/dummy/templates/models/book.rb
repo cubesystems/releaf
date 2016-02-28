@@ -14,6 +14,4 @@ class Book < ActiveRecord::Base
   accepts_nested_attributes_for :book_sequels, allow_destroy: true
 
   dragonfly_accessor :cover_image
-
-  alias_attribute :to_text, :title
 end

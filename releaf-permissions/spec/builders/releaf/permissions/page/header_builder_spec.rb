@@ -55,10 +55,11 @@ describe Releaf::Permissions::Page::HeaderBuilder, type: :class do
   end
 
   describe "#profile_user_name" do
-    it "returns profile user name" do
-      admin = Releaf::Permissions::User.new(name: "a", surname: "b")
-      allow(subject).to receive(:user).and_return(admin)
-      expect(subject.profile_user_name).to eq("a b")
+    it "returns title for user instance" do
+      user = Releaf::Permissions::User.new(name: "a", surname: "b")
+      allow(subject).to receive(:user).and_return(user)
+      allow(subject).to receive(:resource_title).with(user).and_return("x t")
+      expect(subject.profile_user_name).to eq("x t")
     end
   end
 

@@ -14,7 +14,7 @@ module Releaf::Builders::ResourceView
   end
 
   def section_header_text
-    resource.new_record? ? t("Create new resource") : resource_to_text(resource)
+    resource.new_record? ? t("Create new resource") : resource_title(resource)
   end
 
   def section_header_extras

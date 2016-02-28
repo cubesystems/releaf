@@ -108,7 +108,7 @@ module Releaf::Builders::FormBuilder::Associations
   def releaf_item_field_choices(name, options = {})
     unless options.key? :select_options
       options[:select_options] = releaf_item_field_collection(name, options)
-        .collect{|item| [resource_to_text(item), item.id]}
+        .collect{|item| [resource_title(item), item.id]}
     end
 
     if options[:select_options].is_a? Array

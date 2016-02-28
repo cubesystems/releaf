@@ -254,22 +254,10 @@ describe Releaf::Builders::Base, type: :module do
     end
   end
 
-  describe "#resource_to_text" do
-    let(:resource){ Releaf::Permissions::User.new(name: "a", surname: "b") }
-
-    context "when given resource respond to #to_text method" do
-      it "returns resource #to_text output" do
-        expect(subject.resource_to_text(resource)).to eq("a b")
-      end
-    end
-
-    context "when given resource does not respond to #to_text method" do
-      it "returns resource #to_s output" do
-        allow(resource).to receive(:respond_to?).and_call_original
-        allow(resource).to receive(:respond_to?).with(:to_text).and_return(false)
-        allow(resource).to receive(:to_s).and_return("x")
-        expect(subject.resource_to_text(resource)).to eq("x")
-      end
+  describe "#resource_title" do
+    it "pass given resource to Releaf::ResourceBase.title and return result" do
+      allow(Releaf::ResourceBase).to receive(:title).with("x").and_return("ljhg")
+      expect(subject.resource_title("x")).to eq("ljhg")
     end
   end
 

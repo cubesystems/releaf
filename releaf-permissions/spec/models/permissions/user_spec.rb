@@ -14,10 +14,11 @@ describe Releaf::Permissions::User do
     it { is_expected.to belong_to(:role) }
   end
 
-  describe "#display_name" do
-    let(:user){ FactoryGirl.create(:user) }
+  describe "#releaf_title" do
     it "returns concated name and surname" do
-      expect(user.display_name).to eq(user.name + " " + user.surname)
+      subject.name = "John"
+      subject.surname = "Baum"
+      expect(subject.releaf_title).to eq("John Baum")
     end
   end
 end

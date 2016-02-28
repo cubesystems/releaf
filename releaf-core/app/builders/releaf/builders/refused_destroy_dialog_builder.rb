@@ -2,10 +2,11 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   include Releaf::Builders::ResourceDialog
 
   def section_body
+    message = "Deletion of %{resource} restricted due to existing relations:"
     tag(:div, class: "body") do
       [
         icon("ban"),
-        tag(:div, t("Deletion of %{resource} was refused due to existing relations:", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
+        tag(:div, t(message, default: message, resource: resource_title(resource)), class: "description"),
         restricted_relations
       ]
     end
@@ -42,9 +43,9 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   def relation_objects_item(item, relation)
     tag(:li) do
       unless relation[:controller].nil?
-        link_to(resource_to_text(item), controller: relation[:controller], action: "edit", id: item)
+        link_to(resource_title(item), controller: relation[:controller], action: "edit", id: item)
       else
-        resource_to_text(item)
+        resource_title(item)
       end
     end
   end

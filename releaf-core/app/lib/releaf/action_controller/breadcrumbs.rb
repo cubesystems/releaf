@@ -28,11 +28,7 @@ module Releaf::ActionController::Breadcrumbs
       name=  I18n.t('New record', scope: 'admin.breadcrumbs')
       url = url_for(action: :new, only_path: true) if url.nil?
     else
-      if resource.respond_to?(:to_text)
-        name = resource.send(:to_text)
-      else
-        name = I18n.t('Edit record', scope: 'admin.breadcrumbs')
-      end
+      name = Releaf::ResourceBase.title(resource)
       url = url_for(action: :edit, id: resource.id, only_path: true) if url.nil?
     end
     @breadcrumbs << { name: name, url: url }

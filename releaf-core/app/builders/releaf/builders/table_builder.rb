@@ -148,11 +148,7 @@ class Releaf::Builders::TableBuilder
 
   def format_string_content(resource, column)
     value = column_value(resource, column)
-    if value.respond_to? :to_text
-      value.to_text
-    else
-      value.to_s
-    end
+    resource_title(value)
   end
 
   def format_boolean_content(resource, column)

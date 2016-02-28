@@ -183,4 +183,30 @@ describe Releaf::ResourceBase do
       expect(subject.excluded_associations).to eq([:translations])
     end
   end
+
+  describe ".title" do
+    let(:resource){ Releaf::Permissions::User.new(name: "a", surname: "b") }
+    it "tries all `title_methods` methods and returns first existing method result" do
+      allow(described_class).to receive(:title_methods).and_return([:to_s, :id, :releaf_title])
+      allow(resource).to receive(:to_s).and_return("x")
+      allow(resource).to receive(:id).and_return("zz")
+      allow(resource).to receive(:releaf_title).and_return("yy")
+
+      allow(resource).to receive(:respond_to?).with(:to_s).and_return(false)
+      allow(resource).to receive(:respond_to?).with(:id).and_return(false)
+      allow(resource).to receive(:respond_to?).with(:releaf_title).and_return(true)
+      expect(described_class.title(resource)).to eq("yy")
+
+      allow(resource).to receive(:respond_to?).with(:to_s).and_return(false)
+      allow(resource).to receive(:respond_to?).with(:id).and_return(true)
+      expect(resource).to_not receive(:respond_to?).with(:releaf_title)
+      expect(described_class.title(resource)).to eq("zz")
+    end
+  end
+
+  describe ".title_methods" do
+    it "returns array of methods for trying cast resource to text" do
+      expect(described_class.title_methods).to eq([:releaf_title, :name, :title, :to_s])
+    end
+  end
 end

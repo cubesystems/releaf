@@ -369,24 +369,13 @@ describe Releaf::Builders::TableBuilder, type: :class do
   end
 
   describe "#format_string_content" do
-    context "when resource column value respond to #to_text method" do
-      it "returns value #to_text" do
-        fake_obj = double
-        allow(fake_obj).to receive(:to_text).and_return("nineninine")
-
-        allow(subject).to receive(:column_value).with(resource, :id)
-          .and_return(fake_obj)
+    context "when resource column value respond to #resource_title method" do
+      it "returns resource to title result" do
+        another_obj = Book.new
+        allow(subject).to receive(:column_value).with(resource, :id).and_return(another_obj)
+        allow(subject).to receive(:resource_title).with(another_obj).and_return("nineninine")
 
         expect(subject.format_string_content(resource, :id)).to eq("nineninine")
-      end
-    end
-
-    context "when resource column value do not respond to #to_text method" do
-      it "returns value casted to string" do
-        allow(subject).to receive(:column_value).with(resource, :id)
-          .and_return(99)
-
-        expect(subject.format_string_content(resource, :id)).to eq("99")
       end
     end
   end

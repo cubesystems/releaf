@@ -8,7 +8,7 @@ feature "Ajaxbox", js: true do
     user = Releaf::Permissions::User.last
     visit releaf_permissions_users_path
     click_link user.name
-    expect(page).to have_header(text: user.to_text)
+    expect(page).to have_header(text: user.releaf_title)
 
     open_toolbox_dialog "Delete"
     within_dialog{ click_link "No" }
@@ -79,7 +79,7 @@ feature "Ajaxbox", js: true do
     user = Releaf::Permissions::User.last
     visit releaf_permissions_users_path
     click_link user.name
-    expect(page).to have_header(text: user.to_text)
+    expect(page).to have_header(text: user.releaf_title)
     open_toolbox_dialog "Delete"
 
     expect(page).to have_css(".mfp-bg")
