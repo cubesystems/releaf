@@ -14,6 +14,7 @@ class CreateReleafTranslations < ActiveRecord::Migration
     end
     add_index :releaf_i18n_entry_translations, :locale
     add_index :releaf_i18n_entry_translations, :i18n_entry_id
-    add_index :releaf_i18n_entry_translations, [:locale, :i18n_entry_id], unique: true
+    add_index :releaf_i18n_entry_translations, [:locale, :i18n_entry_id], unique: true,
+      name: :index_releaf_i18n_entry_translations_on_locale_i18n_entry_id
   end
 end
