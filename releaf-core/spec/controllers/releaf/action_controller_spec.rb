@@ -426,17 +426,14 @@ describe Admin::BooksController do
   describe "GET #new" do
     it "assigns the requested record to @resource" do
       get :new
-
       expect(assigns(:resource).new_record?).to be true
     end
 
-    context "when the requested record responds to #to_text" do
-      it "uses the result of #to_text for resource's breadcrumb name" do
-        get :new
-        breadcrumbs = @breadcrumbs_base + [{name: "New record", url: new_admin_book_path}]
+    it "assigns special breadcrumb part for new record" do
+      get :new
+      breadcrumbs = @breadcrumbs_base + [{name: "New record", url: new_admin_book_path}]
 
-        expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
-      end
+      expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
     end
   end
 
@@ -451,24 +448,12 @@ describe Admin::BooksController do
       expect(assigns(:resource)).to eq(@resource)
     end
 
-    context "when the requested record responds to #to_text" do
-      it "uses the result of #to_text for resource's breadcrumb name" do
-        get :edit, id: @resource
-        breadcrumbs = @breadcrumbs_base + [{name: @resource.to_text, url: edit_admin_book_path(@resource.id)}]
+    it "assigns breadcrumb for resource" do
+      allow(Releaf::ResourceBase).to receive(:title).with(@resource).and_return("xxx")
+      get :edit, id: @resource
+      breadcrumbs = @breadcrumbs_base + [{name: "xxx", url: edit_admin_book_path(@resource.id)}]
 
-        expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
-      end
-    end
-
-    context "when the requested record does not respond to #to_text" do
-      it "uses default translation for resource's breadcrumb name" do
-        skip "Find out way how to stub loaded resource #respond_to?(:to_text)"
-        allow_any_instance_of(Book).to receive(:respond_to?).with(:to_text).and_return(false)
-        get :edit, id: @resource
-        breadcrumbs = @breadcrumbs_base + [{name: "Edit resource", url: edit_admin_book_path(@resource.id)}]
-
-        expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
-      end
+      expect(assigns(:breadcrumbs)).to eq(breadcrumbs)
     end
   end
 end

@@ -61,4 +61,14 @@ class Releaf::ResourceBase
   def excluded_associations
     [:translations]
   end
+
+  def self.title(resource)
+    title_methods.each do|method_name|
+      return resource.send(method_name) if resource.respond_to?(method_name)
+    end
+  end
+
+  def self.title_methods
+    [:releaf_title, :name, :title, :to_s]
+  end
 end

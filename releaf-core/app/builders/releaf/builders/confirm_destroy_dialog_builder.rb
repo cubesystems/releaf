@@ -4,7 +4,7 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmD
   end
 
   def description_content
-    resource_to_text(resource)
+    resource_title(resource)
   end
 
   def section_header_text

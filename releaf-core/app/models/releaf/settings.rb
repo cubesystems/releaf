@@ -3,7 +3,7 @@ class Releaf::Settings < RailsSettings::CachedSettings
   cattr_accessor :registry
   @@registry = {}.with_indifferent_access
 
-  def to_text
+  def releaf_title
     var
   end
 

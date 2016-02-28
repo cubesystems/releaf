@@ -1,10 +1,10 @@
 require "rails_helper"
 
 describe Releaf::Settings do
-  describe "#to_text" do
+  describe "#releaf_title" do
     it "returns var value" do
       subject.var = "x"
-      expect(subject.to_text).to eq("x")
+      expect(subject.releaf_title).to eq("x")
     end
   end
 

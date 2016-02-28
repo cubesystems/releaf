@@ -1,6 +1,17 @@
 ## Changelog
 
 ### 2016.02.28
+* Object title resolvation refactored.
+From now `to_text` need to be renamed to `releaf_title` in existing
+project.
+Releaf will try to check whether method exist and then return its
+result.
+Resolvable methods list: `releaf_title`, `name`, `title`, `to_s`.
+You can migrate you existing `to_text` methods with:
+```
+perl -p -i -e 's/to_text/releaf_title/g' `grep -ril "to_text" *`
+```
+
 * Translations models and tables renamed.
 
 create migration `rails g migration RenameReleafI18nBackendTables`

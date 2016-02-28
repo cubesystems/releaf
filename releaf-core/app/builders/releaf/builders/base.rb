@@ -76,9 +76,7 @@ module Releaf::Builders::Base
     controller_scope_name
   end
 
-  # calls `#to_text` on resource if resource supports it. Otherwise calls
-  # `#to_s` method
-  def resource_to_text(resource)
-    resource.send(resource.respond_to?(:to_text) ? :to_text : :to_s)
+  def resource_title(resource)
+    Releaf::ResourceBase.title(resource)
   end
 end

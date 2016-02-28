@@ -265,9 +265,6 @@ module Releaf::Content
       validates_presence_of :parent, if: :parent_id?
       validate :validate_parent_node_is_not_self
       validate :validate_parent_is_not_descendant
-
-      alias_attribute :to_text, :name
-
       belongs_to :content, polymorphic: true, dependent: :destroy
       accepts_nested_attributes_for :content
 

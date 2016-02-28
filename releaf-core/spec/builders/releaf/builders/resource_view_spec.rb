@@ -47,7 +47,7 @@ describe Releaf::Builders::ResourceView, type: :class do
   describe "#section_header_text" do
     before do
       allow(subject).to receive(:t).with("Create new resource").and_return("newww")
-      allow(subject).to receive(:resource_to_text).with(resource).and_return("existng")
+      allow(subject).to receive(:resource_title).with(resource).and_return("existng")
     end
 
     context "when resource is new object" do

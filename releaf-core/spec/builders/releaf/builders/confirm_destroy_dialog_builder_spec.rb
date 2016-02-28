@@ -37,8 +37,8 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
   end
 
   describe "#description_content" do
-    it "returns `resource_to_text` value" do
-      allow(subject).to receive(:resource_to_text).with(object).and_return("xx")
+    it "returns `resource_title` value" do
+      allow(subject).to receive(:resource_title).with(object).and_return("xx")
       expect(subject.description_content).to eq("xx")
     end
   end
