@@ -25,6 +25,9 @@ class RenameReleafI18nBackendTables < ActiveRecord::Migration
 end
 ```
 
+remove `allow_any_instance_of(Releaf::I18nDatabase::Backend).to receive(:reload_cache?) { false }` line from your
+`spec/rails_helper.rb`
+
 ### 2016.02.17
 * Remove db level uniqueness index for translations key.
 
