@@ -7,6 +7,8 @@ describe Releaf::Permissions::Page::MenuBuilder, type: :class do
 
   let(:controller){ Releaf::ActionController.new }
   let(:template){ MenuBuilderTestHelper.new }
+  let(:group_item){ Releaf::ControllerGroupDefinition.new(name: "x", items: []) }
+  let(:controller_item){ Releaf::ControllerDefinition.new(name: "y", controller: "_controller_") }
   subject { described_class.new(template) }
 
   before do
@@ -17,20 +19,70 @@ describe Releaf::Permissions::Page::MenuBuilder, type: :class do
     expect(described_class.ancestors).to include(Releaf::Builders::Page::MenuBuilder)
   end
 
-  describe "#build_items" do
-    it "filters only permitted controller items and item groups" do
-      list = ["item1", "item2", "item3"]
-      item_a = {items: ["a", "b"]}
-      item_b = {controller: "controller_b"}
-      item_c = {controller: "controller_c"}
+  describe "#menu_item" do
+    before do
+      allow(subject).to receive(:item_attributes).and_return({})
+      allow(subject).to receive(:menu_item_group).and_return("_content_")
+    end
 
-      allow(subject).to receive(:build_item).with("item1").and_return(item_a)
-      allow(subject).to receive(:build_item).with("item2").and_return(item_b)
-      allow(subject).to receive(:build_item).with("item3").and_return(item_c)
-      allow(subject).to receive(:controller_permitted?).with("controller_b").and_return(false)
-      allow(subject).to receive(:controller_permitted?).with("controller_c").and_return(true)
+    context "when item is permitted" do
+      it "returns parent method content" do
+        allow(subject).to receive(:menu_item_permitted?).with(group_item).and_return(true)
+        expect(subject.menu_item(group_item)).to eq("<li>_content_</li>")
+      end
+    end
 
-      expect(subject.build_items(list)).to eq([item_a, item_c])
+    context "when item is not permitted" do
+      it "returns nil" do
+        allow(subject).to receive(:menu_item_permitted?).with(group_item).and_return(false)
+        expect(subject.menu_item(group_item)).to be nil
+      end
+    end
+  end
+
+  describe "#menu_item_permitted?" do
+    context "when item is instance of `Releaf::ControllerGroupDefinition`" do
+      before do
+        allow(group_item).to receive(:controllers).and_return([
+          Releaf::ControllerDefinition.new(name: "a1", controller: "c1"),
+          Releaf::ControllerDefinition.new(name: "a2", controller: "c2"),
+          Releaf::ControllerDefinition.new(name: "a3", controller: "c3"),
+        ])
+      end
+
+      context "when any of group item controller is allowed" do
+        it "returns true" do
+          allow(subject).to receive(:controller_permitted?).with("c1").and_return(false)
+          allow(subject).to receive(:controller_permitted?).with("c2").and_return(true)
+          expect(subject).to_not receive(:controller_permitted?).with("c3")
+          expect(subject.menu_item_permitted?(group_item)).to be true
+        end
+      end
+
+      context "when none of group item controller is allowed" do
+        it "returns false" do
+          allow(subject).to receive(:controller_permitted?).with("c1").and_return(false)
+          allow(subject).to receive(:controller_permitted?).with("c2").and_return(false)
+          allow(subject).to receive(:controller_permitted?).with("c3").and_return(false)
+          expect(subject.menu_item_permitted?(group_item)).to be false
+        end
+      end
+    end
+
+    context "when item is instance of `Releaf::ControllerDefinition`" do
+      context "when item controller is allowed" do
+        it "returns true" do
+          allow(subject).to receive(:controller_permitted?).with("_controller_").and_return(true)
+          expect(subject.menu_item_permitted?(controller_item)).to be true
+        end
+      end
+
+      context "when item controller is not allowed" do
+        it "returns false" do
+          allow(subject).to receive(:controller_permitted?).with("_controller_").and_return(false)
+          expect(subject.menu_item_permitted?(controller_item)).to be false
+        end
+      end
     end
   end
 

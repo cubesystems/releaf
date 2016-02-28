@@ -153,89 +153,53 @@ describe Releaf::Configuration do
 
   describe "#extract_controllers" do
     it "returns recursively built hash with controllers from given array" do
-      list = [{controller: "a"}, {items: [{controller: "b"}, {controller: "c"}, {xx: "x"}]}, {controller: "d"}, {asd: "xx"}]
-      result = {"a"=>{controller: "a"}, "b"=>{controller: "b"}, "c"=>{controller: "c"}, "d" => {controller: "d"}}
+      item_1 = Releaf::ControllerDefinition.new(name: "aa", controller: :a)
+      item_2 = Releaf::ControllerDefinition.new(name: "bb", controller: :b)
+      item_3 = Releaf::ControllerDefinition.new(name: "cc", controller: :c)
+      item_4 = Releaf::ControllerDefinition.new(name: "dd", controller: :d)
+      item_5 = Releaf::ControllerDefinition.new(name: "ff", controller: :f)
+
+      group_item_1 = Releaf::ControllerGroupDefinition.new(name: "x", items: [])
+      group_item_2 = Releaf::ControllerGroupDefinition.new(name: "y", items: [])
+      allow(group_item_1).to receive(:controllers).and_return([item_3, item_4])
+      allow(group_item_2).to receive(:controllers).and_return([item_5])
+
+      list = [item_1, group_item_1, group_item_2, item_2]
+      result = {a: item_1, b: item_2, c: item_3, d: item_4, f: item_5}
       expect(subject.extract_controllers(list)).to eq(result)
     end
   end
 
   describe ".normalize_controllers" do
     it "returns list of normalized controllers" do
-      allow(described_class).to receive(:normalize_controller_item).with(:a).and_return("ab")
-      allow(described_class).to receive(:normalize_controller_item).with(:b).and_return("bc")
-      expect(described_class.normalize_controllers([:a, :b])).to eq(["ab", "bc"])
-    end
-  end
+      item_1 = Releaf::ControllerDefinition.new(name: "aa", controller: :a)
+      item_2 = Releaf::ControllerDefinition.new(name: "bb", controller: :b)
+      item_3 = Releaf::ControllerDefinition.new(name: "cc", controller: :c)
 
-  describe ".normalize_controller_item" do
-    describe ":controller" do
-      context "when given value is instance of `String`" do
-        it "use value as controller name" do
-          expect(described_class.normalize_controller_item("a")[:controller]).to eq("a")
-        end
-      end
+      group_item_1 = Releaf::ControllerGroupDefinition.new(name: "x", items: [])
+      group_item_2 = Releaf::ControllerGroupDefinition.new(name: "y", items: [])
 
-      context "when given value is hash" do
-        it "does not add controller value" do
-          expect(described_class.normalize_controller_item(a: "x")[:controller]).to be nil
-        end
+      allow(Releaf::ControllerGroupDefinition).to receive(:new).with(items: "x").and_return(group_item_2)
+      allow(Releaf::ControllerDefinition).to receive(:new).with(name: "y").and_return(item_2)
+      allow(Releaf::ControllerDefinition).to receive(:new).with("z").and_return(item_3)
 
-        it "does not modify controller value" do
-          expect(described_class.normalize_controller_item(controller: "x")[:controller]).to eq("x")
-        end
-      end
-    end
+      list = [
+        item_1,
+        group_item_1,
+        {items: "x"},
+        {name: "y"},
+        "z"
+      ]
 
-    describe ":name" do
-      context "when controller hash does not have name value" do
-        it "assigns controller value as name" do
-          expect(described_class.normalize_controller_item(controller: "x")[:name]).to eq("x")
-        end
-      end
+      result = [
+        item_1,
+        group_item_1,
+        group_item_2,
+        item_2,
+        item_3
+      ]
 
-      context "when controller hash has name value" do
-        it "does not change existing name value" do
-          expect(described_class.normalize_controller_item(controller: "x", name: "b")[:name]).to eq("b")
-        end
-      end
-    end
-
-    describe ":url_helper" do
-      context "when controller hash does not have neither helper or controller values" do
-        it "does not add url helper value" do
-          expect(described_class.normalize_controller_item(x: "x")[:url_helper]).to be nil
-        end
-      end
-
-      context "when controller hash has helper value" do
-        it "assigns symbolized helper value" do
-          expect(described_class.normalize_controller_item(controller: "x", helper: "b")[:url_helper]).to eq(:b)
-        end
-      end
-
-      context "when controller hash has controller value" do
-        it "assigns convert controller name to url helper" do
-          expect(described_class.normalize_controller_item(controller: "a/b")[:url_helper]).to eq(:a_b)
-        end
-      end
-    end
-
-    describe ":items" do
-      before do
-        allow(described_class).to receive(:normalize_controllers).with(["a", "b"]).and_return(["c", "d"])
-      end
-
-      context "when controller hash does not have items value" do
-        it "does not add items value" do
-          expect(described_class.normalize_controller_item(x: "x")[:items]).to be nil
-        end
-      end
-
-      context "when controller hash has items value" do
-        it "does normalizes items" do
-          expect(described_class.normalize_controller_item(x: "x", items: ["a", "b"])[:items]).to eq(["c", "d"])
-        end
-      end
+      expect(described_class.normalize_controllers(list)).to eq(result)
     end
   end
 end

@@ -118,6 +118,14 @@ describe Releaf::ActionController do
     end
   end
 
+  describe "#definition" do
+    it "returns definition from applicaiton controller config based on controller short name" do
+      allow(Releaf.application.config).to receive(:controllers).and_return("xxx" => "yyy")
+      allow(subject).to receive(:short_name).and_return("xxx")
+      expect(subject.definition).to eq("yyy")
+    end
+  end
+
   describe "#builder_scopes" do
 
     context "when controller is a direct child of Releaf::ActionController" do
@@ -382,8 +390,7 @@ describe Admin::BooksController do
   before do
     sign_in FactoryGirl.create(:user)
     @breadcrumbs_base = [
-      {name: I18n.t('home', scope: 'admin.breadcrumbs'), url: releaf_root_path},
-      {name: I18n.t('admin/books', scope: "admin.controllers"), url: admin_books_path},
+      {name: I18n.t('admin/books', scope: "admin.controllers"), url: admin_books_path}
     ]
   end
 

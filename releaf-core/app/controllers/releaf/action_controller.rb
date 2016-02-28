@@ -160,7 +160,11 @@ class Releaf::ActionController < ActionController::Base
   end
 
   def short_name
-    self.class.name.gsub("Controller", "").underscore
+    self.class.name.sub(/Controller$/, "").underscore
+  end
+
+  def definition
+    Releaf.application.config.controllers[short_name]
   end
 
   ActiveSupport.run_load_hooks(:base_controller, self)
