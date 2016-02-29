@@ -252,7 +252,9 @@ class Releaf::Builders::TableBuilder
 
     tag(:td) do
       if options[:url].blank?
-        content
+        tag(:span) do
+          content
+        end
       else
         tag(:a, href: options[:url]) do
           content

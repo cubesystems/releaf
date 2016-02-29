@@ -571,11 +571,11 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#cell" do
     context "when cell options :url value is blank" do
-      it "returns cell with #cell_content output" do
+      it "returns cell with #cell_contentoutput wrapped in a span" do
         options = {a: "x"}
         allow(subject).to receive(:cell_content)
           .with(resource, :title, options).and_return("_cell_content_")
-        content = '<td>_cell_content_</td>'
+        content = '<td><span>_cell_content_</span></td>'
 
         expect(subject.cell(resource, :title, options)).to eq(content)
 
@@ -585,7 +585,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
 
     context "when cell options :url value is not blank" do
-      it "returns cell with #cell_content output wrapped in 'a' element" do
+      it "returns cell with #cell_content output wrapped in a link" do
         allow(subject).to receive(:cell_content)
           .with(resource, :title, {a: "x", url: "y"}).and_return("_cell_content_")
 
