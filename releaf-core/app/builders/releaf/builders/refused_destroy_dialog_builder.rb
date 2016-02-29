@@ -23,13 +23,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   end
 
   def relation_description(relation, key)
-      (
-        unless relation[:controller].nil?
-          I18n.t(relation[:controller], scope: 'admin.controllers')
-        else
-          I18n.t(key, scope: 'admin.controllers')
-        end
-      ) << " (#{relation[:objects].count})"
+    "#{resource.class.human_attribute_name(key, create_default: false)} (#{relation[:objects].count})"
   end
 
   def relation_objects(relation)
@@ -42,10 +36,10 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def relation_objects_item(item, relation)
     tag(:li) do
-      unless relation[:controller].nil?
-        link_to(resource_title(item), controller: relation[:controller], action: "edit", id: item)
-      else
+      if relation[:controller].nil?
         resource_title(item)
+      else
+        link_to(resource_title(item), controller: relation[:controller], action: "edit", id: item)
       end
     end
   end

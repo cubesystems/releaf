@@ -156,7 +156,7 @@ class Releaf::ActionController < ActionController::Base
   end
 
   def page_title
-    I18n.t(params[:controller], scope: "admin.controllers") + " - " + Rails.application.class.parent_name
+    "#{definition.localized_name} - #{Rails.application.class.parent_name}"
   end
 
   def short_name
