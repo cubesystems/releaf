@@ -70,7 +70,7 @@ module Releaf
 
     def extract_controllers(list)
       list.each.inject({}) do |controller_list, item|
-        if item.is_a? Releaf::ControllerGroupDefinition
+        if item.respond_to? :controllers
           controller_list.merge!(extract_controllers(item.controllers))
         else
           controller_list[item.controller_name] = item
@@ -82,12 +82,12 @@ module Releaf
 
     def self.normalize_controllers(list)
       list.map do |item|
-        if item.is_a?(Releaf::ControllerGroupDefinition) || item.is_a?(Releaf::ControllerDefinition)
-          item
-        elsif item.is_a?(Hash) && item.has_key?(:items)
+        if item.is_a?(Hash) && item.has_key?(:items)
           ControllerGroupDefinition.new(item)
-        else
+        elsif item.is_a?(Hash) || item.is_a?(String)
           ControllerDefinition.new(item)
+        else
+          item
         end
       end
     end

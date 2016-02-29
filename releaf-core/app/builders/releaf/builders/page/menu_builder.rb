@@ -10,7 +10,7 @@ module Releaf::Builders::Page
 
     def active?(item)
       instance_cache("active_#{item.class.name}_#{item.name}") do
-        if item.is_a?(Releaf::ControllerGroupDefinition)
+        if controller_group?(item)
           item.controllers.find{|subitem| active?(subitem) }.present?
         else
           item.controller_name == controller.short_name
@@ -25,12 +25,16 @@ module Releaf::Builders::Page
 
     def menu_item(item)
       tag(:li, item_attributes(item)) do
-        if item.is_a?(Releaf::ControllerGroupDefinition)
+        if controller_group?(item)
           menu_item_group(item)
         else
           menu_item_single(item)
         end
       end
+    end
+
+    def controller_group?(item)
+      item.respond_to? :controllers
     end
 
     def menu_item_single(item)
@@ -46,7 +50,7 @@ module Releaf::Builders::Page
     end
 
     def collapsed_item?(item)
-      item.is_a?(Releaf::ControllerGroupDefinition) && !active?(item) && layout_settings("releaf.menu.collapsed.#{item.name}") == true
+      controller_group?(item) && !active?(item) && layout_settings("releaf.menu.collapsed.#{item.name}") == true
     end
 
     def item_attributes(item)
