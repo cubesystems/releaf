@@ -91,7 +91,6 @@ var RemoteValidator = function( form )
                     {
                         var error_object = {
                             message         : error.message,
-                            fullMessage     : error.full_message,
                             errorCode       : error.error_code,
                             fieldName       : fieldName
                         };
@@ -230,7 +229,7 @@ var RemoteValidator = function( form )
             }
 
             error_node.attr('data-validation-id', event_params.validation_id);
-            error_node.text( error.fullMessage );
+            error_node.text( error.message );
 
             if (new_error_node)
             {
