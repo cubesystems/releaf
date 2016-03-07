@@ -88,32 +88,20 @@ describe Releaf::Builders::FormBuilder::Associations, type: :class do
 
   describe "#releaf_item_field_choices" do
     before do
-      subject.object.author_id = 3
+      collection = [Author.new(name: "a", surname: "b", id: 1), Author.new(name: "c", surname: "d", id: 2)]
+      allow(subject).to receive(:releaf_item_field_collection)
+        .with(:author_id, x: "a").and_return(collection)
     end
 
     context "when no select_options passed within options" do
-      it "prefills select_options with corresponding collection array" do
-        collection = [Author.new(name: "a", surname: "b", id: 1), Author.new(name: "c", surname: "d", id: 2)]
-        allow(subject).to receive(:releaf_item_field_collection)
-          .with(:author_id, x: "a").and_return(collection)
-        allow(subject).to receive(:options_for_select).with([["a b", 1], ["c d", 2]], 3).and_return("xx")
-        expect(subject.releaf_item_field_choices(:author_id, x: "a")).to eq("xx")
+      it "returns corresponding collection array" do
+        expect(subject.releaf_item_field_choices(:author_id, x: "a")).to eq([["a b", 1], ["c d", 2]])
       end
     end
 
     context "when options have select_options passed" do
-      context "when select_options is array" do
-        it "process and return select options with `options_for_select` rails helper" do
-          collection = [["a b", 1], ["c d", 2]]
-          allow(subject).to receive(:options_for_select).with(collection, 3).and_return("xx")
-          expect(subject.releaf_item_field_choices(:author_id, select_options: collection)).to eq("xx")
-        end
-      end
-
-      context "when select_options is not array" do
-        it "returns select_options value" do
-          expect(subject.releaf_item_field_choices(:author_id, select_options: "xx")).to eq("xx")
-        end
+      it "returns `select_options` value" do
+        expect(subject.releaf_item_field_choices(:author_id, select_options: "xx")).to eq("xx")
       end
     end
   end

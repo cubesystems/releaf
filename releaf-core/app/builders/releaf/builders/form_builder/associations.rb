@@ -106,18 +106,11 @@ module Releaf::Builders::FormBuilder::Associations
   end
 
   def releaf_item_field_choices(name, options = {})
-    unless options.key? :select_options
-      options[:select_options] = releaf_item_field_collection(name, options)
-        .collect{|item| [resource_title(item), item.id]}
-    end
-
-    if options[:select_options].is_a? Array
-      choices = options_for_select(options[:select_options], object.send(name))
+    if options.key? :select_options
+      options[:select_options]
     else
-      choices = options[:select_options]
+      releaf_item_field_collection(name, options).collect{|item| [resource_title(item), item.id]}
     end
-
-    choices
   end
 
   def releaf_item_field_collection(name, options = {})
