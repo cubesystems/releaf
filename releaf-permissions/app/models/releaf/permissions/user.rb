@@ -16,5 +16,10 @@ module Releaf::Permissions
     def releaf_title
       [name, surname].join(' ')
     end
+
+    # Require password if we have new record or instance have empty password
+    def password_required?
+      new_record? || encrypted_password.blank?
+    end
   end
 end
