@@ -1,5 +1,11 @@
 ## Changelog
 
+### 2016.03.07
+* `Releaf::ErrorFormatter` refactored as `Releaf::BuildErrorsHash` service.
+Also, extra features as `full_message` and `data` passing to errors hash has been removed.
+For this kind of features, extend `Releaf::BuildErrorsHash` service and
+add all additional feautures to your custom class.
+
 ### 2016.02.28
 * Object title resolvation refactored.
 From now `to_text` need to be renamed to `releaf_title` in existing
