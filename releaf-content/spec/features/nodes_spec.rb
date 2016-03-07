@@ -243,7 +243,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        error_text = "Node with id #{@about_us.id} has error \"source or descendant node can't be parent of new node\""
+        error_text = "source or descendant node can't be parent of new node"
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
@@ -279,7 +279,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Move"
         end
 
-        error_text = "Node with id #{@about_us.id} has error \"can't be parent to itself\" on attribute \"parent_id\""
+        error_text = "can't be parent to itself"
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
