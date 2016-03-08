@@ -83,15 +83,15 @@ describe Releaf::Responders::AfterSaveResponder, type: :controller do
       end
 
       context "when options has :redirect key" do
-        it "calls `display_errors`" do
+        it "returns json with resource location url and status code `303`" do
           allow(subject).to receive(:options).and_return(redirect: true)
           expect(subject).to receive(:render).with(json: {url: "some_url"}, status: 303)
           subject.to_json
         end
       end
 
-      context "when options has key :destroyable with `false` value" do
-        it "renders `refused_destroy` template" do
+      context "when options has no :redirect key" do
+        it "redirects to resource location with status code `303`" do
           allow(subject).to receive(:options).and_return({})
           expect(subject).to receive(:redirect_to).with("some_url", status: 303)
           subject.to_json
