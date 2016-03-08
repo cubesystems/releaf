@@ -6,7 +6,7 @@ describe Releaf::Responders::AfterSaveResponder, type: :controller do
   subject{ described_class.new(controller, [resource]) }
 
   describe "#json_resource_errors" do
-    it "returns resource errors formatted with `Releaf::Releaf::ErrorFormatter`" do
+    it "returns resource errors hash built with `Releaf::BuildErrorsHash`" do
       allow(Releaf::BuildErrorsHash).to receive(:call).with(resource: resource, field_name_prefix: :resource)
         .and_return(a: "b")
       expect(subject.json_resource_errors).to eq(errors: {a: "b"})
