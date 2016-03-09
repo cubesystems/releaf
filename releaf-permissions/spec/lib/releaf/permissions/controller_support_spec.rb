@@ -14,7 +14,7 @@ describe Releaf::Permissions::ControllerSupport do
   end
 
   describe "before filters" do
-    it "adds `:authenticate!, :verify_controller_access!, :set_locale` as before filters in front of others" do
+    it "prepends `:authenticate!, :verify_controller_access!, :set_locale` before filters" do
       all_before_actions = subject._process_action_callbacks.select{|f| f.kind == :before}.map{|f| f.filter }
       expect(all_before_actions).to start_with(:authenticate!, :verify_controller_access!, :set_locale)
     end
