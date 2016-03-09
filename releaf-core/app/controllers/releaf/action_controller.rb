@@ -156,7 +156,10 @@ class Releaf::ActionController < ActionController::Base
   end
 
   def page_title
-    "#{definition.localized_name} - #{Rails.application.class.parent_name}"
+    title = Rails.application.class.parent_name
+    title = "#{definition.localized_name} - #{title}" if definition
+
+    title
   end
 
   def short_name
