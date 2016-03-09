@@ -25,7 +25,7 @@ and put following content in migration file:
 ```
 class RenameReleafI18nBackendTables < ActiveRecord::Migration
   def up
-    remove_index :releaf_translations, :index_releaf_translation_data_on_lang_and_translation_id
+    remove_index :releaf_translation_data, name: "index_releaf_translation_data_on_lang_and_translation_id"
     rename_table :releaf_translations, :releaf_i18n_entries
     rename_table :releaf_translation_data, :releaf_i18n_entry_translations
     rename_column :releaf_i18n_entry_translations, :translation_id, :i18n_entry_id
