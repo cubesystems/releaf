@@ -3,7 +3,7 @@ module Releaf::ActionController::Ajax
 
   included do
     helper_method :ajax?
-    before_filter :manage_ajax
+    before_action :manage_ajax
   end
 
   def ajax?

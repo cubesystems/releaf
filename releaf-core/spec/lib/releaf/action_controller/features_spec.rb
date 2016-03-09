@@ -17,8 +17,8 @@ describe Releaf::ActionController::Features do
     end
 
     it "adds itself to before filters" do
-      before_filters = subject._process_action_callbacks.select{|f| f.kind == :before}.map{|f| f.filter }
-      expect(before_filters).to include(:verify_controller_access!)
+      before_actions = subject._process_action_callbacks.select{|f| f.kind == :before}.map{|f| f.filter }
+      expect(before_actions).to include(:verify_controller_access!)
     end
 
     context "when no feature defined for action" do

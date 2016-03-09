@@ -2,7 +2,7 @@ module Releaf::ActionController::Features
   extend ActiveSupport::Concern
 
   included do
-    before_filter :verify_feature_availability!
+    before_action :verify_feature_availability!
     helper_method :feature_available?
     rescue_from Releaf::FeatureDisabled, with: :feature_disabled
   end

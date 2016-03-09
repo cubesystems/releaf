@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   protect_from_forgery with: :exception
-  before_filter :set_locale
+  before_action :set_locale
   layout "application"
   helper_method :translation_scope, :node_class, :site
 

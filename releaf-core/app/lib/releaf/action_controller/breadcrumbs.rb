@@ -2,7 +2,7 @@ module Releaf::ActionController::Breadcrumbs
   extend ActiveSupport::Concern
 
   included do
-    before_filter :build_breadcrumbs
+    before_action :build_breadcrumbs
   end
 
   def build_breadcrumbs

@@ -15,10 +15,10 @@ describe Releaf::Permissions::ControllerSupport do
 
   describe "before filters" do
     it "adds `:authenticate!, :verify_controller_access!, :set_locale` as before filters" do
-      all_before_filters = subject._process_action_callbacks.select{|f| f.kind == :before}.map{|f| f.filter }
-      before_filters = [:authenticate!, :verify_controller_access!, :set_locale]
+      all_before_actions = subject._process_action_callbacks.select{|f| f.kind == :before}.map{|f| f.filter }
+      before_actions = [:authenticate!, :verify_controller_access!, :set_locale]
 
-      expect(all_before_filters & before_filters).to eq(before_filters)
+      expect(all_before_actions & before_actions).to eq(before_actions)
     end
   end
 
