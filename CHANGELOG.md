@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2016.03.09
+* `Releaf::ControllerDefinition` implemented for unified controller
+  meta-data handling. Custom menu builders need to be rewritted to use
+controller definition instead of hash instance.
+
 ### 2016.03.07
 * `Releaf::ErrorFormatter` refactored as `Releaf::BuildErrorsHash` service.
 Also, extra features as `full_message` and `data` passing to errors hash has been removed.
