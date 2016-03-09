@@ -18,8 +18,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     # preserve default config because it will be needed in after block
     @default_menu_config = Releaf.application.config.menu.dup
     stubbed_menu_config = @default_menu_config.map do |item|
-      if item[:controller] == 'admin/nodes'
-        { :controller => 'releaf/content/nodes' }
+      if item.is_a?(Releaf::ControllerDefinition) && item.controller_name == 'admin/nodes'
+        Releaf::ControllerDefinition.new("releaf/content/nodes")
       else
         item.dup
       end
@@ -54,15 +54,16 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
     # preserve default config because it will be needed in after block
     @default_menu_config = Releaf.application.config.menu.dup
+    node_controller_item = Releaf::ControllerDefinition.new("releaf/content/nodes")
     stubbed_menu_config = @default_menu_config.map do |item|
-      if item[:controller] == 'admin/nodes'
-        { :controller => 'releaf/content/nodes' }
+      if item.is_a?(Releaf::ControllerDefinition) && item.controller_name == 'admin/nodes'
+        node_controller_item
       else
         item.dup
       end
     end
-    content_index = stubbed_menu_config.index( { :controller => 'releaf/content/nodes' } )
-    stubbed_menu_config.insert( content_index + 1,  { :controller => 'admin/other_site/other_nodes' } )
+    content_index = stubbed_menu_config.index( node_controller_item )
+    stubbed_menu_config.insert( content_index + 1, Releaf::ControllerDefinition.new("admin/other_site/other_nodes"))
 
     allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Configuration.normalize_controllers(stubbed_menu_config) )
     # reset cached values

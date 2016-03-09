@@ -70,29 +70,26 @@ module Releaf
 
     def extract_controllers(list)
       list.each.inject({}) do |controller_list, item|
-        controller_list[item[:controller]] = item if item.has_key? :controller
-        controller_list.merge!(extract_controllers(item[:items])) if item.has_key? :items
+        if item.respond_to? :controllers
+          controller_list.merge!(extract_controllers(item.controllers))
+        else
+          controller_list[item.controller_name] = item
+        end
+
         controller_list
       end
     end
 
     def self.normalize_controllers(list)
-     list.map{|item| normalize_controller_item(item)}
-    end
-
-    def self.normalize_controller_item(item)
-      item = {controller: item} if item.is_a? String
-      item[:name] ||= item[:controller]
-
-      if item.has_key? :helper
-        item[:url_helper] = item[:helper].to_sym
-      elsif item.has_key? :controller
-        item[:url_helper] = item[:controller].tr('/', '_').to_sym
-      elsif item.has_key?(:items)
-        item[:items] = normalize_controllers(item[:items])
+      list.map do |item|
+        if item.is_a?(Hash) && item.has_key?(:items)
+          ControllerGroupDefinition.new(item)
+        elsif item.is_a?(Hash) || item.is_a?(String)
+          ControllerDefinition.new(item)
+        else
+          item
+        end
       end
-
-      item
     end
   end
 end

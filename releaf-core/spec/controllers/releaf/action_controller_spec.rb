@@ -55,6 +55,28 @@ describe Releaf::ActionController do
     end
   end
 
+  describe "#page_title" do
+    before do
+      allow(Rails.application.class).to receive(:parent_name).and_return("DummyApp")
+    end
+
+    context "when controller definition exists" do
+      it "returns localized controller name from definitioned followed by application name" do
+        definition = Releaf::ControllerDefinition.new("xx")
+        allow(definition).to receive(:localized_name).and_return("Books")
+        allow(subject).to receive(:definition).and_return(definition)
+        expect(subject.page_title).to eq("Books - DummyApp")
+      end
+    end
+
+    context "when controller definition does not exist" do
+      it "returns only application name" do
+        allow(subject).to receive(:definition).and_return(nil)
+        expect(subject.page_title).to eq("DummyApp")
+      end
+    end
+  end
+
   describe "#form_url" do
     context "when given resource is new record" do
       it "returns url for create method" do
@@ -115,6 +137,14 @@ describe Releaf::ActionController do
     it "returns undercored class name with  Controller suffix removed" do
       allow(subject).to receive(:class).and_return(Admin::BooksController)
       expect(subject.short_name).to eq("admin/books")
+    end
+  end
+
+  describe "#definition" do
+    it "returns definition from applicaiton controller config based on controller short name" do
+      allow(Releaf.application.config).to receive(:controllers).and_return("xxx" => "yyy")
+      allow(subject).to receive(:short_name).and_return("xxx")
+      expect(subject.definition).to eq("yyy")
     end
   end
 
@@ -382,8 +412,7 @@ describe Admin::BooksController do
   before do
     sign_in FactoryGirl.create(:user)
     @breadcrumbs_base = [
-      {name: I18n.t('home', scope: 'admin.breadcrumbs'), url: releaf_root_path},
-      {name: I18n.t('admin/books', scope: "admin.controllers"), url: admin_books_path},
+      {name: I18n.t('admin/books', scope: "admin.controllers"), url: admin_books_path}
     ]
   end
 

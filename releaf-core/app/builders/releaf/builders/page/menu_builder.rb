@@ -1,66 +1,44 @@
 module Releaf::Builders::Page
   class MenuBuilder
+    include Releaf::InstanceCache
     include Releaf::Builders::Base
     include Releaf::Builders::Template
 
     def output
-      compacter << tag(:nav, menu_level(menu_items))
+      compacter << tag(:nav, menu_level(Releaf.application.config.menu))
     end
 
-    def menu_items
-      build_items(Releaf.application.config.menu)
-    end
-
-    def build_items(list)
-      list.map{|item| build_item(item) }
-    end
-
-    def build_item(item)
-      if item[:items].present?
-        build_items_group(item.dup)
-      else
-        build_single_item(item.dup)
+    def active?(item)
+      instance_cache("active_#{item.class.name}_#{item.name}") do
+        if controller_group?(item)
+          item.controllers.find{|subitem| active?(subitem) }.present?
+        else
+          item.controller_name == controller.short_name
+        end
       end
-    end
-
-    def build_items_group(item)
-      item[:items] = build_items(item[:items])
-
-      if item[:items].present?
-        item[:active] = active_items?(item[:items])
-        item[:url_helper] = item[:items].first[:url_helper]
-      end
-
-      item
-    end
-
-    def active_items?(items)
-      items.find{|item| item[:active] == true }.present?
-    end
-
-    def build_single_item(item)
-      item[:active] = active_controller?(item[:controller])
-      item
-    end
-
-    def active_controller?(controller_name)
-      controller.short_name == controller_name
     end
 
     def menu_level(items)
-      tag(:ul) do
-        items.map{|item| menu_item(item) }
-      end
+      level_content = items.map{|item| menu_item(item) }.compact
+      tag(:ul){ level_content } if level_content.present?
     end
 
     def menu_item(item)
       tag(:li, item_attributes(item)) do
-        item[:items] ? menu_item_group(item) : menu_item_single(item)
+        if controller_group?(item)
+          menu_item_group(item)
+        else
+          menu_item_single(item)
+        end
       end
     end
 
+    def controller_group?(item)
+      item.respond_to? :controllers
+    end
+
     def menu_item_single(item)
-      tag(:a, class: "trigger", href: url_for(item[:url_helper])) do
+      tag(:a, class: "trigger", href: item.path) do
         item_name_content(item)
       end
     end
@@ -68,18 +46,18 @@ module Releaf::Builders::Page
     def menu_item_group(item)
       tag(:span, class: "trigger") do
         item_name_content(item) << item_collapser(item)
-      end << menu_level(item[:items])
+      end << menu_level(item.controllers)
     end
 
     def collapsed_item?(item)
-      item[:items].present? && !item[:active] && layout_settings("releaf.menu.collapsed.#{item[:name]}") == true
+      controller_group?(item) && !active?(item) && layout_settings("releaf.menu.collapsed.#{item.name}") == true
     end
 
     def item_attributes(item)
       attributes = {
         class: item_classes(item),
         data: {
-          name: item[:name]
+          name: item.name
         }
       }
 
@@ -90,12 +68,12 @@ module Releaf::Builders::Page
     def item_classes(item)
       list = []
       list << "collapsed" if collapsed_item?(item)
-      list << "active" if item[:active]
+      list << "active" if active?(item)
       list
     end
 
     def item_name_content(item)
-      item_full_name    = t(item[:name], scope: "admin.controllers")
+      item_full_name    = item.localized_name
       item_abbreviation = item_name_abbreviation( item_full_name )
 
       tag(:abbr, item_abbreviation, title: item_full_name) + tag(:span, item_full_name, class: "name")
