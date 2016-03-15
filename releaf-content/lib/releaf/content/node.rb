@@ -44,7 +44,9 @@ module Releaf::Content
       end
 
       def attributes_to_not_copy
-        %w[content_id depth id item_position lft rgt slug created_at updated_at]
+        list = %w[content_id depth id item_position lft rgt slug created_at updated_at]
+        list << "locale" if locale_before_type_cast.blank?
+        list
       end
 
       def attributes_to_copy

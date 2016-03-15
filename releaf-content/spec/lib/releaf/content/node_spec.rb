@@ -121,7 +121,14 @@ describe Node do
 
   describe "#attributes_to_not_copy" do
     it "returns array with attributes" do
+      subject.locale = "lv"
       expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft rgt slug created_at updated_at]
+    end
+
+    context "when locale is blank" do
+      it "includes locale within returned list" do
+        expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft rgt slug created_at updated_at locale]
+      end
     end
   end
 
