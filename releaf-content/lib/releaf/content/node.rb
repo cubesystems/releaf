@@ -16,11 +16,18 @@ module Releaf::Content
 
       # Return node public path
       def path
-        if parent
-          parent.path + "/" + slug.to_s
-        else
-          "/" + slug.to_s
-        end
+        "/" + path_parts.join("/") + (trailing_slash_for_path? ? "/" : "")
+      end
+
+      def path_parts
+        list = []
+        list += parent.path_parts if parent
+        list << slug.to_s
+        list
+      end
+
+      def trailing_slash_for_path?
+        Rails.application.routes.default_url_options[:trailing_slash] == true
       end
 
       def to_s

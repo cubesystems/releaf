@@ -776,11 +776,55 @@ describe Node do
   end
 
   describe "#path" do
-    it "returns relative path of node" do
-      node = described_class.new(slug: 'foo')
-      node2 = described_class.new(slug: 'bar', parent: node)
-      expect( node.path ).to eq '/foo'
-      expect( node2.path ).to eq '/foo/bar'
+    before do
+      allow(subject).to receive(:path_parts).and_return(["some", "bar", "foo"])
+    end
+
+    it "returns relative node path built ny joining node path parts" do
+      expect(subject.path).to eq("/some/bar/foo")
+    end
+
+    context "when node has parent" do
+      it "ads trailing slash to returned node path" do
+        allow(subject).to receive(:trailing_slash_for_path?).and_return(true)
+        expect(subject.path).to eq("/some/bar/foo/")
+      end
+    end
+  end
+
+
+  describe "#trailing_slash_for_path?" do
+    context "when rails route has trailing slash enabled" do
+      it "returns true" do
+        allow(Rails.application.routes).to receive(:default_url_options).and_return(trailing_slash: true)
+        expect(subject.trailing_slash_for_path?).to be true
+      end
+    end
+
+    context "when rails route has trailing slash disabled" do
+      it "returns false" do
+        allow(Rails.application.routes).to receive(:default_url_options).and_return({})
+        expect(subject.trailing_slash_for_path?).to be false
+      end
+    end
+  end
+
+  describe "#path_parts" do
+    it "returns array with slug" do
+      expect(subject.path_parts).to eq([""])
+      subject.slug = "foo"
+      expect(subject.path_parts).to eq(["foo"])
+    end
+
+    context "when node has parent" do
+      it "prepends parent path parts to returned array" do
+        parent = described_class.new
+        allow(parent).to receive(:path_parts).and_return(%w(some bar))
+
+        subject.slug = "foo"
+        subject.parent = parent
+        expect(subject.path_parts).to eq(["some", "bar", "foo"])
+      end
     end
   end
 end
