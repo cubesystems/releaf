@@ -2,11 +2,16 @@ module Releaf::Permissions::Roles
   class FormBuilder < Releaf::Builders::FormBuilder
     def render_default_controller
       controllers = {}
-      Releaf.application.config.available_controllers.each do |controller|
-        controllers[I18n.t(controller, scope: 'admin.controllers')] = controller
+      Releaf.application.config.available_controllers.each do |controller_name|
+        definition = controller_definition(controller_name)
+        controllers[definition.localized_name] = definition.controller_name
       end
 
       releaf_item_field(:default_controller, options: {select_options: controllers})
+    end
+
+    def controller_definition(controller_name)
+      Releaf::ControllerDefinition.for(controller_name)
     end
 
     def render_permissions
@@ -18,11 +23,10 @@ module Releaf::Permissions::Roles
     end
 
     def permission_items
-      list = {}
-      Releaf.application.config.available_controllers.each do|controller|
-        list["controller.#{controller}"] = t(controller, scope: "admin.controllers")
+      Releaf.application.config.available_controllers.inject({}) do |h, controller_name|
+        definition = controller_definition(controller_name)
+        h.update("controller.#{definition.controller_name}" => definition.localized_name)
       end
-      list
     end
   end
 end

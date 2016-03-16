@@ -1,6 +1,10 @@
 class Releaf::ControllerDefinition
   attr_accessor :name, :controller_name
 
+  def self.for(controller_name)
+    Releaf.application.config.controllers[controller_name]
+  end
+
   def initialize(options)
     options = {controller: options} if options.is_a? String
     options[:name] ||= options[:controller]

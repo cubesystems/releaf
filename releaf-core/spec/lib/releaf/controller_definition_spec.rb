@@ -3,6 +3,13 @@ require "rails_helper"
 describe Releaf::ControllerDefinition do
   subject{ described_class.new(name: "op", controller: "admin/books") }
 
+  describe ".for" do
+    it "returns definition from applicaiton controller config for given controller name" do
+      allow(Releaf.application.config).to receive(:controllers).and_return("xxx" => "yyy")
+      expect(described_class.for("xxx")).to eq("yyy")
+    end
+  end
+
   describe "#initialize" do
     it "assigns `name` option value" do
       expect(subject.name).to eq("op")

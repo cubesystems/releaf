@@ -167,7 +167,7 @@ class Releaf::ActionController < ActionController::Base
   end
 
   def definition
-    Releaf.application.config.controllers[short_name]
+    Releaf::ControllerDefinition.for(short_name)
   end
 
   ActiveSupport.run_load_hooks(:base_controller, self)

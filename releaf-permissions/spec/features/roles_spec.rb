@@ -55,9 +55,9 @@ feature "Roles management", js: true do
 
     Releaf.application.config.available_controllers.each do |controller|
       if controller == "admin/books"
-        expect(page).to have_unchecked_field(I18n.t(controller, scope: 'admin.controllers'))
+        expect(page).to have_unchecked_field(I18n.t(controller))
       else
-        expect(page).to have_checked_field(I18n.t(controller, scope: 'admin.controllers'))
+        expect(page).to have_checked_field(I18n.t(controller))
       end
     end
   end
