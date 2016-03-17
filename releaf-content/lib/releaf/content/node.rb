@@ -60,33 +60,12 @@ module Releaf::Content
         self.class.column_names - attributes_to_not_copy
       end
 
-      def copy parent_id
-        prevent_infinite_copy_loop(parent_id)
-        begin
-          new_node = nil
-          self.class.transaction do
-            new_node = _copy!(parent_id)
-          end
-          new_node
-        rescue ActiveRecord::RecordInvalid
-          add_error_and_raise 'descendant invalid'
-        else
-          update_settings_timestamp
-        end
+      def copy(parent_id)
+        Releaf::Content::Node::Copy.call(node: self, parent_id: parent_id)
       end
 
-      def move parent_id
-        return if parent_id.to_i == self.parent_id
-
-        self.class.transaction do
-          save_under(parent_id)
-          descendants.each do |node|
-            next if node.valid?
-            add_error_and_raise 'descendant invalid'
-          end
-        end
-
-        self
+      def move(parent_id)
+        Releaf::Content::Node::Move.call(node: self, parent_id: parent_id)
       end
 
       # Maintain unique name within parent_id scope.
@@ -126,56 +105,15 @@ module Releaf::Content
         self_and_ancestors.where(active: false).any? == false
       end
 
-      def add_error_and_raise error
-        errors.add(:base, error)
-        raise ActiveRecord::RecordInvalid.new(self)
-      end
-
-      def duplicate_content
-        return nil if content_id.blank?
-
-        new_content = content.dup
-        new_content.save!
-        new_content
-      end
-
-      def copy_attributes_from node
-        node.attributes_to_copy.each do |attribute|
-          send("#{attribute}=", node.send(attribute))
-        end
-      end
-
-      def duplicate_under! parent_id
-        new_node = nil
-        self.class.transaction do
-          new_node = self.class.new
-          new_node.copy_attributes_from self
-          new_node.content_id = duplicate_content.try(:id)
-          new_node.prevent_auto_update_settings_timestamp do
-            new_node.save_under(parent_id)
-          end
-        end
-        new_node
-      end
-
       def reasign_slug
         self.slug = nil
         ensure_unique_url
       end
 
-      def save_under target_parent_node_id
-        self.parent_id = target_parent_node_id
-        if validate_root_locale_uniqueness?
-          # When copying root nodes it is important to reset locale to nil.
-          # Later user should fill in locale. This is needed to prevent
-          # Rails errors about conflicting routes.
-          self.locale = nil
+      def assign_attributes_from(source_node)
+        source_node.attributes_to_copy.each do |attribute|
+          send("#{attribute}=", source_node.send(attribute))
         end
-
-        self.item_position = self.class.children_max_item_position(self.parent) + 1
-        maintain_name
-        reasign_slug
-        save!
       end
 
       def prevent_auto_update_settings_timestamp
@@ -186,11 +124,15 @@ module Releaf::Content
         @prevent_auto_update_settings_timestamp = original
       end
 
-      protected
+      def update_settings_timestamp
+        self.class.updated
+      end
 
       def validate_root_locale_uniqueness?
         locale_selection_enabled? && root?
       end
+
+      protected
 
       def validate_parent_node_is_not_self
         return if parent_id.nil?
@@ -206,26 +148,8 @@ module Releaf::Content
 
       private
 
-      def _copy! parent_id
-        new_node = duplicate_under! parent_id
-
-        children.each do |child|
-          child.send(:_copy!, new_node.id)
-        end
-        new_node
-      end
-
-      def prevent_infinite_copy_loop(parent_id)
-        return if self_and_descendants.find_by_id(parent_id).blank?
-        add_error_and_raise("source or descendant node can't be parent of new node")
-      end
-
       def prevent_auto_update_settings_timestamp?
         @prevent_auto_update_settings_timestamp == true
-      end
-
-      def update_settings_timestamp
-        self.class.updated
       end
 
     module ClassMethods

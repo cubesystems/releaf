@@ -42,14 +42,14 @@ describe Node do
     context 'when #content_type is nil' do
       it 'returns nil' do
         subject.content_type = nil
-        expect( subject.content_class ).to be_nil
+        expect( subject.content_class ).to be nil
       end
     end
 
     context "when #content_type is blank string" do
       it 'returns nil' do
         subject.content_type = ""
-        expect( subject.content_class ).to be_nil
+        expect( subject.content_class ).to be nil
       end
     end
 
@@ -149,76 +149,7 @@ describe Node do
     end
   end
 
-  describe "#save_under" do
-    let(:node1) { create(:node) }
-
-    it "saves node nuder node with given node_id" do
-      node2 = create(:text_page_node, parent: node1)
-
-      new_node = FactoryGirl.build(:text_page_node)
-      new_node.send(:save_under, node2.id)
-      expect( new_node ).to_not be_new_record
-      expect( new_node.parent ).to eq node2
-    end
-
-    it "maintains node name, updates slug and then saves record" do
-      new_node = FactoryGirl.build(:text_page_node)
-      expect( new_node ).to receive(:maintain_name).ordered.and_call_original
-      expect( new_node ).to receive(:reasign_slug).ordered.and_call_original
-      expect( new_node ).to receive(:save!).ordered.and_call_original
-      new_node.save_under(node1.id)
-    end
-
-    context "when #validate_root_locale_uniqueness? returns true" do
-      it "sets locale to nil" do
-        new_node = FactoryGirl.build(:node)
-        allow(new_node).to receive(:validate_root_locale_uniqueness?).and_return(true)
-        new_node.locale = 'xx'
-        expect { new_node.save_under(nil) }.to change { new_node.locale }.from('xx').to(nil)
-      end
-    end
-
-    context "when #validate_root_locale_uniqueness? returns false" do
-      it "doesn't set locale to nil" do
-        new_node = FactoryGirl.build(:node)
-        allow(new_node).to receive(:validate_root_locale_uniqueness?).and_return(false)
-        new_node.locale = 'xx'
-        expect { new_node.save_under(nil) }.to_not change { new_node.locale }.from('xx')
-      end
-    end
-
-  end
-
-
-  describe "#duplicate_content" do
-
-    context "when #content_id is blank" do
-      let(:node) { create(:node) }
-
-      it "returns nil" do
-        expect( node.duplicate_content ).to be_nil
-      end
-    end
-
-    context "when #content_id is not blank" do
-      let(:node) { create(:home_page_node) }
-
-      it "returns saved duplicated content" do
-        content = double('new content')
-        expect( content ).to receive(:save!)
-        expect( node ).to receive_message_chain(:content, :dup).and_return(content)
-        expect( node.duplicate_content ).to eq content
-      end
-
-      it "doesn't return same as original content" do
-        result = node.duplicate_content
-        expect( result ).to be_an_instance_of HomePage
-        expect( result.id ).to_not eq node.content_id
-      end
-    end
-  end
-
-  describe "#copy_attributes_from" do
+  describe "#assign_attributes_from" do
     let(:source_node) { create(:node, active: false) }
 
     it "copies #attributes_to_copy attributes" do
@@ -232,181 +163,11 @@ describe Node do
 
       new_node = Node.new
 
-      new_node.copy_attributes_from source_node
+      new_node.assign_attributes_from source_node
 
-      expect( new_node.parent_id ).to be_nil
-      expect( new_node.content_type ).to be_nil
-      expect( new_node.active ).to be_truthy
-    end
-  end
-
-  describe "#duplicate_under!" do
-    let!(:source_node) { create(:node, locale: "lv") }
-    let!(:target_node) { create(:node, locale: "en") }
-
-    before do
-      allow_any_instance_of(Releaf::Content::Node::RootValidator).to receive(:validate)
-    end
-
-    it "creates duplicated node under target node" do
-      new_node = Node.new
-      duplicated_content = double('content', id: 1234)
-      expect( Node ).to receive(:new).ordered.and_return(new_node)
-      expect( new_node ).to receive(:copy_attributes_from).with(source_node).ordered.and_call_original
-      expect( source_node ).to receive(:duplicate_content).ordered.and_return(duplicated_content)
-      expect( new_node ).to receive(:content_id=).with(1234).ordered
-      expect( new_node ).to receive(:save_under).with(target_node.id).ordered.and_call_original
-      source_node.duplicate_under!(target_node.id)
-    end
-
-    it "doesn't update settings timestamp" do
-      expect( Node ).to_not receive(:updated)
-      source_node.duplicate_under!(target_node.id)
-    end
-  end
-
-  describe "#copy", create_nodes: true do
-    before create_nodes: true do
-      @home_page_node = create(:home_page_node, locale: "lv")
-      @home_page_node_2 = create(:home_page_node, locale: "en")
-      @text_page_node_3 = create(:text_page_node, parent_id: @home_page_node_2.id)
-      @text_page_node_4 = create(:text_page_node, parent_id: @text_page_node_3.id)
-      @text_page_node_5 = create(:text_page_node, parent_id: @text_page_node_4.id)
-
-      # it is important to reload nodes, otherwise associations will return empty set
-      @home_page_node.reload
-      @home_page_node_2.reload
-      @text_page_node_3.reload
-      @text_page_node_4.reload
-    end
-
-    context "when one of children becomes invalid" do
-      before do
-        @text_page_node_4.name = nil
-        @text_page_node_4.save(validate: false)
-      end
-
-      it "raises ActiveRecord::RecordInvalid" do
-        expect { @text_page_node_3.copy(@home_page_node.id) }.to raise_error ActiveRecord::RecordInvalid
-      end
-
-      it "raises error on node being copied" do
-        begin
-          @text_page_node_3.copy(@home_page_node.id)
-        rescue ActiveRecord::RecordInvalid => e
-          expect( e.record ).to eq @text_page_node_3
-        end
-        expect(@text_page_node_3.errors.messages).to eq(base: ["descendant invalid"])
-      end
-
-      it "doesn't create any new nodes" do
-        expect do
-          begin
-            @text_page_node_3.copy(@home_page_node.id)
-          rescue ActiveRecord::RecordInvalid
-          end
-        end.to_not change { Node.count }
-      end
-
-      it "doesn't update settings timestamp" do
-        expect( Node ).to_not receive(:updated)
-        begin
-          @text_page_node_3.copy(@home_page_node.id)
-        rescue ActiveRecord::RecordInvalid
-        end
-      end
-
-    end
-
-
-    context "with corect parent_id" do
-      it "creates node along with descendant nodes" do
-        expect{ @text_page_node_3.copy(@home_page_node.id) }.to change{ Node.count }.by( @text_page_node_3.descendants.size + 1 )
-      end
-
-      it "correctly copies attributes" do
-        allow( @text_page_node_3 ).to receive(:children).and_return([@text_page_node_4])
-        allow( @text_page_node_4 ).to receive(:children).and_return([@text_page_node_5])
-
-        @text_page_node_3.update_attribute(:active, false)
-        @text_page_node_4.update_attribute(:active, false)
-
-        allow( @text_page_node_3 ).to receive(:attributes_to_copy).and_return(["name", "parent_id", "content_type"])
-
-        expect( @text_page_node_3 ).to receive(:duplicate_under!).and_call_original.ordered
-        expect( @text_page_node_4 ).to receive(:duplicate_under!).and_call_original.ordered
-        expect( @text_page_node_5 ).to receive(:duplicate_under!).and_call_original.ordered
-
-        @text_page_node_3.copy(@home_page_node.id)
-
-        @node_2_copy = @home_page_node.children.first
-        @node_3_copy = @node_2_copy.children.first
-        @node_4_copy = @node_3_copy.children.first
-
-        # new nodes by default are active, however we stubbed
-        # #attributes_to_copy of @test_node_2 to not return active attribute
-        # Also we updated @test_node_2#active to be false.
-        # However copy is active, because active attribute wasn't copied
-        expect( @node_2_copy ).to be_active
-        # for copy of @text_page_node_3 active attribute was copied however, as it
-        # should have been
-        expect( @node_3_copy ).to_not be_active
-        expect( @node_4_copy ).to be_active
-
-        expect( @node_2_copy.name ).to eq @text_page_node_3.name
-        expect( @node_3_copy.name ).to eq @text_page_node_4.name
-        expect( @node_4_copy.name ).to eq @text_page_node_5.name
-      end
-
-      it "updates settings timestamp only once" do
-        expect( Node ).to receive(:updated).once.and_call_original
-        @text_page_node_3.copy(@home_page_node.id)
-      end
-
-      context "when parent_id is nil" do
-        it "creates new node" do
-          allow_any_instance_of(Releaf::Content::Node::RootValidator).to receive(:validate)
-          expect{ @text_page_node_3.copy(nil) }.to change{ Node.count }.by(3)
-        end
-      end
-
-      context "when copying root nodes", create_nodes: false do
-        context "when root locale uniqueness is validated" do
-          it "resets locale to nil" do
-            @text_page_node = create(:home_page_node, locale: 'en')
-            allow_any_instance_of(Node).to receive(:validate_root_locale_uniqueness?).and_return(true)
-            @text_page_node.copy(nil)
-            expect( Node.last.locale ).to eq nil
-          end
-        end
-
-        context "when root locale uniqueness is not validated" do
-          it "doesn't reset locale to nil" do
-            @text_page_node = create(:home_page_node, locale: 'en')
-            allow_any_instance_of(Node).to receive(:validate_root_locale_uniqueness?).and_return(false)
-            @text_page_node.copy(nil)
-            expect( Node.last.locale ).to eq 'en'
-          end
-        end
-      end
-    end
-
-    context "with nonexistent parent_id" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect { @text_page_node_3.copy(99991) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
-    context "with same parent_id as node.id" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_page_node_3.copy(@text_page_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
-    context "when copying to child node" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_page_node_3.copy(@text_page_node_4.id) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
+      expect( new_node.parent_id ).to be nil
+      expect( new_node.content_type ).to be nil
+      expect( new_node.active ).to be true
     end
   end
 
@@ -444,66 +205,10 @@ describe Node do
   end
 
   describe "#move" do
-    before do
-      @home_page_node = create(:home_page_node, locale: "lv")
-      @home_page_node_2 = create(:home_page_node, locale: "en")
-      @text_page_node_3 = create(:text_page_node, parent_id: @home_page_node_2.id)
-      @text_page_node_4 = create(:text_page_node, parent_id: @text_page_node_3.id)
-
-      # it is important to reload nodes, otherwise associations will return empty set
-      @home_page_node.reload
-      @home_page_node_2.reload
-      @text_page_node_3.reload
-      @text_page_node_4.reload
+    it "calls Node move service" do
+      expect(Releaf::Content::Node::Move).to receive(:call).with(node: subject, parent_id: 12)
+      subject.move(12)
     end
-
-    context "when one of children becomes invalid" do
-      before do
-        @text_page_node_4.name = nil
-        @text_page_node_4.save(validate: false)
-      end
-
-      it "raises ActiveRecord::RecordInvalid" do
-        expect { @text_page_node_3.move(@home_page_node.id) }.to raise_error ActiveRecord::RecordInvalid
-      end
-
-      it "raises error on node being moved, even tought descendant has error" do
-        begin
-          @text_page_node_3.move(@home_page_node.id)
-        rescue ActiveRecord::RecordInvalid => e
-          expect( e.record ).to eq @text_page_node_3
-        end
-
-        expect(@text_page_node_3.errors.messages).to eq(name: [], base: ["descendant invalid"])
-      end
-    end
-
-    context "when moving existing node to other nodes child's position" do
-      it "changes parent_id" do
-        expect{ @text_page_node_3.move(@home_page_node.id) }.to change{ Node.find(@text_page_node_3.id).parent_id }.from(@home_page_node_2.id).to(@home_page_node.id)
-      end
-    end
-
-    context "when moving to self child's position" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_page_node_3.move(@text_page_node_3.id) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
-    context "when passing nil as target node" do
-      it "updates parent_id" do
-        allow_any_instance_of(Releaf::Content::Node::RootValidator).to receive(:validate)
-        @home_page_node.destroy
-        expect{ @text_page_node_3.move(nil) }.to change { Node.find(@text_page_node_3.id).parent_id }.to(nil)
-      end
-    end
-
-    context "when passing nonexistent target node's id" do
-      it "raises ActiveRecord::RecordInvalid" do
-        expect{ @text_page_node_3.move(998123) }.to raise_error(ActiveRecord::RecordInvalid)
-      end
-    end
-
   end
 
   describe "#maintain_name" do
@@ -722,20 +427,6 @@ describe Node do
         @node1.parent_id = @node4.id
         @node1.send(:validate_parent_is_not_descendant)
         expect( @node1.errors[:parent_id] ).to be_blank
-      end
-    end
-  end
-
-  describe "#add_error_and_raise" do
-    it "raises error" do
-      expect { subject.add_error_and_raise('test error') }.to raise_error(ActiveRecord::RecordInvalid)
-    end
-
-    it "adds record on base and raise ActiveRecord::RecordInvalid" do
-      begin
-        subject.add_error_and_raise('test error')
-      rescue ActiveRecord::RecordInvalid => e
-        expect( e.record.errors[:base] ).to include 'test error'
       end
     end
   end
