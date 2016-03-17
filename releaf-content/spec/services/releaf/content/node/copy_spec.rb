@@ -21,9 +21,17 @@ describe Releaf::Content::Node::Copy do
       let(:node) { create(:home_page_node) }
 
       it "returns saved duplicated content" do
-        content = double('new content')
+        content = HomePage.new
         expect( content ).to receive(:save!)
-        expect( node ).to receive_message_chain(:content, :dup).and_return(content)
+        expect( node.content ).to receive(:dup).and_return(content)
+        expect( subject.duplicate_content ).to eq content
+      end
+
+      it "reassigns dragonfly accessors" do
+        content = HomePage.new
+        expect( content ).to receive(:save!)
+        allow( node.content ).to receive(:dup).and_return(content)
+        expect( subject ).to receive(:duplicate_content_dragonfly_attributes).with(content)
         expect( subject.duplicate_content ).to eq content
       end
 
@@ -32,6 +40,26 @@ describe Releaf::Content::Node::Copy do
         expect( result ).to be_an_instance_of HomePage
         expect( result.id ).to_not eq node.content_id
       end
+    end
+  end
+
+  describe "#duplicate_content_dragonfly_attributes" do
+    it "reassigns dragonfly accessors to given content instance from node content" do
+      old_content = HomePage.new(banner_uid: "yy")
+      new_content = HomePage.new(banner_uid: "xx")
+      node.content = old_content
+      allow(old_content).to receive(:banner).and_return("a")
+
+      expect(new_content).to receive(:banner=).with("a")
+      expect(new_content).to receive(:banner_uid=).with(nil)
+      subject.duplicate_content_dragonfly_attributes(new_content)
+    end
+  end
+
+  describe "#content_dragonfly_attributes" do
+    it "returns array of node content object dragonfly attributes" do
+      node.content = HomePage.new
+      expect(subject.content_dragonfly_attributes).to eq(["banner_uid"])
     end
   end
 

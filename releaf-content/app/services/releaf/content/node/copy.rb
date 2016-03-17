@@ -41,8 +41,23 @@ module Releaf
         return if node.content_id.blank?
 
         new_content = node.content.dup
+        duplicate_content_dragonfly_attributes(new_content)
         new_content.save!
         new_content
+      end
+
+      def duplicate_content_dragonfly_attributes(new_content)
+        content_dragonfly_attributes.each do|attribute_name|
+          accessor_name = attribute_name.gsub("_uid", "")
+          new_content.send("#{attribute_name}=", nil)
+          new_content.send("#{accessor_name}=", node.content.send(accessor_name))
+        end
+      end
+
+      def content_dragonfly_attributes
+        node.content.class.attribute_names.select do |attribute_name|
+          Releaf::Builders::Utilities::ResolveAttributeFieldMethodName.new(object: node.content, attribute_name: attribute_name).file?
+        end
       end
 
       def make_copy
