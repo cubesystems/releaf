@@ -61,16 +61,13 @@ class Releaf::Content::NodesController < Releaf::ActionController
   end
 
   def ancestor_nodes(resource)
-    ancestors = []
-    if resource.new_record?
-      if resource.parent_id
-        ancestors = resource.parent.ancestors.reorder(:depth)
-        ancestors += [resource.parent]
-      end
+    if resource.persisted?
+      resource.ancestors.reorder(:depth)
+    elsif resource.new_record? && resource.parent
+      resource.parent.ancestors.reorder(:depth) + [resource.parent]
     else
-      ancestors = resource.ancestors.reorder(:depth)
+      []
     end
-    ancestors
   end
 
   def self.resource_class
