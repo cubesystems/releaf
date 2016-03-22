@@ -33,11 +33,6 @@ main
         padding: steps(1) 0;
 
         @include clear-inside;
-
-        > nav
-        {
-            float: left;
-        }
     }
 }
 

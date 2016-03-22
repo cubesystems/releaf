@@ -17,6 +17,10 @@ form.search
 
     .text-search
     {
+        position: absolute;
+        top: steps(1);
+        right: steps(3);
+
         .search-field[data-name="search"]
         {
             position: relative;
