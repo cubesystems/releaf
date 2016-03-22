@@ -54,21 +54,20 @@ class Releaf::Content::NodesController < Releaf::ActionController
   # override base_controller method for adding content tree ancestors
   # to breadcrumbs
   def add_resource_breadcrumb(resource)
-    ancestors = []
-    if resource.new_record?
-      if resource.parent_id
-        ancestors = resource.parent.ancestors
-        ancestors += [resource.parent]
-      end
-    else
-      ancestors = resource.ancestors
+    ancestor_nodes(resource).each do |node|
+      @breadcrumbs << { name: node, url: url_for( action: :edit, id: node.id ) }
     end
-
-    ancestors.each do |ancestor|
-      @breadcrumbs << { name: ancestor, url: url_for( action: :edit, id: ancestor.id ) }
-    end
-
     super
+  end
+
+  def ancestor_nodes(resource)
+    if resource.persisted?
+      resource.ancestors.reorder(:depth)
+    elsif resource.new_record? && resource.parent
+      resource.parent.ancestors.reorder(:depth) + [resource.parent]
+    else
+      []
+    end
   end
 
   def self.resource_class

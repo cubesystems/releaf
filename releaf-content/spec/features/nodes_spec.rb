@@ -378,7 +378,75 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect(page).to have_content "Node class: Node"
       expect(page).to have_content "Releaf github repository"
     end
+  end
 
+  feature "breadcrumbs ordering by depth", with_releaf_node_controller: true do
+    # create some nodes and then rearrange them to get some with oldest under newest
+
+    scenario "create and reorder node depth" do
+      visit releaf_content_nodes_path
+      find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
+      click_link "Add child"
+      within '.ajaxbox-inner .dialog.content-type' do
+        click_link "Text page"
+      end
+      create_resource do
+        fill_in "resource_name", with: "TextContent_1"
+        fill_in_richtext 'Text', with: "asdasd"
+      end
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_1")
+
+      visit releaf_content_nodes_path
+      find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
+      click_link "Add child"
+      within '.ajaxbox-inner .dialog.content-type' do
+        click_link "Text page"
+      end
+      create_resource do
+        fill_in "resource_name", with: "TextContent_2"
+        fill_in_richtext 'Text', with: "asdasd"
+      end
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_2")
+
+      visit releaf_content_nodes_path
+      find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
+      click_link "Add child"
+      within '.ajaxbox-inner .dialog.content-type' do
+        click_link "Text page"
+      end
+      create_resource do
+        fill_in "resource_name", with: "TextContent_3"
+        fill_in_richtext 'Text', with: "asdasd"
+      end
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_3")
+
+
+      text_page_1_node_id = Node.find_by(name: "TextContent_1").id
+      text_page_2_node_id = Node.find_by(name: "TextContent_2").id
+      text_page_3_node_id = Node.find_by(name: "TextContent_3").id
+
+      visit edit_releaf_content_node_path(text_page_1_node_id)
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_1")
+      open_toolbox_dialog "Move"
+      within ".dialog" do
+        find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
+        find("label[for=new_parent_id_#{text_page_2_node_id}]").click
+        click_button "Move"
+      end
+      expect(page).to have_notification("Move succeeded")
+
+      visit edit_releaf_content_node_path(text_page_2_node_id)
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_2")
+      open_toolbox_dialog "Move"
+      within ".dialog" do
+        find("label[for=new_parent_id_#{text_page_3_node_id}]").click
+        click_button "Move"
+      end
+      expect(page).to have_notification("Move succeeded")
+
+      visit edit_releaf_content_node_path(text_page_1_node_id)
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_3", "TextContent_2", "TextContent_1")
+    end
   end
 
   feature "using multiple independent node trees", with_multiple_node_classes: true,  with_other_tree: true do
