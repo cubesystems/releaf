@@ -222,7 +222,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
                       <i class="fa fa-keyboard-o"></i>
                   </button>
                   <div class="link">
-                      <a href="/a/b">http://localhost/parent<span>b</span>/</a>
+                      <a href="/a/b">http://localhost/parent<span>b</span></a>
                   </div>
              </div>
          </div>
