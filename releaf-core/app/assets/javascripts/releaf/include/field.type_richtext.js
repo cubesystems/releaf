@@ -10,7 +10,7 @@ jQuery(function()
         height: '400px',
         allowedContent: true,
         format_tags: 'p;h2;h3',
-        toolbar: [['Bold', 'Italic'], ['Format'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Subscript', 'Superscript'], ['NumberedList', 'BulletedList'], ['Image', 'Link', 'Unlink', 'MediaEmbed'], ['Source', 'Maximize', 'ShowBlocks']],
+        toolbar: [['Bold', 'Italic'], ['Format'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Subscript', 'Superscript'], ['NumberedList', 'BulletedList'], ['Link', 'Unlink', 'Anchor', 'Image', 'MediaEmbed' ], ['Source', 'Maximize', 'ShowBlocks']],
         extraPlugins: 'mediaembed'
     };
 
