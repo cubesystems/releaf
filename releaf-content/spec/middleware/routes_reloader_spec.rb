@@ -3,63 +3,66 @@ require "rails_helper"
 describe Releaf::Content::RoutesReloader do
   let(:app) { ->(env) { [200, env, "app"] } }
 
+  let(:subject) { described_class.new(app) }
+  let(:request_env) { Rack::MockRequest.env_for('http://example.com') }
+
   let :request do
-    described_class.new(app).call(Rack::MockRequest.env_for('http://example.com'))
+    subject.call(request_env)
   end
 
   describe "on application startup" do
     it "sets routes loading time" do
-      expect(described_class.routes_loaded).to_not be_nil
+      expect(subject.routes_loaded).to_not be_nil
     end
   end
 
   describe "on each request" do
     it "compares latest updates" do
-      expect(described_class).to receive(:reload_if_needed)
+      expect(subject).to receive(:reload_if_needed)
       request
     end
   end
 
-  describe ".reload_if_needed" do
+  describe "#reload_if_needed" do
 
     context "when reload is needed" do
       it "reloads routes" do
-        allow(described_class).to receive(:needs_reload?).and_return true
+        allow(subject).to receive(:needs_reload?).and_return true
         expect(Rails.application).to receive(:reload_routes!)
-        described_class.reload_if_needed
+        subject.reload_if_needed
       end
     end
 
     context "when reload is not needed" do
       it "does not reload routes" do
-        allow(described_class).to receive(:needs_reload?).and_return false
+        allow(subject).to receive(:needs_reload?).and_return false
         expect(Rails.application).to_not receive(:reload_routes!)
-        described_class.reload_if_needed
+        subject.reload_if_needed
       end
     end
 
   end
 
-  describe ".needs_reload?" do
+  describe "#needs_reload?" do
 
     context "when no nodes exist" do
       it "returns false" do
         allow(Node).to receive(:updated_at).and_return(nil)
-        expect(described_class.needs_reload?).to be false
+        expect(subject.needs_reload?).to be false
       end
     end
 
     context "when node routes are up to date" do
       it "returns false" do
         allow(Node).to receive(:updated_at).and_return(Time.parse("1991-01-01"))
-        expect(described_class.needs_reload?).to be false
+        expect(subject.needs_reload?).to be false
       end
     end
 
     context "when node routes are outdated" do
       it "returns true" do
         allow(Node).to receive(:updated_at).and_return(Time.now + 1.minute)
-        expect(described_class.needs_reload?).to be true
+        expect(subject.needs_reload?).to be true
       end
     end
 
@@ -71,7 +74,7 @@ describe Releaf::Content::RoutesReloader do
       end
       allow(Releaf::Content).to receive(:models).and_return [ Node, RouteReloaderDummyNode ]
       allow(Node).to receive(:updated_at).and_return(nil)
-      expect(described_class.needs_reload?).to be true
+      expect(subject.needs_reload?).to be true
     end
 
   end
