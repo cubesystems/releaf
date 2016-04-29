@@ -46,13 +46,7 @@ describe Releaf::Settings::Register do
     before do
       allow(subject.settings_class).to receive(:[]=)
       allow(subject.settings_class.registry).to receive(:update)
-      allow(subject.settings_class.defaults).to receive(:update)
       allow(subject).to receive(:write_default?).with(key: "x", default: "_xx").and_return(true)
-    end
-
-    it "assigns item default value to settings defaults" do
-      expect(subject.settings_class.defaults).to receive(:update).with("x" => "_xx")
-      subject.register(key: "x", default: "_xx")
     end
 
     it "assigns item to settings registry" do
