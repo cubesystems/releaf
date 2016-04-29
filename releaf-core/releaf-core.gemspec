@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'railties'
   s.add_dependency 'haml-rails'
   s.add_dependency 'dragonfly'
-  s.add_dependency 'rails-settings-cached', '>= 0.4.5'
+  s.add_dependency 'rails-settings-cached', '>= 0.4.5', '< 0.6.0'
   s.add_dependency 'ckeditor_rails'
   s.add_dependency 'acts_as_list'
   s.add_dependency 'will_paginate'
