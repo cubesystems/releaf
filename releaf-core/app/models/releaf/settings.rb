@@ -1,4 +1,4 @@
-class Releaf::Settings < RailsSettings::CachedSettings
+class Releaf::Settings < RailsSettings::Base
 
   cattr_accessor :registry
   @@registry = {}.with_indifferent_access

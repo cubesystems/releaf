@@ -24,7 +24,6 @@ class Releaf::Settings::Register
 
   def register(item)
     settings_class.registry.update(item[:key] => item)
-    settings_class.defaults.update(item[:key] => item[:default])
     settings_class[item[:key]] = item[:default] if write_default?(item)
   end
 
