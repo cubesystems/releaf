@@ -1,7 +1,14 @@
 require "rails_helper"
 
 describe Releaf::Root::DefaultControllerResolver do
-  subject{ described_class.new(current_controller: Releaf::RootController.new) }
+  let(:controller) { Releaf::RootController.new }
+  let(:request) { instance_double(ActionDispatch::Request, subdomain: nil) }
+  subject { described_class.new(current_controller: controller) }
+
+  before do
+    allow( controller ).to receive(:request).and_return(request)
+  end
+
   it_behaves_like "an Releaf::Service includer"
 
   describe "#call" do
