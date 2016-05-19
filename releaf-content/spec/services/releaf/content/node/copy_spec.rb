@@ -23,14 +23,14 @@ describe Releaf::Content::Node::Copy do
       it "returns saved duplicated content" do
         content = HomePage.new
         expect( content ).to receive(:save!)
-        expect( node.content ).to receive(:dup).and_return(content)
+        expect( node.content.class ).to receive(:new).and_return(content)
         expect( subject.duplicate_content ).to eq content
       end
 
       it "reassigns dragonfly accessors" do
         content = HomePage.new
         expect( content ).to receive(:save!)
-        allow( node.content ).to receive(:dup).and_return(content)
+        allow( node.content.class ).to receive(:new).and_return(content)
         expect( subject ).to receive(:duplicate_content_dragonfly_attributes).with(content)
         expect( subject.duplicate_content ).to eq content
       end
@@ -43,16 +43,38 @@ describe Releaf::Content::Node::Copy do
     end
   end
 
-  describe "#duplicate_content_dragonfly_attributes" do
-    it "reassigns dragonfly accessors to given content instance from node content" do
-      old_content = HomePage.new(banner_uid: "yy")
-      new_content = HomePage.new(banner_uid: "xx")
-      node.content = old_content
-      allow(old_content).to receive(:banner).and_return("a")
+  describe "#cloned_content_attributes" do
+    it "returns attributes without id and dragonfly attributes" do
+      node.content = HomePage.new(id: 42, banner_uid: "re", intro_text_html: "some text")
 
-      expect(new_content).to receive(:banner=).with("a")
-      expect(new_content).to receive(:banner_uid=).with(nil)
-      subject.duplicate_content_dragonfly_attributes(new_content)
+      expect(subject.cloned_content_attributes).to have_key("intro_text_html")
+      expect(subject.cloned_content_attributes).not_to include(:id, :banner_uid)
+    end
+  end
+
+  describe "#duplicate_content_dragonfly_attributes" do
+    context "when dragonfly file is present" do
+      it "reassigns dragonfly accessors to given content instance from node content" do
+        old_content = HomePage.create(banner: File.new("releaf-core/spec/fixtures/cs.png"))
+        new_content = HomePage.new()
+        node.content = old_content
+
+        expect(new_content).to receive(:banner=).with(old_content.banner)
+        expect(new_content).to receive(:banner_uid=).with(nil)
+        subject.duplicate_content_dragonfly_attributes(new_content)
+      end
+    end
+
+    context "when dragonfly file is not present" do
+      it "doesn't reassigns dragonfly accessors to given content instance from node content" do
+        old_content = HomePage.new(banner_uid: "yy")
+        new_content = HomePage.new()
+        node.content = old_content
+
+        expect(new_content).to receive(:banner=).with(nil)
+        expect(new_content).to receive(:banner_uid=).with(nil)
+        subject.duplicate_content_dragonfly_attributes(new_content)
+      end
     end
   end
 

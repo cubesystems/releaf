@@ -40,17 +40,33 @@ module Releaf
       def duplicate_content
         return if node.content_id.blank?
 
-        new_content = node.content.dup
+        new_content = node.content.class.new(cloned_content_attributes)
         duplicate_content_dragonfly_attributes(new_content)
+
         new_content.save!
         new_content
       end
 
+      def cloned_content_attributes
+        skippable_attribute_names = ["id"] + content_dragonfly_attributes
+        node.content.attributes.except(*skippable_attribute_names)
+      end
+
       def duplicate_content_dragonfly_attributes(new_content)
-        content_dragonfly_attributes.each do|attribute_name|
+        content_dragonfly_attributes.each do |attribute_name|
           accessor_name = attribute_name.gsub("_uid", "")
+          dragonfly_attachment = node.content.send(accessor_name)
+
+          if dragonfly_attachment.present?
+            begin
+              dragonfly_attachment.path  # verify that the file exists
+            rescue Dragonfly::Job::Fetch::NotFound
+              dragonfly_attachment = nil
+            end
+          end
+
           new_content.send("#{attribute_name}=", nil)
-          new_content.send("#{accessor_name}=", node.content.send(accessor_name))
+          new_content.send("#{accessor_name}=", dragonfly_attachment)
         end
       end
 
