@@ -43,6 +43,13 @@ describe Releaf::Content::Node::Copy do
     end
   end
 
+  describe "#cloned_content_attributes" do
+    it "returns attributes without id and dragonfly attributes" do
+      node.content = HomePage.new(id: 42, banner_uid: "re")
+      expect(subject.cloned_content_attributes).not_to include(:id, :banner_uid)
+    end
+  end
+
   describe "#duplicate_content_dragonfly_attributes" do
     context "when dragonfly file is present" do
       it "reassigns dragonfly accessors to given content instance from node content" do
