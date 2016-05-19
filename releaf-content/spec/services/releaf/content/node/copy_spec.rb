@@ -61,7 +61,6 @@ describe Releaf::Content::Node::Copy do
         old_content = HomePage.new(banner_uid: "yy")
         new_content = HomePage.new()
         node.content = old_content
-        allow(old_content).to receive(:banner).and_return("a")
 
         expect(new_content).to receive(:banner=).with(nil)
         expect(new_content).to receive(:banner_uid=).with(nil)

@@ -50,10 +50,14 @@ module Releaf
       def duplicate_content_dragonfly_attributes(new_content)
         content_dragonfly_attributes.each do |attribute_name|
           accessor_name = attribute_name.gsub("_uid", "")
-          begin
-            dragonfly_attachment = node.content.send(accessor_name) if node.content.send(accessor_name).path
-          rescue
-            dragonfly_attachment = nil
+          dragonfly_attachment = node.content.send(accessor_name)
+
+          if dragonfly_attachment.present?
+            begin
+              dragonfly_attachment.path  # verify that the file exists
+            rescue Dragonfly::Job::Fetch::NotFound
+              dragonfly_attachment = nil
+            end
           end
 
           new_content.send("#{attribute_name}=", nil)
