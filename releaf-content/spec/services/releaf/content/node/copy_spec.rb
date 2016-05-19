@@ -23,14 +23,14 @@ describe Releaf::Content::Node::Copy do
       it "returns saved duplicated content" do
         content = HomePage.new
         expect( content ).to receive(:save!)
-        expect( node.content ).to receive(:dup).and_return(content)
+        expect( node.content.class ).to receive(:new).and_return(content)
         expect( subject.duplicate_content ).to eq content
       end
 
       it "reassigns dragonfly accessors" do
         content = HomePage.new
         expect( content ).to receive(:save!)
-        allow( node.content ).to receive(:dup).and_return(content)
+        allow( node.content.class ).to receive(:new).and_return(content)
         expect( subject ).to receive(:duplicate_content_dragonfly_attributes).with(content)
         expect( subject.duplicate_content ).to eq content
       end

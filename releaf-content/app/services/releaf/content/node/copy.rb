@@ -40,8 +40,9 @@ module Releaf
       def duplicate_content
         return if node.content_id.blank?
 
-        new_content = node.content.dup
+        new_content = node.content.class.new(node.content.attributes.reject{ |k, v| content_dragonfly_attributes.push("id").include?(k) })
         duplicate_content_dragonfly_attributes(new_content)
+
         new_content.save!
         new_content
       end
