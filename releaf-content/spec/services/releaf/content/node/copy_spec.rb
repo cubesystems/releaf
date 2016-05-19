@@ -44,15 +44,29 @@ describe Releaf::Content::Node::Copy do
   end
 
   describe "#duplicate_content_dragonfly_attributes" do
-    it "reassigns dragonfly accessors to given content instance from node content" do
-      old_content = HomePage.new(banner_uid: "yy")
-      new_content = HomePage.new(banner_uid: "xx")
-      node.content = old_content
-      allow(old_content).to receive(:banner).and_return("a")
+    context "when dragonfly file is present" do
+      it "reassigns dragonfly accessors to given content instance from node content" do
+        old_content = HomePage.create(banner: File.new("releaf-core/spec/fixtures/cs.png"))
+        new_content = HomePage.new()
+        node.content = old_content
 
-      expect(new_content).to receive(:banner=).with("a")
-      expect(new_content).to receive(:banner_uid=).with(nil)
-      subject.duplicate_content_dragonfly_attributes(new_content)
+        expect(new_content).to receive(:banner=).with(old_content.banner)
+        expect(new_content).to receive(:banner_uid=).with(nil)
+        subject.duplicate_content_dragonfly_attributes(new_content)
+      end
+    end
+
+    context "when dragonfly file is not present" do
+      it "doesn't reassigns dragonfly accessors to given content instance from node content" do
+        old_content = HomePage.new(banner_uid: "yy")
+        new_content = HomePage.new()
+        node.content = old_content
+        allow(old_content).to receive(:banner).and_return("a")
+
+        expect(new_content).to receive(:banner=).with(nil)
+        expect(new_content).to receive(:banner_uid=).with(nil)
+        subject.duplicate_content_dragonfly_attributes(new_content)
+      end
     end
   end
 

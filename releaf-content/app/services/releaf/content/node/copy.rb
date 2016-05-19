@@ -47,10 +47,16 @@ module Releaf
       end
 
       def duplicate_content_dragonfly_attributes(new_content)
-        content_dragonfly_attributes.each do|attribute_name|
+        content_dragonfly_attributes.each do |attribute_name|
           accessor_name = attribute_name.gsub("_uid", "")
+          begin
+            dragonfly_attachment = node.content.send(accessor_name) if node.content.send(accessor_name).path
+          rescue
+            dragonfly_attachment = nil
+          end
+
           new_content.send("#{attribute_name}=", nil)
-          new_content.send("#{accessor_name}=", node.content.send(accessor_name))
+          new_content.send("#{accessor_name}=", dragonfly_attachment)
         end
       end
 
