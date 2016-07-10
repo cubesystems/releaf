@@ -104,7 +104,7 @@ describe Releaf::Content::Node::Copy do
       expect( new_node ).to receive(:content_id=).with(1234).ordered
       expect( Releaf::Content::Node::SaveUnderParent ).to receive(:call).with(node: new_node, parent_id: target_node.id)
         .ordered.and_call_original
-      subject.duplicate_under
+      expect(subject.duplicate_under).to eq(new_node)
     end
 
     it "doesn't update settings timestamp" do

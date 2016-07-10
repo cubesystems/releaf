@@ -13,7 +13,6 @@ module Releaf
           node.locale = nil
         end
 
-        node.item_position = node.class.children_max_item_position(node.parent) + 1
         node.maintain_name
         node.reasign_slug
         node.save!

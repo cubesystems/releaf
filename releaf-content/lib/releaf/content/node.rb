@@ -186,7 +186,7 @@ module Releaf::Content
 
     included do
       acts_as_nested_set order_column: :item_position
-      acts_as_list scope: :parent_id, column: :item_position
+      acts_as_list scope: :parent_id, column: :item_position, add_new_at: :bottom
 
       default_scope { order(:item_position) }
       scope :active, ->() { where(active: true) }
