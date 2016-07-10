@@ -15,7 +15,7 @@ class Releaf::Permissions::ProfileController < Releaf::ActionController
 
     # reload resource as password has been changed
     if @resource.password != old_password
-      sign_in(user, bypass: true)
+      bypass_sign_in(user)
     end
   end
 
