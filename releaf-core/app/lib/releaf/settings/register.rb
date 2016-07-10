@@ -28,7 +28,15 @@ class Releaf::Settings::Register
   end
 
   def write_default?(item)
-    settings_class.table_exists? && !settings_class.find_by(var: item[:key]).present?
+    table_exists? && !settings_class.find_by(var: item[:key]).present?
+  end
+
+  def table_exists?
+    begin
+      settings_class.table_exists?
+    rescue ActiveRecord::NoDatabaseError
+      false
+    end
   end
 
   def settings_class

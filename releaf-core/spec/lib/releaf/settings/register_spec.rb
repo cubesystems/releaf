@@ -76,7 +76,7 @@ describe Releaf::Settings::Register do
 
   describe "#write_default?" do
     before do
-      allow(subject.settings_class).to receive(:table_exists?).and_return(true)
+      allow(subject).to receive(:table_exists?).and_return(true)
       allow(subject.settings_class).to receive(:find_by).with(var: "xx").and_return(nil)
     end
 
@@ -95,8 +95,34 @@ describe Releaf::Settings::Register do
 
     context "when database table does not exists and key does not exist in database" do
       it "returns false" do
-        allow(subject.settings_class).to receive(:table_exists?).and_return(false)
+        allow(subject).to receive(:table_exists?).and_return(false)
         expect(subject.write_default?(key: "xx")).to be false
+      end
+    end
+  end
+
+  describe "#table_exists?" do
+    before do
+      allow(subject.settings_class).to receive(:table_exists?).and_return(true)
+    end
+
+    context "when `ActiveRecord::NoDatabaseError` database does not exist" do
+      it "returns false" do
+        allow(subject.settings_class).to receive(:table_exists?).and_raise(ActiveRecord::NoDatabaseError, "x")
+        expect(subject.table_exists?).to be false
+      end
+    end
+
+    context "when table does not exist" do
+      it "returns false" do
+        allow(subject.settings_class).to receive(:table_exists?).and_return(false)
+        expect(subject.table_exists?).to be false
+      end
+    end
+
+    context "when table exists" do
+      it "returns true" do
+        expect(subject.table_exists?).to be true
       end
     end
   end
