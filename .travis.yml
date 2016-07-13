@@ -9,6 +9,10 @@ env:
   - DB=mysql
   - DB=pg
 
+matrix:
+  allow_failures:
+    - env: DB=pg
+
 before_install:
   - 'cp "config.yml.${DB}.travis" "config.yml"'
 
