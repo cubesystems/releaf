@@ -198,22 +198,6 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     end
   end
 
-  describe "go_to node" do
-    before do
-      visit edit_admin_node_path @en_root
-    end
-
-    context "when going to node from toolbox list" do
-      it "navigates to targeted node's edit view" do
-        expect(page).to have_no_header(text: 'lv')
-        open_toolbox_dialog "Go to"
-
-        click_link "lv"
-        expect(page).to have_header(text: 'lv')
-      end
-    end
-  end
-
   describe "copy node to" do
     context "when copying node" do
       it "shows copied node in tree" do

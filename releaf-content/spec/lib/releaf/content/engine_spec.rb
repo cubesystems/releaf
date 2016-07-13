@@ -78,13 +78,6 @@ describe Releaf::Content do
         expect(get: "/admin/other_nodes/generate_url").to route_to("admin/other_site/other_nodes#generate_url")
       end
 
-      it "draws #go_to_dialog route" do
-        expect( go_to_dialog_releaf_content_nodes_path ).to eq "/admin/nodes/go_to_dialog"
-        expect( go_to_dialog_admin_other_site_other_nodes_path ).to eq "/admin/other_nodes/go_to_dialog"
-        expect(get: "/admin/nodes/go_to_dialog").to route_to("releaf/content/nodes#go_to_dialog")
-        expect(get: "/admin/other_nodes/go_to_dialog").to route_to("admin/other_site/other_nodes#go_to_dialog")
-      end
-
       it "draws #edit route" do
         expect( edit_releaf_content_node_path(1) ).to eq "/admin/nodes/1/edit"
         expect( edit_admin_other_site_other_node_path(1) ).to eq "/admin/other_nodes/1/edit"

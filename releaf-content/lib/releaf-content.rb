@@ -52,7 +52,6 @@ module Releaf::Content
       router.collection do
         router.get :content_type_dialog
         router.get :generate_url
-        router.get :go_to_dialog
       end
 
       router.member do

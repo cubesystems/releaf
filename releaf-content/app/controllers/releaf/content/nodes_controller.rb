@@ -41,16 +41,6 @@ class Releaf::Content::NodesController < Releaf::ActionController
     end
   end
 
-  def go_to_dialog
-    @collection = resource_class.roots
-
-    respond_to do |format|
-      format.html do
-        render layout: nil
-      end
-    end
-  end
-
   # override base_controller method for adding content tree ancestors
   # to breadcrumbs
   def add_resource_breadcrumb(resource)
