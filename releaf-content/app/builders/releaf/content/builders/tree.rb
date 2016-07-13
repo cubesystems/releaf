@@ -56,7 +56,7 @@ module Releaf::Content::Builders
     def tree_resource_collapser(resource, expanded)
       return if resource.children.empty?
       tag(:div, class: "collapser-cell") do
-        button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser trigger), title: t(expanded ? "collapse" : "expand"))
+        button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser trigger), title: t(expanded ? "Collapse" : "Expand"))
       end
     end
 
