@@ -13,6 +13,6 @@ class Releaf::Settings::FormBuilder < Releaf::Builders::FormBuilder
 
   def value_label_text
     label_text = object.description
-    label_text.present? ? t(label_text, scope: "settings") : "Value"
+    label_text.present? ? t(label_text, scope: "settings") : translate_attribute(:value)
   end
 end

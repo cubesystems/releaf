@@ -38,9 +38,10 @@ describe Releaf::Settings::FormBuilder, type: :class do
     end
 
     context "when description is not available" do
-      it "returns 'Value'" do
+      it "returns translated 'value' attribute" do
+        allow(resource).to receive(:translate_attribute).with(:value).and_return("xx")
         allow(resource).to receive(:description).and_return(nil)
-        expect(subject.value_label_text).to eq("Value")
+        expect(subject.value_label_text).to eq("xx")
       end
     end
   end
