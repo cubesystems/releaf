@@ -118,9 +118,9 @@ module Releaf::Builders::FormBuilder::Associations
   end
 
   def releaf_item_field(name, input: {}, label: {}, field: {}, options: {}, &block)
-    label = {translation_key: name.to_s.sub(/_id$/, '').to_s}.deep_merge(label)
+    label_options = {translation_key: name.to_s.sub(/_id$/, '').to_s}
     attributes = input_attributes(name, {value: object.send(name)}.merge(input), options)
-    options = {field: {type: "item"}}.deep_merge(options)
+    options = {field: {type: "item"}, label: label_options}.deep_merge(options)
 
 
     # add empty value when validation exists, so user is forced to choose something
