@@ -141,7 +141,7 @@ module Releaf::Builders::FormBuilder::Associations
   end
 
   def field_type_remove_nested
-    button_attributes = {title: t('Remove item'), class: "danger remove-nested-item"}
+    button_attributes = {title: t('Remove'), class: "danger remove-nested-item"}
     wrapper(class: "remove-item-box") do
       button(nil, "trash-o", button_attributes) << hidden_field("_destroy", class: "destroy")
     end

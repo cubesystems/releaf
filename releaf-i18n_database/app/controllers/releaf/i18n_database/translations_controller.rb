@@ -23,7 +23,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
     super
 
     if %w[edit update].include?(params[:action]) && !params.has_key?(:import)
-      @breadcrumbs << { name: I18n.t("edit translations", scope: controller_scope_name), url: url_for(action: :edit, search: params[:search]) }
+      @breadcrumbs << { name: I18n.t("Edit translations", scope: controller_scope_name), url: url_for(action: :edit, search: params[:search]) }
     end
   end
 
