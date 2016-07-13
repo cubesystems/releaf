@@ -1,7 +1,12 @@
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+#
 [
   Releaf::Permissions::User,
   Releaf::Permissions::Role,
-  Releaf::Permissions::Permission
+  Releaf::Permissions::Permission,
+  Releaf::I18nDatabase::I18nEntry,
+  Releaf::I18nDatabase::I18nEntryTranslation
 ].each do |descendant|
   descendant.unscoped.delete_all
 end
@@ -29,6 +34,16 @@ Releaf::Permissions::User.create!(
   email: 'admin@example.com',
   role: role,
 )
+
+
+
+# }}}
+# Translations {{{
+
+puts "Importing translations"
+import_file_path = File.join(Gem.loaded_specs["releaf"].full_gem_path, "releaf-i18n_database", "misc", "translations.xlsx")
+translations = Releaf::I18nDatabase::ParseSpreadsheetTranslations.call(file_path: import_file_path, extension: "xlsx")
+translations.each{|translation| translation.save! }
 
 # }}}
 
