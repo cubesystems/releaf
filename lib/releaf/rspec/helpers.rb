@@ -96,6 +96,27 @@ module Releaf
       end
     end
 
+    def switch_admin_locale(locale)
+      switch = page.first('.localization-switch')
+
+      current_locale = switch.text.downcase
+      new_locale     = locale.to_s.downcase
+
+      if current_locale == new_locale
+        return current_locale
+      end
+
+      within( switch ) do
+        click_button current_locale
+      end
+
+      menu = page.find(:xpath, '/html//menu[@class="localization-menu-items"]')
+      within( menu ) do
+        click_button new_locale.capitalize
+      end
+
+      wait_for_all_richtexts
+    end
 
     def save_and_check_response(status_text)
       wait_for_all_richtexts
