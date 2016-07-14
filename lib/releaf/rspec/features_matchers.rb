@@ -39,7 +39,7 @@ module Capybara
     def has_error?(error_message, options = {})
       error_exists = false
       if options[:field]
-        find('.field.has-error') # wait for any errors to come from validation
+        first('.field.has-error', minimum: 1) # wait for any errors to come from validation
         all(".field.has-error").each do
           if find(:field, options[:field]) && first(".error", text: error_message)
             error_exists = true
