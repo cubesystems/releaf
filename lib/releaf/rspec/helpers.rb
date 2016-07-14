@@ -158,6 +158,39 @@ module Releaf
       end
     end
 
+    def fill_in_date field_locator, options
+      date = options[:with]
+
+      if date.is_a? Time
+        date = date.to_date
+      elsif date.is_a? Date
+        # do nothing
+      else
+        # try to convert it to string
+        date = Date.parse(date.to_s)
+      end
+
+      # wrapper = find('.field.type-date')
+      field = find_field( field_locator )
+      field_id = field[:id]
+
+      if Capybara.current_driver == Capybara.javascript_driver
+        execute_script('$("#' + field_id + '").trigger("focus")')
+
+        expect(page.document).to have_css('.ui-datepicker-year')
+        expect(page.document).to have_css('.ui-datepicker-month')
+
+        execute_script('$(".ui-datepicker-year").val(' + date.year.to_s + ').change()')
+        execute_script('$(".ui-datepicker-month").val(' + (date.month - 1).to_s + ').change()')
+        execute_script('$("a.ui-state-default:contains(' + date.day.to_s + ')").filter(function() { return $(this).text() == "' + date.day.to_s +  '"}).trigger("click")')
+
+        expect(page.document).to have_no_css('.ui-datepicker-year')
+      else
+        fill_in field_locator, with: date.to_s
+      end
+
+    end
+
     def fill_in_richtext(locator, options = {} )
       # locator can be anything that is normally accepted by fill_in
       # e.g., the label text or the id of the textarea
