@@ -43,11 +43,11 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       resources: {
         'Node' => {
           controller: 'Releaf::Content::NodesController',
-          routing: { site: "main_site", constraints: { host: Regexp.new( "^" + Regexp.escape("releaf.127.0.0.1.xip.io") + "$" ) } }
+          routing: { site: "main_site", constraints: { host: Regexp.new( "^" + Regexp.escape("releaf.127.0.0.1.nip.io") + "$" ) } }
         },
         'OtherSite::OtherNode' => {
          controller: 'Admin::OtherSite::OtherNodesController',
-         routing: { site: "other_site", constraints: { host: Regexp.new( "^" + Regexp.escape("other.releaf.127.0.0.1.xip.io") + "$" ) } }
+         routing: { site: "other_site", constraints: { host: Regexp.new( "^" + Regexp.escape("other.releaf.127.0.0.1.nip.io") + "$" ) } }
         }
       }
     ))
@@ -483,7 +483,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       # test public websites for correct url helpers, node types, site settings and host name constraints
 
-      allow(Capybara).to receive(:app_host).and_return "http://releaf.127.0.0.1.xip.io"
+      allow(Capybara).to receive(:app_host).and_return "http://releaf.127.0.0.1.nip.io"
 
       visit main_site_lv_home_page_path
       expect(page).to have_content "Site: main_site"
@@ -491,7 +491,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect(page).to have_content "Node name: lv"
 
       visit "/lv/about-us"
-      expect(URI.parse(current_url).host).to eq "releaf.127.0.0.1.xip.io"
+      expect(URI.parse(current_url).host).to eq "releaf.127.0.0.1.nip.io"
       expect(page).to have_content "Site: main_site"
       expect(page).to have_content "Node class: Node"
       expect(page).to have_content "Node name: about us"
@@ -506,14 +506,14 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect( page ).to have_content "The page you were looking for doesn't exist."
 
 
-      allow(Capybara).to receive(:app_host).and_return "http://other.releaf.127.0.0.1.xip.io"
+      allow(Capybara).to receive(:app_host).and_return "http://other.releaf.127.0.0.1.nip.io"
       visit other_site_lv_home_page_path
       expect(page).to have_content "Site: other_site"
       expect(page).to have_content "Node class: OtherSite::OtherNode"
       expect(page).to have_content "Node name: Other lv"
 
       visit "/lv/about-us"
-      expect(URI.parse(current_url).host).to eq "other.releaf.127.0.0.1.xip.io"
+      expect(URI.parse(current_url).host).to eq "other.releaf.127.0.0.1.nip.io"
       expect(page).to have_content "Site: other_site"
       expect(page).to have_content "Node class: OtherSite::OtherNode"
       expect(page).to have_content "Node name: Other about us"
