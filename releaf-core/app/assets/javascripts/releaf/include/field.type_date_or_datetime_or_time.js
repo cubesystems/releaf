@@ -32,18 +32,8 @@ jQuery(document).ready(function()
             }
         };
 
-        block.find('.date-picker').each(function() {
-            var picker = jQuery(this);
-            var opt = options;
-
-            opt.dateFormat = picker.data('date-format') || 'yy-mm-dd';
-            opt.minDate = picker.data('min-date');
-            opt.maxDate = picker.data('max-date');
-
-            picker.datepicker(opt);
-        });
-
-        block.find('.datetime-picker').each(function() {
+        block.find('.date-picker, .datetime-picker, .time-picker').each(function()
+        {
             var picker = jQuery(this);
             var opt = options;
 
@@ -51,18 +41,26 @@ jQuery(document).ready(function()
             opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm';
             opt.minDate = picker.data('min-date');
             opt.maxDate = picker.data('max-date');
+            var yearRange = picker.data('year-range');
+            if (yearRange)
+            {
+                opt.yearRange = yearRange;
+            }
 
-            picker.datetimepicker(opt);
+            if (picker.is('.date-picker'))
+            {
+                picker.datepicker(opt);
+            }
+            else if (picker.is('.datetime-picker'))
+            {
+                picker.datetimepicker(opt);
+            }
+            else if (picker.is('.time-picker'))
+            {
+                picker.timepicker(opt);
+            }
         });
 
-         block.find('.time-picker').each(function() {
-             var picker = jQuery(this);
-             var opt = options;
-
-             opt.pickerTimeFormat = picker.data('time-format') || 'HH:mm';
-
-             picker.timepicker(options);
-         });
     });
 
     body.on('contentloaded', function(e)
