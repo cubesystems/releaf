@@ -180,8 +180,14 @@ module Releaf
         expect(page.document).to have_css('.ui-datepicker-year')
         expect(page.document).to have_css('.ui-datepicker-month')
 
-        execute_script('$(".ui-datepicker-year").val(' + date.year.to_s + ').change()')
-        execute_script('$(".ui-datepicker-month").val(' + (date.month - 1).to_s + ').change()')
+        year_string = date.year.to_s
+        execute_script('$(".ui-datepicker-year").val(' + year_string + ').change()')
+        expect(evaluate_script('$(".ui-datepicker-year").val();')).to eq year_string
+
+        month_string = (date.month - 1).to_s
+        execute_script('$(".ui-datepicker-month").val("' + month_string + '").change()')
+        expect(evaluate_script('$(".ui-datepicker-month").val();')).to eq month_string
+
         execute_script('$("a.ui-state-default:contains(' + date.day.to_s + ')").filter(function() { return $(this).text() == "' + date.day.to_s +  '"}).trigger("click")')
 
         expect(page.document).to have_no_css('.ui-datepicker-year')
