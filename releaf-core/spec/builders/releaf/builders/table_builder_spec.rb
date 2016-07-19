@@ -29,10 +29,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
     expect(described_class.ancestors).to include(Releaf::Builders::Toolbox)
   end
 
-  it "includes Releaf::Builders::Orderer" do
-    expect(described_class.ancestors).to include(Releaf::Builders::Orderer)
-  end
-
   describe "#initialize" do
     it "assigns collection" do
       expect(subject.collection.to_sql).to eq(collection.to_sql)

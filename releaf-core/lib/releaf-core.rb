@@ -29,6 +29,7 @@ module Releaf
     require 'releaf/application'
     require 'releaf/route_mapper'
     require 'releaf/exceptions'
+    require 'releaf/core_ext/array/reorder'
     require 'releaf/rails_ext/validation_error_codes'
 
     def self.components

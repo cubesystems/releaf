@@ -39,10 +39,6 @@ describe Releaf::Builders::FormBuilder, type: :class do
     expect(described_class.ancestors).to include(Releaf::Builders::Base)
   end
 
-  it "includes Releaf::Builders::Orderer" do
-    expect(described_class.ancestors).to include(Releaf::Builders::Orderer)
-  end
-
   describe "#field_names" do
     it "returns field names for object class" do
       allow(Releaf::ResourceFields).to receive(:new).with(object.class).and_call_original
