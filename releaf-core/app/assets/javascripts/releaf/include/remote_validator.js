@@ -31,9 +31,9 @@ var RemoteValidator = function( form )
         v.clicked_button = target;
     });
 
-    v.form[0].addEventListener( 'ajax:before', function( event )
+    v.form.on( 'ajax:before', function( event )
     {
-        var xhr = event.detail
+        var xhr = event.detail;
         xhr.validation_id = 'v' + new Date().getTime() + Math.random();
         xhr.setRequestHeader('Accept', '*/*;q=0.5, application/json');
 
@@ -45,9 +45,9 @@ var RemoteValidator = function( form )
         }
     });
 
-    v.form[0].addEventListener( 'ajax:complete', function( event )
+    v.form.on( 'ajax:complete', function( event )
     {
-        var xhr = event.detail
+        var xhr = event.detail;
         var json_response;
         var event_params =
         {
