@@ -16,15 +16,7 @@ jQuery(function(){
             settings[key_or_settings] = value;
         }
 
-        jQuery.ajax({
-            url:  settings_path,
-            data: { "settings": settings},
-            headers: {
-                'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
-            },
-            type: 'POST',
-            dataType: 'json'
-        });
+        LiteAjax.ajax({ url: settings_path, method: 'POST', data:  { "settings": settings}, json: true })
     });
 });
 
