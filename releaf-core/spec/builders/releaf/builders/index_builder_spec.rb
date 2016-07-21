@@ -327,10 +327,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
       expect(subject).to receive(:pagination_builder_class).and_return(dummy)
       expect( subject.pagination_block).to eq :ok
     end
-
   end
-
-
 
   describe "#resource_creation_button" do
     it "returns resource creation button" do
@@ -349,6 +346,19 @@ describe Releaf::Builders::IndexBuilder, type: :class do
         .with(collection, Book, builder: Admin::Books::TableBuilder, toolbox: true)
         .and_return("xx")
       expect(subject.section_body).to eq('<div class="body">xx</div>')
+    end
+  end
+
+  describe "#table_options" do
+    it "returns table options" do
+      allow(subject).to receive(:builder_class).with(:table).and_return("CustomTableBuilderClassHere")
+      allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
+
+      options = {
+        builder: "CustomTableBuilderClassHere",
+        toolbox: "boolean_value_here"
+      }
+      expect(subject.table_options).to eq(options)
     end
   end
 end

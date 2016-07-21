@@ -77,54 +77,6 @@ describe Releaf::ActionController do
     end
   end
 
-  describe "#form_url" do
-    context "when given resource is new record" do
-      it "returns url for create method" do
-        allow(subject).to receive(:url_for).with(action: 'create', id: nil).and_return("/res/new")
-        expect(subject.form_url(:edit, new_resource)).to eq("/res/new")
-      end
-    end
-
-    context "when given resource is existing record" do
-      it "returns url for update method" do
-        allow(subject).to receive(:url_for).with(action: 'update', id: resource.id).and_return("/res/edit/")
-        expect(subject.form_url(:edit, resource)).to eq("/res/edit/")
-      end
-    end
-  end
-
-  describe "#form_attributes" do
-    it "returns basic releaf form attributes" do
-      attributes = {
-         multipart: true,
-         novalidate: "",
-         class: ["new-user"],
-         id: "new-user",
-         data: {
-           "remote"=>true,
-           "remote-validation"=>true,
-           "type"=>:json
-         }
-      }
-      expect(subject.form_attributes(:edit, new_resource, :user)).to eq(attributes)
-    end
-
-    it "changes class/id depending whether given object is persisted" do
-      expect(subject.form_attributes(:edit, new_resource, :user)[:id]).to eq("new-user")
-      expect(subject.form_attributes(:edit, new_resource, :user)[:class]).to eq(["new-user"])
-
-      expect(subject.form_attributes(:edit, resource, :user)[:id]).to eq("edit-user")
-      expect(subject.form_attributes(:edit, resource, :user)[:class]).to eq(["edit-user"])
-    end
-
-    it "adds has-error class if object has any errors" do
-      resource.name = nil
-      expect(resource.valid?).to be false
-      expect(subject.form_attributes(:edit, resource, :user)[:class]).to eq(["edit-user", "has-error"])
-    end
-
-  end
-
   describe "#builder_class" do
     it "returns controller class scoped builder for given builder type" do
       allow(subject).to receive(:builder_scopes).and_return(["a", "b"])
@@ -223,35 +175,6 @@ describe Releaf::ActionController do
 
       allow(Releaf.application.config).to receive(:mount_location).and_return("")
       expect(subject.application_scope).to eq(nil)
-    end
-  end
-
-  describe "#table_options" do
-    it "returns table options" do
-      allow(subject).to receive(:builder_class).with(:table).and_return("CustomTableBuilderClassHere")
-      allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
-
-      options = {
-        builder: "CustomTableBuilderClassHere",
-        toolbox: "boolean_value_here"
-      }
-      expect(subject.table_options).to eq(options)
-    end
-  end
-
-  describe "#form_options" do
-    it "returns form options" do
-      allow(subject).to receive(:builder_class).with(:form).and_return("CustomFormBuilderClassHere")
-      allow(subject).to receive(:form_url).with(:delete, resource).and_return("/some-url-here")
-      allow(subject).to receive(:form_attributes).with(:delete, resource, :author).and_return(some: "options_here")
-
-      options = {
-        builder: "CustomFormBuilderClassHere",
-        as: :author,
-        url: "/some-url-here",
-        html: {some: "options_here"}
-      }
-      expect(subject.form_options(:delete, resource, :author)).to eq(options)
     end
   end
 end
