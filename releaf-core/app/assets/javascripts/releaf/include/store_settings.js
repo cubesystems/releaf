@@ -19,8 +19,12 @@ jQuery(function(){
         jQuery.ajax({
             url:  settings_path,
             data: { "settings": settings},
+            headers: {
+                'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
+            },
             type: 'POST',
             dataType: 'json'
         });
     });
 });
+
