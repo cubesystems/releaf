@@ -110,9 +110,16 @@ class Releaf::Builders::IndexBuilder
     button(text, "plus", class: "primary", href: url)
   end
 
+  def table_options
+    {
+      builder: builder_class(:table),
+      toolbox: feature_available?(:toolbox)
+    }
+  end
+
   def section_body
     tag(:div, class: "body") do
-      template.releaf_table(collection, template.resource_class, template.table_options)
+      template.releaf_table(collection, template.resource_class, table_options)
     end
   end
 end

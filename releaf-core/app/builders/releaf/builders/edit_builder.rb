@@ -24,8 +24,54 @@ class Releaf::Builders::EditBuilder
     form.releaf_fields(form.field_names.to_a)
   end
 
+  def form_url
+    url_for(action: form_action, id: resource.id)
+  end
+
+  def form_action
+    resource.new_record? ? 'create' : 'update'
+  end
+
+  def resource_name
+    :resource
+  end
+
+  def form_builder_class
+    builder_class(:form)
+  end
+
   def form_options
-    controller.form_options(action_name, resource, :resource)
+    {
+      builder: form_builder_class,
+      as: resource_name,
+      url: form_url,
+      html: form_attributes
+    }
+  end
+
+  def form_identifier
+    action = !resource.respond_to?(:persisted?) || resource.persisted? ? :edit : :new
+    "#{action}-#{resource_name}"
+  end
+
+  def form_classes
+    classes = [ form_identifier ]
+    classes << "has-error" if resource.errors.any?
+    classes
+  end
+
+  def form_attributes
+    {
+      multipart: true,
+      id: form_identifier,
+      class: form_classes,
+      data: {
+        "remote" => true,
+        "remote-validation" => true,
+        "type" => :json,
+      },
+      novalidate: ""
+    }
   end
 
   def error_notices
@@ -52,7 +98,7 @@ class Releaf::Builders::EditBuilder
   end
 
   def create_another_available?
-    resource.present? && resource.new_record? && controller.feature_available?(:create_another)
+    resource.present? && resource.new_record? && feature_available?(:create_another)
   end
 
   def save_and_create_another_button
@@ -62,5 +108,4 @@ class Releaf::Builders::EditBuilder
   def save_button
     button(t("Save"), "check", class: "primary", data: { type: 'ok', disable: true }, type: "submit")
   end
-
 end

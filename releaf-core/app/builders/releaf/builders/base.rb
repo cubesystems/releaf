@@ -9,7 +9,7 @@ module Releaf::Builders::Base
     :select_tag, :text_field_tag,
     :image_tag, :cookies, :button_tag, :merge_attributes, to: :template
 
-  delegate :controller_scope_name,
+  delegate :controller_scope_name, :builder_class,
     :feature_available?, :index_url, to: :controller
 
   alias_method :button, :releaf_button
