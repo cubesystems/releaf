@@ -144,6 +144,38 @@ feature "Translations" do
     expect(page).to have_notification("Unsupported file format", "error")
   end
 
+  scenario "Import corrupt xls file", js: true, create_translations: true do
+    visit releaf_i18n_database_translations_path
+
+    script = "$('form.import').css({display: 'block'});"
+    page.execute_script(script)
+
+    fixture_path = File.expand_path('../fixtures/invalid.xls', __dir__)
+
+    within('form.import') do
+      attach_file(:import_file, fixture_path)
+    end
+
+    expect(page).to have_notification("Unsupported file format", "error")
+  end
+
+
+  scenario "Import corrupt xlsx file", js: true, create_translations: true do
+    visit releaf_i18n_database_translations_path
+
+    script = "$('form.import').css({display: 'block'});"
+    page.execute_script(script)
+
+    fixture_path = File.expand_path('../fixtures/invalid.xlsx', __dir__)
+
+    within('form.import') do
+      attach_file(:import_file, fixture_path)
+    end
+
+    expect(page).to have_notification("Unsupported file format", "error")
+  end
+
+
   scenario "Export translations", create_translations: true do
     visit releaf_i18n_database_translations_path
     click_link "Export"

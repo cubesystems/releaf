@@ -80,9 +80,9 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
 
   # DEVISE
-  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
-  config.include Devise::Test::ControllerHelpers, type: :helper
+  config.include Devise::TestHelpers, type: :helper
   config.extend ControllerMacros, type: :helper
 
 

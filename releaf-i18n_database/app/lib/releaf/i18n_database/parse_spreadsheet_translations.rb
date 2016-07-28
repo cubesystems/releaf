@@ -24,8 +24,8 @@ module Releaf::I18nDatabase
     def spreadsheet
       begin
         Roo::Spreadsheet.open(file_path, extension: extension, file_warning: :ignore)
-      rescue ArgumentError => e
-        if unsupported_file_content?(e.message)
+      rescue StandardError => e
+        if file_format_error?(e.class.name, e.message)
           raise UnsupportedFileFormatError
         else
           raise
@@ -33,8 +33,9 @@ module Releaf::I18nDatabase
       end
     end
 
-    def unsupported_file_content?(error_message)
-      error_message.match("Don't know how to open file").present?
+    def file_format_error?(error_class_name, error_message)
+      return true if ['Zip::ZipError','Ole::Storage::FormatError' ].include?(error_class_name)
+      error_class_name == 'ArgumentError' && error_message.match("Don't know how to open file").present?
     end
 
     def translations
