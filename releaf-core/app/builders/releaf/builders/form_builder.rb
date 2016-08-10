@@ -1,6 +1,5 @@
 class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   include Releaf::Builders::Base
-  include Releaf::Builders::Orderer
   include Releaf::Builders::FormBuilder::Label
   include Releaf::Builders::FormBuilder::Fields
   include Releaf::Builders::FormBuilder::Associations

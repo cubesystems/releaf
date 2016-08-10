@@ -1,5 +1,27 @@
 ## Changelog
 
+### 2016.07.22
+* `form_options`, `form_attributes` and `form_url` methods moved from Releaf::ActionController to `Releaf::Builders::EditBuilder` as its edit builder responsibility for it's own content
+* `Releaf::Builders::EditBuilder` for now have `#form_builder_class`
+  method for custom form builder class overriding
+* `table_options` method moved from Releaf::ActionController to `Releaf::Builders::IndexBuilder`
+
+### 2016.07.19
+* `Releaf::ItemOrderer` refactored to `Array::Reorder` service
+* Array now have #reorder method for simple array reordering
+* You must update builders from old reorder code to new syntax:
+```
+def field_names
+  orderer(super).reorder(:title, :first).result
+end
+```
+now can be written simple as:
+```
+def field_names
+  super.reorder(:title, :first)
+end
+```
+
 ### 2016.03.09
 * `Releaf::ControllerDefinition` implemented for unified controller
   meta-data handling. Custom menu builders need to be rewritted to use
@@ -701,3 +723,4 @@ end
 
   ```:ajax``` parameter is removed from ```params``` has in ```manage_ajax```
   before filter in ```Releaf::BaseApplicationController```
+

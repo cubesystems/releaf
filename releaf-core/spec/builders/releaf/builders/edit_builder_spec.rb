@@ -179,6 +179,125 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
+  describe "#form_options" do
+    it "returns form options" do
+      allow(subject).to receive(:form_builder_class).and_return("CustomFormBuilderClassHere")
+      allow(subject).to receive(:form_url).and_return("/some-url-here")
+      allow(subject).to receive(:form_attributes).and_return(some: "options_here")
+      allow(subject).to receive(:resource_name).and_return(:author)
+
+      options = {
+        builder: "CustomFormBuilderClassHere",
+        as: :author,
+        url: "/some-url-here",
+        html: {some: "options_here"}
+      }
+      expect(subject.form_options).to eq(options)
+    end
+  end
+
+  describe "#form_url" do
+    it "returns form url built from form action and resource id" do
+      resource.id = 23
+      allow(subject).to receive(:form_action).and_return("upd")
+      allow(subject).to receive(:url_for).with(action: "upd", id: 23).and_return("/res/new")
+      expect(subject.form_url).to eq("/res/new")
+    end
+  end
+
+  describe "#form_action" do
+    context "when new resource" do
+      it "returns `create`" do
+        allow(resource).to receive(:new_record?).and_return(true)
+        expect(subject.form_action).to eq("create")
+      end
+    end
+
+    context "when persisted resource" do
+      it "returns `update`" do
+        allow(resource).to receive(:new_record?).and_return(false)
+        expect(subject.form_action).to eq("update")
+      end
+    end
+  end
+
+  describe "#resource_name" do
+    it "returns `:resource`" do
+      expect(subject.resource_name).to eq(:resource)
+    end
+  end
+
+  describe "#form_url" do
+    it "returns form builder class" do
+      allow(subject).to receive(:builder_class).with(:form).and_return("x")
+      expect(subject.form_builder_class).to eq("x")
+    end
+  end
+
+  describe "#form_identifier" do
+    before do
+      allow(subject).to receive(:resource_name).and_return(:book)
+    end
+
+    context "when resource has persistance check method and it's persisted" do
+      it "returns resource name prefixed with `edit-`" do
+        allow(resource).to receive(:persisted?).and_return(true)
+        expect(subject.form_identifier).to eq("edit-book")
+      end
+    end
+
+    context "when resource has persistance check method and it's not persisted" do
+      it "returns resource name prefixed with `new-`" do
+        allow(resource).to receive(:persisted?).and_return(false)
+        expect(subject.form_identifier).to eq("new-book")
+      end
+    end
+
+    context "when resource has no persistance check method" do
+      it "returns resource name prefixed with `update-`" do
+        allow(subject).to receive(:resource).and_return(String.new)
+        expect(subject.form_identifier).to eq("edit-book")
+      end
+    end
+  end
+
+  describe "#form_classes" do
+    before do
+      allow(subject).to receive(:form_identifier).and_return("xx")
+    end
+
+    it "returns array with form identifier" do
+      expect(subject.form_classes).to eq(["xx"])
+    end
+
+    context "when object has any errors" do
+      it "adds has-error class to returned array" do
+        resource.title = nil
+        resource.valid?
+        expect(subject.form_classes).to eq(["xx", "has-error"])
+      end
+    end
+  end
+
+  describe "#form_attributes" do
+    it "returns form attributes" do
+      allow(subject).to receive(:form_identifier).and_return("xx")
+      allow(subject).to receive(:form_classes).and_return(["a", "b"])
+
+      attributes = {
+         multipart: true,
+         novalidate: "",
+         class: ["a", "b"],
+         id: "xx",
+         data: {
+           "remote"=>true,
+           "remote-validation"=>true,
+           "type"=>:json
+         }
+      }
+      expect(subject.form_attributes).to eq(attributes)
+    end
+  end
 
   describe "#save_button" do
     it "returns save button" do
@@ -187,13 +306,6 @@ describe Releaf::Builders::EditBuilder, type: :class do
         .and_return("_btn_")
       allow(subject).to receive(:t).with("Save").and_return("to_list")
       expect(subject.save_button).to eq("_btn_")
-    end
-  end
-
-  describe "#form_options" do
-    it "returns controller form options for current action and resource" do
-      allow(controller).to receive(:form_options).with(:edit, resource, :resource).and_return(:y)
-      expect(subject.form_options).to eq(:y)
     end
   end
 

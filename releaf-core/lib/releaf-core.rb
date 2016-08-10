@@ -7,6 +7,7 @@ require 'haml'
 require 'haml-rails'
 require 'jquery-rails'
 require 'jquery-ui-rails'
+require 'vanilla-ujs'
 require 'acts_as_list'
 require 'dragonfly'
 require 'globalize'
@@ -29,7 +30,8 @@ module Releaf
     require 'releaf/application'
     require 'releaf/route_mapper'
     require 'releaf/exceptions'
-    require 'releaf/validation_error_codes'
+    require 'releaf/core_ext/array/reorder'
+    require 'releaf/rails_ext/validation_error_codes'
 
     def self.components
       [Releaf::SettingsUI, Releaf::Root]

@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sass-rails'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'jquery-ui-rails'
+  s.add_dependency 'vanilla-ujs'
   s.add_dependency 'railties'
   s.add_dependency 'haml-rails'
   s.add_dependency 'dragonfly'

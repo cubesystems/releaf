@@ -58,35 +58,55 @@ describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
       expect(subject.spreadsheet).to eq("instance")
     end
 
-    context "when unsupported extension exception given" do
+
+    context "when opening the file raises an unsupported content error" do
       it "raises Releaf::TranslationsImporter::UnsupportedFileFormatError" do
-        subject.extension = "Xxx"
-        allow(subject).to receive(:unsupported_file_content?).with(error_message).and_return(true)
+        error = ArgumentError.new("error message")
+        allow(Roo::Spreadsheet).to receive(:open).and_raise( error )
+        expect(subject).to receive(:file_format_error?).with( "ArgumentError", "error message").and_return true
         expect{ subject.spreadsheet }.to raise_error(described_class::UnsupportedFileFormatError)
       end
     end
 
-    context "when any oher exception given" do
-      it "raises it" do
-        subject.extension = "Xxx"
-        allow(subject).to receive(:unsupported_file_content?).with(error_message).and_return(false)
-        expect{ subject.spreadsheet }.to raise_error(ArgumentError, error_message)
+    context "when opening the file raises any other error" do
+      it "raises Releaf::TranslationsImporter::UnsupportedFileFormatError" do
+        error = ArgumentError.new("error message")
+        allow(Roo::Spreadsheet).to receive(:open).and_raise( error )
+        expect(subject).to receive(:file_format_error?).with( "ArgumentError", "error message").and_return false
+        expect{ subject.spreadsheet }.to raise_error( error )
       end
     end
+
   end
 
-  describe "#unsupported_file_content?" do
-    context "when given error message complains about `Don't know how to open file`" do
-      it "returns true" do
-        expect(subject.unsupported_file_content?(error_message)).to be true
+  describe "#file_format_error?" do
+
+    context "when given error is an ArgumentError" do
+      context "when the message contains 'Don't know how to open file'" do
+        it "returns true" do
+          expect(subject.file_format_error?("ArgumentError", error_message)).to be true
+        end
+      end
+      context "when the message is different" do
+        it "returns false" do
+          expect(subject.file_format_error?("ArgumentError", "error message")).to be false
+        end
       end
     end
 
-    context "when given error message does not complain about `Don't know how to open file`" do
-      it "returns false" do
-        expect(subject.unsupported_file_content?("some other error")).to be false
+    context "when the error is a Zip::ZipError" do
+      it "returns true" do
+        expect(subject.file_format_error?("Zip::ZipError", "error message")).to be true
       end
     end
+
+    context "when the error is a Ole::Storage::FormatError" do
+      it "returns true" do
+        expect(subject.file_format_error?("Ole::Storage::FormatError", "error message")).to be true
+      end
+    end
+
+
   end
 
 
