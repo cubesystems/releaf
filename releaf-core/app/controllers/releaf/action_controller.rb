@@ -48,13 +48,13 @@ class Releaf::ActionController < ActionController::Base
   def create
     prepare_create
     @resource.save
-    respond_with(@resource, location: (success_url if @resource.persisted?), redirect: true)
+    respond_with(@resource, location: (success_path if @resource.persisted?), redirect: true)
   end
 
   def update
     prepare_update
     @resource.update_attributes(resource_params)
-    respond_with(@resource, location: success_url)
+    respond_with(@resource, location: success_path)
   end
 
   def confirm_destroy
@@ -71,7 +71,7 @@ class Releaf::ActionController < ActionController::Base
   def destroy
     prepare_destroy
     @resource.destroy if destroyable?
-    respond_with(@resource, location: index_url)
+    respond_with(@resource, location: index_path)
   end
 
   def prepare_index

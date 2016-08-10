@@ -22,6 +22,6 @@ class Releaf::Builders::ToolboxBuilder
   end
 
   def destroy_confirmation_url
-     url_for(action: :confirm_destroy, id: resource.id, index_url: index_url)
+     url_for(action: :confirm_destroy, id: resource.id, index_path: index_path)
   end
 end

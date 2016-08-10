@@ -97,7 +97,7 @@ class Releaf::Builders::TableBuilder
 
   def row_url(resource)
     resource_action = row_url_action(resource)
-    url_for(action: resource_action, id: resource.id, index_url: index_url) if resource_action
+    url_for(action: resource_action, id: resource.id, index_path: index_path) if resource_action
   end
 
   def row_url_action(_resource)
@@ -240,7 +240,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def toolbox_cell(resource, options)
-    toolbox_args = {index_url: controller.index_url}.merge(options.fetch(:toolbox, {}))
+    toolbox_args = {index_path: index_path}.merge(options.fetch(:toolbox, {}))
     tag(:td, class: "only-icon toolbox-cell") do
       toolbox(resource, toolbox_args)
     end

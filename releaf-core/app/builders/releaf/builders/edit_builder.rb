@@ -7,13 +7,13 @@ class Releaf::Builders::EditBuilder
     form_for(resource, form_options) do |form|
       self.form = form
       safe_join do
-        [index_url_preserver] + section_blocks
+        [index_path_preserver] + section_blocks
       end
     end
   end
 
-  def index_url_preserver
-    hidden_field_tag 'index_url', params[:index_url] if params[:index_url].present?
+  def index_path_preserver
+    hidden_field_tag "index_path", params[:index_path] if params[:index_path].present?
   end
 
   def section_body_blocks

@@ -186,53 +186,80 @@ describe Admin::AuthorsController do
     sign_in FactoryGirl.create(:user)
   end
 
-  describe "#index_url" do
+  describe "#index_path" do
     context "when action is other than :index" do
-      context "when params have 'index_url' defined" do
-        it "returns params 'index_url'" do
-          url = "/admin/something?a=1&b=2"
-          get :new, index_url: url
-          expect(subject.index_url).to eq(url)
+      context "when params have valid `index_path` value" do
+        it "returns params 'index_path'" do
+          get :new, index_path: "xxxxxxxx"
+          allow(subject).to receive(:valid_index_path?).with("xxxxxxxx").and_return(true)
+          expect(subject.index_path).to eq("xxxxxxxx")
         end
       end
 
-      context "when does not have 'index_url' defined" do
-        it "returns index action url" do
-          get :new
-          expect(subject.index_url).to eq("http://test.host/admin/authors")
+      context "when params have invalid `index_path` value" do
+        it "returns index action path" do
+          get :new, index_path: "xxxxxxxx"
+          allow(subject).to receive(:valid_index_path?).with("xxxxxxxx").and_return(false)
+          expect(subject.index_path).to eq("/admin/authors")
         end
       end
     end
 
     context "when action is :index" do
-      it "returns #current_url value" do
+      it "returns #current_path value" do
         get :index
-        allow(subject).to receive(:current_url).and_return("random_string")
-        expect(subject.index_url).to eq("random_string")
+        allow(subject).to receive(:current_path).and_return("random_string")
+        expect(subject.index_path).to eq("random_string")
       end
     end
   end
 
-  describe "#current_url" do
+  describe "#valid_index_path?" do
+    context "when given value is string that starts with `/`" do
+      it "returns true" do
+        expect(subject.valid_index_path?("/admin/something?a=1&b=2")).to be true
+      end
+    end
+
+    context "when given value is string that starts with other char than `/`" do
+      it "returns false" do
+        expect(subject.valid_index_path?("http:///admin/something?a=1&b=2")).to be false
+      end
+    end
+
+    context "when given value is not string" do
+      it "returns false" do
+        expect(subject.valid_index_path?(123)).to be false
+      end
+    end
+
+    context "when given value is blank" do
+      it "returns false" do
+        expect(subject.valid_index_path?(nil)).to be false
+      end
+    end
+  end
+
+  describe "#current_path" do
     it "returns current url without `ajax` param" do
       get :index, ajax: 1, search: "something", page: 1
-      expect(subject.current_url).to eq("/admin/authors?page=1&search=something")
+      expect(subject.current_path).to eq("/admin/authors?page=1&search=something")
     end
 
     context "when no query parameters exists" do
       it "returns only request path" do
         get :index
-        expect(subject.current_url).to eq("/admin/authors")
+        expect(subject.current_path).to eq("/admin/authors")
       end
     end
 
     it "caches current url value" do
       get :index
       expect(subject).to receive(:request).twice.and_call_original
-      subject.current_url
-      subject.current_url
-      subject.current_url
-      subject.current_url
+      subject.current_path
+      subject.current_path
+      subject.current_path
+      subject.current_path
     end
   end
 

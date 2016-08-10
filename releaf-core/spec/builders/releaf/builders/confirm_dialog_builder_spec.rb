@@ -34,7 +34,7 @@ describe Releaf::Builders::ConfirmDialogBuilder, type: :class do
   before do
     subject.resource = object
     allow(subject.template).to receive(:controller).and_return(Releaf::ActionController.new)
-    allow(subject.controller).to receive(:index_url).and_return("y")
+    allow(subject.controller).to receive(:index_path).and_return("y")
   end
 
   describe "#section_body" do
@@ -88,17 +88,19 @@ describe Releaf::Builders::ConfirmDialogBuilder, type: :class do
     end
   end
 
-  describe "#cancel_url" do
-    it "returns index url" do
-      allow(subject).to receive(:index_url).and_return("x")
-      expect(subject.cancel_url).to eq("x")
+  describe "#cancel_path" do
+    it "returns index path" do
+      allow(subject).to receive(:index_path).and_return("x")
+      expect(subject.cancel_path).to eq("x")
     end
   end
 
   describe "#cancel_button" do
     it "returns cancel button" do
+      allow(subject).to receive(:cancel_path).and_return("xasd")
       allow(subject).to receive(:t).with("No").and_return("Noo")
-      allow(subject).to receive(:button).with("Noo", "ban", class: "secondary", data: {type: "cancel"}, href: "y").and_return("x")
+      allow(subject).to receive(:button).with("Noo", "ban", class: "secondary", data: {type: "cancel"}, href: "xasd")
+        .and_return("x")
       expect(subject.cancel_button).to eq("x")
     end
   end

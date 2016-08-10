@@ -18,7 +18,7 @@ describe Releaf::Builders::ResourceView, type: :class do
   before do
     allow(template).to receive(:controller).and_return(controller)
     allow(subject).to receive(:resource).and_return(resource)
-    allow(subject).to receive(:index_url).and_return("_index_url_")
+    allow(subject).to receive(:index_path).and_return("_index_path_")
   end
 
   it "includes Releaf::Builders::View" do
@@ -66,7 +66,7 @@ describe Releaf::Builders::ResourceView, type: :class do
 
   describe "#section_header_extras" do
     before do
-      allow(subject).to receive(:toolbox).with(resource, index_url: "_index_url_").and_return("_tlbx_")
+      allow(subject).to receive(:toolbox).with(resource, index_path: "_index_path_").and_return("_tlbx_")
       allow(subject).to receive(:feature_available?).with(:toolbox).and_return(true)
     end
 
@@ -122,17 +122,17 @@ describe Releaf::Builders::ResourceView, type: :class do
 
   describe "#back_to_list?" do
     before do
-      allow(subject).to receive(:params).and_return(index_url: "xxx")
+      allow(subject).to receive(:params).and_return(index_path: "xxx")
       allow(subject).to receive(:feature_available?).with(:index).and_return(true)
     end
 
-    context "when index feature is available and index_url is present within params" do
+    context "when index feature is available and index_path is present within params" do
       it "returns true" do
         expect(subject.back_to_list?).to be true
       end
     end
 
-    context "when index_url is not present within params" do
+    context "when index_path is not present within params" do
       it "returns false" do
         allow(subject).to receive(:params).and_return(search: "xxx")
         expect(subject.back_to_list?).to be false
@@ -150,7 +150,7 @@ describe Releaf::Builders::ResourceView, type: :class do
   describe "#back_to_list_button" do
     it "returns `back to list` button" do
       allow(subject).to receive(:button)
-        .with("to_list", "caret-left", {class: "secondary", href: "_index_url_"}).and_return("_btn_")
+        .with("to_list", "caret-left", {class: "secondary", href: "_index_path_"}).and_return("_btn_")
       allow(subject).to receive(:t).with("Back to list").and_return("to_list")
       expect(subject.back_to_list_button).to eq("_btn_")
     end

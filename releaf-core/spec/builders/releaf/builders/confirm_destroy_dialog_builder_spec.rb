@@ -26,7 +26,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
   before do
     subject.resource = object
     allow(subject.template).to receive(:controller).and_return(Releaf::ActionController.new)
-    allow(subject.controller).to receive(:index_url).and_return("y")
+    allow(subject.controller).to receive(:index_path).and_return("y")
   end
 
   describe "#question_content" do
@@ -64,7 +64,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   describe "#confirm_url" do
     it "returns resource destroy url" do
-      allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_url: "y").and_return("x")
+      allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_path: "y").and_return("x")
       expect(subject.confirm_url).to eq("x")
     end
   end

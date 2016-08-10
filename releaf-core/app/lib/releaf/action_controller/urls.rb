@@ -2,44 +2,48 @@ module Releaf::ActionController::Urls
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_url, :index_url
+    helper_method :current_path, :index_path
   end
 
-  # Returns url to redirect after successul resource create/update actions
+  # Returns path to redirect after successul resource create/update actions
   #
-  # @return [String] url
-  def success_url
+  # @return [String] path
+  def success_path
     if create_another?
-      url_for(action: 'new')
+      url_for(action: :new, only_path: true)
     else
-      url_for(action: 'edit', id: @resource.id, index_url: index_url)
+      url_for(action: :edit, id: @resource.id, only_path: true, index_path: index_path)
     end
   end
 
-  # Returns index url for current request
+  # Returns index path for current request
   #
-  # @return String
-  def index_url
-    if @index_url.nil?
-      # use current url
-      if action_name == "index"
-        @index_url = current_url
-      # use from get params
-      elsif params[:index_url].present?
-        @index_url = params[:index_url]
-      # fallback to index view
-      else
-        @index_url = url_for(action: 'index')
-      end
-    end
-
-    @index_url
+  # @return [String] path
+  def index_path
+    @index_path ||= resolve_index_path
   end
 
-  # Returns current url without internal params
+  def resolve_index_path
+    # use current url
+    if action_name == "index"
+      current_path
+    # use from get params
+    elsif valid_index_path?(params[:index_path])
+      params[:index_path]
+    # fallback to index view
+    else
+      url_for(action: :index, only_path: true)
+    end
+  end
+
+  def valid_index_path?(value)
+    value.present? && value.is_a?(String) && value.first == "/"
+  end
+
+  # Returns current path without internal params
   #
   # @return String
-  def current_url
-    @current_url ||= [request.path, (request.query_parameters.to_query if request.query_parameters.present?)].compact.join("?")
+  def current_path
+    @current_path ||= [request.path, (request.query_parameters.to_query if request.query_parameters.present?)].compact.join("?")
   end
 end

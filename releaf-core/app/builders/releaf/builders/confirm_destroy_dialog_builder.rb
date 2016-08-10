@@ -20,6 +20,6 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmD
   end
 
   def confirm_url
-    url_for( action: 'destroy', id: resource.id, index_url: index_url)
+    url_for( action: 'destroy', id: resource.id, index_path: index_path)
   end
 end

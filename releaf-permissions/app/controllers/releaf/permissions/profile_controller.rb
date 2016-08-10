@@ -4,7 +4,7 @@ class Releaf::Permissions::ProfileController < Releaf::ActionController
     @resource = user.becomes(resource_class)
   end
 
-  def success_url
+  def success_path
     url_for(action: :edit)
   end
 

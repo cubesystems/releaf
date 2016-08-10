@@ -33,12 +33,12 @@ describe Releaf::Builders::EditBuilder, type: :class do
     before do
       allow(subject).to receive(:section_attributes).and_return(a: "b")
       allow(subject).to receive(:form_options).and_return(url: "xxx", builder: Releaf::Builders::FormBuilder)
-      allow(subject).to receive(:index_url_preserver).and_return("_index_url_")
+      allow(subject).to receive(:index_path_preserver).and_return("_index_path_")
       allow(subject).to receive(:section_blocks).and_return(["_section_","_blocks_"])
     end
 
     it "returns section with index url preserver and section blocks" do
-      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="yyy" value="xxx" />_index_url__section__blocks_</form>')
+      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="yyy" value="xxx" />_index_path__section__blocks_</form>')
     end
 
     it "assigns form instance to builder" do
@@ -47,11 +47,11 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
-  describe "#index_url_preserver" do
+  describe "#index_path_preserver" do
     it "returns hidden index url input" do
-      allow(subject).to receive(:params).and_return(index_url: "?asd=23&lf=dd")
-      result = '<input type="hidden" name="index_url" id="index_url" value="?asd=23&amp;lf=dd" />'
-      expect(subject.index_url_preserver).to eq(result)
+      allow(subject).to receive(:params).and_return(index_path: "?asd=23&lf=dd")
+      result = '<input type="hidden" name="index_path" id="index_path" value="?asd=23&amp;lf=dd" />'
+      expect(subject.index_path_preserver).to eq(result)
     end
   end
 
