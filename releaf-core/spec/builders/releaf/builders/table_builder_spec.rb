@@ -236,12 +236,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     before do
       allow(subject).to receive(:controller).and_return(controller)
-      allow(controller).to receive(:index_url).and_return("_index_url_")
+      allow(controller).to receive(:index_path).and_return("_index_path_")
     end
 
     it "returns edit url for given resource" do
       allow(subject).to receive(:row_url_action).with(resource).and_return(:show)
-      allow(template).to receive(:url_for).with(action: :show, id: 77, index_url: "_index_url_").and_return('_url_')
+      allow(template).to receive(:url_for).with(action: :show, id: 77, index_path: "_index_path_").and_return('_url_')
       expect(subject.row_url(resource)).to eq('_url_')
     end
 
@@ -475,26 +475,26 @@ describe Releaf::Builders::TableBuilder, type: :class do
     let(:controller){ double(ActionController::Base) }
     before do
       allow(subject).to receive(:controller).and_return(controller)
-      allow(controller).to receive(:index_url).and_return("_index_url_")
+      allow(controller).to receive(:index_path).and_return("_index_path_")
     end
 
     it "returns cell with toolbox" do
       allow(subject).to receive(:toolbox)
-        .with(resource, index_url: "_index_url_").and_return("_toolbox_")
+        .with(resource, index_path: "_index_path_").and_return("_toolbox_")
 
       content = '<td class="only-icon toolbox-cell">_toolbox_</td>'
       expect(subject.toolbox_cell(resource, {})).to eq(content)
     end
 
     it "merges given toolbox options and passes it to toolbox heplper" do
-      allow(subject.controller).to receive(:index_url).and_return("_index_url_")
+      allow(subject.controller).to receive(:index_path).and_return("_index_path_")
       expect(subject).to receive(:toolbox)
-        .with(resource, index_url: "_index_url_", some_url: "xx").and_return("_toolbox_")
+        .with(resource, index_path: "_index_path_", some_url: "xx").and_return("_toolbox_")
       subject.toolbox_cell(resource, {toolbox: {some_url: "xx"}})
 
       expect(subject).to receive(:toolbox)
-        .with(resource, index_url: "xx").and_return("_toolbox_")
-      subject.toolbox_cell(resource, {toolbox: {index_url: "xx"}})
+        .with(resource, index_path: "xx").and_return("_toolbox_")
+      subject.toolbox_cell(resource, {toolbox: {index_path: "xx"}})
     end
   end
 

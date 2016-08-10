@@ -53,7 +53,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def footer_primary_tools
     [
-      button(t("Ok"), "check", href: index_url, data: {type: 'cancel'})
+      button(t("Ok"), "check", href: index_path, data: {type: 'cancel'})
     ]
   end
 

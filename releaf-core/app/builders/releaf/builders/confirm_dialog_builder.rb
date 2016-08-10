@@ -44,11 +44,11 @@ class Releaf::Builders::ConfirmDialogBuilder
     button(t("Yes"), "check", class: "danger", type: 'submit')
   end
 
-  def cancel_url
-    index_url
+  def cancel_path
+    index_path
   end
 
   def cancel_button
-    button(t("No"), "ban", class: "secondary", data: {type: 'cancel'}, href: index_url)
+    button(t("No"), "ban", class: "secondary", data: {type: 'cancel'}, href: cancel_path)
   end
 end

@@ -79,8 +79,8 @@ describe Releaf::I18nDatabase::Translations::EditBuilder, type: :class do
   describe "#back_to_index_button" do
     it "returns localized value for given resource and column(locale)" do
       allow(subject).to receive(:t).with("Back to list").and_return("back")
-      allow(subject).to receive(:action_url).with(:index).and_return("index_url")
-      allow(subject).to receive(:button).with("back", "caret-left", class: "secondary", href: "index_url").and_return("index_btn")
+      allow(subject).to receive(:action_url).with(:index).and_return("index_path")
+      allow(subject).to receive(:button).with("back", "caret-left", class: "secondary", href: "index_path").and_return("index_btn")
       expect(subject.back_to_index_button).to eq("index_btn")
     end
   end

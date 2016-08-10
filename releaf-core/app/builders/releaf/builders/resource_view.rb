@@ -20,7 +20,7 @@ module Releaf::Builders::ResourceView
   def section_header_extras
     return unless feature_available? :toolbox
     tag(:div, class: "extras toolbox-wrap") do
-      toolbox(resource, index_url: index_url)
+      toolbox(resource, index_path: index_path)
     end
   end
 
@@ -45,10 +45,10 @@ module Releaf::Builders::ResourceView
   end
 
   def back_to_list?
-    feature_available?(:index) && params[:index_url].present?
+    feature_available?(:index) && params[:index_path].present?
   end
 
   def back_to_list_button
-    button(t("Back to list"), "caret-left", class: "secondary", href: index_url)
+    button(t("Back to list"), "caret-left", class: "secondary", href: index_path)
   end
 end

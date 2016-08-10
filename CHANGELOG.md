@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2016.08.10
+* Controllers `current_url` and `index_url` methods renamed to `current_path` and `index_path`
+
 ### 2016.07.22
 * `form_options`, `form_attributes` and `form_url` methods moved from Releaf::ActionController to `Releaf::Builders::EditBuilder` as its edit builder responsibility for it's own content
 * `Releaf::Builders::EditBuilder` for now have `#form_builder_class`
