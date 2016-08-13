@@ -193,12 +193,12 @@ describe Releaf::Builders::FormBuilder, type: :class do
   end
 
   describe "#field_attributes" do
-    it "adds field data and class attributes" do
-      expect(subject.field_attributes(:color, {}, {field: {type: "text"}})).to eq(data: {name: :color}, class: ["field", "type-text"])
+    it "adds field data and class attributes and cast name to string within data attributes" do
+      expect(subject.field_attributes(:color, {}, {field: {type: "text"}})).to eq(data: {name: "color"}, class: ["field", "type-text"])
     end
 
     it "merges attributes over build-in data hash" do
-      expect(subject.field_attributes(:color, {data: {other: "x"}}, {})[:data]).to eq(name: :color, other: "x")
+      expect(subject.field_attributes(:color, {data: {other: "x"}}, {})[:data]).to eq(name: "color", other: "x")
       expect(subject.field_attributes(:color, {data: {other: "x", name: :lll}}, {})[:data]).to eq(name: :lll, other: "x")
     end
 
