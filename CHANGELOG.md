@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2016.08.15
+* `Releaf::TestHelpers` test helpers renamed to `Releaf::Test::Helpers`
+* For better Releaf tests behaviour add `Releaf::Test.reset!` to `RSpec.after(:each)`
+
 ### 2016.08.10
 * Controllers `current_url` and `index_url` methods renamed to `current_path` and `index_path`
 

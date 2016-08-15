@@ -72,7 +72,7 @@ RSpec.configure do |config|
     config.add_formatter(:progress)
   end
 
-  config.include Releaf::TestHelpers
+  config.include Releaf::Test::Helpers
   config.include WaitSteps
   config.include ExcelHelpers
   config.extend WithModel
@@ -114,6 +114,7 @@ RSpec.configure do |config|
   config.after do
     Timecop.return
     DatabaseCleaner.clean
+    Releaf::Test.reset!
   end
 end
 

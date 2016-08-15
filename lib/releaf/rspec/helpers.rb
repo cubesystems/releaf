@@ -1,6 +1,6 @@
-module Releaf
+module Releaf::Test
   # Releaf::TestHelpers provides a facility to simplify admin functionality testing
-  module TestHelpers
+  module Helpers
     def postgresql?
       adapter_name == 'PostgreSQL'
     end
@@ -31,7 +31,7 @@ module Releaf
         login_as user
       end
 
-      return user
+      user
     end
 
     def stub_settings(values)
