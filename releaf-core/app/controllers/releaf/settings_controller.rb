@@ -5,7 +5,7 @@ class Releaf::SettingsController < Releaf::ActionController
   end
 
   def resources
-    resource_class.where(var: resource_class.registered_keys)
+    resource_class.registered
   end
 
   def searchable_fields

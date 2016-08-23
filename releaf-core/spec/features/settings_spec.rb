@@ -13,6 +13,8 @@ feature "Settings", js: true do
 
     visit releaf_settings_path
     expect(page).to have_number_of_resources(4)
+    expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:first-child", text: "content.rating")
+    expect(page).to have_css(".table.releaf\\/settings tbody tr:last-child td:first-child", text: "content.updated_at")
 
     search "content.updated"
     expect(page).to have_number_of_resources(2)
