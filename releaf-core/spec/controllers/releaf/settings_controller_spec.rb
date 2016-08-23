@@ -42,4 +42,11 @@ describe Releaf::SettingsController do
       expect(subject.features).to eq([:index, :edit, :search])
     end
   end
+
+  describe "#resources" do
+    it "returns only registered settings ordered by `var`" do
+      allow(Releaf::Settings).to receive(:registered).and_return(:x)
+      expect(subject.resources).to eq(:x)
+    end
+  end
 end

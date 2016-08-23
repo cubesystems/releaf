@@ -1,6 +1,25 @@
 require "rails_helper"
 
 describe Releaf::Settings do
+
+  describe ":registered scope" do
+    it "returns only registed settings ordered by `var`" do
+      registered = described_class.where(var: "x")
+      allow(described_class).to receive(:registered_keys).and_return([:a, :b])
+      allow(described_class).to receive(:where).with(var: [:a, :b]).and_return(registered)
+      allow(registered).to receive(:order).with(:var).and_return(:c)
+      expect(described_class.registered).to eq(:c)
+    end
+
+    it "returns valid query" do
+      expect(described_class.registered.count).to be_instance_of(Fixnum)
+    end
+
+    it "returns instance of `Releaf::Settings::ActiveRecord_Relation`" do
+      expect(described_class.registered).to be_instance_of(Releaf::Settings::ActiveRecord_Relation)
+    end
+  end
+
   describe "#releaf_title" do
     it "returns var value" do
       subject.var = "x"
