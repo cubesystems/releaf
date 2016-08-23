@@ -5,15 +5,17 @@ feature "Settings", js: true do
       {key: "content.updated_at", default: Time.parse("2014-07-01 14:33:59"), description: "Content update time", type: :time},
       {key: "content.updated", default: true, description: "Content is updated?", type: :boolean},
       {key: "content.rating", default: 5.65, type: :decimal},
-      {key: "content.title", default: "some"}
+      {key: "content.title", default: "some"},
+      {key: "content.date", default: DateTime.parse("2015-05-02"), type: "date"}
     ]
     Releaf::Settings.destroy_all
     Releaf::Settings.register(*values)
     auth_as_user
 
     visit releaf_settings_path
-    expect(page).to have_number_of_resources(4)
-    expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:first-child", text: "content.rating")
+    expect(page).to have_number_of_resources(5)
+    expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:first-child", text: "content.date")
+    expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:nth-child(2)", text: /^2015-05-02$/)
     expect(page).to have_css(".table.releaf\\/settings tbody tr:last-child td:first-child", text: "content.updated_at")
 
     search "content.updated"
@@ -23,6 +25,7 @@ feature "Settings", js: true do
     update_resource do
       fill_in "Content update time", with: '2014-04-01 12:33:59'
     end
+
     click_link "Back to list"
     expect(page).to have_content("2014-04-01 12:33:59")
     expect(Releaf::Settings["content.updated_at"]).to eq(Time.parse("2014-04-01 12:33:59"))

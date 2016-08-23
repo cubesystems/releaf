@@ -514,21 +514,22 @@ describe Releaf::Builders::TableBuilder, type: :class do
   describe "#column_type_format_method" do
     it "uses column klass and column name for type calculation" do
       allow(subject).to receive(:column_klass).with(resource_class, "some.column").and_return(Chapter)
-      expect(subject).to receive(:column_type).with(Chapter, "some.column")
-      subject.column_type_format_method("some.column")
+      allow(subject).to receive(:column_type).with(Chapter, "some.column").and_return(:extra_type)
+      allow(subject).to receive(:type_format_method).with(:extra_type).and_return("extra_type_method")
+      expect(subject.column_type_format_method("some.column")).to eq("extra_type_method")
     end
+  end
 
+  describe "#type_format_method" do
     context "when format method for returned column type exists" do
       it "returns column type format method" do
-        allow(subject).to receive(:column_type).and_return(:date)
-        expect(subject.column_type_format_method(:title)).to eq(:format_date_content)
+        expect(subject.type_format_method(:date)).to eq(:format_date_content)
       end
     end
 
     context "when format method for returned column type does not exist" do
       it "returns :format_string_content" do
-        allow(subject).to receive(:column_type).and_return(:big_boolean)
-        expect(subject.column_type_format_method(:title)).to eq(:format_string_content)
+        expect(subject.type_format_method(:big_boolean)).to eq(:format_string_content)
       end
     end
   end
