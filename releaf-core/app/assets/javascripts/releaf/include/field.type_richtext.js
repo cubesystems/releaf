@@ -1,18 +1,29 @@
-/* global CKEDITOR */
-jQuery(function()
-{
-    var body = jQuery('body');
+window.ckeditor_configuration = {
 
-    var ckeditor_config = {
+    default: {
         language: 'en',
         entities_latin: false,
         forcePasteAsPlainText: true,
         height: '400px',
         allowedContent: true,
         format_tags: 'p;h2;h3',
-        toolbar: [['Bold', 'Italic'], ['Format'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Subscript', 'Superscript'], ['NumberedList', 'BulletedList'], ['Link', 'Unlink', 'Anchor', 'Image', 'MediaEmbed' ], ['Source', 'Maximize', 'ShowBlocks']],
+        toolbar: [
+            ['Bold', 'Italic'],
+            ['Format'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Subscript', 'Superscript'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink', 'Anchor', 'Image', 'MediaEmbed' ],
+            ['Source', 'Maximize', 'ShowBlocks']],
         extraPlugins: 'mediaembed'
-    };
+    }
+
+};
+
+/* global CKEDITOR */
+jQuery(function()
+{
+    var body = jQuery('body');
 
     CKEDITOR.on('instanceReady', function(e) {
       jQuery(e.editor.element.$).addClass("ckeditor-initialized");
@@ -41,6 +52,19 @@ jQuery(function()
     {
         var textarea = jQuery(this);
 
+        var type = textarea.data('type');
+        if (!type)
+        {
+            type = 'default';
+        }
+
+        if (typeof window.ckeditor_configuration[type] == 'undefined')
+        {
+            return;
+        }
+
+        var config = jQuery.extend(true, {}, window.ckeditor_configuration[type]);
+
         textarea.closest("form").on( 'beforevalidation', function()
         {
             for ( var instance in CKEDITOR.instances )
@@ -52,8 +76,6 @@ jQuery(function()
             }
         });
 
-
-        var config = ckeditor_config;
         config.width = '100%';
         config.height = textarea.outerHeight();
 
