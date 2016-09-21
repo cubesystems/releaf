@@ -16,4 +16,13 @@ feature "Richtext editing", js: true do
     fill_in_richtext "Summary", with: "some text"
     expect(page).to_not have_css("a.cke_button__image")
   end
+
+  scenario "Test helper fills in correct value" do
+    visit new_admin_node_path(content_type: 'TextPage')
+    html = %Q[ <p class="xxx" id='yyy'> &quot;HTML&quot; 'content' </p> ]
+    fill_in_richtext 'Text', with: html
+    content = evaluate_script('CKEDITOR.instances["resource_content_attributes_text_html"].getData();')
+    expect(content).to match_html html
+  end
+
 end

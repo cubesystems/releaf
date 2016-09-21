@@ -220,7 +220,7 @@ module Releaf::Test
       textarea_id = textareas.first[:id].to_s
       expect(page).to have_css("##{textarea_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
       html = options[:with].to_s
-      page.execute_script("CKEDITOR.instances['#{textarea_id}'].setData('#{html.to_json}');")
+      page.execute_script("CKEDITOR.instances['#{textarea_id}'].setData(#{html.to_json});")
     end
 
   end
