@@ -4,6 +4,6 @@ class Releaf::Settings::TableBuilder < Releaf::Builders::TableBuilder
   end
 
   def value_content(resource)
-    resource.value.to_s
+    send(type_format_method(resource.input_type), resource, :value)
   end
 end

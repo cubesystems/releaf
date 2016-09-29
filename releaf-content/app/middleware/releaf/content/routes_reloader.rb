@@ -10,6 +10,10 @@ module Releaf::Content
       @app.call(env)
     end
 
+    def self.reset!
+      @updated_at = nil
+    end
+
     def self.routes_loaded
       @updated_at = Time.now
     end
@@ -21,11 +25,9 @@ module Releaf::Content
     end
 
     def self.needs_reload?
-      return false unless @updated_at.present?
       Releaf::Content.models.any? do | node_class |
-        node_class.updated_at.present? && @updated_at < node_class.updated_at
+        node_class.updated_at.present? && (@updated_at.nil? || @updated_at < node_class.updated_at)
       end
     end
-
   end
 end

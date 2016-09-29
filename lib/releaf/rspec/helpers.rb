@@ -1,6 +1,6 @@
-module Releaf
+module Releaf::Test
   # Releaf::TestHelpers provides a facility to simplify admin functionality testing
-  module TestHelpers
+  module Helpers
     def postgresql?
       adapter_name == 'PostgreSQL'
     end
@@ -31,7 +31,7 @@ module Releaf
         login_as user
       end
 
-      return user
+      user
     end
 
     def stub_settings(values)
@@ -220,7 +220,7 @@ module Releaf
       textarea_id = textareas.first[:id].to_s
       expect(page).to have_css("##{textarea_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
       html = options[:with].to_s
-      page.execute_script("CKEDITOR.instances['#{textarea_id}'].setData('#{html.to_json}');")
+      page.execute_script("CKEDITOR.instances['#{textarea_id}'].setData(#{html.to_json});")
     end
 
   end

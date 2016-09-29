@@ -64,6 +64,7 @@ describe Releaf::AssetsResolver do
   describe ".noncompiled_assets" do
     it "returns array with controller scoped stylesheets and javascripts" do
       list = [
+        "controllers/admin/books.js",
         "controllers/admin/nodes.js",
         "controllers/admin/other_site/other_nodes.js",
         "controllers/admin/nodes.css",

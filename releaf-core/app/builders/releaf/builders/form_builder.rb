@@ -92,7 +92,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
     classes = ["field", "type-#{type}"]
     classes << "i18n" if options.key? :i18n
 
-    merge_attributes({class: classes, data: {name: name}}, attributes)
+    merge_attributes({class: classes, data: {name: name.to_s}}, attributes)
   end
 
   def input_attributes(_name, attributes, _options)

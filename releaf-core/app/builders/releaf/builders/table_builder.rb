@@ -201,8 +201,14 @@ class Releaf::Builders::TableBuilder
 
   def column_type_format_method(column)
     klass = column_klass(resource_class, column)
+    type = column_type(klass, column)
 
-    format_method = "format_#{column_type(klass, column)}_content".to_sym
+    type_format_method(type)
+  end
+
+  def type_format_method(type)
+    format_method = "format_#{type}_content".to_sym
+
     if respond_to?(format_method)
       format_method
     else
