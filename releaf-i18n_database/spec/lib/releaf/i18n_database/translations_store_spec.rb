@@ -403,16 +403,16 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
     context "when missing translation creation is available for given key and options" do
       it "creates missing translation" do
-        allow(subject).to receive(:create_missing?).with("ps.asda", a: "x").and_return(true)
-        expect(subject).to receive(:create_missing).with("ps.asda", a: "x")
+        allow(subject).to receive(:auto_create?).with("ps.asda", a: "x").and_return(true)
+        expect(subject).to receive(:auto_create).with("ps.asda", a: "x")
         subject.missing(:de, "ps.asda", a: "x")
       end
     end
 
     context "when missing translation creation is not available for given key and options" do
       it "does not create missing translation" do
-        allow(subject).to receive(:create_missing?).with("ps.asda", a: "x").and_return(false)
-        expect(subject).to_not receive(:create_missing)
+        allow(subject).to receive(:auto_create?).with("ps.asda", a: "x").and_return(false)
+        expect(subject).to_not receive(:auto_create)
         subject.missing(:de, "ps.asda", a: "x")
       end
     end
@@ -434,45 +434,45 @@ describe Releaf::I18nDatabase::TranslationsStore do
     end
   end
 
-  describe "#create_missing?" do
+  describe "#auto_create?" do
     before do
-      allow(subject.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
+      allow(subject.config.i18n_database ).to receive(:auto_creation).and_return(true)
       allow(subject).to receive(:stored_keys).and_return("xxxome.save" => "xxxome.save")
       allow(subject).to receive(:auto_creation_exception?).with("some.save").and_return(false)
     end
 
-    context "when missing translation creation is enabled globally by i18n config and not disabled by `create_missing` option" do
+    context "when missing translation creation is enabled globally by i18n config and not disabled by `auto_create` option" do
       it "returns true" do
-        expect(subject.create_missing?("some.save", {})).to be true
-        expect(subject.create_missing?("some.save", create_missing: true)).to be true
-        expect(subject.create_missing?("some.save", create_missing: nil)).to be true
+        expect(subject.auto_create?("some.save", {})).to be true
+        expect(subject.auto_create?("some.save", auto_create: true)).to be true
+        expect(subject.auto_create?("some.save", auto_create: nil)).to be true
       end
     end
 
     context "when auto creation exception" do
       it "returns false" do
         allow(subject).to receive(:auto_creation_exception?).with("some.save").and_return(true)
-        expect(subject.create_missing?("some.save", {})).to be false
+        expect(subject.auto_create?("some.save", {})).to be false
       end
     end
 
     context "when missing translation creation is disabled globally by i18n config" do
       it "returns false" do
-        allow(subject.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
-        expect(subject.create_missing?("some.save", {})).to be false
+        allow(subject.config.i18n_database ).to receive(:auto_creation).and_return(false)
+        expect(subject.auto_create?("some.save", {})).to be false
       end
     end
 
-    context "when missing translation creation is disabled by `create_missing` option" do
+    context "when missing translation creation is disabled by `auto_create` option" do
       it "returns false" do
-        expect(subject.create_missing?("some.save", create_missing: false)).to be false
+        expect(subject.auto_create?("some.save", auto_create: false)).to be false
       end
     end
 
     context "when key already exists within stored keys hash" do
       it "returns false" do
         allow(subject).to receive(:stored_keys).and_return("some.save" => "some.save")
-        expect(subject.create_missing?("some.save", {})).to be false
+        expect(subject.auto_create?("some.save", {})).to be false
       end
     end
   end
@@ -493,7 +493,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
     end
   end
 
-  describe "#create_missing" do
+  describe "#auto_create" do
     before do
       allow(subject).to receive(:locales_pluralizations).and_return([:one, :many, :other])
     end
@@ -504,7 +504,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.one")
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.many")
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.other")
-        subject.create_missing("aasd.oihgja.sd", a: "b")
+        subject.auto_create("aasd.oihgja.sd", a: "b")
       end
     end
 
@@ -512,7 +512,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
       it "creates translation" do
         allow(subject).to receive(:pluralizable_translation?).with(a: "b").and_return(false)
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd")
-        subject.create_missing("aasd.oihgja.sd", a: "b")
+        subject.auto_create("aasd.oihgja.sd", a: "b")
       end
     end
   end

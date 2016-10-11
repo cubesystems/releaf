@@ -103,7 +103,7 @@ class Releaf::I18nDatabase::TranslationsStore
   def missing(locale, key, options)
     # mark translation as missing
     missing_keys["#{locale}.#{key}"] = true
-    create_missing(key, options) if create_missing?(key, options)
+    auto_create(key, options) if auto_create?(key, options)
   end
 
   def locales_pluralizations
@@ -112,9 +112,9 @@ class Releaf::I18nDatabase::TranslationsStore
     end.flatten.uniq.compact
   end
 
-  def create_missing?(key, options)
-    return false unless config.i18n_database.create_missing_translations
-    return false if options[:create_missing] == false
+  def auto_create?(key, options)
+    return false unless config.i18n_database.auto_creation
+    return false if options[:auto_create] == false
     return false if auto_creation_exception?(key)
     return false if stored_keys.key?(key)
     true
@@ -124,7 +124,7 @@ class Releaf::I18nDatabase::TranslationsStore
     config.i18n_database.auto_creation_exception_patterns.find{|pattern| key.match(pattern) }.present?
   end
 
-  def create_missing(key, options)
+  def auto_create(key, options)
     if pluralizable_translation?(options)
       locales_pluralizations.each do|pluralization|
         Releaf::I18nDatabase::I18nEntry.create(key: "#{key}.#{pluralization}")

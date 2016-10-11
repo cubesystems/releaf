@@ -195,7 +195,7 @@ feature "Translations" do
   describe "Lookup" do
     background do
       I18n.backend.backends.first.translations_cache = nil # reset cache
-      allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
+      allow( Releaf.application.config.i18n_database ).to receive(:auto_creation).and_return(true)
     end
 
     context "when translation exists within higher level key (instead of being scope)" do

@@ -6,7 +6,7 @@ module Releaf
 
       include ::I18n::Backend::Base, ::I18n::Backend::Flatten
       UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
-      DEFAULT_CONFIG = {create_missing_translations: true, auto_creation_exception_patterns: [/^attributes\./]}
+      DEFAULT_CONFIG = {auto_creation: true, auto_creation_exception_patterns: [/^attributes\./]}
       attr_accessor :translations_cache
 
       def self.initialize_component
