@@ -1,5 +1,22 @@
 ## Changelog
 
+### 2016.10.11
+* `Releaf.application.config.i18n_database.create_missing_translations`
+  config renamed to `Releaf.application.config.auto_creation`
+* I18n.t `create_missing` option renamed to `auto_create`
+* I18n.t `create_default` option removed
+* Use chained translation backends with `Releaf::I18nDatabase::Backend` as primary and
+  `I18n::Backend::Simple ` as secondary backend
+* `Releaf.application.config.i18n_database.auto_creation_exception_patterns` config
+  added with default value `[/^attributes\./]` to ignore default translations comming from activerecord
+  attribute humanization method.
+* It is possible to add  custom regexp patterns to prevent certain translations to be created
+  in database (for example add `config.i18n_database.auto_creation_exception_patterns += [/^activerecord\.attributes\./]`
+  to your Releaf initializer to prevent `activerecord.attributes.*` creation)
+* As there is backend chain available, it is recommended to create default,
+  hardcoded translations (date and number formats for example) with
+  standart localization yml files (config/locales/*.yml)
+
 ### 2016.08.15
 * `Releaf::TestHelpers` test helpers renamed to `Releaf::Test::Helpers`
 * For better Releaf tests behaviour add `Releaf::Test.reset!` to `RSpec.after(:each)`
