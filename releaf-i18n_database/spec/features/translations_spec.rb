@@ -258,22 +258,6 @@ feature "Translations" do
         end
       end
 
-      context "when translation has default" do
-        context "when default creation is disabled" do
-          it "creates base translation" do
-            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest", create_default: false) }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key) }
-              .to(["xxx.test.mest"])
-          end
-        end
-
-        context "when default creation is not disabled" do
-          it "creates base and default translations" do
-            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key) }
-              .to(match_array(["xxx.mest", "xxx.test.mest"]))
-          end
-        end
-      end
-
       context "in parent scope" do
         context "nonexistent translation in given scope" do
           it "uses parent scope" do

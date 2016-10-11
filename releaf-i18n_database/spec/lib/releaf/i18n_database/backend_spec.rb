@@ -60,30 +60,6 @@ describe Releaf::I18nDatabase::Backend do
     end
   end
 
-  describe "#default" do
-    context "when `create_default: false` option exists" do
-      it "adds `create_default: true` option and remove `create_default` option" do
-        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_missing: false)
-        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: false, create_missing: false)
-      end
-
-      it "does not change given options" do
-        options = {count:1, default: "xxx", fallback: true, create_default: false}
-        expect{ subject.send(:default, "en", "aa", "bb", options) }.to_not change{ options }
-      end
-    end
-
-    context "when `create_default: false` option does not exists" do
-      it "does not modify options" do
-        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true)
-        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true)
-
-        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_default: true)
-        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: true)
-      end
-    end
-  end
-
   describe ".translations_updated_at" do
     it "returns translations updated_at from cached settings" do
       allow(Releaf::Settings).to receive(:[]).with(described_class::UPDATED_AT_KEY).and_return("x")

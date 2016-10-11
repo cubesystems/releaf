@@ -196,12 +196,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#head_cell_content" do
     it "returns translated column scoped to resource class attributes" do
-      allow(resource_class).to receive(:human_attribute_name).with("some_long_name", create_default: false).and_return("Taittls")
+      allow(resource_class).to receive(:human_attribute_name).with("some_long_name").and_return("Taittls")
       expect(subject.head_cell_content("some_long_name")).to eq('Taittls')
     end
 
     it "casts given column to string" do
-      allow(resource_class).to receive(:human_attribute_name).with("title", create_default: false).and_return("Taittls")
+      allow(resource_class).to receive(:human_attribute_name).with("title",).and_return("Taittls")
       expect(subject.head_cell_content(:title)).to eq('Taittls')
     end
 

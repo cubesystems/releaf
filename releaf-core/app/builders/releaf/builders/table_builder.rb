@@ -73,7 +73,7 @@ class Releaf::Builders::TableBuilder
   def head_cell_content(column)
     unless column.to_sym == :toolbox
       attribute = column.to_s.tr(".", "_")
-      resource_class.human_attribute_name(attribute, create_default: false)
+      resource_class.human_attribute_name(attribute)
     end
   end
 

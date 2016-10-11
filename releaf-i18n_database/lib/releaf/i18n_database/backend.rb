@@ -64,15 +64,6 @@ module Releaf
 
         result
       end
-
-      def default(locale, object, subject, options = {})
-        if options[:create_default] == false
-          options = options.except(:create_default)
-          options[:create_missing] = false
-        end
-
-        super
-      end
     end
   end
 end
