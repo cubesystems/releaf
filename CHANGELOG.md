@@ -16,6 +16,7 @@
 * As there is backend chain available, it is recommended to create default,
   hardcoded translations (date and number formats for example) with
   standart localization yml files (config/locales/*.yml)
+* `I18n.backend.translations_cache.locales_pluralizations` method moved to `Releaf::I18nDatabase::Backend.locales_pluralizations`
 
 ### 2016.08.15
 * `Releaf::TestHelpers` test helpers renamed to `Releaf::Test::Helpers`

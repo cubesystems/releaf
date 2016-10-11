@@ -418,22 +418,6 @@ describe Releaf::I18nDatabase::TranslationsStore do
     end
   end
 
-  describe "#locales_pluralizations" do
-    it "returns array all pluralization forms for releaf locales" do
-      allow(Releaf.application.config).to receive(:all_locales).and_return([:de, :ru, :aasdsd])
-
-      allow(TwitterCldr).to receive(:supported_locale?).with(:de).and_return(true)
-      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:all_for).with(:de).and_return([:one, :other, :many])
-
-      allow(TwitterCldr).to receive(:supported_locale?).with(:ru).and_return(true)
-      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:all_for).with(:ru).and_return([:one, :other, :few, :zero])
-
-      allow(TwitterCldr).to receive(:supported_locale?).with(:aasdsd).and_return(false)
-
-      expect(subject.locales_pluralizations).to eq([:one, :other, :many, :few, :zero])
-    end
-  end
-
   describe "#auto_create?" do
     before do
       allow(subject.config.i18n_database ).to receive(:auto_creation).and_return(true)
@@ -495,7 +479,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#auto_create" do
     before do
-      allow(subject).to receive(:locales_pluralizations).and_return([:one, :many, :other])
+      allow(Releaf::I18nDatabase::Backend).to receive(:locales_pluralizations).and_return([:one, :many, :other])
     end
 
     context "when pluralizable translation given" do

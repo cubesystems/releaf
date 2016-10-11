@@ -13,6 +13,12 @@ module Releaf
         I18n.backend = I18n::Backend::Chain.new(new, I18n.backend)
       end
 
+      def self.locales_pluralizations
+        Releaf.application.config.all_locales.map do|locale|
+          TwitterCldr::Formatters::Plurals::Rules.all_for(locale) if TwitterCldr.supported_locale?(locale)
+        end.flatten.uniq.compact
+      end
+
       def self.configure_component
         Releaf.application.config.add_configuration(
           Releaf::I18nDatabase::Configuration.new(DEFAULT_CONFIG)

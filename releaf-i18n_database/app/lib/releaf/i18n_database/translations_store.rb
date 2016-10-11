@@ -106,12 +106,6 @@ class Releaf::I18nDatabase::TranslationsStore
     auto_create(key, options) if auto_create?(key, options)
   end
 
-  def locales_pluralizations
-    config.all_locales.map do|locale|
-      TwitterCldr::Formatters::Plurals::Rules.all_for(locale) if TwitterCldr.supported_locale?(locale)
-    end.flatten.uniq.compact
-  end
-
   def auto_create?(key, options)
     return false unless config.i18n_database.auto_creation
     return false if options[:auto_create] == false
@@ -126,7 +120,7 @@ class Releaf::I18nDatabase::TranslationsStore
 
   def auto_create(key, options)
     if pluralizable_translation?(options)
-      locales_pluralizations.each do|pluralization|
+      Releaf::I18nDatabase::Backend.locales_pluralizations.each do|pluralization|
         Releaf::I18nDatabase::I18nEntry.create(key: "#{key}.#{pluralization}")
       end
     else
