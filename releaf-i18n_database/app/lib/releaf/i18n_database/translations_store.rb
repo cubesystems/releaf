@@ -85,11 +85,15 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def key_hash(key)
-    Releaf.application.config.all_locales.inject({}) do |h, locale|
+    config.all_locales.inject({}) do |h, locale|
       localized_key = "#{locale}.#{key}"
       locale_hash = key_locale_hash(localized_key, localization_data[localized_key])
       h.merge(locale_hash)
     end
+  end
+
+  def config
+    Releaf.application.config
   end
 
   def missing?(locale, key)
@@ -103,16 +107,21 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def locales_pluralizations
-    Releaf.application.config.all_locales.map do|locale|
+    config.all_locales.map do|locale|
       TwitterCldr::Formatters::Plurals::Rules.all_for(locale) if TwitterCldr.supported_locale?(locale)
     end.flatten.uniq.compact
   end
 
   def create_missing?(key, options)
-    return false unless Releaf.application.config.i18n_database.create_missing_translations
+    return false unless config.i18n_database.create_missing_translations
     return false if options[:create_missing] == false
+    return false if auto_creation_exception?(key)
     return false if stored_keys.key?(key)
     true
+  end
+
+  def auto_creation_exception?(key)
+    config.i18n_database.auto_creation_exception_patterns.find{|pattern| key.match(pattern) }.present?
   end
 
   def create_missing(key, options)

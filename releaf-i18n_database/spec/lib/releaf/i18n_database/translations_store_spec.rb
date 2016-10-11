@@ -12,6 +12,13 @@ describe Releaf::I18nDatabase::TranslationsStore do
     end
   end
 
+  describe "#config" do
+    it "returns Releaf.application.config" do
+      allow(Releaf.application).to receive(:config).and_return(:x)
+      expect(subject.config).to eq(:x)
+    end
+  end
+
   describe "#expired?" do
     context "when last translation update differs from last cache load" do
       it "returns true" do
@@ -327,7 +334,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#key_hash" do
     it "build stored translation hash with keys and translated values for given key" do
-      allow(Releaf.application.config).to receive(:all_locales).and_return([:ge, :de])
+      allow(subject.config).to receive(:all_locales).and_return([:ge, :de])
       allow(subject).to receive(:localization_data).and_return(
         "lv.admin.releaf_i18n_database_translations.Save" => "zc",
         "ge.admin.Save" => "asdasd",
@@ -429,8 +436,9 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#create_missing?" do
     before do
-      allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
+      allow(subject.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
       allow(subject).to receive(:stored_keys).and_return("xxxome.save" => "xxxome.save")
+      allow(subject).to receive(:auto_creation_exception?).with("some.save").and_return(false)
     end
 
     context "when missing translation creation is enabled globally by i18n config and not disabled by `create_missing` option" do
@@ -441,9 +449,16 @@ describe Releaf::I18nDatabase::TranslationsStore do
       end
     end
 
+    context "when auto creation exception" do
+      it "returns false" do
+        allow(subject).to receive(:auto_creation_exception?).with("some.save").and_return(true)
+        expect(subject.create_missing?("some.save", {})).to be false
+      end
+    end
+
     context "when missing translation creation is disabled globally by i18n config" do
       it "returns false" do
-        allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
+        allow(subject.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
         expect(subject.create_missing?("some.save", {})).to be false
       end
     end
@@ -458,6 +473,22 @@ describe Releaf::I18nDatabase::TranslationsStore do
       it "returns false" do
         allow(subject).to receive(:stored_keys).and_return("some.save" => "some.save")
         expect(subject.create_missing?("some.save", {})).to be false
+      end
+    end
+  end
+
+  describe "#auto_creation_exception?" do
+    context "when given key matches any auto creation exception pattern" do
+      it "returns true" do
+        allow(subject.config.i18n_database ).to receive(:auto_creation_exception_patterns).and_return([/^another\./, /^some\./])
+        expect(subject.auto_creation_exception?("some.save")).to be true
+      end
+    end
+
+    context "when given key matches no auto creation exception pattern" do
+      it "returns false" do
+        allow(subject.config.i18n_database ).to receive(:auto_creation_exception_patterns).and_return([/^another\./, /^foo\./])
+        expect(subject.auto_creation_exception?("some.save")).to be false
       end
     end
   end

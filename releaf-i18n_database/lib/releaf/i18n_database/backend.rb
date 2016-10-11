@@ -3,8 +3,10 @@ require 'i18n/backend/base'
 module Releaf
   module I18nDatabase
     class Backend
+
       include ::I18n::Backend::Base, ::I18n::Backend::Flatten
       UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
+      DEFAULT_CONFIG = {create_missing_translations: true, auto_creation_exception_patterns: [/^attributes\./]}
       attr_accessor :translations_cache
 
       def self.initialize_component
@@ -13,7 +15,7 @@ module Releaf
 
       def self.configure_component
         Releaf.application.config.add_configuration(
-          Releaf::I18nDatabase::Configuration.new(create_missing_translations: true)
+          Releaf::I18nDatabase::Configuration.new(DEFAULT_CONFIG)
         )
       end
 
@@ -50,6 +52,7 @@ module Releaf
 
       def store_translations(locale, data, options = {})
         # pass to simple backend
+
         I18n.backend.backends.last.store_translations(locale, data, options)
       end
 

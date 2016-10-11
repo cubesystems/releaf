@@ -4,9 +4,10 @@ describe Releaf::I18nDatabase::Backend do
   let(:translations_store){ Releaf::I18nDatabase::TranslationsStore.new }
 
   describe ".configure_component" do
-    it "adds new `Releaf::I18nDatabase::Configuration` configuration with enabled missing translation creation" do
+    it "adds new `Releaf::I18nDatabase::Configuration` configuration with default config" do
+      stub_const("Releaf::I18nDatabase::Backend::DEFAULT_CONFIG", a: :b)
       allow(Releaf::I18nDatabase::Configuration).to receive(:new)
-        .with(create_missing_translations: true).and_return("_new")
+        .with(a: :b).and_return("_new")
       expect(Releaf.application.config).to receive(:add_configuration).with("_new")
       described_class.configure_component
     end

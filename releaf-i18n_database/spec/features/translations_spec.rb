@@ -258,6 +258,12 @@ feature "Translations" do
         end
       end
 
+      context "when ignorable pattern" do
+        it "does not auto create missing translation" do
+          expect{ I18n.t("attributes.title") }.to_not change{ Releaf::I18nDatabase::I18nEntry.count }
+        end
+      end
+
       context "in parent scope" do
         context "nonexistent translation in given scope" do
           it "uses parent scope" do
