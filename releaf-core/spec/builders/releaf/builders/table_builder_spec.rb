@@ -196,12 +196,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#head_cell_content" do
     it "returns translated column scoped to resource class attributes" do
-      allow(resource_class).to receive(:human_attribute_name).with("some_long_name", create_default: false).and_return("Taittls")
+      allow(resource_class).to receive(:human_attribute_name).with("some_long_name").and_return("Taittls")
       expect(subject.head_cell_content("some_long_name")).to eq('Taittls')
     end
 
     it "casts given column to string" do
-      allow(resource_class).to receive(:human_attribute_name).with("title", create_default: false).and_return("Taittls")
+      allow(resource_class).to receive(:human_attribute_name).with("title",).and_return("Taittls")
       expect(subject.head_cell_content(:title)).to eq('Taittls')
     end
 
@@ -420,8 +420,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:column_value).with(resource, :created_at)
         .and_return(value)
 
-      expect(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d %H:%M:%S")
-        .and_call_original
+      allow(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d %H:%M:%S")
+        .and_return("2012-12-29 17:12:07")
 
       expect(subject.format_datetime_content(resource, :created_at)).to eq("2012-12-29 17:12:07")
     end

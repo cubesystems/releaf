@@ -15,14 +15,6 @@ class Releaf::I18nDatabase::TranslationsStore
     stored_keys.key? key
   end
 
-  def add(locale, data)
-    new_hash = {}
-    new_hash[locale] = data
-
-    stored_translations.deep_merge!(new_hash)
-    self.missing_keys = {}
-  end
-
   def lookup(locale, key, options)
     translation_keys = key.split('.')
 
@@ -93,11 +85,15 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def key_hash(key)
-    Releaf.application.config.all_locales.inject({}) do |h, locale|
+    config.all_locales.inject({}) do |h, locale|
       localized_key = "#{locale}.#{key}"
       locale_hash = key_locale_hash(localized_key, localization_data[localized_key])
       h.merge(locale_hash)
     end
+  end
+
+  def config
+    Releaf.application.config
   end
 
   def missing?(locale, key)
@@ -107,23 +103,28 @@ class Releaf::I18nDatabase::TranslationsStore
   def missing(locale, key, options)
     # mark translation as missing
     missing_keys["#{locale}.#{key}"] = true
-    create_missing(key, options) if create_missing?(key, options)
+    auto_create(key, options) if auto_create?(key, options)
   end
 
   def locales_pluralizations
-    Releaf.application.config.all_locales.map do|locale|
+    config.all_locales.map do|locale|
       TwitterCldr::Formatters::Plurals::Rules.all_for(locale) if TwitterCldr.supported_locale?(locale)
     end.flatten.uniq.compact
   end
 
-  def create_missing?(key, options)
-    return false unless Releaf.application.config.i18n_database.create_missing_translations
-    return false if options[:create_missing] == false
+  def auto_create?(key, options)
+    return false unless config.i18n_database.auto_creation
+    return false if options[:auto_create] == false
+    return false if auto_creation_exception?(key)
     return false if stored_keys.key?(key)
     true
   end
 
-  def create_missing(key, options)
+  def auto_creation_exception?(key)
+    config.i18n_database.auto_creation_exception_patterns.find{|pattern| key.match(pattern) }.present?
+  end
+
+  def auto_create(key, options)
     if pluralizable_translation?(options)
       locales_pluralizations.each do|pluralization|
         Releaf::I18nDatabase::I18nEntry.create(key: "#{key}.#{pluralization}")

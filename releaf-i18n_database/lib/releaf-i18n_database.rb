@@ -6,7 +6,6 @@ require 'roo'
 module Releaf::I18nDatabase
   require 'releaf/i18n_database/engine'
   require 'releaf/i18n_database/configuration'
-  require 'releaf/i18n_database/engine'
   require 'releaf/i18n_database/humanize_missing_translations'
   require 'releaf/i18n_database/backend'
 

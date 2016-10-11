@@ -100,7 +100,7 @@ class Releaf::Builders::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def translate_attribute(attribute)
-    object.class.human_attribute_name(attribute, create_default: false)
+    object.class.human_attribute_name(attribute)
   end
 
   def association_collection(reflector)
