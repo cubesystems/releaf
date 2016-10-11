@@ -15,14 +15,6 @@ class Releaf::I18nDatabase::TranslationsStore
     stored_keys.key? key
   end
 
-  def add(locale, data)
-    new_hash = {}
-    new_hash[locale] = data
-
-    stored_translations.deep_merge!(new_hash)
-    self.missing_keys = {}
-  end
-
   def lookup(locale, key, options)
     translation_keys = key.split('.')
 

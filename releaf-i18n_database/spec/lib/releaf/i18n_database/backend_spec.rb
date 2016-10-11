@@ -13,9 +13,11 @@ describe Releaf::I18nDatabase::Backend do
   end
 
   describe ".initialize_component" do
-    it "adds itself as i18n backend" do
-      allow(described_class).to receive(:new).and_return("x")
-      expect(I18n).to receive(:backend=).with("x")
+    it "adds itself as i18n backend as primary backend while keeping Rails default simple backend as secondary" do
+      allow(I18n).to receive(:backend).and_return(:current_backend)
+      allow(I18n::Backend::Chain).to receive(:new).with(:new_backend, :current_backend).and_return(:x)
+      allow(described_class).to receive(:new).and_return(:new_backend)
+      expect(I18n).to receive(:backend=).with(:x)
       described_class.initialize_component
     end
   end
@@ -51,10 +53,10 @@ describe Releaf::I18nDatabase::Backend do
   end
 
   describe "#store_translations" do
-    it "merges given translations to cache" do
-      allow(subject).to receive(:translations).and_return(translations_store)
-      expect(translations_store).to receive(:add).with(:lv, a: "x")
-      subject.store_translations(:lv, a: "x")
+    it "pass given translations to simple translation backend" do
+      simple_backend = I18n.backend.backends.last
+      expect(simple_backend).to receive(:store_translations).with(:lv, {a: "x"}, {c: "d"})
+      subject.store_translations(:lv, {a: "x"}, {c: "d"})
     end
   end
 

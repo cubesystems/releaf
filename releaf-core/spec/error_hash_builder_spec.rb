@@ -24,11 +24,11 @@ describe "Errors hash builder" do
     it "adds error to errors" do
       expected_result = {
         "resource[title]" => [
-          {error_code: :blank, message: "Blank"},
+          {error_code: :blank, message: "can't be blank"},
           {error_code: :invalid, message: "test error"},
         ],
         "resource[author_id]" => [
-          {error_code: :blank, message: "Blank"},
+          {error_code: :blank, message: "can't be blank"},
           {error_code: :invalid, message: "Invalid author"}
         ],
         "resource" => [
@@ -49,32 +49,32 @@ describe "Errors hash builder" do
 
       expected_result = {
         "resource[chapters_attributes][0][title]" => [
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"}
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][0][text]" => [
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"}
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][0][sample_html]" => [
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"}
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][1][text]" => [
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"}
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][1][sample_html]" => [
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"},
-          {error_code: :blank, message: "Blank"}
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"},
+          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[author_attributes][name]" => [
-          {error_code: :blank, message: "Blank"}
+          {error_code: :blank, message: "can't be blank"}
         ]
       }
       expect(subject.call).to eq(expected_result)

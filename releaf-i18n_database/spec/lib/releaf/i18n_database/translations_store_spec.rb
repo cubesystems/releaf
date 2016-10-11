@@ -46,19 +46,6 @@ describe Releaf::I18nDatabase::TranslationsStore do
     end
   end
 
-  describe "#add" do
-    it "merges given translations to translations hash within speficied locale" do
-      translations = {lv: {a: {b: "c"}}}
-      allow(subject).to receive(:stored_translations).and_return(translations)
-      expect{ subject.add(:lv, a: {d: "e"}) }.to change{ subject.stored_translations }.to(lv: {a: {b: "c", d: "e"}})
-    end
-
-    it "assigns empty hash to missing keys" do
-      subject.missing_keys = {ll: "iuh"}
-      expect{ subject.add(:lv, a: {d: "e"}) }.to change{ subject.missing_keys }.to({})
-    end
-  end
-
   describe "#lookup" do
     it "returns first valid and returnable result" do
       allow(subject).to receive(:dig_valid_translation)

@@ -420,8 +420,8 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:column_value).with(resource, :created_at)
         .and_return(value)
 
-      expect(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d %H:%M:%S")
-        .and_call_original
+      allow(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d %H:%M:%S")
+        .and_return("2012-12-29 17:12:07")
 
       expect(subject.format_datetime_content(resource, :created_at)).to eq("2012-12-29 17:12:07")
     end

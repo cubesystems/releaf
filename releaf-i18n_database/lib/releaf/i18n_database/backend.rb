@@ -8,7 +8,7 @@ module Releaf
       attr_accessor :translations_cache
 
       def self.initialize_component
-        I18n.backend = new
+        I18n.backend = I18n::Backend::Chain.new(new, I18n.backend)
       end
 
       def self.configure_component
@@ -48,8 +48,9 @@ module Releaf
         Releaf::Settings[UPDATED_AT_KEY] = value
       end
 
-      def store_translations(locale, data, _options = {})
-        translations.add(locale, data)
+      def store_translations(locale, data, options = {})
+        # pass to simple backend
+        I18n.backend.backends.last.store_translations(locale, data, options)
       end
 
       # Lookup translation from database

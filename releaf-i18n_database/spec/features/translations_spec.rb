@@ -194,7 +194,7 @@ feature "Translations" do
 
   describe "Lookup" do
     background do
-      I18n.backend.translations_cache = nil # reset cache
+      I18n.backend.backends.first.translations_cache = nil # reset cache
       allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
     end
 
