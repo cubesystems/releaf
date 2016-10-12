@@ -17,6 +17,7 @@
   hardcoded translations (date and number formats for example) with
   standart localization yml files (config/locales/*.yml)
 * `I18n.backend.translations_cache.locales_pluralizations` method moved to `Releaf::I18nDatabase::Backend.locales_pluralizations`
+* It is possible to reset Releaf translation cache with `Releaf::I18nDatabase::Backend.reset_cache`
 
 ### 2016.08.15
 * `Releaf::TestHelpers` test helpers renamed to `Releaf::Test::Helpers`

@@ -25,6 +25,18 @@ module Releaf
         )
       end
 
+      def self.reset_cache
+        backend_instance.translations_cache = nil
+      end
+
+      def self.backend_instance
+        if I18n.backend.is_a? I18n::Backend::Chain
+          I18n.backend.backends.find{|b| b.is_a?(Releaf::I18nDatabase::Backend) }
+        elsif I18n.backend.is_a? Releaf::I18nDatabase::Backend
+          I18n.backend
+        end
+      end
+
       def self.draw_component_routes router
         router.namespace :releaf, path: nil do
           router.namespace :i18n_database, path: nil do

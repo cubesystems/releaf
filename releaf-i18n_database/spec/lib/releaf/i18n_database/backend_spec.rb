@@ -13,6 +13,44 @@ describe Releaf::I18nDatabase::Backend do
     end
   end
 
+  describe ".reset_cache" do
+    it "reset translations cache to backend instance" do
+      subject.translations_cache = :x
+      allow(described_class).to receive(:backend_instance).and_return(subject)
+      expect{ described_class.reset_cache }.to change{ subject.translations_cache }.to(nil)
+    end
+  end
+
+  describe ".backend_instance" do
+    context "when I18n backend has chained backends" do
+      it "returns Releaf::I18nDatabase::Backend instance" do
+        backends = I18n::Backend::Chain.new(subject, I18n::Backend::Simple.new)
+        allow(I18n).to receive(:backend).and_return(backends)
+        expect(described_class.backend_instance).to eq(subject)
+      end
+
+      it "returns nil when chain hasn't Releaf::I18nDatabase::Backend instance" do
+        backends = I18n::Backend::Chain.new(I18n::Backend::Simple.new)
+        allow(I18n).to receive(:backend).and_return(backends)
+        expect(described_class.backend_instance).to be nil
+      end
+    end
+
+    context "when I18n backend has single backend and it is instance of Releaf::I18nDatabase::Backend" do
+      it "returns Releaf::I18nDatabase::Backend instance" do
+        allow(I18n).to receive(:backend).and_return(subject)
+        expect(described_class.backend_instance).to eq(subject)
+      end
+    end
+
+    context "when I18n backend has single backend and it is not instance of Releaf::I18nDatabase::Backend" do
+      it "returns nil" do
+        allow(I18n).to receive(:backend).and_return(I18n::Backend::Simple.new)
+        expect(described_class.backend_instance).to be nil
+      end
+    end
+  end
+
   describe ".initialize_component" do
     it "adds itself as i18n backend as primary backend while keeping Rails default simple backend as secondary" do
       allow(I18n).to receive(:backend).and_return(:current_backend)
