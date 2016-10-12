@@ -464,14 +464,14 @@ describe Releaf::I18nDatabase::TranslationsStore do
   describe "#auto_creation_exception?" do
     context "when given key matches any auto creation exception pattern" do
       it "returns true" do
-        allow(subject.config.i18n_database ).to receive(:auto_creation_exception_patterns).and_return([/^another\./, /^some\./])
+        allow(subject.config.i18n_database ).to receive(:translation_auto_creation_exclusion_patterns).and_return([/^another\./, /^some\./])
         expect(subject.auto_creation_exception?("some.save")).to be true
       end
     end
 
     context "when given key matches no auto creation exception pattern" do
       it "returns false" do
-        allow(subject.config.i18n_database ).to receive(:auto_creation_exception_patterns).and_return([/^another\./, /^foo\./])
+        allow(subject.config.i18n_database ).to receive(:translation_auto_creation_exclusion_patterns).and_return([/^another\./, /^foo\./])
         expect(subject.auto_creation_exception?("some.save")).to be false
       end
     end

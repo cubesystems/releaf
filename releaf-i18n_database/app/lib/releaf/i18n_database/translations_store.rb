@@ -107,7 +107,7 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def auto_create?(key, options)
-    return false unless config.i18n_database.auto_creation
+    return false unless config.i18n_database.translation_auto_creation
     return false if options[:auto_create] == false
     return false if auto_creation_exception?(key)
     return false if stored_keys.key?(key)
@@ -115,7 +115,7 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def auto_creation_exception?(key)
-    config.i18n_database.auto_creation_exception_patterns.find{|pattern| key.match(pattern) }.present?
+    config.i18n_database.translation_auto_creation_exclusion_patterns.find{|pattern| key.match(pattern) }.present?
   end
 
   def auto_create(key, options)
