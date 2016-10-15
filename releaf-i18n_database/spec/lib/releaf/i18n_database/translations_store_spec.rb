@@ -420,7 +420,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#auto_create?" do
     before do
-      allow(subject.config.i18n_database ).to receive(:auto_creation).and_return(true)
+      allow(subject.config.i18n_database ).to receive(:translation_auto_creation).and_return(true)
       allow(subject).to receive(:stored_keys).and_return("xxxome.save" => "xxxome.save")
       allow(subject).to receive(:auto_creation_exception?).with("some.save").and_return(false)
     end
@@ -442,7 +442,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
     context "when missing translation creation is disabled globally by i18n config" do
       it "returns false" do
-        allow(subject.config.i18n_database ).to receive(:auto_creation).and_return(false)
+        allow(subject.config.i18n_database ).to receive(:translation_auto_creation).and_return(false)
         expect(subject.auto_create?("some.save", {})).to be false
       end
     end
