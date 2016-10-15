@@ -1,5 +1,28 @@
 ## Changelog
 
+### 2016.10.15
+* `Releaf::InstanceCache` has been rewrited for more convient way to define methods to cache.  
+  It is possible to define either single or array of methods to cache:
+  ```
+  def SomeClass
+    include Releaf::InstanceCache
+    cache_instance_methods :some_value, :another_value
+    cache_instance_method :some_value
+
+    def some_value
+      :a
+    end
+
+    def another_value
+      :b
+    end
+
+    def totally_another_value
+      :c
+    end
+  end
+  ```
+
 ### 2016.10.11
 * `Releaf.application.config.i18n_database.create_missing_translations`
   config renamed to `Releaf.application.config.i18n_database.translation_auto_creation`
