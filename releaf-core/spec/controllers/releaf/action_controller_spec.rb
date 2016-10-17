@@ -13,6 +13,7 @@ describe Releaf::ActionController do
       Author
     end
   end
+
   class Dummy::ChildDummyController < DummyController; end;
   class Dummy::GrandChildDummyController < Dummy::ChildDummyController; end;
 
@@ -101,10 +102,9 @@ describe Releaf::ActionController do
   end
 
   describe "#builder_scopes" do
-
     context "when controller is a direct child of Releaf::ActionController" do
       it "returns an array with own and application builder scopes" do
-        allow(subject).to receive(:application_builder_scope).and_return("xxx")
+        allow(subject).to receive(:application_scope).and_return("xxx")
         expect(subject.builder_scopes).to eq(["Dummy", "xxx"])
       end
     end
@@ -112,12 +112,11 @@ describe Releaf::ActionController do
     context "when controller is a deeper descendant of Releaf::ActionController" do
       let(:subject) { Dummy::GrandChildDummyController.new }
       it "includes ancestor scopes up to but not including Releaf::ActionController" do
-        allow(subject).to receive(:application_builder_scope).and_return("xxx")
+        allow(subject).to receive(:application_scope).and_return("xxx")
         expect(subject.class).to receive(:ancestor_controllers).and_call_original
         expect(subject.builder_scopes).to eq(["Dummy::GrandChildDummy", "Dummy::ChildDummy", "Dummy", "xxx"])
       end
     end
-
   end
 
   describe ".own_builder_scope" do
@@ -127,36 +126,18 @@ describe Releaf::ActionController do
   end
 
   describe ".ancestor_controllers" do
-
     it "return all ancestor controllers up to but not including Releaf::ActionController" do
       expect(DummyController.ancestor_controllers).to eq []
       expect(Dummy::GrandChildDummyController.ancestor_controllers).to eq([Dummy::ChildDummyController, DummyController])
     end
-
   end
 
   describe ".ancestor_builder_scopes" do
-
     it "return builder scopes for all ancestor controllers" do
       allow(Dummy::ChildDummyController).to receive(:own_builder_scope).and_call_original
       allow(DummyController).to receive(:own_builder_scope).and_call_original
 
       expect(Dummy::GrandChildDummyController.ancestor_builder_scopes).to eq(['Dummy::ChildDummy', 'Dummy'])
-    end
-  end
-
-
-
-  describe "#application_builder_scope" do
-    it "returns node builder scope within releaf mount location scope" do
-      allow(subject).to receive(:application_scope).and_return("Admin")
-      expect(subject.application_builder_scope).to eq("Admin::Builders")
-
-      allow(subject).to receive(:application_scope).and_return("")
-      expect(subject.application_builder_scope).to eq("Builders")
-
-      allow(subject).to receive(:application_scope).and_return(nil)
-      expect(subject.application_builder_scope).to eq("Builders")
     end
   end
 
@@ -345,9 +326,9 @@ describe Admin::AuthorsController do
 
   describe "DELETE #destroy" do
     before do
-       @author = FactoryGirl.create(:author)
-       FactoryGirl.create(:book, title: "The book", author: @author)
-       FactoryGirl.create(:book, title: "Almost the book", author: @author)
+      @author = FactoryGirl.create(:author)
+      FactoryGirl.create(:book, title: "The book", author: @author)
+      FactoryGirl.create(:book, title: "Almost the book", author: @author)
     end
 
     it "creates flash error with message" do
@@ -356,7 +337,6 @@ describe Admin::AuthorsController do
     end
   end
 end
-
 
 describe Admin::BooksController do
   before do

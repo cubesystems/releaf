@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2016.10.17
+* `application_builder_scope` method from controller removed.
+* controller will try to resolve builders also in application wide
+  scope (ex. from now it is possible to have `Admin::FormBuilder` for application wide default admin form builder)
+
 ### 2016.10.15
 * `Releaf::InstanceCache` has been rewrited for more convient way to define methods to cache.  
   It is possible to define either single or array of methods to cache:
