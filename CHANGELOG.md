@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2016.10.21
+* `Releaf.application.config.i18n_database.translation_auto_creation_patterns` configuration variable added for custom
+  translation auto creation patterns matching. Default value is `[ /.*/ ]` to create all incoming keys.
+
 ### 2016.10.17
 * `application_builder_scope` method from controller removed.
 * controller will try to resolve builders also in application wide

@@ -422,6 +422,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
     before do
       allow(subject.config.i18n_database ).to receive(:translation_auto_creation).and_return(true)
       allow(subject).to receive(:stored_keys).and_return("xxxome.save" => "xxxome.save")
+      allow(subject).to receive(:auto_creation_inclusion?).with("some.save").and_return(true)
       allow(subject).to receive(:auto_creation_exception?).with("some.save").and_return(false)
     end
 
@@ -430,6 +431,13 @@ describe Releaf::I18nDatabase::TranslationsStore do
         expect(subject.auto_create?("some.save", {})).to be true
         expect(subject.auto_create?("some.save", auto_create: true)).to be true
         expect(subject.auto_create?("some.save", auto_create: nil)).to be true
+      end
+    end
+
+    context "when no auto creation inclusion" do
+      it "returns false" do
+        allow(subject).to receive(:auto_creation_inclusion?).with("some.save").and_return(false)
+        expect(subject.auto_create?("some.save", {})).to be false
       end
     end
 
@@ -457,6 +465,22 @@ describe Releaf::I18nDatabase::TranslationsStore do
       it "returns false" do
         allow(subject).to receive(:stored_keys).and_return("some.save" => "some.save")
         expect(subject.auto_create?("some.save", {})).to be false
+      end
+    end
+  end
+
+  describe "#auto_creation_inclusion?" do
+    context "when given key matches any auto creation pattern" do
+      it "returns true" do
+        allow(subject.config.i18n_database ).to receive(:translation_auto_creation_patterns).and_return([/^another\./, /^some\./])
+        expect(subject.auto_creation_inclusion?("some.save")).to be true
+      end
+    end
+
+    context "when given key matches no auto creation pattern" do
+      it "returns false" do
+        allow(subject.config.i18n_database ).to receive(:translation_auto_creation_patterns).and_return([/^another\./, /^foo\./])
+        expect(subject.auto_creation_inclusion?("some.save")).to be false
       end
     end
   end

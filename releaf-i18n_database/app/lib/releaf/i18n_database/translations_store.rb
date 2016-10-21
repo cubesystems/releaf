@@ -109,9 +109,14 @@ class Releaf::I18nDatabase::TranslationsStore
   def auto_create?(key, options)
     return false unless config.i18n_database.translation_auto_creation
     return false if options[:auto_create] == false
+    return false unless auto_creation_inclusion?(key)
     return false if auto_creation_exception?(key)
     return false if stored_keys.key?(key)
     true
+  end
+
+  def auto_creation_inclusion?(key)
+    config.i18n_database.translation_auto_creation_patterns.find{|pattern| key.match(pattern) }.present?
   end
 
   def auto_creation_exception?(key)
