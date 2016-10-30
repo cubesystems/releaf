@@ -9,11 +9,11 @@ Gem::Specification.new do |s|
   s.authors     = ["CubeSystems"]
   s.email       = 'info@cubesystems.lv'
   s.homepage    = 'https://github.com/cubesystems/releaf'
+  s.license     = "MIT"
 
-  s.files             = `git ls-files`.split("\n")
-  s.test_files = Dir["spec/**/*"]
+  s.files       = Dir["app/**/*"] + Dir["lib/**/*"] + ["LICENSE"]
+  s.test_files  = Dir["spec/**/*"]
 
   s.add_dependency 'releaf-core', Releaf::VERSION
-  s.add_dependency 'devise'
-
+  s.add_dependency 'devise', '~> 4.2'
 end
