@@ -129,13 +129,12 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def load_translation_data(translation, locale, localization)
-    translation_data = translation.i18n_entry_translation.find{ |x| x.locale == locale }
-    # replace existing locale value only if new one is not blank
-    if translation_data
+    translation_data = translation.find_or_initialize_translation(locale)
+
+    if localization.present?
       translation_data.text = localization
-      # always assign value for new locale
-    elsif translation_data.nil?
-      translation_data = translation.i18n_entry_translation.build(locale: locale, text: localization)
+    else
+      translation_data.mark_for_destruction
     end
 
     translation_data

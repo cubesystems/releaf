@@ -101,6 +101,14 @@ feature "Translations" do
     expect(page).to have_content 'en translation'
   end
 
+  scenario "Do not save empty translations", create_translations: true do
+    visit releaf_i18n_database_translations_path
+    click_link "Edit"
+    click_button "Save"
+
+    expect(Releaf::I18nDatabase::I18nEntryTranslation.where(text: "").count).to eq(0)
+  end
+
   scenario "Import excel file with translations", js: true, create_translations: true do
     visit releaf_i18n_database_translations_path
     expect(page).to have_no_css(".table td span", text: "Eksports")

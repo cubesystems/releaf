@@ -27,6 +27,7 @@ require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
 require "shoulda-matchers"
+require 'db-query-matchers'
 require 'capybara/poltergeist'
 require 'with_model'
 require 'timecop'
