@@ -14,10 +14,8 @@ if ENV["COVERAGE"]
     Coveralls::SimpleCov::Formatter
   ])
   SimpleCov.start do
-    add_filter '/config/'
-    add_filter '/lib/tasks'
+    add_filter '/lib/releaf/rspec'
     add_filter '/spec/'
-    add_filter '/app/assets/'
   end
 end
 
