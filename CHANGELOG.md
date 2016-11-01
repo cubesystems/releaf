@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.4 (2016.11.01)
+* fix builder scope resolving in cases when application scope has `nil`
+  value
+
 ### 2016.10.21
 * `Releaf.application.config.i18n_database.translation_auto_creation_patterns` configuration variable added for custom
   translation auto creation patterns matching. Default value is `[ /.*/ ]` to create all incoming keys.

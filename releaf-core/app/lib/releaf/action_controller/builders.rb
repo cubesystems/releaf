@@ -29,6 +29,6 @@ module Releaf::ActionController::Builders
   end
 
   def builder_scopes
-    [self.class.own_builder_scope, self.class.ancestor_builder_scopes, application_scope].flatten
+    [self.class.own_builder_scope, self.class.ancestor_builder_scopes, application_scope].flatten.compact
   end
 end

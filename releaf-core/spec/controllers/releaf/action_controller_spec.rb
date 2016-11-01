@@ -109,6 +109,11 @@ describe Releaf::ActionController do
       end
     end
 
+    it "excludes nil values from returned array" do
+      allow(subject).to receive(:application_scope).and_return(nil)
+      expect(subject.builder_scopes).to eq(["Dummy"])
+    end
+
     context "when controller is a deeper descendant of Releaf::ActionController" do
       let(:subject) { Dummy::GrandChildDummyController.new }
       it "includes ancestor scopes up to but not including Releaf::ActionController" do
