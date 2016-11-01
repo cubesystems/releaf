@@ -29,6 +29,30 @@ task :ci do
   Rake::Task[:spec].invoke
 end
 
+namespace :gem do
+  def gems
+    list =  [{path: Dir.pwd, name: "releaf"}]
+    Releaf::GEMS.each{|gem| list << {path: "#{Dir.pwd}/#{gem}", name: gem} }
+    list
+  end
+
+
+  desc 'Build all releaf gems'
+  task :build do
+    gems.each do|options|
+      sh "cd #{options[:path]} && gem build #{options[:name]}.gemspec"
+      sh "mv #{options[:path]}/#{options[:name]}-#{Releaf::VERSION}.gem #{Dir.pwd}/pkg/"
+    end
+  end
+
+  desc 'Push all releaf gems'
+  task :push do
+    gems.each do|options|
+      sh "gem push #{Dir.pwd}/pkg/#{options[:name]}-#{Releaf::VERSION}.gem "
+    end
+  end
+end
+
 desc 'Dummy test app tasks'
 namespace :dummy do
   desc 'Remove current dummy app'
@@ -73,4 +97,4 @@ RSpec::Core::RakeTask.new(spec: 'app:db:test:prepare') do |t|
 end
 
 
-task :default => :spec
+task default: :spec

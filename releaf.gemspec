@@ -1,4 +1,5 @@
-require File.expand_path('releaf-core/lib/releaf/version', __dir__)
+require File.expand_path('lib/releaf/version', __dir__)
+require File.expand_path('lib/releaf/gems', __dir__)
 
 Gem::Specification.new do |s|
   s.name        = "releaf"
@@ -15,10 +16,9 @@ Gem::Specification.new do |s|
   s.files       = Dir["lib/**/*"] + ["LICENSE"]
   s.test_files  = Dir["spec/factories/**/*"] + Dir["spec/support/**/*"] + Dir["spec/*.rb"]
 
-  s.add_dependency    'releaf-core', Releaf::VERSION
-  s.add_dependency    'releaf-i18n_database', Releaf::VERSION
-  s.add_dependency    'releaf-permissions', Releaf::VERSION
-  s.add_dependency    'releaf-content', Releaf::VERSION
+  Releaf::GEMS.each do|gem|
+    s.add_dependency gem, Releaf::VERSION
+  end
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'capybara'
