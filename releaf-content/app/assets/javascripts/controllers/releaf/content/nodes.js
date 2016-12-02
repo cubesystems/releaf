@@ -61,7 +61,7 @@ jQuery(function()
                     slug_input.val( slug );
                     slug_link.find('span').text( encodeURIComponent( slug ) );
                     slug_button.trigger('loadingend');
-                }, 'text');
+                });
             });
 
             slug_button.click(function()
