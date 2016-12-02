@@ -72,9 +72,12 @@ jQuery(function()
             if (name_input.val() === '')
             {
                 // bind onchange slug generation only if starting out with an empty name
-                name_input.change(function()
+                name_input.on('change', function()
                 {
-                    slug_input.trigger('sluggenerate');
+                    if(slug_input.val().length == 0)
+                    {
+                        slug_input.trigger('sluggenerate');
+                    }
                 });
             }
         }
