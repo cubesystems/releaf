@@ -74,7 +74,7 @@ jQuery(function()
                 // bind onchange slug generation only if starting out with an empty name
                 name_input.on('change', function()
                 {
-                    if(slug_input.val().length == 0)
+                    if(slug_input.val().length === 0)
                     {
                         slug_input.trigger('sluggenerate');
                     }
