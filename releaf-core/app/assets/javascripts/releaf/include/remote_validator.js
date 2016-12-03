@@ -10,6 +10,36 @@ var RemoteValidator = function( form )
     v.form = form;
     v.clicked_button = null;
 
+    // when sending form with FormData clicked button value is not included within form data, except on Safari
+    // and therefore also on PhantomJS, thats why tests all tests works fine.
+    //
+    // longer description:
+    // the algorithm to construct the form data set for a form form optionally in the context
+    // of a submitter submitter is as follows. If not specified otherwise,
+    // submitter is null. (https://xhr.spec.whatwg.org/#dom-formdata).
+    // when this algorithm is executed from the FormData constructor, no submitter is specified,
+    // so no buttons should be included in the form data set.
+    v.form.find('button[type="submit"]').on('click', function() {
+        var button = jQuery(this);
+        var hidden_field = button.closest('form').find('input.submit-button-value').first();
+        if (hidden_field.length < 1)
+        {
+            hidden_field = jQuery('<input type="hidden" class="submit-button-value" />');
+            hidden_field.appendTo(form);
+        }
+        var name = button.attr('name');
+        if (name)
+        {
+            hidden_field.attr('name', name);
+            hidden_field.val(button.val());
+        }
+        else
+        {
+            // no need for hidden field in case of nameless buttons
+            hidden_field.remove();
+        }
+    });
+
     v.form.on('click.rails', submit_elements_selector, function( event ) {
         var target = jQuery( event.target );
 
