@@ -58,7 +58,7 @@ jQuery(function()
             type = 'default';
         }
 
-        if (typeof window.ckeditor_configuration[type] == 'undefined')
+        if (typeof window.ckeditor_configuration[type] === 'undefined')
         {
             return;
         }
