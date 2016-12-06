@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.0.5 (2016.12.06)
+* Added slug format validation for content nodes
+* Fixed broken "Save and create another" feature
+
 ### 1.0.4 (2016.11.01)
 * fix builder scope resolving in cases when application scope has `nil`
   value
@@ -14,7 +18,7 @@
   scope (ex. from now it is possible to have `Admin::FormBuilder` for application wide default admin form builder)
 
 ### 2016.10.15
-* `Releaf::InstanceCache` has been rewrited for more convient way to define methods to cache.  
+* `Releaf::InstanceCache` has been rewrited for more convient way to define methods to cache.
   It is possible to define either single or array of methods to cache:
   ```
   def SomeClass
