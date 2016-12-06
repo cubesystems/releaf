@@ -387,19 +387,21 @@ RemoteValidator.prototype.register_clicked_button = function(button)
     var v = this;
     v.clicked_button = button;
 
-    // when sending form with FormData the clicked button value is not included in the data
-    // (except on Safari, and therefore also on PhantomJS, that's why the tests works fine).
+    // when sending form values with FormData, the clicked button value is not included in the data
+    // (except on Safari, and therefore also on PhantomJS - that's why the tests worked fine even without this).
 
-    // since releaf sometimes uses the clicked button value to modify the action,
-    // (e.g. for "Save and create another" feature), the value of the clicked button
-    // gets appended to the form as a hidden field before the validation and form submission starts.
+    // since releaf sometimes uses the clicked button value to modify the action on the server side,
+    // (e.g. for "Save and create another" feature), the value of the clicked button must be appended
+    // to the form as a hidden field before the validation / submission starts.
 
     // longer description:
-    // the algorithm to construct the form data set for a form form optionally in the context
-    // of a submitter is as follows. If not specified otherwise, submitter is null.
-    // (https://xhr.spec.whatwg.org/#dom-formdata).
+    // the algorithm to construct the form data set for a form optionally in the context
+    // of a submitter is as follows:
+    // https://www.w3.org/TR/html5/forms.html#constructing-form-data-set
+    // https://xhr.spec.whatwg.org/#dom-formdata
+    // If not specified otherwise, submitter is null.
     // when this algorithm is executed from the FormData constructor, no submitter is specified,
-    // so no buttons should be included in the form data set.
+    // so no buttons are included in the form data set automatically.
 
     var form = button.closest('form');
     var hidden_field = form.find('input.submit-button-value').first();
@@ -416,7 +418,7 @@ RemoteValidator.prototype.register_clicked_button = function(button)
     }
     else
     {
-        // no need for hidden field in case of nameless buttons
+        // no need for the hidden field in case of nameless buttons
         hidden_field.remove();
     }
 };
