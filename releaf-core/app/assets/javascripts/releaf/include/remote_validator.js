@@ -10,37 +10,7 @@ var RemoteValidator = function( form )
     v.form = form;
     v.clicked_button = null;
 
-    // when sending form with FormData clicked button value is not included within form data, except on Safari
-    // and therefore also on PhantomJS, thats why tests all tests works fine.
-    //
-    // longer description:
-    // the algorithm to construct the form data set for a form form optionally in the context
-    // of a submitter submitter is as follows. If not specified otherwise,
-    // submitter is null. (https://xhr.spec.whatwg.org/#dom-formdata).
-    // when this algorithm is executed from the FormData constructor, no submitter is specified,
-    // so no buttons should be included in the form data set.
-    v.form.find('button[type="submit"]').on('click', function() {
-        var button = jQuery(this);
-        var hidden_field = button.closest('form').find('input.submit-button-value').first();
-        if (hidden_field.length < 1)
-        {
-            hidden_field = jQuery('<input type="hidden" class="submit-button-value" />');
-            hidden_field.appendTo(form);
-        }
-        var name = button.attr('name');
-        if (name)
-        {
-            hidden_field.attr('name', name);
-            hidden_field.val(button.val());
-        }
-        else
-        {
-            // no need for hidden field in case of nameless buttons
-            hidden_field.remove();
-        }
-    });
-
-    v.form.on('click.rails', submit_elements_selector, function( event ) {
+    v.form.on('click', submit_elements_selector, function( event ) {
         var target = jQuery( event.target );
 
         // webkit sends inner button elements as event targets instead of the button
@@ -51,14 +21,15 @@ var RemoteValidator = function( form )
             target = closest_button;
         }
 
-        // register only submit buttons - buttons with type="submit" or without type attribute at all
+        // register only submit buttons - buttons with type="submit" or without type attribute at all.
         // direct target[0].type property is used because of inconsistent attr() method return values
         // between older and newer jQuery versions
         if (target.is( 'button' ) && target[0].type !== 'submit' )
         {
             return;
         }
-        v.clicked_button = target;
+
+        v.register_clicked_button( target );
     });
 
     v.form.on( 'ajax:before', function( event )
@@ -398,7 +369,7 @@ var RemoteValidator = function( form )
 
             case 'validation:error':   // validation error
 
-                v.clicked_button = null;
+                v.clear_clicked_button();
 
                 break;
 
@@ -411,27 +382,55 @@ var RemoteValidator = function( form )
     });
 };
 
-RemoteValidator.prototype.submit_form = function()
+RemoteValidator.prototype.register_clicked_button = function(button)
 {
     var v = this;
+    v.clicked_button = button;
 
-    // add originally clicked submit button to form as a hidden field
-    if (v.clicked_button)
+    // when sending form with FormData the clicked button value is not included in the data
+    // (except on Safari, and therefore also on PhantomJS, that's why the tests works fine).
+
+    // since releaf sometimes uses the clicked button value to modify the action,
+    // (e.g. for "Save and create another" feature), the value of the clicked button
+    // gets appended to the form as a hidden field before the validation and form submission starts.
+
+    // longer description:
+    // the algorithm to construct the form data set for a form form optionally in the context
+    // of a submitter is as follows. If not specified otherwise, submitter is null.
+    // (https://xhr.spec.whatwg.org/#dom-formdata).
+    // when this algorithm is executed from the FormData constructor, no submitter is specified,
+    // so no buttons should be included in the form data set.
+
+    var form = button.closest('form');
+    var hidden_field = form.find('input.submit-button-value').first();
+    if (hidden_field.length < 1)
     {
-        var button = v.clicked_button.first();
-        var name = button.attr('name');
-        if (name)
-        {
-            var input = v.form.find('input[type="hidden"][name="' + name + '"]');
-            if (input.length < 1)
-            {
-                input = jQuery('<input />').attr('type', 'hidden').attr('name', button.attr('name'));
-                input.appendTo(v.form);
-            }
-            input.val(button.val());
-        }
+        hidden_field = jQuery('<input type="hidden" class="submit-button-value" />');
+        hidden_field.appendTo(form);
     }
-    v.form[0].submit();
+    var name = button.attr('name');
+    if (name)
+    {
+        hidden_field.attr('name', name);
+        hidden_field.val(button.val());
+    }
+    else
+    {
+        // no need for hidden field in case of nameless buttons
+        hidden_field.remove();
+    }
+};
+
+RemoteValidator.prototype.clear_clicked_button = function()
+{
+    var v = this;
+    v.clicked_button = null;
+    v.form.find('input.submit-button-value').remove();
+};
+
+RemoteValidator.prototype.submit_form = function()
+{
+    this.form[0].submit();
 };
 
 jQuery(function(){
