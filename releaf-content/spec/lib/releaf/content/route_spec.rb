@@ -198,7 +198,7 @@ describe Releaf::Content::Route do
       expect(described_class.for(Node, HomePage, 'foo')).to be_a Array
     end
 
-    context "when databse doesn't exists" do
+    context "when database doesn't exists" do
       it "returns an empty array" do
         allow(Node).to receive(:where).and_raise(ActiveRecord::NoDatabaseError.new("xxx"))
         expect(described_class.for(Node, HomePage, 'foo')).to eq([])

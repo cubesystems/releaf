@@ -188,5 +188,19 @@ describe Releaf::I18nDatabase::Backend do
         end
       end
     end
+
+    context "when database doesn't exists" do
+      it "returns an empty array" do
+        allow(Releaf::I18nDatabase::I18nEntry).to receive(:pluck).and_raise(ActiveRecord::NoDatabaseError.new("xxx"))
+        expect(subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")).to be nil
+      end
+    end
+
+    context "when node table doesn't exist" do
+      it "returns an empty array" do
+        allow(Releaf::I18nDatabase::I18nEntry).to receive(:pluck).and_raise(ActiveRecord::StatementInvalid.new("xxx"))
+        expect(subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")).to be nil
+      end
+    end
   end
 end

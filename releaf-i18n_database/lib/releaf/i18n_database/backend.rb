@@ -88,6 +88,11 @@ module Releaf
         translations.missing(locale, key, options) if result.nil?
 
         result
+        # As localization can be used in routes and as routes is loaded also when running `rake db:create`
+        # we want to supress those errors and silently return nil as developer/user will get database errors
+        # anyway when call to models will be made (let others do this)
+      rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
+        nil
       end
     end
   end
