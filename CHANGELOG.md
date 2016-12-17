@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.0.6 (2016.12.18)
+* Make possible to safely use translations in routes while using `releaf-i18n_database` gem
+
 ### 1.0.5 (2016.12.06)
 * Added slug format validation for content nodes
 * Fixed broken "Save and create another" feature
