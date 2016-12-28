@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.0.7 (2016.12.28)
+* `Releaf::Builders::FormBuilder` now has a separate `releaf_has_many_association_attributes` method that can be overridden in custom builders to add extra HTML attributes to a nested item section
+
 ### 1.0.6 (2016.12.18)
 * Make possible to safely use translations in routes while using `releaf-i18n_database` gem
 
@@ -792,4 +795,3 @@ end
 
   ```:ajax``` parameter is removed from ```params``` has in ```manage_ajax```
   before filter in ```Releaf::BaseApplicationController```
-
