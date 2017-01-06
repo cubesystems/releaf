@@ -57,20 +57,6 @@ var RemoteValidator = function( form )
 
         switch (xhr.status)
         {
-            case 303:
-                // validation + saving ok
-                try {
-                    json_response = jQuery.parseJSON(xhr.responseText);
-                }
-                catch(error)
-                {
-                    v.form.trigger( 'validation:fail', [ v, event_params ] );
-                    break;
-                }
-                event_params.response = json_response;
-                v.form.trigger( 'validation:ok', [ v, event_params ] );
-                break;
-
             case 200:
                 // validation ok
                 event_params.response = xhr;
@@ -147,19 +133,17 @@ var RemoteValidator = function( form )
             return;
         }
 
-        if ('url' in event_params.response)
+        event.preventDefault(); // prevent validator's built in submit_form on ok
+
+        // use new url
+        if(document.location.href !== event_params.response.responseURL)
         {
-            // json redirect url received
-            event.preventDefault(); // prevent validator's built in submit_form on ok
-            document.location.href = event_params.response.url;
+            history.pushState(null, null, event_params.response.responseURL);
         }
-        else if ('getResponseHeader' in event_params.response)
-        {
-            event.preventDefault(); // prevent validator's built in submit_form on ok
-            body.trigger('contentreplace', [ event_params.response, "> header" ]);
-            body.trigger('contentreplace', [ event_params.response, "> aside" ]);
-            body.trigger('contentreplace', [ event_params.response, "> main" ]);
-        }
+
+        body.trigger('contentreplace', [ event_params.response, "> header" ]);
+        body.trigger('contentreplace', [ event_params.response, "> aside" ]);
+        body.trigger('contentreplace', [ event_params.response, "> main" ]);
     });
 
     v.form.on( 'validation:error', function( event, v, event_params )
