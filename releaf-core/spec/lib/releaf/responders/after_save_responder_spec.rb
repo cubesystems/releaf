@@ -77,27 +77,12 @@ describe Releaf::Responders::AfterSaveResponder, type: :controller do
     end
 
     context "when resource has no errors" do
-      before do
+      it "redirects to resource location with status code `303`" do
         allow(subject).to receive(:resource_location).and_return("some_url")
         allow(subject).to receive(:has_errors?).and_return(false)
-      end
-
-      context "when options has :redirect key" do
-        it "returns json with resource location url and status code `303`" do
-          allow(subject).to receive(:options).and_return(redirect: true)
-          expect(subject).to receive(:render).with(json: {url: "some_url"}, status: 303)
-          subject.to_json
-        end
-      end
-
-      context "when options has no :redirect key" do
-        it "redirects to resource location with status code `303`" do
-          allow(subject).to receive(:options).and_return({})
-          expect(subject).to receive(:redirect_to).with("some_url", status: 303, turbolinks: false)
-          subject.to_json
-        end
+        expect(subject).to receive(:redirect_to).with("some_url", status: 303, turbolinks: false)
+        subject.to_json
       end
     end
   end
 end
-

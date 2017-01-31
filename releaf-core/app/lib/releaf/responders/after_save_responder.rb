@@ -9,8 +9,6 @@ module Releaf::Responders
     def to_json
       if has_errors?
         display_errors
-      elsif options[:redirect]
-        render json: {url: resource_location}, status: 303
       else
         redirect_to resource_location, status: 303, turbolinks: false
       end
