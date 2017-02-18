@@ -15,7 +15,7 @@ matrix:
 
 before_install:
   - gem install specific_install
-  - gem specific_install bundler/bundler # gem i bundler
+  - gem specific_install https://github.com/bundler/bundler.git
   - gem update --system
   - 'cp "config.yml.${DB}.travis" "config.yml"'
 
