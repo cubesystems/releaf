@@ -14,7 +14,8 @@ matrix:
     - env: DB=pg
 
 before_install:
-  - gem i bundler
+  - gem install specific_install
+  - gem specific_install bundler/bundler # gem i bundler
   - gem update --system
   - 'cp "config.yml.${DB}.travis" "config.yml"'
 
