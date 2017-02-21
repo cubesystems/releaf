@@ -11,6 +11,7 @@ module Releaf
           node.class.transaction do
             new_node = make_copy
           end
+
           new_node
         rescue ActiveRecord::RecordInvalid
           add_error_and_raise 'descendant invalid'
@@ -44,6 +45,7 @@ module Releaf
             Releaf::Content::Node::SaveUnderParent.call(node: new_node, parent_id: parent_id)
           end
         end
+
         new_node
       end
 
@@ -63,17 +65,17 @@ module Releaf
         end
       end
 
-      def supplement_object_duplication original, copy
+      def supplement_object_duplication(original, copy)
         duplicate_dragonfly_attachments(original, copy)
       end
 
-      def duplicatable_associations owner_class
+      def duplicatable_associations(owner_class)
         Releaf::ResourceBase.new(owner_class).associations.collect do |association|
           { association.name => duplicatable_associations(association.klass) }
         end
       end
 
-      def duplicate_dragonfly_attachments original, copy
+      def duplicate_dragonfly_attachments(original, copy)
         attachment_keys = original.dragonfly_attachments.keys
         return unless attachment_keys.present?
 
@@ -92,16 +94,15 @@ module Releaf
 
           if attachment.present?
             begin
-             attachment.path  # verify that the file exists
+              attachment.path  # verify that the file exists
             rescue Dragonfly::Job::Fetch::NotFound
-             attachment = nil
+              attachment = nil
             end
           end
 
           copy.send("#{accessor}=", attachment)
         end
       end
-
     end
   end
 end
