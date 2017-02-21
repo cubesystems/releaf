@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.0.9 (2017.02.21)
+* Deep copy support added for node content objects
+
 ### 1.0.8 (2017.01.31)
 * Make Releaf resource creation MS Edge compatible by using html5
   history API to load new resource location and content when created with
