@@ -25,7 +25,6 @@ FactoryGirl.define do
     content_attributes ({ intro_text_html: "some <strong>STRRRONG</strong> text" })
   end
 
-
   factory :text_page_node, class: ::Node do
     sequence(:name) {|n| "node #{n}"}
     sequence(:slug) {|n| "node-#{n}"}
@@ -39,5 +38,13 @@ FactoryGirl.define do
     content_type "TextPage"
     content_attributes ({ text_html: "some <strong>STRIONG</strong> text" })
   end
+
+  factory :banner_page_node, class: ::Node do
+    sequence(:name) {|n| "node #{n}"}
+    sequence(:slug) {|n| "node-#{n}"}
+    content_type "BannerPage"
+    content_attributes ({})
+  end
+
 
 end
