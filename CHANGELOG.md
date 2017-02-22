@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.0.10 (2017.02.22)
+* Fix broken content nodes copy and move dialogs
+
 ### 1.0.9 (2017.02.21)
 * Deep copy support added for node content objects
 
