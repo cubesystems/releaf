@@ -2,9 +2,16 @@ jQuery(function()
 {
     var body = jQuery('body.controller-releaf-content-nodes');
 
+
     body.on('contentloaded', function(e)
     {
         var block = jQuery(e.target);
+
+        // trigger on body as its outside loaded content parts
+        block.find('.dialog form[data-remote-validation="true"]').on( 'validation:ok', function( event, v, event_params )
+        {
+            block.trigger('ajaxboxclose');
+        });
 
         // item collapse / expand
         block.find('.collection li .collapser').click(function()
