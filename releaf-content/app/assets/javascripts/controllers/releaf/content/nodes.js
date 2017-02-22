@@ -8,7 +8,7 @@ jQuery(function()
         var block = jQuery(e.target);
 
         // trigger on body as its outside loaded content parts
-        block.find('.dialog form[data-remote-validation="true"]').on( 'validation:ok', function( event, v, event_params )
+        block.find('.dialog form[data-remote-validation="true"]').on( 'validation:ok', function()
         {
             block.trigger('ajaxboxclose');
         });
