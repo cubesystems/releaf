@@ -12,12 +12,16 @@ main
     position: relative;
     min-height: 100%;
 }
+body[data-layout-features~="sidebar"] > main
+{
+    padding-left: steps(20 + 3);
+}
 
 main
 {
     display: block;  /* as of now, not all rendering engines recognize the main element as a block */
     position: relative;
-    padding: 0 steps(3) steps(4) steps(20 + 3);
+    padding: 0 steps(3) steps(4) steps(3);
     z-index: 1;
 
     .side-compact &

@@ -1,4 +1,5 @@
 class Releaf::Permissions::SessionsController < Devise::SessionsController
+  include Releaf::ActionController::Layout
   layout "releaf/admin"
   helper_method :page_title
 

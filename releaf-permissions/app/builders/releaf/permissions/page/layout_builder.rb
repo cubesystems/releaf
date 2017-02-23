@@ -7,11 +7,11 @@ class Releaf::Permissions::Page::LayoutBuilder < Releaf::Builders::Page::LayoutB
     Releaf::Permissions::Page::MenuBuilder
   end
 
-  def body_content(&block)
+  def body_content_blocks
     if controller.respond_to?(:authorized?) && controller.authorized?
       super
     else
-      yield
+      [yield]
     end
   end
 end
