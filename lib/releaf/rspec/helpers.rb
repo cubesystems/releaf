@@ -158,7 +158,7 @@ module Releaf::Test
       end
     end
 
-    def fill_in_date field_locator, options
+    def fill_in_date(field_locator, options)
       date = options[:with]
 
       if date.is_a? Time
@@ -221,6 +221,36 @@ module Releaf::Test
       expect(page).to have_css("##{textarea_id}.ckeditor-initialized", visible: false) # wait for ckeditor appearance
       html = options[:with].to_s
       page.execute_script("CKEDITOR.instances['#{textarea_id}'].setData(#{html.to_json});")
+    end
+
+
+    def scroll_to_bottom_of_page
+      execute_script('window.scrollTo(0, document.body.scrollHeight);')
+    end
+
+    def add_nested_item(block_name, expected_item_index)
+      scroll_to_bottom_of_page
+      all('button', text: 'Add item').last.click  # use last button in case of multiple nested items
+      wait_for_nested_item block_name, expected_item_index
+
+      if block_given?
+        within(".item[data-name=\"#{block_name}\"][data-index=\"#{expected_item_index}\"]") do
+          yield
+        end
+      end
+    end
+
+    def remove_nested_item(block_name, item_index)
+      base_selector = ".item[data-name=\"#{block_name}\"][data-index=\"#{item_index}\"]"
+      page.find("#{base_selector} > .remove-item-box button.remove-nested-item").click
+      # wait for js to finish hiding the block
+      # the opacity and display styles may get set in different order, so select both orders
+      expect(page).to have_css("#{base_selector}[style=\"display: none; opacity: 0;\"], #{base_selector}[style=\"opacity: 0; display: none;\"]", visible: false)
+    end
+
+    def wait_for_nested_item(block_name, item_index)
+      # wait for js to finish initializing the block
+      expect(page).to have_css(".item[data-name=\"#{block_name}\"][data-index=\"#{item_index}\"][style=\"opacity: 1; display: block;\"]")
     end
 
   end

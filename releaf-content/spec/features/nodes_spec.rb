@@ -271,6 +271,34 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
   end
 
+  scenario "Slugs", with_tree: false do
+    visit admin_nodes_path
+
+    open_toolbox_dialog 'Add child', @lv_root, ".view-index .collection li"
+    within_dialog do
+    click_link("Text page")
+    end
+
+    fill_in "Slug", with: "some-slug"
+    fill_in 'Name', with: "About us"
+    expect(page).to have_field("Slug", with: "some-slug")
+
+    fill_in "Slug", with: ""
+    fill_in 'Name', with: "About them"
+    expect(page).to have_field("Slug", with: "about-them")
+
+    # fill text to allow text page save
+    fill_in_richtext "Text", with: "asdasd"
+
+    fill_in "Slug", with: "invalid slug <>!"
+    click_button "Save"
+    expect(page).to have_error("is invalid", field: "Slug")
+    click_button "Suggest slug"
+    expect(page).to have_field("Slug", with: "about-them")
+    click_button "Save"
+    expect(page).to have_notification("Create succeeded")
+  end
+
   describe "node order", with_tree: false do
     def create_child parent, child_text, position=nil
       visit admin_nodes_path

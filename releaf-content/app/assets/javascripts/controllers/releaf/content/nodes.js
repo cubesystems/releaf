@@ -2,9 +2,16 @@ jQuery(function()
 {
     var body = jQuery('body.controller-releaf-content-nodes');
 
+
     body.on('contentloaded', function(e)
     {
         var block = jQuery(e.target);
+
+        // trigger on body as its outside loaded content parts
+        block.find('.dialog form[data-remote-validation="true"]').on( 'validation:ok', function()
+        {
+            block.trigger('ajaxboxclose');
+        });
 
         // item collapse / expand
         block.find('.collection li .collapser').click(function()
@@ -61,7 +68,7 @@ jQuery(function()
                     slug_input.val( slug );
                     slug_link.find('span').text( encodeURIComponent( slug ) );
                     slug_button.trigger('loadingend');
-                }, 'text');
+                });
             });
 
             slug_button.click(function()
@@ -72,9 +79,12 @@ jQuery(function()
             if (name_input.val() === '')
             {
                 // bind onchange slug generation only if starting out with an empty name
-                name_input.change(function()
+                name_input.on('change', function()
                 {
-                    slug_input.trigger('sluggenerate');
+                    if(slug_input.val().length === 0)
+                    {
+                        slug_input.trigger('sluggenerate');
+                    }
                 });
             }
         }

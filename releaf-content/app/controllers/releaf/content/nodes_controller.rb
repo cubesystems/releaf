@@ -10,9 +10,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
     tmp_resource.name = params[:name]
     tmp_resource.reasign_slug
 
-    respond_to do |format|
-      format.js { render text: tmp_resource.slug }
-    end
+    render text: tmp_resource.slug
   end
 
   def content_type_dialog

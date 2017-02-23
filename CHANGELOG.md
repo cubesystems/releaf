@@ -1,5 +1,85 @@
 ## Changelog
 
+### 1.1.0 (2017.02.23)
+* Added layout features. Controller from now can choose which parts(header, sidebar, main) must be rendered
+* Added support for CKEditor filebrowserBrowseUrl configuration
+
+### 1.0.10 (2017.02.22)
+* Fix broken content nodes copy and move dialogs
+
+### 1.0.9 (2017.02.21)
+* Deep copy support added for node content objects
+
+### 1.0.8 (2017.01.31)
+* Make Releaf resource creation MS Edge compatible by using html5
+  history API to load new resource location and content when created with
+  xhr
+
+### 1.0.7 (2016.12.28)
+* `Releaf::Builders::FormBuilder` now has a separate `releaf_has_many_association_attributes` method that can be overridden in custom builders to add extra HTML attributes to a nested item section
+
+### 1.0.6 (2016.12.18)
+* Make possible to safely use translations in routes while using `releaf-i18n_database` gem
+
+### 1.0.5 (2016.12.06)
+* Added slug format validation for content nodes
+* Fixed broken "Save and create another" feature
+
+### 1.0.4 (2016.11.01)
+* fix builder scope resolving in cases when application scope has `nil`
+  value
+
+### 2016.10.21
+* `Releaf.application.config.i18n_database.translation_auto_creation_patterns` configuration variable added for custom
+  translation auto creation patterns matching. Default value is `[ /.*/ ]` to create all incoming keys.
+
+### 2016.10.17
+* `application_builder_scope` method from controller removed.
+* controller will try to resolve builders also in application wide
+  scope (ex. from now it is possible to have `Admin::FormBuilder` for application wide default admin form builder)
+
+### 2016.10.15
+* `Releaf::InstanceCache` has been rewrited for more convient way to define methods to cache.
+  It is possible to define either single or array of methods to cache:
+  ```
+  def SomeClass
+    include Releaf::InstanceCache
+    cache_instance_methods :some_value, :another_value
+    cache_instance_method :some_value
+
+    def some_value
+      :a
+    end
+
+    def another_value
+      :b
+    end
+
+    def totally_another_value
+      :c
+    end
+  end
+  ```
+
+### 2016.10.11
+* `Releaf.application.config.i18n_database.create_missing_translations`
+  config renamed to `Releaf.application.config.i18n_database.translation_auto_creation`
+* I18n.t `create_missing` option renamed to `auto_create`
+* I18n.t `create_default` option removed
+* Use chained translation backends with `Releaf::I18nDatabase::Backend` as primary and
+  `I18n::Backend::Simple ` as secondary backend
+* `Releaf.application.config.i18n_database.translation_auto_creation_exclusion_patterns` config
+  added with default value `[/^attributes\./]` to ignore default translations comming from activerecord
+  attribute humanization method.
+* It is possible to add  custom regexp patterns to prevent certain translations to be created
+  in database (for example add `config.i18n_database.translation_auto_creation_exclusion_patterns += [/^activerecord\.attributes\./]`
+  to your Releaf initializer to prevent `activerecord.attributes.*` creation)
+* As there is backend chain available, it is recommended to create default,
+  hardcoded translations (date and number formats for example) with
+  standart localization yml files (config/locales/*.yml)
+* `I18n.backend.translations_cache.locales_pluralizations` method moved to `Releaf::I18nDatabase::Backend.locales_pluralizations`
+* It is possible to reset Releaf translation cache with `Releaf::I18nDatabase::Backend.reset_cache`
+
 ### 2016.08.15
 * `Releaf::TestHelpers` test helpers renamed to `Releaf::Test::Helpers`
 * For better Releaf tests behaviour add `Releaf::Test.reset!` to `RSpec.after(:each)`
@@ -730,4 +810,3 @@ end
 
   ```:ajax``` parameter is removed from ```params``` has in ```manage_ajax```
   before filter in ```Releaf::BaseApplicationController```
-

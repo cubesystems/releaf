@@ -132,6 +132,10 @@ module Releaf::Content
         locale_selection_enabled? && root?
       end
 
+      def invalid_slug_format?
+        slug.present? && slug.to_url != slug
+      end
+
       protected
 
       def validate_parent_node_is_not_self
@@ -144,6 +148,10 @@ module Releaf::Content
         return if parent_id.nil?
         return if self.descendants.find_by_id(parent_id).blank?
         self.errors.add(:parent_id, "descendant can't be parent")
+      end
+
+      def validate_slug
+        errors.add(:slug, :invalid) if invalid_slug_format?
       end
 
       private
@@ -198,6 +206,7 @@ module Releaf::Content
       validates_presence_of :parent, if: :parent_id?
       validate :validate_parent_node_is_not_self
       validate :validate_parent_is_not_descendant
+      validate :validate_slug
       belongs_to :content, polymorphic: true, dependent: :destroy
       accepts_nested_attributes_for :content
 

@@ -353,6 +353,50 @@ describe Node do
     end
   end
 
+  describe "#validate_slug" do
+    it "is called during validations" do
+      expect( subject ).to receive(:validate_slug)
+      subject.valid?
+    end
+
+    context "when invalid slug" do
+      it "adds format error on slug" do
+        allow(subject).to receive(:invalid_slug_format?).and_return(true)
+        expect{ subject.send(:validate_slug) }.to change{ subject.errors[:slug] }.to(["is invalid"])
+      end
+    end
+
+    context "when valid slug" do
+      it "does not add format error on slug" do
+        allow(subject).to receive(:invalid_slug_format?).and_return(false)
+        expect{ subject.send(:validate_slug) }.to_not change{ subject.errors[:slug] }.from([])
+      end
+    end
+  end
+
+  describe "#invalid_slug_format?" do
+    context "when slug value converted to url differs" do
+      it "returns true" do
+        subject.slug = "asd xx"
+        expect(subject.invalid_slug_format?).to be true
+      end
+    end
+
+    context "when slug value converted to url is same" do
+      it "returns false" do
+        subject.slug = "asd-xx"
+        expect(subject.invalid_slug_format?).to be false
+      end
+    end
+
+    context "when slug value is nil" do
+      it "returns false" do
+        subject.slug = nil
+        expect(subject.invalid_slug_format?).to be false
+      end
+    end
+  end
+
   describe "#validate_parent_node_is_not_self" do
     let(:node1) { create(:node, locale: "lv") }
 

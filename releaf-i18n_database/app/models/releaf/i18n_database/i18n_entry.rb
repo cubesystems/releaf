@@ -11,9 +11,11 @@ module Releaf::I18nDatabase
     accepts_nested_attributes_for :i18n_entry_translation, allow_destroy: true
 
     def locale_value(locale)
-      # search against all values to cache
-      locale_translation = i18n_entry_translation.find{|translation| translation.locale == locale.to_s }
-      locale_translation[:text] if locale_translation
+      find_or_initialize_translation(locale).text
+    end
+
+    def find_or_initialize_translation(locale)
+      i18n_entry_translation.find{ |translation| translation.locale == locale.to_s } || i18n_entry_translation.build(locale: locale)
     end
   end
 end

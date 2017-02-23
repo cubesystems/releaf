@@ -58,7 +58,7 @@ jQuery(function()
             type = 'default';
         }
 
-        if (typeof window.ckeditor_configuration[type] == 'undefined')
+        if (typeof window.ckeditor_configuration[type] === 'undefined')
         {
             return;
         }
@@ -84,9 +84,17 @@ jQuery(function()
             textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
         }
 
-        if (textarea.data('attachment-upload-url'))
+        if (textarea.data('attachment-upload-url') || textarea.data('attachment-browse-url'))
         {
-            config.filebrowserUploadUrl = textarea.data('attachment-upload-url');
+            if (textarea.data('attachment-browse-url'))
+            {
+                config.filebrowserBrowseUrl = textarea.data('attachment-browse-url');
+            }
+
+            if (textarea.data('attachment-upload-url'))
+            {
+                config.filebrowserUploadUrl = textarea.data('attachment-upload-url');
+            }
         }
         else
         {

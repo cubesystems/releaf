@@ -15,7 +15,7 @@ feature "Settings", js: true do
     visit releaf_settings_path
     expect(page).to have_number_of_resources(5)
     expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:first-child", text: "content.date")
-    expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:nth-child(2)", text: /^2015-05-02$/)
+    expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:nth-child(2)", text: /^Sat, 02 May 2015 00:00:00 \+0000$/)
     expect(page).to have_css(".table.releaf\\/settings tbody tr:last-child td:first-child", text: "content.updated_at")
 
     search "content.updated"

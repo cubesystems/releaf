@@ -64,7 +64,7 @@ describe "Nodes services (copy, move)" do
 
   end
 
-  describe "Copying", create_nodes: true do
+  describe "Basic node copying", create_nodes: true do
     before create_nodes: true do
       @home_page_node = create(:home_page_node, locale: "lv")
       @home_page_node_2 = create(:home_page_node, locale: "en")
@@ -203,5 +203,188 @@ describe "Nodes services (copy, move)" do
         expect{ @text_page_node_3.copy(@text_page_node_4.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
+  end
+
+
+  feature "Deep copying of content nodes", js: true do
+
+    let(:node_class) { Node }
+    let(:locale) { "en" }
+
+    background do
+      Rails.cache.clear
+      # preload ActsAsNode classes
+      Rails.application.eager_load!
+
+      create(:home_page_node, name: "Root page", locale: "en", slug: "en")
+      auth_as_user
+    end
+
+    def expect_different_values original, copy
+      expect(original).to be_present
+      expect(copy).to be_present
+      expect(original).to_not eq copy
+    end
+
+    scenario "Deep copying of content nodes with nested associations and files" do
+      visit "/admin/nodes/"
+      open_toolbox("Add child", node_class.first, ".view-index .collection li")
+
+      dummy_file_path = File.expand_path('../fixtures/dummy.png', __dir__)
+
+      within('.dialog.content-type.initialized') do
+        click_link "Banner page"
+      end
+
+      expect(page).to have_css('input[type="text"][name="resource[content_type]"][value="Banner page"]')
+
+      fill_in 'Name', with: "Banner page"
+      fill_in 'Slug', with: "banner-page"
+
+      attach_file('Top banner', dummy_file_path)
+      attach_file('Bottom banner', dummy_file_path)
+
+      within('section.nested[data-name="banner_groups"]') do
+        add_nested_item "banner_groups", 0 do
+          fill_in "Title", with: "Banner group 1 title"
+
+          within('section.nested[data-name="banners"]') do
+            add_nested_item "banners", 0 do
+              attach_file('Image', dummy_file_path)
+              fill_in "Url", with: "Banner-1-url"
+            end
+            add_nested_item "banners", 1 do
+              attach_file('Image', dummy_file_path)
+              fill_in "Url", with: "Banner-2-url"
+            end
+          end
+        end
+
+        add_nested_item "banner_groups", 1 do
+          fill_in "Title", with: "Banner group 2 title"
+        end
+      end
+
+      wait_for_all_richtexts
+      save_and_check_response "Create succeeded"
+
+      open_toolbox("Copy")
+
+      within('.dialog.copy.initialized') do
+        find('label', text: "Root page").click
+        click_button "Copy"
+      end
+
+      expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Copy succeeded")
+
+      # verify record count in db
+      expect(node_class.where(content_type: 'BannerPage').count).to eq 2
+      expect(BannerGroup.count).to eq 4
+      expect(Banner.count).to eq 4
+
+
+      # verify that direct and nested files are duplicated correctly
+      [
+        { original: BannerPage.first, copy: BannerPage.last, accessor: :top_banner    },
+        { original: BannerPage.first, copy: BannerPage.last, accessor: :bottom_banner },
+        {
+          original: BannerPage.first.banner_groups.first.banners.first,
+          copy:     BannerPage.last.banner_groups.first.banners.first,
+          accessor: :image
+        }
+      ].each do |entry|
+        original = entry[:original]
+        copy     = entry[:copy]
+        accessor = entry[:accessor]
+        expect(original.id).to_not eq copy.id
+
+        # verify that uids exist and are different
+        expect_different_values(original.send("#{accessor}_uid"), copy.send("#{accessor}_uid"))
+
+        # verify files exist and are different
+        original_file = original.send(accessor)
+        copied_file = copy.send(accessor)
+
+        expect_different_values(original_file.path, copied_file.path)
+        expect(original_file.path).to start_with Dragonfly.app.datastore.root_path
+        expect(copied_file.path).to   start_with Dragonfly.app.datastore.root_path
+        expect(File.exist?(original_file.path)).to be true
+        expect(File.exist?(copied_file.path)).to be true
+      end
+
+
+      # change values in the copied node to make sure associations are not linked
+      original_id = node_class.where(content_type: "BannerPage").order(:item_position).first.id
+      copy_id     = node_class.where(content_type: "BannerPage").order(:item_position).last.id
+      expect(copy_id).to_not eq original_id
+
+      visit "/admin/nodes/#{copy_id}/edit/"
+
+      within('section.nested[data-name="banner_groups"]') do
+        within('.item[data-name="banner_groups"][data-index="0"]') do
+          expect(page).to have_field('Title', with: 'Banner group 1 title')
+          fill_in "Title", with: "Copied banner group 1 title"
+
+          within('.item[data-name="banners"][data-index="0"]') do
+            expect(page).to have_field('Url', with: 'Banner-1-url')
+            fill_in "Url", with: "Copied-banner-1-url"
+          end
+          within('.item[data-name="banners"][data-index="1"]') do
+            expect(page).to have_field('Url', with: 'Banner-2-url')
+            fill_in "Url", with: "Copied-banner-2-url"
+          end
+        end
+        within('.item[data-name="banner_groups"][data-index="1"]') do
+          expect(page).to have_field('Title', with: 'Banner group 2 title')
+          fill_in "Title", with: "Copied banner group 2 title"
+        end
+      end
+
+      copied_file_urls = {
+        top_banner:     find('.field[data-name="top_banner"]').find_link[:href],
+        bottom_banner:  find('.field[data-name="bottom_banner"]').find_link[:href],
+        nested_banner:  find('.item[data-name="banner_groups"][data-index="0"] .item[data-name="banners"][data-index="0"] .field[data-name="image"]').find_link[:href]
+      }
+
+      wait_for_all_richtexts
+      save_and_check_response "Update succeeded"
+
+      # verify that the original banner page still has the old values
+      visit "/admin/nodes/#{original_id}/edit/"
+
+      within('section.nested[data-name="banner_groups"]') do
+        within('.item[data-name="banner_groups"][data-index="0"]') do
+          expect(page).to have_field('Title', with: 'Banner group 1 title')
+
+          within('.item[data-name="banners"][data-index="0"]') do
+            expect(page).to have_field('Url', with: 'Banner-1-url')
+          end
+          within('.item[data-name="banners"][data-index="1"]') do
+            expect(page).to have_field('Url', with: 'Banner-2-url')
+          end
+        end
+        within('.item[data-name="banner_groups"][data-index="1"]') do
+          expect(page).to have_field('Title', with: 'Banner group 2 title')
+        end
+      end
+
+      original_file_urls = {
+        top_banner:     find('.field[data-name="top_banner"]').find_link[:href],
+        bottom_banner:  find('.field[data-name="bottom_banner"]').find_link[:href],
+        nested_banner:  find('.item[data-name="banner_groups"][data-index="0"] .item[data-name="banners"][data-index="0"] .field[data-name="image"]').find_link[:href]
+      }
+
+      # make sure that original and copied file urls are different and working
+      original_file_urls.each do |key, original_url|
+        expect_different_values(original_url, copied_file_urls[key])
+
+        [original_url, copied_file_urls[key]].each do |file_url|
+          visit file_url
+          expect(page.status_code).to eq 200
+        end
+      end
+
+    end
+
   end
 end

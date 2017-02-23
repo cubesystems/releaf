@@ -41,7 +41,7 @@ Releaf::Permissions::User.create!(
 # Translations {{{
 
 puts "Importing translations"
-import_file_path = File.join(Gem.loaded_specs["releaf"].full_gem_path, "releaf-i18n_database", "misc", "translations.xlsx")
+import_file_path = File.join(Gem.loaded_specs["releaf-i18n_database"].full_gem_path, "misc", "translations.xlsx")
 translations = Releaf::I18nDatabase::ParseSpreadsheetTranslations.call(file_path: import_file_path, extension: "xlsx")
 translations.each{|translation| translation.save! }
 

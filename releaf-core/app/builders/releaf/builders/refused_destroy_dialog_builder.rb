@@ -23,7 +23,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   end
 
   def relation_description(relation, key)
-    "#{resource.class.human_attribute_name(key, create_default: false)} (#{relation[:objects].count})"
+    "#{resource.class.human_attribute_name(key)} (#{relation[:objects].count})"
   end
 
   def relation_objects(relation)

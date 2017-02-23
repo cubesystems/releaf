@@ -78,7 +78,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
           <div class="form-error-box">
               <error_notice_header />
               <ul>
-                <li class="error">Title Blank</li>
+                <li class="error">Title can&#39;t be blank</li>
               </ul>
           </div>
         ])

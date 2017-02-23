@@ -1,5 +1,6 @@
 require 'awesome_nested_set'
 require 'stringex'
+require 'deep_cloneable'
 
 module Releaf::Content
   require 'releaf/content/engine'

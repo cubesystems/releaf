@@ -4,19 +4,76 @@ describe Releaf::I18nDatabase::Backend do
   let(:translations_store){ Releaf::I18nDatabase::TranslationsStore.new }
 
   describe ".configure_component" do
-    it "adds new `Releaf::I18nDatabase::Configuration` configuration with enabled missing translation creation" do
+    it "adds new `Releaf::I18nDatabase::Configuration` configuration with default config" do
+      stub_const("Releaf::I18nDatabase::Backend::DEFAULT_CONFIG", a: :b)
       allow(Releaf::I18nDatabase::Configuration).to receive(:new)
-        .with(create_missing_translations: true).and_return("_new")
+        .with(a: :b).and_return("_new")
       expect(Releaf.application.config).to receive(:add_configuration).with("_new")
       described_class.configure_component
     end
   end
 
+  describe ".reset_cache" do
+    it "reset translations cache to backend instance" do
+      subject.translations_cache = :x
+      allow(described_class).to receive(:backend_instance).and_return(subject)
+      expect{ described_class.reset_cache }.to change{ subject.translations_cache }.to(nil)
+    end
+  end
+
+  describe ".backend_instance" do
+    context "when I18n backend has chained backends" do
+      it "returns Releaf::I18nDatabase::Backend instance" do
+        backends = I18n::Backend::Chain.new(subject, I18n::Backend::Simple.new)
+        allow(I18n).to receive(:backend).and_return(backends)
+        expect(described_class.backend_instance).to eq(subject)
+      end
+
+      it "returns nil when chain hasn't Releaf::I18nDatabase::Backend instance" do
+        backends = I18n::Backend::Chain.new(I18n::Backend::Simple.new)
+        allow(I18n).to receive(:backend).and_return(backends)
+        expect(described_class.backend_instance).to be nil
+      end
+    end
+
+    context "when I18n backend has single backend and it is instance of Releaf::I18nDatabase::Backend" do
+      it "returns Releaf::I18nDatabase::Backend instance" do
+        allow(I18n).to receive(:backend).and_return(subject)
+        expect(described_class.backend_instance).to eq(subject)
+      end
+    end
+
+    context "when I18n backend has single backend and it is not instance of Releaf::I18nDatabase::Backend" do
+      it "returns nil" do
+        allow(I18n).to receive(:backend).and_return(I18n::Backend::Simple.new)
+        expect(described_class.backend_instance).to be nil
+      end
+    end
+  end
+
   describe ".initialize_component" do
-    it "adds itself as i18n backend" do
-      allow(described_class).to receive(:new).and_return("x")
-      expect(I18n).to receive(:backend=).with("x")
+    it "adds itself as i18n backend as primary backend while keeping Rails default simple backend as secondary" do
+      allow(I18n).to receive(:backend).and_return(:current_backend)
+      allow(I18n::Backend::Chain).to receive(:new).with(:new_backend, :current_backend).and_return(:x)
+      allow(described_class).to receive(:new).and_return(:new_backend)
+      expect(I18n).to receive(:backend=).with(:x)
       described_class.initialize_component
+    end
+  end
+
+  describe ".locales_pluralizations" do
+    it "returns array all pluralization forms for releaf locales" do
+      allow(Releaf.application.config).to receive(:all_locales).and_return([:de, :ru, :aasdsd])
+
+      allow(TwitterCldr).to receive(:supported_locale?).with(:de).and_return(true)
+      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:all_for).with(:de).and_return([:one, :other, :many])
+
+      allow(TwitterCldr).to receive(:supported_locale?).with(:ru).and_return(true)
+      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:all_for).with(:ru).and_return([:one, :other, :few, :zero])
+
+      allow(TwitterCldr).to receive(:supported_locale?).with(:aasdsd).and_return(false)
+
+      expect(described_class.locales_pluralizations).to eq([:one, :other, :many, :few, :zero])
     end
   end
 
@@ -51,34 +108,10 @@ describe Releaf::I18nDatabase::Backend do
   end
 
   describe "#store_translations" do
-    it "merges given translations to cache" do
-      allow(subject).to receive(:translations).and_return(translations_store)
-      expect(translations_store).to receive(:add).with(:lv, a: "x")
-      subject.store_translations(:lv, a: "x")
-    end
-  end
-
-  describe "#default" do
-    context "when `create_default: false` option exists" do
-      it "adds `create_default: true` option and remove `create_default` option" do
-        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_missing: false)
-        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: false, create_missing: false)
-      end
-
-      it "does not change given options" do
-        options = {count:1, default: "xxx", fallback: true, create_default: false}
-        expect{ subject.send(:default, "en", "aa", "bb", options) }.to_not change{ options }
-      end
-    end
-
-    context "when `create_default: false` option does not exists" do
-      it "does not modify options" do
-        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true)
-        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true)
-
-        expect(subject).to receive(:resolve).with("en", "aa", "bb", count: 1, fallback: true, create_default: true)
-        subject.send(:default, "en", "aa", "bb", count:1, default: "xxx", fallback: true, create_default: true)
-      end
+    it "pass given translations to simple translation backend" do
+      simple_backend = I18n.backend.backends.last
+      expect(simple_backend).to receive(:store_translations).with(:lv, {a: "x"}, {c: "d"})
+      subject.store_translations(:lv, {a: "x"}, {c: "d"})
     end
   end
 
@@ -153,6 +186,20 @@ describe Releaf::I18nDatabase::Backend do
           expect(translations_store).to receive(:missing).with(:lv, "xx.s.loc", separator: ":", a: "b")
           subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")
         end
+      end
+    end
+
+    context "when database doesn't exists" do
+      it "returns an empty array" do
+        allow(Releaf::I18nDatabase::I18nEntry).to receive(:pluck).and_raise(ActiveRecord::NoDatabaseError.new("xxx"))
+        expect(subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")).to be nil
+      end
+    end
+
+    context "when node table doesn't exist" do
+      it "returns an empty array" do
+        allow(Releaf::I18nDatabase::I18nEntry).to receive(:pluck).and_raise(ActiveRecord::StatementInvalid.new("xxx"))
+        expect(subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")).to be nil
       end
     end
   end

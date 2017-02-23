@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe Releaf::Permissions::Page::LayoutBuilder, type: :class do
   class PermissionsLayoutBuilderView < ActionView::Base; end
+
   let(:controller){ Releaf::RootController.new }
   let(:template){ PermissionsLayoutBuilderView.new }
   subject { described_class.new(template) }
@@ -26,39 +27,34 @@ describe Releaf::Permissions::Page::LayoutBuilder, type: :class do
     end
   end
 
-  describe "#body_content" do
+  describe "#body_content_blocks" do
     before do
       allow(subject).to receive(:header).and_return("_header")
       allow(subject).to receive(:menu).and_return("_menu")
       allow(subject).to receive(:notifications).and_return("_notifications")
+      allow(subject).to receive(:assets).and_return("_assets_")
     end
 
     context "when controller responds to `authorized?` and `authorized?` call return true" do
       it "returns `super` content" do
         allow(controller).to receive(:authorized?).and_return(true)
-        expect(subject.body_content{ "x" }).to eq("_header_menu<main id=\"main\">x</main>_notifications")
+        expect(subject.body_content_blocks{ "x" }).to eq(["_header", "_menu", "<main id=\"main\">x</main>",
+                                                          "_notifications", "_assets_"])
       end
     end
 
     context "when controller responds to `authorized?` and `authorized?` call return false" do
       it "returns given block content" do
         allow(controller).to receive(:authorized?).and_return(false)
-        expect(subject.body_content{ "x" }).to eq("x")
+        expect(subject.body_content_blocks{ "x" }).to eq(["x"])
       end
     end
 
     context "when controller does not responds to `authorized?`" do
       it "returns given block content" do
         allow(controller).to receive(:respond_to?).with(:authorized?).and_return(false)
-        expect(subject.body_content{ "x" }).to eq("x")
+        expect(subject.body_content_blocks{ "x" }).to eq(["x"])
       end
     end
   end
-  #def body_content(&block)
-    #if controller.respond_to?(:authorized?) && controller.authorized?
-      #super
-    #else
-      #yield
-    #end
-  #end
 end

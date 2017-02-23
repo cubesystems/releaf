@@ -46,15 +46,21 @@ module Releaf::Builders::FormBuilder::Associations
   end
 
   def releaf_has_many_association(reflector)
-    item_template = releaf_has_many_association_fields(reflector, reflector.klass.new, '_template_', true)
-
-    tag(:section, class: "nested", data: {name: reflector.name, "releaf-template" => html_escape(item_template.to_str)}) do
+    tag(:section, releaf_has_many_association_attributes(reflector)) do
       [
         releaf_has_many_association_header(reflector),
         releaf_has_many_association_body(reflector),
         releaf_has_many_association_footer(reflector)
       ]
     end
+  end
+
+  def releaf_has_many_association_attributes reflector
+    item_template = releaf_has_many_association_fields(reflector, reflector.klass.new, '_template_', true)
+    {
+      class: "nested",
+      data: { name: reflector.name, "releaf-template" => html_escape(item_template.to_str) }
+    }
   end
 
   def releaf_has_many_association_header(reflector)

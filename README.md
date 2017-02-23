@@ -46,3 +46,10 @@ Now open "/admin" on your dev site and login with following credentials:
 email: admin@example.com
 password: password
 ```
+
+## New version releasing
+1. bump version in `lib/releaf/version.rb`
+2. write all changes and new version number in `CHANGELOG.md`
+3. commit previous changes
+4. create git version tag `ex: v1.0.12`
+4. run `rake gem:build && rake gem:push`  

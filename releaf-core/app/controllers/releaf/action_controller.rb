@@ -13,6 +13,7 @@ class Releaf::ActionController < ActionController::Base
   include Releaf::ActionController::Breadcrumbs
   include Releaf::ActionController::RichtextAttachments
   include Releaf::ActionController::Views
+  include Releaf::ActionController::Layout
   include Releaf::Responders
 
   helper_method :controller_scope_name, :page_title

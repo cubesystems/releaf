@@ -23,16 +23,12 @@ module Releaf::ActionController::Builders
     Releaf::Builders.builder_class(builder_scopes, builder_type)
   end
 
-  def application_builder_scope
-    [application_scope, "Builders"].reject(&:blank?).join("::")
-  end
-
   def application_scope
     scope = Releaf.application.config.mount_location.capitalize
     scope if scope.present? && Releaf::Builders.constant_defined_at_scope?(scope, Object)
   end
 
   def builder_scopes
-    [self.class.own_builder_scope, self.class.ancestor_builder_scopes, application_builder_scope].flatten
+    [self.class.own_builder_scope, self.class.ancestor_builder_scopes, application_scope].flatten.compact
   end
 end

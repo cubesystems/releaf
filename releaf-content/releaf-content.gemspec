@@ -1,4 +1,4 @@
-require File.expand_path("../../releaf-core/lib/releaf/version.rb", __FILE__)
+require File.expand_path("../../lib/releaf/version.rb", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "releaf-content"
@@ -9,12 +9,13 @@ Gem::Specification.new do |s|
   s.authors     = ["CubeSystems"]
   s.email       = 'info@cubesystems.lv'
   s.homepage    = 'https://github.com/cubesystems/releaf'
+  s.license     = "MIT"
 
-  s.files             = `git ls-files`.split("\n")
-  s.test_files = Dir["spec/**/*"]
+  s.files       = Dir["app/**/*"] + Dir["lib/**/*"] + ["LICENSE"]
+  s.test_files  = Dir["spec/**/*"]
 
   s.add_dependency 'releaf-core', Releaf::VERSION
-  s.add_dependency 'stringex'
-  s.add_dependency 'awesome_nested_set'
-
+  s.add_dependency 'stringex', '~> 2.6'
+  s.add_dependency 'awesome_nested_set', '~> 3.1'
+  s.add_dependency 'deep_cloneable', '~> 2.2.2'
 end

@@ -221,7 +221,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
   describe "#translate_attribute" do
     it "translates given attribute within object translation scope" do
-      allow(object.class).to receive(:human_attribute_name).with("x", create_default: false).and_return("z")
+      allow(object.class).to receive(:human_attribute_name).with("x").and_return("z")
       expect(subject.translate_attribute("x")).to eq("z")
     end
   end

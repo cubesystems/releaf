@@ -3,18 +3,42 @@ require 'i18n/backend/base'
 module Releaf
   module I18nDatabase
     class Backend
+
       include ::I18n::Backend::Base, ::I18n::Backend::Flatten
       UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
+      DEFAULT_CONFIG = {
+        translation_auto_creation: true,
+        translation_auto_creation_patterns: [/.*/],
+        translation_auto_creation_exclusion_patterns: [/^attributes\./]
+      }
       attr_accessor :translations_cache
 
       def self.initialize_component
-        I18n.backend = new
+        I18n.backend = I18n::Backend::Chain.new(new, I18n.backend)
+      end
+
+      def self.locales_pluralizations
+        Releaf.application.config.all_locales.map do|locale|
+          TwitterCldr::Formatters::Plurals::Rules.all_for(locale) if TwitterCldr.supported_locale?(locale)
+        end.flatten.uniq.compact
       end
 
       def self.configure_component
         Releaf.application.config.add_configuration(
-          Releaf::I18nDatabase::Configuration.new(create_missing_translations: true)
+          Releaf::I18nDatabase::Configuration.new(DEFAULT_CONFIG)
         )
+      end
+
+      def self.reset_cache
+        backend_instance.translations_cache = nil
+      end
+
+      def self.backend_instance
+        if I18n.backend.is_a? I18n::Backend::Chain
+          I18n.backend.backends.find{|b| b.is_a?(Releaf::I18nDatabase::Backend) }
+        elsif I18n.backend.is_a? Releaf::I18nDatabase::Backend
+          I18n.backend
+        end
       end
 
       def self.draw_component_routes router
@@ -48,8 +72,10 @@ module Releaf
         Releaf::Settings[UPDATED_AT_KEY] = value
       end
 
-      def store_translations(locale, data, _options = {})
-        translations.add(locale, data)
+      def store_translations(locale, data, options = {})
+        # pass to simple backend
+
+        I18n.backend.backends.last.store_translations(locale, data, options)
       end
 
       # Lookup translation from database
@@ -62,15 +88,11 @@ module Releaf
         translations.missing(locale, key, options) if result.nil?
 
         result
-      end
-
-      def default(locale, object, subject, options = {})
-        if options[:create_default] == false
-          options = options.except(:create_default)
-          options[:create_missing] = false
-        end
-
-        super
+        # As localization can be used in routes and as routes is loaded also when running `rake db:create`
+        # we want to supress those errors and silently return nil as developer/user will get database errors
+        # anyway when call to models will be made (let others do this)
+      rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
+        nil
       end
     end
   end

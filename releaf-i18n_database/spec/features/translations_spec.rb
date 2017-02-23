@@ -101,6 +101,14 @@ feature "Translations" do
     expect(page).to have_content 'en translation'
   end
 
+  scenario "Do not save empty translations", create_translations: true do
+    visit releaf_i18n_database_translations_path
+    click_link "Edit"
+    click_button "Save"
+
+    expect(Releaf::I18nDatabase::I18nEntryTranslation.where(text: "").count).to eq(0)
+  end
+
   scenario "Import excel file with translations", js: true, create_translations: true do
     visit releaf_i18n_database_translations_path
     expect(page).to have_no_css(".table td span", text: "Eksports")
@@ -194,8 +202,8 @@ feature "Translations" do
 
   describe "Lookup" do
     background do
-      I18n.backend.translations_cache = nil # reset cache
-      allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(true)
+      Releaf::I18nDatabase::Backend.reset_cache
+      allow( Releaf.application.config.i18n_database ).to receive(:translation_auto_creation).and_return(true)
     end
 
     context "when translation exists within higher level key (instead of being scope)" do
@@ -258,19 +266,9 @@ feature "Translations" do
         end
       end
 
-      context "when translation has default" do
-        context "when default creation is disabled" do
-          it "creates base translation" do
-            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest", create_default: false) }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key) }
-              .to(["xxx.test.mest"])
-          end
-        end
-
-        context "when default creation is not disabled" do
-          it "creates base and default translations" do
-            expect{ I18n.t("xxx.test.mest", default: :"xxx.mest") }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key) }
-              .to(match_array(["xxx.mest", "xxx.test.mest"]))
-          end
+      context "when ignorable pattern" do
+        it "does not auto create missing translation" do
+          expect{ I18n.t("attributes.title") }.to_not change{ Releaf::I18nDatabase::I18nEntry.count }
         end
       end
 

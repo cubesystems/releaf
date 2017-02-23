@@ -19,7 +19,7 @@ describe "Extend ActiveModel validation error with error_code attribute" do
   end
 
   it "does not owerwrite default error message behaviour" do
-    expect(item.errors.get(:name).first).to eq("Blank")
+    expect(item.errors.get(:name).first).to eq("can't be blank")
   end
 
   context "when validation have :error_code option" do

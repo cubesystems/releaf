@@ -14,10 +14,8 @@ if ENV["COVERAGE"]
     Coveralls::SimpleCov::Formatter
   ])
   SimpleCov.start do
-    add_filter '/config/'
-    add_filter '/lib/tasks'
+    add_filter '/lib/releaf/rspec'
     add_filter '/spec/'
-    add_filter '/app/assets/'
   end
 end
 
@@ -27,6 +25,7 @@ require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
 require "shoulda-matchers"
+require 'db-query-matchers'
 require 'capybara/poltergeist'
 require 'with_model'
 require 'timecop'
@@ -95,7 +94,7 @@ RSpec.configure do |config|
 
   config.before(:each) do |example|
     Rails.cache.clear
-    allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
+    allow( Releaf.application.config.i18n_database ).to receive(:translation_auto_creation).and_return(false)
 
     if example.metadata[:db_strategy]
       DatabaseCleaner.strategy = example.metadata[:db_strategy]
