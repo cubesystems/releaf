@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.0 (2017.02.23)
+* Added layout features. Controller from now can choose which parts(header, sidebar, main) must be rendered
+* Added support for CKEditor filebrowserBrowseUrl configuration
+
 ### 1.0.10 (2017.02.22)
 * Fix broken content nodes copy and move dialogs
 
