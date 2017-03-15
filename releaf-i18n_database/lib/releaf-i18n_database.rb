@@ -1,6 +1,7 @@
 require 'axlsx_rails'
 require 'twitter_cldr'
 require 'i18n'
+require 'rails-i18n'
 require 'roo'
 
 module Releaf::I18nDatabase
@@ -13,4 +14,3 @@ module Releaf::I18nDatabase
     [Releaf::I18nDatabase::Backend, Releaf::I18nDatabase::HumanizeMissingTranslations]
   end
 end
-

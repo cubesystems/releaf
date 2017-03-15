@@ -4,7 +4,10 @@ module Releaf
   module I18nDatabase
     class Backend
 
-      include ::I18n::Backend::Base, ::I18n::Backend::Flatten
+      include ::I18n::Backend::Base
+      include ::I18n::Backend::Flatten
+      include ::I18n::Backend::Pluralization
+
       UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
       DEFAULT_CONFIG = {
         translation_auto_creation: true,
