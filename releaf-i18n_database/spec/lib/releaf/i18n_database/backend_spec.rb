@@ -64,16 +64,8 @@ describe Releaf::I18nDatabase::Backend do
   describe ".locales_pluralizations" do
     it "returns array all pluralization forms for releaf locales" do
       allow(Releaf.application.config).to receive(:all_locales).and_return([:de, :ru, :aasdsd])
-
-      allow(TwitterCldr).to receive(:supported_locale?).with(:de).and_return(true)
-      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:all_for).with(:de).and_return([:one, :other, :many])
-
-      allow(TwitterCldr).to receive(:supported_locale?).with(:ru).and_return(true)
-      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:all_for).with(:ru).and_return([:one, :other, :few, :zero])
-
-      allow(TwitterCldr).to receive(:supported_locale?).with(:aasdsd).and_return(false)
-
-      expect(described_class.locales_pluralizations).to eq([:one, :other, :many, :few, :zero])
+      allow(I18n).to receive(:locale_available?).and_return(true)
+      expect(described_class.locales_pluralizations).to eq([:one, :other, :few, :many, :zero])
     end
   end
 

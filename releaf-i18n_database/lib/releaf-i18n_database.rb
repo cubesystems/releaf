@@ -1,5 +1,4 @@
 require 'axlsx_rails'
-require 'twitter_cldr'
 require 'i18n'
 require 'rails-i18n'
 require 'roo'

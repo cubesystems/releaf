@@ -12,7 +12,7 @@ module Releaf
       DEFAULT_CONFIG = {
         translation_auto_creation: true,
         translation_auto_creation_patterns: [/.*/],
-        translation_auto_creation_exclusion_patterns: [/^attributes\./]
+        translation_auto_creation_exclusion_patterns: [/^attributes\./, /^i18n\./]
       }
       attr_accessor :translations_cache
 
@@ -21,9 +21,11 @@ module Releaf
       end
 
       def self.locales_pluralizations
-        Releaf.application.config.all_locales.map do|locale|
-          TwitterCldr::Formatters::Plurals::Rules.all_for(locale) if TwitterCldr.supported_locale?(locale)
-        end.flatten.uniq.compact
+        keys = Releaf.application.config.all_locales.map{ |locale| I18n.t(:'i18n.plural.keys', locale: locale) }.flatten
+        # always add zero as it skipped for some locales even when there is zero form (lv for example)
+        keys << :zero
+
+        keys.uniq
       end
 
       def self.configure_component

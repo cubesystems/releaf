@@ -335,6 +335,7 @@ feature "Translations" do
       context "with nonexistent translation" do
         before do
           allow(Releaf.application.config).to receive(:all_locales).and_return(["ru", "lv"])
+          allow(I18n).to receive(:locale_available?).and_return(true)
         end
 
         it "creates empty translation" do
