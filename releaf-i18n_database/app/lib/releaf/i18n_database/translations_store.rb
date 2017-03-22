@@ -56,8 +56,7 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def valid_pluralized_result?(locale, count, result)
-    return false unless TwitterCldr.supported_locale?(locale)
-    result.key?(TwitterCldr::Formatters::Plurals::Rules.rule_for(count, locale))
+    result.key?(I18n.t(:'i18n.plural.rule', locale: locale, resolve: false).call(count))
   end
 
   def returnable_result?(result, options)
