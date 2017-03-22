@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.1.1 (2017.03.22)
+* Fix pluralization support for `releaf-i18n_database` to return correct pluralization
+* Remove "twitter_cldr" in favour of "rails-i18n" gem for translation
+  pluralization support in `releaf-i18n_database`
+
 ### 1.1.0 (2017.02.23)
 * Added layout features. Controller from now can choose which parts(header, sidebar, main) must be rendered
 * Added support for CKEditor filebrowserBrowseUrl configuration
