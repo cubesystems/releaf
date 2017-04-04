@@ -53,3 +53,4 @@ password: password
 3. commit previous changes
 4. create git version tag `ex: v1.0.12`
 4. run `rake gem:build && rake gem:push`  
+5. push new tag with `git push --tags`  
