@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.2 (2017.04.04)
+* Render Releaf 404 error page when resource is not found
+* Remove "go home" link from error pages
+
 ### 1.1.1 (2017.03.22)
 * Fix pluralization support for `releaf-i18n_database` to return correct pluralization
 * Remove "twitter_cldr" in favour of "rails-i18n" gem for translation
