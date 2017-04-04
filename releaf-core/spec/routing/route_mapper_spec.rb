@@ -111,7 +111,7 @@ describe Releaf::RouteMapper do
 
       it "route to page not found" do
         expect(get: "/admin/books/1/toolbox")
-          .to route_to(controller: "releaf/errors", action: "page_not_found", path: "books/1/toolbox")
+          .to route_to(controller: "releaf/root", action: "page_not_found", path: "books/1/toolbox")
       end
     end
 
@@ -126,7 +126,7 @@ describe Releaf::RouteMapper do
 
       it "route to page not found" do
         expect(get: "/admin/books/1/toolbox")
-          .to route_to(controller: "releaf/errors", action: "page_not_found", path: "books/1/toolbox")
+          .to route_to(controller: "releaf/root", action: "page_not_found", path: "books/1/toolbox")
       end
     end
 
@@ -141,7 +141,7 @@ describe Releaf::RouteMapper do
 
       it "does not mount destroy confirm route" do
         expect(get: "/admin/books/1/confirm_destroy")
-          .to route_to(controller: "releaf/errors", action: "page_not_found", path: "books/1/confirm_destroy")
+          .to route_to(controller: "releaf/root", action: "page_not_found", path: "books/1/confirm_destroy")
       end
     end
 
@@ -156,7 +156,7 @@ describe Releaf::RouteMapper do
 
       it "does not mount destroy confirm route" do
         expect(get: "/admin/books/1/confirm_destroy")
-          .to route_to(controller: "releaf/errors", action: "page_not_found", path: "books/1/confirm_destroy")
+          .to route_to(controller: "releaf/root", action: "page_not_found", path: "books/1/confirm_destroy")
       end
     end
 
