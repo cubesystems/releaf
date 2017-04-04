@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.1.3 (2017.04.04)
+* Correctly return empty features array for Releaf::RootController
+
 ### 1.1.2 (2017.04.04)
 * Render Releaf 404 error page when resource is not found
 * Remove "go home" link from error pages
