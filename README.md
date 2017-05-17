@@ -6,9 +6,9 @@ Documentation: http://cubesystems.github.io/releaf/documentation/
 
 Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
-[![Build Status](https://travis-ci.org/cubesystems/releaf.png?branch=master)](https://travis-ci.org/cubesystems/releaf)
-[![Coverage Status](https://coveralls.io/repos/cubesystems/releaf/badge.png?branch=master)](https://coveralls.io/r/cubesystems/releaf?branch=master)
-[![Code Climate](https://codeclimate.com/github/cubesystems/releaf.png)](https://codeclimate.com/github/cubesystems/releaf)
+[![Build Status](https://travis-ci.org/cubesystems/releaf.svg?branch=master)](https://travis-ci.org/cubesystems/releaf)
+[![Coverage Status](https://coveralls.io/repos/cubesystems/releaf/badge.svg?branch=master)](https://coveralls.io/r/cubesystems/releaf?branch=master)
+[![Code Climate](https://codeclimate.com/github/cubesystems/releaf.svg)](https://codeclimate.com/github/cubesystems/releaf)
 
 ## Getting started
 
