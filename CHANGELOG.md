@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.1.4 (2017.06.07)
+* Fix a localization issue with datetime fields
+
 ### 1.1.3 (2017.04.04)
 * Correctly return empty features array for Releaf::RootController
 
