@@ -139,4 +139,48 @@ feature "Base controller edit", js: true do
     expect( new_book.chapters.count ).to eq 1
     expect( new_book.chapters.first.title ).to eq "Chapter 1"
   end
+
+  scenario "using datetime picker widget" do
+    visit new_admin_book_path
+
+    create_resource do
+      fill_in "Title", with: "Mustard and Margarine"
+      expect(page).to have_css('.field.type-datetime[data-name="published_at"] input.hasDatepicker')
+      expect(find_field('Published at').value).to eq ''
+      expect(page.document).to have_no_css '#ui-datepicker-div'
+      find('label', text: 'Published at').click
+      within page.document.find('#ui-datepicker-div') do
+        find('.ui-datepicker-month option', text: 'Apr').select_option
+        find('.ui-datepicker-year option', text: '2018').select_option
+        date_cell_selector = '.ui-datepicker-calendar tbody td[data-month="3"][data-year="2018"]'
+        find(date_cell_selector, text: '20').click
+        expect(page).to have_css("#{date_cell_selector}.ui-datepicker-current-day", text: '20')
+
+        find('.ui_tpicker_hour select option', text: '23').select_option
+        find('.ui_tpicker_minute select option', text: '45').select_option
+        expect(page).to have_no_css('.ui_tpicker_second select')
+        expect(page).to have_no_css('.ui_tpicker_millisec select')
+        expect(page).to have_no_css('.ui_tpicker_timezone select')
+        click_on 'Done'
+      end
+      expect(page.document).to have_no_css '#ui-datepicker-div'
+      expect(find_field('Published at').value).to eq '2018-04-20 23:45'
+    end
+
+    visit admin_books_path
+    expect(page).to have_css 'tr', text: /\AMustard and Margarine No 2018-04-20 23:45\z/
+    click_on "Mustard and Margarine"
+    expect(find_field('Published at').value).to eq '2018-04-20 23:45'
+    find('label', text: 'Published at').click
+    within page.document.find('#ui-datepicker-div') do
+      expect(find('select.ui-datepicker-month option:checked').text).to eq 'Apr'
+      expect(find('select.ui-datepicker-year option:checked').text).to eq '2018'
+      expect(page).to have_css('.ui-datepicker-calendar tbody td[data-month="3"][data-year="2018"].ui-datepicker-current-day', text: '20')
+
+      expect(find('.ui_tpicker_hour select option:checked').text).to eq '23'
+      expect(find('.ui_tpicker_minute select option:checked').text).to eq '45'
+    end
+
+  end
+
 end
