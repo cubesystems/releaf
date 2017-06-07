@@ -72,7 +72,7 @@ module Releaf::Builders::Utilities
       if type == :time
         value.strftime(default_format)
       else
-        I18n.l(value, default: default_format)
+        I18n.l(value, format: default_format)
       end
     end
 

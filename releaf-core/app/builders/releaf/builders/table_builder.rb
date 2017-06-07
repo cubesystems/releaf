@@ -156,12 +156,13 @@ class Releaf::Builders::TableBuilder
 
   def format_date_content(resource, column)
     value = column_value(resource, column)
-    I18n.l(value, format: :default, default: '%Y-%m-%d') unless value.nil?
+    I18n.l(value, format: :default) unless value.nil?
   end
 
   def format_datetime_content(resource, column)
     value = column_value(resource, column)
-    I18n.l(value, format: :default, default: '%Y-%m-%d %H:%M:%S') unless value.nil?
+    format = Releaf::Builders::Utilities::DateFields.date_or_time_default_format(:datetime)
+    I18n.l(value, format: format) unless value.nil?
   end
 
   def format_association_content(resource, column)
