@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.1.5 (2017.06.07)
+* Fix an incompletely merged PR
+
 ### 1.1.4 (2017.06.07)
 * Fix a localization issue with datetime fields
 
