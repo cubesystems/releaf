@@ -48,13 +48,13 @@ describe Releaf::Builders::Utilities::DateFields do
 
         allow(described_class).to receive(:date_or_time_default_format).with(:date).and_return("_format_")
         allow(described_class).to receive(:normalize_date_or_time_value).with(value, :date).and_return(time)
-        allow(I18n).to receive(:l).with(time, default: "_format_").and_return("x")
+        allow(I18n).to receive(:l).with(time, format: "_format_").and_return("x")
         expect(described_class.format_date_or_time_value(value, :date)).to eq("x")
 
 
         allow(described_class).to receive(:date_or_time_default_format).with(:datetime).and_return("_format_")
         allow(described_class).to receive(:normalize_date_or_time_value).with(value, :datetime).and_return(time)
-        allow(I18n).to receive(:l).with(time, default: "_format_").and_return("y")
+        allow(I18n).to receive(:l).with(time, format: "_format_").and_return("y")
         expect(described_class.format_date_or_time_value(value, :datetime)).to eq("y")
       end
     end
