@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.1.6 (2017.08.31)
+* Add "cache_instance_method" rspec matcher
+
 ### 1.1.5 (2017.06.07)
 * Fix an incompletely merged PR
 

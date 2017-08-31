@@ -277,8 +277,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
                                               "lv.some.good" => "xx")
     end
 
-    it "caches built hash" do
-      expect(described_class.cached_instance_methods).to include(:localization_data)
+    it "has cached method result" do
+      expect(described_class).to cache_instance_method(:localization_data)
     end
   end
 
@@ -289,8 +289,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
       expect(subject.stored_keys).to eq("some.food" => true, "some.good" => true)
     end
 
-    it "caches built hash" do
-      expect(described_class.cached_instance_methods).to include(:stored_keys)
+    it "has cached method result" do
+      expect(described_class).to cache_instance_method(:stored_keys)
     end
   end
 
@@ -309,8 +309,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
       end
     end
 
-    it "caches built hash" do
-      expect(described_class.cached_instance_methods).to include(:stored_translations)
+    it "has cached method result" do
+      expect(described_class).to cache_instance_method(:stored_translations)
     end
   end
 
