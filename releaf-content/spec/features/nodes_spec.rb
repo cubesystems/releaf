@@ -511,7 +511,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       # test public websites for correct url helpers, node types, site settings and host name constraints
 
-      allow(Capybara).to receive(:app_host).and_return "http://releaf.127.0.0.1.nip.io"
+      old_app_host = Capybara.app_host
+      Capybara.app_host = "http://releaf.127.0.0.1.nip.io"
 
       visit main_site_lv_home_page_path
       expect(page).to have_content "Site: main_site"
@@ -534,7 +535,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect( page ).to have_content "The page you were looking for doesn't exist."
 
 
-      allow(Capybara).to receive(:app_host).and_return "http://other.releaf.127.0.0.1.nip.io"
+      Capybara.app_host = "http://other.releaf.127.0.0.1.nip.io"
       visit other_site_lv_home_page_path
       expect(page).to have_content "Site: other_site"
       expect(page).to have_content "Node class: OtherSite::OtherNode"
@@ -557,6 +558,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       visit "/lv/contacts"
       expect( page ).to have_content "The page you were looking for doesn't exist."
 
+      Capybara.app_host = old_app_host
     end
 
   end
