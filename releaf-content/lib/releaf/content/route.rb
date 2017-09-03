@@ -57,7 +57,7 @@ module Releaf::Content
     # @return [Array] array of Content::Route objects
     def self.for(node_class, node_content_class, default_controller)
       node_class = node_class.constantize if node_class.is_a? String
-      node_class.where(content_type: node_content_class).each.inject([]) do |routes, node|
+      node_class.where(content_type: node_content_class.name).each.inject([]) do |routes, node|
         routes << build_route_object(node, default_controller) if node.available?
         routes
       end

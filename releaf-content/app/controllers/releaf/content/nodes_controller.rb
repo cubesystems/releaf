@@ -10,7 +10,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
     tmp_resource.name = params[:name]
     tmp_resource.reasign_slug
 
-    render text: tmp_resource.slug
+    render plain: tmp_resource.slug
   end
 
   def content_type_dialog

@@ -1,4 +1,4 @@
-class CreateBookSequels < ActiveRecord::Migration
+class CreateBookSequels < ActiveRecord::Migration[5.0]
   def up
     create_table :book_sequels do |t|
       t.integer :book_id, null: false

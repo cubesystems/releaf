@@ -13,15 +13,17 @@ class Releaf::RootController < Releaf::ActionController
 
   # Store settings for menu collapsing and others
   def store_settings
-    if params[:settings].is_a? Hash
-      params[:settings].each_pair do|key, value|
-        value = false if value == "false"
-        value = true if value == "true"
-        Releaf.application.config.settings_manager.write(controller: self, key: key, value: value)
+    settings = params.permit(settings: [:key, :value]).to_h.fetch(:settings, nil)
+    if settings
+      settings.each do|item|
+        next if item[:key].nil? || item[:value].nil?
+        item[:value] = true if item[:value] == "true"
+        item[:value] = false if item[:value] == "false"
+        Releaf.application.config.settings_manager.write(controller: self, key: item[:key], value: item[:value])
       end
-      render nothing: true, status: 200
+      head :ok
     else
-      render nothing: true, status: 422
+      head :unprocessable_entity
     end
   end
 end

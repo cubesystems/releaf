@@ -21,7 +21,7 @@ describe Releaf::Permissions::UsersController do
     end
 
     it "searches by name, surname and email" do
-      get :index, search: "bill green another@example"
+      get :index, params: {search: "bill green another@example"}
       expect(assigns(:collection).count).to eq(1)
     end
   end

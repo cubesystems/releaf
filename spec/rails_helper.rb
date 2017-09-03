@@ -23,6 +23,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
+require 'rails-controller-testing'
 require 'factory_girl'
 require "shoulda-matchers"
 require 'db-query-matchers'
@@ -83,6 +84,13 @@ RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :helper
   config.extend ControllerMacros, type: :helper
+
+
+  [:controller, :view, :request].each do |type|
+    config.include ::Rails::Controller::Testing::TestProcess, type: type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
+    config.include ::Rails::Controller::Testing::Integration, type: type
+  end
 
 
   # FactoryGirl

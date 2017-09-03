@@ -14,14 +14,16 @@ Gem::Specification.new do |s|
   s.files       = Dir["app/**/*"] + Dir["lib/**/*"] + ["LICENSE"]
   s.test_files  = Dir["spec/**/*"]
 
-  s.add_dependency 'rails', ~'5.0.0'
-  s.add_dependency 'i18n', '~> 0.7'
+  s.add_dependency 'rails', '~> 5.0.5'
+  s.add_dependency 'activesupport', '~> 5.0.5'
+  s.add_dependency 'activerecord', '~> 5.0.5'
+  s.add_dependency 'i18n', '~> 0.8.6'
   s.add_dependency 'sprockets-rails', '~> 3.0'
   s.add_dependency 'sass-rails', '~> 5.0'
   s.add_dependency 'jquery-rails', '~> 4.2'
   s.add_dependency 'jquery-ui-rails', '~> 5.0'
   s.add_dependency 'vanilla-ujs', '~> 1.2'
-  s.add_dependency 'railties', '~> 4.2'
+  s.add_dependency 'railties', '~> 5.0.5'
   s.add_dependency 'haml-rails', '~> 0.9'
   s.add_dependency 'dragonfly', '~> 1.0'
   s.add_dependency 'rails-settings-cached', '~> 0.4'
@@ -29,7 +31,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'acts_as_list', '~> 0.8'
   s.add_dependency 'will_paginate', '~> 3.1'
   s.add_dependency 'font-awesome-rails', '~> 4.6'
-  s.add_dependency 'globalize-accessors', '~> 0.2'
+  s.add_dependency 'globalize', '5.1.0.beta2'
+  s.add_dependency 'globalize-accessors', '~> 0.2.1'
   s.add_dependency 'rack-cache', '~> 1.0'
   s.add_dependency 'virtus', '~> 1.0'
 end

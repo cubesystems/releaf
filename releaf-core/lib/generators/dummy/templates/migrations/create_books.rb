@@ -1,4 +1,4 @@
-class CreateBooks < ActiveRecord::Migration
+class CreateBooks < ActiveRecord::Migration[5.0]
   def up
     create_table :books do |t|
       t.string    :title, null: false

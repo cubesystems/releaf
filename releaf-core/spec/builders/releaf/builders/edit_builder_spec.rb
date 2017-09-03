@@ -9,7 +9,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     def protect_against_forgery?
       true
     end
-    def form_authenticity_token
+    def form_authenticity_token(_)
       "xxx"
     end
 

@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'releaf-core', Releaf::VERSION
   s.add_dependency 'stringex', '~> 2.6'
   s.add_dependency 'awesome_nested_set', '~> 3.1'
-  s.add_dependency 'deep_cloneable', '~> 2.2.2'
+  s.add_dependency 'deep_cloneable', '~> 2.3.0'
 end

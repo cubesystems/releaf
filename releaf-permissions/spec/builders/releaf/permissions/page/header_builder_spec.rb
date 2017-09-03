@@ -9,7 +9,7 @@ describe Releaf::Permissions::Page::HeaderBuilder, type: :class do
       true
     end
 
-    def form_authenticity_token
+    def form_authenticity_token(_)
       "xxx"
     end
 

@@ -74,7 +74,7 @@ module Releaf
 
       join_condition = case reflection.macro
                        when :has_many
-                         self.relation = relation.uniq
+                         self.relation = relation.distinct
                          table1[primary_key].eq(table2[foreign_key])
                        when :has_one
                          table1[primary_key].eq(table2[foreign_key])
@@ -107,9 +107,7 @@ module Releaf
       # XXX Hack based on ActiveRecord::Relation#to_sql
       tmp_relation = build_tmp_relation(reflection, table_alias)
 
-      where_scope = tmp_relation.where_values
-
-      return nil if where_scope.blank?
+      return nil if tmp_relation.where_values_hash.blank?
 
       connection = tmp_relation.klass.connection
       visitor    = connection.visitor

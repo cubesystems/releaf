@@ -1,4 +1,4 @@
-class CreateReleafNodes < ActiveRecord::Migration
+class CreateReleafNodes < ActiveRecord::Migration[5.0]
   def change
     create_table "nodes", :force => true do |t|
       t.string   "name"

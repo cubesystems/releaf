@@ -12,8 +12,8 @@ jQuery(function(){
         var settings = key_or_settings;
         if (typeof settings === "string")
         {
-            settings = {};
-            settings[key_or_settings] = value;
+            settings = [];
+            settings.push({key: key_or_settings, value: value});
         }
 
         LiteAjax.ajax({ url: settings_path, method: 'POST', data:  { "settings": settings}, json: true })

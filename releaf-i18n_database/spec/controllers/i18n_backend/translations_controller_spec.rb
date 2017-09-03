@@ -34,19 +34,19 @@ describe Releaf::I18nDatabase::TranslationsController do
 
     context "when searching" do
       it "searches by translation key" do
-        get :index, search: 'great'
+        get :index, params: {search: 'great'}
         expect( assigns(:collection).size ).to eq(1)
       end
 
       it "searched by localized values" do
-        get :index, search: 'manta'
+        get :index, params: {search: 'manta'}
         expect( assigns(:collection).size ).to eq(1)
       end
     end
 
     context "when searching blank translations" do
       it "returns translations that has blank translation in any localization" do
-        get :index, only_blank: 'true'
+        get :index, params: {only_blank: 'true'}
         expect( assigns(:collection).map(&:id) ).to match_array [@t1.id]
       end
     end
@@ -62,7 +62,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
     context "when search scope is given" do
       it "renders translations matching search pattern" do
-        get :index, search: 'stuff'
+        get :index, params: {search: 'stuff'}
         expect( assigns(:collection).size ).to eq(2)
       end
     end
@@ -72,12 +72,12 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when save successful" do
       it "updates translations updated_at" do
         expect(Releaf::I18nDatabase::Backend).to receive("translations_updated_at=").with(@time_now)
-        put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
+        put :update, params: {translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]}
       end
 
       context "when save with import" do
         before do
-          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], import: "true"
+          put :update, params: {translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], import: "true"}
         end
 
         it "redirects to index view" do
@@ -91,7 +91,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
       context "when save without import" do
         before do
-          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
+          put :update, params: {translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]}
         end
 
         it "redirects to edit view" do
@@ -106,12 +106,12 @@ describe Releaf::I18nDatabase::TranslationsController do
 
     context "when save failed" do
       it "renders edit view" do
-        put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
+        put :update, params: {translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]}
         expect(response).to render_template(:edit)
       end
 
       it "flash error notification" do
-        put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
+        put :update, params: {translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]}
         expect(flash["error"]).to eq("id" => "resource_status", "message" => "Update failed")
       end
     end
@@ -122,7 +122,7 @@ describe Releaf::I18nDatabase::TranslationsController do
       before do
         file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__),
                                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        post :import, import_file: file
+        post :import, params: {import_file: file}
       end
 
       it "parses uploaded file and assigns content to collection" do

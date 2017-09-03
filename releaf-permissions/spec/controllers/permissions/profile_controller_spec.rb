@@ -14,7 +14,7 @@ describe Releaf::Permissions::ProfileController do
   describe "PATCH update" do
     context 'when attributes contain role_id' do
       it "does not update it" do
-        expect{ patch :update, {resource: {role_id: another_role.id}} }.to_not change{ user.role_id }
+        expect{ patch :update, params: {resource: {role_id: another_role.id}} }.to_not change{ user.role_id }
       end
     end
 
@@ -32,7 +32,7 @@ describe Releaf::Permissions::ProfileController do
         allow( user ).to receive(:becomes).with(Releaf::Permissions::User).and_return(user)
 
         expect(user).to receive(:update_attributes).with(attributes)
-        patch :update, {resource: attributes}
+        patch :update, params: {resource: attributes}
       end
     end
   end
