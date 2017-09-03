@@ -56,14 +56,14 @@ class Releaf::I18nDatabase::TranslationsStore
   end
 
   def valid_pluralized_result?(locale, count, result)
-    return false unless TwitterCldr.supported_locale?(locale)
-    result.key?(TwitterCldr::Formatters::Plurals::Rules.rule_for(count, locale))
+    result.key?(I18n.t(:'i18n.plural.rule', locale: locale, resolve: false).call(count))
   end
 
   def returnable_result?(result, options)
     result.present? || options.fetch(:inherit_scopes, true) == false
   end
 
+  cache_instance_method :localization_data
   def localization_data
     Releaf::I18nDatabase::I18nEntryTranslation
       .joins(:i18n_entry)
@@ -72,12 +72,14 @@ class Releaf::I18nDatabase::TranslationsStore
       .to_h
   end
 
+  cache_instance_method :stored_keys
   def stored_keys
     Releaf::I18nDatabase::I18nEntry.pluck(:key).inject({}) do|h, key|
       h.update(key => true)
     end
   end
 
+  cache_instance_method :stored_translations
   def stored_translations
     stored_keys.map do |key, _|
       key_hash(key)
@@ -136,8 +138,6 @@ class Releaf::I18nDatabase::TranslationsStore
   def pluralizable_translation?(options)
     options.has_key?(:count) && options[:create_plurals] == true
   end
-
-  cache_instance_methods :stored_translations, :stored_keys, :localization_data
 
   private
 

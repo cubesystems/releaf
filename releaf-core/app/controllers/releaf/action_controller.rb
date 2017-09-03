@@ -14,10 +14,10 @@ class Releaf::ActionController < ActionController::Base
   include Releaf::ActionController::RichtextAttachments
   include Releaf::ActionController::Views
   include Releaf::ActionController::Layout
+  include Releaf::ActionController::Exceptions
   include Releaf::Responders
 
   helper_method :controller_scope_name, :page_title
-  rescue_from Releaf::AccessDenied, with: :access_denied
 
   respond_to :html
   respond_to :json, only: [:create, :update]
@@ -136,10 +136,6 @@ class Releaf::ActionController < ActionController::Base
 
   def create_another?
     params[:after_save] == "create_another" && feature_available?(:create_another)
-  end
-
-  def access_denied
-    respond_with(nil, responder: action_responder(:access_denied))
   end
 
   # Check if @resource has existing restrict relation and it can be deleted

@@ -229,33 +229,15 @@ describe Releaf::I18nDatabase::TranslationsStore do
   end
 
   describe "#valid_pluralized_result?" do
-    before do
-      allow(TwitterCldr::Formatters::Plurals::Rules).to receive(:rule_for)
-        .with(2, :lv).and_return(:few)
-    end
-
-    context "when unsupported locale given" do
-      it "return false" do
-        allow(TwitterCldr).to receive(:supported_locale?).with(:lv).and_return(false)
-        expect(subject.valid_pluralized_result?(:lv, 2, few: "x", many: "y")).to be false
-      end
-    end
-
     context "when given hash contains valid result for given locale and count" do
-      before do
-        allow(TwitterCldr).to receive(:supported_locale?).with(:lv).and_return(true)
+      it "return true" do
+        expect(subject.valid_pluralized_result?(:lv, 2, one: "x", other: "y")).to be true
       end
+    end
 
-      context "when given hash contains valid result for given locale and count" do
-        it "return true" do
-          expect(subject.valid_pluralized_result?(:lv, 2, few: "x", many: "y")).to be true
-        end
-      end
-
-      context "when given hash contains valid result for given locale and count" do
-        it "return true" do
-          expect(subject.valid_pluralized_result?(:lv, 2, one: "x", many: "y")).to be false
-        end
+    context "when given hash contains invalid result for given locale and count" do
+      it "return false" do
+        expect(subject.valid_pluralized_result?(:lv, 2, one: "x", few: "y")).to be false
       end
     end
   end
@@ -295,8 +277,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
                                               "lv.some.good" => "xx")
     end
 
-    it "caches built hash" do
-      expect(described_class.cached_instance_methods).to include(:localization_data)
+    it "has cached method result" do
+      expect(described_class).to cache_instance_method(:localization_data)
     end
   end
 
@@ -307,8 +289,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
       expect(subject.stored_keys).to eq("some.food" => true, "some.good" => true)
     end
 
-    it "caches built hash" do
-      expect(described_class.cached_instance_methods).to include(:stored_keys)
+    it "has cached method result" do
+      expect(described_class).to cache_instance_method(:stored_keys)
     end
   end
 
@@ -327,8 +309,8 @@ describe Releaf::I18nDatabase::TranslationsStore do
       end
     end
 
-    it "caches built hash" do
-      expect(described_class.cached_instance_methods).to include(:stored_translations)
+    it "has cached method result" do
+      expect(described_class).to cache_instance_method(:stored_translations)
     end
   end
 

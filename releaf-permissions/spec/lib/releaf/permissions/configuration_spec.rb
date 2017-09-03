@@ -29,7 +29,7 @@ describe Releaf::Permissions::Configuration do
         .with(
           devise_for: "releaf/permissions/user",
           access_control: Releaf::Permissions::AccessControl,
-          permanent_allowed_controllers: ['releaf/root', 'releaf/errors']
+          permanent_allowed_controllers: ["releaf/root"]
       ).and_return("_new")
       expect(Releaf.application.config).to receive(:add_configuration).with("_new")
       described_class.configure_component

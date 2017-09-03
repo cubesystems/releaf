@@ -7,6 +7,10 @@ class Releaf::RootController < Releaf::ActionController
     end
   end
 
+  def features
+    []
+  end
+
   # Store settings for menu collapsing and others
   def store_settings
     if params[:settings].is_a? Hash

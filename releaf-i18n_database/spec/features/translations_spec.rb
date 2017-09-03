@@ -335,6 +335,7 @@ feature "Translations" do
       context "with nonexistent translation" do
         before do
           allow(Releaf.application.config).to receive(:all_locales).and_return(["ru", "lv"])
+          allow(I18n).to receive(:locale_available?).and_return(true)
         end
 
         it "creates empty translation" do
@@ -378,4 +379,48 @@ feature "Translations" do
       end
     end
   end
+
+
+  describe "pluralization" do
+
+    before do
+      locales = [:lv, :ru]
+      allow(I18n.config).to receive(:available_locales).and_return(locales)
+      allow(Releaf.application.config).to receive(:available_locales).and_return(locales)
+      allow(Releaf.application.config).to receive(:all_locales).and_return(locales)
+
+      I18n.reload!
+
+      [:few, :many, :one, :other, :zero].each do |rule|
+        translation = Releaf::I18nDatabase::I18nEntry.create!(key: "public.years.#{rule}")
+        locales.each do |locale|
+          translation.i18n_entry_translation.create!( locale: locale.to_s, text: "years #{locale} #{rule} XX" )
+        end
+      end
+
+      Releaf::I18nDatabase::Backend.reset_cache
+    end
+
+    after do
+      # force I18n reloading to restore the original state.
+      # for this to work, the stubs must be removed beforehand
+      allow(I18n.config).to receive(:available_locales).and_call_original
+      allow(Releaf.application.config).to receive(:available_locales).and_call_original
+      allow(Releaf.application.config).to receive(:all_locales).and_call_original
+      I18n.reload!
+    end
+
+    it "uses rails-i18n pluralization mechanism to detect correct pluralization keys" do
+      expect(I18n.t("years", scope: "public", count: 0, locale: :lv)).to eq 'years lv zero XX'
+      expect(I18n.t("years", scope: "public", count: 1, locale: :lv)).to eq 'years lv one XX'
+      expect(I18n.t("years", scope: "public", count: 3, locale: :lv)).to eq 'years lv other XX'
+
+      expect(I18n.t("years", scope: "public", count: 1, locale: :ru)).to eq 'years ru one XX'
+      expect(I18n.t("years", scope: "public", count: 3, locale: :ru)).to eq 'years ru few XX'
+      expect(I18n.t("years", scope: "public", count: 5, locale: :ru)).to eq 'years ru many XX'
+    end
+
+  end
+
+
 end

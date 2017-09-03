@@ -7,6 +7,14 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     Rails.application.eager_load!
   end
 
+  before do
+    @default_app_host = Capybara.app_host
+  end
+
+  after do
+    Capybara.app_host = @default_app_host
+  end
+
 
   before with_releaf_node_controller: true do
     # stub node config and admin menu to use default releaf node controller
@@ -511,7 +519,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       # test public websites for correct url helpers, node types, site settings and host name constraints
 
-      allow(Capybara).to receive(:app_host).and_return "http://releaf.127.0.0.1.nip.io"
+      Capybara.app_host = "http://releaf.127.0.0.1.nip.io"
 
       visit main_site_lv_home_page_path
       expect(page).to have_content "Site: main_site"
@@ -534,7 +542,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect( page ).to have_content "The page you were looking for doesn't exist."
 
 
-      allow(Capybara).to receive(:app_host).and_return "http://other.releaf.127.0.0.1.nip.io"
+      Capybara.app_host = "http://other.releaf.127.0.0.1.nip.io"
       visit other_site_lv_home_page_path
       expect(page).to have_content "Site: other_site"
       expect(page).to have_content "Node class: OtherSite::OtherNode"
@@ -556,7 +564,6 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       # because the route is constrained to main site in dummy application's routes.rb
       visit "/lv/contacts"
       expect( page ).to have_content "The page you were looking for doesn't exist."
-
     end
 
   end

@@ -1,4 +1,5 @@
 require 'releaf/test'
-require 'releaf/rspec/matchers'
+require 'releaf/rspec/matchers/match_html'
+require 'releaf/rspec/matchers/cache_instance_method'
 require 'releaf/rspec/helpers'
 require 'releaf/rspec/features_matchers'

@@ -37,7 +37,7 @@ module Releaf::RouteMapper
       end
 
       namespace :releaf, path: nil do
-        get '/*path' => 'errors#page_not_found'
+        get '/*path' => 'root#page_not_found'
       end
     end
   end

@@ -1,5 +1,26 @@
 ## Changelog
 
+### 1.1.6 (2017.08.31)
+* Add "cache_instance_method" rspec matcher
+
+### 1.1.5 (2017.06.07)
+* Fix an incompletely merged PR
+
+### 1.1.4 (2017.06.07)
+* Fix a localization issue with datetime fields
+
+### 1.1.3 (2017.04.04)
+* Correctly return empty features array for Releaf::RootController
+
+### 1.1.2 (2017.04.04)
+* Render Releaf 404 error page when resource is not found
+* Remove "go home" link from error pages
+
+### 1.1.1 (2017.03.22)
+* Fix pluralization support for `releaf-i18n_database` to return correct pluralization
+* Remove "twitter_cldr" in favour of "rails-i18n" gem for translation
+  pluralization support in `releaf-i18n_database`
+
 ### 1.1.0 (2017.02.23)
 * Added layout features. Controller from now can choose which parts(header, sidebar, main) must be rendered
 * Added support for CKEditor filebrowserBrowseUrl configuration
