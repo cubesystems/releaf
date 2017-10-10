@@ -1,5 +1,8 @@
 ## Changelog
 
+### 1.1.7 (2017.09.10)
+* Fix breacrumbs link for controllers for "show" method instead of "edit"
+
 ### 1.1.6 (2017.08.31)
 * Add "cache_instance_method" rspec matcher
 
