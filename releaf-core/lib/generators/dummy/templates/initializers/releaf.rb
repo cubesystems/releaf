@@ -4,7 +4,7 @@ Releaf.application.configure do
   ### setup menu items and therefore available controllers
   config.menu = [
     "admin/nodes",
-    {name: "inventory", items: %w[admin/books admin/authors admin/publishers]},
+    {name: "inventory", items: %w[admin/books admin/authors admin/publishers admin/banners]},
     {name: "permissions", items: %w[releaf/permissions/users releaf/permissions/roles]},
     "releaf/settings",
     "releaf/i18n_database/translations"
