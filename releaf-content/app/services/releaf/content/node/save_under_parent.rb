@@ -14,7 +14,7 @@ module Releaf
         end
 
         node.maintain_name
-        node.reasign_slug
+        node.maintain_slug
         node.save!
       end
     end

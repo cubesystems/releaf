@@ -122,12 +122,12 @@ describe Node do
   describe "#attributes_to_not_copy" do
     it "returns array with attributes" do
       subject.locale = "lv"
-      expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft rgt slug created_at updated_at]
+      expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft rgt created_at updated_at]
     end
 
     context "when locale is blank" do
       it "includes locale within returned list" do
-        expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft rgt slug created_at updated_at locale]
+        expect( subject.attributes_to_not_copy ).to match_array %w[content_id depth id item_position lft rgt created_at updated_at locale]
       end
     end
   end
@@ -233,6 +233,32 @@ describe Node do
         sibling
         new_node = Node.new(name:  node.name, parent_id: root.id)
         expect{ new_node.maintain_name }.to change{new_node.name}.from(node.name).to("#{node.name}(2)")
+      end
+    end
+  end
+
+  describe "#maintain_slug" do
+    let(:root) { create(:home_page_node) }
+    let(:node) { create(:text_page_node, parent_id: root.id, name:  "Test node", slug: "test-node") }
+    let(:sibling) { create(:text_page_node, parent_id: root.id, name:  "Test node(1)", slug: "test-node-1") }
+
+    context "when node don't have sibling/s with same name" do
+      it "does not changes node's slug" do
+        new_node = Node.new(name:  "another name", parent_id: root.id)
+        expect{ new_node.maintain_slug }.to_not change{new_node.slug}
+      end
+    end
+
+    context "when node have sibling/s with same slug" do
+      it "changes node's slug" do
+        new_node = Node.new(name:  node.name, slug: node.slug, parent_id: root.id)
+        expect{ new_node.maintain_slug }.to change{new_node.slug}.from(node.slug).to("#{node.slug}-1")
+      end
+
+      it "increments node's slug number" do
+        sibling
+        new_node = Node.new(name:  node.name, slug: node.slug, parent_id: root.id)
+        expect{ new_node.maintain_slug }.to change{new_node.slug}.from(node.slug).to("#{node.slug}-2")
       end
     end
   end

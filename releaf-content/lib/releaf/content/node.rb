@@ -51,7 +51,7 @@ module Releaf::Content
       end
 
       def attributes_to_not_copy
-        list = %w[content_id depth id item_position lft rgt slug created_at updated_at]
+        list = %w[content_id depth id item_position lft rgt created_at updated_at]
         list << "locale" if locale_before_type_cast.blank?
         list
       end
@@ -81,6 +81,22 @@ module Releaf::Content
 
         if postfix
           self.name = "#{name}#{postfix}"
+        end
+      end
+
+      # Maintain unique slug within parent_id scope.
+      # If slug is not unique add numeric postfix.
+      def maintain_slug
+        postfix = nil
+        total_count = 0
+
+        while self.class.where(parent_id: parent_id, slug: "#{slug}#{postfix}").where("id != ?", id.to_i).exists? do
+          total_count += 1
+          postfix = "-#{total_count}"
+        end
+
+        if postfix
+          self.slug = "#{slug}#{postfix}"
         end
       end
 
@@ -212,7 +228,7 @@ module Releaf::Content
 
       after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?
 
-      acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
+      acts_as_url :name, url_attribute: :slug, scope: :parent_id, only_when_blank: true
     end
   end
 end
