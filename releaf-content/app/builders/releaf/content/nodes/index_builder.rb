@@ -9,7 +9,7 @@ module Releaf::Content::Nodes
 
     def tree_resource_toolbox(resource)
       tag(:div, class: "only-icon toolbox-cell") do
-        toolbox(resource, index_path: index_path)
+        toolbox(resource[:node], index_path: index_path)
       end
     end
 
