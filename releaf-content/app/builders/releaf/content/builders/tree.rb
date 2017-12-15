@@ -12,6 +12,48 @@ module Releaf::Content::Builders
       classes
     end
 
+    def sorted_tree
+      sort_tree(build_tree)
+    end
+
+    def sort_tree(nodes)
+      nodes.sort_by! { |item| item[:node].item_position }
+
+      nodes.each do |node|
+        sort_tree(node[:children]) if node[:children].present?
+      end
+    end
+
+    def build_tree
+      stack = []
+      result = []
+
+      collection.each do |node|
+        if stack.empty?
+          stack.push({ node: node, children: [] })
+          result << stack.last
+          next
+        end
+
+        if stack.last[:node].lft < node.lft && node.lft < stack.last[:node].rgt
+          child = { node: node, children: [] }
+          stack.last[:children] << child
+
+          if node.rgt + 1 == stack.last[:node].rgt
+            stack.pop
+          end
+
+          unless node.leaf?
+            stack.push(child)
+          end
+        else
+          stack.pop
+        end
+      end
+
+      result
+    end
+
     def tree
       tag(:div, class: "collection") do
         root_level
@@ -20,7 +62,7 @@ module Releaf::Content::Builders
 
     def root_level
       return empty_body if collection.size < 1
-      tree_level(collection, 1)
+      tree_level(sorted_tree, 1)
     end
 
     def empty_body
@@ -38,31 +80,31 @@ module Releaf::Content::Builders
     end
 
     def tree_resource(resource, level)
-      expanded = (layout_settings("content.tree.expanded.#{resource.id}") == true)
+      expanded = (layout_settings("content.tree.expanded.#{resource[:node].id}") == true)
       classes = []
       classes << 'collapsed' unless expanded
-      classes << 'has-children' unless resource.children.empty?
+      classes << 'has-children' unless resource[:children].empty?
 
-      tag(:li, class: classes, data: {level: level, id: resource.id}) do
+      tag(:li, class: classes, data: {level: level, id: resource[:node].id}) do
         tree_resource_blocks(resource, level, expanded)
       end
     end
 
     def tree_resource_blocks(resource, level, expanded)
       [tree_resource_collapser(resource, expanded),
-       tree_resource_name(resource), tree_resource_children(resource, level)]
+       tree_resource_name(resource[:node]), tree_resource_children(resource, level)]
     end
 
     def tree_resource_collapser(resource, expanded)
-      return if resource.children.empty?
+      return if resource[:children].empty?
       tag(:div, class: "collapser-cell") do
         button(nil, (expanded ? 'chevron-down' : 'chevron-right'), class: %w(secondary collapser trigger), title: t(expanded ? "Collapse" : "Expand"))
       end
     end
 
     def tree_resource_children(resource, level)
-      return if resource.children.empty?
-      tree_level(resource.children, level + 1)
+      return if resource[:children].empty?
+      tree_level(resource[:children], level + 1)
     end
 
     def tree_resource_name(resource)

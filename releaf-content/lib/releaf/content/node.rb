@@ -116,9 +116,11 @@ module Releaf::Content
       # Check whether object and all its ancestors are active
       # @return [Boolean] returns true if object is available
       def available?
-        # There seams to be bug in Rails 4.0.0, that prevents us from using exists?
-        # exists? will return nil or 1 in this query, instead of true/false (as it should)
-        self_and_ancestors.where(active: false).any? == false
+        self_and_ancestors_array.all?(&:active?)
+      end
+
+      def self_and_ancestors_array
+        preloaded_self_and_ancestors.nil? ? self_and_ancestors.to_a : preloaded_self_and_ancestors
       end
 
       def reasign_slug
@@ -229,6 +231,8 @@ module Releaf::Content
       after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?
 
       acts_as_url :name, url_attribute: :slug, scope: :parent_id, only_when_blank: true
+
+      attr_accessor :preloaded_self_and_ancestors
     end
   end
 end

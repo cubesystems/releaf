@@ -213,62 +213,17 @@ describe Releaf::Content::Route do
     end
 
     context "when node table exists" do
-      it "returns an array of Node::Route objects returned by build_route_object" do
-        expect(described_class).to receive(:build_route_object).and_call_original
+      it "returns an array of Node::Route objects processed by Releaf::Content::BuildRouteObjects" do
+        expect(Releaf::Content::BuildRouteObjects).to receive(:call).with(node_class: Node, node_content_class: HomePage, default_controller: 'foo').and_call_original
         result = described_class.for(Node, HomePage, 'foo')
         expect(result.count).to eq(1)
         expect(result.first.class).to eq(described_class)
-      end
-
-      context "when node is not available" do
-        it "does not include it in return" do
-          allow_any_instance_of(Node).to receive(:available?).and_return(false)
-          expect(described_class.for(Node, HomePage, 'foo')).to eq([])
-        end
       end
 
       it "accepts node_class as string also" do
         result = described_class.for('Node', HomePage, 'foo')
         expect(result.count).to eq(1)
       end
-
-    end
-  end
-
-
-  describe ".build_route_object" do
-
-    let(:node) { create(:home_page_node, id: 23, locale: "lv", slug: "llvv") }
-    let(:controller) { described_class.default_controller( node.class ) }
-    let(:route) { described_class.build_route_object(node, controller) }
-
-    it "returns a route instance" do
-      expect(route).to be_a Releaf::Content::Route
-    end
-
-    it "assigns node_class from given node" do
-      expect(route.node_class).to be Node
-    end
-
-    it "assigns node_id from given node" do
-      expect(route.node_id).to eq "23"
-    end
-
-    it "assigns path from given node" do
-      expect(route.path).to eq "/llvv"
-    end
-
-    it "assigns locale from given node" do
-      expect(route.locale).to eq "lv"
-    end
-
-    it "assigns default_controller from given argument" do
-      expect(route.default_controller).to be controller
-    end
-
-    it "assigns site from content routing configuration" do
-      allow( Releaf::Content).to receive(:routing).and_return('Node' => {site: 'some_site'})
-      expect(route.site).to eq 'some_site'
     end
   end
 end

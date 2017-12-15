@@ -57,24 +57,13 @@ module Releaf::Content
     # @return [Array] array of Content::Route objects
     def self.for(node_class, node_content_class, default_controller)
       node_class = node_class.constantize if node_class.is_a? String
-      node_class.where(content_type: node_content_class).each.inject([]) do |routes, node|
-        routes << build_route_object(node, default_controller) if node.available?
-        routes
-      end
+
+      Releaf::Content::BuildRouteObjects.call(
+        node_class: node_class,
+        node_content_class: node_content_class,
+        default_controller: default_controller)
     rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
       []
-    end
-
-    # Build Content::Route from Node object
-    def self.build_route_object(node, default_controller)
-      route = new
-      route.node_class = node.class
-      route.node_id = node.id.to_s
-      route.path = node.path
-      route.locale = node.root.locale
-      route.default_controller = default_controller
-      route.site = Releaf::Content.routing[node.class.name][:site]
-      route
     end
 
     def path_for(method_or_path, options)
