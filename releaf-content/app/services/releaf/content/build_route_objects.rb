@@ -23,28 +23,28 @@ module Releaf
       end
 
       def build_route_object(node)
-        subtree = self_with_ancestors(node)
+        node.preloaded_self_and_ancestors = self_and_ancestors(node)
 
-        if subtree.all?(&:active?)
+        if node.available?
           route = Releaf::Content::Route.new
           route.node_class = node.class
           route.node_id = node.id.to_s
-          route.path = build_path(subtree)
-          route.locale = subtree.first.locale
+          route.path = build_path(node)
+          route.locale = node.self_and_ancestors_array.first.locale
           route.default_controller = default_controller
           route.site = Releaf::Content.routing[node.class.name][:site]
           route
         end
       end
 
-      def self_with_ancestors(node)
+      def self_and_ancestors(node)
         nodes.select { |item| item.lft <= node.lft && item.rgt >= node.rgt }.sort_by(&:depth)
       end
 
-      def build_path(subtree)
+      def build_path(node)
         path = "/"
-        path += subtree.map(&:slug).join("/")
-        path += subtree.last.trailing_slash_for_path? ? "/" : ""
+        path += node.self_and_ancestors_array.map(&:slug).join("/")
+        path += node.trailing_slash_for_path? ? "/" : ""
         path
       end
     end

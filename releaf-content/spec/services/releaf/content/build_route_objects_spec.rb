@@ -35,7 +35,7 @@ describe Releaf::Content::BuildRouteObjects do
 
     context "when node is not available" do
       it "does not include it in return" do
-        allow_any_instance_of(Node).to receive(:active?).and_return(false)
+        allow_any_instance_of(Node).to receive(:available?).and_return(false)
         expect(route).to be_nil
       end
     end
