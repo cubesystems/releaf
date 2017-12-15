@@ -25,6 +25,13 @@ describe Releaf::Content::Node::Copy do
 
   let(:original) { create(content_factory, content_attributes) }
 
+  describe "#call" do
+    subject { described_class.new(node: node, parent_id: root_node.id ) }
+
+    it "returns node" do
+      expect(subject.call.class).to eq(node.class)
+    end
+  end
 
   describe "#make_copy" do
     # this is a double check to verify file duplication by doing the full copying process.
