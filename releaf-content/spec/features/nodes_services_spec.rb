@@ -64,7 +64,7 @@ describe "Nodes services (copy, move)" do
 
   end
 
-  describe "Basic node copying", create_nodes: true do
+  describe "Node copying", create_nodes: true do
     before create_nodes: true do
       @home_page_node = create(:home_page_node, locale: "lv")
       @home_page_node_2 = create(:home_page_node, locale: "en")
@@ -203,6 +203,50 @@ describe "Nodes services (copy, move)" do
         expect{ @text_page_node_3.copy(@text_page_node_4.id) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
+
+    describe "slug handling" do
+
+      before do
+        @nodes = {}
+
+        @nodes[:parent_one] = create(:text_page_node, parent: @home_page_node)
+        @nodes[:parent_two] = create(:text_page_node, parent: @home_page_node)
+
+        @nodes[:child]      = create(:text_page_node, parent: @nodes[:parent_one], slug: "child-slug")
+        @nodes[:grandchild] = create(:text_page_node, parent: @nodes[:child],      slug: "grandchild-slug")
+        @nodes[:great_grandchild] = create(:text_page_node, parent: @nodes[:grandchild], slug: "great-grandchild-slug")
+
+        @nodes[:other_child] = create(:text_page_node, parent: @nodes[:parent_two], slug: "other-child-slug")
+      end
+
+      context "when copying a node tree to a parent that already has a child node with the same slug" do
+        it "adds incremental index to the slug of the main copied node, preserving slugs of deeper descendants" do
+          @nodes[:other_child].update! slug: "child-slug"
+          @nodes[:child].copy( @nodes[:parent_two].id )
+
+          copy = @nodes[:parent_two].children.last
+
+          expect(copy.slug).to eq "child-slug-1"
+          expect(copy.children.map(&:slug)).to eq ["grandchild-slug"]
+          expect(copy.children.first.children.map(&:slug)).to eq ["great-grandchild-slug"]
+
+        end
+      end
+
+      context "when copying a node tree to a parent that does not have a child node with the same slug" do
+        it "copies slugs without any changes" do
+          @nodes[:child].copy( @nodes[:parent_two].id )
+          copy = @nodes[:parent_two].children.last
+
+          expect(copy.slug).to eq "child-slug"
+
+          expect(copy.children.map(&:slug)).to eq ["grandchild-slug"]
+          expect(copy.children.first.children.map(&:slug)).to eq ["great-grandchild-slug"]
+        end
+      end
+
+    end
+
   end
 
 
@@ -387,4 +431,7 @@ describe "Nodes services (copy, move)" do
     end
 
   end
+
+
+
 end
