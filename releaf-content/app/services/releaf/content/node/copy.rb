@@ -11,12 +11,11 @@ module Releaf
           node.class.transaction do
             new_node = make_copy
           end
-
-          new_node
         rescue ActiveRecord::RecordInvalid
           add_error_and_raise 'descendant invalid'
         else
           node.update_settings_timestamp
+          new_node
         end
       end
 
