@@ -5,7 +5,7 @@ module Releaf
       attribute :parent_id, Integer, strict: false
 
       def call
-        return if node.parent_id.to_i == parent_id
+        return node if node.parent_id.to_i == parent_id
 
         node.class.transaction do
           Releaf::Content::Node::SaveUnderParent.call(node: node, parent_id: parent_id)
@@ -15,6 +15,8 @@ module Releaf
             add_error_and_raise("descendant invalid")
           end
         end
+
+        node
       end
     end
   end
