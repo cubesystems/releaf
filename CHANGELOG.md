@@ -1,6 +1,6 @@
 ## Changelog
 
-### 1.1.8 (2017.12.15)
+### 1.1.9 (2017.12.15)
 
 * Fix a bug that always regenerated slugs from content node titles during copying
 * Improve performance in case of many content nodes
