@@ -34,6 +34,6 @@ class Releaf::Settings < RailsSettings::Base
   end
 
   def self.supported_types
-    [:boolean, :date, :time, :datetime, :integer, :float, :decimal, :email, :text]
+    [:boolean, :date, :time, :datetime, :integer, :float, :decimal, :email, :text, :textarea]
   end
 end

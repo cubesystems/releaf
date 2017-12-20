@@ -6,14 +6,15 @@ feature "Settings", js: true do
       {key: "content.updated", default: true, description: "Content is updated?", type: :boolean},
       {key: "content.rating", default: 5.65, type: :decimal},
       {key: "content.title", default: "some"},
-      {key: "content.date", default: DateTime.parse("2015-05-02"), type: "date"}
+      {key: "content.date", default: DateTime.parse("2015-05-02"), type: "date"},
+      {key: "content.textarea", type: :textarea},
     ]
     Releaf::Settings.destroy_all
     Releaf::Settings.register(*values)
     auth_as_user
 
     visit releaf_settings_path
-    expect(page).to have_number_of_resources(5)
+    expect(page).to have_number_of_resources(6)
     expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:first-child", text: "content.date")
     expect(page).to have_css(".table.releaf\\/settings tbody tr:first-child td:nth-child(2)", text: /^Sat, 02 May 2015 00:00:00 \+0000$/)
     expect(page).to have_css(".table.releaf\\/settings tbody tr:last-child td:first-child", text: "content.updated_at")
@@ -39,5 +40,19 @@ feature "Settings", js: true do
     click_link "content.rating"
     expect(page).to have_field("Value")
     expect(page).to have_css(".field input[type='number'][value='5.65']")
+
+    click_link "Back to list"
+
+    click_link "content.textarea"
+    expect(page).to have_field("Value")
+    expect(page).to have_css(".field textarea[name='resource[value]']")
+
+    update_resource do
+      fill_in "Value", with: "AA\nBB\nCC\nDD\n"
+    end
+    click_link "Back to list"
+
+    expect(Releaf::Settings["content.textarea"]).to eq("AA\r\nBB\r\nCC\r\nDD\r\n")
+    expect(page).to have_content("AA\nBB\nCC\nDD\n")
   end
 end
