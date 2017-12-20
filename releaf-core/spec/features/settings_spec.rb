@@ -46,5 +46,13 @@ feature "Settings", js: true do
     click_link "content.textarea"
     expect(page).to have_field("Value")
     expect(page).to have_css(".field textarea[name='resource[value]']")
+
+    update_resource do
+      fill_in "Value", with: "AA\nBB\nCC\nDD\n"
+    end
+    click_link "Back to list"
+
+    expect(Releaf::Settings["content.textarea"]).to eq("AA\r\nBB\r\nCC\r\nDD\r\n")
+    expect(page).to have_content("AA\nBB\nCC\nDD\n")
   end
 end
