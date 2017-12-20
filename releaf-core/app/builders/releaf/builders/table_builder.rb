@@ -145,6 +145,10 @@ class Releaf::Builders::TableBuilder
     truncate(column_value(resource, column).to_s, length: 32, separator: ' ')
   end
 
+  def format_textarea_content(resource, column)
+    format_text_content(resource, column)
+  end
+
   def format_string_content(resource, column)
     value = column_value(resource, column)
     resource_title(value)
