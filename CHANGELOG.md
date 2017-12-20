@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.10 (2017.12.20)
+
+* Add textarea support to `Releaf::Settings`
+
 ### 1.1.9 (2017.12.15)
 
 * Fix a bug that always regenerated slugs from content node titles during copying
