@@ -19,6 +19,20 @@ describe Releaf::ControllerDefinition do
       expect(subject.controller_name).to eq("admin/books")
     end
 
+    context "when `helper` option value given" do
+      it "assigns `helper` option value postfixed with `_path` to helper accessor" do
+        subject = described_class.new(controller: "admin/books", helper: "some-route")
+        expect(subject.helper).to eq("some-route_path")
+      end
+    end
+
+    context "when no `helper` option value given" do
+      it "does not assign anything to helper accessor" do
+        subject = described_class.new(controller: "admin/books")
+        expect(subject.helper).to be nil
+      end
+    end
+
     context "when no `name` option value given" do
       it "takes `controller` option value as `name` value" do
         subject = described_class.new(controller: "admin/books")
@@ -42,8 +56,17 @@ describe Releaf::ControllerDefinition do
   end
 
   describe "#path" do
-    it "returns controller index path" do
-      expect(subject.path).to eq("/admin/books")
+    context "when helper exists" do
+      it "returns helper value" do
+        subject.helper = "new_admin_chapter_path"
+        expect(subject.path).to eq("/admin/chapters/new")
+      end
+    end
+
+    context "when helper is not set" do
+      it "returns controller index path" do
+        expect(subject.path).to eq("/admin/books")
+      end
     end
   end
 end
