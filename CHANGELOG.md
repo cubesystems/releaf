@@ -1,5 +1,11 @@
 ## Changelog
 
+### 1.1.11 (2018.01.16)
+
+* Fix broken admin controller custom routes helper support
+* Use controller definition path for resolving default controller
+  redirect
+
 ### 1.1.10 (2017.12.20)
 
 * Add textarea support to `Releaf::Settings`
