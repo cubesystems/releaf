@@ -9,4 +9,8 @@ class Releaf::ControllerGroupDefinition
   def localized_name
     I18n.t(name, scope: "admin.controllers")
   end
+
+  def group?
+    true
+  end
 end

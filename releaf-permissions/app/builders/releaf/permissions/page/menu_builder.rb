@@ -5,7 +5,7 @@ class Releaf::Permissions::Page::MenuBuilder < Releaf::Builders::Page::MenuBuild
   end
 
   def menu_item_permitted?(item)
-    if controller_group?(item)
+    if item.group?
       item.controllers.find{|subitem| controller_permitted?(subitem.controller_name) }.present?
     else
       controller_permitted?(item.controller_name)

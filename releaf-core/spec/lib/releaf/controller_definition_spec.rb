@@ -69,4 +69,10 @@ describe Releaf::ControllerDefinition do
       end
     end
   end
+
+  describe "#group?" do
+    it "returns false" do
+      expect(subject.group?).to be false
+    end
+  end
 end

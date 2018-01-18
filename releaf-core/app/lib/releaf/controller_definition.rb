@@ -13,6 +13,10 @@ class Releaf::ControllerDefinition
     self.helper = "#{options[:helper]}_path" if options[:helper]
   end
 
+  def group?
+    false
+  end
+
   def localized_name
     I18n.t(name, scope: "admin.controllers")
   end
