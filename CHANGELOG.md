@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.13 (2018.01.18)
+
+* Initialize search form via `contentloaded` event
+
 ### 1.1.12 (2018.01.18)
 
 * Add more convient way to detect whether menu item is group
