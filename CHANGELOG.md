@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.12 (2018.01.18)
+
+* Add more convient way to detect whether menu item is group
+
 ### 1.1.11 (2018.01.16)
 
 * Fix broken admin controller custom routes helper support
