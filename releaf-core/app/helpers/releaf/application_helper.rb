@@ -21,6 +21,7 @@ module Releaf
     # Missing translations with html get escaped anyway.
     def translate(key, options = {})
       options.merge!(rescue_format: :html) unless options.key?(:rescue_format)
+      options.merge!(raise: false) unless options.key?(:raise)
       super(key, options)
     end
     alias :t :translate
