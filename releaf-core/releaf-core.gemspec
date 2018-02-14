@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   #s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency 'rails', '4.1.9'
+  s.add_dependency 'rails', '4.1.16'
   s.add_dependency 'sass-rails', '>= 3.2.5'
   s.add_dependency 'jquery-rails', '~> 3.1.0'
   s.add_dependency 'jquery-ui-rails', '~> 4.1.0'
