@@ -1,8 +1,11 @@
 ## Changelog
 
-### 1.1.14 (2018.03.29)
+### 1.1.15 (2018.03.29)
 
 * Add richtext support to `Releaf::Settings`
+
+### 1.1.14 (2018.03.29)
+
 * Fix a problem with content tree building
 
 ### 1.1.13 (2018.01.18)
