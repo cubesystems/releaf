@@ -25,33 +25,22 @@ module Releaf::Content::Builders
     end
 
     def build_tree
-      stack = []
-      result = []
-
-      collection.each do |node|
-        if stack.empty?
-          stack.push({ node: node, children: [] })
-          result << stack.last
-          next
-        end
-
-        if stack.last[:node].lft < node.lft && node.lft < stack.last[:node].rgt
-          child = { node: node, children: [] }
-          stack.last[:children] << child
-
-          if node.rgt + 1 == stack.last[:node].rgt
-            stack.pop
-          end
-
-          unless node.leaf?
-            stack.push(child)
-          end
-        else
-          stack.pop
-        end
+      object_hash = collection.inject({}) do |result, node|
+        result[node.id] = { node: node, children: [] }
+        result
       end
 
-      result
+      object_hash[nil] = { root: true, children: [] }
+
+      object_hash.each_value do |node|
+        next if node[:root]
+        next if node[:node].parent_id && !object_hash[node[:node].parent_id]
+
+        children = object_hash[node[:node].parent_id][:children]
+        children << node
+      end
+
+      object_hash[nil][:children]
     end
 
     def tree
