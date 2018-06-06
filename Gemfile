@@ -28,7 +28,7 @@ gemspec
 
 case config["database"]["type"]
 when 'mysql'
-  gem 'mysql2', platform: :ruby
+  gem 'mysql2', '< 0.5', platform: :ruby
 when 'postgresql'
   gem 'pg'
 end
