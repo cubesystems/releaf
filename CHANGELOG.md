@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.1.16 (2018.06.06)
+
+* Minor rspec `auth_as_user` helper improvement for better user instance
+  support
+
 ### 1.1.15 (2018.03.29)
 
 * Add richtext support to `Releaf::Settings`
