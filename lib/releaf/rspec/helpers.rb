@@ -13,12 +13,13 @@ module Releaf::Test
       ActiveRecord::Base.connection.adapter_name
     end
 
-    def auth_as_user(full_login = false, factory = :user)
-      if factory.is_a? Releaf::Permissions::User
-        user = factory
+    def auth_as_user(full_login = false, factory_or_instance = :user)
+      if factory_or_instance.is_a?(Symbol) || factory_or_instance.is_a?(String)
+        user = create(factory_or_instance)
       else
-        user = create(factory)
+        user = factory_or_instance
       end
+
       if full_login
         visit "/"
         within("form.login") do
