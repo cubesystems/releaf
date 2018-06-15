@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.17 (2018.06.15)
+
+* Fix sidebar css for compact view
+
 ### 1.1.16 (2018.06.06)
 
 * Minor rspec `auth_as_user` helper improvement for better user instance
