@@ -12,10 +12,6 @@ main
     position: relative;
     min-height: 100%;
 }
-body[data-layout-features~="sidebar"] > main
-{
-    padding-left: steps(20 + 3);
-}
 
 main
 {
@@ -24,9 +20,14 @@ main
     padding: 0 steps(3) steps(4) steps(3);
     z-index: 1;
 
-    .side-compact &
+    body[data-layout-features~="sidebar"].side-compact > &
     {
         padding-left: steps(4 + 3);
+    }
+
+    body[data-layout-features~="sidebar"]:not(.side-compact) > &
+    {
+        padding-left: steps(20 + 3);
     }
 
     > header
