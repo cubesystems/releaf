@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.18 (2018.08.08)
+
+* Use respond_with for show action
+
 ### 1.1.17 (2018.06.15)
 
 * Fix sidebar css for compact view
