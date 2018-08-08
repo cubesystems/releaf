@@ -36,6 +36,7 @@ class Releaf::ActionController < ActionController::Base
   def show
     if feature_available?(:show)
       prepare_show
+      respond_with(@resource)
     else
       redirect_to url_for(action: 'edit', id: params[:id])
     end
