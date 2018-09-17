@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.19 (2018.09.17)
+
+* Fix CKEditor 4.9 file upload issue
+
 ### 1.1.18 (2018.08.08)
 
 * Use respond_with for show action
