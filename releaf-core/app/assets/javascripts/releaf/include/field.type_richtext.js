@@ -78,7 +78,7 @@ jQuery(function()
 
         config.width = '100%';
         config.height = textarea.outerHeight();
-        config.filebrowserUploadMethod = "form"
+        config.filebrowserUploadMethod = 'form';
 
         if( !textarea.attr( 'id' ) )
         {
