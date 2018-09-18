@@ -1,6 +1,4 @@
 class Book < ActiveRecord::Base
-  include Releaf::RichtextAttachments
-
   belongs_to :author
   has_many :chapters, inverse_of: :book
 

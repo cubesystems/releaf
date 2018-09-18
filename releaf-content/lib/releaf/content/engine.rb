@@ -3,9 +3,7 @@ module Releaf::Content
   end
 
   def self.components
-    [
-      Releaf::Core::AttachmentsComponent
-    ]
+    []
   end
 
   def self.initialize_component
@@ -14,7 +12,7 @@ module Releaf::Content
 
   def self.draw_component_routes router
     router.namespace :content, path: nil do
-      router.releaf_resources :nodes, :except => [:show], concerns: :attachmentable do
+      router.releaf_resources :nodes, :except => [:show] do
         router.collection do
           router.get :generate_url
           router.get :go_to_dialog

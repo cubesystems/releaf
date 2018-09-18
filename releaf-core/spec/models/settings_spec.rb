@@ -10,7 +10,7 @@ describe Releaf::Settings do
 
   describe ".store_defaults" do
     before do
-      described_class.destroy_all
+      subject.var = "xxx"
     end
 
     it "merge given values to model @@defaults hash" do

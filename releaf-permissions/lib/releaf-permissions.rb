@@ -1,3 +1,4 @@
+require 'devise'
 require 'releaf/permissions/engine'
 
 module Releaf::Permissions

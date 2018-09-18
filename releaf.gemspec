@@ -14,10 +14,10 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib,templates}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency    'releaf-core'
-  s.add_dependency    'releaf-i18n_database'
-  s.add_dependency    'releaf-permissions'
-  s.add_dependency    'releaf-content'
+  s.add_dependency    'releaf-core', Releaf::VERSION
+  s.add_dependency    'releaf-i18n_database', Releaf::VERSION
+  s.add_dependency    'releaf-permissions', Releaf::VERSION
+  s.add_dependency    'releaf-content', Releaf::VERSION
 
   s.add_development_dependency 'rspec-rails', '~> 3.7.2'
   s.add_development_dependency 'capybara'
