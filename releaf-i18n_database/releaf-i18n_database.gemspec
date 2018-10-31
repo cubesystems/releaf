@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency    'releaf-core', Releaf::VERSION
-  s.add_dependency    'twitter_cldr', '~> 3.0.2'
+  s.add_dependency    'rails-i18n', '~> 4.0.0'
 
   s.required_ruby_version = '>= 2.1.0'
 end
