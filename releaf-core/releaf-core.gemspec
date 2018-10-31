@@ -36,8 +36,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'rack-cache', '~> 1.0'
   s.add_dependency 'virtus', '~> 1.0'
 
-  s.add_dependency 'axlsx_rails', '~> 0.3.0'
-  s.add_dependency 'roo', '~> 1.13.2'
+  s.add_dependency 'axlsx_rails', '~> 0.5.2'
+  s.add_dependency 'axlsx', '~> 3.0.0.pre'
+  s.add_dependency 'roo', '~> 2.7.1'
+  s.add_dependency 'roo-xls', '~> 1.2.0'
 
   s.required_ruby_version = '>= 2.1.0'
 end

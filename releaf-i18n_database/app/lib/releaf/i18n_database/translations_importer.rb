@@ -4,12 +4,13 @@ module Releaf::I18nDatabase
 
     def initialize file_path, file_extension
       require "roo"
+      require "roo-xls"
       begin
         @excel = Roo::Spreadsheet.open(file_path, file_warning: :ignore, extension: file_extension)
         @data = []
         @locales = []
       rescue ArgumentError => e
-        error_string = "Don't know how to open file"
+        error_string = "Can't detect the type of"
         if e.message.match(error_string)
           raise UnsupportedFileFormatError
         else
