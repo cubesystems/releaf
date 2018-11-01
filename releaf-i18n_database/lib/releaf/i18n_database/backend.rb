@@ -5,7 +5,6 @@ module Releaf
     class Backend
       include ::I18n::Backend::Base
       include ::I18n::Backend::Flatten
-      include ::I18n::Backend::Pluralization
 
       CACHE = {updated_at: nil, translations: {}, missing: {}}
 
@@ -69,7 +68,14 @@ module Releaf
       end
 
       def valid_pluralized_result? result, locale, count
-        result.key?(I18n.t(:'i18n.plural.rule', locale: locale, resolve: false).call(count))
+        valid = false
+
+        if TwitterCldr.supported_locale?(locale)
+          rule = TwitterCldr::Formatters::Plurals::Rules.rule_for(count, locale)
+          valid = result.has_key? rule
+        end
+
+        valid
       end
 
       # Lookup translation from database
@@ -110,10 +116,13 @@ module Releaf
       end
 
       def get_all_pluralizations
-        keys = ::Releaf.all_locales.map{ |locale| I18n.t(:'i18n.plural.keys', locale: locale) }.flatten
-        # always add zero as it skipped for some locales even when there is zero form (lv for example)
-        keys << :zero
-         keys.uniq
+        keys = []
+
+        ::Releaf.all_locales.each do|locale|
+          if TwitterCldr.supported_locale? locale
+            keys += TwitterCldr::Formatters::Plurals::Rules.all_for(locale)
+          end
+        end
 
         keys.uniq
       end
