@@ -5,6 +5,9 @@ module Releaf::Permissions
   require 'releaf/permissions/users_component.rb'
 
   class Engine < ::Rails::Engine
+    initializer 'precompile', group: :all do |app|
+      app.config.assets.precompile += %w(controllers/releaf/permissions/*)
+    end
   end
 
   def self.components
