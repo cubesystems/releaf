@@ -1,37 +1,50 @@
 module Releaf
   class AssetsResolver
-    CONTROLLER_ASSET_PATTERN = /app\/assets\/(javascripts|stylesheets)\/((releaf\/)?controllers\/(.*?))\..*/
+    NONCOMPILED_PATTERN = /(javascripts|stylesheets)\/(controllers\/(.*?))\..*/
+    COMPILED_PATTERN = /controllers\/(.*?)\.(js|css)$/
+    TYPE_EXTENSION_MAP = {
+      "stylesheets" => "css",
+      "javascripts" => "js",
+    }
 
     def self.base_assets
       ["releaf/application"]
     end
 
     def self.controller_assets(controller, type)
-      base_assets + list.fetch(controller, {}).fetch(type, [])
+      asset_path = "controllers/#{controller}.#{TYPE_EXTENSION_MAP[type.to_s]}"
+      base_assets + [assets[asset_path]].compact
     end
 
-    def self.scan
-      list = {}
+    def self.noncompiled_assets
+      Rails.application.assets.each_file.map do|file|
+        match = file.to_s.match(NONCOMPILED_PATTERN)
+        "#{match[2]}.#{TYPE_EXTENSION_MAP[match[1]]}" if match
+      end.compact
+    end
 
-      Rails.application.assets.each_file do|file|
-        match = file.to_s.match(CONTROLLER_ASSET_PATTERN)
-        if match
-          controller = match[4]
-          if list[controller].nil?
-            list[controller] = {stylesheets: [], javascripts: []}
-          end
-          list[controller][match[1].to_sym] << match[2]
-        end
+    def self.compiled_assets
+      Rails.application.assets_manifest.files.map do|_, asset|
+        match = asset["logical_path"].match(COMPILED_PATTERN)
+        asset["logical_path"] if match
+      end.compact.uniq
+    end
+
+    def self.compiled_assets?
+      Rails.application.assets.nil?
+    end
+
+    def self.assets_hash(assets)
+      assets.inject({}) do|hash, asset|
+        hash.update(asset => asset)
       end
-
-      list
     end
 
-    def self.list
-      if Rails.env.development?
-        scan
+    def self.assets
+      if compiled_assets?
+        @@compiled_assets ||= assets_hash(compiled_assets)
       else
-        @@list ||= scan
+        assets_hash(noncompiled_assets)
       end
     end
   end
