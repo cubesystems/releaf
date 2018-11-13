@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.20 (2018.11.13)
+
+* Fix a bug in has_error? matcher
+
 ### 1.1.19 (2018.09.17)
 
 * Fix CKEditor 4.9 file upload issue
