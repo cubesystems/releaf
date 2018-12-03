@@ -6,7 +6,7 @@ cache:
     - travis_phantomjs
 
 rvm:
-  - 2.3.3
+  - 2.5.1
 
 env:
   - DB=mysql
