@@ -63,8 +63,10 @@ describe Releaf::I18nDatabase::Backend do
 
   describe ".locales_pluralizations" do
     it "returns array all pluralization forms for releaf locales" do
-      allow(Releaf.application.config).to receive(:all_locales).and_return([:de, :ru, :aasdsd])
-      allow(I18n).to receive(:locale_available?).and_return(true)
+      allow(Releaf.application.config).to receive(:all_locales).and_return([:de, :ru])
+      allow(I18n).to receive(:t).with(:'i18n.plural.keys', locale: :de).and_return([:one, :other])
+      allow(I18n).to receive(:t).with(:'i18n.plural.keys', locale: :ru).and_return([:one, :few, :many])
+
       expect(described_class.locales_pluralizations).to eq([:one, :other, :few, :many, :zero])
     end
   end
