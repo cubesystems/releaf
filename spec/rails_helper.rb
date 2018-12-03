@@ -98,6 +98,7 @@ RSpec.configure do |config|
 
   Capybara.javascript_driver = :poltergeist
   Capybara.server = :webrick
+  Capybara.default_normalize_ws = true
 
   # disable empty translation creation
 
