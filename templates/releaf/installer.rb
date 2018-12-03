@@ -7,6 +7,7 @@ config = YAML.load_file(config_file)
 
 gsub_file "config/database.yml", /database: dummy_/, "database: #{config["database"]["name"]}_"
 gsub_file "config/database.yml", /username: .*/, "username: #{config["database"]["username"]}"
+gsub_file "config/database.yml", /default: &default/, "default: &default\n  username: #{config["database"]["username"]}"
 if config["database"]["password"].present?
   gsub_file "config/database.yml", /password:/, "password: #{config["database"]["password"]}"
 end

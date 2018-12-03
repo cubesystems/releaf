@@ -1,5 +1,5 @@
 class Releaf::ControllerDefinition
-  attr_accessor :name, :controller_name
+  attr_accessor :name, :controller_name, :helper
 
   def self.for(controller_name)
     Releaf.application.config.controllers[controller_name]
@@ -10,6 +10,11 @@ class Releaf::ControllerDefinition
     options[:name] ||= options[:controller]
     self.name = options[:name]
     self.controller_name = options[:controller]
+    self.helper = "#{options[:helper]}_path" if options[:helper]
+  end
+
+  def group?
+    false
   end
 
   def localized_name
@@ -17,6 +22,10 @@ class Releaf::ControllerDefinition
   end
 
   def path
-    Rails.application.routes.url_helpers.url_for(action: :index, controller: controller_name, only_path: true)
+    if helper
+      Rails.application.routes.url_helpers.send(helper)
+    else
+      Rails.application.routes.url_helpers.url_for(action: :index, controller: controller_name, only_path: true)
+    end
   end
 end

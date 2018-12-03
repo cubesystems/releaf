@@ -67,7 +67,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
   protected
 
   def prepare_index
-    @collection = resource_class.roots
+    @collection = resource_class.all
   end
 
   private
@@ -99,7 +99,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
 
   def copy_move_dialog_common
     @resource = resource_class.find params[:id]
-    @collection = resource_class.roots
+    @collection = resource_class.all
   end
 
   def prepare_resource

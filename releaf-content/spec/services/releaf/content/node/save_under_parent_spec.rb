@@ -19,9 +19,9 @@ describe Releaf::Content::Node::SaveUnderParent do
       expect( node.parent ).to eq node2
     end
 
-    it "maintains node name, updates slug and then saves record" do
+    it "maintains node name and slug, then saves record" do
       expect( node ).to receive(:maintain_name).ordered.and_call_original
-      expect( node ).to receive(:reasign_slug).ordered.and_call_original
+      expect( node ).to receive(:maintain_slug).ordered.and_call_original
       expect( node ).to receive(:save!).ordered.and_call_original
       subject.call
     end

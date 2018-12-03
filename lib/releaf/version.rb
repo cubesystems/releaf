@@ -1,3 +1,3 @@
 module Releaf
-  VERSION = "1.1.6"
+  VERSION = "1.1.20"
 end

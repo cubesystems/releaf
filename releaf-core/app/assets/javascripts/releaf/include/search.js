@@ -136,5 +136,9 @@ jQuery(function () {
         set_previous_values();
     });
 
-    jQuery('.view-index form.search').trigger('searchinit');
+    body.on('contentloaded', function(event)
+    {
+        jQuery(event.target).find('form.search').trigger('searchinit');
+    });
+
 });

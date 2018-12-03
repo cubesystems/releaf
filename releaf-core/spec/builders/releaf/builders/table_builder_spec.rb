@@ -364,6 +364,36 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
+  describe "#format_richtext_content" do
+    it "returns truncated and sanitized column value" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return('"Pra<tag>nt commodo\ncursus magn')
+      expect(subject.format_richtext_content(resource, :title))
+        .to eq('&quot;Prant commodo\ncursus magn')
+    end
+
+    it "casts value to string before truncation" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return(nil)
+      expect(subject.format_richtext_content(resource, :title)).to eq("")
+    end
+  end
+
+  describe "#format_textarea_content" do
+    it "returns truncated and escape column value" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return('"Pra<tag>nt commodo\ncursus magn')
+      expect(subject.format_textarea_content(resource, :title))
+        .to eq('&quot;Pra&lt;tag&gt;nt commodo\ncursus magn')
+    end
+
+    it "casts value to string before truncation" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return(nil)
+      expect(subject.format_textarea_content(resource, :title)).to eq("")
+    end
+  end
+
   describe "#format_string_content" do
     context "when resource column value respond to #resource_title method" do
       it "returns resource to title result" do

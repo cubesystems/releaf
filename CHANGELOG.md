@@ -1,5 +1,61 @@
 ## Changelog
 
+### 1.1.20 (2018.11.13)
+
+* Fix a bug in has_error? matcher
+
+### 1.1.19 (2018.09.17)
+
+* Fix CKEditor 4.9 file upload issue
+
+### 1.1.18 (2018.08.08)
+
+* Use respond_with for show action
+
+### 1.1.17 (2018.06.15)
+
+* Fix sidebar css for compact view
+
+### 1.1.16 (2018.06.06)
+
+* Minor rspec `auth_as_user` helper improvement for better user instance
+  support
+
+### 1.1.15 (2018.03.29)
+
+* Add richtext support to `Releaf::Settings`
+
+### 1.1.14 (2018.03.29)
+
+* Fix a problem with content tree building
+
+### 1.1.13 (2018.01.18)
+
+* Initialize search form via `contentloaded` event
+
+### 1.1.12 (2018.01.18)
+
+* Add more convient way to detect whether menu item is group
+
+### 1.1.11 (2018.01.16)
+
+* Fix broken admin controller custom routes helper support
+* Use controller definition path for resolving default controller
+  redirect
+
+### 1.1.10 (2017.12.20)
+
+* Add textarea support to `Releaf::Settings`
+
+### 1.1.9 (2017.12.15)
+
+* Fix a bug that always regenerated slugs from content node titles during copying
+* Improve performance in case of many content nodes
+* Return content node instance from copy and move service calls
+
+### 1.1.7 (2017.09.10)
+* Fix breacrumbs link for controllers for "show" method instead of "edit"
+
 ### 1.1.6 (2017.08.31)
 * Add "cache_instance_method" rspec matcher
 

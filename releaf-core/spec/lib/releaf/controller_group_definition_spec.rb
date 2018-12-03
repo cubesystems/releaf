@@ -24,4 +24,10 @@ describe Releaf::ControllerGroupDefinition do
       expect(subject.localized_name).to eq("poiugasd")
     end
   end
+
+  describe "#group?" do
+    it "returns true" do
+      expect(subject.group?).to be true
+    end
+  end
 end
