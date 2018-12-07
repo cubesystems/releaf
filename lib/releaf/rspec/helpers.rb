@@ -54,7 +54,7 @@ module Releaf::Test
     end
 
     def create_resource
-      click_link "Create new resource" unless first("form.new-resource")
+      click_link "Create new resource" unless first("form.new-resource", minimum: 0)
       within "form.new-resource" do
         yield
       end
@@ -208,7 +208,7 @@ module Releaf::Test
       textareas = []
       richtext_boxes = all(".field.type-richtext:not(.i18n), .field.type-richtext.i18n .localization.active")
       richtext_boxes.each do |richtext_box|
-        textarea = richtext_box.first(:field, locator, visible: false)
+        textarea = richtext_box.first(:field, locator, visible: false, minimum: 0)
         textareas << textarea if textarea.present?
       end
 

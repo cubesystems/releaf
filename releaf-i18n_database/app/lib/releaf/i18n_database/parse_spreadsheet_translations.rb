@@ -34,8 +34,8 @@ module Releaf::I18nDatabase
     end
 
     def file_format_error?(error_class_name, error_message)
-      return true if ['Zip::ZipError','Ole::Storage::FormatError' ].include?(error_class_name)
-      error_class_name == 'ArgumentError' && error_message.match("Don't know how to open file").present?
+      return true if ['Zip::Error','Ole::Storage::FormatError' ].include?(error_class_name)
+      error_class_name == 'ArgumentError' && error_message.match("Can't detect the type").present?
     end
 
     def translations

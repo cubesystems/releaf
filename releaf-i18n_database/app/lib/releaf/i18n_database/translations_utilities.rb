@@ -13,7 +13,7 @@ module Releaf::I18nDatabase
         blank_where_collection = blank_where_collection.where(column.eq('').or(column.eq(nil)))
       end
 
-      collection.where(blank_where_collection.where_values.reduce(:or))
+      collection.where(blank_where_collection.where_clause.send(:predicates).reduce(:or))
     end
 
     def self.filter_by_text(collection, lookup_string)
