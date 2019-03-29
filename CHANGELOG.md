@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.21 (2019.03.29)
+
+* Add correct time formatting in table builder
+
 ### 1.1.20 (2018.11.13)
 
 * Fix a bug in has_error? matcher
