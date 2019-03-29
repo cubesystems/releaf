@@ -457,6 +457,19 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
+  describe "#format_time_content" do
+    it "returns localized time value" do
+      value = Time.parse("2012.12.29 17:12:07")
+      allow(subject).to receive(:column_value).with(resource, :created_at)
+        .and_return(value)
+
+      allow(I18n).to receive(:l).with(value, format: "%H:%M")
+        .and_return("17:12")
+
+      expect(subject.format_time_content(resource, :created_at)).to eq("17:12")
+    end
+  end
+
   describe "#association_name" do
     it "normalizes given column name by removing '_id' postfix and returning new value as symbol" do
       expect(subject.association_name(:author_id)).to eq(:author)

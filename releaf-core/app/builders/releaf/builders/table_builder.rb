@@ -174,6 +174,13 @@ class Releaf::Builders::TableBuilder
     I18n.l(value, format: format) unless value.nil?
   end
 
+
+  def format_time_content(resource, column)
+    value = column_value(resource, column)
+    format = Releaf::Builders::Utilities::DateFields.date_or_time_default_format(:time)
+    I18n.l(value, format: format) unless value.nil?
+  end
+
   def format_association_content(resource, column)
     format_string_content(resource, association_name(column))
   end
