@@ -20,12 +20,13 @@ describe Releaf::Permissions::ProfileController do
 
     context 'with allowed attributes' do
       it "saves new attributes" do
-        attributes = {
+        attributes = ActionController::Parameters.new({
           "name" => "new name",
           "surname" => "new surname",
           "email" => "new.email@example.com",
           "locale" => "lv"
-        }
+        })
+        attributes.permit!
 
         # This is needed in order to get same instance as we expect.
         # Otherwise we'll get same record, but different instance and test will fail

@@ -46,6 +46,7 @@ feature "Base controller index", js: true do
     visit admin_books_path
     expect(page).to have_link("good book")
 
+    allow_any_instance_of(Admin::BooksController).to receive(:feature_available?).and_call_original
     allow_any_instance_of(Admin::BooksController).to receive(:feature_available?).with(:edit).and_return(false)
     visit admin_books_path
     expect(page).to_not have_link("good book")

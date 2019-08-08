@@ -3,7 +3,7 @@ require "rails_helper"
 describe Releaf::I18nDatabase::I18nEntry do
   it { is_expected.to validate_presence_of(:key) }
   it { is_expected.to validate_length_of(:key).is_at_most(255) }
-  it { is_expected.to validate_uniqueness_of(:key) }
+  it { subject.key = "a"; is_expected.to validate_uniqueness_of(:key) }
   it { is_expected.to have_many(:i18n_entry_translation).dependent(:destroy) }
   it { is_expected.to accept_nested_attributes_for(:i18n_entry_translation).allow_destroy(true) }
 

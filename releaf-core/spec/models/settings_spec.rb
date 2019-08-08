@@ -12,7 +12,7 @@ describe Releaf::Settings do
     end
 
     it "returns valid query" do
-      expect(described_class.registered.count).to be_instance_of(Fixnum)
+      expect(described_class.registered.count).to be_instance_of(Integer)
     end
 
     it "returns instance of `Releaf::Settings::ActiveRecord_Relation`" do

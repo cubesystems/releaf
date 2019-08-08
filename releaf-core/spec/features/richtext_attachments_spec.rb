@@ -28,6 +28,7 @@ feature "Richtext attachments", js: true do
     click_link "OK"
 
     expect(page).to have_css(".cke_editor_resource_content_attributes_intro_text_html") # wait focus switch finished
+    # TODO: investigate why poltergeist fail with redirect and remove this manual node opening when fixed
     save_and_check_response "Create succeeded"
 
     visit "/image-test"

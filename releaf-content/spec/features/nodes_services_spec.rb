@@ -312,6 +312,9 @@ describe "Nodes services (copy, move)" do
       wait_for_all_richtexts
       save_and_check_response "Create succeeded"
 
+      # TODO: investigate why poltergeist fail with redirect and remove this manual node opening when fixed
+      visit "/admin/nodes/#{Node.find_by(content_type: "BannerPage").id}/edit/"
+
       open_toolbox("Copy")
 
       within('.dialog.copy.initialized') do

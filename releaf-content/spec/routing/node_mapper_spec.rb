@@ -165,7 +165,8 @@ describe Releaf::Content::NodeMapper do
       it "uses the custom path for public website route" do
         routes.draw do
           node_routes_for(TextPage) do |route|
-            get 'home_pages#show', path: "#{route.path}/abc/:my_id"
+            route.path += "/abc/:my_id"
+            get 'home_pages#show'
           end
         end
 

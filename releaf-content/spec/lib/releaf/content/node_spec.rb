@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Node do
+describe Node, type: :model do
   class PlainNode < ActiveRecord::Base
     include Releaf::Content::Node
     self.table_name = "nodes"

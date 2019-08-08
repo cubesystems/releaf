@@ -54,7 +54,7 @@ feature "Settings", js: true do
     click_link "Back to list"
 
     expect(Releaf::Settings["content.textarea"]).to eq("AA\r\nBB\r\nCC\r\nDD\r\n")
-    expect(page).to have_content("AA\nBB\nCC\nDD\n")
+    expect(page).to have_content("AA BB CC DD")
 
     click_link "content.richtext"
     wait_for_all_richtexts
@@ -65,6 +65,6 @@ feature "Settings", js: true do
     click_link "Back to list"
 
     expect(Releaf::Settings["content.richtext"]).to eq("<p>EE<br />\r\nFF</p>\r\n\r\n<p>GG <b>HH</b></p>\r\n")
-    expect(page).to have_content("EE\nFF\nGG\nHH\n")
+    expect(page).to have_content("EE FF GG HH")
   end
 end

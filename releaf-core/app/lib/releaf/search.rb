@@ -90,7 +90,7 @@ module Releaf
       end
 
       if reflection.scope
-        where_scope = extract_where_condtion_from_scope(reflection, table2_alias)
+        where_scope = extract_where_condition_from_scope(reflection, table2_alias)
         join_condition = join_condition.and(where_scope) if where_scope.present?
       end
 
@@ -103,7 +103,7 @@ module Releaf
       table2
     end
 
-    def extract_where_condtion_from_scope(reflection, table_alias)
+    def extract_where_condition_from_scope(reflection, table_alias)
       # XXX Hack based on ActiveRecord::Relation#to_sql
       tmp_relation = build_tmp_relation(reflection, table_alias)
 
@@ -112,9 +112,9 @@ module Releaf
       connection = tmp_relation.klass.connection
       visitor    = connection.visitor
 
-      arel  = tmp_relation.arel
-      binds = (arel.bind_values + tmp_relation.bind_values).dup
-      binds.map! { |bv| connection.quote(*bv.reverse) }
+      binds = tmp_relation.bound_attributes
+      binds = connection.prepare_binds_for_database(binds)
+      binds.map! { |value| connection.quote(value) }
 
       wheres = tmp_relation.arel.ast.cores.first.wheres
       collect = visitor.accept(wheres, Arel::Collectors::Bind.new)
