@@ -284,7 +284,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
     open_toolbox_dialog 'Add child', @lv_root, ".view-index .collection li"
     within_dialog do
-    click_link("Text page")
+      click_link("Text page")
     end
 
     fill_in "Slug", with: "some-slug"
@@ -293,6 +293,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
     fill_in "Slug", with: ""
     fill_in 'Name', with: "About them"
+    blur_from "Name"
     expect(page).to have_field("Slug", with: "about-them")
 
     # fill text to allow text page save

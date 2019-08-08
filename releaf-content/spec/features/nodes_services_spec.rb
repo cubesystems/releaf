@@ -312,9 +312,6 @@ describe "Nodes services (copy, move)" do
       wait_for_all_richtexts
       save_and_check_response "Create succeeded"
 
-      # TODO: investigate why poltergeist fail with redirect and remove this manual node opening when fixed
-      visit "/admin/nodes/#{Node.find_by(content_type: "BannerPage").id}/edit/"
-
       open_toolbox("Copy")
 
       within('.dialog.copy.initialized') do
@@ -426,8 +423,8 @@ describe "Nodes services (copy, move)" do
         expect_different_values(original_url, copied_file_urls[key])
 
         [original_url, copied_file_urls[key]].each do |file_url|
-          visit file_url
-          expect(page.status_code).to eq 200
+          tmpfile = download_file(file_url)
+          expect(Digest::SHA256.file(tmpfile)).to eq(Digest::SHA256.file(dummy_file_path))
         end
       end
 

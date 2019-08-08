@@ -254,5 +254,13 @@ module Releaf::Test
       expect(page).to have_css(".item[data-name=\"#{block_name}\"][data-index=\"#{item_index}\"][style=\"opacity: 1; display: block;\"]")
     end
 
+    def download_file(url)
+      require "open-uri"
+      file = Tempfile.new
+      file.binmode
+      file.write(open(url).read)
+      file.flush
+      file
+    end
   end
 end

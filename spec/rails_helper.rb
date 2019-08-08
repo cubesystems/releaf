@@ -27,7 +27,7 @@ require 'rails-controller-testing'
 require 'factory_girl'
 require "shoulda-matchers"
 require 'db-query-matchers'
-require 'capybara/poltergeist'
+require 'selenium/webdriver'
 require 'with_model'
 require 'timecop'
 require 'with_model'
@@ -42,23 +42,22 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # for devise testing
 include Warden::Test::Helpers
 
+Capybara.register_driver(:chrome) do |app|
+  options = ::Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--window-size=1400,900')
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: true, inspector: true, phantomjs_logger: WarningSuppressor)
-end
-
-class WarningSuppressor
-  IGNOREABLE = /CoreText performance|userSpaceScaleFactor/
-
-  def write(message)
-    if message =~ IGNOREABLE
-      0
-    else
-      puts(message)
-      1
-    end
+  if ENV['CI']
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
   end
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
+
+Capybara.javascript_driver = :chrome
+
+Capybara.default_set_options = { clear: :backspace } # needed for 'fill_in "Foo", with: ""' to work
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
@@ -77,6 +76,7 @@ RSpec.configure do |config|
   end
 
   config.include Releaf::Test::Helpers
+  config.include CapybaraActions, type: :feature
   config.include WaitSteps
   config.include ExcelHelpers
   config.extend WithModel
@@ -100,7 +100,6 @@ RSpec.configure do |config|
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
 
-  Capybara.javascript_driver = :poltergeist
   Capybara.server = :webrick
   Capybara.default_normalize_ws = true
 

@@ -372,7 +372,7 @@ RemoteValidator.prototype.register_clicked_button = function(button)
     v.clicked_button = button;
 
     // when sending form values with FormData, the clicked button value is not included in the data
-    // (except on Safari, and therefore also on PhantomJS - that's why the tests worked fine even without this).
+    // (except on Safari).
 
     // since releaf sometimes uses the clicked button value to modify the action on the server side,
     // (e.g. for "Save and create another" feature), the value of the clicked button must be appended

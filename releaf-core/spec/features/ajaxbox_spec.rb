@@ -71,7 +71,7 @@ feature "Ajaxbox", js: true do
     open_toolbox_dialog "Add child"
 
     expect(page).to have_css(".mfp-bg")
-    page.driver.click(10, 10)
+    find("body").click
     expect(page).to_not have_css(".mfp-bg")
   end
 
@@ -83,7 +83,7 @@ feature "Ajaxbox", js: true do
     open_toolbox_dialog "Delete"
 
     expect(page).to have_css(".mfp-bg")
-    page.driver.click(10, 10)
+    find("body").click
     expect(page).to have_css(".mfp-bg")
     expect(find(".mfp-bg")).to be_visible
   end
@@ -95,7 +95,7 @@ feature "Ajaxbox", js: true do
 
     find(".field[data-name='cover_image'] .value-preview img").click
     expect(page).to have_css(".mfp-bg")
-    page.driver.click(10, 10)
+    execute_script("document.querySelector('.mfp-bg').click();")
     expect(page).to_not have_css(".mfp-bg")
 
     find(".field[data-name='cover_image'] .value-preview img").click
