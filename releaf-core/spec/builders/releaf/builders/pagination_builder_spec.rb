@@ -13,7 +13,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
   let(:items_per_page) { 3 }
   let(:current_page_number) { 1 }
   let(:collection){ Book.page(current_page_number).per_page(items_per_page) }
-  let(:params){ { search: "xxx"} }
+  let(:params){ ActionController::Parameters.new(search: "xxx") }
   let(:subject){ described_class.new(template, collection: collection, params: params ) }
 
   before do |example|
