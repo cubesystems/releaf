@@ -13,6 +13,10 @@ class Releaf::Permissions::Page::MenuBuilder < Releaf::Builders::Page::MenuBuild
   end
 
   def controller_permitted?(controller_name)
-    Releaf.application.config.permissions.access_control.new(user: controller.user).controller_permitted?(controller_name)
+    access_control.controller_permitted?(controller_name)
+  end
+
+  def access_control
+    @access_control ||= Releaf.application.config.permissions.access_control.new(user: controller.user)
   end
 end
