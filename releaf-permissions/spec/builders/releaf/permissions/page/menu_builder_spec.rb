@@ -5,6 +5,7 @@ describe Releaf::Permissions::Page::MenuBuilder, type: :class do
     include FontAwesome::Rails::IconHelper
   end
 
+  let(:user){ Releaf::Permissions::User.new }
   let(:controller){ Releaf::ActionController.new }
   let(:template){ MenuBuilderTestHelper.new }
   let(:group_item){ Releaf::ControllerGroupDefinition.new(name: "x", items: []) }
@@ -88,13 +89,24 @@ describe Releaf::Permissions::Page::MenuBuilder, type: :class do
 
   describe "#controller_permitted?" do
     it "returns access controller controller permission query result for given controller name" do
-      user = Releaf::Permissions::User.new
-      allow(controller).to receive(:user).and_return("x")
       access_control = Releaf::Permissions::AccessControl.new(user: user)
-      allow(Releaf.application.config.permissions.access_control).to receive(:new).with(user: "x").and_return(access_control)
+      allow(subject).to receive(:access_control).and_return(access_control)
       allow(access_control).to receive(:controller_permitted?).with("kjasdasd").and_return("_true")
 
       expect(subject.controller_permitted?("kjasdasd")).to eq("_true")
+    end
+  end
+
+  describe "#access_control" do
+    it "returns cached access control instance" do
+      allow(controller).to receive(:user).and_return("x")
+      access_control = Releaf::Permissions::AccessControl.new(user: user)
+
+      allow(Releaf.application.config.permissions.access_control).to receive(:new).with(user: "x").and_return(access_control)
+      expect(subject.access_control).to eq access_control
+
+      expect(Releaf.application.config.permissions.access_control).to_not receive(:new)
+      expect(subject.access_control).to eq access_control
     end
   end
 end
