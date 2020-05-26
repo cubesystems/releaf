@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.21 (2020.05.26)
+
+* Cache menu builder access control instance
+
 ### 1.1.21 (2019.03.29)
 
 * Add correct time formatting in table builder
