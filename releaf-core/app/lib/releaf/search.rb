@@ -104,22 +104,11 @@ module Releaf
     end
 
     def extract_where_condition_from_scope(reflection, table_alias)
-      # XXX Hack based on ActiveRecord::Relation#to_sql
       tmp_relation = build_tmp_relation(reflection, table_alias)
 
       return nil if tmp_relation.where_values_hash.blank?
 
-      connection = tmp_relation.klass.connection
-      visitor    = connection.visitor
-
-      binds = tmp_relation.bound_attributes
-      binds = connection.prepare_binds_for_database(binds)
-      binds.map! { |value| connection.quote(value) }
-
-      wheres = tmp_relation.arel.ast.cores.first.wheres
-      collect = visitor.accept(wheres, Arel::Collectors::Bind.new)
-      sql = collect.compile(binds)
-      Arel::Nodes::SqlLiteral.new(sql)
+      tmp_relation.arel.ast.cores.first.wheres
     end
 
     def build_tmp_relation(reflection, table_alias)
