@@ -50,7 +50,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
 
     context "when collection has less entries than allowed on one page" do
       before do
-        FactoryGirl.create( :book )
+        create( :book )
       end
 
       it "returns nil" do
@@ -63,7 +63,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
     context "when collection has exactly the number of entries that fits on one page" do
       before do
         items_per_page.times do
-          FactoryGirl.create( :book )
+          create( :book )
         end
       end
 
@@ -78,7 +78,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
     context "when collection has more than one page" do
       before do
         (items_per_page + 1).times do
-          FactoryGirl.create( :book )
+          create( :book )
         end
       end
 
@@ -108,7 +108,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
     it "returns pagination buttons and select with options" do
 
       14.times do
-        FactoryGirl.create :book
+        create :book
       end
 
       expect(subject.pagination_block).to match_html %Q[
@@ -183,7 +183,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
       it "returns a button with correct class and rel attributes and a href pointing to the offset page" do
 
         5.times do
-          FactoryGirl.create(:book)
+          create(:book)
         end
 
         expect(subject.page_button( 1, 'foo', 'foo-icon' )).to match_html %Q[
@@ -277,7 +277,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
   describe "#page_url", stub_url_for: false do
 
     it "calls url_for on template with added page number param" do
-      expect(template).to receive(:url_for).with( search: "xxx", page: 3).and_return("ok")
+      expect(template).to receive(:url_for).with(ActionController::Parameters.new(search: "xxx", page: 3).permit!).and_return("ok")
       expect(subject.page_url(3)).to eq "ok"
     end
 
@@ -317,7 +317,7 @@ describe Releaf::Builders::PaginationBuilder, type: :class do
   describe "#page_label" do
 
     before do
-      14.times { FactoryGirl.create :book }
+      14.times { create :book }
     end
 
     it "returns a string with the numbers of first and last items in page" do

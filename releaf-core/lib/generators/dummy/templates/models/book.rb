@@ -1,5 +1,5 @@
 class Book < ActiveRecord::Base
-  belongs_to :author
+  belongs_to :author, optional: true
   has_many :chapters, -> { order(:item_position) }, inverse_of: :book
   has_many :book_sequels, dependent: :destroy
   has_many :sequels, through: :book_sequels

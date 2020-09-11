@@ -127,7 +127,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
 
   describe "#create_another_available?" do
     context "when editing an existing record" do
-      let(:resource){ FactoryGirl.create(:book) }
+      let(:resource){ FactoryBot.create(:book) }
 
       context "when controller has create_another feature enabled" do
         it "returns false" do

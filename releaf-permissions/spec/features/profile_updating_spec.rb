@@ -1,7 +1,7 @@
 require 'rails_helper'
 feature "User profile" do
   background do
-    auth_as_user(false, FactoryGirl.create(:user, email: "email@example.com"))
+    auth_as_user(false, FactoryBot.create(:user, email: "email@example.com"))
     visit releaf_permissions_user_profile_path
   end
 

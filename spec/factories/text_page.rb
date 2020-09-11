@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :text_page do
-    text_html "super duper"
+    text_html { "super duper" }
   end
 end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "FactoryGirl factories" do
+describe "FactoryBot factories" do
 
   describe "admin factory" do
     it "creates new user" do

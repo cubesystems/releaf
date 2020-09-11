@@ -4,11 +4,15 @@ describe Releaf::Settings do
 
   describe ":registered scope" do
     it "returns only registed settings ordered by `var`" do
-      registered = described_class.where(var: "x")
-      allow(described_class).to receive(:registered_keys).and_return([:a, :b])
-      allow(described_class).to receive(:where).with(var: [:a, :b]).and_return(registered)
-      allow(registered).to receive(:order).with(:var).and_return(:c)
-      expect(described_class.registered).to eq(:c)
+      item_1 = Releaf::Settings.create(var: "a", value: "1")
+      item_2 = Releaf::Settings.create(var: "b", value: "2")
+      Releaf::Settings.create(var: "c", value: "2")
+      Releaf::Settings.create(var: "a", value: "3", thing_type: "Releaf::Permissions::User", thing_id: "1")
+
+      Releaf::Settings.register(key: "a", default: "x", description: "some setting")
+      Releaf::Settings.register(key: "b", default: "xxxx", description: "some other setting")
+
+      expect(described_class.registered).to eq [item_1, item_2]
     end
 
     it "returns valid query" do
@@ -16,7 +20,7 @@ describe Releaf::Settings do
     end
 
     it "returns instance of `Releaf::Settings::ActiveRecord_Relation`" do
-      expect(described_class.registered).to be_instance_of(Releaf::Settings::ActiveRecord_Relation)
+      expect(described_class.registered).to be_instance_of(Releaf::Settings.const_get(:ActiveRecord_Relation))
     end
   end
 
@@ -78,7 +82,7 @@ describe Releaf::Settings do
     end
 
     it "returns instance of `Releaf::Settings::ActiveRecord_Relation`" do
-      expect(described_class.register_scoped).to be_instance_of(Releaf::Settings::ActiveRecord_Relation)
+      expect(described_class.register_scoped).to be_instance_of(Releaf::Settings.const_get(:ActiveRecord_Relation))
     end
   end
 

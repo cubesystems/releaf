@@ -169,7 +169,7 @@ end
 # have no extra methods or overrides
 describe Admin::AuthorsController do
   before do
-    sign_in FactoryGirl.create(:user)
+    sign_in FactoryBot.create(:user)
   end
 
   describe "#index_path" do
@@ -308,7 +308,7 @@ describe Admin::AuthorsController do
   describe "GET index" do
     before do
       21.times do |i|
-        FactoryGirl.create(:author)
+        FactoryBot.create(:author)
       end
     end
 
@@ -331,9 +331,9 @@ describe Admin::AuthorsController do
 
   describe "DELETE #destroy" do
     before do
-      @author = FactoryGirl.create(:author)
-      FactoryGirl.create(:book, title: "The book", author: @author)
-      FactoryGirl.create(:book, title: "Almost the book", author: @author)
+      @author = FactoryBot.create(:author)
+      FactoryBot.create(:book, title: "The book", author: @author)
+      FactoryBot.create(:book, title: "Almost the book", author: @author)
     end
 
     it "creates flash error with message" do
@@ -345,7 +345,7 @@ end
 
 describe Admin::BooksController do
   before do
-    sign_in FactoryGirl.create(:user)
+    sign_in FactoryBot.create(:user)
     @breadcrumbs_base = [
       {name: I18n.t('admin/books'), url: admin_books_path}
     ]
@@ -353,9 +353,9 @@ describe Admin::BooksController do
 
   describe "GET #index" do
     before do
-      FactoryGirl.create(:book, title: "great one")
-      FactoryGirl.create(:book, title: "bad one")
-      FactoryGirl.create(:book, title: "average third")
+      FactoryBot.create(:book, title: "great one")
+      FactoryBot.create(:book, title: "bad one")
+      FactoryBot.create(:book, title: "average third")
     end
 
     context "when empty search string given" do

@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'releaf-core', Releaf::VERSION
   s.add_dependency 'rails-i18n'
-  s.add_dependency 'axlsx_rails', '~> 0.3', '>= 0.3.0'
+  s.add_dependency 'caxlsx_rails', '~> 0.6'
   s.add_dependency 'roo'
 end

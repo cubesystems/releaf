@@ -2,7 +2,6 @@ require 'simplecov'
 require 'simplecov-rcov'
 require 'coveralls'
 require 'pry'
-require 'pry-nav'
 SimpleCov.command_name 'rspec'
 
 Coveralls.wear!('rails')
@@ -24,7 +23,7 @@ require 'spec_helper'
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
 require 'rails-controller-testing'
-require 'factory_girl'
+require 'factory_bot'
 require "shoulda-matchers"
 require 'db-query-matchers'
 require 'selenium/webdriver'
@@ -97,10 +96,8 @@ RSpec.configure do |config|
   end
 
 
-  # FactoryGirl
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
-  Capybara.server = :webrick
   Capybara.default_normalize_ws = true
 
   # disable empty translation creation

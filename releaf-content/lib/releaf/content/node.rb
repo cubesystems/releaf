@@ -225,7 +225,7 @@ module Releaf::Content
       validate :validate_parent_node_is_not_self
       validate :validate_parent_is_not_descendant
       validate :validate_slug
-      belongs_to :content, polymorphic: true, dependent: :destroy
+      belongs_to :content, polymorphic: true, dependent: :destroy, required: false
       accepts_nested_attributes_for :content
 
       after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?

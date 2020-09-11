@@ -40,7 +40,8 @@ describe Releaf::Builders::Page::HeaderBuilder, type: :class do
       allow(subject).to receive(:home_url).and_return("www.xxx")
       allow(subject).to receive(:home_text).and_return("Rrr")
       allow(subject).to receive(:home_image_path).and_return("releaf/foo.png")
-      content = '<a class="home" href="www.xxx"><img alt="Rrr" src="/images/releaf/foo.png" /></a>'
+      allow(subject).to receive(:image_tag).with("releaf/foo.png", alt: "Rrr").and_return('IMG')
+      content = '<a class="home" href="www.xxx">IMG</a>'
       expect(subject.home_link).to eq(content)
     end
   end

@@ -4,7 +4,7 @@ require 'rails_helper'
 # have no extra methods or overrides
 describe Releaf::Permissions::UsersController do
   before do
-    sign_in FactoryGirl.create(:user)
+    sign_in FactoryBot.create(:user)
   end
 
   describe "GET #new" do
@@ -16,8 +16,8 @@ describe Releaf::Permissions::UsersController do
 
   describe "GET #index" do
     before do
-      FactoryGirl.create(:content_user, name: "John")
-      FactoryGirl.create(:content_user, name: "Bill", surname: "Green", email: "another@example.com")
+      FactoryBot.create(:content_user, name: "John")
+      FactoryBot.create(:content_user, name: "Bill", surname: "Green", email: "another@example.com")
     end
 
     it "searches by name, surname and email" do

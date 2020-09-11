@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Releaf::Permissions::ProfileController do
-  let(:another_role){ FactoryGirl.create(:content_role) }
+  let(:another_role){ FactoryBot.create(:content_role) }
   let(:user){ subject.current_releaf_permissions_user }
   login_as_user :user
 
