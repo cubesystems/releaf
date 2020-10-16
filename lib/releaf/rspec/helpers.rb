@@ -89,8 +89,8 @@ module Releaf::Test
     def wait_for_all_richtexts
       # wait for all ckeditors to fully initialize before moving on.
       # otherwise the page sometimes produces random js errors in fast tests
-      number_of_normal_richtexts = page.all('.field.type-richtext:not(.i18n)').length
-      number_of_localized_richtexts = page.all('.field.type-richtext.i18n .localization', visible: false).length
+      number_of_normal_richtexts = page.all('.field.type-richtext:not(.i18n)', wait: 0).length
+      number_of_localized_richtexts = page.all('.field.type-richtext.i18n .localization', wait: 0, visible: false).length
       number_of_richtexts = number_of_normal_richtexts + number_of_localized_richtexts
       if (number_of_richtexts > 0)
         expect(page).to have_css(".ckeditor-initialized", visible: false, count: number_of_richtexts)
