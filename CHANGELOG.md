@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2.0.0 (2020.10.30)
+
+* Rails 6.0 support
+
 ### 1.1.21 (2020.05.26)
 
 * Cache menu builder access control instance
