@@ -19,11 +19,11 @@ describe Releaf::Content::Node::RootValidator do
 
 
   def create_node *params
-    DummyRootValidatorNode.create!( FactoryGirl.attributes_for(:node, *params) )
+    DummyRootValidatorNode.create!( FactoryBot.attributes_for(:node, *params) )
   end
 
   def build_node *params
-    DummyRootValidatorNode.new( FactoryGirl.attributes_for(:node, *params) )
+    DummyRootValidatorNode.new( FactoryBot.attributes_for(:node, *params) )
   end
 
   context "when node is allowed to be root node" do

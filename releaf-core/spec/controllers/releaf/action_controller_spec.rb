@@ -58,7 +58,7 @@ describe Releaf::ActionController do
 
   describe "#page_title" do
     before do
-      allow(Rails.application.class).to receive(:parent_name).and_return("DummyApp")
+      allow(Rails.application.class).to receive(:module_parent_name).and_return("DummyApp")
     end
 
     context "when controller definition exists" do
@@ -169,14 +169,14 @@ end
 # have no extra methods or overrides
 describe Admin::AuthorsController do
   before do
-    sign_in FactoryGirl.create(:user)
+    sign_in FactoryBot.create(:user)
   end
 
   describe "#index_path" do
     context "when action is other than :index" do
       context "when params have valid `index_path` value" do
         it "returns params 'index_path'" do
-          get :new, index_path: "xxxxxxxx"
+          get :new, params: {index_path: "xxxxxxxx"}
           allow(subject).to receive(:valid_index_path?).with("xxxxxxxx").and_return(true)
           expect(subject.index_path).to eq("xxxxxxxx")
         end
@@ -184,7 +184,7 @@ describe Admin::AuthorsController do
 
       context "when params have invalid `index_path` value" do
         it "returns index action path" do
-          get :new, index_path: "xxxxxxxx"
+          get :new, params: {index_path: "xxxxxxxx"}
           allow(subject).to receive(:valid_index_path?).with("xxxxxxxx").and_return(false)
           expect(subject.index_path).to eq("/admin/authors")
         end
@@ -228,7 +228,7 @@ describe Admin::AuthorsController do
 
   describe "#current_path" do
     it "returns current url without `ajax` param" do
-      get :index, ajax: 1, search: "something", page: 1
+      get :index, params: {ajax: 1, search: "something", page: 1}
       expect(subject.current_path).to eq("/admin/authors?page=1&search=something")
     end
 
@@ -271,15 +271,15 @@ describe Admin::AuthorsController do
 
     context "when `ajax` params exists within params" do
       it "assigns `true` to @_ajax instance variable" do
-        expect{ get :index, ajax: 1 }.to change{ subject.instance_variable_get("@_ajax") }.from(nil).to(true)
+        expect{ get :index, params: {ajax: 1} }.to change{ subject.instance_variable_get("@_ajax") }.from(nil).to(true)
       end
 
       it "removes ajax from `params`" do
-        expect{ get :index, ajax: 1 }.to_not change{ subject.params[:ajax] }.from(nil)
+        expect{ get :index, params: {ajax: 1} }.to_not change{ subject.params[:ajax] }.from(nil)
       end
 
       it "removes ajax from `request.query_parameters`" do
-        expect{ get :index, ajax: 1 }.to_not change{ subject.request.query_parameters[:ajax] }.from(nil)
+        expect{ get :index, params: {ajax: 1} }.to_not change{ subject.request.query_parameters[:ajax] }.from(nil)
       end
     end
   end
@@ -290,7 +290,7 @@ describe Admin::AuthorsController do
     context "when show feature is available" do
       it "assigns all resources to @collection" do
         allow(subject).to receive(:feature_available?).with(:show).and_return(true)
-        get :show, id: author
+        get :show, params: {id: author}
         expect(assigns(:resource)).to eq(author)
       end
     end
@@ -299,7 +299,7 @@ describe Admin::AuthorsController do
       it "does assign resource" do
         allow(subject).to receive(:feature_available?).and_call_original
         allow(subject).to receive(:feature_available?).with(:show).and_return(false)
-        get :show, id: author
+        get :show, params: {id: author}
         expect(assigns(:resource)).to be nil
       end
     end
@@ -308,13 +308,13 @@ describe Admin::AuthorsController do
   describe "GET index" do
     before do
       21.times do |i|
-        FactoryGirl.create(:author)
+        FactoryBot.create(:author)
       end
     end
 
     context "when resources_per_page is nil" do
       it "assigns all resources to @collection" do
-        get :index, show_all: 1
+        get :index, params: {show_all: 1}
         expect(assigns(:collection).is_a?(ActiveRecord::Relation)).to be true
         expect(assigns(:collection).size).to eq(21)
       end
@@ -331,13 +331,13 @@ describe Admin::AuthorsController do
 
   describe "DELETE #destroy" do
     before do
-      @author = FactoryGirl.create(:author)
-      FactoryGirl.create(:book, title: "The book", author: @author)
-      FactoryGirl.create(:book, title: "Almost the book", author: @author)
+      @author = FactoryBot.create(:author)
+      FactoryBot.create(:book, title: "The book", author: @author)
+      FactoryBot.create(:book, title: "Almost the book", author: @author)
     end
 
     it "creates flash error with message" do
-      delete :destroy, id: @author
+      delete :destroy, params: {id: @author}
       expect(flash["error"]).to eq({"id" => "resource_status", "message" => "Cant destroy, because relations exists"})
     end
   end
@@ -345,7 +345,7 @@ end
 
 describe Admin::BooksController do
   before do
-    sign_in FactoryGirl.create(:user)
+    sign_in FactoryBot.create(:user)
     @breadcrumbs_base = [
       {name: I18n.t('admin/books'), url: admin_books_path}
     ]
@@ -353,28 +353,28 @@ describe Admin::BooksController do
 
   describe "GET #index" do
     before do
-      FactoryGirl.create(:book, title: "great one")
-      FactoryGirl.create(:book, title: "bad one")
-      FactoryGirl.create(:book, title: "average third")
+      FactoryBot.create(:book, title: "great one")
+      FactoryBot.create(:book, title: "bad one")
+      FactoryBot.create(:book, title: "average third")
     end
 
     context "when empty search string given" do
       it "shows all records" do
-        get :index, search: ""
+        get :index, params: {search: ""}
         expect(assigns(:collection).count).to eq(3)
       end
     end
 
     context "when search string with multiple words given" do
       it "searches by given string" do
-        get :index, search: "one grea"
+        get :index, params: {search: "one grea"}
         expect(assigns(:collection).count).to eq(1)
       end
     end
 
     context "when search string given" do
       it "searches by given string" do
-        get :index, search: "great"
+        get :index, params: {search: "great"}
         expect(assigns(:collection).count).to eq(1)
       end
     end
@@ -407,14 +407,14 @@ describe Admin::BooksController do
     end
 
     it "assigns the requested record to @resource" do
-      get :edit, id: @resource
+      get :edit, params: {id: @resource}
 
       expect(assigns(:resource)).to eq(@resource)
     end
 
     it "assigns breadcrumb for resource" do
       allow(Releaf::ResourceBase).to receive(:title).with(@resource).and_return("xxx")
-      get :edit, id: @resource
+      get :edit, params: {id: @resource}
       breadcrumbs = @breadcrumbs_base + [{name: "xxx", url: edit_admin_book_path(@resource.id)}]
 
       expect(assigns(:breadcrumbs)).to eq(breadcrumbs)

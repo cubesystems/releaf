@@ -4,7 +4,7 @@ class Releaf::Permissions::SessionsController < Devise::SessionsController
   helper_method :page_title
 
   def page_title
-    Rails.application.class.parent_name
+    Rails.application.class.module_parent_name
   end
 
   protected

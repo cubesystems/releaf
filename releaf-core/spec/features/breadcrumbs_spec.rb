@@ -1,11 +1,11 @@
 require 'rails_helper'
-feature "Breadcrumbs", js: true do
+feature "Breadcrumbs" do
   background do
     auth_as_user
   end
 
   scenario "Open show view with link to resource show in breadcrumbs" do
-    banner = Banner.create(url: "https://google.com")
+    banner = Banner.create!(url: "https://google.com")
     visit admin_banner_path(banner)
 
     within ".breadcrumbs" do

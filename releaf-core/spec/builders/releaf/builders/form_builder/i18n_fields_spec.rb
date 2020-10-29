@@ -7,7 +7,7 @@ describe Releaf::Builders::FormBuilder::I18nFields, type: :class do
     include FontAwesome::Rails::IconHelper
   end
 
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Book.new }
   let(:subject){ Releaf::Builders::FormBuilder.new(:book, object, template, {}) }
 

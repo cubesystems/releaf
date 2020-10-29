@@ -3,7 +3,6 @@ require "rails_helper"
 describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
   let(:translation){ Releaf::I18nDatabase::I18nEntry.new }
   let(:fixture_path){ File.expand_path('../../../fixtures/translations_import.xlsx', __dir__) }
-  let(:error_message){ "Don't know how to open file #{fixture_path}" }
   subject{ described_class.new(file_path: fixture_path, extension: "xlsx") }
 
   describe "#call" do
@@ -82,9 +81,9 @@ describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
   describe "#file_format_error?" do
 
     context "when given error is an ArgumentError" do
-      context "when the message contains 'Don't know how to open file'" do
+      context "when the message contains 'Can't detect the type'" do
         it "returns true" do
-          expect(subject.file_format_error?("ArgumentError", error_message)).to be true
+          expect(subject.file_format_error?("ArgumentError", "Can't detect the type")).to be true
         end
       end
       context "when the message is different" do
@@ -94,9 +93,9 @@ describe Releaf::I18nDatabase::ParseSpreadsheetTranslations do
       end
     end
 
-    context "when the error is a Zip::ZipError" do
+    context "when the error is a Zip::Error" do
       it "returns true" do
-        expect(subject.file_format_error?("Zip::ZipError", "error message")).to be true
+        expect(subject.file_format_error?("Zip::Error", "error message")).to be true
       end
     end
 

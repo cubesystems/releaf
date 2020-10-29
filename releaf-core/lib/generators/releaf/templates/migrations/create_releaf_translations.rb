@@ -1,4 +1,4 @@
-class CreateReleafTranslations < ActiveRecord::Migration
+class CreateReleafTranslations < ActiveRecord::Migration[5.0]
   def change
     create_table :releaf_i18n_entries do |t|
       t.string :key, null: false

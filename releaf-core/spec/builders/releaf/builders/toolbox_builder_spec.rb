@@ -7,7 +7,7 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
   end
 
   subject { described_class.new(template) }
-  let(:template){ ToolboxBuilderTestHelper.new }
+  let(:template){ ToolboxBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   it "includes Releaf::Builders::Base" do
     expect(described_class.ancestors).to include(Releaf::Builders::Base)

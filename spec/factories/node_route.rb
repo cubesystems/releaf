@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :node_route, class: ::Releaf::Content::Route do
     sequence(:node_id) {|n| n}
     sequence(:path) {|n| "path-#{n}"}
-    locale "en"
+    locale { "en" }
   end
 end

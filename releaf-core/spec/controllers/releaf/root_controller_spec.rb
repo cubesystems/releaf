@@ -30,15 +30,16 @@ describe Releaf::RootController do
     context 'when params[:settings] is Hash' do
       it "has a 200 status code" do
         allow(Releaf.application.config.settings_manager).to receive(:write)
-        post :store_settings, settings: {dummy: 'maybe'}
+        post :store_settings, params: {settings: [{key: "dummy", value: "maybe"}]}
         expect(response.status).to eq(200)
       end
 
       it "saves given data within current user settings, casting true/false strings to boolean" do
+        params = {settings: [{key: "dummy", value: "maybe"}, {key: "be_true", value: true}, {key: "be_false", value: false}]}
         expect(Releaf.application.config.settings_manager).to receive(:write).with(controller: subject, key: "dummy", value: "maybe")
         expect(Releaf.application.config.settings_manager).to receive(:write).with(controller: subject, key: "be_true", value: true)
         expect(Releaf.application.config.settings_manager).to receive(:write).with(controller: subject, key: "be_false", value: false)
-        post :store_settings, settings: {dummy: "maybe", be_true: 'true', be_false: 'false'}
+        post :store_settings, params: params
       end
     end
   end

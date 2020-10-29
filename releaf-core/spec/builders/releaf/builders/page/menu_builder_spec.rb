@@ -6,7 +6,7 @@ describe Releaf::Builders::Page::MenuBuilder, type: :class do
   end
 
   let(:controller){ Releaf::ActionController.new }
-  let(:template){ MenuBuilderTestHelper.new }
+  let(:template){ MenuBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:group_item){ Releaf::ControllerGroupDefinition.new(name: "_group_name", items: []) }
   let(:controller_item){ Releaf::ControllerDefinition.new(name: "y", controller: "_controller_") }
   subject { described_class.new(template) }

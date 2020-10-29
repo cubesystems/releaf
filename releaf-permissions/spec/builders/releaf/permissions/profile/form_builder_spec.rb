@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Releaf::Permissions::Profile::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Releaf::Permissions::User.new }
   let(:subject){ described_class.new(:resource, object, template, {}) }
 

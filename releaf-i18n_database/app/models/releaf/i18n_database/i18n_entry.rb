@@ -3,7 +3,7 @@ module Releaf::I18nDatabase
     self.table_name = "releaf_i18n_entries"
 
     validates_presence_of :key
-    validates_uniqueness_of :key
+    validates_uniqueness_of :key, case_sensitive: true
     validates_length_of :key, maximum: 255
 
     has_many :i18n_entry_translation, dependent: :destroy,

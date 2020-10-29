@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     if target_root
       redirect_to target_root.path
     else
-      render text: "Welcome to Releaf", layout: true
+      render plain: "Welcome to Releaf", layout: true
     end
   end
 

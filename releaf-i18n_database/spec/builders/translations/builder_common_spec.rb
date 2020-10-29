@@ -5,7 +5,7 @@ describe Releaf::I18nDatabase::Translations::BuildersCommon, type: :class do
     include Releaf::I18nDatabase::Translations::BuildersCommon
   end
   class TableBuilderTestHelper < ActionView::Base; end
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ I18nBuildersCommonInheriter.new(template) }
 
   describe "#action_url" do

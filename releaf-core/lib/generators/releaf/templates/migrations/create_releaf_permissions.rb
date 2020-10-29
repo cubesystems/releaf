@@ -1,4 +1,4 @@
-class CreateReleafPermissions < ActiveRecord::Migration
+class CreateReleafPermissions < ActiveRecord::Migration[5.0]
   def change
     create_table :releaf_permissions do |t|
       t.integer :owner_id

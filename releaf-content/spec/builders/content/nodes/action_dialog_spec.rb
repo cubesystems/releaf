@@ -10,7 +10,7 @@ describe Releaf::Content::Builders::ActionDialog, type: :class do
     def action; end
   end
 
-  let(:template){ ConfirmDestroyDialogTestHelper.new }
+  let(:template){ ConfirmDestroyDialogTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Book.new }
   let(:subject){ ActionDialogIncluder.new(template) }
 

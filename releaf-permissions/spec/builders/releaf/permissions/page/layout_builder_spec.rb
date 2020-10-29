@@ -4,7 +4,7 @@ describe Releaf::Permissions::Page::LayoutBuilder, type: :class do
   class PermissionsLayoutBuilderView < ActionView::Base; end
 
   let(:controller){ Releaf::RootController.new }
-  let(:template){ PermissionsLayoutBuilderView.new }
+  let(:template){ PermissionsLayoutBuilderView.new(ActionView::LookupContext.new(nil), {}, nil) }
   subject { described_class.new(template) }
 
   before do

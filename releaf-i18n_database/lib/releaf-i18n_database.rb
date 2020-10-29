@@ -1,4 +1,4 @@
-require 'axlsx_rails'
+require 'caxlsx_rails'
 require 'i18n'
 require 'rails-i18n'
 require 'roo'

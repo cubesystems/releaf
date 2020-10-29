@@ -27,7 +27,7 @@ describe Releaf::Builders::ConfirmDialogBuilder, type: :class do
     def confirm_method; end
   end
 
-  let(:template){ ConfirmDestroyDialogTestHelper.new }
+  let(:template){ ConfirmDestroyDialogTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Book.new(id: 99, title: "book title") }
   let(:subject){ ConfirmDialogBuilderInheriter.new(template) }
 

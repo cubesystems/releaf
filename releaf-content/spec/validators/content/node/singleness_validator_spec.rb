@@ -30,11 +30,11 @@ describe Releaf::Content::Node::SinglenessValidator do
 
 
   def create_node *params
-    DummySinglenessValidatorNode.create!( FactoryGirl.attributes_for(:node, *params) )
+    DummySinglenessValidatorNode.create!( FactoryBot.attributes_for(:node, *params) )
   end
 
   def build_node *params
-    DummySinglenessValidatorNode.new( FactoryGirl.attributes_for(:node, *params) )
+    DummySinglenessValidatorNode.new( FactoryBot.attributes_for(:node, *params) )
   end
 
   let!(:root_node) { create_node(content_type: 'HomePage') }

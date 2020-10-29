@@ -32,7 +32,7 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
   end
 
   subject { described_class.new(template) }
-  let(:template){ PageHeaderBuilderTestHelper.new }
+  let(:template){ PageHeaderBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   describe "#controller_classes" do
     it "returns array of ignorable ancester classes" do

@@ -1,6 +1,6 @@
 class Releaf::Settings < RailsSettings::Base
 
-  scope :registered, -> { where(var: registered_keys).order(:var) }
+  scope :registered, -> { where(var: registered_keys, thing_type: nil, thing_id: nil).order(:var) }
 
   cattr_accessor :registry
   @@registry = {}.with_indifferent_access

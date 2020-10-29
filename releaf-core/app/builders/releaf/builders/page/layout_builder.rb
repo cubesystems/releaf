@@ -81,7 +81,7 @@ module Releaf::Builders::Page
 
     def body_classes
       list = []
-      list << "application-#{Rails.application.class.parent_name.downcase}"
+      list << "application-#{Rails.application.class.module_parent_name.downcase}"
       list += controller_body_classes
       list << "view-#{controller.active_view}"  if controller.respond_to? :active_view
       list << "side-compact" if layout_settings("releaf.side.compact")

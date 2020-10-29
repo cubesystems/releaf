@@ -9,8 +9,9 @@ module Dummy
 
       def install_assets
         copy_files 'assets', 'app/assets'
-        append_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w( controllers/*.css controllers/*.js )\n"
       end
+
+      def install_seeds; end
 
       private
 

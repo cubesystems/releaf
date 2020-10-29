@@ -7,7 +7,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
     include FontAwesome::Rails::IconHelper
   end
 
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Book.new }
   let(:subject){ described_class.new(:book, object, template, {}) }
   let(:normalized_fields){

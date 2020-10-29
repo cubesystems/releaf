@@ -10,14 +10,14 @@ describe Admin::NodesController, type: :controller do
 
     context "when file is uploaded" do
       it "renders 'create_releaf_richtext_attachment'" do
-        post :create_releaf_richtext_attachment, upload: file
+        post :create_releaf_richtext_attachment, params: {upload: file}
         expect( response ).to be_successful
         expect( response ).to render_template('create_releaf_richtext_attachment')
       end
 
       it "creates attachment" do
         expect do
-          post :create_releaf_richtext_attachment, upload: file
+          post :create_releaf_richtext_attachment, params: {upload: file}
         end.to change { Releaf::RichtextAttachment.count }.by(1)
       end
     end

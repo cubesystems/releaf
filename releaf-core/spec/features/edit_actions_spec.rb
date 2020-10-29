@@ -2,9 +2,9 @@ require 'rails_helper'
 feature "Base controller edit", js: true do
   background do
     auth_as_user
-    @author = FactoryGirl.create(:author)
-    @good_book = FactoryGirl.create(:book, title: "good book", author: @author, price: 12.34, description_lv: "in lv", description_en: "in en")
-    FactoryGirl.create(:book, title: "bad book", author: @author)
+    @author = FactoryBot.create(:author)
+    @good_book = FactoryBot.create(:book, title: "good book", author: @author, price: 12.34, description_lv: "in lv", description_en: "in en")
+    FactoryBot.create(:book, title: "bad book", author: @author)
   end
 
   scenario "creation of new resources" do
@@ -33,7 +33,7 @@ feature "Base controller edit", js: true do
     visit new_admin_book_path
     wait_for_all_richtexts
     fill_in "Title", with: "Another ipsum"
-    find('#resource_title').native.send_key(:Enter)
+    find('#resource_title').native.send_key(:enter)
     expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: "Create succeeded")
     expect(page).to have_css('header h1', text: 'Create new resource')
 

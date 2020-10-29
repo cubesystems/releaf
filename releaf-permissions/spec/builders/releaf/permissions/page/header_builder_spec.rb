@@ -9,7 +9,7 @@ describe Releaf::Permissions::Page::HeaderBuilder, type: :class do
       true
     end
 
-    def form_authenticity_token
+    def form_authenticity_token(_)
       "xxx"
     end
 
@@ -19,7 +19,7 @@ describe Releaf::Permissions::Page::HeaderBuilder, type: :class do
   end
 
   subject { described_class.new(template) }
-  let(:template){ PageHeaderBuilderTestHelper.new }
+  let(:template){ PageHeaderBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   describe "#items" do
     it "returns array of home link, profile block and logout form content" do
@@ -74,7 +74,6 @@ describe Releaf::Permissions::Page::HeaderBuilder, type: :class do
       allow(subject).to receive(:sign_out_path).and_return("url_a")
       content = %Q[
         <form class="sign-out" action="url_a" accept-charset="UTF-8" method="post">
-          <input name="utf8" type="hidden" value="&#x2713;" />
           <input type="hidden" name="_method" value="delete" />
           <input type="hidden" name="yyy" value="xxx" />
           <button class="button only-icon" type="submit" title="Sign out">

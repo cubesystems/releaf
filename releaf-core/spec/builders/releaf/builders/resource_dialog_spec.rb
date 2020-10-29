@@ -11,7 +11,7 @@ describe Releaf::Builders::ResourceDialog, type: :class do
   end
 
   subject { UnitTestDialogBuilder.new(template) }
-  let(:template){ DialogTestHelper.new }
+  let(:template){ DialogTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   describe "#dialog?" do
     it "always returns true" do

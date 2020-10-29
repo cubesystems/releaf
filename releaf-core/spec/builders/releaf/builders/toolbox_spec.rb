@@ -11,7 +11,7 @@ describe Releaf::Builders::Toolbox, type: :class do
   end
 
   subject { UnitTestToolboxBuilder.new(template) }
-  let(:template){ ToolboxTestTemplate.new }
+  let(:template){ ToolboxTestTemplate.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource){ Releaf::Permissions::User.new }
 
   describe "#toolbox" do

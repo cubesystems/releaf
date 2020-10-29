@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Releaf::Settings::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource_class){ Releaf::Settings }
   let(:subject){ described_class.new([], resource_class, template, {}) }
 

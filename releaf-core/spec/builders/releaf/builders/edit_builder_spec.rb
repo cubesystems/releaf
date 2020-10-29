@@ -9,7 +9,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     def protect_against_forgery?
       true
     end
-    def form_authenticity_token
+    def form_authenticity_token(_)
       "xxx"
     end
 
@@ -18,7 +18,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
-  let(:template){ TranslationsEditBuilderTestHelper.new }
+  let(:template){ TranslationsEditBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ described_class.new(template) }
   let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new }
@@ -38,7 +38,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
 
     it "returns section with index url preserver and section blocks" do
-      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="yyy" value="xxx" />_index_path__section__blocks_</form>')
+      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input type="hidden" name="yyy" value="xxx" />_index_path__section__blocks_</form>')
     end
 
     it "assigns form instance to builder" do
@@ -127,7 +127,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
 
   describe "#create_another_available?" do
     context "when editing an existing record" do
-      let(:resource){ FactoryGirl.create(:book) }
+      let(:resource){ FactoryBot.create(:book) }
 
       context "when controller has create_another feature enabled" do
         it "returns false" do

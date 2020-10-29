@@ -68,7 +68,7 @@ class Releaf::I18nDatabase::TranslationsStore
     Releaf::I18nDatabase::I18nEntryTranslation
       .joins(:i18n_entry)
       .where.not(text: '')
-      .pluck("CONCAT(locale, '.', releaf_i18n_entries.key) AS translation_key", "text")
+      .pluck(Arel.sql("CONCAT(locale, '.', releaf_i18n_entries.key) AS translation_key"), "text")
       .to_h
   end
 

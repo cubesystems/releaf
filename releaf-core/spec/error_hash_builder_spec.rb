@@ -7,7 +7,7 @@ describe "Errors hash builder" do
 
   class DummyResourceValidatorBook < Book
     self.table_name = 'books'
-    belongs_to :author, inverse_of: :books, class_name: :DummyResourceValidatorAuthor
+    belongs_to :author, inverse_of: :books, class_name: :DummyResourceValidatorAuthor, required: false
 
     validates_presence_of :author
     accepts_nested_attributes_for :author

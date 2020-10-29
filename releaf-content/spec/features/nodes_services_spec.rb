@@ -423,8 +423,8 @@ describe "Nodes services (copy, move)" do
         expect_different_values(original_url, copied_file_urls[key])
 
         [original_url, copied_file_urls[key]].each do |file_url|
-          visit file_url
-          expect(page.status_code).to eq 200
+          tmpfile = download_file(file_url)
+          expect(Digest::SHA256.file(tmpfile)).to eq(Digest::SHA256.file(dummy_file_path))
         end
       end
 

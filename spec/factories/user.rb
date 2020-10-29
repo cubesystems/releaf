@@ -1,12 +1,12 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :users, class: Releaf::Permissions::User do
     trait :user_basic do
       email
       name
       surname
-      locale                'en'
-      password              'password'
-      password_confirmation 'password'
+      locale                { 'en' }
+      password              { 'password' }
+      password_confirmation { 'password' }
     end
 
     factory :user do

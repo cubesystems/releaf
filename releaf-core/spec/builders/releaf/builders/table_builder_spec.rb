@@ -13,7 +13,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
     def custom_title(resource); end
   end
 
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource_class){ Book }
   let(:resource){ resource_class.new(id: 77, title: "Life of Brian") }
   let(:collection){ Book.all }

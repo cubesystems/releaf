@@ -57,7 +57,6 @@ module Releaf::Content
     # @return [Array] array of Content::Route objects
     def self.for(node_class, node_content_class, default_controller)
       node_class = node_class.constantize if node_class.is_a? String
-
       Releaf::Content::BuildRouteObjects.call(
         node_class: node_class,
         node_content_class: node_content_class,

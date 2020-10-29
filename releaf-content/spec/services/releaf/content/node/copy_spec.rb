@@ -53,7 +53,7 @@ describe Releaf::Content::Node::Copy do
 
         # make sure the files are stored and exist
         expect(copy.content.top_banner.path).to start_with Dragonfly.app.datastore.root_path
-        expect(node.content.top_banner.path).to start_with Dragonfly.app.datastore.root_path
+        expect(node.content.class.find(node.content.id).top_banner.path).to start_with Dragonfly.app.datastore.root_path
         expect(copy.content.top_banner.path).to_not eq node.content.top_banner.path
       end
     end

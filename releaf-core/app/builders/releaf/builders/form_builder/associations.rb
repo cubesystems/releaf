@@ -73,7 +73,7 @@ module Releaf::Builders::FormBuilder::Associations
     attributes = {
       class: ["body", "list"]
     }
-    attributes["data"] = {sortable: nil} if reflector.sortable?
+    attributes["data"] = {sortable: true} if reflector.sortable?
 
     tag(:div, attributes) do
       association_collection(reflector).each_with_index.map do |association_object, index|

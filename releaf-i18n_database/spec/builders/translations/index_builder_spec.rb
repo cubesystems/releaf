@@ -15,7 +15,7 @@ describe Releaf::I18nDatabase::Translations::IndexBuilder, type: :class do
                       end
     end
   end
-  let(:template){ IndexBuilderTestHelper.new }
+  let(:template){ IndexBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource_class){ Releaf::I18nDatabase::Translation }
   let(:subject){ described_class.new(template) }
 
@@ -74,7 +74,7 @@ describe Releaf::I18nDatabase::Translations::IndexBuilder, type: :class do
   describe "#import_form" do
     it "returns import form" do
       allow(subject).to receive(:url_for).with(action: 'import').and_return("import_url")
-      result = "<form class=\"import\" enctype=\"multipart/form-data\" action=\"import_url\" accept-charset=\"UTF-8\" method=\"post\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" /><input type=\"file\" name=\"import_file\" id=\"import_file\" /></form>"
+      result = "<form class=\"import\" enctype=\"multipart/form-data\" action=\"import_url\" accept-charset=\"UTF-8\" method=\"post\"><input type=\"file\" name=\"import_file\" id=\"import_file\" /></form>"
       expect(subject.import_form).to eq(result)
     end
   end

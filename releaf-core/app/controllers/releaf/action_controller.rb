@@ -55,7 +55,7 @@ class Releaf::ActionController < ActionController::Base
 
   def update
     prepare_update
-    @resource.update_attributes(resource_params)
+    @resource.update(resource_params)
     respond_with(@resource, location: success_path)
   end
 
@@ -154,7 +154,7 @@ class Releaf::ActionController < ActionController::Base
   end
 
   def page_title
-    title = Rails.application.class.parent_name
+    title = Rails.application.class.module_parent_name
     title = "#{definition.localized_name} - #{title}" if definition
 
     title
