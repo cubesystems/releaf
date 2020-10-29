@@ -1,45 +1,29 @@
 ---
-title: Getting started
-weight: 1
+title: Introduction
+weight: 1000
+
 ---
 
-## Getting started
+# What is Releaf?
 
-Releaf works with Rails 4.2
+Releaf is an administration interface for Rails applications.
 
-First add Releaf gem to your Gemfile
+It consists of four main components:
 
-```ruby
-gem 'releaf', github: 'cubesystems/releaf'
-```
+* __Releaf core__
+  * [Automatic CRUD views and actions](usage-basics/)
+  * Full customization of [controllers](controllers/) and [views](builders/) when defaults are not enough
+* __Permission system__ (optional)
+  * User management and authentication
+  * Role-based access control to admin controllers
+  * Easily replaceable with a different access control mechanism if needed
+* __I18n database backend__ (optional)
+  * [I18n translation texts stored in a database](i18n-database/)
+  * Translations editable by users via admin interface instead of YAML files
+* __Website content tree__ (optional)
+  * [Public website tree structure administration](public-website-tree/)
+  * Dynamic page routes with user-editable slugs
 
-Run the bundle command to install it.
+{% comment %} :TODO: mention other optional components like releaf-sidekiq and releaf-settings-ui {% endcomment %}
 
-Then install with
-
-```console
-rails generate releaf:install
-rake db:migrate
-```
-
-You might want to create default role and user
-
-```console
-rake db:seed
-```
-
-Now you need to add something like this for releaf itself and standart admin,
-permissions controllers
-
-```ruby
-mount_releaf_at '/admin'
-```
-
-Note that you should re-start your app here if you've already started it. Otherwise you'll run into strange errors.
-
-Now open "/admin" on your dev site and login with following credentials:
-
-```
-email: admin@example.com
-password: password
-```
+See [Installation](installation/) chapter for instructions on setting it up.

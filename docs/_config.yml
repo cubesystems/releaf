@@ -18,3 +18,5 @@ defaults:
     values:
       layout: documentation
       group: documentation
+
+permalink: pretty

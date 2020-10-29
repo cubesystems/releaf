@@ -310,6 +310,12 @@ def resources_per_page
 end
   ```
 
+* `Releaf::BaseController` renamed to `Releaf::ActionController`. Update
+  all your code with:
+```
+perl -p -i -e 's/Releaf::BaseController/Releaf::ActionController/g' `grep -ril "Releaf::ActionController" *`
+```
+
 ### 2016.02.04
 * All `Releaf::Core::` namespaces replaced with `Releaf::` except Releaf::Core component.
   To update site, you need to:
