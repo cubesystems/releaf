@@ -11,6 +11,8 @@ module Dummy
         copy_files 'assets', 'app/assets'
       end
 
+      def install_seeds; end
+
       private
 
       def get_current_dir
