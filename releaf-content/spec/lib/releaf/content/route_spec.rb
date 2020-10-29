@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Releaf::Content::Route do
-  let(:node_route) { FactoryGirl.build(:node_route, node_class: Node, node_id: 12, locale: "en", path: "/en") }
+  let(:node_route) { FactoryBot.build(:node_route, node_class: Node, node_id: 12, locale: "en", path: "/en") }
 
 
   describe ".default_controller" do

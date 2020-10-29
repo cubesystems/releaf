@@ -12,7 +12,7 @@ describe Releaf::Builders::Base, type: :module do
   end
 
   let(:subject){ BuilderIncluder.new }
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   before do
     subject.template = template

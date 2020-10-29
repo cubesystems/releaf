@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :book do
-    title "some book"
+    title { "some book" }
   end
 end

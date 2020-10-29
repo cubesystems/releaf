@@ -10,7 +10,7 @@ describe Releaf::Builders::ResourceView, type: :class do
   end
 
   let(:described_class){ ResourceViewIncluder }
-  let(:template){ ResourceViewTestHelper.new }
+  let(:template){ ResourceViewTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ described_class.new(template) }
   let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new }

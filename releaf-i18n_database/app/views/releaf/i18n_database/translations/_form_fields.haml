@@ -14,7 +14,7 @@
         %input{type: "text", class: "text", name: "translations[][localizations][#{locale}]"}
     %td.delete-column.only-icon
       = releaf_button(nil, "times", class: %w(danger remove-nested-item), title: t("Remove", scope: controller_scope_name))
-%section.nested{data: {name: "translations", releaf: {template: html_escape(template_html)}}}
+%section.nested{data: {name: "translations", releaf: {template: template_html.to_str}}}
   %table.table
     %thead
       %tr

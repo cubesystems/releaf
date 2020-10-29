@@ -7,7 +7,7 @@ describe Releaf::Permissions::Page::MenuBuilder, type: :class do
 
   let(:user){ Releaf::Permissions::User.new }
   let(:controller){ Releaf::ActionController.new }
-  let(:template){ MenuBuilderTestHelper.new }
+  let(:template){ MenuBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:group_item){ Releaf::ControllerGroupDefinition.new(name: "x", items: []) }
   let(:controller_item){ Releaf::ControllerDefinition.new(name: "y", controller: "_controller_") }
   subject { described_class.new(template) }

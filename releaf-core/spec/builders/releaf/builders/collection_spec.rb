@@ -10,7 +10,7 @@ describe Releaf::Builders::Collection, type: :module do
   end
 
   it "it assigns template collection instance variable to instance 'collection' accessor on initialization" do
-    template = CollectionTestHelper.new
+    template = CollectionTestHelper.new(ActionView::LookupContext.new(nil), {}, nil)
     template.instance_variable_set("@collection", "x")
     subject = CollectionIncluder.new(template)
     expect(subject.collection).to eq("x")

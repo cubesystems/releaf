@@ -357,7 +357,7 @@ feature "Translations" do
 
           context "when positive create_plurals option passed" do
             it "creates pluralized translations for all Releaf locales" do
-              result = ["animals.horse.few", "animals.horse.many", "animals.horse.one", "animals.horse.other", "animals.horse.zero"]
+              result = ["animals.horse.one", "animals.horse.other", "animals.horse.zero"]
               expect{ I18n.t("animals.horse", count: 1, create_plurals: true) }.to change{ Releaf::I18nDatabase::I18nEntry.pluck(:key).sort }.
                 from([]).to(result.sort)
             end

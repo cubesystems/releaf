@@ -75,7 +75,7 @@ namespace :dummy do
 
     template_path = File.expand_path('../templates/releaf/installer.rb', __FILE__)
     application_name = "spec/dummy"
-    result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-gemfile', "--database=#{config['database']['type']}", '--skip-bundle', '--skip-test-unit'] | ARGV
+    result = Rails::Generators::AppGenerator.start [application_name, '-m', template_path, '--skip-webpack-install', '--skip-javascript', '--skip-gemfile', "--database=#{config['database']['type']}", '--skip-bundle', '--skip-test-unit'] | ARGV
   end
 end
 

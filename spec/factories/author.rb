@@ -1,6 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :author do
-    name "Aleksandrs"
-    surname "Lielais"
+    name { "Aleksandrs" }
+    surname { "Lielais" }
   end
 end

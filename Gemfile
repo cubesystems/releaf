@@ -26,14 +26,7 @@ gemspec
 # gem 'debugger'
 case config["database"]["type"]
 when 'mysql'
-  gem 'mysql2', '< 0.5', platform: :ruby
+  gem 'mysql2', '~> 0.5', platform: :ruby
 when 'postgresql'
   gem 'pg', '~> 0.15'
-end
-
-group :documentation do
-  gem 'yard'
-  gem 'github-markdown', '>= 0.5.3', platforms: :ruby
-  gem 'redcarpet', '>= 2.2.2', platforms: :ruby
-  gem 'yard-activerecord', '~> 0.0.14'
 end

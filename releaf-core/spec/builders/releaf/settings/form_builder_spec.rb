@@ -3,7 +3,7 @@ require "rails_helper"
 describe Releaf::Settings::FormBuilder, type: :class do
   class FormBuilderTestHelper < ActionView::Base; end
   let(:resource){ Releaf::Settings.new }
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ described_class.new(:resource, resource, template, {}) }
 
   describe "#field_names" do

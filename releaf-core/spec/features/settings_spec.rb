@@ -29,7 +29,7 @@ feature "Settings", js: true do
     end
 
     click_link "Back to list"
-    expect(page).to have_content("2014-04-01 12:33:59")
+    expect(page).to have_content("12:33")
     expect(Releaf::Settings["content.updated_at"]).to eq(Time.parse("2014-04-01 12:33:59"))
 
     click_link "content.updated"

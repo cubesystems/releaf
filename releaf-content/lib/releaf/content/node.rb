@@ -218,14 +218,14 @@ module Releaf::Content
       scope :active, ->() { where(active: true) }
 
       validates_presence_of :name, :slug, :content_type
-      validates_uniqueness_of :slug, scope: :parent_id
+      validates_uniqueness_of :slug, scope: :parent_id, case_sensitive: false
       validates_length_of :name, :slug, :content_type, maximum: 255
-      validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?
+      validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?, case_sensitive: false
       validates_presence_of :parent, if: :parent_id?
       validate :validate_parent_node_is_not_self
       validate :validate_parent_is_not_descendant
       validate :validate_slug
-      belongs_to :content, polymorphic: true, dependent: :destroy
+      belongs_to :content, polymorphic: true, dependent: :destroy, required: false
       accepts_nested_attributes_for :content
 
       after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?

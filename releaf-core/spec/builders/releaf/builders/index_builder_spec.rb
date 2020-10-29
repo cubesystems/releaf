@@ -10,7 +10,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  let(:template){ TranslationsIndexBuilderTestHelper.new }
+  let(:template){ TranslationsIndexBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ described_class.new(template) }
   let(:collection){ Book.page(1).per_page(2) }
 

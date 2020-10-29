@@ -1,9 +1,9 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :roles, :class => Releaf::Permissions::Role do
     sequence(:name) {|n| "role #{n}"}
 
     factory :admin_role do
-      default_controller "releaf/permissions/users"
+      default_controller { "releaf/permissions/users" }
       after(:create) do |role|
         Releaf.application.config.available_controllers.each do|controller|
           role.permissions.create!(permission: "controller.#{controller}")
@@ -12,7 +12,7 @@ FactoryGirl.define do
     end
 
     factory :content_role do
-      default_controller "admin/nodes"
+      default_controller { "admin/nodes" }
       after(:create) do |role|
         role.permissions.create!(permission: "controller.admin/nodes")
       end

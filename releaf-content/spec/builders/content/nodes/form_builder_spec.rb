@@ -9,7 +9,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     def generate_url_releaf_content_nodes_path(args); end
   end
 
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Node.new(content_type: "TextPage", slug: "b", id: 2,
                          parent: Node.new(content_type: "TextPage", slug: "a", id: 1)) }
   let(:subject){ described_class.new(:resource, object, template, {}) }

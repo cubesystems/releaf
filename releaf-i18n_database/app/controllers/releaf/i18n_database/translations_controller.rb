@@ -152,7 +152,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def export_file_name
-    "#{Rails.application.class.parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx"
+    "#{Rails.application.class.module_parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx"
   end
 
   def import_file_path

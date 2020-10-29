@@ -9,7 +9,7 @@ describe Node, type: :model do
   let(:plain_subject){ PlainNode.new }
 
   it { is_expected.to accept_nested_attributes_for(:content) }
-  it { is_expected.to belong_to(:content) }
+  it { is_expected.to belong_to(:content).required(false) }
 
   it "includes Releaf::Content::Node module" do
     expect( Node.included_modules ).to include Releaf::Content::Node
@@ -19,7 +19,7 @@ describe Node, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_presence_of(:content_type) }
-    it { is_expected.to validate_uniqueness_of(:slug).scoped_to(:parent_id) }
+    it { is_expected.to validate_uniqueness_of(:slug).scoped_to(:parent_id).case_insensitive }
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
     it { is_expected.to validate_length_of(:slug).is_at_most(255) }
   end
@@ -31,10 +31,12 @@ describe Node, type: :model do
     end
   end
 
-  describe ".active (scope)" do
+  describe ":active scope" do
     it "returns active nodes" do
-      expect( Node ).to receive(:where).with(active: true).and_return('foo')
-      expect( Node.active ).to eq 'foo'
+      item_1 = create(:node, active: true, locale: "en")
+      item_2 = create(:node, active: false, locale: "de")
+      item_3 = create(:node, active: true, locale: "lv")
+      expect(Node.active).to eq [item_1, item_3]
     end
   end
 
@@ -519,7 +521,7 @@ describe Node, type: :model do
 
     context "when #prevent_auto_update_settings_timestamp? is false" do
       it "is called after save" do
-        node = FactoryGirl.build(:node)
+        node = build(:node)
         allow( node ).to receive(:prevent_auto_update_settings_timestamp?).and_return(false)
         expect( node ).to receive(:update_settings_timestamp).and_call_original
         node.save!
@@ -528,7 +530,7 @@ describe Node, type: :model do
 
     context "when #prevent_auto_update_settings_timestamp? is true" do
       it "is not called after save" do
-        node = FactoryGirl.build(:node)
+        node = build(:node)
         allow( node ).to receive(:prevent_auto_update_settings_timestamp?).and_return(true)
         expect( node ).to_not receive(:update_settings_timestamp)
         node.save!

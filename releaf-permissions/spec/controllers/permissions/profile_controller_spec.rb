@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Releaf::Permissions::ProfileController do
-  let(:another_role){ FactoryGirl.create(:content_role) }
+  let(:another_role){ FactoryBot.create(:content_role) }
   let(:user){ subject.current_releaf_permissions_user }
   login_as_user :user
 
@@ -32,7 +32,7 @@ describe Releaf::Permissions::ProfileController do
         # Otherwise we'll get same record, but different instance and test will fail
         allow( user ).to receive(:becomes).with(Releaf::Permissions::User).and_return(user)
 
-        expect(user).to receive(:update_attributes).with(attributes)
+        expect(user).to receive(:update).with(attributes)
         patch :update, params: {resource: attributes}
       end
     end

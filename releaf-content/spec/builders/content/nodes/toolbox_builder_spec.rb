@@ -7,7 +7,7 @@ describe Releaf::Content::Nodes::ToolboxBuilder, type: :class do
     include Releaf::ApplicationHelper
   end
 
-  let(:template){ NodeToolboxBuilderTestHelper.new }
+  let(:template){ NodeToolboxBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   subject { described_class.new(template) }
 
   let(:node){ Node.new(content_type: "TextPage", slug: "a", id: 99) }
