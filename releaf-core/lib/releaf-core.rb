@@ -1,4 +1,3 @@
-require 'jquery-cookie-rails'
 require 'rails-settings-cached'
 require 'ckeditor_rails'
 require 'will_paginate'
@@ -7,6 +6,7 @@ require 'haml'
 require 'haml-rails'
 require 'jquery-rails'
 require 'jquery-ui-rails'
+require 'vanilla-ujs'
 require 'acts_as_list'
 require 'dragonfly'
 require 'globalize'
@@ -17,10 +17,10 @@ module Releaf
   module Core
     require 'releaf/engine'
     require 'releaf/service'
+    require 'releaf/instance_cache'
     require 'releaf/component'
     require 'releaf/settings_ui'
     require 'releaf/route_mapper'
-    require 'releaf/builders_autoload'
     require 'releaf/configuration'
     require 'releaf/root'
     require 'releaf/root/configuration'
@@ -29,7 +29,8 @@ module Releaf
     require 'releaf/application'
     require 'releaf/route_mapper'
     require 'releaf/exceptions'
-    require 'releaf/validation_error_codes'
+    require 'releaf/core_ext/array/reorder'
+    require 'releaf/rails_ext/validation_error_codes'
 
     def self.components
       [Releaf::SettingsUI, Releaf::Root]

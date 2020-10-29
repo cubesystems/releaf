@@ -1,16 +1,49 @@
 require 'i18n/backend/base'
-# TODO convert to arel
+
 module Releaf
   module I18nDatabase
     class Backend
+
+      include ::I18n::Backend::Base
+      include ::I18n::Backend::Flatten
+      include ::I18n::Backend::Pluralization
+
+      UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
+      DEFAULT_CONFIG = {
+        translation_auto_creation: true,
+        translation_auto_creation_patterns: [/.*/],
+        translation_auto_creation_exclusion_patterns: [/^attributes\./, /^i18n\./]
+      }
+      attr_accessor :translations_cache
+
       def self.initialize_component
-        I18n.backend = new
+        I18n.backend = I18n::Backend::Chain.new(new, I18n.backend)
+      end
+
+      def self.locales_pluralizations
+        keys = Releaf.application.config.all_locales.map{ |locale| I18n.t(:'i18n.plural.keys', locale: locale) }.flatten
+        # always add zero as it skipped for some locales even when there is zero form (lv for example)
+        keys << :zero
+
+        keys.uniq
       end
 
       def self.configure_component
         Releaf.application.config.add_configuration(
-          Releaf::I18nDatabase::Configuration.new(create_missing_translations: true)
+          Releaf::I18nDatabase::Configuration.new(DEFAULT_CONFIG)
         )
+      end
+
+      def self.reset_cache
+        backend_instance.translations_cache = nil
+      end
+
+      def self.backend_instance
+        if I18n.backend.is_a? I18n::Backend::Chain
+          I18n.backend.backends.find{|b| b.is_a?(Releaf::I18nDatabase::Backend) }
+        elsif I18n.backend.is_a? Releaf::I18nDatabase::Backend
+          I18n.backend
+        end
       end
 
       def self.draw_component_routes router
@@ -28,18 +61,12 @@ module Releaf
         end
       end
 
-      include ::I18n::Backend::Base, ::I18n::Backend::Flatten
-      CACHE = {updated_at: nil, translations: {}, missing: {}}
-      UPDATED_AT_KEY = 'releaf.i18n_database.translations.updated_at'
-
-      def reload_cache
-        CACHE[:translations] = translations || {}
-        CACHE[:missing] = {}
-        CACHE[:updated_at] = self.class.translations_updated_at
-      end
-
-      def reload_cache?
-        CACHE[:updated_at] != self.class.translations_updated_at
+      def translations
+        if translations_cache && !translations_cache.expired?
+          translations_cache
+        else
+          self.translations_cache = Releaf::I18nDatabase::TranslationsStore.new
+        end
       end
 
       def self.translations_updated_at
@@ -50,144 +77,27 @@ module Releaf
         Releaf::Settings[UPDATED_AT_KEY] = value
       end
 
-      def store_translations locale, data, options = {}
-        new_hash = {}
-        new_hash[locale] = data
+      def store_translations(locale, data, options = {})
+        # pass to simple backend
 
-        CACHE[:translations].deep_merge!(new_hash)
-        CACHE[:missing] = {}
-      end
-
-      protected
-
-      # Return all non-empty localizations
-      def localization_data
-        TranslationData.where("localization <> ''").
-          joins("LEFT JOIN releaf_translations ON releaf_translations.id = translation_id").
-          pluck("LOWER(CONCAT(lang, '.', releaf_translations.key)) AS translation_key", "localization").
-          to_h
-      end
-
-      # Return translation hash for each releaf locales
-      def translations
-        localization_cache = localization_data
-
-        Translation.order(:key).pluck("LOWER(releaf_translations.key)").map do |translation_key|
-          key_hash(translation_key, localization_cache)
-        end.inject(&:deep_merge)
-      end
-
-      def cache_lookup keys, locale, options, first_lookup
-        result = keys.inject(CACHE[:translations]) { |h, key| h.is_a?(Hash) && h.try(:[], key.downcase.to_sym) }
-
-        # when non-first match, non-pluralized and hash - return nil
-        if !first_lookup && result.is_a?(Hash) && !options.has_key?(:count)
-          result = nil
-        # return nil as we don't have valid pluralized translation
-        elsif result.is_a?(Hash) && options.has_key?(:count) && !valid_pluralized_result?(result, locale, options[:count])
-          result = nil
-        end
-
-        result
-      end
-
-      def valid_pluralized_result? result, locale, count
-        valid = false
-
-        if TwitterCldr.supported_locale?(locale)
-          rule = TwitterCldr::Formatters::Plurals::Rules.rule_for(count, locale)
-          valid = result.has_key? rule
-        end
-
-        valid
+        I18n.backend.backends.last.store_translations(locale, data, options)
       end
 
       # Lookup translation from database
       def lookup(locale, key, scope = [], options = {})
-        # reload cache if cache timestamp differs from last translations update
-        reload_cache if reload_cache?
-
         key = normalize_flat_keys(locale, key, scope, options[:separator])
-        locale_key = "#{locale}.#{key}"
 
-        # do not process further if key already marked as missing
-        return nil if CACHE[:missing].has_key? locale_key
+        return if translations.missing?(locale, key)
 
-        chain = locale_key.split('.')
-        chain_initial_length = chain.length
-        inherit_scopes = options.fetch(:inherit_scopes, true)
+        result = translations.lookup(locale, key, options)
+        translations.missing(locale, key, options) if result.nil?
 
-        while (chain.length > 1) do
-          result = cache_lookup(chain, locale, options, chain_initial_length == chain.length)
-          return result if result.present?
-          break if inherit_scopes == false
-
-          # remove second last value
-          chain.delete_at(chain.length - 2)
-        end
-
-        # mark translation as missing
-        CACHE[:missing][locale_key] = true
-        create_missing_translation(locale, key, options) if create_missing_translation?(options)
-
-        return nil
-      end
-
-      def default(locale, object, subject, options = {})
-        if options[:create_default] == false
-          options = options.reject { |key, value| key == :create_default }
-          options[:create_missing] = false
-        end
-        super
-      end
-
-      def get_all_pluralizations
-        keys = []
-
-        ::Releaf.application.config.all_locales.each do|locale|
-          if TwitterCldr.supported_locale? locale
-            keys += TwitterCldr::Formatters::Plurals::Rules.all_for(locale)
-          end
-        end
-
-        keys.uniq
-      end
-
-      def create_missing_translation?(options)
-        Releaf.application.config.i18n_database.create_missing_translations == true && options[:create_missing] != false
-      end
-
-      def create_missing_translation(locale, key, options)
-        begin
-          if options.has_key?(:count) && options[:create_plurals] == true
-            get_all_pluralizations.each do|pluralization|
-              Translation.create(key: "#{key}.#{pluralization}")
-            end
-          else
-            Translation.create(key: key)
-          end
-        rescue ActiveRecord::RecordNotUnique
-        end
-      end
-
-      private
-
-      def key_hash key, localization_cache
-        hash = {}
-
-        ::Releaf.application.config.all_locales.each do |locale|
-          localized_key = "#{locale}.#{key}"
-          locale_hash = locale_hash(localized_key, localization_cache[localized_key])
-          hash.merge! locale_hash
-        end
-
-        hash
-      end
-
-      def locale_hash localized_key, localization
-        localized_key.to_s.split(".").reverse.inject(localization) do |value, key|
-          {key.to_sym => value}
-        end
+        result
+        # As localization can be used in routes and as routes is loaded also when running `rake db:create`
+        # we want to supress those errors and silently return nil as developer/user will get database errors
+        # anyway when call to models will be made (let others do this)
+      rescue ActiveRecord::NoDatabaseError, ActiveRecord::StatementInvalid
+        nil
       end
     end
   end

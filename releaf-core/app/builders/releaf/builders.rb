@@ -29,7 +29,10 @@ class Releaf::Builders
   end
 
   def self.constant_name_error?(error_message, mapping)
-    (error_message =~ /#{mapping}$/).present?
+    # rails5 have anonymous classes while in production env for error messags
+    # ex. `Caused by NameError: uninitialized constant #<Class:0x00007fc1b79e8448>::AnotherFormBuilder` instead of
+    # `Caused by NameError: uninitialized constant Releaf::Builders::AnotherFormBuilder`
+    (error_message =~ /#{mapping.split("::").last}$/).present?
   end
 
   def self.inherited_builder_scopes

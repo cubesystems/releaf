@@ -6,7 +6,7 @@ module Releaf::Permissions
     attribute :permanent_allowed_controllers, Array
 
     def devise_model_name
-      devise_for.gsub("/", "_")
+      devise_for.tr("/", "_")
     end
 
     def devise_model_class
@@ -18,7 +18,7 @@ module Releaf::Permissions
         new(
           devise_for: "releaf/permissions/user",
           access_control: Releaf::Permissions::AccessControl,
-          permanent_allowed_controllers: ['releaf/root', 'releaf/errors']
+          permanent_allowed_controllers: ['releaf/root']
         )
       )
     end

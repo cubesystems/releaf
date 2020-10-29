@@ -24,7 +24,7 @@ module Releaf::I18nDatabase::Translations
     end
 
     def import_button
-      button(t("import"), "upload", name: "import", class: "secondary")
+      button(t("Import"), "upload", name: "import", class: "secondary")
     end
 
     def import_form

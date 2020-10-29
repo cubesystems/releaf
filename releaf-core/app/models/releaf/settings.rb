@@ -1,27 +1,39 @@
-class Releaf::Settings < RailsSettings::CachedSettings
+class Releaf::Settings < RailsSettings::Base
+
+  scope :registered, -> { where(var: registered_keys, thing_type: nil, thing_id: nil).order(:var) }
 
   cattr_accessor :registry
   @@registry = {}.with_indifferent_access
 
-  def to_text
+  def releaf_title
     var
+  end
+
+  def input_type
+    metadata[:type] || :text
+  end
+
+  def description
+    metadata[:description]
+  end
+
+  def metadata
+    self.class.registry.fetch(var, {})
+  end
+
+  def self.register_scoped
+    where(var: registered_keys)
   end
 
   def self.registered_keys
     @@registry.keys
   end
 
-  def self.register(args)
-    if args.is_a? Hash
-      list = [args]
-    else
-      list = args
-    end
+  def self.register(*args)
+    Releaf::Settings::Register.call(settings: args)
+  end
 
-    list.each do|item|
-      @@registry[item[:key]] = item
-      @@defaults[item[:key]] = item[:default]
-      self[item[:key]] = item[:default] if table_exists? && !where(var: item[:key], thing_type: nil).exists?
-    end
+  def self.supported_types
+    [:boolean, :date, :time, :datetime, :integer, :float, :decimal, :email, :text, :textarea, :richtext]
   end
 end

@@ -11,7 +11,6 @@ module Releaf::Permissions
   require 'releaf/permissions/profile'
   require 'releaf/permissions/roles'
   require 'releaf/permissions/users'
-  require 'releaf/permissions/builders_autoload'
 
   def self.components
     [

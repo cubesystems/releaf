@@ -5,7 +5,6 @@ module Releaf::Content::Nodes
 
       unless resource.new_record?
         list << add_child_button
-        list << go_to_button unless params[:context] == "index"
         list << copy_button
         list << move_button
       end
@@ -15,10 +14,6 @@ module Releaf::Content::Nodes
 
     def add_child_button
       button(t('Add child'), nil, class: "ajaxbox", href: url_for(action: "content_type_dialog", parent_id: resource.id))
-    end
-
-    def go_to_button
-      button(t('Go to'), nil, class: "ajaxbox", href: url_for(action: "go_to_dialog"))
     end
 
     def copy_button

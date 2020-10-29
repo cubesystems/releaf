@@ -9,7 +9,5 @@ module Releaf::Permissions
     has_many :users, dependent: :restrict_with_exception
     has_many :permissions, as: :owner, class_name: "Releaf::Permissions::Permission", dependent: :destroy
     accepts_nested_attributes_for :permissions, allow_destroy: true
-
-    alias_attribute :to_text, :name
   end
 end

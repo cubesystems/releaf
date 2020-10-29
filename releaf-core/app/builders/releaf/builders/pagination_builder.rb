@@ -79,7 +79,7 @@ class Releaf::Builders::PaginationBuilder
   end
 
   def page_url(page_number)
-    template.url_for( params.merge( page: page_number ))
+    template.url_for( params.merge( page: page_number ).permit! )
   end
 
   def pagination_select

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "FactoryGirl factories" do
+describe "FactoryBot factories" do
 
   describe "admin factory" do
     it "creates new user" do
@@ -11,18 +11,6 @@ describe "FactoryGirl factories" do
   describe "role factory" do
     it "creates new role" do
       expect { create(:admin_role) }.to change { Releaf::Permissions::Role.count }.by(1)
-    end
-  end
-
-  describe "translation factory" do
-    it "creates new translation" do
-      expect { create(:translation) }.to change { Releaf::I18nDatabase::Translation.count }.by(1)
-    end
-  end
-
-  describe "translation data factory" do
-    it "creates new translation data" do
-      expect { create(:translation_data) }.to change { Releaf::I18nDatabase::TranslationData.count }.by(1)
     end
   end
 

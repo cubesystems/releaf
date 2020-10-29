@@ -12,7 +12,7 @@ describe Releaf::Builders::Base, type: :module do
   end
 
   let(:subject){ BuilderIncluder.new }
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   before do
     subject.template = template
@@ -25,14 +25,14 @@ describe Releaf::Builders::Base, type: :module do
      :render, :link_to, :flash, :truncate, :radio_button_tag,
      :options_for_select, :action_name, :options_from_collection_for_select,
      :select_tag, :text_field_tag,
-     :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes
+     :image_tag, :cookies, :button_tag, :merge_attributes
     ].each do|method_name|
       it "deletages #{method_name} to template" do
         expect(subject).to delegate_method(method_name).to(:template)
       end
     end
 
-    [:controller_scope_name, :feature_available?, :index_url].each do|method_name|
+    [:controller_scope_name, :feature_available?, :builder_class, :index_path].each do|method_name|
       it "delegates #{method_name} to controller" do
         expect(subject).to delegate_method(method_name).to(:controller)
       end
@@ -254,22 +254,10 @@ describe Releaf::Builders::Base, type: :module do
     end
   end
 
-  describe "#resource_to_text" do
-    let(:resource){ Releaf::Permissions::User.new(name: "a", surname: "b") }
-
-    context "when given resource respond to #to_text method" do
-      it "returns resource #to_text output" do
-        expect(subject.resource_to_text(resource)).to eq("a b")
-      end
-    end
-
-    context "when given resource does not respond to #to_text method" do
-      it "returns resource #to_s output" do
-        allow(resource).to receive(:respond_to?).and_call_original
-        allow(resource).to receive(:respond_to?).with(:to_text).and_return(false)
-        allow(resource).to receive(:to_s).and_return("x")
-        expect(subject.resource_to_text(resource)).to eq("x")
-      end
+  describe "#resource_title" do
+    it "pass given resource to Releaf::ResourceBase.title and return result" do
+      allow(Releaf::ResourceBase).to receive(:title).with("x").and_return("ljhg")
+      expect(subject.resource_title("x")).to eq("ljhg")
     end
   end
 

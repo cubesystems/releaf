@@ -6,8 +6,7 @@
 //
 //= require jquery
 //= require jquery-ui
-//= require jquery_ujs
-//= require jquery.cookie
+//= require vanilla-ujs
 //= require ckeditor-jquery
 //= require_tree ./include
 //= require_tree ./3rd_party

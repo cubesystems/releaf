@@ -1,0 +1,41 @@
+---
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        ruby:
+          mass_threshold: 25
+        javascript:
+          mass_threshold: 40
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+ratings:
+  paths:
+  - Gemfile.lock
+  - "**.css"
+  - "**.js"
+  - "**.jsx"
+  - "**.rb"
+exclude_paths:
+- .codeclimate.yml
+- .csslintrc
+- .eslintrc
+- .rubocop.yml
+- Rakefile
+- config/
+- script/
+- spec/
+- docs/
+- releaf-core/spec/
+- releaf-permissions/spec/
+- releaf-content/spec/
+- releaf-i18n_database/spec/
+- releaf-core/app/assets/javascripts/releaf/3rd_party/
+- releaf-core/lib/generators/

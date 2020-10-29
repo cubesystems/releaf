@@ -68,7 +68,7 @@ module Releaf::Content
     end
 
     def section_header_text
-      t("Add new node")
+      t("Create new resource")
     end
   end
 end

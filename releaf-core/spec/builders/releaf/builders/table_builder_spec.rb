@@ -13,7 +13,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
     def custom_title(resource); end
   end
 
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource_class){ Book }
   let(:resource){ resource_class.new(id: 77, title: "Life of Brian") }
   let(:collection){ Book.all }
@@ -27,10 +27,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   it "includes Releaf::Builders::Toolbox" do
     expect(described_class.ancestors).to include(Releaf::Builders::Toolbox)
-  end
-
-  it "includes Releaf::Builders::Orderer" do
-    expect(described_class.ancestors).to include(Releaf::Builders::Orderer)
   end
 
   describe "#initialize" do
@@ -200,12 +196,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#head_cell_content" do
     it "returns translated column scoped to resource class attributes" do
-      allow(resource_class).to receive(:human_attribute_name).with("some_long_name", create_default: false).and_return("Taittls")
+      allow(resource_class).to receive(:human_attribute_name).with("some_long_name").and_return("Taittls")
       expect(subject.head_cell_content("some_long_name")).to eq('Taittls')
     end
 
     it "casts given column to string" do
-      allow(resource_class).to receive(:human_attribute_name).with("title", create_default: false).and_return("Taittls")
+      allow(resource_class).to receive(:human_attribute_name).with("title",).and_return("Taittls")
       expect(subject.head_cell_content(:title)).to eq('Taittls')
     end
 
@@ -240,12 +236,12 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     before do
       allow(subject).to receive(:controller).and_return(controller)
-      allow(controller).to receive(:index_url).and_return("_index_url_")
+      allow(controller).to receive(:index_path).and_return("_index_path_")
     end
 
     it "returns edit url for given resource" do
       allow(subject).to receive(:row_url_action).with(resource).and_return(:show)
-      allow(template).to receive(:url_for).with(action: :show, id: 77, index_url: "_index_url_").and_return('_url_')
+      allow(template).to receive(:url_for).with(action: :show, id: 77, index_path: "_index_path_").and_return('_url_')
       expect(subject.row_url(resource)).to eq('_url_')
     end
 
@@ -368,25 +364,44 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
   end
 
-  describe "#format_string_content" do
-    context "when resource column value respond to #to_text method" do
-      it "returns value #to_text" do
-        fake_obj = double
-        allow(fake_obj).to receive(:to_text).and_return("nineninine")
-
-        allow(subject).to receive(:column_value).with(resource, :id)
-          .and_return(fake_obj)
-
-        expect(subject.format_string_content(resource, :id)).to eq("nineninine")
-      end
+  describe "#format_richtext_content" do
+    it "returns truncated and sanitized column value" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return('"Pra<tag>nt commodo\ncursus magn')
+      expect(subject.format_richtext_content(resource, :title))
+        .to eq('&quot;Prant commodo\ncursus magn')
     end
 
-    context "when resource column value do not respond to #to_text method" do
-      it "returns value casted to string" do
-        allow(subject).to receive(:column_value).with(resource, :id)
-          .and_return(99)
+    it "casts value to string before truncation" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return(nil)
+      expect(subject.format_richtext_content(resource, :title)).to eq("")
+    end
+  end
 
-        expect(subject.format_string_content(resource, :id)).to eq("99")
+  describe "#format_textarea_content" do
+    it "returns truncated and escape column value" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return('"Pra<tag>nt commodo\ncursus magn')
+      expect(subject.format_textarea_content(resource, :title))
+        .to eq('&quot;Pra&lt;tag&gt;nt commodo\ncursus magn')
+    end
+
+    it "casts value to string before truncation" do
+      allow(subject).to receive(:column_value).with(resource, :title)
+        .and_return(nil)
+      expect(subject.format_textarea_content(resource, :title)).to eq("")
+    end
+  end
+
+  describe "#format_string_content" do
+    context "when resource column value respond to #resource_title method" do
+      it "returns resource to title result" do
+        another_obj = Book.new
+        allow(subject).to receive(:column_value).with(resource, :id).and_return(another_obj)
+        allow(subject).to receive(:resource_title).with(another_obj).and_return("nineninine")
+
+        expect(subject.format_string_content(resource, :id)).to eq("nineninine")
       end
     end
   end
@@ -422,7 +437,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:column_value).with(resource, :birth_date)
         .and_return(value)
 
-      expect(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d")
+      expect(I18n).to receive(:l).with(value, format: :default)
         .and_call_original
 
       expect(subject.format_date_content(resource, :birth_date)).to eq("2012-12-29")
@@ -435,10 +450,23 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:column_value).with(resource, :created_at)
         .and_return(value)
 
-      expect(I18n).to receive(:l).with(value, format: :default, default: "%Y-%m-%d %H:%M:%S")
-        .and_call_original
+      allow(I18n).to receive(:l).with(value, format: "%Y-%m-%d %H:%M")
+        .and_return("2012-12-29 17:12:07")
 
       expect(subject.format_datetime_content(resource, :created_at)).to eq("2012-12-29 17:12:07")
+    end
+  end
+
+  describe "#format_time_content" do
+    it "returns localized time value" do
+      value = Time.parse("2012.12.29 17:12:07")
+      allow(subject).to receive(:column_value).with(resource, :created_at)
+        .and_return(value)
+
+      allow(I18n).to receive(:l).with(value, format: "%H:%M")
+        .and_return("17:12")
+
+      expect(subject.format_time_content(resource, :created_at)).to eq("17:12")
     end
   end
 
@@ -490,48 +518,26 @@ describe Releaf::Builders::TableBuilder, type: :class do
     let(:controller){ double(ActionController::Base) }
     before do
       allow(subject).to receive(:controller).and_return(controller)
-      allow(controller).to receive(:index_url).and_return("_index_url_")
+      allow(controller).to receive(:index_path).and_return("_index_path_")
     end
 
     it "returns cell with toolbox" do
       allow(subject).to receive(:toolbox)
-        .with(resource, index_url: "_index_url_").and_return("_toolbox_")
+        .with(resource, index_path: "_index_path_").and_return("_toolbox_")
 
       content = '<td class="only-icon toolbox-cell">_toolbox_</td>'
       expect(subject.toolbox_cell(resource, {})).to eq(content)
     end
 
     it "merges given toolbox options and passes it to toolbox heplper" do
-      allow(subject.controller).to receive(:index_url).and_return("_index_url_")
+      allow(subject.controller).to receive(:index_path).and_return("_index_path_")
       expect(subject).to receive(:toolbox)
-        .with(resource, index_url: "_index_url_", some_url: "xx").and_return("_toolbox_")
+        .with(resource, index_path: "_index_path_", some_url: "xx").and_return("_toolbox_")
       subject.toolbox_cell(resource, {toolbox: {some_url: "xx"}})
 
       expect(subject).to receive(:toolbox)
-        .with(resource, index_url: "xx").and_return("_toolbox_")
-      subject.toolbox_cell(resource, {toolbox: {index_url: "xx"}})
-    end
-  end
-
-  describe "#format_image_content" do
-    context "when resource value is not blank" do
-      let(:resource){ create(:book, cover_image: File.expand_path('../fixtures/cs.png', __dir__)) }
-
-      it "returns thumnail image" do
-        pattern = /\<img alt=\"\" src=\"\/media\/.*\" \/\>/
-        expect(subject.format_image_content(resource, :cover_image_uid)).to match(pattern)
-      end
-
-      it "uses 16px height for thumbnail" do
-        expect(resource.cover_image).to receive(:thumb).with('x16').and_call_original
-        subject.format_image_content(resource, :cover_image_uid)
-      end
-    end
-
-    context "when resource value is blank" do
-      it "returns nil" do
-        expect(subject.format_image_content(resource, :cover_image_uid)).to be nil
-      end
+        .with(resource, index_path: "xx").and_return("_toolbox_")
+      subject.toolbox_cell(resource, {toolbox: {index_path: "xx"}})
     end
   end
 
@@ -551,21 +557,22 @@ describe Releaf::Builders::TableBuilder, type: :class do
   describe "#column_type_format_method" do
     it "uses column klass and column name for type calculation" do
       allow(subject).to receive(:column_klass).with(resource_class, "some.column").and_return(Chapter)
-      expect(subject).to receive(:column_type).with(Chapter, "some.column")
-      subject.column_type_format_method("some.column")
+      allow(subject).to receive(:column_type).with(Chapter, "some.column").and_return(:extra_type)
+      allow(subject).to receive(:type_format_method).with(:extra_type).and_return("extra_type_method")
+      expect(subject.column_type_format_method("some.column")).to eq("extra_type_method")
     end
+  end
 
+  describe "#type_format_method" do
     context "when format method for returned column type exists" do
       it "returns column type format method" do
-        allow(subject).to receive(:column_type).and_return(:date)
-        expect(subject.column_type_format_method(:title)).to eq(:format_date_content)
+        expect(subject.type_format_method(:date)).to eq(:format_date_content)
       end
     end
 
     context "when format method for returned column type does not exist" do
       it "returns :format_string_content" do
-        allow(subject).to receive(:column_type).and_return(:big_boolean)
-        expect(subject.column_type_format_method(:title)).to eq(:format_string_content)
+        expect(subject.type_format_method(:big_boolean)).to eq(:format_string_content)
       end
     end
   end
@@ -573,7 +580,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
   describe "#cell_format_method" do
     before do
       allow(subject).to receive(:association_column?).with(:title).and_return(false)
-      allow(subject).to receive(:image_column?).with(:title).and_return(false)
       allow(subject).to receive(:column_type_format_method).with(:title).and_return(:format_crazy_shit)
     end
 
@@ -585,13 +591,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
       it "returns :format_association_content" do
         allow(subject).to receive(:association_column?).with(:title).and_return(true)
         expect(subject.cell_format_method(:title)).to eq(:format_association_content)
-      end
-    end
-
-    context "when #association_column? returns true for given column" do
-      it "returns :format_association_content" do
-        allow(subject).to receive(:image_column?).with(:title).and_return(true)
-        expect(subject.cell_format_method(:title)).to eq(:format_image_content)
       end
     end
   end
@@ -612,11 +611,11 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
   describe "#cell" do
     context "when cell options :url value is blank" do
-      it "returns cell with #cell_content output" do
+      it "returns cell with #cell_contentoutput wrapped in a span" do
         options = {a: "x"}
         allow(subject).to receive(:cell_content)
           .with(resource, :title, options).and_return("_cell_content_")
-        content = '<td>_cell_content_</td>'
+        content = '<td><span>_cell_content_</span></td>'
 
         expect(subject.cell(resource, :title, options)).to eq(content)
 
@@ -626,7 +625,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
     end
 
     context "when cell options :url value is not blank" do
-      it "returns cell with #cell_content output wrapped in 'a' element" do
+      it "returns cell with #cell_content output wrapped in a link" do
         allow(subject).to receive(:cell_content)
           .with(resource, :title, {a: "x", url: "y"}).and_return("_cell_content_")
 

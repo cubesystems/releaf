@@ -1,5 +1,5 @@
 class Book < ActiveRecord::Base
-  belongs_to :author
+  belongs_to :author, optional: true
   has_many :chapters, -> { order(:item_position) }, inverse_of: :book
   has_many :book_sequels, dependent: :destroy
   has_many :sequels, through: :book_sequels
@@ -14,6 +14,4 @@ class Book < ActiveRecord::Base
   accepts_nested_attributes_for :book_sequels, allow_destroy: true
 
   dragonfly_accessor :cover_image
-
-  alias_attribute :to_text, :title
 end

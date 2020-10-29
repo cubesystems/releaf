@@ -27,7 +27,7 @@ class Releaf::ResourceUtilities
   # @return controller name
   def self.association_controller(association)
     guessed_name = association.name.to_s.pluralize
-    guessed_name if Releaf.application.config.controllers.values.map { |v| v[:controller] }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
+    guessed_name if Releaf.application.config.controllers.values.map { |v| v.controller_name }.grep(/(\/#{guessed_name}$|^#{guessed_name}$)/).present?
   end
 
   def self.destroyable?(resource)

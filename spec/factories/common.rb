@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   sequence(:name) {|n| "name-#{n}" }
   sequence(:surname) {|n| "surname-#{n}" }
   sequence(:email) {|n| "email-#{n}@example.com" }

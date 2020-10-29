@@ -19,14 +19,14 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
     end
   end
 
-  let(:template){ ConfirmDestroyDialogTestHelper.new }
+  let(:template){ ConfirmDestroyDialogTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Book.new(id: 99, title: "book title") }
   let(:subject){ described_class.new(template) }
 
   before do
     subject.resource = object
     allow(subject.template).to receive(:controller).and_return(Releaf::ActionController.new)
-    allow(subject.controller).to receive(:index_url).and_return("y")
+    allow(subject.controller).to receive(:index_path).and_return("y")
   end
 
   describe "#question_content" do
@@ -37,8 +37,8 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
   end
 
   describe "#description_content" do
-    it "returns `resource_to_text` value" do
-      allow(subject).to receive(:resource_to_text).with(object).and_return("xx")
+    it "returns `resource_title` value" do
+      allow(subject).to receive(:resource_title).with(object).and_return("xx")
       expect(subject.description_content).to eq("xx")
     end
   end
@@ -64,7 +64,7 @@ describe Releaf::Builders::ConfirmDestroyDialogBuilder, type: :class do
 
   describe "#confirm_url" do
     it "returns resource destroy url" do
-      allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_url: "y").and_return("x")
+      allow(subject.template).to receive(:url_for).with(action: 'destroy', id: 99, index_path: "y").and_return("x")
       expect(subject.confirm_url).to eq("x")
     end
   end

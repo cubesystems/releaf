@@ -4,7 +4,7 @@ class Releaf::Permissions::ProfileController < Releaf::ActionController
     @resource = user.becomes(resource_class)
   end
 
-  def success_url
+  def success_path
     url_for(action: :edit)
   end
 
@@ -15,7 +15,7 @@ class Releaf::Permissions::ProfileController < Releaf::ActionController
 
     # reload resource as password has been changed
     if @resource.password != old_password
-      sign_in(user, bypass: true)
+      bypass_sign_in(user)
     end
   end
 

@@ -10,8 +10,8 @@ module Releaf
     attribute :mount_location, String, default: ""
     attribute :additional_controllers, Array, default: []
 
-    def components=(_components)
-      @components = flatten_components(_components)
+    def components=(value)
+      super(flatten_components(value))
       components.each do|component_class|
         component_class.configure_component if component_class.respond_to? :configure_component
       end
@@ -70,34 +70,26 @@ module Releaf
 
     def extract_controllers(list)
       list.each.inject({}) do |controller_list, item|
-        controller_list[item[:controller]] = item if item.has_key? :controller
-        controller_list.merge!(extract_controllers(item[:items])) if item.has_key? :items
+        if item.respond_to? :controllers
+          controller_list.merge!(extract_controllers(item.controllers))
+        else
+          controller_list[item.controller_name] = item
+        end
+
         controller_list
       end
     end
 
     def self.normalize_controllers(list)
-     list.map{|item| normalize_controller_item(item)}
-    end
-
-    def self.normalize_controller_item(item_data)
-      if item_data.is_a? String
-        item = {controller: item_data}
-      elsif item_data.is_a? Hash
-        item = item_data
+      list.map do |item|
+        if item.is_a?(Hash) && item.has_key?(:items)
+          ControllerGroupDefinition.new(item)
+        elsif item.is_a?(Hash) || item.is_a?(String)
+          ControllerDefinition.new(item)
+        else
+          item
+        end
       end
-
-      item[:name] = item[:controller] unless item.has_key? :name
-
-      if item.has_key? :helper
-        item[:url_helper] = item[:helper].to_sym
-      elsif item.has_key? :controller
-        item[:url_helper] = item[:controller].gsub('/', '_').to_sym
-      end
-
-      item[:items] = normalize_controllers(item[:items]) if item.has_key?(:items)
-
-      item
     end
   end
 end

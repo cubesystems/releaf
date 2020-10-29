@@ -221,7 +221,7 @@ jQuery( document ).ready(function()
                                     element:   this,
                                     attribute: attrs[i],
                                     old_value: attr,
-                                    new_value: attr.replace(searchPattern, replacePattern),
+                                    new_value: attr.replace(searchPattern, replacePattern)
                                 };
                                 if (params.old_value === params.new_value)
                                 {

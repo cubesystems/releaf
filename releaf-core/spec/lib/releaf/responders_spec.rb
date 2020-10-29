@@ -8,6 +8,7 @@ describe Releaf::Responders, type: :controller do
       allow(subject).to receive(:active_responder).and_return(Releaf::Responders::AfterSaveResponder)
       allow(subject).to receive(:request).and_return(request)
       allow(subject).to receive(:content_type).and_return(:html)
+      allow(subject).to receive(:action_name).and_return(:save)
     end
 
     context "when no responder defined within options" do

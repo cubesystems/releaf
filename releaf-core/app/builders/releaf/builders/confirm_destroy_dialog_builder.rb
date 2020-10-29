@@ -4,7 +4,7 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmD
   end
 
   def description_content
-    resource_to_text(resource)
+    resource_title(resource)
   end
 
   def section_header_text
@@ -20,6 +20,6 @@ class Releaf::Builders::ConfirmDestroyDialogBuilder < Releaf::Builders::ConfirmD
   end
 
   def confirm_url
-    url_for( action: 'destroy', id: resource.id, index_url: index_url)
+    url_for( action: 'destroy', id: resource.id, index_path: index_path)
   end
 end

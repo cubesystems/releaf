@@ -7,7 +7,7 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
   end
 
   subject { described_class.new(template) }
-  let(:template){ ToolboxBuilderTestHelper.new }
+  let(:template){ ToolboxBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   it "includes Releaf::Builders::Base" do
     expect(described_class.ancestors).to include(Releaf::Builders::Base)
@@ -56,11 +56,11 @@ describe Releaf::Builders::ToolboxBuilder, type: :class do
   end
 
   describe "#destroy_confirmation_url" do
-    it "returns resource destroy confirmation url with index_url param" do
+    it "returns resource destroy confirmation url with index_path param" do
       subject.resource = Book.new(id: 99)
-      allow(subject.template).to receive(:url_for).with(action: :confirm_destroy, id: 99, index_url: "y").and_return("x")
+      allow(subject.template).to receive(:url_for).with(action: :confirm_destroy, id: 99, index_path: "y").and_return("x")
       allow(subject.template).to receive(:controller).and_return(Releaf::ActionController.new)
-      allow(subject.controller).to receive(:index_url).and_return("y")
+      allow(subject.controller).to receive(:index_path).and_return("y")
       expect(subject.destroy_confirmation_url).to eq("x")
     end
   end

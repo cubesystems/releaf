@@ -37,7 +37,11 @@ module Releaf::ActionController::Resources
   end
 
   def load_resource
-    @resource = resource_class.find(params[:id])
+    begin
+      @resource = resource_class.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      raise Releaf::RecordNotFound
+    end
   end
 
   # Returns true if @resource is assigned (even if it's nil)

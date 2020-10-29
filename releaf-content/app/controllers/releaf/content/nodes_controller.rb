@@ -2,7 +2,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
   respond_to :json, only: [:create, :update, :copy, :move]
 
   def features
-    super - [:create_another]
+    super - [:create_another, :search]
   end
 
   def generate_url
@@ -10,9 +10,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
     tmp_resource.name = params[:name]
     tmp_resource.reasign_slug
 
-    respond_to do |format|
-      format.js { render text: tmp_resource.slug }
-    end
+    render plain: tmp_resource.slug
   end
 
   def content_type_dialog
@@ -41,51 +39,40 @@ class Releaf::Content::NodesController < Releaf::ActionController
     end
   end
 
-  def go_to_dialog
-    @collection = resource_class.roots
-
-    respond_to do |format|
-      format.html do
-        render layout: nil
-      end
-    end
-  end
-
   # override base_controller method for adding content tree ancestors
   # to breadcrumbs
   def add_resource_breadcrumb(resource)
-    ancestors = []
-    if resource.new_record?
-      if resource.parent_id
-        ancestors = resource.parent.ancestors
-        ancestors += [resource.parent]
-      end
-    else
-      ancestors = resource.ancestors
+    ancestor_nodes(resource).each do |node|
+      @breadcrumbs << { name: node, url: url_for( action: :edit, id: node.id ) }
     end
-
-    ancestors.each do |ancestor|
-      @breadcrumbs << { name: ancestor, url: url_for( action: :edit, id: ancestor.id ) }
-    end
-
     super
+  end
+
+  def ancestor_nodes(resource)
+    if resource.persisted?
+      resource.ancestors.reorder(:depth)
+    elsif resource.new_record? && resource.parent
+      resource.parent.ancestors.reorder(:depth) + [resource.parent]
+    else
+      []
+    end
   end
 
   def self.resource_class
     # find first key in content resources config that has this class as controller
-    model_class_name = Releaf::Content.resources.find { |model_name, options| options[:controller] == name }.first
+    model_class_name = Releaf::Content.resources.find{|_model_name, options| options[:controller] == name }.first
     model_class_name.constantize
   end
 
   protected
 
   def prepare_index
-    @collection = resource_class.roots
+    @collection = resource_class.all
   end
 
   private
 
-  def copy_move_common(&block)
+  def copy_move_common
     @resource = resource_class.find(params[:id])
 
     if params[:new_parent_id].nil?
@@ -112,7 +99,7 @@ class Releaf::Content::NodesController < Releaf::ActionController
 
   def copy_move_dialog_common
     @resource = resource_class.find params[:id]
-    @collection = resource_class.roots
+    @collection = resource_class.all
   end
 
   def prepare_resource

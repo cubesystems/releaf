@@ -2,10 +2,10 @@ require 'rails_helper'
 feature "Base controller index", js: true do
   background do
     auth_as_user
-    author = FactoryGirl.create(:author)
-    good_book = FactoryGirl.create(:book, title: "good book", author: author, published_at: Date.parse("2015-12-12"))
-    FactoryGirl.create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: good_book)
-    FactoryGirl.create(:book, title: "bad book", author: author)
+    author = create(:author)
+    good_book = create(:book, title: "good book", author: author, published_at: Date.parse("2015-12-12"))
+    create(:chapter, title: 'Scary night', text: 'Once upon a time...', book: good_book)
+    create(:book, title: "bad book", author: author)
   end
 
   scenario "shows resource count" do
@@ -46,6 +46,7 @@ feature "Base controller index", js: true do
     visit admin_books_path
     expect(page).to have_link("good book")
 
+    allow_any_instance_of(Admin::BooksController).to receive(:feature_available?).and_call_original
     allow_any_instance_of(Admin::BooksController).to receive(:feature_available?).with(:edit).and_return(false)
     visit admin_books_path
     expect(page).to_not have_link("good book")

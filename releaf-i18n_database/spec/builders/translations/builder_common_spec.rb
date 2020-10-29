@@ -5,7 +5,7 @@ describe Releaf::I18nDatabase::Translations::BuildersCommon, type: :class do
     include Releaf::I18nDatabase::Translations::BuildersCommon
   end
   class TableBuilderTestHelper < ActionView::Base; end
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ I18nBuildersCommonInheriter.new(template) }
 
   describe "#action_url" do
@@ -30,7 +30,7 @@ describe Releaf::I18nDatabase::Translations::BuildersCommon, type: :class do
 
   describe "#export_button" do
     it "returns export button" do
-      allow(subject).to receive(:t).with("export").and_return("exp")
+      allow(subject).to receive(:t).with("Export").and_return("exp")
       allow(subject).to receive(:action_url).with(:export, format: :xlsx).and_return("_exp_url_")
       allow(subject).to receive(:button).with("exp", "download", class: "secondary", href: "_exp_url_").and_return("btn")
       expect(subject.export_button).to eq('btn')

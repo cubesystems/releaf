@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   protect_from_forgery with: :exception
-  before_filter :set_locale
+  before_action :set_locale
   layout "application"
   helper_method :translation_scope, :node_class, :site
 
@@ -21,9 +21,9 @@ class ApplicationController < ActionController::Base
     # use first root
     target_root = available_roots.first
     if target_root
-      redirect_to target_root.url
+      redirect_to target_root.path
     else
-      render text: "Welcome to Releaf", layout: true
+      render plain: "Welcome to Releaf", layout: true
     end
   end
 

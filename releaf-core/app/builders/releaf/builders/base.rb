@@ -7,10 +7,10 @@ module Releaf::Builders::Base
     :render, :link_to, :flash, :truncate, :radio_button_tag,
     :options_for_select, :action_name, :options_from_collection_for_select,
     :select_tag, :text_field_tag,
-    :image_tag, :jquery_date_format, :cookies, :button_tag, :merge_attributes, to: :template
+    :image_tag, :cookies, :button_tag, :merge_attributes, to: :template
 
-  delegate :controller_scope_name,
-    :feature_available?, :index_url, to: :controller
+  delegate :controller_scope_name, :builder_class,
+    :feature_available?, :index_path, to: :controller
 
   alias_method :button, :releaf_button
 
@@ -30,7 +30,7 @@ module Releaf::Builders::Base
     ERB::Util.html_escape(value)
   end
 
-  def tag(*args, &block)
+  def tag(*args)
     return content_tag(*args) unless block_given?
 
     content_tag(*args) do
@@ -53,7 +53,7 @@ module Releaf::Builders::Base
     template.fa_icon(name)
   end
 
-  def safe_join(&block)
+  def safe_join
     template.safe_join(yield)
   end
 
@@ -76,9 +76,7 @@ module Releaf::Builders::Base
     controller_scope_name
   end
 
-  # calls `#to_text` on resource if resource supports it. Otherwise calls
-  # `#to_s` method
-  def resource_to_text(resource)
-    resource.send(resource.respond_to?(:to_text) ? :to_text : :to_s)
+  def resource_title(resource)
+    Releaf::ResourceBase.title(resource)
   end
 end

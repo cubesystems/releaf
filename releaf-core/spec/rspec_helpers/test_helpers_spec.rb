@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Releaf::TestHelpers do
+describe Releaf::Test::Helpers do
   describe ".stub_settings" do
     it "stubs given hash by key, value to Releaf::Settings" do
       stub_settings("some.settings" => "x", "something" => "nothing")

@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Releaf::Settings::TableBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base; end
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource_class){ Releaf::Settings }
   let(:subject){ described_class.new([], resource_class, template, {}) }
 
@@ -13,9 +13,11 @@ describe Releaf::Settings::TableBuilder, type: :class do
   end
 
   describe "#value_content" do
-    it "return resource value casted to string" do
-      resource = Releaf::Settings.new(value: Date.parse("2012-01-01"))
-      expect(subject.value_content(resource)).to eq("2012-01-01")
+    it "return value processed with corresponding type content format method" do
+      resource = Releaf::Settings.new(value: :x)
+      allow(resource).to receive(:input_type).and_return(:date)
+      allow(subject).to receive(:format_date_content).with(resource, :value).and_return(:y)
+      expect(subject.value_content(resource)).to eq(:y)
     end
   end
 end

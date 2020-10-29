@@ -3,16 +3,14 @@ module Releaf::Responders
     delegate :render_notification, to: :controller
 
     def json_resource_errors
-      {errors: Releaf::ErrorFormatter.format_errors(resource)}
+      {errors: Releaf::BuildErrorsHash.call(resource: resource, field_name_prefix: :resource)}
     end
 
     def to_json
       if has_errors?
         display_errors
-      elsif options[:redirect]
-        render json: {url: resource_location}, status: 303
       else
-        redirect_to resource_location, status: 303
+        redirect_to resource_location, status: 303, turbolinks: false
       end
     end
 

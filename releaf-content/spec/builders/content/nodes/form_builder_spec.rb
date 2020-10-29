@@ -9,7 +9,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     def generate_url_releaf_content_nodes_path(args); end
   end
 
-  let(:template){ FormBuilderTestHelper.new }
+  let(:template){ FormBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:object){ Node.new(content_type: "TextPage", slug: "b", id: 2,
                          parent: Node.new(content_type: "TextPage", slug: "a", id: 1)) }
   let(:subject){ described_class.new(:resource, object, template, {}) }
@@ -159,6 +159,50 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
     end
   end
 
+  describe "#slug_base_url" do
+    before do
+      request = double(:request, protocol: "http:://", host_with_port: "somehost:8080")
+      allow(subject).to receive(:request).and_return(request)
+      allow(object).to receive(:parent).and_return(Node.new)
+    end
+
+    context "when trailing slash for path enabled" do
+      it "returns absolute url without extra slash added" do
+        allow(object).to receive(:trailing_slash_for_path?).and_return(true)
+        allow(object.parent).to receive(:path).and_return("/parent/path/")
+        expect(subject.slug_base_url).to eq("http:://somehost:8080/parent/path/")
+      end
+    end
+
+    context "when trailing slash for path disabled" do
+      it "returns absolute url with extra slash added" do
+        allow(object).to receive(:trailing_slash_for_path?).and_return(false)
+        allow(object.parent).to receive(:path).and_return("/parent/path")
+        expect(subject.slug_base_url).to eq("http:://somehost:8080/parent/path/")
+      end
+    end
+  end
+
+  describe "#slug_link" do
+    before do
+      allow(subject).to receive(:slug_base_url).and_return("http://some.host/parent/path/")
+    end
+
+    context "when trailing slash for path enabled" do
+      it "returns absolute url without extra slash added" do
+        allow(object).to receive(:trailing_slash_for_path?).and_return(true)
+        expect(subject.slug_link).to eq('<a href="/a/b/">http://some.host/parent/path/<span>b</span>/</a>')
+      end
+    end
+
+    context "when trailing slash for path disabled" do
+      it "returns absolute url with extra slash added" do
+        allow(object).to receive(:trailing_slash_for_path?).and_return(false)
+        expect(subject.slug_link).to eq('<a href="/a/b">http://some.host/parent/path/<span>b</span></a>')
+      end
+    end
+  end
+
   describe "#render_slug" do
     it "renders customized field" do
       controller = Admin::NodesController.new
@@ -178,7 +222,7 @@ describe Releaf::Content::Nodes::FormBuilder, type: :class do
                       <i class="fa fa-keyboard-o"></i>
                   </button>
                   <div class="link">
-                      <a href="/a/b">http://localhost/parent<span>b</span>/</a>
+                      <a href="/a/b">http://localhost/parent<span>b</span></a>
                   </div>
              </div>
          </div>

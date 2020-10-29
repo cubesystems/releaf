@@ -7,6 +7,14 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     Rails.application.eager_load!
   end
 
+  before do
+    @default_app_host = Capybara.app_host
+  end
+
+  after do
+    Capybara.app_host = @default_app_host
+  end
+
 
   before with_releaf_node_controller: true do
     # stub node config and admin menu to use default releaf node controller
@@ -18,8 +26,8 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     # preserve default config because it will be needed in after block
     @default_menu_config = Releaf.application.config.menu.dup
     stubbed_menu_config = @default_menu_config.map do |item|
-      if item[:controller] == 'admin/nodes'
-        { :controller => 'releaf/content/nodes' }
+      if item.is_a?(Releaf::ControllerDefinition) && item.controller_name == 'admin/nodes'
+        Releaf::ControllerDefinition.new("releaf/content/nodes")
       else
         item.dup
       end
@@ -43,26 +51,27 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       resources: {
         'Node' => {
           controller: 'Releaf::Content::NodesController',
-          routing: { site: "main_site", constraints: { host: Regexp.new( "^" + Regexp.escape("releaf.127.0.0.1.xip.io") + "$" ) } }
+          routing: { site: "main_site", constraints: { host: Regexp.new( "^" + Regexp.escape("releaf.127.0.0.1.nip.io") + "$" ) } }
         },
         'OtherSite::OtherNode' => {
          controller: 'Admin::OtherSite::OtherNodesController',
-         routing: { site: "other_site", constraints: { host: Regexp.new( "^" + Regexp.escape("other.releaf.127.0.0.1.xip.io") + "$" ) } }
+         routing: { site: "other_site", constraints: { host: Regexp.new( "^" + Regexp.escape("other.releaf.127.0.0.1.nip.io") + "$" ) } }
         }
       }
     ))
 
     # preserve default config because it will be needed in after block
     @default_menu_config = Releaf.application.config.menu.dup
+    node_controller_item = Releaf::ControllerDefinition.new("releaf/content/nodes")
     stubbed_menu_config = @default_menu_config.map do |item|
-      if item[:controller] == 'admin/nodes'
-        { :controller => 'releaf/content/nodes' }
+      if item.is_a?(Releaf::ControllerDefinition) && item.controller_name == 'admin/nodes'
+        node_controller_item
       else
         item.dup
       end
     end
-    content_index = stubbed_menu_config.index( { :controller => 'releaf/content/nodes' } )
-    stubbed_menu_config.insert( content_index + 1,  { :controller => 'admin/other_site/other_nodes' } )
+    content_index = stubbed_menu_config.index( node_controller_item )
+    stubbed_menu_config.insert( content_index + 1, Releaf::ControllerDefinition.new("admin/other_site/other_nodes"))
 
     allow( Releaf.application.config ).to receive(:menu).and_return( Releaf::Configuration.normalize_controllers(stubbed_menu_config) )
     # reset cached values
@@ -197,22 +206,6 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     end
   end
 
-  describe "go_to node" do
-    before do
-      visit edit_admin_node_path @en_root
-    end
-
-    context "when going to node from toolbox list" do
-      it "navigates to targeted node's edit view" do
-        expect(page).to have_no_header(text: 'lv')
-        open_toolbox_dialog "Go to"
-
-        click_link "lv"
-        expect(page).to have_header(text: 'lv')
-      end
-    end
-  end
-
   describe "copy node to" do
     context "when copying node" do
       it "shows copied node in tree" do
@@ -243,7 +236,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Copy"
         end
 
-        error_text = "Node with id #{@about_us.id} has error \"source or descendant node can't be parent of new node\""
+        error_text = "source or descendant node can't be parent of new node"
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
@@ -279,11 +272,40 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
           click_button "Move"
         end
 
-        error_text = "Node with id #{@about_us.id} has error \"can't be parent to itself\" on attribute \"parent_id\""
+        error_text = "can't be parent to itself"
         expect(page).to have_css('.dialog .form-error-box', text: error_text)
       end
     end
 
+  end
+
+  scenario "Slugs", with_tree: false do
+    visit admin_nodes_path
+
+    open_toolbox_dialog 'Add child', @lv_root, ".view-index .collection li"
+    within_dialog do
+      click_link("Text page")
+    end
+
+    fill_in "Slug", with: "some-slug"
+    fill_in 'Name', with: "About us"
+    expect(page).to have_field("Slug", with: "some-slug")
+
+    fill_in "Slug", with: ""
+    fill_in 'Name', with: "About them"
+    blur_from "Name"
+    expect(page).to have_field("Slug", with: "about-them")
+
+    # fill text to allow text page save
+    fill_in_richtext "Text", with: "asdasd"
+
+    fill_in "Slug", with: "invalid slug <>!"
+    click_button "Save"
+    expect(page).to have_error("is invalid", field: "Slug")
+    click_button "Suggest slug"
+    expect(page).to have_field("Slug", with: "about-them")
+    click_button "Save"
+    expect(page).to have_notification("Create succeeded")
   end
 
   describe "node order", with_tree: false do
@@ -377,7 +399,75 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect(page).to have_content "Node class: Node"
       expect(page).to have_content "Releaf github repository"
     end
+  end
 
+  feature "breadcrumbs ordering by depth", with_releaf_node_controller: true do
+    # create some nodes and then rearrange them to get some with oldest under newest
+
+    scenario "create and reorder node depth" do
+      visit releaf_content_nodes_path
+      find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
+      click_link "Add child"
+      within '.ajaxbox-inner .dialog.content-type' do
+        click_link "Text page"
+      end
+      create_resource do
+        fill_in "resource_name", with: "TextContent_1"
+        fill_in_richtext 'Text', with: "asdasd"
+      end
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_1")
+
+      visit releaf_content_nodes_path
+      find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
+      click_link "Add child"
+      within '.ajaxbox-inner .dialog.content-type' do
+        click_link "Text page"
+      end
+      create_resource do
+        fill_in "resource_name", with: "TextContent_2"
+        fill_in_richtext 'Text', with: "asdasd"
+      end
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_2")
+
+      visit releaf_content_nodes_path
+      find('li[data-id="' + @lv_root.id.to_s + '"] > .toolbox-cell button').click
+      click_link "Add child"
+      within '.ajaxbox-inner .dialog.content-type' do
+        click_link "Text page"
+      end
+      create_resource do
+        fill_in "resource_name", with: "TextContent_3"
+        fill_in_richtext 'Text', with: "asdasd"
+      end
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_3")
+
+
+      text_page_1_node_id = Node.find_by(name: "TextContent_1").id
+      text_page_2_node_id = Node.find_by(name: "TextContent_2").id
+      text_page_3_node_id = Node.find_by(name: "TextContent_3").id
+
+      visit edit_releaf_content_node_path(text_page_1_node_id)
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_1")
+      open_toolbox_dialog "Move"
+      within ".dialog" do
+        find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
+        find("label[for=new_parent_id_#{text_page_2_node_id}]").click
+        click_button "Move"
+      end
+      expect(page).to have_notification("Move succeeded")
+
+      visit edit_releaf_content_node_path(text_page_2_node_id)
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_2")
+      open_toolbox_dialog "Move"
+      within ".dialog" do
+        find("label[for=new_parent_id_#{text_page_3_node_id}]").click
+        click_button "Move"
+      end
+      expect(page).to have_notification("Move succeeded")
+
+      visit edit_releaf_content_node_path(text_page_1_node_id)
+      expect(page).to have_breadcrumbs("Releaf/content/nodes", "lv", "TextContent_3", "TextContent_2", "TextContent_1")
+    end
   end
 
   feature "using multiple independent node trees", with_multiple_node_classes: true,  with_other_tree: true do
@@ -430,7 +520,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       # test public websites for correct url helpers, node types, site settings and host name constraints
 
-      allow(Capybara).to receive(:app_host).and_return "http://releaf.127.0.0.1.xip.io"
+      Capybara.app_host = "http://releaf.127.0.0.1.nip.io"
 
       visit main_site_lv_home_page_path
       expect(page).to have_content "Site: main_site"
@@ -438,7 +528,7 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect(page).to have_content "Node name: lv"
 
       visit "/lv/about-us"
-      expect(URI.parse(current_url).host).to eq "releaf.127.0.0.1.xip.io"
+      expect(URI.parse(current_url).host).to eq "releaf.127.0.0.1.nip.io"
       expect(page).to have_content "Site: main_site"
       expect(page).to have_content "Node class: Node"
       expect(page).to have_content "Node name: about us"
@@ -453,14 +543,14 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       expect( page ).to have_content "The page you were looking for doesn't exist."
 
 
-      allow(Capybara).to receive(:app_host).and_return "http://other.releaf.127.0.0.1.xip.io"
+      Capybara.app_host = "http://other.releaf.127.0.0.1.nip.io"
       visit other_site_lv_home_page_path
       expect(page).to have_content "Site: other_site"
       expect(page).to have_content "Node class: OtherSite::OtherNode"
       expect(page).to have_content "Node name: Other lv"
 
       visit "/lv/about-us"
-      expect(URI.parse(current_url).host).to eq "other.releaf.127.0.0.1.xip.io"
+      expect(URI.parse(current_url).host).to eq "other.releaf.127.0.0.1.nip.io"
       expect(page).to have_content "Site: other_site"
       expect(page).to have_content "Node class: OtherSite::OtherNode"
       expect(page).to have_content "Node name: Other about us"
@@ -475,7 +565,6 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
       # because the route is constrained to main site in dummy application's routes.rb
       visit "/lv/contacts"
       expect( page ).to have_content "The page you were looking for doesn't exist."
-
     end
 
   end

@@ -3,7 +3,7 @@ class Releaf::Builders::IndexBuilder
   include Releaf::Builders::Collection
 
   def header_extras
-    search_block
+    search_block if feature_available?(:search)
   end
 
   def dialog?
@@ -88,7 +88,7 @@ class Releaf::Builders::IndexBuilder
 
   def footer_primary_tools
     items = []
-    items << resource_creation_button if feature_available? :create
+    items << resource_creation_button if feature_available?(:create)
     items
   end
 
@@ -110,9 +110,16 @@ class Releaf::Builders::IndexBuilder
     button(text, "plus", class: "primary", href: url)
   end
 
+  def table_options
+    {
+      builder: builder_class(:table),
+      toolbox: feature_available?(:toolbox)
+    }
+  end
+
   def section_body
     tag(:div, class: "body") do
-      template.releaf_table(collection, template.resource_class, template.table_options)
+      template.releaf_table(collection, template.resource_class, table_options)
     end
   end
 end

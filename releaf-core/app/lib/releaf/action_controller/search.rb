@@ -10,6 +10,7 @@ module Releaf::ActionController::Search
   end
 
   def search(text)
+    return unless feature_available?(:search)
     return if text.blank?
     return if searchable_fields.blank?
     @collection = searcher_class.prepare(relation: @collection, fields: searchable_fields, text: text)

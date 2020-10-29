@@ -1,57 +1,50 @@
 module Releaf
   class AssetsResolver
-    NONCOMPILED_PATTERN = /app\/assets\/(javascripts|stylesheets)\/((releaf\/)?controllers\/(.*?))\..*/
-    COMPILED_PATTERN = /(releaf\/)?controllers\/(.*?)\.(js|css)$/
+    NONCOMPILED_PATTERN = /(javascripts|stylesheets)\/(controllers\/(.*?))\..*/
+    COMPILED_PATTERN = /controllers\/(.*?)\.(js|css)$/
+    TYPE_EXTENSION_MAP = {
+      "stylesheets" => "css",
+      "javascripts" => "js",
+    }
 
     def self.base_assets
       ["releaf/application"]
     end
 
     def self.controller_assets(controller, type)
-      base_assets + assets.fetch(controller, {}).fetch(type, [])
+      asset_path = "controllers/#{controller}.#{TYPE_EXTENSION_MAP[type.to_s]}"
+      base_assets + [assets[asset_path]].compact
     end
 
     def self.noncompiled_assets
-      list = {}
-
-      Rails.application.assets.each_file do|file|
+      Rails.application.assets.each_file.map do|file|
         match = file.to_s.match(NONCOMPILED_PATTERN)
-        if match
-          controller = match[4]
-          asset_type = match[1].to_sym
-          list[controller] ||= {stylesheets: [], javascripts: []}
-          list[controller][asset_type] << match[2]
-        end
-      end
-
-      list
+        "#{match[2]}.#{TYPE_EXTENSION_MAP[match[1]]}" if match
+      end.compact
     end
 
     def self.compiled_assets
-      list = {}
-
-      Rails.application.assets_manifest.files.each_pair do|asset_path, asset|
+      Rails.application.assets_manifest.files.map do|_, asset|
         match = asset["logical_path"].match(COMPILED_PATTERN)
-        if match
-          controller = match[2]
-          asset_type = match[3] == "css" ? :stylesheets : :javascripts
-          list[controller] ||= {stylesheets: [], javascripts: []}
-          list[controller][asset_type] << asset["logical_path"]
-        end
-      end
-
-      list
+        asset["logical_path"] if match
+      end.compact.uniq
     end
 
     def self.compiled_assets?
       Rails.application.assets.nil?
     end
 
+    def self.assets_hash(assets)
+      assets.inject({}) do|hash, asset|
+        hash.update(asset => asset)
+      end
+    end
+
     def self.assets
       if compiled_assets?
-        @@compiled_assets ||= compiled_assets
+        @@compiled_assets ||= assets_hash(compiled_assets)
       else
-        noncompiled_assets
+        assets_hash(noncompiled_assets)
       end
     end
   end

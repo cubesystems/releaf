@@ -4,17 +4,7 @@ module Releaf::Root
     attribute :current_controller
 
     def call
-      controllers.each do |controller_name|
-        path = controller_index_path(controller_name)
-        return path if path.present?
-      end
-    end
-
-    def controller_index_path(controller_name)
-      begin
-        Rails.application.routes.url_helpers.url_for(action: "index", controller: controller_name, only_path: true)
-      rescue ActionController::UrlGenerationError
-      end
+      Releaf.application.config.controllers[controllers.first].path if controllers.first
     end
 
     def controllers

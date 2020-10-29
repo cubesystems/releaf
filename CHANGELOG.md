@@ -1,6 +1,291 @@
 ## Changelog
 
+### 1.1.21 (2020.05.26)
+
+* Cache menu builder access control instance
+
+### 1.1.21 (2019.03.29)
+
+* Add correct time formatting in table builder
+
+### 1.1.20 (2018.11.13)
+
+* Fix a bug in has_error? matcher
+
+### 1.1.19 (2018.09.17)
+
+* Fix CKEditor 4.9 file upload issue
+
+### 1.1.18 (2018.08.08)
+
+* Use respond_with for show action
+
+### 1.1.17 (2018.06.15)
+
+* Fix sidebar css for compact view
+
+### 1.1.16 (2018.06.06)
+
+* Minor rspec `auth_as_user` helper improvement for better user instance
+  support
+
+### 1.1.15 (2018.03.29)
+
+* Add richtext support to `Releaf::Settings`
+
+### 1.1.14 (2018.03.29)
+
+* Fix a problem with content tree building
+
+### 1.1.13 (2018.01.18)
+
+* Initialize search form via `contentloaded` event
+
+### 1.1.12 (2018.01.18)
+
+* Add more convient way to detect whether menu item is group
+
+### 1.1.11 (2018.01.16)
+
+* Fix broken admin controller custom routes helper support
+* Use controller definition path for resolving default controller
+  redirect
+
+### 1.1.10 (2017.12.20)
+
+* Add textarea support to `Releaf::Settings`
+
+### 1.1.9 (2017.12.15)
+
+* Fix a bug that always regenerated slugs from content node titles during copying
+* Improve performance in case of many content nodes
+* Return content node instance from copy and move service calls
+
+### 1.1.7 (2017.09.10)
+* Fix breacrumbs link for controllers for "show" method instead of "edit"
+
+### 1.1.6 (2017.08.31)
+* Add "cache_instance_method" rspec matcher
+
+### 1.1.5 (2017.06.07)
+* Fix an incompletely merged PR
+
+### 1.1.4 (2017.06.07)
+* Fix a localization issue with datetime fields
+
+### 1.1.3 (2017.04.04)
+* Correctly return empty features array for Releaf::RootController
+
+### 1.1.2 (2017.04.04)
+* Render Releaf 404 error page when resource is not found
+* Remove "go home" link from error pages
+
+### 1.1.1 (2017.03.22)
+* Fix pluralization support for `releaf-i18n_database` to return correct pluralization
+* Remove "twitter_cldr" in favour of "rails-i18n" gem for translation
+  pluralization support in `releaf-i18n_database`
+
+### 1.1.0 (2017.02.23)
+* Added layout features. Controller from now can choose which parts(header, sidebar, main) must be rendered
+* Added support for CKEditor filebrowserBrowseUrl configuration
+
+### 1.0.10 (2017.02.22)
+* Fix broken content nodes copy and move dialogs
+
+### 1.0.9 (2017.02.21)
+* Deep copy support added for node content objects
+
+### 1.0.8 (2017.01.31)
+* Make Releaf resource creation MS Edge compatible by using html5
+  history API to load new resource location and content when created with
+  xhr
+
+### 1.0.7 (2016.12.28)
+* `Releaf::Builders::FormBuilder` now has a separate `releaf_has_many_association_attributes` method that can be overridden in custom builders to add extra HTML attributes to a nested item section
+
+### 1.0.6 (2016.12.18)
+* Make possible to safely use translations in routes while using `releaf-i18n_database` gem
+
+### 1.0.5 (2016.12.06)
+* Added slug format validation for content nodes
+* Fixed broken "Save and create another" feature
+
+### 1.0.4 (2016.11.01)
+* fix builder scope resolving in cases when application scope has `nil`
+  value
+
+### 2016.10.21
+* `Releaf.application.config.i18n_database.translation_auto_creation_patterns` configuration variable added for custom
+  translation auto creation patterns matching. Default value is `[ /.*/ ]` to create all incoming keys.
+
+### 2016.10.17
+* `application_builder_scope` method from controller removed.
+* controller will try to resolve builders also in application wide
+  scope (ex. from now it is possible to have `Admin::FormBuilder` for application wide default admin form builder)
+
+### 2016.10.15
+* `Releaf::InstanceCache` has been rewrited for more convient way to define methods to cache.
+  It is possible to define either single or array of methods to cache:
+  ```
+  def SomeClass
+    include Releaf::InstanceCache
+    cache_instance_methods :some_value, :another_value
+    cache_instance_method :some_value
+
+    def some_value
+      :a
+    end
+
+    def another_value
+      :b
+    end
+
+    def totally_another_value
+      :c
+    end
+  end
+  ```
+
+### 2016.10.11
+* `Releaf.application.config.i18n_database.create_missing_translations`
+  config renamed to `Releaf.application.config.i18n_database.translation_auto_creation`
+* I18n.t `create_missing` option renamed to `auto_create`
+* I18n.t `create_default` option removed
+* Use chained translation backends with `Releaf::I18nDatabase::Backend` as primary and
+  `I18n::Backend::Simple ` as secondary backend
+* `Releaf.application.config.i18n_database.translation_auto_creation_exclusion_patterns` config
+  added with default value `[/^attributes\./]` to ignore default translations comming from activerecord
+  attribute humanization method.
+* It is possible to add  custom regexp patterns to prevent certain translations to be created
+  in database (for example add `config.i18n_database.translation_auto_creation_exclusion_patterns += [/^activerecord\.attributes\./]`
+  to your Releaf initializer to prevent `activerecord.attributes.*` creation)
+* As there is backend chain available, it is recommended to create default,
+  hardcoded translations (date and number formats for example) with
+  standart localization yml files (config/locales/*.yml)
+* `I18n.backend.translations_cache.locales_pluralizations` method moved to `Releaf::I18nDatabase::Backend.locales_pluralizations`
+* It is possible to reset Releaf translation cache with `Releaf::I18nDatabase::Backend.reset_cache`
+
+### 2016.08.15
+* `Releaf::TestHelpers` test helpers renamed to `Releaf::Test::Helpers`
+* For better Releaf tests behaviour add `Releaf::Test.reset!` to `RSpec.after(:each)`
+
+### 2016.08.10
+* Controllers `current_url` and `index_url` methods renamed to `current_path` and `index_path`
+
+### 2016.07.22
+* `form_options`, `form_attributes` and `form_url` methods moved from Releaf::ActionController to `Releaf::Builders::EditBuilder` as its edit builder responsibility for it's own content
+* `Releaf::Builders::EditBuilder` for now have `#form_builder_class`
+  method for custom form builder class overriding
+* `table_options` method moved from Releaf::ActionController to `Releaf::Builders::IndexBuilder`
+
+### 2016.07.19
+* `Releaf::ItemOrderer` refactored to `Array::Reorder` service
+* Array now have #reorder method for simple array reordering
+* You must update builders from old reorder code to new syntax:
+```
+def field_names
+  orderer(super).reorder(:title, :first).result
+end
+```
+now can be written simple as:
+```
+def field_names
+  super.reorder(:title, :first)
+end
+```
+
+### 2016.03.09
+* `Releaf::ControllerDefinition` implemented for unified controller
+  meta-data handling. Custom menu builders need to be rewritted to use
+controller definition instead of hash instance.
+
+### 2016.03.07
+* `Releaf::ErrorFormatter` refactored as `Releaf::BuildErrorsHash` service.
+Also, extra features as `full_message` and `data` passing to errors hash has been removed.
+For this kind of features, extend `Releaf::BuildErrorsHash` service and
+add all additional feautures to your custom class.
+
+### 2016.02.28
+* Object title resolvation refactored.
+From now `to_text` need to be renamed to `releaf_title` in existing
+project.
+Releaf will try to check whether method exist and then return its
+result.
+Resolvable methods list: `releaf_title`, `name`, `title`, `to_s`.
+You can migrate you existing `to_text` methods with:
+```
+perl -p -i -e 's/to_text/releaf_title/g' `grep -ril "to_text" *`
+```
+
+* Translations models and tables renamed.
+
+create migration `rails g migration RenameReleafI18nBackendTables`
+and put following content in migration file:
+```
+class RenameReleafI18nBackendTables < ActiveRecord::Migration
+  def up
+    remove_index :releaf_translation_data, name: "index_releaf_translation_data_on_lang_and_translation_id"
+    rename_table :releaf_translations, :releaf_i18n_entries
+    rename_table :releaf_translation_data, :releaf_i18n_entry_translations
+    rename_column :releaf_i18n_entry_translations, :translation_id, :i18n_entry_id
+    rename_column :releaf_i18n_entry_translations, :lang, :locale
+    rename_column :releaf_i18n_entry_translations, :localization, :text
+  end
+
+  def down
+    rename_table :releaf_i18n_entries, :releaf_translations
+    rename_table :releaf_i18n_entry_translations, :releaf_translation_data
+    rename_column :releaf_translation_data, :i18n_entry_id, :translation_id
+    rename_column :releaf_translation_data, :locale, :lang
+    rename_column :releaf_translation_data, :text, :localization
+    add_index :releaf_i18n_entry_translations, [:locale, :i18n_entry_id], unique: true,
+      name: :index_releaf_i18n_entry_translations_on_locale_i18n_entry_id
+  end
+end
+```
+
+remove `allow_any_instance_of(Releaf::I18nDatabase::Backend).to receive(:reload_cache?) { false }` line from your
+`spec/rails_helper.rb`
+
+### 2016.02.17
+* Remove db level uniqueness index for translations key.
+
+create migration `rails g migration ChangeReleafTranslationsKeyIndexType`
+and put following content in migration file:
+```
+class ChangeReleafTranslationsKeyIndexType < ActiveRecord::Migration
+  def up
+    remove_index :releaf_translations, :key
+    add_index :releaf_translations, :key
+  end
+
+  def down
+    remove_index :releaf_translations, :key
+    add_index :releaf_translations, :key, unique: true
+  end
+end
+
+```
+
+### 2016.02.16
+* all Releaf controller assets (javascripts and stylesheets) moved from `releaf/controllers/releaf/controller_name`
+  pattern to `controllers/releaf/controller_name`.
+  If you have existing controller assets that inherit Releaf controller
+  assets simply remove first `releaf/` part.
+  ex. `//= require releaf/controllers/releaf/content/nodes` to `//= require controllers/releaf/content/nodes`
+
+### 2016.02.11
+* `Releaf::Settings.register` method refactored to accepts list of hashes as arguments.
+  ex. `Releaf::Settings.register({key: "some.thing", default: "some day"}, {key: "color", default: "red"})`
+
 ### 2016.02.05
+* `:search` feature added. When custom `features` method provided, add `:search`
+  to returned array if search is needed.
+* `Releaf::BaseController` renamed to `Releaf::ActionController`. Update
+  all your code with:
+```
+perl -p -i -e 's/Releaf::BaseController/Releaf::ActionController/g' `grep -ril "Releaf::BaseController" *`
+```
 * Releaf::ActionController `setup` has been removed in favour of `features` and `resources_per_page` methods.
 * Releaf::ActionController `features` must return array with allowed features instead of Hash with
   true/false values.
@@ -24,6 +309,7 @@ def resources_per_page
   15
 end
   ```
+
 * `Releaf::BaseController` renamed to `Releaf::ActionController`. Update
   all your code with:
 ```

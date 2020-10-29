@@ -1,10 +1,10 @@
 class Author < ActiveRecord::Base
   validates_presence_of :name
-  belongs_to :publisher
+  belongs_to :publisher, required: false
 
   has_many :books, dependent: :restrict_with_exception
 
-  def to_text
-    return "#{name} #{surname}"
+  def releaf_title
+    "#{name} #{surname}"
   end
 end

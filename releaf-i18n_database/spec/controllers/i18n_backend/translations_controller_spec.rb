@@ -14,19 +14,15 @@ describe Releaf::I18nDatabase::TranslationsController do
   end
 
   before build_translations: true do
-    @t1 = FactoryGirl.create(:translation, key: 'test.key1')
-    @t2 = FactoryGirl.create(:translation, key: 'great.stuff')
-    @t3 = FactoryGirl.create(:translation, key: 'geek.stuff')
-
-    @t1_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'testa atslēga', translation_id: @t1.id)
-
-    @t2_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'awesome stuff', translation_id: @t2.id)
-    @t2_lv = FactoryGirl.create(:translation_data, lang: 'lv', localization: 'lieliska manta', translation_id: @t2.id)
-
-    @t3_en = FactoryGirl.create(:translation_data, lang: 'en', localization: 'geek stuff', translation_id: @t3.id)
-    @t3_lv = FactoryGirl.create(:translation_data, lang: 'lv', localization: 'nūģu lieta', translation_id: @t3.id)
+    @t1 = Releaf::I18nDatabase::I18nEntry.create(key: 'test.key1')
+    @t2 = Releaf::I18nDatabase::I18nEntry.create(key: 'great.stuff')
+    @t3 = Releaf::I18nDatabase::I18nEntry.create(key: 'geek.stuff')
+    @t1.i18n_entry_translation.create(locale: 'en', text: 'testa atslēga')
+    @t2.i18n_entry_translation.create(locale: 'en', text: 'awesome stuff')
+    @t2.i18n_entry_translation.create(locale: 'lv', text: 'lieliska manta')
+    @t3.i18n_entry_translation.create(locale: 'en', text: 'geek stuff')
+    @t3.i18n_entry_translation.create(locale: 'lv', text: 'nūģu lieta')
   end
-
 
   describe "GET #index", build_translations: true do
     context "when not searching" do
@@ -38,19 +34,19 @@ describe Releaf::I18nDatabase::TranslationsController do
 
     context "when searching" do
       it "searches by translation key" do
-        get :index, search: 'great'
+        get :index, params: {search: 'great'}
         expect( assigns(:collection).size ).to eq(1)
       end
 
       it "searched by localized values" do
-        get :index, search: 'manta'
+        get :index, params: {search: 'manta'}
         expect( assigns(:collection).size ).to eq(1)
       end
     end
 
     context "when searching blank translations" do
       it "returns translations that has blank translation in any localization" do
-        get :index, only_blank: 'true'
+        get :index, params: {only_blank: 'true'}
         expect( assigns(:collection).map(&:id) ).to match_array [@t1.id]
       end
     end
@@ -66,7 +62,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
     context "when search scope is given" do
       it "renders translations matching search pattern" do
-        get :index, search: 'stuff'
+        get :index, params: {search: 'stuff'}
         expect( assigns(:collection).size ).to eq(2)
       end
     end
@@ -76,12 +72,12 @@ describe Releaf::I18nDatabase::TranslationsController do
     context "when save successful" do
       it "updates translations updated_at" do
         expect(Releaf::I18nDatabase::Backend).to receive("translations_updated_at=").with(@time_now)
-        put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
+        put :update, params: {translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]}
       end
 
       context "when save with import" do
         before do
-          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], import: "true"
+          put :update, params: {translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}], import: "true"}
         end
 
         it "redirects to index view" do
@@ -95,7 +91,7 @@ describe Releaf::I18nDatabase::TranslationsController do
 
       context "when save without import" do
         before do
-          put :update, translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]
+          put :update, params: {translations: [{key: 'a.b.c', localizations: {en: 'test', lv: 'xxl'}}]}
         end
 
         it "redirects to edit view" do
@@ -110,12 +106,12 @@ describe Releaf::I18nDatabase::TranslationsController do
 
     context "when save failed" do
       it "renders edit view" do
-        put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
+        put :update, params: {translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]}
         expect(response).to render_template(:edit)
       end
 
       it "flash error notification" do
-        put :update, translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]
+        put :update, params: {translations: [{key: '', localizations: {en: 'test', lv: 'xxl'}}]}
         expect(flash["error"]).to eq("id" => "resource_status", "message" => "Update failed")
       end
     end
@@ -124,14 +120,9 @@ describe Releaf::I18nDatabase::TranslationsController do
   describe "#import" do
     context "when file uploaded" do
       before do
-        file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        class << file
-          # The reader method is present in a real invocation,
-          # but missing from the fixture object for some reason (Rails 3.1.1)
-          attr_reader :tempfile
-        end
-
-        post :import, import_file: file
+        file = fixture_file_upload(File.expand_path('../../fixtures/translations_import.xlsx', __dir__),
+                                   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        post :import, params: {import_file: file}
       end
 
       it "parses uploaded file and assigns content to collection" do

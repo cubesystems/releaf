@@ -10,7 +10,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
     end
   end
 
-  let(:template){ TranslationsIndexBuilderTestHelper.new }
+  let(:template){ TranslationsIndexBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ described_class.new(template) }
   let(:collection){ Book.page(1).per_page(2) }
 
@@ -81,9 +81,22 @@ describe Releaf::Builders::IndexBuilder, type: :class do
   end
 
   describe "#header_extras" do
-    it "returns search block" do
+    before do
       allow(subject).to receive(:search_block).and_return("x")
-      expect(subject.header_extras).to eq("x")
+    end
+
+    context "when search feature is enabled" do
+      it "returns search block" do
+        allow(subject).to receive(:feature_available?).with(:search).and_return(true)
+        expect(subject.header_extras).to eq("x")
+      end
+    end
+
+    context "when search feature is disabled" do
+      it "returns nil" do
+        allow(subject).to receive(:feature_available?).with(:search).and_return(false)
+        expect(subject.header_extras).to be nil
+      end
     end
   end
 
@@ -314,10 +327,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
       expect(subject).to receive(:pagination_builder_class).and_return(dummy)
       expect( subject.pagination_block).to eq :ok
     end
-
   end
-
-
 
   describe "#resource_creation_button" do
     it "returns resource creation button" do
@@ -336,6 +346,19 @@ describe Releaf::Builders::IndexBuilder, type: :class do
         .with(collection, Book, builder: Admin::Books::TableBuilder, toolbox: true)
         .and_return("xx")
       expect(subject.section_body).to eq('<div class="body">xx</div>')
+    end
+  end
+
+  describe "#table_options" do
+    it "returns table options" do
+      allow(subject).to receive(:builder_class).with(:table).and_return("CustomTableBuilderClassHere")
+      allow(subject).to receive(:feature_available?).with(:toolbox).and_return("boolean_value_here")
+
+      options = {
+        builder: "CustomTableBuilderClassHere",
+        toolbox: "boolean_value_here"
+      }
+      expect(subject.table_options).to eq(options)
     end
   end
 end

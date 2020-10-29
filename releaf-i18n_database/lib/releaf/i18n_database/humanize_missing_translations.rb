@@ -1,7 +1,7 @@
 module Releaf::I18nDatabase
   module HumanizeMissingTranslations
     def call(exception, locale, key, options)
-      if exception.is_a?(I18n::MissingTranslation)
+      if key.present? && exception.is_a?(I18n::MissingTranslation)
         key.to_s.split('.').last.humanize
       else
         super

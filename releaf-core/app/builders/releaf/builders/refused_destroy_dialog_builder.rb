@@ -2,10 +2,11 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   include Releaf::Builders::ResourceDialog
 
   def section_body
+    message = "Deletion of %{resource} restricted due to existing relations:"
     tag(:div, class: "body") do
       [
         icon("ban"),
-        tag(:div, t("Deletion of %{resource} was refused due to existing relations:", default: "Deletion of %{resource} restricted, due to existing relations:", resource: resource_to_text(resource)), class: "description"),
+        tag(:div, t(message, default: message, resource: resource_title(resource)), class: "description"),
         restricted_relations
       ]
     end
@@ -22,13 +23,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
   end
 
   def relation_description(relation, key)
-      (
-        unless relation[:controller].nil?
-          I18n.t(relation[:controller], scope: 'admin.controllers')
-        else
-          I18n.t(key, scope: 'admin.controllers')
-        end
-      ) << " (#{relation[:objects].count})"
+    "#{resource.class.human_attribute_name(key)} (#{relation[:objects].count})"
   end
 
   def relation_objects(relation)
@@ -41,10 +36,10 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def relation_objects_item(item, relation)
     tag(:li) do
-      unless relation[:controller].nil?
-        link_to(resource_to_text(item), controller: relation[:controller], action: "edit", id: item)
+      if relation[:controller].nil?
+        resource_title(item)
       else
-        resource_to_text(item)
+        link_to(resource_title(item), controller: relation[:controller], action: "edit", id: item)
       end
     end
   end
@@ -58,7 +53,7 @@ class Releaf::Builders::RefusedDestroyDialogBuilder
 
   def footer_primary_tools
     [
-      button(t("Ok"), "check", href: index_url, data: {type: 'cancel'})
+      button(t("Ok"), "check", href: index_path, data: {type: 'cancel'})
     ]
   end
 

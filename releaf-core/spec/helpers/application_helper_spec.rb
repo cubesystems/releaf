@@ -40,11 +40,9 @@ describe Releaf::ApplicationHelper do
     end
 
     before do
-
-      translation = FactoryGirl.create(:translation, :key => "admin.xx.colors-red")
-      FactoryGirl.create(:translation_data, :lang => "en", :localization => "Color red", :translation => translation)
-      I18n.backend.reload_cache
-
+      translation = Releaf::I18nDatabase::I18nEntry.create(key: "admin.xx.colors-red")
+      translation.i18n_entry_translation.create(locale: "en", text: "Color red")
+      Releaf::I18nDatabase::Backend.reset_cache
       allow(helper).to receive(:controller_scope_name).and_return("admin.xx")
     end
 

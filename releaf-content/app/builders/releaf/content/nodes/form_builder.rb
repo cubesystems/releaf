@@ -78,25 +78,31 @@ module Releaf::Content::Nodes
     def item_position_select_options
       after_text = t("After")
       list = [[t("First"), 0]]
-      order_nodes.each do |node|
-        list.push [after_text + ' ' + node.name, node.lower_item ? node.lower_item.item_position : node.item_position + 1 ]
+
+      order_nodes = object.self_and_siblings.reorder(:item_position).to_a
+      order_nodes.each_with_index do |node, index|
+        next if node == object
+
+        if index == order_nodes.size - 1
+          next_position = node.item_position + 1
+        else
+          next_position = order_nodes[index + 1].item_position
+        end
+
+        list.push [after_text + ' ' + node.name, next_position ]
       end
 
       list
     end
 
-    def order_nodes
-      object.class.where(parent_id: object.parent_id).where('id <> ?',  object.id.to_i)
-    end
-
     def slug_base_url
-      "#{request.protocol}#{request.host_with_port}#{object.parent.try(:path)}/"
+      "#{request.protocol}#{request.host_with_port}#{object.parent.try(:path)}" + (object.trailing_slash_for_path? ? "" : "/")
     end
 
     def slug_link
       link_to(object.path) do
         safe_join do
-          [slug_base_url, tag(:span, object.slug), '/']
+          [slug_base_url, tag(:span, object.slug), (object.trailing_slash_for_path? ? "/" : "")]
         end
       end
     end

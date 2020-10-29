@@ -89,10 +89,9 @@ jQuery(function()
 
             var triggerOffset  = trigger.offset();
 
-            menu.css
-            ({
+            menu.css({
                 left:  triggerOffset.left + trigger.outerWidth() - menu.outerWidth() ,
-                top :  triggerOffset.top + trigger.outerHeight(),
+                top :  triggerOffset.top + trigger.outerHeight()
             });
 
         });
@@ -135,11 +134,6 @@ jQuery(function()
             var trigger_label = field.find('.localization-switch .trigger .label');
 
             trigger_label.text( locale );
-
-
-            jQuery.cookie( 'releaf.i18n.locale', locale, { path: '/' } );
-
-
         });
 
 
@@ -152,6 +146,7 @@ jQuery(function()
 
             form.find('.field.i18n').trigger('localizationlocaleset', { locale : locale });
 
+            body.trigger( 'settingssave', [ "releaf.i18n.locale", locale ] );
         });
 
 

@@ -2,7 +2,6 @@ require 'simplecov'
 require 'simplecov-rcov'
 require 'coveralls'
 require 'pry'
-require 'pry-nav'
 SimpleCov.command_name 'rspec'
 
 Coveralls.wear!('rails')
@@ -14,10 +13,8 @@ if ENV["COVERAGE"]
     Coveralls::SimpleCov::Formatter
   ])
   SimpleCov.start do
-    add_filter '/config/'
-    add_filter '/lib/tasks'
+    add_filter '/lib/releaf/rspec'
     add_filter '/spec/'
-    add_filter '/app/assets/'
   end
 end
 
@@ -25,15 +22,16 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
-require 'factory_girl'
+require 'rails-controller-testing'
+require 'factory_bot'
 require "shoulda-matchers"
-require 'capybara/poltergeist'
+require 'db-query-matchers'
+require 'selenium/webdriver'
 require 'with_model'
 require 'timecop'
 require 'with_model'
 require 'database_cleaner'
 require 'releaf/rspec'
-require 'sass' # To stop these warnings: WARN: tilt autoloading 'sass' in a non thread-safe way; explicit require 'sass' suggested.
 
 Rails.backtrace_cleaner.remove_silencers!
 # Load support files
@@ -42,23 +40,22 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # for devise testing
 include Warden::Test::Helpers
 
+Capybara.register_driver(:chrome) do |app|
+  options = ::Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--window-size=1400,900')
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: true, inspector: true, phantomjs_logger: WarningSuppressor)
-end
-
-class WarningSuppressor
-  IGNOREABLE = /CoreText performance|userSpaceScaleFactor/
-
-  def write(message)
-    if message =~ IGNOREABLE
-      0
-    else
-      puts(message)
-      1
-    end
+  if ENV['CI']
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
   end
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
+
+Capybara.javascript_driver = :chrome
+
+Capybara.default_set_options = { clear: :backspace } # needed for 'fill_in "Foo", with: ""' to work
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
@@ -66,13 +63,18 @@ RSpec.configure do |config|
   config.order = "random"
   config.infer_spec_type_from_file_location!
 
+  config.include Shoulda::Matchers::ActiveModel, type: :model
+  config.include Shoulda::Matchers::ActiveRecord, type: :model
+  config.include Shoulda::Matchers::Independent
+
   config.color = true
 
   if ENV['COVERAGE']
     config.add_formatter(:progress)
   end
 
-  config.include Releaf::TestHelpers
+  config.include Releaf::Test::Helpers
+  config.include CapybaraActions, type: :feature
   config.include WaitSteps
   config.include ExcelHelpers
   config.extend WithModel
@@ -80,22 +82,28 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
 
   # DEVISE
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
-  config.include Devise::TestHelpers, type: :helper
+  config.include Devise::Test::ControllerHelpers, type: :helper
   config.extend ControllerMacros, type: :helper
 
 
-  # FactoryGirl
-  config.include FactoryGirl::Syntax::Methods
+  [:controller, :view, :request].each do |type|
+    config.include ::Rails::Controller::Testing::TestProcess, type: type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
+    config.include ::Rails::Controller::Testing::Integration, type: type
+  end
 
-  Capybara.javascript_driver = :poltergeist
+
+  config.include FactoryBot::Syntax::Methods
+
+  Capybara.default_normalize_ws = true
 
   # disable empty translation creation
 
   config.before(:each) do |example|
     Rails.cache.clear
-    allow( Releaf.application.config.i18n_database ).to receive(:create_missing_translations).and_return(false)
+    allow( Releaf.application.config.i18n_database ).to receive(:translation_auto_creation).and_return(false)
 
     if example.metadata[:db_strategy]
       DatabaseCleaner.strategy = example.metadata[:db_strategy]
@@ -114,6 +122,7 @@ RSpec.configure do |config|
   config.after do
     Timecop.return
     DatabaseCleaner.clean
+    Releaf::Test.reset!
   end
 end
 

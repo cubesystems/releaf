@@ -9,7 +9,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     def protect_against_forgery?
       true
     end
-    def form_authenticity_token
+    def form_authenticity_token(_)
       "xxx"
     end
 
@@ -18,7 +18,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
-  let(:template){ TranslationsEditBuilderTestHelper.new }
+  let(:template){ TranslationsEditBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:subject){ described_class.new(template) }
   let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new }
@@ -33,12 +33,12 @@ describe Releaf::Builders::EditBuilder, type: :class do
     before do
       allow(subject).to receive(:section_attributes).and_return(a: "b")
       allow(subject).to receive(:form_options).and_return(url: "xxx", builder: Releaf::Builders::FormBuilder)
-      allow(subject).to receive(:index_url_preserver).and_return("_index_url_")
+      allow(subject).to receive(:index_path_preserver).and_return("_index_path_")
       allow(subject).to receive(:section_blocks).and_return(["_section_","_blocks_"])
     end
 
     it "returns section with index url preserver and section blocks" do
-      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="yyy" value="xxx" />_index_url__section__blocks_</form>')
+      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input type="hidden" name="yyy" value="xxx" />_index_path__section__blocks_</form>')
     end
 
     it "assigns form instance to builder" do
@@ -47,11 +47,11 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
-  describe "#index_url_preserver" do
+  describe "#index_path_preserver" do
     it "returns hidden index url input" do
-      allow(subject).to receive(:params).and_return(index_url: "?asd=23&lf=dd")
-      result = '<input type="hidden" name="index_url" id="index_url" value="?asd=23&amp;lf=dd" />'
-      expect(subject.index_url_preserver).to eq(result)
+      allow(subject).to receive(:params).and_return(index_path: "?asd=23&lf=dd")
+      result = '<input type="hidden" name="index_path" id="index_path" value="?asd=23&amp;lf=dd" />'
+      expect(subject.index_path_preserver).to eq(result)
     end
   end
 
@@ -78,7 +78,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
           <div class="form-error-box">
               <error_notice_header />
               <ul>
-                <li class="error">Title Blank</li>
+                <li class="error">Title can&#39;t be blank</li>
               </ul>
           </div>
         ])
@@ -127,7 +127,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
 
   describe "#create_another_available?" do
     context "when editing an existing record" do
-      let(:resource){ FactoryGirl.create(:book) }
+      let(:resource){ FactoryBot.create(:book) }
 
       context "when controller has create_another feature enabled" do
         it "returns false" do
@@ -179,6 +179,125 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
   end
 
+  describe "#form_options" do
+    it "returns form options" do
+      allow(subject).to receive(:form_builder_class).and_return("CustomFormBuilderClassHere")
+      allow(subject).to receive(:form_url).and_return("/some-url-here")
+      allow(subject).to receive(:form_attributes).and_return(some: "options_here")
+      allow(subject).to receive(:resource_name).and_return(:author)
+
+      options = {
+        builder: "CustomFormBuilderClassHere",
+        as: :author,
+        url: "/some-url-here",
+        html: {some: "options_here"}
+      }
+      expect(subject.form_options).to eq(options)
+    end
+  end
+
+  describe "#form_url" do
+    it "returns form url built from form action and resource id" do
+      resource.id = 23
+      allow(subject).to receive(:form_action).and_return("upd")
+      allow(subject).to receive(:url_for).with(action: "upd", id: 23).and_return("/res/new")
+      expect(subject.form_url).to eq("/res/new")
+    end
+  end
+
+  describe "#form_action" do
+    context "when new resource" do
+      it "returns `create`" do
+        allow(resource).to receive(:new_record?).and_return(true)
+        expect(subject.form_action).to eq("create")
+      end
+    end
+
+    context "when persisted resource" do
+      it "returns `update`" do
+        allow(resource).to receive(:new_record?).and_return(false)
+        expect(subject.form_action).to eq("update")
+      end
+    end
+  end
+
+  describe "#resource_name" do
+    it "returns `:resource`" do
+      expect(subject.resource_name).to eq(:resource)
+    end
+  end
+
+  describe "#form_url" do
+    it "returns form builder class" do
+      allow(subject).to receive(:builder_class).with(:form).and_return("x")
+      expect(subject.form_builder_class).to eq("x")
+    end
+  end
+
+  describe "#form_identifier" do
+    before do
+      allow(subject).to receive(:resource_name).and_return(:book)
+    end
+
+    context "when resource has persistance check method and it's persisted" do
+      it "returns resource name prefixed with `edit-`" do
+        allow(resource).to receive(:persisted?).and_return(true)
+        expect(subject.form_identifier).to eq("edit-book")
+      end
+    end
+
+    context "when resource has persistance check method and it's not persisted" do
+      it "returns resource name prefixed with `new-`" do
+        allow(resource).to receive(:persisted?).and_return(false)
+        expect(subject.form_identifier).to eq("new-book")
+      end
+    end
+
+    context "when resource has no persistance check method" do
+      it "returns resource name prefixed with `update-`" do
+        allow(subject).to receive(:resource).and_return(String.new)
+        expect(subject.form_identifier).to eq("edit-book")
+      end
+    end
+  end
+
+  describe "#form_classes" do
+    before do
+      allow(subject).to receive(:form_identifier).and_return("xx")
+    end
+
+    it "returns array with form identifier" do
+      expect(subject.form_classes).to eq(["xx"])
+    end
+
+    context "when object has any errors" do
+      it "adds has-error class to returned array" do
+        resource.title = nil
+        resource.valid?
+        expect(subject.form_classes).to eq(["xx", "has-error"])
+      end
+    end
+  end
+
+  describe "#form_attributes" do
+    it "returns form attributes" do
+      allow(subject).to receive(:form_identifier).and_return("xx")
+      allow(subject).to receive(:form_classes).and_return(["a", "b"])
+
+      attributes = {
+         multipart: true,
+         novalidate: "",
+         class: ["a", "b"],
+         id: "xx",
+         data: {
+           "remote"=>true,
+           "remote-validation"=>true,
+           "type"=>:json
+         }
+      }
+      expect(subject.form_attributes).to eq(attributes)
+    end
+  end
 
   describe "#save_button" do
     it "returns save button" do
@@ -187,13 +306,6 @@ describe Releaf::Builders::EditBuilder, type: :class do
         .and_return("_btn_")
       allow(subject).to receive(:t).with("Save").and_return("to_list")
       expect(subject.save_button).to eq("_btn_")
-    end
-  end
-
-  describe "#form_options" do
-    it "returns controller form options for current action and resource" do
-      allow(controller).to receive(:form_options).with(:edit, resource, :resource).and_return(:y)
-      expect(subject.form_options).to eq(:y)
     end
   end
 

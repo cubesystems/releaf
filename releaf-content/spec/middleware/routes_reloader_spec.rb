@@ -20,6 +20,15 @@ describe Releaf::Content::RoutesReloader do
     end
   end
 
+  describe ".reset!" do
+
+    it "changes class @updated_at instance to nil" do
+      described_class.instance_variable_set(:@updated_at, "x")
+      expect{ described_class.reset! }.to change{ described_class.instance_variable_get(:@updated_at) }.to(nil)
+    end
+
+  end
+
   describe ".reload_if_needed" do
 
     context "when reload is needed" do
@@ -49,8 +58,17 @@ describe Releaf::Content::RoutesReloader do
       end
     end
 
+    context "when node routes has not been loaded" do
+      it "returns true" do
+        described_class.instance_variable_set(:@updated_at, nil)
+        allow(Node).to receive(:updated_at).and_return(Time.parse("1991-01-01"))
+        expect(described_class.needs_reload?).to be true
+      end
+    end
+
     context "when node routes are up to date" do
       it "returns false" do
+        described_class.instance_variable_set(:@updated_at, Time.parse("1991-01-01"))
         allow(Node).to receive(:updated_at).and_return(Time.parse("1991-01-01"))
         expect(described_class.needs_reload?).to be false
       end

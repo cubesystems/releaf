@@ -1,7 +1,6 @@
 class Releaf::Builders::TableBuilder
   include Releaf::Builders::Base
   include Releaf::Builders::Toolbox
-  include Releaf::Builders::Orderer
   attr_accessor :collection, :options, :template, :resource_class
 
   def initialize(collection, resource_class, template, options)
@@ -57,7 +56,7 @@ class Releaf::Builders::TableBuilder
     tag(:thead) do
       tag(:tr) do
         content = ActiveSupport::SafeBuffer.new
-        columns.each_pair do|column, options|
+        columns.each_pair do|column, _options|
           content << head_cell(column)
         end
         content
@@ -73,8 +72,8 @@ class Releaf::Builders::TableBuilder
 
   def head_cell_content(column)
     unless column.to_sym == :toolbox
-      attribute = column.to_s.gsub(".", "_")
-      resource_class.human_attribute_name(attribute, create_default: false)
+      attribute = column.to_s.tr(".", "_")
+      resource_class.human_attribute_name(attribute)
     end
   end
 
@@ -98,14 +97,14 @@ class Releaf::Builders::TableBuilder
 
   def row_url(resource)
     resource_action = row_url_action(resource)
-    url_for(action: resource_action, id: resource.id, index_url: index_url) if resource_action
+    url_for(action: resource_action, id: resource.id, index_path: index_path) if resource_action
   end
 
-  def row_url_action(resource)
+  def row_url_action(_resource)
     if feature_available?(:show)
-      resource_action = :show
+      :show
     elsif feature_available?(:edit)
-      resource_action = :edit
+      :edit
     end
   end
 
@@ -146,13 +145,18 @@ class Releaf::Builders::TableBuilder
     truncate(column_value(resource, column).to_s, length: 32, separator: ' ')
   end
 
+  def format_textarea_content(resource, column)
+    format_text_content(resource, column)
+  end
+
+  def format_richtext_content(resource, column)
+    value = ActionView::Base.full_sanitizer.sanitize(column_value(resource, column).to_s)
+    truncate(value, length: 32, separator: ' ')
+  end
+
   def format_string_content(resource, column)
     value = column_value(resource, column)
-    if value.respond_to? :to_text
-      value.to_text
-    else
-      value.to_s
-    end
+    resource_title(value)
   end
 
   def format_boolean_content(resource, column)
@@ -161,19 +165,20 @@ class Releaf::Builders::TableBuilder
 
   def format_date_content(resource, column)
     value = column_value(resource, column)
-    I18n.l(value, format: :default, default: '%Y-%m-%d') unless value.nil?
+    I18n.l(value, format: :default) unless value.nil?
   end
 
   def format_datetime_content(resource, column)
     value = column_value(resource, column)
-    I18n.l(value, format: :default, default: '%Y-%m-%d %H:%M:%S') unless value.nil?
+    format = Releaf::Builders::Utilities::DateFields.date_or_time_default_format(:datetime)
+    I18n.l(value, format: format) unless value.nil?
   end
 
-  def format_image_content(resource, column)
-    if resource.send(column).present?
-      association_name = column.to_s.sub(/_uid$/, '')
-      image_tag(resource.send(association_name).thumb('x16').url, alt: '')
-    end
+
+  def format_time_content(resource, column)
+    value = column_value(resource, column)
+    format = Releaf::Builders::Utilities::DateFields.date_or_time_default_format(:time)
+    I18n.l(value, format: format) unless value.nil?
   end
 
   def format_association_content(resource, column)
@@ -213,8 +218,14 @@ class Releaf::Builders::TableBuilder
 
   def column_type_format_method(column)
     klass = column_klass(resource_class, column)
+    type = column_type(klass, column)
 
-    format_method = "format_#{column_type(klass, column)}_content".to_sym
+    type_format_method(type)
+  end
+
+  def type_format_method(type)
+    format_method = "format_#{type}_content".to_sym
+
     if respond_to?(format_method)
       format_method
     else
@@ -242,15 +253,9 @@ class Releaf::Builders::TableBuilder
   def cell_format_method(column)
     if association_column?(column)
       :format_association_content
-    elsif image_column?(column)
-      :format_image_content
     else
       column_type_format_method(column)
     end
-  end
-
-  def image_column?(column)
-    column =~ /(thumbnail|image|photo|picture|avatar|logo|icon)_uid$/
   end
 
   def association_column?(column)
@@ -258,7 +263,7 @@ class Releaf::Builders::TableBuilder
   end
 
   def toolbox_cell(resource, options)
-    toolbox_args = {index_url: controller.index_url}.merge(options.fetch(:toolbox, {}))
+    toolbox_args = {index_path: index_path}.merge(options.fetch(:toolbox, {}))
     tag(:td, class: "only-icon toolbox-cell") do
       toolbox(resource, toolbox_args)
     end
@@ -269,7 +274,9 @@ class Releaf::Builders::TableBuilder
 
     tag(:td) do
       if options[:url].blank?
-        content
+        tag(:span) do
+          content
+        end
       else
         tag(:a, href: options[:url]) do
           content

@@ -1,13 +1,26 @@
 language: ruby
-sudo: false
-cache: bundler
+sudo: required
+cache:
+  directories:
+    - bundler
 
 rvm:
-  - 2.2.1
+  - 2.5.1
+
+addons:
+  chrome: stable
+
+services:
+  - mysql
+  - postgresql
 
 env:
   - DB=mysql
   - DB=pg
+
+matrix:
+  allow_failures:
+    - env: DB=pg
 
 before_install:
   - 'cp "config.yml.${DB}.travis" "config.yml"'

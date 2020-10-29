@@ -10,7 +10,7 @@ var RemoteValidator = function( form )
     v.form = form;
     v.clicked_button = null;
 
-    v.form.on('click.rails', submit_elements_selector, function( event ) {
+    v.form.on('click', submit_elements_selector, function( event ) {
         var target = jQuery( event.target );
 
         // webkit sends inner button elements as event targets instead of the button
@@ -21,19 +21,23 @@ var RemoteValidator = function( form )
             target = closest_button;
         }
 
-        // register only submit buttons - buttons with type="submit" or without type attribute at all
+        // register only submit buttons - buttons with type="submit" or without type attribute at all.
         // direct target[0].type property is used because of inconsistent attr() method return values
         // between older and newer jQuery versions
         if (target.is( 'button' ) && target[0].type !== 'submit' )
         {
             return;
         }
-        v.clicked_button = target;
+
+        v.register_clicked_button( target );
     });
 
-    v.form.on( 'ajax:beforeSend', function( event, xhr )
+    v.form.on( 'ajax:before', function( event )
     {
+        var xhr = event.detail;
         xhr.validation_id = 'v' + new Date().getTime() + Math.random();
+        xhr.setRequestHeader('Accept', '*/*;q=0.5, application/json');
+
         v.form.attr( 'data-validation-id', xhr.validation_id );
 
         if (v.clicked_button)
@@ -42,8 +46,9 @@ var RemoteValidator = function( form )
         }
     });
 
-    v.form.on('ajax:complete', function( event, xhr )
+    v.form.on( 'ajax:complete', function( event )
     {
+        var xhr = event.detail;
         var json_response;
         var event_params =
         {
@@ -52,20 +57,6 @@ var RemoteValidator = function( form )
 
         switch (xhr.status)
         {
-            case 303:
-                // validation + saving ok
-                try {
-                    json_response = jQuery.parseJSON(xhr.responseText);
-                }
-                catch(error)
-                {
-                    v.form.trigger( 'validation:fail', [ v, event_params ] );
-                    break;
-                }
-                event_params.response = json_response;
-                v.form.trigger( 'validation:ok', [ v, event_params ] );
-                break;
-
             case 200:
                 // validation ok
                 event_params.response = xhr;
@@ -91,7 +82,6 @@ var RemoteValidator = function( form )
                     {
                         var error_object = {
                             message         : error.message,
-                            fullMessage     : error.full_message,
                             errorCode       : error.error_code,
                             fieldName       : fieldName
                         };
@@ -143,19 +133,17 @@ var RemoteValidator = function( form )
             return;
         }
 
-        if ('url' in event_params.response)
+        event.preventDefault(); // prevent validator's built in submit_form on ok
+
+        // use new url
+        if(document.location.href !== event_params.response.responseURL)
         {
-            // json redirect url received
-            event.preventDefault(); // prevent validator's built in submit_form on ok
-            document.location.href = event_params.response.url;
+            history.pushState(null, null, event_params.response.responseURL);
         }
-        else if ('getResponseHeader' in event_params.response)
-        {
-            event.preventDefault(); // prevent validator's built in submit_form on ok
-            body.trigger('contentreplace', [ event_params.response, "> header" ]);
-            body.trigger('contentreplace', [ event_params.response, "> aside" ]);
-            body.trigger('contentreplace', [ event_params.response, "> main" ]);
-        }
+
+        body.trigger('contentreplace', [ event_params.response, "> header" ]);
+        body.trigger('contentreplace', [ event_params.response, "> aside" ]);
+        body.trigger('contentreplace', [ event_params.response, "> main" ]);
     });
 
     v.form.on( 'validation:error', function( event, v, event_params )
@@ -230,7 +218,7 @@ var RemoteValidator = function( form )
             }
 
             error_node.attr('data-validation-id', event_params.validation_id);
-            error_node.text( error.fullMessage );
+            error_node.text( error.message );
 
             if (new_error_node)
             {
@@ -365,7 +353,7 @@ var RemoteValidator = function( form )
 
             case 'validation:error':   // validation error
 
-                v.clicked_button = null;
+                v.clear_clicked_button();
 
                 break;
 
@@ -378,27 +366,57 @@ var RemoteValidator = function( form )
     });
 };
 
-RemoteValidator.prototype.submit_form = function()
+RemoteValidator.prototype.register_clicked_button = function(button)
 {
     var v = this;
+    v.clicked_button = button;
 
-    // add originally clicked submit button to form as a hidden field
-    if (v.clicked_button)
+    // when sending form values with FormData, the clicked button value is not included in the data
+    // (except on Safari).
+
+    // since releaf sometimes uses the clicked button value to modify the action on the server side,
+    // (e.g. for "Save and create another" feature), the value of the clicked button must be appended
+    // to the form as a hidden field before the validation / submission starts.
+
+    // longer description:
+    // the algorithm to construct the form data set for a form optionally in the context
+    // of a submitter is as follows:
+    // https://www.w3.org/TR/html5/forms.html#constructing-form-data-set
+    // https://xhr.spec.whatwg.org/#dom-formdata
+    // If not specified otherwise, submitter is null.
+    // when this algorithm is executed from the FormData constructor, no submitter is specified,
+    // so no buttons are included in the form data set automatically.
+
+    var form = button.closest('form');
+    var hidden_field = form.find('input.submit-button-value').first();
+    if (hidden_field.length < 1)
     {
-        var button = v.clicked_button.first();
-        var name = button.attr('name');
-        if (name)
-        {
-            var input = v.form.find('input[type="hidden"][name="' + name + '"]');
-            if (input.length < 1)
-            {
-                input = jQuery('<input />').attr('type', 'hidden').attr('name', button.attr('name'));
-                input.appendTo(v.form);
-            }
-            input.val(button.val());
-        }
+        hidden_field = jQuery('<input type="hidden" class="submit-button-value" />');
+        hidden_field.appendTo(form);
     }
-    v.form[0].submit();
+    var name = button.attr('name');
+    if (name)
+    {
+        hidden_field.attr('name', name);
+        hidden_field.val(button.val());
+    }
+    else
+    {
+        // no need for the hidden field in case of nameless buttons
+        hidden_field.remove();
+    }
+};
+
+RemoteValidator.prototype.clear_clicked_button = function()
+{
+    var v = this;
+    v.clicked_button = null;
+    v.form.find('input.submit-button-value').remove();
+};
+
+RemoteValidator.prototype.submit_form = function()
+{
+    this.form[0].submit();
 };
 
 jQuery(function(){

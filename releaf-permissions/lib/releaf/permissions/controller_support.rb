@@ -3,7 +3,7 @@ module Releaf::Permissions
     extend ActiveSupport::Concern
 
     included do
-      before_filter :authenticate!, :verify_controller_access!, :set_locale
+      prepend_before_action :set_locale, :verify_controller_access!, :authenticate!
     end
 
     def set_locale

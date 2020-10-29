@@ -6,7 +6,8 @@ config = YAML.load_file(config_file)
 
 
 gsub_file "config/database.yml", /database: dummy_/, "database: #{config["database"]["name"]}_"
-gsub_file "config/database.yml", /username: .*/, "username: #{config["database"]["user"]}"
+gsub_file "config/database.yml", /username: .*/, "username: #{config["database"]["username"]}"
+gsub_file "config/database.yml", /default: &default/, "default: &default\n  username: #{config["database"]["username"]}"
 if config["database"]["password"].present?
   gsub_file "config/database.yml", /password:/, "password: #{config["database"]["password"]}"
 end
@@ -30,6 +31,7 @@ gsub_file 'config/environments/development.rb', 'config.assets.debug = true', 'c
 rake 'db:create'
 
 generate "releaf:install"
+run 'touch config/app.yml'
 generate "dummy:install -f"
 
 application "config.i18n.fallbacks = true"
@@ -37,6 +39,7 @@ application "config.i18n.enforce_available_locales = true"
 
 # in "test" env "true" cause to fail on install generators, revert to normall
 gsub_file 'config/environments/test.rb', 'config.cache_classes = false', 'config.cache_classes = true'
+gsub_file 'config/environments/test.rb', 'config.action_controller.allow_forgery_protection = false', 'config.action_controller.allow_forgery_protection = true'
 rake 'db:migrate'
 rake 'db:seed'
 

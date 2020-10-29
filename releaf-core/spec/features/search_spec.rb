@@ -456,7 +456,7 @@ describe Releaf::Search do
       end
 
       model do
-        belongs_to :post
+        belongs_to :post, required: false
       end
     end
 
@@ -505,8 +505,8 @@ describe Releaf::Search do
       end
 
       model do
-        belongs_to :writer, class_name: :Writer
-        belongs_to :editor, class_name: :Writer
+        belongs_to :writer, class_name: :Writer, required: false
+        belongs_to :editor, class_name: :Writer, required: false
       end
     end
 
@@ -556,7 +556,7 @@ describe Releaf::Search do
       end
 
       model do
-        belongs_to :writer
+        belongs_to :writer, required: false
       end
     end
 
@@ -656,7 +656,7 @@ describe Releaf::Search do
       end
 
       model do
-        belongs_to :writer
+        belongs_to :writer, required: false
       end
     end
 

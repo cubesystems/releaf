@@ -1,10 +1,10 @@
 require 'awesome_nested_set'
 require 'stringex'
+require 'deep_cloneable'
 
 module Releaf::Content
   require 'releaf/content/engine'
   require 'releaf/content/configuration'
-  require 'releaf/content/builders_autoload'
   require 'releaf/content/router_proxy'
   require 'releaf/content/node_mapper'
   require 'releaf/content/acts_as_node'
@@ -40,9 +40,9 @@ module Releaf::Content
     end
   end
 
-  def self.draw_component_routes router
-    resources.each do |model_name, options|
-      draw_resource_routes router, options
+  def self.draw_component_routes(router)
+    resources.each do |_model_name, options|
+      draw_resource_routes(router, options)
     end
   end
 
@@ -53,7 +53,6 @@ module Releaf::Content
       router.collection do
         router.get :content_type_dialog
         router.get :generate_url
-        router.get :go_to_dialog
       end
 
       router.member do

@@ -21,20 +21,30 @@ module Releaf::Builders::Page
 
     def body
       tag(:body, body_atttributes) do
-        body_content{ yield } << assets(:javascripts, :javascript_include_tag)
+        safe_join{ body_content_blocks{ yield } }
       end
     end
 
     def body_atttributes
-      {class: body_classes, "data-settings-path" => settings_path}
+      {class: body_classes, "data-settings-path" => settings_path, "data-layout-features" => features.join(" ")}
     end
 
     def settings_path
       url_for(action: "store_settings", controller: "/releaf/root", only_path: true)
     end
 
-    def body_content(&block)
-      header << menu << tag(:main, id: "main", &block) << notifications
+    def feature_available?(feature)
+      features.include? feature
+    end
+
+    def body_content_blocks
+      parts = []
+      parts << header if feature_available?(:header)
+      parts << menu if feature_available?(:sidebar)
+      parts << tag(:main, id: :main){ yield } if feature_available?(:main)
+      parts << notifications
+      parts << assets(:javascripts, :javascript_include_tag)
+      parts
     end
 
     def notifications
@@ -57,6 +67,10 @@ module Releaf::Builders::Page
       Releaf::Builders::Page::MenuBuilder
     end
 
+    def features
+      controller.layout_features
+    end
+
     def assets(type, tag_method)
       safe_join do
         send(type).collect do |asset|
@@ -67,7 +81,7 @@ module Releaf::Builders::Page
 
     def body_classes
       list = []
-      list << "application-#{Rails.application.class.parent_name.downcase}"
+      list << "application-#{Rails.application.class.module_parent_name.downcase}"
       list += controller_body_classes
       list << "view-#{controller.active_view}"  if controller.respond_to? :active_view
       list << "side-compact" if layout_settings("releaf.side.compact")

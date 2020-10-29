@@ -5,12 +5,8 @@ module Releaf::Permissions::Roles
     end
 
     def default_controller_content(resource)
-      value = resource.default_controller
-      if value.nil?
-        '-'
-      else
-        I18n.t(value.sub('_', '/'), scope: 'admin.controllers')
-      end
+      definition = resource.default_controller ? Releaf::ControllerDefinition.for(resource.default_controller) : nil
+      definition ? definition.localized_name : "-"
     end
   end
 end

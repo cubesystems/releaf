@@ -32,7 +32,7 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
   end
 
   subject { described_class.new(template) }
-  let(:template){ PageHeaderBuilderTestHelper.new }
+  let(:template){ PageHeaderBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   describe "#controller_classes" do
     it "returns array of ignorable ancester classes" do
@@ -47,6 +47,14 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
     end
   end
 
+  describe "#features" do
+    it "returns controller layout features" do
+      allow(subject).to receive(:controller).and_return(NewRolesController.new)
+      allow(subject.controller).to receive(:layout_features).and_return([:a, :c])
+      expect(subject.features).to eq([:a, :c])
+    end
+  end
+
   describe "#header_builder" do
     it "returns `Releaf::Builders::Page::HeaderBuilder` class" do
       expect(subject.header_builder).to eq(Releaf::Builders::Page::HeaderBuilder)
@@ -56,6 +64,20 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
   describe "#assets_resolver" do
     it "returns `Releaf::AssetsResolver` class" do
       expect(subject.assets_resolver).to eq(Releaf::AssetsResolver)
+    end
+  end
+
+  describe "#feature_available?" do
+    before do
+      allow(subject).to receive(:features).and_return([:a, :b])
+    end
+
+    it "returns true when feature is available" do
+      expect(subject.feature_available?(:a)).to be true
+    end
+
+    it "returns false when feature is not available" do
+      expect(subject.feature_available?(:c)).to be false
     end
   end
 
@@ -111,10 +133,52 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
 
   describe "#body" do
     it "returns body with body attributes and" do
-      allow(subject).to receive(:assets).with(:javascripts, :javascript_include_tag).and_return("_assets_")
       allow(subject).to receive(:body_atttributes).and_return(class: ["xx", "y"], id: "121212")
-      allow(subject).to receive(:body_content){|*args, &block| expect(block.call).to eq("x") }.and_return("body content")
-      expect(subject.body{ "x" }).to eq("<body class=\"xx y\" id=\"121212\">body content_assets_</body>")
+      allow(subject).to receive(:body_content_blocks){|*args, &block| expect(block.call).to eq("x") }
+        .and_return(["a<b>".html_safe, "b<i>", "c<d>".html_safe])
+      expect(subject.body{ "x" }).to eq("<body class=\"xx y\" id=\"121212\">a<b>b&lt;i&gt;c<d></body>")
+    end
+  end
+
+      #parts = []
+      #parts << header if feature_available?(:header)
+      #parts << menu if feature_available?(:sidebar)
+      #parts << tag(:main, id: "main"){ yield } if feature_available?(:main)
+      #parts << notifications
+      #parts << assets(:javascripts, :javascript_include_tag)
+      #parts
+
+
+  describe "#body_content_blocks" do
+    before do
+      allow(subject).to receive(:feature_available?).with(:header).and_return(true)
+      allow(subject).to receive(:feature_available?).with(:sidebar).and_return(true)
+      allow(subject).to receive(:feature_available?).with(:main).and_return(true)
+
+      allow(subject).to receive(:assets).with(:javascripts, :javascript_include_tag).and_return("_assets_")
+      allow(subject).to receive(:header).and_return("_header_")
+      allow(subject).to receive(:menu).and_return("_menu_")
+      allow(subject).to receive(:notifications).and_return("_notifications_")
+      allow(subject).to receive(:tag).with(:main, id: :main){|*args, &block| expect(block.call).to eq("x") }.and_return("body content")
+    end
+
+    it "returns body with body attributes and" do
+      expect(subject.body_content_blocks{ "x" }).to eq(["_header_", "_menu_", "body content", "_notifications_", "_assets_"])
+    end
+
+    it "skips header when header feature not available" do
+      allow(subject).to receive(:feature_available?).with(:header).and_return(false)
+      expect(subject.body_content_blocks{ "x" }).to eq(["_menu_", "body content", "_notifications_", "_assets_"])
+    end
+
+    it "skips menu when sidebar feature not available" do
+      allow(subject).to receive(:feature_available?).with(:sidebar).and_return(false)
+      expect(subject.body_content_blocks{ "x" }).to eq(["_header_", "body content", "_notifications_", "_assets_"])
+    end
+
+    it "skips main conrtent when main feature not available" do
+      allow(subject).to receive(:feature_available?).with(:main).and_return(false)
+      expect(subject.body_content_blocks{ "x" }).to eq(["_header_", "_menu_", "_notifications_", "_assets_"])
     end
   end
 
@@ -134,10 +198,13 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
   end
 
   describe "#body_atttributes" do
-    it "returns hash with classes and data-settings-path" do
+    it "returns hash with classes, data-settings-path and data-layout-features" do
+      allow(subject).to receive(:features).and_return([:top, :bottom])
       allow(subject).to receive(:controller_body_classes).and_return(["a", "b"])
       allow(subject).to receive(:settings_path).and_return("/xxx/sett")
-      expect(subject.body_atttributes).to eq(class: ["application-dummy", "a", "b"], "data-settings-path" => "/xxx/sett")
+      expect(subject.body_atttributes).to eq(class: ["application-dummy", "a", "b"],
+                                             "data-settings-path" => "/xxx/sett",
+                                             "data-layout-features" => "top bottom")
     end
   end
 

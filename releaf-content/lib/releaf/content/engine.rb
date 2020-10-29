@@ -1,7 +1,7 @@
 module Releaf::Content
   class Engine < ::Rails::Engine
-    initializer 'precompile', group: :all do |app|
-      app.config.assets.precompile += %w(releaf/controllers/releaf/content/*)
+    initializer 'releaf_content.assets_precompile', group: :all do |app|
+      app.config.assets.precompile << "releaf_content_manifest.js"
     end
   end
 end

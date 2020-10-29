@@ -7,7 +7,7 @@ module Releaf::I18nDatabase::Translations
 
     def export_button
       url = action_url(:export, format: :xlsx)
-      button(t("export"), "download", class: "secondary", href: url)
+      button(t("Export"), "download", class: "secondary", href: url)
     end
   end
 end

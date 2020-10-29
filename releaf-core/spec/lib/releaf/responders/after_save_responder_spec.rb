@@ -6,8 +6,9 @@ describe Releaf::Responders::AfterSaveResponder, type: :controller do
   subject{ described_class.new(controller, [resource]) }
 
   describe "#json_resource_errors" do
-    it "returns resource errors formatted with `Releaf::Releaf::ErrorFormatter`" do
-      allow(Releaf::ErrorFormatter).to receive(:format_errors).with(resource).and_return(a: "b")
+    it "returns resource errors hash built with `Releaf::BuildErrorsHash`" do
+      allow(Releaf::BuildErrorsHash).to receive(:call).with(resource: resource, field_name_prefix: :resource)
+        .and_return(a: "b")
       expect(subject.json_resource_errors).to eq(errors: {a: "b"})
     end
   end
@@ -76,27 +77,12 @@ describe Releaf::Responders::AfterSaveResponder, type: :controller do
     end
 
     context "when resource has no errors" do
-      before do
+      it "redirects to resource location with status code `303`" do
         allow(subject).to receive(:resource_location).and_return("some_url")
         allow(subject).to receive(:has_errors?).and_return(false)
-      end
-
-      context "when options has :redirect key" do
-        it "calls `display_errors`" do
-          allow(subject).to receive(:options).and_return(redirect: true)
-          expect(subject).to receive(:render).with(json: {url: "some_url"}, status: 303)
-          subject.to_json
-        end
-      end
-
-      context "when options has key :destroyable with `false` value" do
-        it "renders `refused_destroy` template" do
-          allow(subject).to receive(:options).and_return({})
-          expect(subject).to receive(:redirect_to).with("some_url", status: 303)
-          subject.to_json
-        end
+        expect(subject).to receive(:redirect_to).with("some_url", status: 303, turbolinks: false)
+        subject.to_json
       end
     end
   end
 end
-

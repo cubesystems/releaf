@@ -1,4 +1,8 @@
 class Releaf::ActionController < ActionController::Base
+  # must be first other in stange way non-text env will
+  # have CSRF on richtext attachment upload
+  protect_from_forgery
+
   include Releaf::ActionController::Notifications
   include Releaf::ActionController::Resources
   include Releaf::ActionController::Builders
@@ -9,14 +13,14 @@ class Releaf::ActionController < ActionController::Base
   include Releaf::ActionController::Breadcrumbs
   include Releaf::ActionController::RichtextAttachments
   include Releaf::ActionController::Views
+  include Releaf::ActionController::Layout
+  include Releaf::ActionController::Exceptions
   include Releaf::Responders
 
   helper_method :controller_scope_name, :page_title
-  rescue_from Releaf::AccessDenied, with: :access_denied
 
   respond_to :html
   respond_to :json, only: [:create, :update]
-  protect_from_forgery
   layout :layout
 
   def index
@@ -32,6 +36,7 @@ class Releaf::ActionController < ActionController::Base
   def show
     if feature_available?(:show)
       prepare_show
+      respond_with(@resource)
     else
       redirect_to url_for(action: 'edit', id: params[:id])
     end
@@ -45,13 +50,13 @@ class Releaf::ActionController < ActionController::Base
   def create
     prepare_create
     @resource.save
-    respond_with(@resource, location: (success_url if @resource.persisted?), redirect: true)
+    respond_with(@resource, location: (success_path if @resource.persisted?), redirect: true)
   end
 
   def update
     prepare_update
-    @resource.update_attributes(resource_params)
-    respond_with(@resource, location: success_url)
+    @resource.update(resource_params)
+    respond_with(@resource, location: success_path)
   end
 
   def confirm_destroy
@@ -68,7 +73,7 @@ class Releaf::ActionController < ActionController::Base
   def destroy
     prepare_destroy
     @resource.destroy if destroyable?
-    respond_with(@resource, location: index_url)
+    respond_with(@resource, location: index_path)
   end
 
   def prepare_index
@@ -134,10 +139,6 @@ class Releaf::ActionController < ActionController::Base
     params[:after_save] == "create_another" && feature_available?(:create_another)
   end
 
-  def access_denied
-    respond_with(nil, responder: action_responder(:access_denied))
-  end
-
   # Check if @resource has existing restrict relation and it can be deleted
   #
   # @return boolean true or false
@@ -149,15 +150,22 @@ class Releaf::ActionController < ActionController::Base
   # with I18.translation call within hash params
   # ex. t("save", scope: controller_scope_name)
   def controller_scope_name
-    @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.gsub('/', '_')
+    @controller_scope_name ||= 'admin.' + self.class.name.sub(/Controller$/, '').underscore.tr('/', '_')
   end
 
   def page_title
-    I18n.t(params[:controller], scope: "admin.controllers") + " - " + Rails.application.class.parent_name
+    title = Rails.application.class.module_parent_name
+    title = "#{definition.localized_name} - #{title}" if definition
+
+    title
   end
 
   def short_name
-    self.class.name.gsub("Controller", "").underscore
+    self.class.name.sub(/Controller$/, "").underscore
+  end
+
+  def definition
+    Releaf::ControllerDefinition.for(short_name)
   end
 
   ActiveSupport.run_load_hooks(:base_controller, self)

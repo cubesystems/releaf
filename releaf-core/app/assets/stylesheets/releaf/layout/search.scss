@@ -2,6 +2,11 @@ form.search
 {
     text-align: right;
 
+    &.has-extra-search:not(.has-text-search)
+    {
+        clear: left;
+    }
+
     .search-field
     {
         display: inline-block;
@@ -17,6 +22,7 @@ form.search
 
     .text-search
     {
+
         .search-field[data-name="search"]
         {
             position: relative;

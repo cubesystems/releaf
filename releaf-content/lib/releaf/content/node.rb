@@ -6,7 +6,7 @@ module Releaf::Content
         false
       end
 
-      def build_content(params = {}, assignment_options = nil)
+      def build_content(params = {})
         self.content = content_class.new(params)
       end
 
@@ -16,11 +16,18 @@ module Releaf::Content
 
       # Return node public path
       def path
-        if parent
-          parent.path + "/" + slug.to_s
-        else
-          "/" + slug.to_s
-        end
+        "/" + path_parts.join("/") + (trailing_slash_for_path? ? "/" : "")
+      end
+
+      def path_parts
+        list = []
+        list += parent.path_parts if parent
+        list << slug.to_s
+        list
+      end
+
+      def trailing_slash_for_path?
+        Rails.application.routes.default_url_options[:trailing_slash] == true
       end
 
       def to_s
@@ -44,40 +51,21 @@ module Releaf::Content
       end
 
       def attributes_to_not_copy
-        %w[content_id depth id item_position lft rgt slug created_at updated_at]
+        list = %w[content_id depth id item_position lft rgt created_at updated_at]
+        list << "locale" if locale_before_type_cast.blank?
+        list
       end
 
       def attributes_to_copy
         self.class.column_names - attributes_to_not_copy
       end
 
-      def copy parent_id
-        prevent_infinite_copy_loop(parent_id)
-        begin
-          new_node = nil
-          self.class.transaction do
-            new_node = _copy!(parent_id)
-          end
-          new_node
-        rescue ActiveRecord::RecordInvalid
-          add_error_and_raise 'descendant invalid'
-        else
-          update_settings_timestamp
-        end
+      def copy(parent_id)
+        Releaf::Content::Node::Copy.call(node: self, parent_id: parent_id)
       end
 
-      def move parent_id
-        return if parent_id.to_i == self.parent_id
-
-        self.class.transaction do
-          save_under(parent_id)
-          descendants.each do |node|
-            next if node.valid?
-            add_error_and_raise 'descendant invalid'
-          end
-        end
-
-        self
+      def move(parent_id)
+        Releaf::Content::Node::Move.call(node: self, parent_id: parent_id)
       end
 
       # Maintain unique name within parent_id scope.
@@ -93,6 +81,22 @@ module Releaf::Content
 
         if postfix
           self.name = "#{name}#{postfix}"
+        end
+      end
+
+      # Maintain unique slug within parent_id scope.
+      # If slug is not unique add numeric postfix.
+      def maintain_slug
+        postfix = nil
+        total_count = 0
+
+        while self.class.where(parent_id: parent_id, slug: "#{slug}#{postfix}").where("id != ?", id.to_i).exists? do
+          total_count += 1
+          postfix = "-#{total_count}"
+        end
+
+        if postfix
+          self.slug = "#{slug}#{postfix}"
         end
       end
 
@@ -112,41 +116,11 @@ module Releaf::Content
       # Check whether object and all its ancestors are active
       # @return [Boolean] returns true if object is available
       def available?
-        # There seams to be bug in Rails 4.0.0, that prevents us from using exists?
-        # exists? will return nil or 1 in this query, instead of true/false (as it should)
-        self_and_ancestors.where(active: false).any? == false
+        self_and_ancestors_array.all?(&:active?)
       end
 
-      def add_error_and_raise error
-        errors.add(:base, error)
-        raise ActiveRecord::RecordInvalid.new(self)
-      end
-
-      def duplicate_content
-        return nil if content_id.blank?
-
-        new_content = content.dup
-        new_content.save!
-        new_content
-      end
-
-      def copy_attributes_from node
-        node.attributes_to_copy.each do |attribute|
-          send("#{attribute}=", node.send(attribute))
-        end
-      end
-
-      def duplicate_under! parent_id
-        new_node = nil
-        self.class.transaction do
-          new_node = self.class.new
-          new_node.copy_attributes_from self
-          new_node.content_id = duplicate_content.try(:id)
-          new_node.prevent_auto_update_settings_timestamp do
-            new_node.save_under(parent_id)
-          end
-        end
-        new_node
+      def self_and_ancestors_array
+        preloaded_self_and_ancestors.nil? ? self_and_ancestors.to_a : preloaded_self_and_ancestors
       end
 
       def reasign_slug
@@ -154,22 +128,13 @@ module Releaf::Content
         ensure_unique_url
       end
 
-      def save_under target_parent_node_id
-        self.parent_id = target_parent_node_id
-        if validate_root_locale_uniqueness?
-          # When copying root nodes it is important to reset locale to nil.
-          # Later user should fill in locale. This is needed to prevent
-          # Rails errors about conflicting routes.
-          self.locale = nil
+      def assign_attributes_from(source_node)
+        source_node.attributes_to_copy.each do |attribute|
+          send("#{attribute}=", source_node.send(attribute))
         end
-
-        self.item_position = self.class.children_max_item_position(self.parent) + 1
-        maintain_name
-        reasign_slug
-        save!
       end
 
-      def prevent_auto_update_settings_timestamp &block
+      def prevent_auto_update_settings_timestamp
         original = @prevent_auto_update_settings_timestamp
         @prevent_auto_update_settings_timestamp = true
         yield
@@ -177,11 +142,19 @@ module Releaf::Content
         @prevent_auto_update_settings_timestamp = original
       end
 
-      protected
+      def update_settings_timestamp
+        self.class.updated
+      end
 
       def validate_root_locale_uniqueness?
         locale_selection_enabled? && root?
       end
+
+      def invalid_slug_format?
+        slug.present? && slug.to_url != slug
+      end
+
+      protected
 
       def validate_parent_node_is_not_self
         return if parent_id.nil?
@@ -195,28 +168,14 @@ module Releaf::Content
         self.errors.add(:parent_id, "descendant can't be parent")
       end
 
+      def validate_slug
+        errors.add(:slug, :invalid) if invalid_slug_format?
+      end
+
       private
-
-      def _copy! parent_id
-        new_node = duplicate_under! parent_id
-
-        children.each do |child|
-          child.send(:_copy!, new_node.id)
-        end
-        new_node
-      end
-
-      def prevent_infinite_copy_loop(parent_id)
-        return if self_and_descendants.find_by_id(parent_id).blank?
-        add_error_and_raise("source or descendant node can't be parent of new node")
-      end
 
       def prevent_auto_update_settings_timestamp?
         @prevent_auto_update_settings_timestamp == true
-      end
-
-      def update_settings_timestamp
-        self.class.updated
       end
 
     module ClassMethods
@@ -253,27 +212,27 @@ module Releaf::Content
 
     included do
       acts_as_nested_set order_column: :item_position
-      acts_as_list scope: :parent_id, column: :item_position
+      acts_as_list scope: :parent_id, column: :item_position, add_new_at: :bottom
 
       default_scope { order(:item_position) }
       scope :active, ->() { where(active: true) }
 
       validates_presence_of :name, :slug, :content_type
-      validates_uniqueness_of :slug, scope: :parent_id
+      validates_uniqueness_of :slug, scope: :parent_id, case_sensitive: false
       validates_length_of :name, :slug, :content_type, maximum: 255
-      validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?
+      validates_uniqueness_of :locale, scope: :parent_id, if: :validate_root_locale_uniqueness?, case_sensitive: false
       validates_presence_of :parent, if: :parent_id?
       validate :validate_parent_node_is_not_self
       validate :validate_parent_is_not_descendant
-
-      alias_attribute :to_text, :name
-
-      belongs_to :content, polymorphic: true, dependent: :destroy
+      validate :validate_slug
+      belongs_to :content, polymorphic: true, dependent: :destroy, required: false
       accepts_nested_attributes_for :content
 
       after_save :update_settings_timestamp, unless: :prevent_auto_update_settings_timestamp?
 
-      acts_as_url :name, url_attribute: :slug, scope: :parent_id, :only_when_blank => true
+      acts_as_url :name, url_attribute: :slug, scope: :parent_id, only_when_blank: true
+
+      attr_accessor :preloaded_self_and_ancestors
     end
   end
 end

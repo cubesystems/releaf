@@ -18,7 +18,7 @@ class Releaf::Permissions::Page::HeaderBuilder < Releaf::Builders::Page::HeaderB
   end
 
   def profile_user_name
-    user.to_text
+    resource_title(user)
   end
 
   def sign_out_path

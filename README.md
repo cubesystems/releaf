@@ -6,9 +6,9 @@ Documentation: http://cubesystems.github.io/releaf/documentation/
 
 Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
-[![Build Status](https://travis-ci.org/cubesystems/releaf.png?branch=master)](https://travis-ci.org/cubesystems/releaf)
-[![Coverage Status](https://coveralls.io/repos/cubesystems/releaf/badge.png?branch=master)](https://coveralls.io/r/cubesystems/releaf?branch=master)
-[![Code Climate](https://codeclimate.com/github/cubesystems/releaf.png)](https://codeclimate.com/github/cubesystems/releaf)
+[![Build Status](https://travis-ci.org/cubesystems/releaf.svg?branch=master)](https://travis-ci.org/cubesystems/releaf)
+[![Coverage Status](https://coveralls.io/repos/cubesystems/releaf/badge.svg?branch=master)](https://coveralls.io/r/cubesystems/releaf?branch=master)
+[![Code Climate](https://codeclimate.com/github/cubesystems/releaf.svg)](https://codeclimate.com/github/cubesystems/releaf)
 
 ## Getting started
 
@@ -46,3 +46,11 @@ Now open "/admin" on your dev site and login with following credentials:
 email: admin@example.com
 password: password
 ```
+
+## New version releasing
+1. bump version in `lib/releaf/version.rb`
+2. write all changes and new version number in `CHANGELOG.md`
+3. commit previous changes
+4. create git version tag `ex: v1.0.12`
+4. run `rake gem:build && rake gem:push`  
+5. push new tag with `git push --tags`  

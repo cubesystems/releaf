@@ -45,9 +45,9 @@ module ExcelHelpers
         for column in columns
           fixture_value = fixture.cell(row, column)
           actual_value = actual.cell(row, column)
-          if fixture_value != actual_value
+          if fixture_value.to_s != actual_value.to_s
             @errors << {
-              cell: "#{Roo::Base.number_to_letter(column)}#{row}",
+              cell: "#{Roo::Utils.number_to_letter(column)}#{row}",
               fixture_value: fixture_value,
               actual_value: actual_value
             }

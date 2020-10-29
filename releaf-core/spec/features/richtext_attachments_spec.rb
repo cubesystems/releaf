@@ -42,7 +42,7 @@ feature "Richtext attachments", js: true do
     status_script = 'CKEDITOR.instances["resource_content_attributes_intro_text_html"].status=="ready"'
     expect { page.evaluate_script(status_script) }.to become_true
 
-    find(".cke_toolbox a[title='Link']").click
+    find(".cke_toolbox a.cke_button__link").click
     expect(page).to have_css(".cke_dialog_title", text: "Link")
     click_link "Upload"
 

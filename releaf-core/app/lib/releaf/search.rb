@@ -74,7 +74,7 @@ module Releaf
 
       join_condition = case reflection.macro
                        when :has_many
-                         self.relation = relation.uniq
+                         self.relation = relation.distinct
                          table1[primary_key].eq(table2[foreign_key])
                        when :has_one
                          table1[primary_key].eq(table2[foreign_key])
@@ -90,7 +90,7 @@ module Releaf
       end
 
       if reflection.scope
-        where_scope = extract_where_condtion_from_scope(reflection, table2_alias)
+        where_scope = extract_where_condition_from_scope(reflection, table2_alias)
         join_condition = join_condition.and(where_scope) if where_scope.present?
       end
 
@@ -103,25 +103,12 @@ module Releaf
       table2
     end
 
-    def extract_where_condtion_from_scope(reflection, table_alias)
-      # XXX Hack based on ActiveRecord::Relation#to_sql
+    def extract_where_condition_from_scope(reflection, table_alias)
       tmp_relation = build_tmp_relation(reflection, table_alias)
 
-      where_scope = tmp_relation.where_values
+      return nil if tmp_relation.where_values_hash.blank?
 
-      return nil if where_scope.blank?
-
-      connection = tmp_relation.klass.connection
-      visitor    = connection.visitor
-
-      arel  = tmp_relation.arel
-      binds = (arel.bind_values + tmp_relation.bind_values).dup
-      binds.map! { |bv| connection.quote(*bv.reverse) }
-
-      wheres = tmp_relation.arel.ast.cores.first.wheres
-      collect = visitor.accept(wheres, Arel::Collectors::Bind.new)
-      sql = collect.compile(binds)
-      Arel::Nodes::SqlLiteral.new(sql)
+      tmp_relation.arel.ast.cores.first.wheres
     end
 
     def build_tmp_relation(reflection, table_alias)

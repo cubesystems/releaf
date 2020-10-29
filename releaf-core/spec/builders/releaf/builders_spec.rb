@@ -125,6 +125,16 @@ describe Releaf::Builders, type: :class do
     end
   end
 
+  describe ".constant_name_error?" do
+    it "returns true when error matches given mapping" do
+        expect(described_class.constant_name_error?("Caused by NameError: uninitialized constant #<Class:0x00007fc1b79e8448>::AnotherFormBuilder", "Releaf::Builders::AnotherFormBuilder")).to be true
+    end
+
+    it "returns fales when error doesnt match given mapping" do
+        expect(described_class.constant_name_error?("Caused by NameError: uninitialized something", "Releaf::Builders::AnotherFormBuilder")).to be false
+    end
+  end
+
   describe ".inherited_builder_scopes" do
     it "returns inherited classes except Object and BasicObject" do
       expect(described_class.inherited_builder_scopes).to eq(["Releaf::Builders"])

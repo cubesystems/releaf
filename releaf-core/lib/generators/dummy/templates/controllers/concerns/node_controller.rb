@@ -2,7 +2,7 @@ module NodeController
   extend ActiveSupport::Concern
 
   included do
-    before_filter :load_node
+    before_action :load_node
     # node finding helpers
     helper_method :root_node, :menu, :node_active?
   end

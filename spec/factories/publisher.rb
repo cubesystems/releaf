@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :publisher do
-    title "Good publisher"
+    title { "Good publisher" }
   end
 end

@@ -4,7 +4,7 @@ describe Releaf::I18nDatabase::Translations::EditBuilder, type: :class do
   class TableBuilderTestHelper < ActionView::Base
     def protect_against_forgery?; end
   end
-  let(:template){ TableBuilderTestHelper.new }
+  let(:template){ TableBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   let(:resource_class){ Releaf::I18nDatabase::Translation }
   let(:subject){ described_class.new(template) }
 
@@ -12,7 +12,7 @@ describe Releaf::I18nDatabase::Translations::EditBuilder, type: :class do
     it "returns section blocks wrapped within edit form" do
       allow(subject).to receive(:action_url).with(:update).and_return("update_url")
       allow(subject).to receive(:section_blocks).and_return(["a", "b"])
-      result = '<section><form action="update_url" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />ab</form></section>'
+      result = '<section><form action="update_url" accept-charset="UTF-8" method="post">ab</form></section>'
       expect(subject.section).to eq(result)
     end
   end
@@ -79,8 +79,8 @@ describe Releaf::I18nDatabase::Translations::EditBuilder, type: :class do
   describe "#back_to_index_button" do
     it "returns localized value for given resource and column(locale)" do
       allow(subject).to receive(:t).with("Back to list").and_return("back")
-      allow(subject).to receive(:action_url).with(:index).and_return("index_url")
-      allow(subject).to receive(:button).with("back", "caret-left", class: "secondary", href: "index_url").and_return("index_btn")
+      allow(subject).to receive(:action_url).with(:index).and_return("index_path")
+      allow(subject).to receive(:button).with("back", "caret-left", class: "secondary", href: "index_path").and_return("index_btn")
       expect(subject.back_to_index_button).to eq("index_btn")
     end
   end

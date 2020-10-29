@@ -43,6 +43,7 @@ describe Releaf::ResourceParams do
       expect(subject.localized_attributes).to eq(["t1", "t2", "s1", "s2"])
 
       allow(subject.resource_class).to receive(:translated_attribute_names).and_return([])
+      subject.instance_variable_set("@localized_attributes", nil) # reset cached values
       expect(subject.localized_attributes).to eq([])
     end
   end
@@ -57,7 +58,7 @@ describe Releaf::ResourceParams do
   end
 
   describe "#base_attributes" do
-    it "returns array with non-excluded and file attributes" do
+    it "returns array with base and file attributes" do
       allow(subject.resource_class).to receive(:column_names).and_return(["a", "b", "c"])
       allow(subject).to receive(:file_attribute?).and_return(false)
       expect(subject.base_attributes).to eq(["a", "b", "c"])
@@ -65,9 +66,6 @@ describe Releaf::ResourceParams do
       allow(subject).to receive(:file_attribute?).with("b").and_return(true)
       allow(subject).to receive(:file_attribute_params).with("b").and_return(["b1", "b2"])
       expect(subject.base_attributes).to eq(["a", "b1", "b2", "c"])
-
-      allow(subject).to receive(:excluded_attributes).and_return(["a"])
-      expect(subject.base_attributes).to eq(["b1", "b2", "c"])
     end
   end
 

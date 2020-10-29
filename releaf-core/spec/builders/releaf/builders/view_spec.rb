@@ -12,7 +12,7 @@ describe Releaf::Builders::View, type: :class do
   end
 
   subject { ViewTestIncluder.new(template) }
-  let(:template){ ViewTestHelper.new }
+  let(:template){ ViewTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
 
   it "includes Releaf::Builders::Base" do
     expect(described_class.ancestors).to include(Releaf::Builders::Base)

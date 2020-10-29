@@ -1,6 +1,6 @@
 class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   def self.resource_class
-    Releaf::I18nDatabase::Translation
+    Releaf::I18nDatabase::I18nEntry
   end
 
   def edit
@@ -23,7 +23,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
     super
 
     if %w[edit update].include?(params[:action]) && !params.has_key?(:import)
-      @breadcrumbs << { name: I18n.t("edit translations", scope: controller_scope_name), url: url_for(action: :edit, search: params[:search]) }
+      @breadcrumbs << { name: I18n.t("Edit translations", scope: controller_scope_name), url: url_for(action: :edit, search: params[:search]) }
     end
   end
 
@@ -57,12 +57,12 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def import
-    if File.exists?(import_file_path) && !import_file_extension.blank?
+    if File.exist?(import_file_path)
       begin
-        @collection = Releaf::I18nDatabase::TranslationsImporter.new(import_file_path, import_file_extension).parsed_output
+        @collection = Releaf::I18nDatabase::ParseSpreadsheetTranslations.call(file_path: import_file_path, extension: import_file_extension)
         import_view
         render :edit
-      rescue Releaf::I18nDatabase::TranslationsImporter::UnsupportedFileFormatError
+      rescue Releaf::I18nDatabase::ParseSpreadsheetTranslations::UnsupportedFileFormatError
         flash["error"] = { "id" => "resource_status", "message" => I18n.t("Unsupported file format", scope: notice_scope_name) }
         redirect_to action: :index
       end
@@ -77,7 +77,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def features
-    [:index]
+    [:index, :search]
   end
 
   def action_views
@@ -118,7 +118,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def load_translation(key, localizations)
-    translation = Releaf::I18nDatabase::Translation.where(key: key).first_or_initialize
+    translation = Releaf::I18nDatabase::I18nEntry.where(key: key).first_or_initialize
     translation.key = key
 
     localizations.each_pair do |locale, localization|
@@ -129,13 +129,12 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def load_translation_data(translation, locale, localization)
-    translation_data = translation.translation_data.find{ |x| x.lang == locale }
-    # replace existing locale value only if new one is not blank
-    if translation_data
-      translation_data.localization = localization
-      # always assign value for new locale
-    elsif translation_data.nil?
-      translation_data = translation.translation_data.build(lang: locale, localization: localization)
+    translation_data = translation.find_or_initialize_translation(locale)
+
+    if localization.present?
+      translation_data.text = localization
+    else
+      translation_data.mark_for_destruction
     end
 
     translation_data
@@ -153,7 +152,7 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def export_file_name
-    "#{Rails.application.class.parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx"
+    "#{Rails.application.class.module_parent_name.underscore}_translations_#{Time.now.strftime('%Y_%m_%d_%H_%M_%S')}.xlsx"
   end
 
   def import_file_path
@@ -161,6 +160,6 @@ class Releaf::I18nDatabase::TranslationsController < ::Releaf::ActionController
   end
 
   def import_file_extension
-    File.extname(params[:import_file].original_filename).gsub(".", "")
+    File.extname(params[:import_file].original_filename).tr(".", "")
   end
 end

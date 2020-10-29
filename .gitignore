@@ -16,3 +16,4 @@ rdoc/
 _site/
 api/
 /config.yml
+*.gem

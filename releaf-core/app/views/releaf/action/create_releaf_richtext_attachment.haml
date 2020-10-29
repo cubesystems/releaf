@@ -1,1 +1,2 @@
-%script{type: "text/javascript"}= "window.parent.CKEDITOR.tools.callFunction(#{params[:CKEditorFuncNum]}, '#{@resource.file.url}', '');"
+:javascript
+  window.parent.CKEDITOR.tools.callFunction(#{params[:CKEditorFuncNum]}, '#{@resource.file.url.html_safe}', '');

@@ -7,7 +7,7 @@ describe Releaf::Content::Nodes::ToolboxBuilder, type: :class do
     include Releaf::ApplicationHelper
   end
 
-  let(:template){ NodeToolboxBuilderTestHelper.new }
+  let(:template){ NodeToolboxBuilderTestHelper.new(ActionView::LookupContext.new(nil), {}, nil) }
   subject { described_class.new(template) }
 
   let(:node){ Node.new(content_type: "TextPage", slug: "a", id: 99) }
@@ -27,7 +27,6 @@ describe Releaf::Content::Nodes::ToolboxBuilder, type: :class do
     before do
       allow(subject).to receive(:params).and_return({})
       allow(subject).to receive(:add_child_button).and_return( :add_child_item )
-      allow(subject).to receive(:go_to_button).and_return( :go_to_item )
       allow(subject).to receive(:copy_button).and_return( :copy_item )
       allow(subject).to receive(:move_button).and_return( :move_item )
     end
@@ -37,26 +36,6 @@ describe Releaf::Content::Nodes::ToolboxBuilder, type: :class do
       it "returns only items returned by parent class" do
         allow(node).to receive(:new_record?).and_return true
         expect(subject.items).to eq([ :super_item ])
-      end
-
-    end
-
-    context "when applied to an existing record" do
-
-      before do
-        allow(node).to receive(:new_record?).and_return false
-      end
-
-      it "prepends add child, go to, copy and move items to the list returned by parent class" do
-        expect(subject.items).to eq([ :add_child_item, :go_to_item, :copy_item, :move_item, :super_item ])
-      end
-
-      context "when in index context" do
-
-        it "does not include go_to_item" do
-          allow(subject).to receive(:params).and_return({ context: "index" })
-          expect(subject.items).to eq([ :add_child_item, :copy_item, :move_item, :super_item ])
-        end
       end
 
     end
@@ -73,16 +52,6 @@ describe Releaf::Content::Nodes::ToolboxBuilder, type: :class do
         expect(subject.add_child_button).to eq(html)
       end
     end
-
-    describe "#go_to_button" do
-      it "returns an ajaxbox link to go to dialog" do
-        allow(subject).to receive(:t).with('Go to').and_return('gotoxx')
-        allow(subject).to receive(:url_for).with(action: 'go_to_dialog').and_return('dialogurl')
-        html = '<a class="button ajaxbox" title="gotoxx" href="dialogurl">gotoxx</a>'
-        expect(subject.go_to_button).to eq(html)
-      end
-    end
-
 
     describe "#copy_button" do
       it "returns an ajaxbox link to copy dialog" do
