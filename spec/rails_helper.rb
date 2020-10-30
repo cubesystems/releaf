@@ -54,6 +54,7 @@ Capybara.register_driver(:chrome) do |app|
 end
 
 Capybara.javascript_driver = :chrome
+Capybara.default_max_wait_time = 5
 
 Capybara.default_set_options = { clear: :backspace } # needed for 'fill_in "Foo", with: ""' to work
 
