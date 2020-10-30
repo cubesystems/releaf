@@ -1,32 +1,25 @@
+dist: bionic
 language: ruby
-sudo: required
-cache:
-  directories:
-    - bundler
-
+cache: bundler
 rvm:
-  - 2.5.1
+  - 2.6
 
 addons:
-  chrome: stable
+  apt:
+    packages:
+      - chromium-browser
+      - chromium-chromedriver
 
 services:
   - mysql
-  - postgresql
-
-env:
-  - DB=mysql
-  - DB=pg
-
-matrix:
-  allow_failures:
-    - env: DB=pg
 
 before_install:
-  - 'cp "config.yml.${DB}.travis" "config.yml"'
+  - sudo rm /usr/bin/google-chrome
 
-before_script:
-  - 'if [ "$DB" = "pg" ]; then psql -c "create database myapp;" -U postgres; fi'
+install:
+  - cp config.yml.mysql.travis config.yml
+  - bundle install
   - bundle exec rake dummy:setup
 
-script: xvfb-run bundle exec rake ci
+script:
+  - xvfb-run bundle exec rake ci
