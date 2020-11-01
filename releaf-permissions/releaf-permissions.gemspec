@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
 
   s.files       = Dir["app/**/*"] + Dir["lib/**/*"] + ["LICENSE"]
-  s.test_files  = Dir["spec/**/*"]
 
   s.add_dependency 'releaf-core', Releaf::VERSION
   s.add_dependency 'devise', '~> 4.2'

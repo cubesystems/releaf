@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
 
   s.files       = Dir["lib/**/*"] + ["LICENSE"]
-  s.test_files  = Dir["spec/factories/**/*"] + Dir["spec/support/**/*"] + Dir["spec/*.rb"]
 
   Releaf::GEMS.each do|gem|
     s.add_dependency gem, Releaf::VERSION
