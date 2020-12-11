@@ -71,6 +71,7 @@ feature "Ajaxbox", js: true do
     open_toolbox_dialog "Add child"
 
     expect(page).to have_css(".mfp-bg")
+    expect(page).to have_css ".dialog.initialized"
     find("body").click
     expect(page).to_not have_css(".mfp-bg")
   end

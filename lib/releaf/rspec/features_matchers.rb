@@ -20,12 +20,6 @@ module Capybara
       has_no_css?("#{primary_header_css_rule} h1", *args)
     end
 
-
-    def has_number_of_resources?(count)
-      has_css?("#{primary_header_css_rule} .totals", text: "#{count} resources found")
-    end
-
-
     # Allows to match againg validation errors within forms
     # Support either model specific (base) errors with:
     #     expect(page).to have_error('Global form error message')

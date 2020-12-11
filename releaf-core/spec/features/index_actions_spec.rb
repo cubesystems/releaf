@@ -24,9 +24,10 @@ feature "Base controller index", js: true do
     uncheck "Only active"
     expect(page).to have_number_of_resources(1)
 
-    fill_in "Published between", with: "2015-11-11"
-    click_button "Filter"
+    fill_in_date "Published between", with: "2016-11-11"
+    expect(page).to have_number_of_resources(0)
 
+    fill_in_date "Published between", with: "2015-11-11"
     expect(page).to have_number_of_resources(1)
   end
 
