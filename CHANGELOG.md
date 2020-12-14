@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2.0.1 (2020.12.14)
+
+* Improve rspec test helpers
+
 ### 2.0.0 (2020.10.30)
 
 * Rails 6.0 support
