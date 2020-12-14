@@ -20,12 +20,6 @@ module Capybara
       has_no_css?("#{primary_header_css_rule} h1", *args)
     end
 
-
-    def has_number_of_resources?(count)
-      has_css?("#{primary_header_css_rule} .totals", text: "#{count} resources found")
-    end
-
-
     # Allows to match againg validation errors within forms
     # Support either model specific (base) errors with:
     #     expect(page).to have_error('Global form error message')
@@ -40,7 +34,7 @@ module Capybara
       error_found = false
       if options[:field]
         first('.field.has-error', minimum: 1) # wait for any errors to come from validation
-        all(".field.has-error").each do |field_container|
+        all(".field.has-error", wait: false).each do |field_container|
           if !error_found
             within(field_container) do
               if has_field?(options[:field], wait: false) && has_css?(".error", text: error_message, wait: false)
@@ -50,7 +44,7 @@ module Capybara
           end
         end
       else
-        if first(".form-error-box .error", text: error_message)
+        if first(".form-error-box .error", text: error_message, minimum: 0)
           error_found = true
         end
       end
@@ -74,7 +68,7 @@ module Capybara
 
     def has_notification?(text, type="success")
       result = has_css?(".notifications .notification[data-type='#{type}']", text: text)
-      if first(".notifications button.close")
+      if first(".notifications button.close", minimum: 0)
         find(".notifications .notification[data-type='#{type}'] button.close").click
         has_no_css?(".notifications .notification[data-type='#{type}'] button.close")
       end

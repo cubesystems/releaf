@@ -89,11 +89,17 @@ module Releaf::Test
     def wait_for_all_richtexts
       # wait for all ckeditors to fully initialize before moving on.
       # otherwise the page sometimes produces random js errors in fast tests
-      number_of_normal_richtexts = page.all('.field.type-richtext:not(.i18n)', wait: 0).length
-      number_of_localized_richtexts = page.all('.field.type-richtext.i18n .localization', wait: 0, visible: false).length
-      number_of_richtexts = number_of_normal_richtexts + number_of_localized_richtexts
-      if (number_of_richtexts > 0)
-        expect(page).to have_css(".ckeditor-initialized", visible: false, count: number_of_richtexts)
+      number_of_normal_richtexts = page.all('.field.type-richtext:not(.i18n)', wait: false).length
+      number_of_localized_richtexts = page.all('.field.type-richtext.i18n .localization', wait: false, visible: false).length
+
+      # some richtexts may have been inside nested association items that have been removed (they actually only get hidden).
+      # they must be included in the count because they retain their 'ckeditor-initialized' class even after the editor has been unloaded
+      number_of_removed_normal_richtexts = page.all('fieldset.item.type-association.removed .field.type-richtext:not(.i18n)', wait: false, visible: false).length
+
+      number_of_initialized_richtexts = number_of_normal_richtexts + number_of_localized_richtexts + number_of_removed_normal_richtexts
+      if number_of_initialized_richtexts > 0
+        # expect _at least_ that many richtexts. others may have been initialized and hidden by some custom code
+        expect(page).to have_css(".ckeditor-initialized", visible: false, minimum: number_of_initialized_richtexts)
       end
     end
 
@@ -119,12 +125,26 @@ module Releaf::Test
       wait_for_all_richtexts
     end
 
-    def save_and_check_response(status_text)
+    def close_all_notifications
+      page.all('body > .notifications .notification[data-id="resource_status"]', wait: false).each do |notification|
+        within(notification) { find('button.close').click }
+      end
+      expect(page).to have_no_css('body > .notifications .notification[data-id="resource_status"]')
+    end
+
+    def save_and_check_response(status_text, button_text = "Save")
       wait_for_all_richtexts
-      click_button 'Save'
-      expect(page).to have_css('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: status_text)
+      # close any existing notifications
+      close_all_notifications
+      within page.document.find("form[data-remote-validation-initialized='true']") do
+        click_button button_text
+      end
+      notification = find('body > .notifications .notification[data-id="resource_status"][data-type="success"]', text: status_text)
+      within(notification) { find('button.close').click }
+      expect(page).to have_no_css('body > .notifications .notification[data-id="resource_status"]')
       wait_for_all_richtexts
     end
+
 
     # As there is no visual UI for settings update being successful
     # do check against database
@@ -206,7 +226,7 @@ module Releaf::Test
 
       # locate possibly hidden textarea among active/visible richtext fields ignoring hidden localization versions
       textareas = []
-      richtext_boxes = all(".field.type-richtext:not(.i18n), .field.type-richtext.i18n .localization.active")
+      richtext_boxes = all(".field.type-richtext:not(.i18n), .field.type-richtext.i18n .localization.active", wait: false)
       richtext_boxes.each do |richtext_box|
         textarea = richtext_box.first(:field, locator, visible: false, minimum: 0)
         textareas << textarea if textarea.present?
@@ -231,13 +251,19 @@ module Releaf::Test
 
     def add_nested_item(block_name, expected_item_index)
       scroll_to_bottom_of_page
-      all('button', text: 'Add item').last.click  # use last button in case of multiple nested items
+      all('button', text: 'Add item', wait: false).last.click  # use last button in case of multiple nested items
       wait_for_nested_item block_name, expected_item_index
 
       if block_given?
-        within(".item[data-name=\"#{block_name}\"][data-index=\"#{expected_item_index}\"]") do
+        within_nested_item block_name, expected_item_index do
           yield
         end
+      end
+    end
+
+    def within_nested_item block_name, item_index
+      within(".item[data-name='#{block_name}'][data-index='#{item_index}']") do
+        yield
       end
     end
 
