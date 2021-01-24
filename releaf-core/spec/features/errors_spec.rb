@@ -31,7 +31,7 @@ describe "Errors feature" do
 
     expect(page.status_code).to eq(403)
     within "main" do
-      expect(page).to have_text("edit feature disabled for roles")
+      expect(page).to have_text("You are not authorized to view this page")
     end
   end
 
@@ -41,7 +41,7 @@ describe "Errors feature" do
 
     expect(page.status_code).to eq(403)
     within "main" do
-      expect(page).to have_text("You are not authorized to access roles")
+      expect(page).to have_text("You are not authorized to view this page")
     end
   end
 end

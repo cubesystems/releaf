@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 describe "Errors hash builder" do
   class DummyResourceValidatorAuthor < Author
     self.table_name = 'authors'
@@ -38,9 +39,9 @@ describe "Errors hash builder" do
       resource.valid?
       resource.chapters.new(id: 12)
       resource.chapters.new(title: 'test')
-      resource.errors.add(:base, 'error on base')
-      resource.errors.add(:title, "test error")
-      resource.errors.add(:author_id, "Invalid author")
+      resource.errors.add(:base, :invalid, message: "error on base")
+      resource.errors.add(:title, :invalid, message: "test error")
+      resource.errors.add(:author_id, :invalid, message: "Invalid author")
       expect(subject.call).to eq(expected_result)
 
       resource.title = "xxx"
@@ -50,33 +51,27 @@ describe "Errors hash builder" do
       expected_result = {
         "resource[chapters_attributes][0][title]" => [
           {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][0][text]" => [
           {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][0][sample_html]" => [
           {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][1][text]" => [
           {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"}
         ],
         "resource[chapters_attributes][1][sample_html]" => [
           {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"},
-          {error_code: :blank, message: "can't be blank"}
+        ],
+        "resource[author_attributes][author_id]" => [
+          {error_code: :invalid, message: "is invalid"}
         ],
         "resource[author_attributes][name]" => [
           {error_code: :blank, message: "can't be blank"}
         ]
       }
+
       expect(subject.call).to eq(expected_result)
     end
   end

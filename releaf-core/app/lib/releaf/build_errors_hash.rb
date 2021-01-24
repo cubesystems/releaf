@@ -8,30 +8,30 @@ module Releaf
       errors.inject({}) do |h, item|
         field_name = item.delete(:field_name)
         h[field_name] ||= []
-        h[field_name] << item
+        # filter out nested item duplicate errors due to #nested_attribute_errors functionality
+        # that returns all errors on each objects
+        h[field_name] << item if h[field_name].none?{|error| error == item}
         h
       end
     end
 
     def errors
-      resource.errors.map do |attribute, message|
-        format_error(attribute, message)
-      end.flatten
+      resource.errors.map{|error| format_error(error) }.flatten
     end
 
-    def attribute_error(attribute, message)
+    def attribute_error(error)
       {
-        field_name: field_name(attribute),
-        error_code: message.error_code,
-        message: message.to_s,
+        field_name: field_name(error.attribute),
+        error_code: error.type,
+        message: error.message.to_s,
       }
     end
 
-    def format_error(attribute, message)
-      if resource_attribute?(attribute)
-        attribute_error(attribute, message)
+    def format_error(error)
+      if resource_attribute?(error.attribute)
+        attribute_error(error)
       else
-        nested_attribute_errors(attribute)
+        nested_attribute_errors(error.attribute)
       end
     end
 

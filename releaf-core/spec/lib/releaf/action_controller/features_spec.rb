@@ -11,6 +11,12 @@ describe Releaf::ActionController::Features do
     end
   end
 
+  describe "Releaf::FeatureDisabled handling" do
+    it "rescues `Releaf::FeatureDisabled` exception with :access_denied method" do
+      expect(Hash[subject.rescue_handlers]["Releaf::FeatureDisabled"]).to eq(:access_denied)
+    end
+  end
+
   describe "#verify_feature_availability!" do
     before do
       allow(subject).to receive(:action_feature).with("some_action").and_return(:feature_name)
@@ -22,14 +28,14 @@ describe Releaf::ActionController::Features do
     end
 
     context "when no feature defined for action" do
-      it "doesn no raise `Releaf::FeatureDisabled` exception" do
+      it "doesn't raise `Releaf::FeatureDisabled` exception" do
         allow(subject).to receive(:action_feature).with("some_action").and_return(nil)
         expect{ subject.verify_feature_availability! }.to_not raise_error
       end
     end
 
     context "when current feature is available" do
-      it "doesn no raise `Releaf::FeatureDisabled` exception" do
+      it "doesn't raise `Releaf::FeatureDisabled` exception" do
         allow(subject).to receive(:feature_available?).with(:feature_name).and_return(true)
         expect{ subject.verify_feature_availability! }.to_not raise_error
       end
@@ -93,27 +99,6 @@ describe Releaf::ActionController::Features do
         allow(subject).to receive(:feature_available?).with(:show).and_return(false)
         expect(subject.action_features[:show]).to eq(:edit)
       end
-    end
-  end
-
-  describe "#feature_disabled" do
-    before do
-      allow(subject).to receive(:action_responder).with(:feature_disabled).and_return("_res")
-    end
-
-    it "adds itself as rescue handler from `Releaf::FeatureDisabled` exception" do
-      expect(Hash[subject.rescue_handlers]["Releaf::FeatureDisabled"]).to eq(:feature_disabled)
-    end
-
-    it "calls disabled feature responder" do
-      expect(subject).to receive(:respond_with).with(nil, responder: "_res")
-      subject.feature_disabled(Releaf::FeatureDisabled.new("xx"))
-    end
-
-    it "assigns @feature instance variable from exception message" do
-      allow(subject).to receive(:respond_with)
-      expect{ subject.feature_disabled(Releaf::FeatureDisabled.new("xx")) }.to change{ subject.instance_variable_get(:@feature) }
-        .to("xx")
     end
   end
 

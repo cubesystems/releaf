@@ -32,7 +32,8 @@ describe "Nodes services (copy, move)" do
           expect( e.record ).to eq @text_page_node_3
         end
 
-        expect(@text_page_node_3.errors.messages).to eq(name: [], base: ["descendant invalid"])
+        expect(@text_page_node_3).to have_error_on(:base, "descendant invalid")
+        expect(@text_page_node_3).to_not have_error_on(:name)
       end
     end
 
@@ -95,7 +96,8 @@ describe "Nodes services (copy, move)" do
         rescue ActiveRecord::RecordInvalid => e
           expect( e.record ).to eq @text_page_node_3
         end
-        expect(@text_page_node_3.errors.messages).to eq(name: [], base: ["descendant invalid"])
+        expect(@text_page_node_3).to have_error_on(:base, "descendant invalid")
+        expect(@text_page_node_3).to_not have_error_on(:name)
       end
 
       it "doesn't create any new nodes" do

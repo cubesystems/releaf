@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
 
   s.files       = Dir["app/**/*"] + Dir["lib/**/*"] + ["LICENSE"]
 
-  s.add_dependency 'rails', '~> 6.0'
-  s.add_dependency 'activesupport', '~> 6.0'
-  s.add_dependency 'activerecord', '~> 6.0'
+  s.add_dependency 'rails', '~> 6.1'
+  s.add_dependency 'activesupport', '~> 6.1'
+  s.add_dependency 'activerecord', '~> 6.1'
   s.add_dependency 'i18n', '~> 1.8'
   s.add_dependency 'sprockets-rails', '~> 3.0'
   s.add_dependency 'sass-rails', '~> 6.0'
@@ -31,8 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'acts_as_list', '~> 0.8'
   s.add_dependency 'will_paginate', '~> 3.1'
   s.add_dependency 'font-awesome-rails', '~> 4.6'
-  s.add_dependency 'globalize', '~> 5.3'
-  s.add_dependency 'globalize-accessors', '~> 0.2.1'
+  s.add_dependency 'globalize', '~> 6.0'
   s.add_dependency 'rack-cache', '~> 1.0'
   s.add_dependency 'virtus', '~> 1.0'
 end

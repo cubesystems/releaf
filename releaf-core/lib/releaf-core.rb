@@ -11,7 +11,6 @@ require 'acts_as_list'
 require 'dragonfly'
 require 'globalize'
 require 'virtus'
-require 'globalize-accessors'
 
 module Releaf
   module Core
@@ -30,7 +29,7 @@ module Releaf
     require 'releaf/route_mapper'
     require 'releaf/exceptions'
     require 'releaf/core_ext/array/reorder'
-    require 'releaf/rails_ext/validation_error_codes'
+    require 'releaf/rails_ext/globalize-accessors'
 
     def self.components
       [Releaf::SettingsUI, Releaf::Root]

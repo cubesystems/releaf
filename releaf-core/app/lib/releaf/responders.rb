@@ -12,7 +12,6 @@ module Releaf::Responders
       confirm_destroy: Releaf::Responders::ConfirmDestroyResponder,
       destroy: Releaf::Responders::DestroyResponder,
       access_denied: Releaf::Responders::AccessDeniedResponder,
-      feature_disabled: Releaf::Responders::FeatureDisabledResponder,
       page_not_found: Releaf::Responders::PageNotFoundResponder,
     }
   end

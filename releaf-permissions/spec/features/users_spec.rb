@@ -92,7 +92,7 @@ feature "Users", js: true do
 
     scenario "translations module access denied" do
       visit "/admin/translations"
-      expect(page).to have_content 'You are not authorized to access translations'
+      expect(page).to have_content 'You are not authorized to view this page'
     end
 
     scenario "logout sequence" do
