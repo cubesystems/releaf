@@ -200,14 +200,14 @@ describe Releaf::Content::Route do
 
     context "when database doesn't exists" do
       it "returns an empty array" do
-        allow(Node).to receive(:where).and_raise(ActiveRecord::NoDatabaseError.new("xxx"))
+        allow(Releaf::Content::BuildRouteObjects).to receive(:call).and_raise(ActiveRecord::NoDatabaseError.new("xxx"))
         expect(described_class.for(Node, HomePage, 'foo')).to eq([])
       end
     end
 
     context "when node table doesn't exist" do
       it "returns an empty array" do
-        allow(Node).to receive(:where).and_raise(ActiveRecord::StatementInvalid.new("xxx"))
+        allow(Releaf::Content::BuildRouteObjects).to receive(:call).and_raise(ActiveRecord::StatementInvalid.new("xxx"))
         expect(described_class.for(Node, HomePage, 'foo')).to eq([])
       end
     end

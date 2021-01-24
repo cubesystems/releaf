@@ -59,7 +59,7 @@ module Releaf::Builders::Base
 
   def t(key, options = {})
     options[:scope] = default_translation_scope unless options.key? :scope
-    I18n.t(key, options)
+    I18n.t(key, **options)
   end
 
   def translate_locale(locale)

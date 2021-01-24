@@ -19,7 +19,7 @@ module Releaf
     def translate(key, options = {})
       # prevent I18n from raising errors when translation is missing
       options.merge!(raise: false) unless options.key?(:raise)
-      super(key, options)
+      super(key, **options)
     end
     alias :t :translate
 
@@ -30,7 +30,7 @@ module Releaf
 
       container.each do|element|
         text, value = i18n_option_text_and_value(element).map { |item| item.to_s }
-        text = I18n.t("#{prefix}-#{text}", i18n_options.merge(default: text))
+        text = I18n.t("#{prefix}-#{text}", **i18n_options.merge(default: text))
         translated_container << [text, value]
       end
 

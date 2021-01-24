@@ -4,7 +4,7 @@ module Releaf::ActionController::Features
   included do
     before_action :verify_feature_availability!
     helper_method :feature_available?
-    rescue_from Releaf::FeatureDisabled, with: :feature_disabled
+    rescue_from Releaf::FeatureDisabled, with: :access_denied
   end
 
   def verify_feature_availability!
@@ -31,11 +31,6 @@ module Releaf::ActionController::Features
       confirm_destroy: :destroy,
       destroy: :destroy
     }
-  end
-
-  def feature_disabled(exception)
-    @feature = exception.message
-    respond_with(nil, responder: action_responder(:feature_disabled))
   end
 
   def feature_available?(feature)

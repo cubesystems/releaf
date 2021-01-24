@@ -45,31 +45,20 @@ describe Releaf::Builders::Utilities::ResolveAttributeFieldMethodName do
   end
 
   describe "#column_type" do
-    let(:column){ Book.columns_hash["id"] }
-
     before do
       subject.attribute_name = "birth_date"
       allow(subject).to receive(:columns_class).and_return(Author)
-      allow(column).to receive(:type).and_return("doubleinteger")
     end
 
     it "returns column type from columns class" do
-      allow(Author.columns_hash).to receive(:[]).with("birth_date").and_return(column)
-      expect(subject.column_type).to eq("doubleinteger")
+      expect(subject.column_type).to eq(:date)
     end
 
     context "when attribute does not exists within columns hash" do
       it "returns `string` as default type" do
-        allow(Author.columns_hash).to receive(:[]).with("birth_date").and_return(nil)
+        subject.attribute_name = "foo"
         expect(subject.column_type).to eq(:string)
       end
-    end
-
-    it "caches resolved column type" do
-      expect(Author.columns_hash).to receive(:[]).with("birth_date").and_return(column).twice
-      subject.column_type
-      subject.column_type
-      subject.column_type
     end
   end
 

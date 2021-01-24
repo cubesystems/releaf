@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Releaf::BuildErrorsHash do
   let(:resource) { Book.new }
-  let(:error){ ActiveModel::ErrorMessage.new("blank value", :blank) }
+  let(:error){ resource.errors.add(:title, :blank, message: "blank value") }
 
   subject do
     described_class.new(resource: resource, field_name_prefix: :resource)
@@ -36,39 +36,43 @@ describe Releaf::BuildErrorsHash do
 
   describe "#errors" do
     it "returns flattened errors array" do
-      allow(resource).to receive(:errors).and_return(name: "er1", surname: "er2", role: "er3")
-      allow(subject).to receive(:format_error).with(:name, "er1").and_return("error1")
-      allow(subject).to receive(:format_error).with(:surname, "er2").and_return("error2")
-      allow(subject).to receive(:format_error).with(:role, "er3").and_return(["error3", "error4"])
+      error_1 = resource.errors.add(:name, :blank, message: "cannot be nil")
+      error_2 = resource.errors.add(:title, :too_long, count: 1000)
+      error_3 = resource.errors.add(:foo, :too_long, somethig: "x")
+
+      allow(subject).to receive(:format_error).with(error_1).and_return("error1")
+      allow(subject).to receive(:format_error).with(error_2).and_return("error2")
+      allow(subject).to receive(:format_error).with(error_3).and_return(["error3", "error4"])
+
       expect(subject.errors).to eq(["error1", "error2", "error3", "error4"])
     end
   end
 
   describe "#format_error" do
     before do
-      allow(subject).to receive(:attribute_error).with(:name, "er1").and_return("error1")
-      allow(subject).to receive(:nested_attribute_errors).with(:name).and_return(["error1", "error2"])
+      allow(subject).to receive(:attribute_error).with(error).and_return("error1")
+      allow(subject).to receive(:nested_attribute_errors).with(error.attribute).and_return(["error1", "error2"])
     end
 
     context "when resource attribute given" do
       it "returns attribute error" do
-        allow(subject).to receive(:resource_attribute?).and_return(true)
-        expect(subject.format_error(:name, "er1")).to eq("error1")
+        allow(subject).to receive(:resource_attribute?).with(error.attribute).and_return(true)
+        expect(subject.format_error(error)).to eq("error1")
       end
     end
 
     context "when nested attribute given" do
       it "returns nested attribute errors" do
-        allow(subject).to receive(:resource_attribute?).and_return(false)
-        expect(subject.format_error(:name, "er1")).to eq(["error1", "error2"])
+        allow(subject).to receive(:resource_attribute?).with(error.attribute).and_return(false)
+        expect(subject.format_error(error)).to eq(["error1", "error2"])
       end
     end
   end
 
   describe "#attribute_error" do
     it "returns attribute error hash" do
-      allow(subject).to receive(:field_name).with(:name).and_return("xxx_name")
-      expect(subject.format_error(:name, error)).to eq(field_name: "xxx_name", error_code: :blank, message: "blank value")
+      allow(subject).to receive(:field_name).with(:title).and_return("xxx_name")
+      expect(subject.format_error(error)).to eq(field_name: "xxx_name", error_code: :blank, message: "blank value")
     end
   end
 

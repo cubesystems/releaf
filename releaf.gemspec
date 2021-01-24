@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files       = Dir["lib/**/*"] + ["LICENSE"]
 
   Releaf::GEMS.each do|gem|
-    s.add_dependency gem, Releaf::VERSION
+    s.add_runtime_dependency gem, Releaf::VERSION
   end
 
   s.add_development_dependency 'rspec-rails', '~> 4.0'

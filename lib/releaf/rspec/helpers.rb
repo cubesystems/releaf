@@ -284,7 +284,7 @@ module Releaf::Test
       require "open-uri"
       file = Tempfile.new
       file.binmode
-      file.write(open(url).read)
+      file.write(URI.open(url).read)
       file.flush
       file
     end

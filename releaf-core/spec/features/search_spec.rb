@@ -23,7 +23,7 @@ describe Releaf::Search do
         fields: [:name],
         text: 'Pēteris'
       }
-      expect( described_class.prepare(params) ).to match_array [@tester2, @tester3]
+      expect( described_class.prepare(**params) ).to match_array [@tester2, @tester3]
     end
 
     it "can search in multiple columns" do
@@ -32,7 +32,7 @@ describe Releaf::Search do
         fields: [:name, :surname],
         text: 'Lazdiņš Pēteris'
       }
-      expect( described_class.prepare(params) ).to match_array [@tester3]
+      expect( described_class.prepare(**params) ).to match_array [@tester3]
     end
 
     it "is case insensitive" do
@@ -41,7 +41,7 @@ describe Releaf::Search do
         fields: [:name],
         text: 'jānis'
       }
-      expect( described_class.prepare(params) ).to match_array [@tester1]
+      expect( described_class.prepare(**params) ).to match_array [@tester1]
     end
 
     it "doesn't suffer from injections" do
@@ -57,7 +57,7 @@ describe Releaf::Search do
         fields: [:name],
         text: "SQL'injection"
       }
-      expect( described_class.prepare(params).to_sql ).to match(expected_results)
+      expect( described_class.prepare(**params).to_sql ).to match(expected_results)
     end
   end
 
@@ -98,7 +98,7 @@ describe Releaf::Search do
         fields: [projects: [:title]],
         text: 'bad'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer1]
+      expect( described_class.prepare(**params) ).to match_array [@programmer1]
     end
 
     it "returns distinct records" do
@@ -107,7 +107,7 @@ describe Releaf::Search do
         fields: [projects: [:title]],
         text: 'good'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer1, @programmer3]
+      expect( described_class.prepare(**params) ).to match_array [@programmer1, @programmer3]
     end
 
     it "searches different columns" do
@@ -116,7 +116,7 @@ describe Releaf::Search do
         fields: [projects: [:title, :description]],
         text: 'good ruby'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer3]
+      expect( described_class.prepare(**params) ).to match_array [@programmer3]
     end
   end
 
@@ -154,7 +154,7 @@ describe Releaf::Search do
         fields: [project_manager: [:name]],
         text: 'pēteris'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer2]
+      expect( described_class.prepare(**params) ).to match_array [@programmer2]
     end
 
     it "searches different columns" do
@@ -163,7 +163,7 @@ describe Releaf::Search do
         fields: [project_manager: [:name, :surname]],
         text: 'jānis ozols'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer3]
+      expect( described_class.prepare(**params) ).to match_array [@programmer3]
     end
   end
 
@@ -202,7 +202,7 @@ describe Releaf::Search do
         fields: [account: [:login]],
         text: 'god'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer1]
+      expect( described_class.prepare(**params) ).to match_array [@programmer1]
     end
 
     it "searches different columns" do
@@ -211,7 +211,7 @@ describe Releaf::Search do
         fields: [account: [:login, :email]],
         text: 'unknown who'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer3]
+      expect( described_class.prepare(**params) ).to match_array [@programmer3]
     end
 
   end
@@ -268,7 +268,7 @@ describe Releaf::Search do
         fields: [projects: [:name, :description]],
         text: 'good'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer1, @programmer3]
+      expect( described_class.prepare(**params) ).to match_array [@programmer1, @programmer3]
     end
   end
 
@@ -322,7 +322,7 @@ describe Releaf::Search do
         fields: [account_history: [:old_login]],
         text: 'ķirmis'
       }
-      expect( described_class.prepare(params) ).to match_array [@supplier2]
+      expect( described_class.prepare(**params) ).to match_array [@supplier2]
     end
 
   end
@@ -370,7 +370,7 @@ describe Releaf::Search do
         fields: [notes: [:text]],
         text: 'one'
       }
-      expect( described_class.prepare(params) ).to match_array [@account1]
+      expect( described_class.prepare(**params) ).to match_array [@account1]
     end
 
     it "uses owner_type when joining" do
@@ -379,7 +379,7 @@ describe Releaf::Search do
         fields: [notes: [:text]],
         text: 'two'
       }
-      expect( described_class.prepare(params) ).to match_array []
+      expect( described_class.prepare(**params) ).to match_array []
     end
   end
 
@@ -426,7 +426,7 @@ describe Releaf::Search do
         fields: [note: [:text]],
         text: 'one'
       }
-      expect( described_class.prepare(params) ).to match_array [@account1]
+      expect( described_class.prepare(**params) ).to match_array [@account1]
     end
 
     it "uses owner_type when joining" do
@@ -435,7 +435,7 @@ describe Releaf::Search do
         fields: [note: [:text]],
         text: 'two'
       }
-      expect( described_class.prepare(params) ).to match_array []
+      expect( described_class.prepare(**params) ).to match_array []
     end
 
   end
@@ -477,7 +477,7 @@ describe Releaf::Search do
         fields: [comments: [:text]],
         text: 'one'
       }
-      expect( described_class.prepare(params) ).to match_array [@post1]
+      expect( described_class.prepare(**params) ).to match_array [@post1]
     end
 
     it "finds correct records" do
@@ -486,7 +486,7 @@ describe Releaf::Search do
         fields: [deleted_comments: [:text]],
         text: 'one'
       }
-      expect( described_class.prepare(params) ).to match_array [@post2, @post3]
+      expect( described_class.prepare(**params) ).to match_array [@post2, @post3]
     end
   end
 
@@ -530,7 +530,7 @@ describe Releaf::Search do
         fields: [writer: [:name], editor: [:name]],
         text: 'Pēteris'
       }
-      expect( described_class.prepare(params) ).to match_array [@post1, @post3, @post4]
+      expect( described_class.prepare(**params) ).to match_array [@post1, @post3, @post4]
     end
 
     it "returns correct records" do
@@ -539,7 +539,7 @@ describe Releaf::Search do
         fields: [writer: [:name], editor: [:name]],
         text: 'Juris'
       }
-      expect( described_class.prepare(params) ).to match_array [@post2, @post5, @post6]
+      expect( described_class.prepare(**params) ).to match_array [@post2, @post5, @post6]
     end
   end
 
@@ -580,7 +580,7 @@ describe Releaf::Search do
         fields: [writer: [:name]],
         text: 'Pēteris'
       }
-      expect( described_class.prepare(params) ).to match_array [@post3, @post4]
+      expect( described_class.prepare(**params) ).to match_array [@post3, @post4]
     end
   end
 
@@ -639,7 +639,7 @@ describe Releaf::Search do
         fields: [manager: [projects: [:name]]],
         text: 'three'
       }
-      expect( described_class.prepare(params) ).to match_array [@programmer2, @programmer3]
+      expect( described_class.prepare(**params) ).to match_array [@programmer2, @programmer3]
     end
   end
 
@@ -680,7 +680,7 @@ describe Releaf::Search do
         fields: [writer: [:name]],
         text: 'Pēteris'
       }
-      expect( described_class.prepare(params) ).to match_array [@post3, @post4]
+      expect( described_class.prepare(**params) ).to match_array [@post3, @post4]
     end
   end
 
@@ -732,7 +732,7 @@ describe Releaf::Search do
         fields: [notes: [:text]],
         text: 'one'
       }
-      expect( described_class.prepare(params) ).to match_array []
+      expect( described_class.prepare(**params) ).to match_array []
     end
 
     it "finds correct record" do
@@ -741,7 +741,7 @@ describe Releaf::Search do
         fields: [notes: [:text]],
         text: 'two'
       }
-      expect( described_class.prepare(params) ).to match_array [@account2]
+      expect( described_class.prepare(**params) ).to match_array [@account2]
     end
 
     it "finds correct record" do
@@ -750,7 +750,7 @@ describe Releaf::Search do
         fields: [notes: [:text]],
         text: 'two'
       }
-      expect( described_class.prepare(params) ).to match_array [@account2]
+      expect( described_class.prepare(**params) ).to match_array [@account2]
     end
 
     it "finds correct record" do
@@ -759,7 +759,7 @@ describe Releaf::Search do
         fields: [notes: [:text]],
         text: 'one'
       }
-      expect( described_class.prepare(params) ).to match_array [@account1]
+      expect( described_class.prepare(**params) ).to match_array [@account1]
     end
 
   end
@@ -805,7 +805,7 @@ describe Releaf::Search do
           fields: [translations: [:title]],
           text: 'foo'
         }
-        expect( described_class.prepare(params) ).to match_array [@post2, @post3]
+        expect( described_class.prepare(**params) ).to match_array [@post2, @post3]
       end
     end
 
@@ -816,7 +816,7 @@ describe Releaf::Search do
           fields: [translations: [:title]],
           text: 'foo'
         }
-        expect( described_class.prepare(params) ).to match_array [@post1, @post3]
+        expect( described_class.prepare(**params) ).to match_array [@post1, @post3]
       end
     end
 

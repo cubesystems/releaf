@@ -24,7 +24,7 @@ describe ActsAsNode do
     end
 
     it "has hard typed configuration options" do
-      expect{ Book.acts_as_node xxxx: ["x"] }.to raise_error(ArgumentError, "unknown keyword: xxxx")
+      expect{ Book.acts_as_node xxxx: ["x"] }.to raise_error(ArgumentError, "unknown keyword: :xxxx")
     end
   end
 
