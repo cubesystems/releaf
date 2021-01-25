@@ -1,5 +1,5 @@
 require 'rails_helper'
-feature "User profile" do
+feature "User profile", js: true do
   background do
     auth_as_user(false, FactoryBot.create(:user, email: "email@example.com"))
     visit releaf_permissions_user_profile_path

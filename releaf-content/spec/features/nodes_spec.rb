@@ -357,13 +357,14 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
     end
   end
 
-  describe "creating node for placeholder model", with_tree: false, with_root: false, js: false do
+  describe "creating node for placeholder model", with_tree: false, with_root: false do
     it "create record in association table" do
       allow_any_instance_of(Releaf::Content::Node::RootValidator).to receive(:validate)
       visit new_admin_node_path(content_type: 'Bundle')
-      fill_in("resource_name", with: "placeholder model node")
+      fill_in "resource_name", with: "placeholder model node"
       expect do
         click_button 'Save'
+        expect(page).to have_notification("Create succeeded")
       end.to change { [Node.count, Bundle.count] }.from([0, 0]).to([1, 1])
     end
   end
