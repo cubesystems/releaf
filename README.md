@@ -12,11 +12,11 @@ Changelog: https://github.com/cubesystems/releaf/blob/master/CHANGELOG.md
 
 ## Getting started
 
-Releaf works with Rails 6.0
+Releaf works with Rails 6.1 and Ruby 3
 
 First add Releaf gem to your Gemfile
 ```ruby
-gem 'releaf', '~> 2.0'
+gem 'releaf', '~> 2.1'
 ```
 
 Run the bundle command to install it.
