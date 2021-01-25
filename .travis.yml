@@ -5,6 +5,9 @@ rvm:
   - 2.7
   - 3.0
 
+allow_failures:
+  - rvm: 2.7
+
 addons:
   apt:
     packages:
