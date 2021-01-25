@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2.1.1 (2021.01.25)
+
+* Ruby 3.0 support
+
 ### 2.1.0 (2021.01.24)
 
 * Rails 6.1 support
