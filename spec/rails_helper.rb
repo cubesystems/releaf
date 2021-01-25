@@ -99,6 +99,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   Capybara.default_normalize_ws = true
+  Capybara.server = :puma, { Silent: true }
 
   # disable empty translation creation
 
