@@ -174,7 +174,6 @@ class Releaf::Builders::TableBuilder
     I18n.l(value, format: format) unless value.nil?
   end
 
-
   def format_time_content(resource, column)
     value = column_value(resource, column)
     format = Releaf::Builders::Utilities::DateFields.date_or_time_default_format(:time)

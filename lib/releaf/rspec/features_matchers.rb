@@ -12,12 +12,12 @@ module Capybara
       has_selector?(type, count: cells_count) && has_text?(cells.join(""))
     end
 
-    def has_header?(*args)
-      has_css?("#{primary_header_css_rule} h1", *args)
+    def has_header?(**args)
+      has_css?("#{primary_header_css_rule} h1", **args)
     end
 
-    def has_no_header?(*args)
-      has_no_css?("#{primary_header_css_rule} h1", *args)
+    def has_no_header?(**args)
+      has_no_css?("#{primary_header_css_rule} h1", **args)
     end
 
     # Allows to match againg validation errors within forms
