@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'ckeditor_rails', '~> 4.0'
   s.add_dependency 'acts_as_list', '~> 0.8'
   s.add_dependency 'will_paginate', '~> 3.1'
-  s.add_dependency 'font-awesome-rails', '~> 4.6'
+  s.add_dependency 'font-awesome-rails', '~> 4.0'
   s.add_dependency 'globalize', '~> 6.0'
   s.add_dependency 'rack-cache', '~> 1.0'
   s.add_dependency 'virtus', '~> 1.0'

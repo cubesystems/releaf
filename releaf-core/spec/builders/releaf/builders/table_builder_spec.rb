@@ -437,9 +437,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:column_value).with(resource, :birth_date)
         .and_return(value)
 
-      expect(I18n).to receive(:l).with(value, format: :default)
-        .and_call_original
-
       expect(subject.format_date_content(resource, :birth_date)).to eq("2012-12-29")
     end
   end
@@ -450,10 +447,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(subject).to receive(:column_value).with(resource, :created_at)
         .and_return(value)
 
-      allow(I18n).to receive(:l).with(value, format: "%Y-%m-%d %H:%M")
-        .and_return("2012-12-29 17:12:07")
-
-      expect(subject.format_datetime_content(resource, :created_at)).to eq("2012-12-29 17:12:07")
+      expect(subject.format_datetime_content(resource, :created_at)).to eq("2012-12-29 17:12")
     end
   end
 
@@ -462,9 +456,6 @@ describe Releaf::Builders::TableBuilder, type: :class do
       value = Time.parse("2012.12.29 17:12:07")
       allow(subject).to receive(:column_value).with(resource, :created_at)
         .and_return(value)
-
-      allow(I18n).to receive(:l).with(value, format: "%H:%M")
-        .and_return("17:12")
 
       expect(subject.format_time_content(resource, :created_at)).to eq("17:12")
     end
