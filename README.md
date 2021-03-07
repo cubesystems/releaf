@@ -47,6 +47,27 @@ email: admin@example.com
 password: password
 ```
 
+## Testing
+### Setup
+Create `config.yml` (see examples in git root) and run
+```console
+rake dummy:setup
+```
+### Running rspec
+```console
+rspec .
+````
+or
+```console
+rake ci
+```
+
+### Cleanup
+```console
+rake dummy:remove
+```
+
+
 ## New version releasing
 1. bump version in `lib/releaf/version.rb`
 2. write all changes and new version number in `CHANGELOG.md`
