@@ -31,7 +31,6 @@ gsub_file 'config/environments/development.rb', 'config.assets.debug = true', 'c
 rake 'db:create'
 
 generate "releaf:install"
-run 'touch config/app.yml'
 generate "dummy:install -f"
 
 application "config.i18n.fallbacks = true"
