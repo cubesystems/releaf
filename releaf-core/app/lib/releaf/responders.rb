@@ -11,8 +11,6 @@ module Releaf::Responders
       update: Releaf::Responders::AfterSaveResponder,
       confirm_destroy: Releaf::Responders::ConfirmDestroyResponder,
       destroy: Releaf::Responders::DestroyResponder,
-      access_denied: Releaf::Responders::AccessDeniedResponder,
-      page_not_found: Releaf::Responders::PageNotFoundResponder,
     }
   end
 

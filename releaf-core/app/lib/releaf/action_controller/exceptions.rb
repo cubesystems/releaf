@@ -7,10 +7,10 @@ module Releaf::ActionController::Exceptions
   end
 
   def page_not_found
-    respond_with(nil, responder: action_responder(:page_not_found))
+    render "releaf/error_pages/page_not_found", status: :not_found, formats: :html
   end
 
   def access_denied
-    respond_with(nil, responder: action_responder(:access_denied))
+    render "releaf/error_pages/forbidden", status: :forbidden, formats: :html
   end
 end

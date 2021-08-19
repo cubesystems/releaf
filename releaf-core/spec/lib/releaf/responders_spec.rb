@@ -21,8 +21,8 @@ describe Releaf::Responders, type: :controller do
     context "when responder is defined within options" do
       it "adds active responder to `responder` options" do
         expect(Releaf::Responders::AfterSaveResponder).to_not receive(:call)
-        expect(Releaf::Responders::PageNotFoundResponder).to receive(:call)
-        subject.respond_with(nil, responder: Releaf::Responders::PageNotFoundResponder)
+        expect(Releaf::Responders::DestroyResponder).to receive(:call)
+        subject.respond_with(nil, responder: Releaf::Responders::DestroyResponder)
       end
     end
   end
@@ -34,8 +34,6 @@ describe Releaf::Responders, type: :controller do
         update: Releaf::Responders::AfterSaveResponder,
         confirm_destroy: Releaf::Responders::ConfirmDestroyResponder,
         destroy: Releaf::Responders::DestroyResponder,
-        access_denied: Releaf::Responders::AccessDeniedResponder,
-        page_not_found: Releaf::Responders::PageNotFoundResponder,
       }
       expect(subject.action_responders).to eq(hash)
     end
