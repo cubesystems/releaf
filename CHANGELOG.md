@@ -1,5 +1,9 @@
 ## Changelog
 
+### 2.1.2 (2021.08.19)
+
+* Simplify 403/404 responses by always responding with html
+
 ### 2.1.1 (2021.01.25)
 
 * Ruby 3.0 support
