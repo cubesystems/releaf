@@ -12,6 +12,14 @@ describe  Releaf::Root::SettingsManager do
     it "returns cookies settings for given key" do
       expect(described_class.read(controller: controller, key: "asd.a")).to eq("lalal")
     end
+
+    it "uses casting map" do
+      cookies["asd.a"] = "true"
+      expect(described_class.read(controller: controller, key: "asd.a")).to be true
+
+      cookies["asd.a"] = "false"
+      expect(described_class.read(controller: controller, key: "asd.a")).to be false
+    end
   end
 
   describe ".write" do

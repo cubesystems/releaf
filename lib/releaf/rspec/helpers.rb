@@ -145,23 +145,6 @@ module Releaf::Test
       wait_for_all_richtexts
     end
 
-
-    # As there is no visual UI for settings update being successful
-    # do check against database
-    def wait_for_settings_update(key, value = true)
-      safety = 5
-      loop do
-        if @user.settings.try(:[], key) == value
-          return
-        elsif safety > 0
-          safety -= 1
-          sleep 0.5
-        else
-          fail "'#{key}' setting didn't change to '#{value}' (#{value.class.name})"
-        end
-      end
-    end
-
     def open_toolbox_dialog(item_name, resource = nil, resource_selector_scope = ".view-index .table tr")
       open_toolbox(item_name, resource, resource_selector_scope)
       expect(page).to have_css('.dialog.initialized')

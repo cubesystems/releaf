@@ -1,4 +1,3 @@
-require 'rails-settings-cached'
 require 'ckeditor_rails'
 require 'will_paginate'
 require 'font-awesome-rails'

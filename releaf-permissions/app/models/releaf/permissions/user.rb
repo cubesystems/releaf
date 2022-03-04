@@ -2,9 +2,6 @@ module Releaf::Permissions
   class User < ActiveRecord::Base
     self.table_name = 'releaf_users'
 
-    # store UI settings with RailsSettings
-    include RailsSettings::Extend
-
     # Include default devise modules. Others available are:
     # :token_authenticatable, :confirmable,
     # :lockable, :timeoutable and :omniauthable

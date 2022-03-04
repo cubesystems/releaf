@@ -189,7 +189,6 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       it "keeps opened node children visibility permanent" do
         find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
-        wait_for_settings_update("content.tree.expanded.#{@lv_root.id}")
         visit admin_nodes_path
 
         expect(page).to have_css('li[data-id="' + @lv_root.id.to_s + '"]:not(.collapsed)')
@@ -197,8 +196,9 @@ describe "Nodes", js: true, with_tree: true, with_root: true do
 
       it "keeps closed node children visibility permanent" do
         find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
+        sleep 1
         find('li[data-id="' + @lv_root.id.to_s + '"] > .collapser-cell button').click
-        wait_for_settings_update("content.tree.expanded.#{@lv_root.id}", false)
+        sleep 1
         visit admin_nodes_path
 
         expect(page).to have_css('li[data-id="' + @lv_root.id.to_s + '"].collapsed')

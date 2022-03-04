@@ -22,7 +22,7 @@ describe "Side menu visual appearance", js: true  do
 
       it "has permanent collapsing status" do
         find('aside .compacter button').click
-        wait_for_settings_update('releaf.side.compact')
+        sleep 1
         visit releaf_permissions_user_profile_path
 
         expect(page).to have_css('body.side-compact')
@@ -45,7 +45,6 @@ describe "Side menu visual appearance", js: true  do
 
       it "does not keep menu group collapsing permanent" do
         find('aside li[data-name="permissions"] > .trigger').click
-        wait_for_settings_update('releaf.menu.collapsed.permissions')
 
         visit releaf_permissions_users_path
         expect(page).to have_css('aside li[data-name="permissions"]:not(.collapsed)')
@@ -61,7 +60,7 @@ describe "Side menu visual appearance", js: true  do
 
       it "keeps menu group collapsing permanent" do
         find('aside li[data-name="inventory"] > .trigger').click
-        wait_for_settings_update('releaf.menu.collapsed.inventory')
+        sleep 1
         visit releaf_permissions_user_profile_path
 
         expect(page).to have_css('aside li[data-name="inventory"].collapsed')

@@ -198,10 +198,18 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
   end
 
   describe "#body_atttributes" do
+    let(:cookies){ {"asd.a" => "lalal"} }
+
     it "returns hash with classes, data-settings-path and data-layout-features" do
+      allow(subject).to receive(:layout_settings).with("releaf.side.compact").and_return(true)
       allow(subject).to receive(:features).and_return([:top, :bottom])
       allow(subject).to receive(:controller_body_classes).and_return(["a", "b"])
       allow(subject).to receive(:settings_path).and_return("/xxx/sett")
+      expect(subject.body_atttributes).to eq(class: ["application-dummy", "a", "b", "side-compact"],
+                                             "data-settings-path" => "/xxx/sett",
+                                             "data-layout-features" => "top bottom")
+
+      allow(subject).to receive(:layout_settings).with("releaf.side.compact").and_return(false)
       expect(subject.body_atttributes).to eq(class: ["application-dummy", "a", "b"],
                                              "data-settings-path" => "/xxx/sett",
                                              "data-layout-features" => "top bottom")
