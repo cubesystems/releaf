@@ -1,5 +1,10 @@
 ## Changelog
 
+### 2.2.0 (2022.03.04)
+
+* Ruby 3.1 support
+* Remove rails-settings-cached gem dependency
+
 ### 2.1.2 (2021.08.19)
 
 * Simplify 403/404 responses by always responding with html
