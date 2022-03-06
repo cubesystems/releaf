@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'bootsnap', '~> 1.4'
   s.add_dependency 'net-smtp', '~> 0.3'
   s.add_dependency 'dragonfly', '~> 1.0'
-  s.add_dependency 'ckeditor_rails', '~> 4.0'
+  s.add_dependency 'ckeditor_rails', '~> 4.16'
   s.add_dependency 'acts_as_list', '~> 0.8'
   s.add_dependency 'will_paginate', '~> 3.1'
   s.add_dependency 'font-awesome-rails', '~> 4.0'
