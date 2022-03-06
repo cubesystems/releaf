@@ -1,5 +1,8 @@
 ## Changelog
 
+### 2.2.0 (2022.03.06)
+* Fix CKEditor assets
+
 ### 2.2.0 (2022.03.04)
 
 * Ruby 3.1 support
