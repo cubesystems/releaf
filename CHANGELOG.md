@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.0.0 (2022.03.06)
+* Rails 7.0 support
+
 ### 2.2.0 (2022.03.06)
 * Fix CKEditor assets
 
