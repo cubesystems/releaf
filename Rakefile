@@ -25,7 +25,7 @@ desc "Run specs and generate coverage report."
 task :ci do
   rm_rf "coverage" if File.exist? 'coverage'
   ENV['RAILS_ENV'] = 'test'
-  ENV['COVERAGE'] ||= 'y'
+  ENV['WITH_COVERAGE'] ||= 'y'
   Rake::Task[:spec].invoke
 end
 

@@ -2,17 +2,18 @@ require 'simplecov'
 require 'simplecov-rcov'
 require 'coveralls'
 require 'pry'
+
 SimpleCov.command_name 'rspec'
 
 Coveralls.wear!('rails')
 
-if ENV["COVERAGE"]
+if ENV["WITH_COVERAGE"]
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::RcovFormatter,
     Coveralls::SimpleCov::Formatter
   ])
-  SimpleCov.start do
+  SimpleCov.configure do
     add_filter '/lib/releaf/rspec'
     add_filter '/spec/'
   end
@@ -70,7 +71,7 @@ RSpec.configure do |config|
 
   config.color = true
 
-  if ENV['COVERAGE']
+  if ENV['WITH_COVERAGE']
     config.add_formatter(:progress)
   end
 
