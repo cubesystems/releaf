@@ -12,9 +12,9 @@ describe Releaf::RootController do
   describe "GET home" do
     it "redirects to default controller resolver returned path authorized as user" do
       allow(Releaf.application.config.root.default_controller_resolver).to receive(:call)
-        .with(current_controller: subject).and_return("_randompath_")
+        .with(current_controller: subject).and_return("/randompath")
       get :home
-      expect(response).to redirect_to("_randompath_")
+      expect(response).to redirect_to("/randompath")
     end
   end
 

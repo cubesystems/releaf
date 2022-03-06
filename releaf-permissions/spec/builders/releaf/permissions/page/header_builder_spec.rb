@@ -74,8 +74,8 @@ describe Releaf::Permissions::Page::HeaderBuilder, type: :class do
       allow(subject).to receive(:sign_out_path).and_return("url_a")
       content = %Q[
         <form class="sign-out" action="url_a" accept-charset="UTF-8" method="post">
-          <input type="hidden" name="_method" value="delete" />
-          <input type="hidden" name="yyy" value="xxx" />
+          <input type="hidden" name="_method" value="delete" autocomplete="off" />
+          <input type="hidden" name="yyy" value="xxx" autocomplete="off" />
           <button class="button only-icon" type="submit" title="Sign out">
             <i class="fa fa-power-off fa-icon-header"></i>
           </button>

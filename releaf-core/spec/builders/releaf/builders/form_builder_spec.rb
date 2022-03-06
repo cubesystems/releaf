@@ -179,7 +179,7 @@ describe Releaf::Builders::FormBuilder, type: :class do
 
     context "when block given" do
       it "safely concatinate block output to content" do
-        content =  'input_content<input type="hidden" name="book[id]" id="book_id" />'
+        content =  'input_content<input autocomplete="off" type="hidden" name="book[id]" id="book_id" />'
         allow(subject).to receive(:wrapper).with(content, class: "value").and_return("input_content")
         expect(subject.input_wrapper_with_label(:color, "input_content", label: "label_attributes", field: "field_attributes", options: "options"){ subject.hidden_field(:id) })
           .to eq("content")

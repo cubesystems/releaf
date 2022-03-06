@@ -10,6 +10,7 @@ module Releaf::Content
   require 'releaf/content/acts_as_node'
   require 'releaf/content/node'
   require 'releaf/content/route'
+  require 'releaf/content/routes_reloader'
 
   # expose configuration wrapper methods as class methods for easier access
   # so that, for example,

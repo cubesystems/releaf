@@ -38,7 +38,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
     end
 
     it "returns section with index url preserver and section blocks" do
-      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input type="hidden" name="yyy" value="xxx" />_index_path__section__blocks_</form>')
+      expect(subject.section_content).to eq('<form class="new_book" id="new_book" action="xxx" accept-charset="UTF-8" method="post"><input type="hidden" name="yyy" value="xxx" autocomplete="off" />_index_path__section__blocks_</form>')
     end
 
     it "assigns form instance to builder" do
@@ -50,7 +50,7 @@ describe Releaf::Builders::EditBuilder, type: :class do
   describe "#index_path_preserver" do
     it "returns hidden index url input" do
       allow(subject).to receive(:params).and_return(index_path: "?asd=23&lf=dd")
-      result = '<input type="hidden" name="index_path" id="index_path" value="?asd=23&amp;lf=dd" />'
+      result = '<input type="hidden" name="index_path" id="index_path" value="?asd=23&amp;lf=dd" autocomplete="off" />'
       expect(subject.index_path_preserver).to eq(result)
     end
   end
