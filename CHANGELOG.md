@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.0.1 (2022.04.05)
+* Fix releaf ckeditor assets copying
+
 ### 3.0.0 (2022.03.06)
 * Rails 7.0 support
 
