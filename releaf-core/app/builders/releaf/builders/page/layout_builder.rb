@@ -101,7 +101,7 @@ module Releaf::Builders::Page
     end
 
     def head_blocks
-      [title, content_type, favicons, ms_tile, assets(:stylesheets, :stylesheet_link_tag), csrf]
+      [title, content_type, favicons, assets(:stylesheets, :stylesheet_link_tag), csrf]
     end
 
     def controller_name
@@ -142,13 +142,6 @@ module Releaf::Builders::Page
       File.join('releaf', 'icons')
     end
 
-    def ms_tile_path
-      favicon_path
-    end
-
-    def ms_tile_color
-      '#151515'
-    end
 
     def favicon(source, options = {})
       controller.view_context.favicon_link_tag(File.join(favicon_path, source), options)
@@ -165,14 +158,6 @@ module Releaf::Builders::Page
         apple_favicon("apple-touch-icon-114x114-precomposed.png", sizes: "114x114"),
         apple_favicon("apple-touch-icon-72x72-precomposed.png", sizes: "72x72"),
         favicon("favicon.png", type: 'image/png', rel: 'icon'),
-      ]
-    end
-
-    def ms_tile
-      tile_path = ActionController::Base.helpers.image_path(File.join(ms_tile_path, 'msapplication-tile-144x144.png'))
-      [
-        meta(name: 'msapplication-TileColor', content: ms_tile_color),
-        meta(name: 'msapplication-TileImage', content: tile_path)
       ]
     end
   end

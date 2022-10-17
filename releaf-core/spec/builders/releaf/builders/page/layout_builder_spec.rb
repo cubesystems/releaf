@@ -222,7 +222,6 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
         title: :title_sym,
         meta: :meta_sym,
         favicons: :favicon_sym,
-        ms_tile: :ms_tile_sym,
         assets: :assets_sym,
         csrf: :csrf_sym,
       }.each_pair do |method, stub_answer|
@@ -234,7 +233,6 @@ describe Releaf::Builders::Page::LayoutBuilder, type: :class do
           :title_sym,
           :meta_sym,
           :favicon_sym,
-          :ms_tile_sym,
           :assets_sym,
           :csrf_sym,
         ]
