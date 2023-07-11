@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.0.3 (2023.07.11)
+* Use larger image preview size for file fields
+
 ### 3.0.2 (2022.10.17)
 * Remove MS tile support
 
