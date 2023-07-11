@@ -13,7 +13,7 @@ module Releaf::Builders::FormBuilder::FileFields
     if object.send(name).present?
       content += tag(:div, class: "value-preview") do
         inner_content = tag(:div, class: "image-wrap") do
-          thumbnail = image_tag(object.send(name).thumb('410x128>').url, alt: '')
+          thumbnail = image_tag(object.send(name).thumb('400x400>').url, alt: '')
           hidden_field("retained_#{name}") +
             link_to(thumbnail, object.send(name).url, target: :_blank, class: :ajaxbox, rel: :image)
         end
