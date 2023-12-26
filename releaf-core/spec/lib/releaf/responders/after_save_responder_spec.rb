@@ -1,9 +1,8 @@
 require "rails_helper"
 
 describe Releaf::Responders::AfterSaveResponder, type: :controller do
-  let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new}
-  subject{ described_class.new(controller, [resource]) }
+  subject{ described_class.new(Releaf::ActionController.new, [resource]) }
 
   describe "#json_resource_errors" do
     it "returns resource errors hash built with `Releaf::BuildErrorsHash`" do

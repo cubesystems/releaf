@@ -95,7 +95,7 @@ describe Releaf::Builders, type: :class do
       context "when error message matches against constant name pattern" do
         it "returns false" do
           allow(described_class).to receive(:constant_name_error?)
-            .with("uninitialized constant Releaf::Builders::AnotherFormBuilder\n\n          original.call(*args, &block)\n                  ^^^^^", "Releaf::Builders::AnotherFormBuilder")
+            .with("uninitialized constant Releaf::Builders::AnotherFormBuilder", "Releaf::Builders::AnotherFormBuilder")
             .and_return(true)
           expect(described_class.constant_defined_at_scope?("Releaf::Builders::AnotherFormBuilder", Releaf)).to be false
         end
@@ -104,7 +104,7 @@ describe Releaf::Builders, type: :class do
       context "when error message does not match against constant name pattern" do
         it "reraises it" do
           allow(described_class).to receive(:constant_name_error?)
-            .with("uninitialized constant Releaf::Builders::AnotherFormBuilder\n\n          original.call(*args, &block)\n                  ^^^^^", "Releaf::Builders::AnotherFormBuilder")
+            .with("uninitialized constant Releaf::Builders::AnotherFormBuilder", "Releaf::Builders::AnotherFormBuilder")
             .and_return(false)
 
           expect{ described_class.constant_defined_at_scope?("Releaf::Builders::AnotherFormBuilder", Releaf) }

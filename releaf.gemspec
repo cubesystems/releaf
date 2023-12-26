@@ -19,17 +19,17 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency gem, Releaf::VERSION
   end
 
-  s.add_development_dependency 'rspec-rails', '~> 4.0'
+  s.add_development_dependency 'rspec-rails', '~> 6.1 '
   s.add_development_dependency 'rails-controller-testing'
   s.add_development_dependency 'listen', '~>3.0'
   s.add_development_dependency 'capybara', '~> 3.0'
-  s.add_development_dependency 'selenium-webdriver', '~> 3.0'
-  s.add_development_dependency 'factory_bot', '~> 5.2'
+  s.add_development_dependency 'selenium-webdriver', '~> 4.0'
+  s.add_development_dependency 'factory_bot', '~> 6.4'
   s.add_development_dependency 'syntax'
-  s.add_development_dependency 'simplecov', '~> 0.16'
+  s.add_development_dependency 'simplecov'
   s.add_development_dependency 'simplecov-rcov'
-  s.add_development_dependency 'database_cleaner', '~> 1.0'
-  s.add_development_dependency 'shoulda-matchers', '~> 4.0'
+  s.add_development_dependency 'database_cleaner', '~> 2.0'
+  s.add_development_dependency 'shoulda-matchers', '~> 6.0'
   s.add_development_dependency 'db-query-matchers'
   s.add_development_dependency 'coveralls', '~> 0.8'
   s.add_development_dependency 'timecop'

@@ -320,9 +320,9 @@ describe Releaf::Builders::TableBuilder, type: :class do
       allow(inheriter_subject).to receive(:row_url).with(resource).and_return("url_value")
 
       allow(inheriter_subject).to receive(:some_cell_method)
-        .with(resource, cell_method: "some_cell_method", url: "url_value").and_return("_title_cell_value")
+        .with(resource, {cell_method: "some_cell_method", url: "url_value"}).and_return("_title_cell_value")
       allow(inheriter_subject).to receive(:cell)
-        .with(resource, :color, url: "url_value").and_return("_color_cell_value")
+        .with(resource, :color, {url: "url_value"}).and_return("_color_cell_value")
 
       content = '<tr class="row" data-id="89">_title_cell_value_color_cell_value</tr>'
       expect(inheriter_subject.row(resource)).to eq(content)
@@ -514,7 +514,7 @@ describe Releaf::Builders::TableBuilder, type: :class do
 
     it "returns cell with toolbox" do
       allow(subject).to receive(:toolbox)
-        .with(resource, index_path: "_index_path_").and_return("_toolbox_")
+        .with(resource, {index_path: "_index_path_"}).and_return("_toolbox_")
 
       content = '<td class="only-icon toolbox-cell">_toolbox_</td>'
       expect(subject.toolbox_cell(resource, {})).to eq(content)
@@ -523,11 +523,11 @@ describe Releaf::Builders::TableBuilder, type: :class do
     it "merges given toolbox options and passes it to toolbox heplper" do
       allow(subject.controller).to receive(:index_path).and_return("_index_path_")
       expect(subject).to receive(:toolbox)
-        .with(resource, index_path: "_index_path_", some_url: "xx").and_return("_toolbox_")
+        .with(resource, {index_path: "_index_path_", some_url: "xx"}).and_return("_toolbox_")
       subject.toolbox_cell(resource, {toolbox: {some_url: "xx"}})
 
       expect(subject).to receive(:toolbox)
-        .with(resource, index_path: "xx").and_return("_toolbox_")
+        .with(resource, {index_path: "xx"}).and_return("_toolbox_")
       subject.toolbox_cell(resource, {toolbox: {index_path: "xx"}})
     end
   end

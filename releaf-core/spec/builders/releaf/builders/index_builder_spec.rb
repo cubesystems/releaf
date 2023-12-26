@@ -343,7 +343,7 @@ describe Releaf::Builders::IndexBuilder, type: :class do
   describe "#section_body" do
     it "returns collection table" do
       allow(template).to receive(:releaf_table)
-        .with(collection, Book, builder: Admin::Books::TableBuilder, toolbox: true)
+        .with(collection, Book, {builder: Admin::Books::TableBuilder, toolbox: true})
         .and_return("xx")
       expect(subject.section_body).to eq('<div class="body">xx</div>')
     end

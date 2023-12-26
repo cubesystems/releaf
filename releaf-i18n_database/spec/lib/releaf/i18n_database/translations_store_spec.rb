@@ -56,27 +56,27 @@ describe Releaf::I18nDatabase::TranslationsStore do
   describe "#lookup" do
     it "returns first valid and returnable result" do
       allow(subject).to receive(:dig_valid_translation)
-        .with(:ru, ["admin", "menu", "translations"], true, count: 23).and_return("x1")
+        .with(:ru, ["admin", "menu", "translations"], true, {count: 23}).and_return("x1")
       allow(subject).to receive(:returnable_result?)
-        .with("x1", count: 23).and_return(false)
+        .with("x1", {count: 23}).and_return(false)
 
       allow(subject).to receive(:dig_valid_translation)
-        .with(:ru, ["admin", "translations"], false, count: 23).and_return("x2")
+        .with(:ru, ["admin", "translations"], false, {count: 23}).and_return("x2")
       allow(subject).to receive(:returnable_result?)
-        .with("x2", count: 23).and_return(true)
+        .with("x2", {count: 23}).and_return(true)
 
       expect(subject.lookup(:ru, "admin.menu.translations", count: 23)).to eq("x2")
     end
 
     it "iterates throught all translation scopes until last key" do
       expect(subject).to receive(:dig_valid_translation)
-        .with(:ru, ["admin", "menu", "another", "translations"], true, count: 23).and_return(nil)
+        .with(:ru, ["admin", "menu", "another", "translations"], true, {count: 23}).and_return(nil)
       expect(subject).to receive(:dig_valid_translation)
-        .with(:ru, ["admin", "menu", "translations"], false, count: 23).and_return(nil)
+        .with(:ru, ["admin", "menu", "translations"], false, {count: 23}).and_return(nil)
       expect(subject).to receive(:dig_valid_translation)
-        .with(:ru, ["admin", "translations"], false, count: 23).and_return(nil)
+        .with(:ru, ["admin", "translations"], false, {count: 23}).and_return(nil)
       expect(subject).to receive(:dig_valid_translation)
-        .with(:ru, ["translations"], false, count: 23).and_return("x1")
+        .with(:ru, ["translations"], false, {count: 23}).and_return("x1")
 
       subject.lookup(:ru, "admin.menu.another.translations", count: 23)
     end
@@ -131,14 +131,14 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
     context "when digged translation has valid result" do
       it "returns digged translation result" do
-        allow(subject).to receive(:invalid_result?).with(:de, "translated_value", true, a: :b).and_return(false)
+        allow(subject).to receive(:invalid_result?).with(:de, "translated_value", true, {a: :b}).and_return(false)
         expect(subject.dig_valid_translation(:de, [:admin, :save], true, a: :b)).to eq("translated_value")
       end
     end
 
     context "when digged translation has invalid result" do
       it "returns nil" do
-        allow(subject).to receive(:invalid_result?).with(:de, "translated_value", true, a: :b).and_return(true)
+        allow(subject).to receive(:invalid_result?).with(:de, "translated_value", true, {a: :b}).and_return(true)
         expect(subject.dig_valid_translation(:de, [:admin, :save], true, a: :b)).to be nil
       end
     end
@@ -146,20 +146,20 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#invalid_result?" do
     before do
-      allow(subject).to receive(:invalid_nonpluralized_result?).with("xx", true, a: :b).and_return(false)
-      allow(subject).to receive(:invalid_pluralized_result?).with(:ge, "xx", a: :b).and_return(false)
+      allow(subject).to receive(:invalid_nonpluralized_result?).with("xx", true, {a: :b}).and_return(false)
+      allow(subject).to receive(:invalid_pluralized_result?).with(:ge, "xx", {a: :b}).and_return(false)
     end
 
     context "when invalid nonplurarized result" do
       it "returns true" do
-        allow(subject).to receive(:invalid_nonpluralized_result?).with("xx", true, a: :b).and_return(true)
+        allow(subject).to receive(:invalid_nonpluralized_result?).with("xx", true, {a: :b}).and_return(true)
         expect(subject.invalid_result?(:ge, "xx", true, a: :b)).to be true
       end
     end
 
     context "when invalid plurarized result" do
       it "returns true" do
-        allow(subject).to receive(:invalid_pluralized_result?).with(:ge, "xx", a: :b).and_return(true)
+        allow(subject).to receive(:invalid_pluralized_result?).with(:ge, "xx", {a: :b}).and_return(true)
         expect(subject.invalid_result?(:ge, "xx", true, a: :b)).to be true
       end
     end
@@ -199,7 +199,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#invalid_pluralized_result?" do
     before do
-      allow(subject).to receive(:valid_pluralized_result?).with(:ge, 12, a: :b).and_return(false)
+      allow(subject).to receive(:valid_pluralized_result?).with(:ge, 12, {a: :b}).and_return(false)
     end
 
     context "when hash result, options has count and invalid pluralized result" do
@@ -222,7 +222,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
     context "when hash result, options has count and valid pluralized result" do
       it "returns false" do
-        allow(subject).to receive(:valid_pluralized_result?).with(:ge, 12, a: :b).and_return(true)
+        allow(subject).to receive(:valid_pluralized_result?).with(:ge, 12, {a: :b}).and_return(true)
         expect(subject.invalid_pluralized_result?(:ge, {a: :b}, {count: 12})).to be false
       end
     end
@@ -379,21 +379,21 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
   describe "#missing" do
     it "adds given locale and key combination as missing" do
-      expect{ subject.missing(:de, "as.pasd", a: "x") }.to change { subject.missing_keys["de.as.pasd"] }
+      expect{ subject.missing(:de, "as.pasd", {a: "x"}) }.to change { subject.missing_keys["de.as.pasd"] }
         .from(nil).to(true)
     end
 
     context "when missing translation creation is available for given key and options" do
       it "creates missing translation" do
-        allow(subject).to receive(:auto_create?).with("ps.asda", a: "x").and_return(true)
-        expect(subject).to receive(:auto_create).with("ps.asda", a: "x")
+        allow(subject).to receive(:auto_create?).with("ps.asda", {a: "x"}).and_return(true)
+        expect(subject).to receive(:auto_create).with("ps.asda", {a: "x"})
         subject.missing(:de, "ps.asda", a: "x")
       end
     end
 
     context "when missing translation creation is not available for given key and options" do
       it "does not create missing translation" do
-        allow(subject).to receive(:auto_create?).with("ps.asda", a: "x").and_return(false)
+        allow(subject).to receive(:auto_create?).with("ps.asda", {a: "x"}).and_return(false)
         expect(subject).to_not receive(:auto_create)
         subject.missing(:de, "ps.asda", a: "x")
       end
@@ -490,7 +490,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
     context "when pluralizable translation given" do
       it "creates translation for each pluralization form" do
-        allow(subject).to receive(:pluralizable_translation?).with(a: "b").and_return(true)
+        allow(subject).to receive(:pluralizable_translation?).with({a: "b"}).and_return(true)
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.one")
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.many")
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd.other")
@@ -500,7 +500,7 @@ describe Releaf::I18nDatabase::TranslationsStore do
 
     context "when non pluralizable translation given" do
       it "creates translation" do
-        allow(subject).to receive(:pluralizable_translation?).with(a: "b").and_return(false)
+        allow(subject).to receive(:pluralizable_translation?).with({a: "b"}).and_return(false)
         expect(Releaf::I18nDatabase::I18nEntry).to receive(:create).with(key: "aasd.oihgja.sd")
         subject.auto_create("aasd.oihgja.sd", a: "b")
       end

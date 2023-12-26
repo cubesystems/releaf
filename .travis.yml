@@ -2,7 +2,7 @@ dist: bionic
 language: ruby
 cache: bundler
 rvm:
-  - 3.1.2
+  - 3.2.2
 
 addons:
   apt:

@@ -10,7 +10,7 @@ describe Releaf::I18nDatabase::HumanizeMissingTranslations do
 
     context "when key is not present and exception is I18n::MissingTranslation" do
       it "does not intercept it" do
-        expect(I18n.t(nil)).to eq("translation missing: en.no key")
+        expect(I18n.t(nil)).to eq("Translation missing: en.no key")
       end
     end
 

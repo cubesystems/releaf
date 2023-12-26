@@ -5,8 +5,8 @@ describe Releaf::Settings::Register do
 
   describe "#call" do
     it "registers normalized settings items" do
-      allow(subject).to receive(:normalize).with(key: "a", type: "boolean").and_return("yy")
-      allow(subject).to receive(:normalize).with(key: "c", type: "text").and_return("zz")
+      allow(subject).to receive(:normalize).with({key: "a", type: "boolean"}).and_return("yy")
+      allow(subject).to receive(:normalize).with({key: "c", type: "text"}).and_return("zz")
       expect(subject).to receive(:register).with("yy")
       expect(subject).to receive(:register).with("zz")
       subject.call
@@ -46,7 +46,7 @@ describe Releaf::Settings::Register do
     before do
       allow(subject.settings_class).to receive(:[]=)
       allow(subject.settings_class.registry).to receive(:update)
-      allow(subject).to receive(:write_default?).with(key: "x", default: "_xx").and_return(true)
+      allow(subject).to receive(:write_default?).with({key: "x", default: "_xx"}).and_return(true)
     end
 
     it "assigns item to settings registry" do
@@ -61,7 +61,7 @@ describe Releaf::Settings::Register do
 
     context "when default write is not permitted" do
       it "does not store default value to db" do
-        allow(subject).to receive(:write_default?).with(key: "x").and_return(false)
+        allow(subject).to receive(:write_default?).with({key: "x", default: "_xx"}).and_return(false)
         expect(subject).to_not receive(:[]=)
         subject.register(key: "x", default: "_xx")
       end

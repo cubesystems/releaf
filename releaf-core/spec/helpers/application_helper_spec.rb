@@ -6,7 +6,7 @@ describe Releaf::ApplicationHelper do
       builder = Releaf::Permissions::Users::TableBuilder
       collection = "collection"
 
-      allow(builder).to receive(:new).with(collection, TextPage, subject, toolbox: false).and_call_original
+      allow(builder).to receive(:new).with(collection, TextPage, subject, {toolbox: false}).and_call_original
       allow_any_instance_of(builder).to receive(:output).and_return("table")
 
       expect(releaf_table(collection, TextPage, builder: builder, toolbox: false)).to eq("table")

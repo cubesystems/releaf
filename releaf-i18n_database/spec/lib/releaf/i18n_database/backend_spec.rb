@@ -7,7 +7,7 @@ describe Releaf::I18nDatabase::Backend do
     it "adds new `Releaf::I18nDatabase::Configuration` configuration with default config" do
       stub_const("Releaf::I18nDatabase::Backend::DEFAULT_CONFIG", a: :b)
       allow(Releaf::I18nDatabase::Configuration).to receive(:new)
-        .with(a: :b).and_return("_new")
+        .with({a: :b}).and_return("_new")
       expect(Releaf.application.config).to receive(:add_configuration).with("_new")
       described_class.configure_component
     end
@@ -132,8 +132,8 @@ describe Releaf::I18nDatabase::Backend do
 
     it "flattens key before passing further" do
       expect(translations_store).to receive(:missing?).with(:lv, "xx.s.loc")
-      expect(translations_store).to receive(:lookup).with(:lv, "xx.s.loc", separator: ":", a: "b")
-      expect(translations_store).to receive(:missing).with(:lv, "xx.s.loc", separator: ":", a: "b")
+      expect(translations_store).to receive(:lookup).with(:lv, "xx.s.loc", {separator: ":", a: "b"})
+      expect(translations_store).to receive(:missing).with(:lv, "xx.s.loc", {separator: ":", a: "b"})
 
       subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")
     end
@@ -143,7 +143,7 @@ describe Releaf::I18nDatabase::Backend do
         allow(translations_store).to receive(:missing?).with(:lv, "xx.s.loc").and_return(true)
         expect(translations_store).to_not receive(:lookup)
         expect(translations_store).to_not receive(:missing)
-        expect(subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")).to be nil
+        expect(subject.lookup(:lv, "some.localization", "_scope_", {separator: ":", a: "b"})).to be nil
       end
     end
 
@@ -154,7 +154,7 @@ describe Releaf::I18nDatabase::Backend do
 
       context "when lookup result is not nil" do
         before do
-          allow(translations_store).to receive(:lookup).with(:lv, "xx.s.loc", separator: ":", a: "b").and_return("x")
+          allow(translations_store).to receive(:lookup).with(:lv, "xx.s.loc", {separator: ":", a: "b"}).and_return("x")
         end
 
         it "returns lookup result" do
@@ -162,14 +162,14 @@ describe Releaf::I18nDatabase::Backend do
         end
 
         it "does not mark translation as missing" do
-          expect(translations_store).to_not receive(:missing).with(:lv, "xx.s.loc", separator: ":", a: "b")
+          expect(translations_store).to_not receive(:missing).with(:lv, "xx.s.loc", {separator: ":", a: "b"})
           subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")
         end
       end
 
       context "when lookup result is nil" do
         before do
-          allow(translations_store).to receive(:lookup).with(:lv, "xx.s.loc", separator: ":", a: "b").and_return(nil)
+          allow(translations_store).to receive(:lookup).with(:lv, "xx.s.loc", {separator: ":", a: "b"}).and_return(nil)
         end
 
         it "returns nil" do
@@ -177,7 +177,7 @@ describe Releaf::I18nDatabase::Backend do
         end
 
         it "marks translation as missing" do
-          expect(translations_store).to receive(:missing).with(:lv, "xx.s.loc", separator: ":", a: "b")
+          expect(translations_store).to receive(:missing).with(:lv, "xx.s.loc", {separator: ":", a: "b"})
           subject.lookup(:lv, "some.localization", "_scope_", separator: ":", a: "b")
         end
       end

@@ -90,7 +90,7 @@ describe Releaf::Builders::FormBuilder::Associations, type: :class do
     before do
       collection = [Author.new(name: "a", surname: "b", id: 1), Author.new(name: "c", surname: "d", id: 2)]
       allow(subject).to receive(:releaf_item_field_collection)
-        .with(:author_id, x: "a").and_return(collection)
+        .with(:author_id, {x: "a"}).and_return(collection)
     end
 
     context "when no select_options passed within options" do
