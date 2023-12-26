@@ -1,5 +1,8 @@
 ## Changelog
 
+### 3.1.0 (2023.12.26)
+* Update to rails 7.1.2 and ruby 3.2.2
+
 ### 3.0.3 (2023.07.11)
 * Use larger image preview size for file fields
 
