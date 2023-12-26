@@ -32,7 +32,7 @@ describe Releaf::Content::Builders::ActionDialog, type: :class do
     it "returns confirm button" do
       allow(subject).to receive(:confirm_button_text).and_return("Yess")
       allow(subject).to receive(:confirm_button_attributes).and_return(a: "b")
-      allow(subject).to receive(:button).with("Yess", "check", a: "b").and_return("x")
+      allow(subject).to receive(:button).with("Yess", "check", {a: "b"}).and_return("x")
       expect(subject.confirm_button).to eq("x")
     end
   end

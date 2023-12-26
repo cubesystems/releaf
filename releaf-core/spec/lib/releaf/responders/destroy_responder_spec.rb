@@ -1,14 +1,13 @@
 require "rails_helper"
 
 describe Releaf::Responders::DestroyResponder, type: :controller do
-  let(:controller){ Releaf::ActionController.new }
   let(:resource){ Book.new}
-  subject{ described_class.new(controller, [resource]) }
+  subject{ described_class.new(Releaf::ActionController.new, [resource]) }
 
   describe "#to_html" do
     before do
-      allow(controller).to receive(:request).and_return(request)
-      allow(controller).to receive(:formats).and_return([:html])
+      allow(subject.controller).to receive(:request).and_return(request)
+      allow(subject.controller).to receive(:formats).and_return([:html])
       allow(subject).to receive(:default_render)
     end
 

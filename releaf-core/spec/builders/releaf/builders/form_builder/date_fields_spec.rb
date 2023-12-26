@@ -14,7 +14,7 @@ describe Releaf::Builders::FormBuilder::DateFields, type: :class do
   describe "#date_or_time_field" do
     it "returns releaf text field with resolved date or time input attributes" do
       allow(subject).to receive(:date_or_time_field_input_attributes)
-        .with(:published_at, :datetime, a: 1).and_return(aa: 11)
+        .with(:published_at, :datetime, {a: 1}).and_return(aa: 11)
       allow(subject).to receive(:releaf_text_field)
         .with(:published_at, input: {aa: 11}, label: {b: 1}, field: {c: 3}, options: {field: {type: "datetime"}, d: 4})
         .and_return("_fld")

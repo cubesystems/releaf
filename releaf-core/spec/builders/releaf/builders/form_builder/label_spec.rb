@@ -13,7 +13,7 @@ describe Releaf::Builders::FormBuilder::Label, type: :class do
 
   describe "#releaf_label" do
     it "passes options :label value to #label_text and use returned value for label text content" do
-      allow(subject).to receive(:label_text).with(:color, a: "b").and_return("xx")
+      allow(subject).to receive(:label_text).with(:color, {a: "b"}).and_return("xx")
       result = '<div class="label-wrap"><label for="book_color">xx</label></div>'
 
       expect(subject.releaf_label(:color, {}, label: {a: "b"})).to eq(result)

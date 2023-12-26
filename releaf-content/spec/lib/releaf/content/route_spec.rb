@@ -89,7 +89,7 @@ describe Releaf::Content::Route do
     end
 
     it "sets :to to the result of #controller_and_action_for" do
-      allow(node_route).to receive(:controller_and_action_for).with( "home#index", foo: :bar).and_return("ok")
+      allow(node_route).to receive(:controller_and_action_for).with( "home#index", {foo: :bar}).and_return("ok")
       expect( node_route.options_for( "home#index", foo: :bar ) ).to include( to: "ok" )
     end
 

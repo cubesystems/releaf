@@ -179,8 +179,8 @@ describe Releaf::Configuration do
       group_item_1 = Releaf::ControllerGroupDefinition.new(name: "x", items: [])
       group_item_2 = Releaf::ControllerGroupDefinition.new(name: "y", items: [])
 
-      allow(Releaf::ControllerGroupDefinition).to receive(:new).with(items: "x").and_return(group_item_2)
-      allow(Releaf::ControllerDefinition).to receive(:new).with(name: "y").and_return(item_2)
+      allow(Releaf::ControllerGroupDefinition).to receive(:new).with({items: "x"}).and_return(group_item_2)
+      allow(Releaf::ControllerDefinition).to receive(:new).with({name: "y"}).and_return(item_2)
       allow(Releaf::ControllerDefinition).to receive(:new).with("z").and_return(item_3)
 
       list = [

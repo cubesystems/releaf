@@ -106,8 +106,6 @@ module Releaf
     def extract_where_condition_from_scope(reflection, table_alias)
       tmp_relation = build_tmp_relation(reflection, table_alias)
 
-      return nil if tmp_relation.where_values_hash.blank?
-
       tmp_relation.arel.ast.cores.first.wheres
     end
 
@@ -115,7 +113,7 @@ module Releaf
       # Need to create tmp relation since setting table alias for actual klass
       # is a bad idea.
       klass = Class.new(reflection.klass) do
-        self.arel_table.table_alias = table_alias
+        self.arel_table.name = table_alias
       end
 
       klass.instance_exec(&reflection.scope)

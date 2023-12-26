@@ -16,13 +16,13 @@ describe Releaf::I18nDatabase::Translations::BuildersCommon, type: :class do
     end
 
     it "returns url for given action with current query params" do
-      allow(subject).to receive(:url_for).with(a: "b", c: "d", action: :edit).and_return("url")
+      allow(subject).to receive(:url_for).with({a: "b", c: "d", action: :edit}).and_return("url")
       expect(subject.action_url(:edit)).to eq("url")
     end
 
     context "when extra params given" do
       it "merges given params to url" do
-        allow(subject).to receive(:url_for).with(a: "b", c: "z", action: :edit, format: "xx").and_return("url")
+        allow(subject).to receive(:url_for).with({a: "b", c: "z", action: :edit, format: "xx"}).and_return("url")
         expect(subject.action_url(:edit, format: "xx", c: "z")).to eq("url")
       end
     end

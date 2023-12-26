@@ -37,7 +37,7 @@ module Releaf
 
       html = "".html_safe
       html << fa_icon(icon) if icon.present?
-      html << text if text.present?
+      html << text.to_s if text.present?
 
       if html.length < 1
         raise ArgumentError, "Either text or icon is required for buttons"
