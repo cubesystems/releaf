@@ -13,9 +13,8 @@ window.ckeditor_configuration = {
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['Subscript', 'Superscript'],
             ['NumberedList', 'BulletedList'],
-            ['Link', 'Unlink', 'Anchor', 'Image', 'MediaEmbed' ],
+            ['Link', 'Unlink', 'Anchor', 'Image'],
             ['Source', 'Maximize', 'ShowBlocks']],
-        extraPlugins: 'mediaembed'
     }
 
 };
@@ -85,22 +84,7 @@ jQuery(function()
             textarea.attr( 'id', 'richtext_' + String((new Date()).getTime()).replace(/\D/gi,'') );
         }
 
-        if (textarea.data('attachment-upload-url') || textarea.data('attachment-browse-url'))
-        {
-            if (textarea.data('attachment-browse-url'))
-            {
-                config.filebrowserBrowseUrl = textarea.data('attachment-browse-url');
-            }
-
-            if (textarea.data('attachment-upload-url'))
-            {
-                config.filebrowserUploadUrl = textarea.data('attachment-upload-url');
-            }
-        }
-        else
-        {
-            remove_toolbar_item(config.toolbar, 'Image');
-        }
+        remove_toolbar_item(config.toolbar, 'Image');
 
         if (textarea.data('external-stylesheet'))
         {

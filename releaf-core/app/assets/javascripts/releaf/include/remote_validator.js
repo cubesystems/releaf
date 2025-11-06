@@ -161,7 +161,7 @@ var RemoteValidator = function( form )
                 return;
             }
 
-            var wrap = (field_box.is('.i18n')) ? target.closest('.localization') : field_box;
+            var wrap = field_box;
 
             var error_box = wrap.find('.error-box');
 
@@ -177,11 +177,6 @@ var RemoteValidator = function( form )
             error_node.text( error.message );
 
             field_box.addClass('has-error');
-
-            if (field_box.is('.i18n'))
-            {
-                wrap.addClass('has-error');
-            }
         }
         else if (target.is('form'))
         {
@@ -255,9 +250,8 @@ var RemoteValidator = function( form )
         // if error fields still exist, focus to first visible
 
         // locate first input inside visible error fields,
-        // but for i18n fields exclude inputs inside .localization without .has-error
 
-        var focus_target = form.find('.field.has-error').filter(':visible').find(input_selector).not('.localization:not(.has-error) *').first();
+        var focus_target = form.find('.field.has-error').filter(':visible').find(input_selector).first();
 
         focus_target.trigger('focusprepare');
 
@@ -291,10 +285,6 @@ var RemoteValidator = function( form )
 
                 if (!except_validation_id || error_node.attr('data-validation-id') !== except_validation_id)
                 {
-                    if (field.is('.i18n'))
-                    {
-                        error_box.closest('.localization').removeClass('has-error');
-                    }
                     error_box.remove();
                 }
             });

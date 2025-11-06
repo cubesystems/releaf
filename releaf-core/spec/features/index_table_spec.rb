@@ -14,8 +14,8 @@ feature "Index tables" do
 
     within ".table.books thead tr" do
       cells = [
-        "Title", "Year", "Author", "Genre", "Active", "Published at",
-        "Price", "Stars", "Description", "Author publisher title"
+        "Title", "Year", "Author", "Genre", "Description", "Active",
+        "Published at", "Price", "Stars", "Author publisher title"
       ]
       expect(page).to have_cells_text(cells, type: "th")
     end

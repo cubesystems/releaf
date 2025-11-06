@@ -1,5 +1,12 @@
 ## Changelog
 
+### 4.0.0 (2025.10.06)
+* Update to rails 7.2.3 and ruby 3.4.7
+* Remove releaf-i18n_database gem
+* Remove releaf-content gem
+* Remove globalize gem and translatable attributes support
+* Remove richtext attachment support
+
 ### 3.1.0 (2023.12.26)
 * Update to rails 7.1.2 and ruby 3.2.2
 

@@ -94,11 +94,6 @@ module Releaf
         join_condition = join_condition.and(where_scope) if where_scope.present?
       end
 
-      if other_class.ancestors.include?(Globalize::ActiveRecord::Translation)
-        # only search in current locale
-        join_condition = join_condition.and(table2[:locale].eq(I18n.locale.to_s))
-      end
-
       self.relation = relation.joins(arel_join(table1, table2, join_condition))
       table2
     end

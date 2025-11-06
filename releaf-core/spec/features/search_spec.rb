@@ -45,13 +45,7 @@ describe Releaf::Search do
     end
 
     it "doesn't suffer from injections" do
-      expected_results = if mysql?
-                           /LIKE '%SQL\\\'injection%'/
-                         elsif postgresql?
-                           /ILIKE '%SQL''injection%'/
-                         else
-                           fail
-                         end
+      expected_results = /LIKE '%SQL\\\'injection%'/
       params = {
         relation: Tester,
         fields: [:name],
@@ -760,64 +754,6 @@ describe Releaf::Search do
         text: 'one'
       }
       expect( described_class.prepare(**params) ).to match_array [@account1]
-    end
-
-  end
-
-  describe "searching in localized attributes" do
-
-    with_model :Post, scope: :all do
-      model do
-        translates :title
-        globalize_accessors
-      end
-    end
-
-    with_model :PostTranslation, scope: :all do
-      table do |t|
-        t.integer Post.reflect_on_association(:translations).foreign_key
-        t.string :locale
-        t.string :title
-      end
-    end
-
-    before(:all) do
-      Post::Translation.send(:table_name=, PostTranslation.table_name)
-
-      @post1 = Post.create!(title_lv: 'bar', title_en: 'foo')
-      @post2 = Post.create!(title_lv: 'foo', title_en: 'bar')
-      @post3 = Post.create!(title_lv: 'foo', title_en: 'foo')
-      @post4 = Post.create!(title_lv: 'bar', title_en: 'bar')
-    end
-
-    context "when current locale is lv" do
-      before(:each) do
-        I18n.locale = 'lv'
-      end
-
-      after(:each) do
-        I18n.locale = 'en'
-      end
-
-      it "it searches in current locale only", focus: true do
-        params = {
-          relation: Post,
-          fields: [translations: [:title]],
-          text: 'foo'
-        }
-        expect( described_class.prepare(**params) ).to match_array [@post2, @post3]
-      end
-    end
-
-    context "when current locale is en" do
-      it "it searches in current locale only", focus: true do
-        params = {
-          relation: Post,
-          fields: [translations: [:title]],
-          text: 'foo'
-        }
-        expect( described_class.prepare(**params) ).to match_array [@post1, @post3]
-      end
     end
 
   end

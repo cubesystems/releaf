@@ -1,14 +1,6 @@
 module Releaf::Test
   # Releaf::TestHelpers provides a facility to simplify admin functionality testing
   module Helpers
-    def postgresql?
-      adapter_name == 'PostgreSQL'
-    end
-
-    def mysql?
-      adapter_name == "Mysql2"
-    end
-
     def adapter_name
       ActiveRecord::Base.connection.adapter_name
     end
@@ -103,28 +95,6 @@ module Releaf::Test
       end
     end
 
-    def switch_admin_locale(locale)
-      switch = page.first('.localization-switch')
-
-      current_locale = switch.text.downcase
-      new_locale     = locale.to_s.downcase
-
-      if current_locale == new_locale
-        return current_locale
-      end
-
-      within( switch ) do
-        click_button current_locale
-      end
-
-      menu = page.find(:xpath, '/html//menu[@class="localization-menu-items"]')
-      within( menu ) do
-        click_button new_locale.capitalize
-      end
-
-      wait_for_all_richtexts
-    end
-
     def close_all_notifications
       page.all('body > .notifications .notification[data-id="resource_status"]', wait: false).each do |notification|
         within(notification) { find('button.close').click }
@@ -209,7 +179,7 @@ module Releaf::Test
 
       # locate possibly hidden textarea among active/visible richtext fields ignoring hidden localization versions
       textareas = []
-      richtext_boxes = all(".field.type-richtext:not(.i18n), .field.type-richtext.i18n .localization.active", wait: false)
+      richtext_boxes = all(".field.type-richtext", wait: false)
       richtext_boxes.each do |richtext_box|
         textarea = richtext_box.first(:field, locator, visible: false, minimum: 0)
         textareas << textarea if textarea.present?

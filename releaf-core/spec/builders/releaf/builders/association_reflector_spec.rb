@@ -97,13 +97,7 @@ describe Releaf::Builders::AssociationReflector, type: :class do
   describe "#extract_order_clause" do
     it "returns order clauses normalized to string for given relation" do
       relation = Book.order(genre: :desc)
-      expected_result = if mysql?
-                          "`books`.`genre` DESC"
-                        elsif postgresql?
-                          '"books"."genre" DESC'
-                        else
-                          fail
-                        end
+      expected_result = "`books`.`genre` DESC"
       expect(subject.extract_order_clause(relation)).to eq(expected_result)
     end
 
@@ -118,14 +112,8 @@ describe Releaf::Builders::AssociationReflector, type: :class do
   describe "#value_as_sql" do
     context "when given value respond to sql" do
       it "return resulting sql" do
-        expected_result = if mysql?
-                            "SELECT `books`.* FROM `books`"
-                          elsif postgresql?
-                            'SELECT "books".* FROM "books"'
-                          else
-                            fail
-                          end
-        expect(subject.value_as_sql(Book.all)).to match "SELECT"
+        expected_result = "SELECT `books`.* FROM `books`"
+        expect(subject.value_as_sql(Book.all)).to match expected_result
       end
     end
 

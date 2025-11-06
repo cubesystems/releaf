@@ -9,7 +9,6 @@ require 'jquery-ui-rails'
 require 'vanilla-ujs'
 require 'acts_as_list'
 require 'dragonfly'
-require 'globalize'
 require 'virtus'
 require 'sassc-rails'
 
@@ -34,10 +33,10 @@ module Releaf
     require 'releaf/route_mapper'
     require 'releaf/exceptions'
     require 'releaf/core_ext/array/reorder'
-    require 'releaf/rails_ext/globalize-accessors'
+    require 'releaf/humanize_missing_translations'
 
     def self.components
-      [Releaf::SettingsUI, Releaf::Root]
+      [Releaf::SettingsUI, Releaf::Root, Releaf::HumanizeMissingTranslations]
     end
   end
 

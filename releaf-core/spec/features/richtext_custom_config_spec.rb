@@ -1,8 +1,6 @@
 require 'rails_helper'
 feature "Richtext custom config", js: true do
   background do
-    # preload ActsAsNode classes
-    Rails.application.eager_load!
     auth_as_user
   end
 
@@ -21,7 +19,7 @@ feature "Richtext custom config", js: true do
     within ".field[data-name=\"summary_html\"]" do
       expect(page).to have_css(".cke_toolbar a.cke_button__bold")
       expect(page).to have_css(".cke_toolbar a.cke_button__italic")
-      expect(page).to have_css(".cke_toolbar a.cke_button__image")
+      expect(page).to_not have_css(".cke_toolbar a.cke_button__image")
       expect(page).to_not have_css(".cke_toolbar a.cke_button__format")
     end
   end

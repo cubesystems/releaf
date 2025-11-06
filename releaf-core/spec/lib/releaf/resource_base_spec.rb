@@ -15,47 +15,6 @@ describe Releaf::ResourceBase do
     end
   end
 
-  describe "#localized_attributes?" do
-    context "when resource class has globalize support" do
-      it "returns true" do
-        expect(subject.localized_attributes?).to be true
-      end
-    end
-
-    context "when resource class does not have globalize support" do
-      it "returns false" do
-        allow(subject.resource_class).to receive(:translates?).and_return(false)
-        expect(subject.localized_attributes?).to be false
-      end
-    end
-  end
-
-  describe "#localized_attributes" do
-    before do
-      allow(subject.resource_class).to receive(:translated_attribute_names).and_return([:title, :summary])
-    end
-
-    it "caches returned result" do
-      expect(subject).to receive(:localized_attributes?).and_return(true).once
-      subject.localized_attributes
-      subject.localized_attributes
-    end
-
-    context "when resource has localized attributes" do
-      it "returns array of all localized attributes params" do
-        allow(subject).to receive(:localized_attributes?).and_return(true)
-        expect(subject.localized_attributes).to eq(["title", "summary"])
-      end
-    end
-
-    context "when resource has no localized attributes" do
-      it "returns empty array" do
-        allow(subject).to receive(:localized_attributes?).and_return(false)
-        expect(subject.localized_attributes).to eq([])
-      end
-    end
-  end
-
   describe "#associations_attributes" do
     it "returns array with associations attributes within hashes" do
       association_1 = subject.resource_class.reflections["chapters"]
@@ -94,21 +53,20 @@ describe Releaf::ResourceBase do
     before do
       allow(subject).to receive(:associations_attributes).and_return(["x", "y"])
       allow(subject).to receive(:base_attributes).and_return(["a", "b"])
-      allow(subject).to receive(:localized_attributes).and_return(["c", "d"])
     end
 
-    it "returns resource base and localized attributes array alongside associations params" do
-      expect(subject.values).to eq(["a", "b", "c", "d", "x", "y"])
+    it "returns resource base array alongside associations params" do
+      expect(subject.values).to eq(["a", "b", "x", "y"])
     end
 
-    it "excludes all excludable base and localized attributes from returned array" do
-      allow(subject).to receive(:excluded_attributes).and_return(["a", "d", "x"])
-      expect(subject.values).to eq(["b", "c", "x", "y"])
+    it "excludes all excludable base attributes from returned array" do
+      allow(subject).to receive(:excluded_attributes).and_return(["a", "x"])
+      expect(subject.values).to eq(["b", "x", "y"])
     end
 
     context "when `include_associations` is false" do
       it "does not include association params" do
-        expect(subject.values(include_associations: false)).to eq(["a", "b", "c", "d"])
+        expect(subject.values(include_associations: false)).to eq(["a", "b"])
       end
     end
   end
@@ -123,7 +81,6 @@ describe Releaf::ResourceBase do
   describe "#associations" do
     it "returns array with includable associations" do
       reflections = subject.resource_class.reflections
-      allow(subject).to receive(:includable_association?).with(reflections["releaf_richtext_attachments"]).and_return(false)
       allow(subject).to receive(:includable_association?).with(reflections["chapters"]).and_return(true)
       allow(subject).to receive(:includable_association?).with(reflections["book_sequels"]).and_return(false)
       allow(subject).to receive(:includable_association?).with(reflections["sequels"]).and_return(true)

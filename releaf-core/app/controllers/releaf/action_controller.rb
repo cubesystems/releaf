@@ -11,7 +11,6 @@ class Releaf::ActionController < ActionController::Base
   include Releaf::ActionController::Ajax
   include Releaf::ActionController::Urls
   include Releaf::ActionController::Breadcrumbs
-  include Releaf::ActionController::RichtextAttachments
   include Releaf::ActionController::Views
   include Releaf::ActionController::Layout
   include Releaf::ActionController::Exceptions

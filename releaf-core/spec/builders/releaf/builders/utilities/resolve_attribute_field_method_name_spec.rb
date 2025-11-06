@@ -12,14 +12,6 @@ describe Releaf::Builders::Utilities::ResolveAttributeFieldMethodName do
     it "returns resolved field name method" do
       expect(subject.call).to eq("releaf_color_picker_field")
     end
-
-
-    context "when localized attribute" do
-      it "adds i18n part to returned field name method" do
-        allow(subject).to receive(:localized_attribute?).and_return(true)
-        expect(subject.call).to eq("releaf_color_picker_i18n_field")
-      end
-    end
   end
 
   describe "#field_type" do
@@ -63,18 +55,8 @@ describe Releaf::Builders::Utilities::ResolveAttributeFieldMethodName do
   end
 
   describe "#columns_class" do
-    context "when non localized attribute" do
-      it "returns object class" do
-        allow(subject).to receive(:localized_attribute?).and_return(false)
-        expect(subject.columns_class).to eq(Book)
-      end
-    end
-
-    context "when localized attribute" do
-      it "returns object translations class" do
-        allow(subject).to receive(:localized_attribute?).and_return(true)
-        expect(subject.columns_class).to eq(Book::Translation)
-      end
+    it "returns object class" do
+      expect(subject.columns_class).to eq(Book)
     end
   end
 
@@ -85,32 +67,6 @@ describe Releaf::Builders::Utilities::ResolveAttributeFieldMethodName do
 
       allow(subject).to receive(:column_type).and_return(:float)
       expect(subject.column_field_type_resolvers).to eq([])
-    end
-  end
-
-  describe "#localized_attribute?" do
-    context "when object translates" do
-      context "when given attribute translatable" do
-        it "returns true" do
-          subject.attribute_name = :description
-          expect(subject.localized_attribute?).to be true
-        end
-      end
-
-      context "when attribute does not translatable" do
-        it "returns false" do
-          subject.attribute_name = :title
-          expect(subject.localized_attribute?).to be false
-        end
-      end
-    end
-
-    context "when object does not translates" do
-      it "returns false" do
-        subject.object = Releaf::Permissions::User.new
-        subject.attribute_name = :password
-        expect(subject.localized_attribute?).to be false
-      end
     end
   end
 

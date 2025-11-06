@@ -60,8 +60,7 @@ input.text
     min-height: steps(7);
     margin-left: steps(2);
 
-    &.has-error:not(.i18n),
-    &.i18n.has-error .localization.has-error
+    &.has-error:not(.i18n)
     {
         select,
         textarea,

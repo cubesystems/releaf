@@ -65,15 +65,7 @@ describe Releaf::AssetsResolver do
     it "returns array with controller scoped stylesheets and javascripts" do
       list = [
         "controllers/admin/books.js",
-        "controllers/admin/nodes.js",
-        "controllers/admin/other_site/other_nodes.js",
-        "controllers/admin/nodes.css",
-        "controllers/admin/other_site/other_nodes.css",
-        "controllers/releaf/content/nodes.js",
-        "controllers/releaf/content/nodes.css",
         "controllers/releaf/permissions/sessions.css",
-        "controllers/releaf/i18n_database/translations.js",
-        "controllers/releaf/i18n_database/translations.css"
       ]
       expect(described_class.noncompiled_assets).to eq(list)
     end

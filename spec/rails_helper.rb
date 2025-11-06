@@ -106,7 +106,6 @@ RSpec.configure do |config|
 
   config.before(:each) do |example|
     Rails.cache.clear
-    allow( Releaf.application.config.i18n_database ).to receive(:translation_auto_creation).and_return(false)
 
     if example.metadata[:db_strategy]
       DatabaseCleaner.strategy = example.metadata[:db_strategy]
@@ -125,7 +124,6 @@ RSpec.configure do |config|
   config.after do
     Timecop.return
     DatabaseCleaner.clean
-    Releaf::Test.reset!
   end
 end
 

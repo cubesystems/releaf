@@ -6,10 +6,10 @@ describe Releaf::ApplicationHelper do
       builder = Releaf::Permissions::Users::TableBuilder
       collection = "collection"
 
-      allow(builder).to receive(:new).with(collection, TextPage, subject, {toolbox: false}).and_call_original
+      allow(builder).to receive(:new).with(collection, Releaf::Settings, subject, {toolbox: false}).and_call_original
       allow_any_instance_of(builder).to receive(:output).and_return("table")
 
-      expect(releaf_table(collection, TextPage, builder: builder, toolbox: false)).to eq("table")
+      expect(releaf_table(collection, Releaf::Settings, builder: builder, toolbox: false)).to eq("table")
     end
   end
 
@@ -40,16 +40,13 @@ describe Releaf::ApplicationHelper do
     end
 
     before do
-      translation = Releaf::I18nDatabase::I18nEntry.create(key: "admin.xx.colors-red")
-      translation.i18n_entry_translation.create(locale: "en", text: "Color red")
-      Releaf::I18nDatabase::Backend.reset_cache
       allow(helper).to receive(:controller_scope_name).and_return("admin.xx")
     end
 
     context "when array of string" do
       it "returns translated options" do
         input = ["red", "green", "blue"]
-        output = ['<option value="red">Color red</option>', '<option selected="selected" value="green">green</option>', '<option value="blue">blue</option>'].join("\n")
+        output = ['<option value="red">red</option>', '<option selected="selected" value="green">green</option>', '<option value="blue">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "green", "colors")).to eq(output)
       end
     end
@@ -57,7 +54,7 @@ describe Releaf::ApplicationHelper do
     context "when hash" do
       it "returns translated options" do
         input = {"red" => "r", "green" => "g", "blue" => "b"}
-        output = ['<option value="r">Color red</option>', '<option selected="selected" value="g">green</option>', '<option value="b">blue</option>'].join("\n")
+        output = ['<option value="r">red</option>', '<option selected="selected" value="g">green</option>', '<option value="b">blue</option>'].join("\n")
         expect(helper.i18n_options_for_select(input, "g", "colors")).to eq(output)
       end
     end

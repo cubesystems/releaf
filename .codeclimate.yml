@@ -35,7 +35,5 @@ exclude_paths:
 - docs/
 - releaf-core/spec/
 - releaf-permissions/spec/
-- releaf-content/spec/
-- releaf-i18n_database/spec/
 - releaf-core/app/assets/javascripts/releaf/3rd_party/
 - releaf-core/lib/generators/

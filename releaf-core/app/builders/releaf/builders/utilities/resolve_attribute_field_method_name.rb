@@ -17,7 +17,7 @@ module Releaf::Builders::Utilities
     }
 
     def call
-      "releaf_#{field_type}_#{"i18n_" if localized_attribute?}field"
+      "releaf_#{field_type}_field"
     end
 
     def field_type
@@ -29,12 +29,7 @@ module Releaf::Builders::Utilities
     end
 
     def columns_class
-      localized_attribute? ? object.class::Translation : object.class
-    end
-
-    def localized_attribute?
-      @localized_attribute ||= (object.class.respond_to?(:translates?) && object.class.translates? &&
-                                object.class.translated_attribute_names.include?(attribute_name.to_sym))
+      object.class
     end
 
     def column_field_type_resolvers

@@ -12,9 +12,9 @@ FactoryBot.define do
     end
 
     factory :content_role do
-      default_controller { "admin/nodes" }
+      default_controller { "foo" }
       after(:create) do |role|
-        role.permissions.create!(permission: "controller.admin/nodes")
+        role.permissions.create!(permission: "controller.admin/foo")
       end
     end
   end

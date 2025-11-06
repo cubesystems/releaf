@@ -42,7 +42,7 @@
 
 @mixin pop-up-menu
 {
-    // used for floating pop-up menus (toolboxes, localization menus etc)
+    // used for floating pop-up menus (toolboxes, etc)
     @include block-list;
     display: none;
     position: absolute;

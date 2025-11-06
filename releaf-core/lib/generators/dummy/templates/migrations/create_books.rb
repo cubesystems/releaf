@@ -5,6 +5,7 @@ class CreateBooks < ActiveRecord::Migration[5.0]
       t.integer   :year
       t.integer   :author_id
       t.string    :genre
+      t.string    :description
       t.text      :summary_html
       t.boolean   :active
       t.datetime  :published_at
@@ -16,8 +17,6 @@ class CreateBooks < ActiveRecord::Migration[5.0]
     end
 
     add_index :books, :author_id
-
-    Book.create_translation_table! description: :string
   end
 
   def down

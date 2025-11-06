@@ -8,9 +8,6 @@ module Releaf::RouteMapper
         get :confirm_destroy if route_enabled?(:destroy, args.last)
         get :toolbox if route_enabled?(:toolbox, args.last)
       end
-      collection do
-        post :create_releaf_richtext_attachment if route_enabled?(:releaf_richtext_attachments, args.last)
-      end
     end
   end
 

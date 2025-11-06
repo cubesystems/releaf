@@ -16,9 +16,7 @@ module Releaf::Builders::FormBuilder::RichtextFields
       rows: 5,
       cols: 50,
       class: "richtext",
-      data: {
-        "attachment-upload-url" => (controller.respond_to?(:releaf_richtext_attachment_upload_url) ? controller.releaf_richtext_attachment_upload_url : '')
-      },
+      data: {},
     }
   end
 

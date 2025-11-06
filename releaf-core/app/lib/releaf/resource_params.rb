@@ -23,18 +23,6 @@ class Releaf::ResourceParams < Releaf::ResourceBase
     end
   end
 
-  def localized_attributes
-    super.inject([]) do |list, column|
-      list + localized_attribute_params(column)
-    end
-  end
-
-  def localized_attribute_params(column)
-    resource_class.globalize_locales.collect do|locale|
-      "#{column}_#{locale}"
-    end
-  end
-
   def associations_attributes
     associations.collect do |association|
       {"#{association.name}_attributes" => association_attributes(association)}

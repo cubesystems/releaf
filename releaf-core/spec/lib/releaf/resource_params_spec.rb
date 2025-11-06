@@ -6,9 +6,6 @@ describe Releaf::ResourceParams do
   describe "#file_attributes" do
     it "returns list with file attributes" do
       expect(subject.file_attributes).to eq(["cover_image_uid"])
-
-      subject.resource_class = Node
-      expect(subject.file_attributes).to eq([])
     end
   end
 
@@ -35,28 +32,6 @@ describe Releaf::ResourceParams do
     end
   end
 
-  describe "#localized_attributes" do
-    it "returns array of all localized attributes params" do
-      allow(subject.resource_class).to receive(:translated_attribute_names).and_return(["title", "summary"])
-      allow(subject).to receive(:localized_attribute_params).with("title").and_return(["t1", "t2"])
-      allow(subject).to receive(:localized_attribute_params).with("summary").and_return(["s1", "s2"])
-      expect(subject.localized_attributes).to eq(["t1", "t2", "s1", "s2"])
-
-      allow(subject.resource_class).to receive(:translated_attribute_names).and_return([])
-      subject.instance_variable_set("@localized_attributes", nil) # reset cached values
-      expect(subject.localized_attributes).to eq([])
-    end
-  end
-
-  describe "#localized_attribute_params" do
-    it "returns array with localized attribute within all specified locales" do
-      expect(subject.localized_attribute_params(:description)).to eq(["description_en", "description_lv"])
-
-      allow(subject.resource_class).to receive(:globalize_locales).and_return(["de"])
-      expect(subject.localized_attribute_params(:description)).to eq(["description_de"])
-    end
-  end
-
   describe "#base_attributes" do
     it "returns array with base and file attributes" do
       allow(subject.resource_class).to receive(:column_names).and_return(["a", "b", "c"])
@@ -76,17 +51,7 @@ describe Releaf::ResourceParams do
 
     it "returns resource params array alongside associations params" do
       allow(subject).to receive(:base_attributes).and_return(["a", "b"])
-      allow(subject).to receive(:localized_attributes?).and_return(false)
       expect(subject.values).to eq(["a", "b", "x", "y"])
-    end
-
-    context "when resource has localized attributes" do
-      it "returns resource params array alongside localized attributes" do
-        allow(subject).to receive(:base_attributes).and_return(["a", "b"])
-        allow(subject).to receive(:localized_attributes?).and_return(true)
-        allow(subject).to receive(:localized_attributes).and_return(["c", "d"])
-        expect(subject.values).to eq(["a", "b", "c", "d", "x", "y"])
-      end
     end
   end
 
